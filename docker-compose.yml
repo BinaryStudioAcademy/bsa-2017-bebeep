@@ -10,9 +10,9 @@ services:
           - 3306:3306
         environment:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: bebeep
-          MYSQL_USER: bebeep
-          MYSQL_PASSWORD: bebeep_secret
+          MYSQL_DATABASE: $DB_DATABASE
+          MYSQL_USER: $DB_USERNAME
+          MYSQL_PASSWORD: $DB_PASSWORD
 
     web:
         # build: ./.docker/images/web/
@@ -26,8 +26,8 @@ services:
             - mysql
 
     composer:
-      restart: 'no'
-      image: composer:latest
-      command: install
-      volumes:
-        - .:/app
+        restart: 'no'
+        image: composer:latest
+        command: install
+        volumes:
+            - .:/app
