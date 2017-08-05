@@ -4,7 +4,7 @@ services:
     mysql:
         image: mysql:latest
         volumes:
-            - "./.mysql-data/db:/var/lib/mysql"
+            - $PWD/.mysql-data/db:/var/lib/mysql
         restart: "on-failure"
         ports:
             - 127.0.0.1:3306:3306
@@ -20,13 +20,12 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - .:/var/www/public
+            - $PWD:/var/www
         links:
             - mysql
 
     composer:
         restart: 'no'
         image: composer:latest
-        command: install
         volumes:
-            - .:/app
+            - $PWD:/app
