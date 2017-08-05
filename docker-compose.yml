@@ -4,25 +4,24 @@ services:
     mysql:
         image: mysql:latest
         volumes:
-          - "./.mysql-data/db:/var/lib/mysql"
-        restart: always
+            - "./.mysql-data/db:/var/lib/mysql"
+        restart: "on-failure"
         ports:
-          - 3306:3306
+            - 127.0.0.1:3306:3306
         environment:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: $DB_DATABASE
-          MYSQL_USER: $DB_USERNAME
-          MYSQL_PASSWORD: $DB_PASSWORD
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            MYSQL_DATABASE: $DB_DATABASE
+            MYSQL_USER: $DB_USERNAME
+            MYSQL_PASSWORD: $DB_PASSWORD
 
     web:
-        # build: ./.docker/images/web/
         image: sergeyb/dev
         ports:
             - "80:80"
             - "443:443"
         volumes:
             - .:/var/www/public
-        depends_on:
+        links:
             - mysql
 
     composer:
