@@ -17,7 +17,11 @@ docker-compose run --rm composer install
 docker-compose exec web php artisan key:generate
 docker-compose exec web php artisan migrate:install
 ```
-Done.
+Done. Go to:
+
+```bash
+http://localhost
+```
 
 ## Usage
 
