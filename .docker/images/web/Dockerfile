@@ -33,10 +33,6 @@ RUN apt-get update -y && apt-get install -y --force-yes \
     php7.1-imagick \
     php-xdebug
 
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php composer-setup.php --install-dir=/usr/bin --filename=composer
-RUN php -r "unlink('composer-setup.php');"
-
 RUN apt-get install beanstalkd
 
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf

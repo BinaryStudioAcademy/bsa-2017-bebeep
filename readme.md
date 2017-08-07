@@ -38,4 +38,6 @@ docker-compose exec web php artisan <your command>
 
 Running tests:
 
-will add soon
+```bash
+docker-compose run --rm tests
+```

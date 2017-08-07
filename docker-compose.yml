@@ -26,11 +26,24 @@ services:
             - "443:443"
         volumes:
             - $PWD:/var/www
+        working_dir: /var/www
         links:
             - mysql
         depends_on:
             mysql:
                 condition: service_healthy
+
+    tests:
+        image: sergeyb/dev
+        volumes:
+            - $PWD:/var/www
+        working_dir: /var/www
+        links:
+            - mysql
+        depends_on:
+            mysql:
+                condition: service_healthy
+        command: ["php", "vendor/bin/phpunit", "tests"]
 
     composer:
         restart: 'no'
