@@ -17,6 +17,20 @@ class User extends Authenticatable
     const ADMIN_PERMISSION = 4;
 
     /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->verification_token = str_random(30);
+        });
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
