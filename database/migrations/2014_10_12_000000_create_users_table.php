@@ -21,9 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('password');
 
-            $table->boolean('is_admin')->default(false);
-            $table->boolean('is_driver')->default(false);
-            $table->boolean('is_passenger')->default(false);
+            $table->unsignedInteger('permissions')->default(1);
 
             $table->datetime('birth_date')->nullable();
 

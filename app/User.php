@@ -12,6 +12,10 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    const PASSENGER_PERMISSION = 1;
+    const DRIVER_PERMISSION = 2;
+    const ADMIN_PERMISSION = 4;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,9 +26,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
-        'is_admin',
-        'is_driver',
-        'is_passenger',
+        'permissions',
         'phone',
         'birth_date',
     ];
@@ -54,9 +56,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'is_verified' => 'boolean',
-        'is_admin' => 'boolean',
-        'is_driver' => 'boolean',
-        'is_passenger' => 'boolean',
     ];
 
     /**
@@ -81,5 +80,29 @@ class User extends Authenticatable
     public function vehicles()
     {
         return $this->hasMany(Vehicle::class);
+    }
+
+    /**
+     * @return int
+     */
+    public function isAdmin()
+    {
+        return (bool) ($this->attributes['permissions'] & self::ADMIN_PERMISSION);
+    }
+
+    /**
+     * @return int
+     */
+    public function isPassenger()
+    {
+        return (bool) ($this->attributes['permissions'] & self::PASSENGER_PERMISSION);
+    }
+
+    /**
+     * @return int
+     */
+    public function isDriver()
+    {
+        return (bool) ($this->attributes['permissions'] & self::DRIVER_PERMISSION);
     }
 }
