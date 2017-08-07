@@ -83,25 +83,25 @@ class User extends Authenticatable
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function isAdmin()
+    public function isAdmin() : bool
     {
         return (bool) ($this->attributes['permissions'] & self::ADMIN_PERMISSION);
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function isPassenger()
+    public function isPassenger() : bool
     {
         return (bool) ($this->attributes['permissions'] & self::PASSENGER_PERMISSION);
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function isDriver()
+    public function isDriver() : bool
     {
         return (bool) ($this->attributes['permissions'] & self::DRIVER_PERMISSION);
     }
