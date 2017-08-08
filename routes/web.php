@@ -11,6 +11,8 @@
 |
 */
 
+use \Illuminate\Http\Request;
+
 Route::get('/{wildcard?}', function() {
     return view('index');
 })
