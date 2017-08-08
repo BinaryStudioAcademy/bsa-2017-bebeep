@@ -2,50 +2,62 @@
 
 namespace App\Services;
 
+use App\Criteria\User\NotVerifiedUserCriteria;
+use App\Events\UserRegistered;
+use App\Exceptions\User\VerifyException;
+use App\Services\Requests\RegisterUserRequest;
+use App\Repositories\UserRepository;
+use App\Services\Requests\VerifyUserRequest;
 use App\User;
 
 class RegisterUserService
 {
-    /**
-     * @param array $data
-     * @return User
-     */
-    public function register(array $data): User
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
     {
-        $attributes = [
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => bcrypt($data['password']),
-            'permissions' => 0,
-        ];
-
-        if (! empty($data['role_passenger'])) {
-            $attributes['permissions'] |= User::PASSENGER_PERMISSION;
-        }
-
-        if (! empty($data['role_driver'])) {
-            $attributes['permissions'] |= User::DRIVER_PERMISSION;
-        }
-
-        return new User($attributes);
+        $this->userRepository = $userRepository;
     }
 
     /**
-     * @param array $data
-     * @return User|null
+     * @param RegisterUserRequest $request
+     * @return User
      */
-    public function findUserToVerify(array $data) : ?User
+    public function register(RegisterUserRequest $request): User
     {
-        if (empty($data['email']) || empty($data['token'])) {
-            return null;
+        $attributes = [
+            'email' => $request->getEmail(),
+            'first_name' => $request->getFirstName(),
+            'last_name' => $request->getLastName(),
+            'password' => bcrypt($request->getPass()),
+            'phone' => $request->getPhone(),
+            'permissions' => $request->getPermissions(),
+        ];
+
+        $user = $this->userRepository->save(new User($attributes));
+
+        event(new UserRegistered($user));
+
+        return $user;
+    }
+
+    /**
+     * @param VerifyUserRequest $request
+     * @throws VerifyException
+     */
+    public function verify(VerifyUserRequest $request)
+    {
+        $this->userRepository->pushCriteria(new NotVerifiedUserCriteria($request->getEmail(), $request->getToken()));
+
+        $user = $this->userRepository->first();
+
+        if (!$user) {
+            throw new VerifyException('User cannot be verified');
         }
 
-        return User::where([
-            'email' => $data['email'],
-            'verification_token' => $data['token'],
-            'is_verified' => false,
-        ])->first();
+        $user->is_verified = true;
+        $user->verification_token = null;
+
+        $this->userRepository->save($user);
     }
 }
