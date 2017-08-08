@@ -21,8 +21,7 @@ script:
     - cp .env.example .env
     - docker-compose pull
     - docker-compose run --rm composer install
-    - docker-compose up -d tests # unfortunately docker-compose run doesn't wait until dependent service is started
-    - docker-compose run tests
+    - docker-compose up tests
 
 branches:
     only:

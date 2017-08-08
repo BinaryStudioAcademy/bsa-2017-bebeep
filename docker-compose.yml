@@ -44,7 +44,7 @@ services:
         depends_on:
             mysql:
                 condition: service_healthy
-        command: ["php", "vendor/bin/phpunit", "tests"]
+        command: /var/www/.docker/utils/run-tests.sh
 
     composer:
         restart: 'no'
