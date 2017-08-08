@@ -19,10 +19,13 @@ class RegisterController extends Controller
 
     /**
      * @param RegisterUserRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(RegisterUserRequest $request)
     {
-        $this->registerUserService->register($request);
+        $user = $this->registerUserService->register($request);
+
+        return response()->json(['success' => true, 'user' => $user]);
     }
 
     /**
