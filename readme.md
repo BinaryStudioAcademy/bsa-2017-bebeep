@@ -35,7 +35,7 @@ http://localhost
 
 After installation to start your containers you have only type next command:
 ``` bash
-docker-compose up -d
+docker-compose up -d web
 ```
 
 If you want to run composer command you should use it within docker:
