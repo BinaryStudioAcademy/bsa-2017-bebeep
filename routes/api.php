@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix' => 'user'], function () {
+    Route::post('/authenticate', 'ApiAuthController@authenticate');
+    Route::post('/logout', 'ApiAuthController@logout');
+});
