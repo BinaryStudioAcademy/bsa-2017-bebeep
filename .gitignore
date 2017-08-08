@@ -12,3 +12,4 @@ yarn-error.log
 .env
 /.composer
 /.mysql-data
+.env.testing

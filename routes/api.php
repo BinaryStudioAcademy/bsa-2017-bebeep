@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix' => 'trip', 'as' => 'trip'], function () {
+   Route::post('create', ['as' => 'create', 'uses' => 'Api\Trip\TripApiController@create']);
+   Route::put('update', ['as' => 'update', 'uses' => 'Api\Trip\TripApiController@update']);
+   Route::delete('delete', ['as' => 'delete', 'uses' => 'Api\Trip\TripApiController@delete']);
+});

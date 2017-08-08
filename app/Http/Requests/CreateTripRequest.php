@@ -1,15 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 08.08.17
- * Time: 11:46
- */
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTripRequest
+class CreateTripRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [];
+    }
 }
