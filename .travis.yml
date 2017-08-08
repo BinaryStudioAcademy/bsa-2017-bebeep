@@ -21,7 +21,8 @@ script:
     - cp .env.example .env
     - docker-compose pull
     - docker-compose run --rm composer install
-    - docker-compose up tests
+    - docker-compose up -d tests
+    - docker-compose run --rm tests
 
 branches:
     only:

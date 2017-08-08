@@ -45,7 +45,6 @@ services:
             mysql:
                 condition: service_healthy
         command: /var/www/.docker/utils/run-tests.sh
-        tty: true
 
     composer:
         restart: 'no'
