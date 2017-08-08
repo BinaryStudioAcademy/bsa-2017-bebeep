@@ -24,7 +24,7 @@ class VerifyUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => "required|email",
+            'email' => "required|email|exists:users,email",
             'token' => "required"
         ];
     }

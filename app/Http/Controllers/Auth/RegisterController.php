@@ -26,9 +26,6 @@ class RegisterController extends Controller
     public function verify(VerifyUserRequest $request)
     {
         $user = $this->userRepository->findByField('email', $request->email)->first();
-        if (!$user) {
-            return response()->json(["email" => ["User with email {$request->email} not found"]], 422);
-        }
         try {
             $user->verify($request->token);
             return response()->json(['success' => true]);
@@ -36,8 +33,6 @@ class RegisterController extends Controller
             return response()->json(['token' => [$e->getMessage()]], 422);
         } catch (VerifyException $e) {
             return response()->json(['token' => [$e->getMessage()]], 422);
-        } catch (\Exception $e) {
-            var_dump($e->getMessage());
         }
     }
 }
