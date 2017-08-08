@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import MainNavigation from './pages/partials/MainNavigation';
 
+import './styles/App.scss';
+
 class App extends Component {
 
     render() {
