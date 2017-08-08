@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api\Trips;
 
 use App\Models\Trip;
+use App\Models\Vehicle;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -13,6 +14,9 @@ class CreateTripTest extends TestCase
 
     private $url = 'api/trip/create';
 
+    /**
+     * @test
+     */
     public function user_can_not_create_trip_if_not_all_fields_is_filled()
     {
         $response = $this->json('POST', $this->url, []);
@@ -47,35 +51,111 @@ class CreateTripTest extends TestCase
         $response->assertStatus(422)->assertJsonStructure(['to' => []]);
     }
 
+    /**
+     * @test
+     */
     public function user_can_not_create_trip_with_wrong_data()
     {
         $response = $this->json('POST', $this->url,
             factory(Trip::class)->make([
                 'start_at' => str_random(10)
-            ]));
+            ])->toArray());
         $response->assertStatus(422);
 
         $response = $this->json('POST', $this->url,
             factory(Trip::class)->make([
                 'end_at' => str_random(10)
-            ]));
+            ])->toArray());
         $response->assertStatus(422);
 
         $response = $this->json('POST', $this->url,
             factory(Trip::class)->make([
                 'start_at' => date('Y-m-d H:i:s', strtotime("-1 hour"))
-            ]));
+            ])->toArray());
         $response->assertStatus(422);
 
         $response = $this->json('POST', $this->url,
             factory(Trip::class)->make([
                 'end_at' => date("Y-m-d H:i:s"),
                 'start_at' => date('Y-m-d H:i:s', strtotime("+1 days"))
-            ]));
+            ])->toArray());
         $response->assertStatus(422);
 
+
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_not_create_trip_with_wrong_car_data()
+    {
+        $response = $this->json('POST', $this->url,
+            array_merge(factory(Trip::class)->make()->toArray(), ['car_id' => 2]));
+        $response->assertStatus(422);
+
+        factory(Vehicle::class)->make(['seats' => 4, 'user_id' => 1]);
+        $response = $this->json('POST', $this->url,
+            factory(Trip::class)->make([
+                'seats' => 5
+            ])->toArray());
+        $response->assertStatus(422);
+
+        $response = $this->json('POST', $this->url,
+            factory(Trip::class)->make([
+                'seats' => -1
+            ])->toArray());
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_create_trip_if_all_data_is_valid()
+    {
+        $trip = factory(Trip::class)->make([
+            'price' => 350,
+            'seats' => 3,
+            'vehicle_id' => 1,
+            'user_id' => 1
+        ]);
+
+        $response = $this->json('POST', $this->url, array_merge(
+            $trip->toArray(),
+            [
+                'car_id' => 1,
+                'from' => ['a'],
+                'to' => ['b']
+            ]
+        ));
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas(
+          'trips',
+          [
+              'price' => $trip->price,
+              'seats' => $trip->seats,
+              'start_at' => $trip->start_at,
+              'end_at' => $trip->end_at,
+              'vehicle_id' => $trip->vehicle_id,
+              'user_id' => $trip->user_id
+          ]
+        );
+
+        $this->assertDatabaseHas(
+            'routes',
+            [
+                'from' => ['a'],
+                'to' => ['b'],
+                'trip_id' => $trip->id
+            ]
+        );
     }
 }
+
+
+
+
 
 
 
