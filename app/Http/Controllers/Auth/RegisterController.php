@@ -6,8 +6,6 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VerifyUserRequest;
 use App\Repositories\UserRepository;
-use App\Exceptions\User\InvalidTokenException;
-use App\Exceptions\User\VerifyException;
 
 class RegisterController extends Controller
 {
@@ -25,14 +23,18 @@ class RegisterController extends Controller
 
     public function verify(VerifyUserRequest $request)
     {
-        $user = $this->userRepository->findByField('email', $request->email)->first();
-        try {
-            $user->verify($request->token);
-            return response()->json(['success' => true]);
-        } catch (InvalidTokenException $e) {
-            return response()->json(['token' => [$e->getMessage()]], 422);
-        } catch (VerifyException $e) {
-            return response()->json(['token' => [$e->getMessage()]], 422);
+        $user = $this->userRepository->findWhere([
+            'verification_token' => $request->get('token'),
+            'email' => $request->get('email'),
+            'is_verified' => false
+        ])->first();
+
+        if (!$user) {
+            return response()->json(['token' => ['Verification is invalid']], 422);
         }
+
+        $user->confirmEmail();
+
+        return response()->json(['success' => true]);
     }
 }

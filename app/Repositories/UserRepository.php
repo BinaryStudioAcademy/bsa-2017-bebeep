@@ -3,13 +3,14 @@
 namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
+use App\User;
 
 class UserRepository extends BaseRepository
 {
 
     public function model()
     {
-        return "App\\User";
+        return User::class;
     }
 
     /**
@@ -24,12 +25,11 @@ class UserRepository extends BaseRepository
             'phone' => $data['phone'],
             'password' => bcrypt($data['password']),
             'permissions' => 0,
-            'is_verified' => false
         ];
-        if (isset($data['role_passenger']) && $data['role_passenger'] === '1') {
+        if (!empty($data['role_passenger'])) {
             $attributes['permissions'] |= ($this->model())::PASSENGER_PERMISSION;
         }
-        if (isset($data['role_driver']) && $data['role_driver'] === '1') {
+        if (!empty($data['role_driver'])) {
             $attributes['permissions'] |= ($this->model())::DRIVER_PERMISSION;
         }
         return parent::create($attributes);
