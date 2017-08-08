@@ -88,7 +88,7 @@ class RegisterUserTest extends TestCase
      */
     public function guest_can_register_if_all_fields_is_present_and_valid()
     {
-        /*$user = factory(User::class)->make(['password' => '123456']);
+        $user = factory(User::class)->make(['password' => '123456']);
         $response = $this->json('POST', '/api/user/register', array_merge(
             $user->toArray(),
             [
@@ -108,7 +108,7 @@ class RegisterUserTest extends TestCase
                 'phone' => $user->phone,
                 'is_verified' => false,
             ]
-        );*/
+        );
     }
 
     /**
