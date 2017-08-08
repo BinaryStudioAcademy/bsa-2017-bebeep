@@ -18,11 +18,15 @@ class RegisterController extends Controller
 
     public function register(RegisterUserRequest $request)
     {
-        $this->userRepository->create($request->all());
+        $user = $this->userRepository->create($request->all());
+        if ($user) {
+            $user->sendConfirmationEmail();
+        }
     }
 
     public function verify(VerifyUserRequest $request)
     {
+        /** @var \App\User|bool $user */
         $user = $this->userRepository->findWhere([
             'verification_token' => $request->get('token'),
             'email' => $request->get('email'),
@@ -33,7 +37,7 @@ class RegisterController extends Controller
             return response()->json(['token' => ['Verification is invalid']], 422);
         }
 
-        $user->confirmEmail();
+        $user->verify();
 
         return response()->json(['success' => true]);
     }

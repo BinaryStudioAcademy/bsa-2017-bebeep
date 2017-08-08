@@ -11,6 +11,14 @@
 |
 */
 
+use \Illuminate\Http\Request;
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    Route::get('verify/{token}/{email}', ['as' => 'verify', 'uses' => function ($email, $token) {
+        return "Email: {$email}. Token: {$token}. You are verified!";
+    }]);
 });

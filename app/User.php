@@ -7,6 +7,7 @@ use App\Models\Trip;
 use App\Models\Vehicle;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Jobs\SendConfirmationEmail;
 
 class User extends Authenticatable
 {
@@ -120,10 +121,22 @@ class User extends Authenticatable
         return (bool) ($this->attributes['permissions'] & self::DRIVER_PERMISSION);
     }
 
-    public function confirmEmail()
+    public function verify()
     {
         $this->verification_token = null;
         $this->is_verified = true;
         return $this->save();
+    }
+
+    /**
+     * Send confirmation link to user email
+     *
+     * @return $this
+     */
+    public function sendConfirmationEmail()
+    {
+        $job = (new SendConfirmationEmail($this))->onQueue('notification');
+        dispatch($job);
+        return $this;
     }
 }
