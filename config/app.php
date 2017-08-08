@@ -125,6 +125,12 @@ return [
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     /*
+     * Google maps API key
+     */
+
+    'google_maps_api_key' => 'AIzaSyAXi2uW5u5h-7-2PGD-p06sSFvcS0uc9IA',
+
+    /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
