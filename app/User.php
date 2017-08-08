@@ -7,6 +7,8 @@ use App\Models\Trip;
 use App\Models\Vehicle;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Exceptions\User\InvalidTokenException;
+use App\Exceptions\User\VerifyException;
 
 class User extends Authenticatable
 {
@@ -118,5 +120,18 @@ class User extends Authenticatable
     public function isDriver() : bool
     {
         return (bool) ($this->attributes['permissions'] & self::DRIVER_PERMISSION);
+    }
+
+    public function verify(string $token)
+    {
+        if ($this->is_verified) {
+            throw new VerifyException("User already verified");
+        }
+        if ($this->verification_token !== $token) {
+            throw new InvalidTokenException("Token {$token} is invalid");
+        }
+        $this->verification_token = null;
+        $this->is_verified = true;
+        return $this->save();
     }
 }
