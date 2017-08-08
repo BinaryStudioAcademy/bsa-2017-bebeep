@@ -19,6 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'trip', 'as' => 'trip'], function () {
    Route::post('create', ['as' => 'create', 'uses' => 'Api\Trip\TripApiController@create']);
-   Route::put('update', ['as' => 'update', 'uses' => 'Api\Trip\TripApiController@update']);
+   Route::patch('update', ['as' => 'update', 'uses' => 'Api\Trip\TripApiController@update']);
    Route::delete('delete', ['as' => 'delete', 'uses' => 'Api\Trip\TripApiController@delete']);
 });

@@ -80,8 +80,6 @@ class CreateTripTest extends TestCase
                 'start_at' => date('Y-m-d H:i:s', strtotime("+1 days"))
             ])->toArray());
         $response->assertStatus(422);
-
-
     }
 
     /**
@@ -152,11 +150,3 @@ class CreateTripTest extends TestCase
         );
     }
 }
-
-
-
-
-
-
-
-
