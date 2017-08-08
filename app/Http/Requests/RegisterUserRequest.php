@@ -23,6 +23,14 @@ class RegisterUserRequest extends FormRequest
      */
     public function rules()
     {
-        return [];
+        return [
+            'first_name' => "required|",
+            'last_name' => "required|",
+            'email' => "required|email|unique:users,email",
+            'phone' => "required|digits_between:1,15",
+            'password' => "required|confirmed|min:6",
+            'role_driver' => "required_if:role_passenger,==,''",
+            'role_passenger' => "required_if:role_driver,==,''",
+        ];
     }
 }
