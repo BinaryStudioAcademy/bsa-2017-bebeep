@@ -136,7 +136,9 @@ class User extends Authenticatable
     public function sendConfirmationEmail()
     {
         $job = (new SendConfirmationEmail($this))->onQueue('notification');
+
         dispatch($job);
+
         return $this;
     }
 }

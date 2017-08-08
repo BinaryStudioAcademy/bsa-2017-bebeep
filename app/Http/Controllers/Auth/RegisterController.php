@@ -6,35 +6,41 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VerifyUserRequest;
 use App\Repositories\UserRepository;
+use App\Services\RegisterUserService;
 
 class RegisterController extends Controller
 {
-    protected $userRepository;
+    private $registerUserService;
+    private $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(RegisterUserService $registerUserService, UserRepository $userRepository)
     {
+        $this->registerUserService = $registerUserService;
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @param RegisterUserRequest $request
+     */
     public function register(RegisterUserRequest $request)
     {
-        $user = $this->userRepository->create($request->all());
-        if ($user) {
-            $user->sendConfirmationEmail();
-        }
+        $user = $this->registerUserService->register($request->all());
+
+        $this->userRepository->save($user);
+
+        $user->sendConfirmationEmail();
     }
 
+    /**
+     * @param VerifyUserRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function verify(VerifyUserRequest $request)
     {
-        /** @var \App\User|bool $user */
-        $user = $this->userRepository->findWhere([
-            'verification_token' => $request->get('token'),
-            'email' => $request->get('email'),
-            'is_verified' => false
-        ])->first();
+        $user = $this->registerUserService->findUserToVerify($request->all());
 
         if (!$user) {
-            return response()->json(['token' => ['Verification is invalid']], 422);
+            return response()->json(['token' => ['User cant be verified']], 422);
         }
 
         $user->verify();

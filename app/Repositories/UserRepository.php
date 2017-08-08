@@ -7,31 +7,22 @@ use App\User;
 
 class UserRepository extends BaseRepository
 {
-
+    /**
+     * @return string
+     */
     public function model()
     {
         return User::class;
     }
 
     /**
-     * {@inheritdoc}
+     * @param User $user
+     * @return User
      */
-    public function create(array $data)
+    public function save(User $user) : User
     {
-        $attributes = [
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => bcrypt($data['password']),
-            'permissions' => 0,
-        ];
-        if (!empty($data['role_passenger'])) {
-            $attributes['permissions'] |= ($this->model())::PASSENGER_PERMISSION;
-        }
-        if (!empty($data['role_driver'])) {
-            $attributes['permissions'] |= ($this->model())::DRIVER_PERMISSION;
-        }
-        return parent::create($attributes);
+        $user->save();
+
+        return $user;
     }
 }
