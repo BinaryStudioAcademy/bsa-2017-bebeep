@@ -9,5 +9,9 @@ class TripsListTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
+    /** @test */
+    public function driver_can_see_trips(){
+        //TODO: create test
+    }
 
 }
