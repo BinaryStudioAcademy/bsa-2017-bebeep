@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Header extends Component {
+class PageHeader extends Component {
 
     constructor(props) {
         super(props);
@@ -14,15 +14,15 @@ class Header extends Component {
         const { header } = this.state;
 
         return (
-            <header>
-                <h1>{header}</h1>
+            <header id="header">
+                <h1 className="h4">{header}</h1>
             </header>
         );
     }
 }
 
-Header.propTypes = {
+PageHeader.propTypes = {
     header: PropTypes.string
 };
 
-export default Header;
+export default PageHeader;

@@ -1,4 +1,5 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
+const webpackConfig = require('./webpack.config');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,18 +12,5 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.react('resources/assets/js/app.jsx', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css')
-   .sourceMaps();
-
-if (mix.inProduction()) {
-    mix.version();
-}
-
-/*.webpackConfig({
-    resolve: {
-        modules: [
-            path.resolve(__dirname, 'vendor/laravel/spark/resources/assets/js')
-        ]
-    }
-});*/
+mix.react('resources/assets/js/index.js', 'public/js/app.js')
+    .webpackConfig(webpackConfig);

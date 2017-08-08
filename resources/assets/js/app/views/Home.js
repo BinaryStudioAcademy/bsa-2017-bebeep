@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import Header from './partials/Header';
+
+import PageHeader from './partials/PageHeader';
 
 class Home extends Component {
 
     render() {
         return (
             <div>
-                <Header header={'Home page'} />
+                <PageHeader header={'Home page'} />
             </div>
         )
     }
