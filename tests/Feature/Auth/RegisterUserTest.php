@@ -38,9 +38,11 @@ class RegisterUserTest extends TestCase
         $response->assertStatus(422)->assertJsonStructure(['password' => []]);
 
         $response = $this->json('POST', '/api/user/register', array_merge(factory(User::class)->make()->toArray(), [
+            'password' => 'some_password123',
             'password_confirmation' => null,
         ]));
-        $response->assertStatus(422)->assertJsonStructure(['password_confirmation' => []]);
+
+        $response->assertStatus(422)->assertJsonStructure(['password' => []]);
     }
 
     /**
@@ -74,7 +76,7 @@ class RegisterUserTest extends TestCase
             factory(User::class)->make(['password' => str_random(16)])->toArray(),
             ['password_confirmation' => str_random(16)]
         ));
-        $response->assertStatus(422)->assertJsonStructure(['password_confirmation' => []]);
+        $response->assertStatus(422)->assertJsonStructure(['password' => []]);
 
         $response = $this->json('POST', '/api/user/register',
             factory(User::class)->make(['password' => str_random(5)])->toArray());
@@ -87,15 +89,14 @@ class RegisterUserTest extends TestCase
     public function guest_can_register_if_all_fields_is_present_and_valid()
     {
         $user = factory(User::class)->make(['password' => '123456']);
-
         $response = $this->json('POST', '/api/user/register', array_merge(
             $user->toArray(),
             [
+                'password' => '123456',
                 'password_confirmation' => '123456',
                 'role_driver' => '1',
             ]
         ));
-
         $response->assertStatus(200);
         $this->assertDatabaseHas(
             'users',
