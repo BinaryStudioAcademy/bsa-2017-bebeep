@@ -21,6 +21,7 @@ services:
 
     web:
         image: sergeyb/dev
+        build: ./.docker/images/web/
         ports:
             - "80:80"
             - "443:443"
