@@ -1,15 +1,16 @@
 <?php
 
-namespace Tests\Feature\Api\Trips;
+namespace Tests\Feature\Trips;
 
 use App\Models\Trip;
 use App\Models\Vehicle;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CreateTripTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
 
     private $url = 'api/trip/create';
 
@@ -20,10 +21,6 @@ class CreateTripTest extends TestCase
     {
         $response = $this->json('POST', $this->url, []);
         $response->assertStatus(422);
-
-        $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make(['id' => null])->toArray());
-        $response->assertStatus(422)->assertJsonStructure(['id' => []]);
 
         $response = $this->json('POST', $this->url,
             factory(Trip::class)->make(['price' => null])->toArray());
@@ -40,10 +37,6 @@ class CreateTripTest extends TestCase
         $response = $this->json('POST', $this->url,
             factory(Trip::class)->make(['vehicle_id' => null])->toArray());
         $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
-
-        $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make(['user_id' => null])->toArray());
-        $response->assertStatus(422)->assertJsonStructure(['user_id' => []]);
 
         $response = $this->json('POST', $this->url,
             array_merge(factory(Trip::class)->make()->toArray()), ['from' => null]);

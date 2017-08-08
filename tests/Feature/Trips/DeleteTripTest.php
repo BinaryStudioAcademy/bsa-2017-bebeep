@@ -1,14 +1,15 @@
 <?php
 
-namespace Tests\Feature\Api\Trips;
+namespace Tests\Feature\Trips;
 
 use App\Models\Trip;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class DeleteTripTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
 
     private $url = 'api/trip/delete';
 

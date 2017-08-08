@@ -1,14 +1,15 @@
 <?php
 
-namespace Tests\Feature\Api\Trips;
+namespace Tests\Feature\Trips;
 
 use App\Models\Trip;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UpdateTripTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, DatabaseTransactions;
 
     private $url = 'api/trip/update';
 
@@ -39,10 +40,6 @@ class UpdateTripTest extends TestCase
         $response = $this->json('PATCH', $this->url,
             factory(Trip::class)->make(['vehicle_id' => null])->toArray());
         $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
-
-        $response = $this->json('PATCH', $this->url,
-            factory(Trip::class)->make(['user_id' => null])->toArray());
-        $response->assertStatus(422)->assertJsonStructure(['user_id' => []]);
 
         $response = $this->json('PATCH', $this->url,
             array_merge(factory(Trip::class)->make()->toArray()), ['from' => null]);
