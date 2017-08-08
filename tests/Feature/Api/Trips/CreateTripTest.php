@@ -139,8 +139,6 @@ class CreateTripTest extends TestCase
             ]
         ));
 
-        $response->assertStatus(200);
-
         $this->assertDatabaseHas(
           'trips',
           [
