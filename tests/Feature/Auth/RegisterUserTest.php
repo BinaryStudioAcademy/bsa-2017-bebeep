@@ -33,11 +33,6 @@ class RegisterUserTest extends TestCase
         $response = $this->json('POST', '/api/user/register', factory(User::class)->make(['phone' => null])->toArray());
         $response->assertStatus(422)->assertJsonStructure(['phone' => []]);
 
-        $response = $this->json('POST', '/api/user/register', array_merge(factory(User::class)->make()->toArray(), [
-            'roles' => null,
-        ]));
-        $response->assertStatus(422)->assertJsonStructure(['roles' => []]);
-
         $response = $this->json('POST', '/api/user/register',
             factory(User::class)->make(['password' => null])->toArray());
         $response->assertStatus(422)->assertJsonStructure(['password' => []]);
@@ -97,7 +92,7 @@ class RegisterUserTest extends TestCase
             $user->toArray(),
             [
                 'password_confirmation' => '123456',
-                'roles' => 'driver',
+                'role_driver' => '1',
             ]
         ));
 
