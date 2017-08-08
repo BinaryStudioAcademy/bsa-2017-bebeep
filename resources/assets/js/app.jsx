@@ -2,21 +2,15 @@ import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import {IndexRoute, Route, Router, browserHistory} from 'react-router';
+import {Router, browserHistory} from 'react-router';
 
-import App from './src/App';
-import Home from './src/pages/Home';
-import Users from './src/pages/Users';
-
-import store from './src/store';
+import Store from './src/store';
+import routes from './src/routes';
 
 render(
-    (<Provider store={store}>
+    (<Provider store={Store}>
         <Router history={browserHistory}>
-            <Route path="/" component={App}>
-                <IndexRoute component={Home} />
-                <Route path="users" name="users" component={Users} />
-            </Route>
+            {routes}
         </Router>
     </Provider>)
     , document.getElementById('app')
