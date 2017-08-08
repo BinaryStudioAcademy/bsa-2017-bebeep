@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Api\Trip;
+namespace App\Http\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTripRequest;
@@ -9,7 +9,6 @@ use App\Http\Requests\DeleteTripRequest;
 
 class TripApiController extends Controller
 {
-
     public function create(CreateTripRequest $request)
     {
 
@@ -24,5 +23,4 @@ class TripApiController extends Controller
     {
 
     }
-
 }
