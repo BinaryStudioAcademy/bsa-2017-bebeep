@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    Route::post('register', ['as' => 'register', 'uses' => 'Auth\RegisterController@register']);
+    Route::post('verify', ['as' => 'verify', 'uses' => 'Auth\RegisterController@verify']);
+});
