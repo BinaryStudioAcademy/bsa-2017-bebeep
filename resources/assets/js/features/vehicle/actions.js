@@ -8,32 +8,30 @@ const vehiclesData = [
 
 export function getVehicles() {
     return {
-        type: actions.GET_VEHICLES,
+        type: actions.VEHICLE_GET_ALL,
         vehicles: vehiclesData,
     };
-}
+};
 
 export function getVehicle(id) {
     id = parseInt(id, 10);
 
     return {
-        type: actions.GET_VEHICLE,
+        type: actions.VEHICLE_GET,
         vehicle: vehiclesData.filter((vehicle) => vehicle.id === id)[0],
     };
-}
+};
 
-/*export function getVehicle(id) {
-    // return type: actions.GET_VEHICLE
-}
-
+/*
 export function addVehicle(vehicle) {
-    // return type: actions.ADD_VEHICLE
-}
+    // return type: actions.VEHICLE_ADD
+};
+
+export function editVehicle(id) {
+    // return type: actions.VEHICLE_EDIT
+};
 
 export function deleteVehicle(id) {
-    // return type: actions.DELETE_VEHICLE
-}
-
-export function changeFilterValue(filterValue) {
-    // return type: actions.CHANGE_FILTER_VALUE
-};*/
+    // return type: actions.VEHICLE_DELETE
+};
+*/

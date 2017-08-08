@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import PageHeader from '../../../app/views/partials/PageHeader';
+import PageHeader from '../../../app/components/PageHeader';
 import VehicleProfile from '../components/VehicleProfile';
 
 import '../styles/vehicle.scss';
 
-class VehicleOne extends Component {
+class VehicleDetails extends Component {
 
     render() {
         return (
@@ -17,4 +17,4 @@ class VehicleOne extends Component {
     }
 }
 
-export default VehicleOne;
+export default VehicleDetails;

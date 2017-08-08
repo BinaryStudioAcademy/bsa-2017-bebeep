@@ -2,17 +2,17 @@ import React from 'react';
 import { IndexRoute, Route, Redirect } from 'react-router';
 
 import App from './App';
-import Home from './views/Home';
-import Vehicles from '../features/vehicle/views/Vehicles';
-import VehicleOne from '../features/vehicle/views/VehicleOne';
-import NotFound from './views/NotFound';
+import Home from './layouts/Home';
+import Vehicles from '../features/vehicle/layouts/Vehicles';
+import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
+import NotFound from './layouts/NotFound';
 
 export default (
     <Route path="/" component={ App }>
         <IndexRoute component={ Home } />
 
         <Route path="vehicles" component={ Vehicles } />
-        <Route path="vehicles/:id" component={ VehicleOne } />
+        <Route path="vehicles/:id" component={ VehicleDetails } />
 
         <Route path="*" component={ NotFound } />
     </Route>

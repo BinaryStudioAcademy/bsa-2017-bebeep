@@ -77,8 +77,7 @@ class MainNavigation extends Component {
 
                     <div className="dropdown-divider"></div>
 
-                    <Link to="#" className="dropdown-item">
-                      <i className="fa fa-sign-out" aria-hidden="true"></i> Logout</Link>
+                    <Link to="#" className="dropdown-item">Logout</Link>
                   </div>
                 </div>
               </div>

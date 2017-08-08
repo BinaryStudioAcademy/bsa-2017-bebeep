@@ -1,7 +1,6 @@
 import * as actions from './actionTypes';
 
 const initialState = {
-    filterValue: '',
     vehicles: [],
     vehicle: {},
 };
@@ -9,38 +8,38 @@ const initialState = {
 export default function (state = initialState, action) {
     switch(action.type) {
 
-        case actions.GET_VEHICLES: {
+        case actions.VEHICLE_GET_ALL: {
             return {
                 ...state,
                 vehicles: action.vehicles
             };
         }
 
-        case actions.GET_VEHICLE: {
+        case actions.VEHICLE_GET: {
             return {
                 ...state,
                 vehicle: action.vehicle
             };
         }
 
-        /*case actions.ADD_VEHICLE: {
+        /*case actions.VEHICLE_ADD: {
             return {
                 ...state,
                 users: [...state.users, action.user]
             };
         }
 
-        case actions.DELETE_VEHICLE: {
+        case actions.VEHICLE_EDIT: {
             return {
                 ...state,
-                users: state.users.filter((user) => user.id !== action.id)
+                vehicle: action.vehicle
             };
         }
 
-        case actions.CHANGE_FILTER_VALUE: {
+        case actions.VEHICLE_DELETE: {
             return {
                 ...state,
-                filterValue: action.filterValue.toLowerCase().trim()
+                users: state.users.filter((user) => user.id !== action.id)
             };
         }*/
 
