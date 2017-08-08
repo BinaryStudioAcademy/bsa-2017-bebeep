@@ -12,4 +12,17 @@ let mix = require('laravel-mix');
  */
 
 mix.react('resources/assets/js/app.jsx', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+   .sass('resources/assets/sass/app.scss', 'public/css')
+   .sourceMaps();
+
+if (mix.inProduction()) {
+    mix.version();
+}
+
+/*.webpackConfig({
+    resolve: {
+        modules: [
+            path.resolve(__dirname, 'vendor/laravel/spark/resources/assets/js')
+        ]
+    }
+});*/
