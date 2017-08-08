@@ -51,16 +51,16 @@ $factory->define(App\Models\Trip::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Route::class, function (Faker\Generator $faker) {
     return [
-        'from' =>$faker->city,
-        'to'=> $faker->city,
+        'from' => ['a'],
+        'to'=> ['b'],
         'trip_id' =>1
     ];
 });
 
 $factory->define(App\Models\Booking::class, function (Faker\Generator $faker) {
     return [
-        'from' => json_encode(['a']),
-        'to'=> json_encode(['b']),
-        'trip_id' => 1
+        'status'=> 'active',
+        'trip_id' => 1,
+        'user_id' => 1
     ];
 });
