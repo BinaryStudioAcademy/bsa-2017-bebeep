@@ -22,6 +22,10 @@ class CreateTripTest extends TestCase
         $response->assertStatus(422);
 
         $response = $this->json('POST', $this->url,
+            factory(Trip::class)->make(['id' => null])->toArray());
+        $response->assertStatus(422)->assertJsonStructure(['id' => []]);
+
+        $response = $this->json('POST', $this->url,
             factory(Trip::class)->make(['price' => null])->toArray());
         $response->assertStatus(422)->assertJsonStructure(['price' => []]);
 
@@ -56,28 +60,36 @@ class CreateTripTest extends TestCase
     public function user_can_not_create_trip_with_wrong_data()
     {
         $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make([
-                'start_at' => str_random(10)
-            ])->toArray());
+            factory(Trip::class)->make(
+                [
+                    'start_at' => str_random(10)
+                ]
+            )->toArray());
         $response->assertStatus(422);
 
         $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make([
-                'end_at' => str_random(10)
-            ])->toArray());
+            factory(Trip::class)->make(
+                [
+                    'end_at' => str_random(10)
+                ]
+            )->toArray());
         $response->assertStatus(422);
 
         $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make([
-                'start_at' => date('Y-m-d H:i:s', strtotime("-1 hour"))
-            ])->toArray());
+            factory(Trip::class)->make(
+                [
+                    'start_at' => date('Y-m-d H:i:s', strtotime("-1 hour"))
+                ]
+            )->toArray());
         $response->assertStatus(422);
 
         $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make([
-                'end_at' => date("Y-m-d H:i:s"),
-                'start_at' => date('Y-m-d H:i:s', strtotime("+1 days"))
-            ])->toArray());
+            factory(Trip::class)->make(
+                [
+                    'end_at' => date("Y-m-d H:i:s"),
+                    'start_at' => date('Y-m-d H:i:s', strtotime("+1 days"))
+                ]
+            )->toArray());
         $response->assertStatus(422);
     }
 
@@ -109,12 +121,14 @@ class CreateTripTest extends TestCase
      */
     public function user_can_create_trip_if_all_data_is_valid()
     {
-        $trip = factory(Trip::class)->make([
-            'price' => 350,
-            'seats' => 3,
-            'vehicle_id' => 1,
-            'user_id' => 1
-        ]);
+        $trip = factory(Trip::class)->make(
+            [
+                'price' => 350,
+                'seats' => 3,
+                'vehicle_id' => 1,
+                'user_id' => 1
+            ]
+        );
 
         $response = $this->json('POST', $this->url, array_merge(
             $trip->toArray(),
@@ -148,4 +162,10 @@ class CreateTripTest extends TestCase
             ]
         );
     }
+
+    /**
+     * @test
+     * Add a test to check if the user has driver permissions
+     */
+    public function user_can_not_create_trip_without_driver_permissions(){}
 }

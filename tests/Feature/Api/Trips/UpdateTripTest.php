@@ -21,6 +21,10 @@ class UpdateTripTest extends TestCase
         $response->assertStatus(422);
 
         $response = $this->json('PATCH', $this->url,
+            factory(Trip::class)->make(['id' => null])->toArray());
+        $response->assertStatus(422)->assertJsonStructure(['id' => []]);
+
+        $response = $this->json('PATCH', $this->url,
             factory(Trip::class)->make(['price' => null])->toArray());
         $response->assertStatus(422)->assertJsonStructure(['price' => []]);
 
@@ -79,4 +83,10 @@ class UpdateTripTest extends TestCase
             ])->toArray());
         $response->assertStatus(422);
     }
+
+    /**
+     * @test
+     * Add a test to check if the user has driver permissions
+     */
+    public function user_can_not_update_trip_without_driver_permissions(){}
 }
