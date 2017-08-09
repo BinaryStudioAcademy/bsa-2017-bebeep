@@ -9,8 +9,8 @@ class CreateTrip extends React.Component {
         e.preventDefault();
         this.props.dispatch(createTripDispatch({
             vehicle_id: /*e.target['vehicle_id'].value*/ 1,
-            start_at: /*e.target['start_at'].value*/ Date.now()+80000,
-            end_at: Date.now()+520000,
+            start_at: /*e.target['start_at'].value*/ 1502359200,
+            end_at: 1502445600,
             from: /*e.target['from'].value*/ ['a'],
             to: /*e.target['to'].value*/ ['b'],
             price: 350,

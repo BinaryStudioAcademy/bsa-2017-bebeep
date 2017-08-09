@@ -22,4 +22,4 @@ const createTripDispatch = (trip) => {
     };
 };
 
-export default createTripDispatch();
+export default createTripDispatch;
