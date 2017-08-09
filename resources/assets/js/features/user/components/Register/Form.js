@@ -1,19 +1,35 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { setField, doRegister } from '../../actions';
+import { doRegister } from '../../actions';
 import Input from './Input'
 
 class Form extends React.Component {
 
+    constructor() {
+        super();
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+        this.props.dispatch(doRegister({
+            first_name: e.target['first_name'].value,
+            last_name: e.target['last_name'].value,
+            phone: e.target['phone'].value,
+            email: e.target['email'].value,
+            birth_date: e.target['birth_date'].value,
+            role_driver: e.target['role_driver'].checked,
+            role_passenger: e.target['role_passenger'].checked,
+            password: e.target['password'].value,
+            password_confirmation: e.target['password_confirmation'].value
+        }));
+    }
+
     render() {
-        const {errors, user, dispatch} = this.props;
+        const {errors} = this.props;
         return (
             <form role="form" className="card register-form" action="/api/user/register" method="POST"
-                  onSubmit={(e) => {
-                      e.preventDefault();
-                      dispatch(doRegister(user));
-                  }}>
+                  onSubmit={this.onSubmit}>
                 <div className="card-header">
                     Enter your credentials
                 </div>
@@ -23,7 +39,6 @@ class Form extends React.Component {
                         name="first_name"
                         id="first_name"
                         required={true}
-                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                         error={errors.first_name}
                     >First name</Input>
                     <Input
@@ -31,7 +46,6 @@ class Form extends React.Component {
                         name="last_name"
                         id="last_name"
                         required={true}
-                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                         error={errors.last_name}
                     >Last name</Input>
                     <Input
@@ -39,7 +53,6 @@ class Form extends React.Component {
                         name="email"
                         id="email"
                         required={true}
-                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                         error={errors.email}
                     >E-mail</Input>
                     <Input
@@ -47,14 +60,13 @@ class Form extends React.Component {
                         name="phone"
                         id="phone"
                         required={true}
-                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
+                        error={errors.phone}
                     >Phone number</Input>
                     <Input
                         type="date"
                         name="birth_date"
                         id="birth_date"
                         required={true}
-                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                         error={errors.birth_date}
                     >Birth date</Input>
                     <div className="form-group row">
@@ -68,7 +80,6 @@ class Form extends React.Component {
                                        id="role_driver"
                                        name="role_driver"
                                        value="1"
-                                       onChange={ (e) => dispatch(setField(e.target.name, e.target.checked)) }
                                 /> driver
                             </label>
                         </div>
@@ -79,7 +90,6 @@ class Form extends React.Component {
                                        id="role_passenger"
                                        name="role_passenger"
                                        value="1"
-                                       onChange={ (e) => dispatch(setField(e.target.name, e.target.checked)) }
                                 /> passenger
                             </label>
                         </div>
@@ -89,7 +99,6 @@ class Form extends React.Component {
                         name="password"
                         id="password"
                         required={true}
-                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                         error={errors.password}
                     >Password</Input>
                     <Input
@@ -97,7 +106,6 @@ class Form extends React.Component {
                         name="password_confirmation"
                         id="password_confirmation"
                         required={true}
-                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                     >Repeat password</Input>
                 </div>
 
@@ -115,8 +123,7 @@ class Form extends React.Component {
 
 const FormConnected = connect(
     (state) => ({
-        errors: state.user.register.errors,
-        user: state.user.register.user
+        errors: state.user.register.errors
     })
 )(Form);
 

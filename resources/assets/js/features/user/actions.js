@@ -1,11 +1,5 @@
 import * as actions from './actionTypes';
 
-export const setField = (field, value) => ({
-    type: actions.REGISTER_SET_FIELD,
-    field: field,
-    value: value
-});
-
 export const registerSuccess = data => ({
     type: actions.REGISTER_SUCCESS,
     data
@@ -35,7 +29,9 @@ export const doRegister = (data) => {
             })
             .then(
                 data => dispatch(registerSuccess(data)),
-                failed => failed.then(data => dispatch(registerFailed(data)))
+                failed => failed.then(data =>
+                    dispatch(registerFailed(data))
+                )
             );
     };
 };
