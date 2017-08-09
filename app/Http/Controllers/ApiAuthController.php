@@ -46,7 +46,7 @@ class ApiAuthController extends Controller
             return response()->json([
                 'error' => $e->getMessage(),
                 'code' => $e->getCode()
-            ]);
+            ], $e->getCode());
         }
     }
 
