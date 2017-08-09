@@ -5,11 +5,11 @@ namespace Tests\Feature\Trips;
 use App\Models\{Trip, Vehicle};
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
+use Tests\JwtTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Carbon\Carbon;
 
-class UpdateTripTest extends TestCase
+class UpdateTripTest extends JwtTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
