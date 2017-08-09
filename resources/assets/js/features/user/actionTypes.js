@@ -1,0 +1,2 @@
+export const REGISTER_SET_FIELD = 'REGISTER_SET_FIELD';
+export const REGISTER_SEND = 'REGISTER_SEND';
