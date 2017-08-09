@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { doRegister } from '../../actions';
-import Input from './Input'
+import Input from './Input';
+import { browserHistory } from 'react-router';
 
 class Form extends React.Component {
 
@@ -25,8 +26,15 @@ class Form extends React.Component {
         }));
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.successRegister) {
+            browserHistory.push('/register/success');
+        }
+    }
+
     render() {
         const {errors} = this.props;
+
         return (
             <form role="form" className="card register-form" action="/api/user/register" method="POST"
                   onSubmit={this.onSubmit}>
@@ -123,7 +131,8 @@ class Form extends React.Component {
 
 const FormConnected = connect(
     (state) => ({
-        errors: state.user.register.errors
+        errors: state.user.register.errors,
+        successRegister: state.user.register.success
     })
 )(Form);
 

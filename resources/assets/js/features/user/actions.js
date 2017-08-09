@@ -14,10 +14,7 @@ export const registerFailed = data => ({
 export const doRegister = (data) => {
     return dispatch => {
         axios.post('/api/user/register', data)
-            .then(response => {
-                console.log(response);
-                dispatch(registerSuccess(response.data))
-            })
+            .then(response => dispatch(registerSuccess(response.data)))
             .catch(error => dispatch(registerFailed(error.response.data)));
     };
 };

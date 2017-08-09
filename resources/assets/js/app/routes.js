@@ -7,6 +7,7 @@ import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import NotFound from './layouts/NotFound';
 import RegisterForm from '../features/user/layouts/RegisterForm';
+import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
 
 export default (
     <Route path="/" component={ App }>
@@ -16,6 +17,7 @@ export default (
         <Route path="vehicles/:id" component={ VehicleDetails } />
 
         <Route path="register" component={ RegisterForm } />
+        <Route path="register/success" component={ RegisterSuccess } />
 
         <Route path="*" component={ NotFound } />
     </Route>

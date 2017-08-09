@@ -2,6 +2,7 @@ import * as actions from './actionTypes';
 
 const initialState = {
     register: {
+        success: false,
         errors: {}
     }
 };
@@ -12,6 +13,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 register: {
+                    success: true,
                     errors: {}
                 }
             };
