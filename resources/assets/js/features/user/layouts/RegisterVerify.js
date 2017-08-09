@@ -13,18 +13,18 @@ class RegisterVerify extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.successVerify) {
-            browserHistory.push('/');
+            browserHistory.push('/login');
         }
     }
     render() {
-
+        const {errors} = this.props;
         return (
             <div>
                 <PageHeader header={ 'Verify account' } />
                 <div className="card" >
                     <div className="card-block">
-                        <div className="alert alert-danger" role="alert">
-                            <strong>Verify failed: </strong> {this.props.errors.token}
+                        <div className={"alert " + (errors.token ? 'alert-danger' : '')} role="alert">
+                            { errors.token || 'Verifying...' }
                         </div>
                     </div>
                 </div>

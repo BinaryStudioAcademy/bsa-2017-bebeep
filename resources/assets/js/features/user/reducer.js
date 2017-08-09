@@ -26,7 +26,8 @@ export default function (state = initialState, action) {
                 ...state,
                 register: {
                     ...state.register,
-                    errors: action.data
+                    errors: action.data,
+                    success: false
                 }
             };
 
@@ -37,7 +38,8 @@ export default function (state = initialState, action) {
                     ...state.register,
                     verify: {
                         ...state.register.verify,
-                        errors: action.data
+                        errors: action.data,
+                        success: false
                     }
                 }
             };
@@ -48,7 +50,8 @@ export default function (state = initialState, action) {
                     ...state.register,
                     verify: {
                         ...state.register.verify,
-                        success: true
+                        success: true,
+                        errors: {}
                     }
                 }
             };
