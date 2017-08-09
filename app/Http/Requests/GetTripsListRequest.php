@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetTripsListRequest extends FormRequest
+use App\Http\Requests\Contracts\GetTripsListRequest as InterfaceGetTripsListRequest;
+
+class GetTripsListRequest extends FormRequest implements InterfaceGetTripsListRequest
 {
 
     /**
@@ -28,9 +30,7 @@ class GetTripsListRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return int
-     */
+    /** @inheritdoc */
     public function getUserId():int
     {
         return (int)$this->get('user_id');

@@ -30,7 +30,8 @@ class TripsListTest extends TestCase
             );
             $route = factory(Route::class)->create(['trip_id' => $trip->id]);
         }
-        $response = $this->json('GET', $this->url,['id'=>$user->id]);
+        $response = $this->json('GET', $this->url,['user_id'=>$user->id]);
+        $response->assertStatus(200);
         $response->assertJsonFragment([[
             'from'=> json_encode($route->from),
             'to' =>  json_encode($route->to),
@@ -47,8 +48,9 @@ class TripsListTest extends TestCase
         $user = factory(User::class)->create();
         $vehicle = factory(Vehicle::class)->create(['user_id'=>$user->id]);
         $response = $this->json('GET', $this->url,['id'=>$user->id]);
-
+        $response->assertStatus(422);
         $response->assertJson(['error'=>'trips not found']);
     }
+
 
 }
