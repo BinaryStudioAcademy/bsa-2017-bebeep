@@ -5,10 +5,11 @@ namespace Tests\Feature\Trips;
 use App\Models\{Trip, Vehicle, Route};
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\JwtTestCase;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class DeleteTripTest extends TestCase
+class DeleteTripTest extends JwtTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 

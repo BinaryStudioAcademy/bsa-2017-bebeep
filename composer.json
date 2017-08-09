@@ -10,7 +10,8 @@
         "laravel/tinker": "~1.0",
         "league/fractal": "^0.16.0",
         "prettus/l5-repository": "^2.6",
-        "themsaid/laravel-mail-preview": "^1.2"
+        "themsaid/laravel-mail-preview": "^1.2",
+        "tymon/jwt-auth": "^0.5.12"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

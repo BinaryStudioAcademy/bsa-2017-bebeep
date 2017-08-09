@@ -22,7 +22,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('verify', ['as' => 'verify', 'uses' => 'Auth\RegisterController@verify']);
 });
 
-Route::group(['prefix' => 'trips', 'as' => 'trips.'], function () {
+Route::group(['prefix' => 'trips', 'as' => 'trips.', 'middleware' => ['jwt.auth']], function () {
     Route::post('create', ['as' => 'create', 'uses' => 'TripsController@create']);
     Route::patch('update/{id}', ['as' => 'update', 'uses' => 'TripsController@update']);
     Route::delete('{id}', ['as' => 'delete', 'uses' => 'TripsController@delete']);
