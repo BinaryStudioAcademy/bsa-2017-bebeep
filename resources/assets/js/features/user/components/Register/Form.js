@@ -7,12 +7,12 @@ import Input from './Input'
 class Form extends React.Component {
 
     render() {
-        const {setField, doRegister, errors} = this.props;
+        const {errors, user, dispatch} = this.props;
         return (
             <form role="form" className="card register-form" action="/api/user/register" method="POST"
                   onSubmit={(e) => {
                       e.preventDefault();
-                      doRegister();
+                      dispatch(doRegister(user));
                   }}>
                 <div className="card-header">
                     Enter your credentials
@@ -23,7 +23,7 @@ class Form extends React.Component {
                         name="first_name"
                         id="first_name"
                         required={true}
-                        onChange={ (e) => setField(e.target.name, e.target.value) }
+                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                         error={errors.first_name}
                     >First name</Input>
                     <Input
@@ -31,7 +31,7 @@ class Form extends React.Component {
                         name="last_name"
                         id="last_name"
                         required={true}
-                        onChange={ (e) => setField(e.target.name, e.target.value) }
+                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                         error={errors.last_name}
                     >Last name</Input>
                     <Input
@@ -39,7 +39,7 @@ class Form extends React.Component {
                         name="email"
                         id="email"
                         required={true}
-                        onChange={ (e) => setField(e.target.name, e.target.value) }
+                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                         error={errors.email}
                     >E-mail</Input>
                     <Input
@@ -47,14 +47,14 @@ class Form extends React.Component {
                         name="phone"
                         id="phone"
                         required={true}
-                        onChange={ (e) => setField(e.target.name, e.target.value) }
+                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                     >Phone number</Input>
                     <Input
                         type="date"
                         name="birth_date"
                         id="birth_date"
                         required={true}
-                        onChange={ (e) => setField(e.target.name, e.target.value) }
+                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                         error={errors.birth_date}
                     >Birth date</Input>
                     <div className="form-group row">
@@ -68,7 +68,7 @@ class Form extends React.Component {
                                        id="role_driver"
                                        name="role_driver"
                                        value="1"
-                                       onChange={ (e) => setField(e.target.name, e.target.checked) }
+                                       onChange={ (e) => dispatch(setField(e.target.name, e.target.checked)) }
                                 /> driver
                             </label>
                         </div>
@@ -79,7 +79,7 @@ class Form extends React.Component {
                                        id="role_passenger"
                                        name="role_passenger"
                                        value="1"
-                                       onChange={ (e) => setField(e.target.name, e.target.checked) }
+                                       onChange={ (e) => dispatch(setField(e.target.name, e.target.checked)) }
                                 /> passenger
                             </label>
                         </div>
@@ -89,7 +89,7 @@ class Form extends React.Component {
                         name="password"
                         id="password"
                         required={true}
-                        onChange={ (e) => setField(e.target.name, e.target.value) }
+                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                         error={errors.password}
                     >Password</Input>
                     <Input
@@ -97,7 +97,7 @@ class Form extends React.Component {
                         name="password_confirmation"
                         id="password_confirmation"
                         required={true}
-                        onChange={ (e) => setField(e.target.name, e.target.value) }
+                        onChange={ (e) => dispatch(setField(e.target.name, e.target.value)) }
                     >Repeat password</Input>
                 </div>
 
@@ -115,10 +115,9 @@ class Form extends React.Component {
 
 const FormConnected = connect(
     (state) => ({
-        errors: state.user.register.errors
-    }),
-    (dispatch) =>
-        bindActionCreators({ setField, doRegister }, dispatch)
+        errors: state.user.register.errors,
+        user: state.user.register.user
+    })
 )(Form);
 
 export default FormConnected;

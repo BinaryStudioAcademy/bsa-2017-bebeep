@@ -29,18 +29,21 @@ export default function (state = initialState, action) {
                     user: Object.assign(state.register.user, field)
                 }
             };
-        case actions.REGISTER_SEND:
-            return (dispatch) => {
-                return {
-                    ...state,
-                        register: {
+        case actions.REGISTER_SUCCESS:
+            return {
+                ...state,
+                register: {
                     ...state.register,
-                            errors: {
-                            first_name: "first_name invalid",
-                                last_name: "last_name invalid"
-                        }
-                    }
-                };
+                    errors: {}
+                }
+            };
+        case actions.REGISTER_FAILED:
+            return {
+                ...state,
+                register: {
+                    ...state.register,
+                    errors: action.data
+                }
             };
         default: {
             return state;
