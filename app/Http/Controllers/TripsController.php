@@ -8,6 +8,7 @@ use App\Exceptions\User\UserHasNotPermissionsToCreateTripsException;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 use App\Exceptions\Vehicle\VehicleSeatsNotAvailableException;
 use App\Http\Requests\CreateTripRequest;
+use App\Http\Requests\UpdateTripRequest;
 use App\Models\Trip;
 use App\Services\TripsService;
 use Illuminate\Support\Facades\Auth;
@@ -42,9 +43,16 @@ class TripsController extends Controller
         return response()->json($trip);
     }
 
-    public function update(int $id)
+    /**
+     * @param Trip $trip
+     * @param UpdateTripRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Trip $trip, UpdateTripRequest $request)
     {
+        $trip = $this->tripsService->update($trip, $request, Auth::user());
 
+        return response()->json(['success' => true]);
     }
 
     /**

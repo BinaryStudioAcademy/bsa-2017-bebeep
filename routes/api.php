@@ -24,6 +24,6 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 
 Route::group(['prefix' => 'trips', 'as' => 'trips.', 'middleware' => ['jwt.auth']], function () {
     Route::post('create', ['as' => 'create', 'uses' => 'TripsController@create']);
-    Route::patch('update/{id}', ['as' => 'update', 'uses' => 'TripsController@update']);
+    Route::patch('update/{trip}', ['as' => 'update', 'uses' => 'TripsController@update']);
     Route::delete('{trip}', ['as' => 'delete', 'uses' => 'TripsController@delete']);
 });

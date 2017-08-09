@@ -75,21 +75,15 @@ class TripsService
         return $trip;
     }
 
-    public function update(UpdateTripRequest $request): Trip
+    /**
+     * @param Trip $trip
+     * @param UpdateTripRequest $request
+     * @param $user
+     * @return Trip
+     */
+    public function update(Trip $trip, UpdateTripRequest $request, $user): Trip
     {
-        $tripAttributes = [
-            'price' => $request->getPrice(),
-            'seats' => $request->getSeats(),
-            'start_at' => $request->getStartAt(),
-            'end_at' => $request->getEndAt(),
-            'vehicle_id' => $request->getVehicleId(),
-            'user_id' => Auth::user()->id,
-        ];
-
-        $routeAttributes = [
-            'from' => $request->getFrom(),
-            'to' => $request->getTo(),
-        ];
+        return $trip;
     }
 
     /**

@@ -12,112 +12,68 @@ class UpdateTripTest extends BaseTripTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
-    private $url;
-    private $method = 'PATCH';
+    protected $url;
+    protected $method = 'PATCH';
+
+    /**
+     * @test
+     */
+    public function guest_cant_update_trip()
+    {
+        $user = $this->getDriverUser();
+        $this->createValidTrip($user);
+
+        $response = $this->json($this->method, $this->getUrl(1), []);
+        $response->assertStatus(400);
+    }
 
     /**
      * @test
      */
     public function user_can_not_update_trip_if_not_all_fields_is_filled()
     {
-        $trip = factory(Trip::class)->create();
+        $user = $this->getDriverUser();
+        $trip = $this->createValidTrip($user);
         $this->url = $this->getUrl($trip->id);
 
-        $response = $this->json($this->method, $this->url, []);
+        $response = $this->jsonAsUser($user, []);
         $response->assertStatus(422);
 
-        $response = $this->json($this->method, $this->url, $this->getTripData(['price' => null]));
+        $response = $this->jsonAsUser($user, ['price' => null]);
         $response->assertStatus(422)->assertJsonStructure(['price' => []]);
 
-        $response = $this->json($this->method, $this->url, $this->getTripData(['start_at' => null]));
+        $response = $this->jsonAsUser($user, ['start_at' => null]);
         $response->assertStatus(422)->assertJsonStructure(['start_at' => []]);
 
-        $response = $this->json($this->method, $this->url, $this->getTripData(['end_at' => null]));
+        $response = $this->jsonAsUser($user, ['end_at' => null]);
         $response->assertStatus(422)->assertJsonStructure(['end_at' => []]);
 
-        $response = $this->json($this->method, $this->url, $this->getTripData(['vehicle_id' => null]));
+        $response = $this->jsonAsUser($user, ['vehicle_id' => null]);
         $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
 
-        $response = $this->json($this->method, $this->url, $this->getTripData(['from' => null]));
+        $response = $this->jsonAsUser($user, ['from' => null]);
         $response->assertStatus(422)->assertJsonStructure(['from' => []]);
 
-        $response = $this->json($this->method, $this->url, $this->getTripData(['to' => null]));
+        $response = $this->jsonAsUser($user, ['to' => null]);
         $response->assertStatus(422)->assertJsonStructure(['to' => []]);
     }
 
     /**
      * @test
      */
-    public function user_can_not_update_trip_with_wrong_data()
+    public function user_cant_update_trip_with_not_his_car()
     {
-        $trip = factory(Trip::class)->create();
+        $user = $this->getDriverUser();
+        $user2 = $this->getDriverUser();
+        $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user2->id]);
+
+        $trip = $this->createValidTrip($user);
         $this->url = $this->getUrl($trip->id);
 
-        $response = $this->json($this->method, $this->url, $this->getTripData(['start_at' => str_random(10)]));
-        $response->assertStatus(422)->assertJsonStructure(['start_at' => []]);
+        $tripData = $this->getValidTripData($vehicle->id);
 
-        $response = $this->json($this->method, $this->url, $this->getTripData(['end_at' => str_random(10)]));
-        $response->assertStatus(422)->assertJsonStructure(['end_at' => []]);
-
-        $response = $this->json($this->method, $this->url, $this->getTripData(
-            ['start_at' => Carbon::now()->subHour(3)->timestamp]
-        ));
-        $response->assertStatus(422)->assertJsonStructure(['start_at' => []]);
-
-        $response = $this->json($this->method, $this->url, $this->getTripData(
-            [
-                'start_at' => Carbon::now()->addHour(1)->timestamp,
-                'end_at' => Carbon::now()->timestamp
-            ]
-        ));
-        $response->assertStatus(422)->assertJsonStructure(['end_at' => []]);
-    }
-
-    public function user_can_successfully_update_trip_with_valid_data()
-    {
-        $user = factory(User::class)->create();
-        $vehicle = factory(Vehicle::class)->create([
-            'seats' => 4,
-            'user_id' => $user->id,
-        ]);
-
-        $trip = array_merge(factory(Trip::class)->make([
-            'price' => 250,
-            'seats' => 2,
-            'vehicle_id' => $vehicle->id,
-            'user_id' => $vehicle->user_id
-        ])->toArray(), [
-            'start_at' => Carbon::now()->addHour(1)->timestamp,
-            'end_at' => Carbon::now()->addHour(10)->timestamp,
-        ]);
-
-        $this->url = $this->getUrl($trip->id);
-
-        $response = $this->json($this->method, $this->url, array_merge(
-            $trip,
-            [
-                'from' => ['a'],
-                'to' => ['b'],
-            ]
-        ));
-        $response->assertStatus(200);
-
-        $this->assertDatabaseHas(
-            'trips',
-            [
-                'price' => (float) $trip['price'],
-                'seats' => $trip['seats'],
-                'vehicle_id' => $trip['vehicle_id'],
-            ]
-        );
-
-        $this->assertDatabaseHas(
-            'routes',
-            [
-                'trip_id' => json_decode($response->getContent())->id,
-            ]
-        );
-
+        $response = $this->jsonAsUser($user, $tripData);
+        $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
     }
 
     /**
@@ -135,5 +91,19 @@ class UpdateTripTest extends BaseTripTestCase
     private function getUrl($id)
     {
         return route('trips.update', $id);
+    }
+
+    /**
+     * @param $user
+     * @return array
+     */
+    private function createValidTrip($user)
+    {
+        factory(Vehicle::class)->create([
+            'seats' => 4,
+            'user_id' => $user->id,
+        ]);
+
+        return factory(Trip::class)->create();
     }
 }
