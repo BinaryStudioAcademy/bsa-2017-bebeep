@@ -8,6 +8,7 @@ import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import NotFound from './layouts/NotFound';
 import RegisterForm from '../features/user/layouts/RegisterForm';
 import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
+import RegisterVerify from '../features/user/layouts/RegisterVerify';
 
 export default (
     <Route path="/" component={ App }>
@@ -18,6 +19,7 @@ export default (
 
         <Route path="register" component={ RegisterForm } />
         <Route path="register/success" component={ RegisterSuccess } />
+        <Route path="register/verify" component={ RegisterVerify } />
 
         <Route path="*" component={ NotFound } />
     </Route>

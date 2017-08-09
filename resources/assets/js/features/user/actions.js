@@ -18,3 +18,22 @@ export const doRegister = (data) => {
             .catch(error => dispatch(registerFailed(error.response.data)));
     };
 };
+
+export const verifySuccess = data => ({
+    type: actions.REGISTER_VERIFY_SUCCESS,
+    data
+});
+
+export const verifyFailed = data => ({
+    type: actions.REGISTER_VERIFY_FAILED,
+    data
+});
+
+export const doVerify = (email, token) => dispatch => {
+    axios.post('/api/user/verify', {
+        email: email,
+        token: token
+    })
+    .then(response => dispatch(verifySuccess(response.data)))
+    .catch(error => dispatch(verifyFailed(error.response.data)));
+};
