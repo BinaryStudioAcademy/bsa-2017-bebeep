@@ -15,7 +15,8 @@ class TripsListTest extends TestCase
     protected $url = 'api/driver/trips';
 
     /** @test */
-    public function driver_can_see_trips(){
+    public function driver_can_see_trips()
+    {
         $user = factory(User::class)->create();
         $vehicle = factory(Vehicle::class)->create(['user_id'=>$user->id]);
         for($i = 0;$i<2;$i++) {
@@ -38,6 +39,16 @@ class TripsListTest extends TestCase
             'start_at'=> $trip->start_at->toDateTimeString(),
             'end_at' => $trip->end_at->toDateTimeString()
         ]]);
+    }
+
+    /** @test */
+    public function see_error_if_driver_doesnt_have_trips()
+    {
+        $user = factory(User::class)->create();
+        $vehicle = factory(Vehicle::class)->create(['user_id'=>$user->id]);
+        $response = $this->json('GET', $this->url,['id'=>$user->id]);
+
+        $response->assertJson(['error'=>'trips not found']);
     }
 
 }

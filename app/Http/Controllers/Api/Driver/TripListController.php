@@ -22,7 +22,7 @@ class TripListController extends Controller
     public function index(Request $request)
     {
         $result = $this->service->getUserTrips($request['id']);
-        if(!isset($result))
+        if( count($result) == 0 )
             return response()->json(['error' => 'trips not found'], 404);
         return response()->json($result);
     }
