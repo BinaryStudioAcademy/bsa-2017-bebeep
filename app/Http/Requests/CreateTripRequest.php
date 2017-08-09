@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use App\Services\Requests\CreateTripRequest as CreateTripRequestInterface;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CreateTripRequest extends FormRequest implements CreateTripRequestInterface
 {
@@ -32,7 +34,15 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
             'end_at' => 'required|integer',
             'from' => 'required|array',
             'to' => 'required|array',
-            'vehicle_id' => 'required|integer|exists:vehicles,id',
+            'vehicle_id' => [
+                'required',
+                'integer',
+                Rule::exists('vehicles', 'id')->where(function ($query) {
+                    $query->where([
+                        'user_id' => Auth::user()->id,
+                    ]);
+                }),
+            ],
         ];
     }
 

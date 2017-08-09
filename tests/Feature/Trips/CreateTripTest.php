@@ -66,6 +66,21 @@ class CreateTripTest extends JwtTestCase
     /**
      * @test
      */
+    public function user_cant_create_trip_with_not_his_car()
+    {
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+        $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user2->id]);
+
+        $tripData = $this->getValidTripData($user->id, $vehicle->id);
+
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $tripData);
+        $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
+    }
+
+    /**
+     * @test
+     */
     public function user_can_not_create_trip_with_wrong_time_data()
     {
         $user = factory(User::class)->create();
@@ -77,14 +92,15 @@ class CreateTripTest extends JwtTestCase
         $response = $this->jsonAsUser($user, ['end_at' => str_random(10), 'vehicle_id' => $vehicle->id]);
         $response->assertStatus(422)->assertJsonStructure(['end_at' => []]);
 
-        $response = $this->jsonAsUser($user, ['start_at' => Carbon::now()->subHour(1)->timestamp, 'vehicle_id' => $vehicle->id, 'seats' => 2]);
+        $response = $this->jsonAsUser($user,
+            ['start_at' => Carbon::now()->subHour(1)->timestamp, 'vehicle_id' => $vehicle->id, 'seats' => 2]);
         $response->assertStatus(422)->assertJsonStructure(['start_at' => []]);
 
         $response = $this->jsonAsUser($user, [
                 'end_at' => Carbon::now()->timestamp,
                 'start_at' => Carbon::now()->addHour(1)->timestamp,
                 'vehicle_id' => $vehicle->id,
-                'seats' => 2
+                'seats' => 2,
             ]
         );
         $response->assertStatus(422)->assertJsonStructure(['end_at' => []]);
@@ -120,32 +136,19 @@ class CreateTripTest extends JwtTestCase
             'user_id' => $user->id,
         ]);
 
-        $trip = array_merge(factory(Trip::class)->make([
-            'price' => 350,
-            'seats' => 3,
-            'vehicle_id' => $vehicle->id,
-            'user_id' => $user->id
-        ])->toArray(), [
-            'start_at' => Carbon::now()->addMinutes(10)->timestamp,
-            'end_at' => Carbon::now()->addHour(1)->timestamp,
-        ]);
+        $trip = $this->getValidTripData($user->id, $vehicle->id);
 
-        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, array_merge(
-            $trip,
-            [
-                'from' => ['a'],
-                'to' => ['b'],
-            ]
-        ));
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);
         $response->assertStatus(200);
 
         $this->assertDatabaseHas(
-          'trips',
-          [
-              'price' => (float) $trip['price'],
-              'seats' => $trip['seats'],
-              'vehicle_id' => $trip['vehicle_id'],
-          ]
+            'trips',
+            [
+                'price' => (float)$trip['price'],
+                'seats' => $trip['seats'],
+                'vehicle_id' => $trip['vehicle_id'],
+                'user_id' => $user->id,
+            ]
         );
 
         $this->assertDatabaseHas(
@@ -160,7 +163,9 @@ class CreateTripTest extends JwtTestCase
      * @test
      * Add a test to check if the user has driver permissions
      */
-    public function user_can_not_create_trip_without_driver_permissions(){}
+    public function user_can_not_create_trip_without_driver_permissions()
+    {
+    }
 
     /**
      * @param $user
@@ -186,5 +191,25 @@ class CreateTripTest extends JwtTestCase
             'from' => ['a'],
             'to' => ['b'],
         ], $extraData);
+    }
+
+    /**
+     * @param $userId
+     * @param $vehicleId
+     * @return array
+     */
+    private function getValidTripData($userId, $vehicleId)
+    {
+        return array_merge(factory(Trip::class)->make([
+            'price' => 350,
+            'seats' => 3,
+            'vehicle_id' => $vehicleId,
+            'user_id' => $userId,
+        ])->toArray(), [
+            'start_at' => Carbon::now()->addMinutes(10)->timestamp,
+            'end_at' => Carbon::now()->addHour(1)->timestamp,
+            'from' => ['a'],
+            'to' => ['b'],
+        ]);
     }
 }

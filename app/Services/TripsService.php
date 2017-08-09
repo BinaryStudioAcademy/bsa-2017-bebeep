@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Repositories\TripRepository;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TripsService
 {
@@ -35,7 +36,7 @@ class TripsService
             'start_at' => $request->getStartAt(),
             'end_at' => $request->getEndAt(),
             'vehicle_id' => $request->getVehicleId(),
-            // 'user_id' => Auth::user()->id,
+            'user_id' => Auth::user()->id,
         ];
 
         $routeAttributes = [
@@ -66,12 +67,12 @@ class TripsService
     public function update(UpdateTripRequest $request) : Trip
     {
         $tripAttributes = [
-            //'user_id' => Auth::user()->id,
             'price' => $request->getPrice(),
             'seats' => $request->getSeats(),
             'start_at' => $request->getStartAt(),
             'end_at' => $request->getEndAt(),
             'vehicle_id' => $request->getVehicleId(),
+            'user_id' => Auth::user()->id,
         ];
 
         $routeAttributes = [
