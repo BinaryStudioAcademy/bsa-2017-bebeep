@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Services\Requests\DestroyCarRequest as DestroyCarRequestInterface;
 
-class DeleteCarRequest extends FormRequest
+class DeleteCarRequest extends FormRequest implements DestroyCarRequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,4 +25,11 @@ class DeleteCarRequest extends FormRequest
     {
         return [];
     }
+
+    public function getId(): int
+    {
+        return $this->get('id');
+    }
+
+
 }
