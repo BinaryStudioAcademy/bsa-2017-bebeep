@@ -21,3 +21,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/authenticate', 'ApiAuthController@authenticate');
     Route::post('/logout', 'ApiAuthController@logout');
 });
+
+Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    Route::post('register', ['as' => 'register', 'uses' => 'Auth\RegisterController@register']);
+    Route::post('verify', ['as' => 'verify', 'uses' => 'Auth\RegisterController@verify']);
+});

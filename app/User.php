@@ -7,6 +7,7 @@ use App\Models\Trip;
 use App\Models\Vehicle;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Jobs\SendConfirmationEmail;
 
 class User extends Authenticatable
 {
@@ -15,6 +16,20 @@ class User extends Authenticatable
     const PASSENGER_PERMISSION = 1;
     const DRIVER_PERMISSION = 2;
     const ADMIN_PERMISSION = 4;
+
+    /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->verification_token = str_random(30);
+        });
+    }
 
     /**
      * The attributes that are mass assignable.
