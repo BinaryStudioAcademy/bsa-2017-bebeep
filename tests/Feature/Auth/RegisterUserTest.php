@@ -276,9 +276,9 @@ class RegisterUserTest extends JwtTestCase
         $response = $this->actingAs($user)->json('POST', $this->urlVerify, ['token' => $user->verification_token, 'email' => $user->email]);
         $response->assertStatus(422)->assertJsonStructure(['message']);
 
-        $user = factory(User::class)->make(['password' => '123456']);
+        $userData = factory(User::class)->make(['password' => '123456']);
         $response = $this->actingAs($user)->json('POST', $this->urlRegister, array_merge(
-            $user->toArray(),
+            $userData->toArray(),
             [
                 'password' => '123456',
                 'password_confirmation' => '123456',
