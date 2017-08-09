@@ -18,7 +18,7 @@ class BaseTripTestCase extends JwtTestCase
      * @param $data
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    protected function jsonAsUser($user, $data)
+    protected function jsonAsUser($user, $data = [])
     {
         return $this->jsonRequestAsUser($user, $this->method, $this->url, $this->getTripData($data));
     }

@@ -5,8 +5,12 @@ namespace App\Services;
 use App\Exceptions\Trip\TripWrongStartTimeException;
 use App\Exceptions\Trip\TripWrongEndTimeException;
 use App\Exceptions\User\UserHasNotPermissionsToCreateTripsException;
+use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 use App\Exceptions\Vehicle\VehicleSeatsNotAvailableException;
-use App\Models\{Trip, Vehicle, Route};
+use App\Models\{
+    Trip, Vehicle, Route
+};
+use App\User;
 use Carbon\Carbon;
 use App\Repositories\TripRepository;
 use App\Services\Requests\CreateTripRequest;
@@ -24,15 +28,16 @@ class TripsService
 
     /**
      * @param CreateTripRequest $request
+     * @param $user
      * @return Trip
      * @throws TripWrongEndTimeException
      * @throws TripWrongStartTimeException
      * @throws UserHasNotPermissionsToCreateTripsException
      * @throws VehicleSeatsNotAvailableException
      */
-    public function create(CreateTripRequest $request) : Trip
+    public function create(CreateTripRequest $request, $user): Trip
     {
-        if (!Auth::user()->isDriver()) {
+        if (! $user->isDriver()) {
             throw new UserHasNotPermissionsToCreateTripsException('User has not permissions to create trip');
         }
 
@@ -42,7 +47,7 @@ class TripsService
             'start_at' => $request->getStartAt(),
             'end_at' => $request->getEndAt(),
             'vehicle_id' => $request->getVehicleId(),
-            'user_id' => Auth::user()->id,
+            'user_id' => $user->id,
         ];
 
         $routeAttributes = [
@@ -70,7 +75,7 @@ class TripsService
         return $trip;
     }
 
-    public function update(UpdateTripRequest $request) : Trip
+    public function update(UpdateTripRequest $request): Trip
     {
         $tripAttributes = [
             'price' => $request->getPrice(),
@@ -83,8 +88,24 @@ class TripsService
 
         $routeAttributes = [
             'from' => $request->getFrom(),
-            'to' => $request->getTo()
+            'to' => $request->getTo(),
         ];
+    }
 
+    /**
+     * @param Trip $trip
+     * @param $user
+     * @throws UserHasNotPermissionsToDeleteTripException
+     */
+    public function delete(Trip $trip, $user)
+    {
+        if (
+            $trip->user_id != $user->id ||
+            ! $user->isDriver()
+        ) {
+            throw new UserHasNotPermissionsToDeleteTripException('User has not permissions to delete this trip');
+        }
+
+        $this->tripRepository->delete($trip->id);
     }
 }

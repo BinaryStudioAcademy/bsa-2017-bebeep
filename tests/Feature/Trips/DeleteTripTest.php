@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\{Trip, Vehicle, Route};
+use App\Models\{
+    Trip, Vehicle
+};
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -11,78 +13,99 @@ class DeleteTripTest extends BaseTripTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
-    private $url = 'api/trip/delete';
-    private $method = 'DELETE';
+    protected $url = 'api/trip/delete';
+    protected $method = 'DELETE';
 
+    /**
+     * @test
+     */
     public function user_can_not_delete_trip_if_trip_id_is_not_correct()
     {
-        factory(User::class)->create();
-        factory(Vehicle::class)->create();
-        $trip = factory(Trip::class)->create();
-        $routes = factory(Route::class)->create();
+        $user = $this->getDriverUser();
+        factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
 
         $this->url = $this->getUrl($trip->id + 1);
 
-        $response = $this->json($this->method, $this->url);
+        $response = $this->jsonAsUser($user);
         $response->assertStatus(404);
 
         $this->assertDatabaseHas(
             'trips',
             [
-                'price' => $trip->price,
-                'seats' => $trip->seats,
-                'start_at' => $trip->start_at,
-                'end_at' => $trip->end_at,
-                'vehicle_id' => $trip->vehicle_id,
-                'user_id' => $trip->user_id
+                'id' => $trip->id,
             ]
         );
-
-        $this->assertDatabaseHas(
-            'routes',
-            [
-                'from' => $routes->from,
-                'to' => $routes->to,
-                'trip_id' => $trip->id
-            ]
-        );
-
     }
 
-    public function user_can_delete_trip()
+    /**
+     * @test
+     */
+    public function user_cant_delete_not_his_trip()
     {
-        factory(User::class)->create();
-        factory(Vehicle::class)->create();
-        $trip = factory(Trip::class)->create();
-        factory(Route::class)->create();
+        $user = $this->getDriverUser();
+        $user2 = $this->getDriverUser();
+        factory(Vehicle::class)->create(['user_id' => $user2->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user2->id]);
 
         $this->url = $this->getUrl($trip->id);
 
-        $response = $this->json($this->method, $this->url);
-        $response->assertStatus(200);
+        $response = $this->jsonAsUser($user);
+        $response->assertStatus(422);
 
-        $this->assertDatabaseMissing('trips', ['id' => $trip->id]);
-        $this->assertDatabaseMissing('routes', ['trip_id' => $trip->id]);
+        $this->assertDatabaseHas(
+            'trips',
+            [
+                'id' => $trip->id,
+            ]
+        );
     }
 
     /**
      * @test
-     * Add a test to check if the user has driver permissions
      */
-    public function user_can_not_delete_trip_without_driver_permissions(){}
+    public function user_can_delete_trip()
+    {
+        $user = $this->getDriverUser();
+        factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
+
+        $this->url = $this->getUrl($trip->id);
+
+        $response = $this->jsonAsUser($user);
+        $response->assertStatus(200);
+
+        $this->assertDatabaseMissing('trips', ['id' => $trip->id]);
+    }
 
     /**
      * @test
-     * Add a test to check if a trip haven't passengers
      */
-    public function user_can_not_delete_trip_with_passengers(){}
+    public function user_can_not_delete_trip_without_driver_permissions()
+    {
+        $user = factory(User::class)->create();
+        factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
+
+        $this->url = $this->getUrl($trip->id);
+
+        $response = $this->jsonAsUser($user);
+        $response->assertStatus(422);
+
+        $this->assertDatabaseHas(
+            'trips',
+            [
+                'id' => $trip->id,
+            ]
+        );
+    }
 
     /**
-    * Get url from trips.delete route
-    *
-    * @param $id
-    * @return string
-    */
+     * Get url from trips.delete route
+     *
+     * @param $id
+     * @return string
+     */
     private function getUrl($id)
     {
         return route('trips.delete', $id);
