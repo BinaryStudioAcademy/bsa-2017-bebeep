@@ -74,6 +74,7 @@ class MainNavigation extends Component {
                     <Link to="#" className="dropdown-item">My trips</Link>
                     <Link to="#" className="dropdown-item">My bookings</Link>
                     <Link to="#" className="dropdown-item">Profile</Link>
+                    <Link to="/trip/create" className="dropdown-item">Create new trip</Link>
 
                     <div className="dropdown-divider"></div>
 

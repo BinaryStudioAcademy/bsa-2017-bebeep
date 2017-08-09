@@ -13,6 +13,8 @@ export default (
 
         <Route path="vehicles" component={ Vehicles } />
         <Route path="vehicles/:id" component={ VehicleDetails } />
+        <Route path="trip/create" component={ Vehicles /*TripCreate*/ } />
+        <Route path="trip/edit" component={ Vehicles /*TripEdit*/ } />
 
         <Route path="*" component={ NotFound } />
     </Route>
