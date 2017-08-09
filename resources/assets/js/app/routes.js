@@ -6,7 +6,7 @@ import Home from './layouts/Home';
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import NotFound from './layouts/NotFound';
-import CreateWrap from '../features/trip/components/Create/CreateWrap'
+import CreateWrap from '../features/trip/layouts/CreateWrap'
 
 export default (
     <Route path="/" component={ App }>

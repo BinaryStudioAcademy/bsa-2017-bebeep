@@ -1,15 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import createTripDispatch from '../../actions';
 import { bindActionCreators } from 'redux';
 
 class CreateTrip extends React.Component {
+
+    onSubmit(e) {
+        e.preventDefault();
+        this.props.dispatch(createTripDispatch({
+            vehicle_id: /*e.target['vehicle_id'].value*/ 1,
+            start_at: /*e.target['start_at'].value*/ Date.now()+80000,
+            end_at: Date.now()+520000,
+            from: /*e.target['from'].value*/ ['a'],
+            to: /*e.target['to'].value*/ ['b'],
+            price: 350,
+            seats: 3,
+            user_id: 1
+        }));
+    }
+
     render() {
+        const {errors} = this.props;
         return (
-            <form role="form" className="form-horizontal" action="/api/trip/create" method="POST" onSubmit="">
+            <form role="form" className="form-horizontal" action="/api/trips/create" method="POST" onSubmit={this.onSubmit.bind(this)}>
                 <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="car_id">Select car:</label>
+                    <label className="control-label col-sm-2" htmlFor="vehicle_id">Select car:</label>
                     <div className="col-sm-6">
-                        <select className="form-control" id="car_id">
+                        <select name="vehicle_id" className="form-control" id="vehicle_id" required="required">
                             <option value="1">1</option>
                             <option value="2">2</option>
                         </select>
@@ -18,19 +35,19 @@ class CreateTrip extends React.Component {
                 <div className="form-group">
                     <label className="control-label col-sm-2" htmlFor="start_at">Trip start time:</label>
                     <div className="col-sm-6">
-                        <input type="datetime-local" className="form-control" id="start_at" />
+                        <input type="datetime-local" name="start_at" className="form-control" id="start_at" required="required"/>
                     </div>
                 </div>
                 <div className="form-group">
                     <label className="control-label col-sm-2" htmlFor="from">From location:</label>
                     <div className="col-sm-6">
-                        <input type="search" className="form-control" id="from" />
+                        <input type="search" name="from" className="form-control" id="from" required="required"/>
                     </div>
                 </div>
                 <div className="form-group">
                     <label className="control-label col-sm-2" htmlFor="to">To location:</label>
                     <div className="col-sm-6">
-                        <input type="search" className="form-control" id="to" />
+                        <input type="search" name="to" className="form-control" id="to" required="required"/>
                     </div>
                 </div>
                 <div className="form-group">
@@ -43,4 +60,10 @@ class CreateTrip extends React.Component {
     }
 }
 
-export default CreateTrip;
+const CreateTripDispatch = connect(
+    (state) => ({
+        errors: state.trip.create.errors
+    })
+)(CreateTrip);
+
+export default CreateTripDispatch;
