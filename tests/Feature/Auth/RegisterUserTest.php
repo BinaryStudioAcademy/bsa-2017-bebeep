@@ -3,11 +3,12 @@
 namespace Tests\Feature\Auth;
 
 use App\User;
+use Tests\JwtTestCase;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class RegisterUserTest extends TestCase
+class RegisterUserTest extends JwtTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
@@ -121,6 +122,84 @@ class RegisterUserTest extends TestCase
         );
     }
 
+    public function test_user_permissions_is_set_correctly()
+    {
+        $user = factory(User::class)->make();
+        $user2 = factory(User::class)->make();
+        $user3 = factory(User::class)->make();
+        $user4 = factory(User::class)->make();
+
+        $response = $this->json('POST', $this->urlRegister, array_merge(
+            $user->toArray(),
+            [
+                'password' => '123456',
+                'password_confirmation' => '123456',
+                'role_driver' => false,
+                'role_passenger' => false,
+            ]
+        ));
+        $response->assertStatus(200);
+        $this->assertDatabaseHas(
+            'users',
+            [
+                'email' => $user->email,
+                'permissions' => User::PASSENGER_PERMISSION,
+            ]
+        );
+
+        $response = $this->json('POST', $this->urlRegister, array_merge(
+            $user2->toArray(),
+            [
+                'password' => '123456',
+                'password_confirmation' => '123456',
+                'role_driver' => '1',
+            ]
+        ));
+        $response->assertStatus(200);
+        $this->assertDatabaseHas(
+            'users',
+            [
+                'email' => $user2->email,
+                'permissions' => User::DRIVER_PERMISSION,
+            ]
+        );
+
+        $response = $this->json('POST', $this->urlRegister, array_merge(
+            $user3->toArray(),
+            [
+                'password' => '123456',
+                'password_confirmation' => '123456',
+                'role_passenger' => '1',
+            ]
+        ));
+        $response->assertStatus(200);
+        $this->assertDatabaseHas(
+            'users',
+            [
+                'email' => $user3->email,
+                'permissions' => User::PASSENGER_PERMISSION,
+            ]
+        );
+
+        $response = $this->json('POST', $this->urlRegister, array_merge(
+            $user4->toArray(),
+            [
+                'password' => '123456',
+                'password_confirmation' => '123456',
+                'role_passenger' => '1',
+                'role_driver' => '1',
+            ]
+        ));
+        $response->assertStatus(200);
+        $this->assertDatabaseHas(
+            'users',
+            [
+                'email' => $user4->email,
+                'permissions' => User::PASSENGER_PERMISSION | User::DRIVER_PERMISSION,
+            ]
+        );
+    }
+
     /**
      * @test
      */
@@ -173,7 +252,10 @@ class RegisterUserTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->json('POST', $this->urlVerify, ['token' => $user->verification_token, 'email' => $user->email]);
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure(['token']);
+
+        $tokenUser = \JWTAuth::toUser($response->json()['token']);
+        $this->assertTrue($tokenUser->id === $user->id);
 
         $this->assertDatabaseHas(
             'users',
@@ -182,5 +264,27 @@ class RegisterUserTest extends TestCase
                 'is_verified' => true,
             ]
         );
+    }
+
+    /**
+     * @test
+     */
+    public function logged_user_can_not_register_or_verify_account()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->json('POST', $this->urlVerify, ['token' => $user->verification_token, 'email' => $user->email]);
+        $response->assertStatus(422)->assertJsonStructure(['message']);
+
+        $user = factory(User::class)->make(['password' => '123456']);
+        $response = $this->actingAs($user)->json('POST', $this->urlRegister, array_merge(
+            $user->toArray(),
+            [
+                'password' => '123456',
+                'password_confirmation' => '123456',
+                'role_driver' => '1',
+            ]
+        ));
+        $response->assertStatus(422)->assertJsonStructure(['message']);
     }
 }

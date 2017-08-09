@@ -91,6 +91,10 @@ class RegisterUserRequest extends FormRequest implements RegisterUserRequestInte
             $permissions |= User::DRIVER_PERMISSION;
         }
 
+        if (!$permissions) {
+            $permissions = User::PASSENGER_PERMISSION;
+        }
+
         return $permissions;
     }
 }

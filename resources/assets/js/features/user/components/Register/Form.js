@@ -118,7 +118,7 @@ class Form extends React.Component {
                 </div>
 
                 <div className="card-footer">
-                    <div className="col-md-8 offset-sm-4">
+                    <div className="text-center">
                         <button className="btn btn-primary">
                             Register
                         </button>
