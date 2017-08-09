@@ -16,8 +16,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'first_name' => $faker->name,
-        'last_name' => $faker->name,
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
         'phone' => str_replace("+", "", $faker->e164PhoneNumber),
         'birth_date' => $faker->dateTime,
         'email' => $faker->unique()->safeEmail,
@@ -29,12 +29,11 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Vehicle::class, function (Faker\Generator $faker) {
     return [
-        'brand' => $faker->name,
-        'model' => $faker->unique()->randomLetter,
+        'brand' => $faker->company,
+        'model' => $faker->unique()->word,
         'color' => $faker->safeColorName,
-        'body' => $faker->text(50),
-
-        'seats' => $faker->numberBetween(1,6),
+        'body' => $faker->word,
+        'seats' => $faker->numberBetween(4,8),
         'user_id' => 1
     ];
 });
@@ -45,7 +44,7 @@ $factory->define(App\Models\Trip::class, function (Faker\Generator $faker) {
         'start_at' => \Carbon\Carbon::now()->toDateTimeString(),
         'end_at' => \Carbon\Carbon::now()->addHour(3)->toDateTimeString(),
         'vehicle_id' => 1,
-        'seats' => 5,
+        'seats' => $faker->numberBetween(1, 3),
         'user_id' => 1
     ];
 });
