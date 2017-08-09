@@ -3,6 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use App\User;
+use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -27,5 +28,53 @@ class LoginUserTest extends TestCase
         $response->assertStatus(422)->assertJsonStructure(['password' => []]);
 
         $response->assertStatus(422)->assertJsonStructure(['password' => []]);
+    }
+
+    /**
+     * @test
+     */
+    public function guest_cant_auth_if_password_to_short()
+    {
+        $response = $this->json('POST', '/api/user/authenticate',
+            factory(User::class)->make(['password' => str_random(5)])->toArray());
+        $response->assertStatus(422)->assertJsonStructure(['password' => []]);
+    }
+
+    /**
+     * @test
+     */
+    public function guest_cant_auth_if_he_is_not_registered()
+    {
+        $response = $this->json('POST', '/api/user/authenticate', ['email' => 'example@gmail.com', 'password' => 'secret']);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * @test
+     */
+    public function guest_can_auth_only_if_he_registered()
+    {
+        $user = factory(User::class)->create();
+
+        $this->json('POST', '/api/user/authenticate', ['email' => $user->email, 'password' => $user->password]);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'email' => $user->email,
+            'password' => $user->password
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function guest_cant_auth_if_he_is_not_verified()
+    {
+        $user = factory(User::class)->create();
+        $user->is_verified = false;
+        $user->save();
+
+        $response = $this->json('POST', '/api/user/authenticate', ['email' => $user->email, 'password' => $user->password]);
+        $response->assertStatus(401);
     }
 }
