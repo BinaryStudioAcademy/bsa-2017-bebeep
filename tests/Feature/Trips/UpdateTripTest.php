@@ -89,4 +89,8 @@ class UpdateTripTest extends TestCase
      * Add a test to check if the user has driver permissions
      */
     public function user_can_not_update_trip_without_driver_permissions(){}
+
+    private function getUrl($id) {
+        return route('trips.update', $id);
+    }
 }

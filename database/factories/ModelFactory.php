@@ -42,9 +42,10 @@ $factory->define(App\Models\Vehicle::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Trip::class, function (Faker\Generator $faker) {
     return [
         'price' => $faker->randomFloat(),
-        'start_at' => $faker->dateTime(),
-        'end_at' => $faker->dateTimeBetween('now', '+3 hour'),
+        'start_at' => \Carbon\Carbon::now()->toDateTimeString(),
+        'end_at' => \Carbon\Carbon::now()->addHour(3)->toDateTimeString(),
         'vehicle_id' => 1,
+        'seats' => 5,
         'user_id' => 1
     ];
 });

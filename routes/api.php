@@ -21,3 +21,9 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('register', ['as' => 'register', 'uses' => 'Auth\RegisterController@register']);
     Route::post('verify', ['as' => 'verify', 'uses' => 'Auth\RegisterController@verify']);
 });
+
+Route::group(['prefix' => 'trips', 'as' => 'trips.'], function () {
+    Route::post('create', ['as' => 'create', 'uses' => 'TripsController@create']);
+    Route::patch('update/{id}', ['as' => 'update', 'uses' => 'TripsController@update']);
+    Route::delete('{id}', ['as' => 'delete', 'uses' => 'TripsController@delete']);
+});

@@ -5,6 +5,7 @@ namespace Tests\Feature\Trips;
 use App\Models\Trip;
 use App\Models\Vehicle;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -13,8 +14,15 @@ class CreateTripTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
-    private $url = 'api/trip/create';
+    private $url;
     private $method = 'POST';
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->url = route('trips.create');
+    }
 
     /**
      * @test
@@ -24,28 +32,22 @@ class CreateTripTest extends TestCase
         $response = $this->json($this->method, $this->url, []);
         $response->assertStatus(422);
 
-        $response = $this->json($this->method, $this->url,
-            factory(Trip::class)->make(['price' => null])->toArray());
+        $response = $this->json($this->method, $this->url, $this->getTripData(['price' => null]));
         $response->assertStatus(422)->assertJsonStructure(['price' => []]);
 
-        $response = $this->json($this->method, $this->url,
-            factory(Trip::class)->make(['start_at' => null])->toArray());
+        $response = $this->json($this->method, $this->url, $this->getTripData(['start_at' => null]));
         $response->assertStatus(422)->assertJsonStructure(['start_at' => []]);
 
-        $response = $this->json($this->method, $this->url,
-            factory(Trip::class)->make(['end_at' => null])->toArray());
+        $response = $this->json($this->method, $this->url, $this->getTripData(['end_at' => null]));
         $response->assertStatus(422)->assertJsonStructure(['end_at' => []]);
 
-        $response = $this->json($this->method, $this->url,
-            factory(Trip::class)->make(['vehicle_id' => null])->toArray());
+        $response = $this->json($this->method, $this->url, $this->getTripData(['vehicle_id' => null]));
         $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
 
-        $response = $this->json($this->method, $this->url,
-            array_merge(factory(Trip::class)->make()->toArray()), ['from' => null]);
+        $response = $this->json($this->method, $this->url, $this->getTripData(['from' => null]));
         $response->assertStatus(422)->assertJsonStructure(['from' => []]);
 
-        $response = $this->json($this->method, $this->url,
-            array_merge(factory(Trip::class)->make()->toArray()), ['to' => null]);
+        $response = $this->json($this->method, $this->url, $this->getTripData(['to' => null]));
         $response->assertStatus(422)->assertJsonStructure(['to' => []]);
     }
 
@@ -54,37 +56,23 @@ class CreateTripTest extends TestCase
      */
     public function user_can_not_create_trip_with_wrong_time_data()
     {
-        $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make(
-                [
-                    'start_at' => str_random(10)
-                ]
-            )->toArray());
+        $response = $this->json('POST', $this->url, $this->getTripData(['start_at' => str_random(10)]));
+        $response->assertStatus(422)->assertJsonStructure(['start_at' => []]);
+
+        $response = $this->json('POST', $this->url, $this->getTripData(['end_at' => str_random(10)]));
+        $response->assertStatus(422)->assertJsonStructure(['end_at' => []]);
+
+        $response = $this->json('POST', $this->url, $this->getTripData(
+            ['start_at' => Carbon::now()->subHour(1)->timestamp]
+        ));
         $response->assertStatus(422);
 
-        $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make(
-                [
-                    'end_at' => str_random(10)
-                ]
-            )->toArray());
-        $response->assertStatus(422);
-
-        $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make(
-                [
-                    'start_at' => date('Y-m-d H:i:s', strtotime("-1 hour"))
-                ]
-            )->toArray());
-        $response->assertStatus(422);
-
-        $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make(
-                [
-                    'end_at' => date("Y-m-d H:i:s"),
-                    'start_at' => date('Y-m-d H:i:s', strtotime("+1 days"))
-                ]
-            )->toArray());
+        $response = $this->json('POST', $this->url, $this->getTripData(
+            [
+                'end_at' => Carbon::now()->timestamp,
+                'start_at' => Carbon::now()->addHour(1)->timestamp,
+            ]
+        ));
         $response->assertStatus(422);
     }
 
@@ -93,22 +81,16 @@ class CreateTripTest extends TestCase
      */
     public function user_can_not_create_trip_with_wrong_car_data()
     {
-        $response = $this->json('POST', $this->url,
-            array_merge(factory(Trip::class)->make()->toArray(), ['car_id' => 2]));
-        $response->assertStatus(422);
+        $response = $this->json('POST', $this->url, $this->getTripData(['vehicle_id' => 2]));
+        $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
 
-        factory(Vehicle::class)->make(['seats' => 4, 'user_id' => 1]);
-        $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make([
-                'seats' => 5
-            ])->toArray());
-        $response->assertStatus(422);
+        $user = factory(User::class)->create();
+        $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user->id]);
+        $response = $this->json('POST', $this->url, $this->getTripData(['seats' => 5, 'vehicle_id' => $vehicle->id]));
+        $response->assertStatus(422)->assertJsonStructure(['seats' => []]);
 
-        $response = $this->json('POST', $this->url,
-            factory(Trip::class)->make([
-                'seats' => -1
-            ])->toArray());
-        $response->assertStatus(422);
+        $response = $this->json('POST', $this->url, $this->getTripData(['seats' => -1, 'vehicle_id' => $vehicle->id]));
+        $response->assertStatus(422)->assertJsonStructure(['seats' => []]);
     }
 
     /**
@@ -119,24 +101,24 @@ class CreateTripTest extends TestCase
         $user = factory(User::class)->create();
         $vehicle = factory(Vehicle::class)->create([
             'seats' => 4,
-            'user_id' => 1
+            'user_id' => $user->id,
         ]);
 
-        $trip = factory(Trip::class)->make(
-            [
-                'price' => 350,
-                'seats' => 3,
-                'vehicle_id' => $vehicle->id,
-                'user_id' => $user->id
-            ]
-        );
+        $trip = array_merge(factory(Trip::class)->make([
+            'price' => 350,
+            'seats' => 3,
+            'vehicle_id' => $vehicle->id,
+            'user_id' => $user->id
+        ])->toArray(), [
+            'end_at' => Carbon::now()->timestamp,
+            'start_at' => Carbon::now()->addHour(1)->timestamp,
+        ]);
 
         $response = $this->json('POST', $this->url, array_merge(
-            $trip->toArray(),
+            $trip,
             [
                 'from' => ['a'],
                 'to' => ['b'],
-                'trip_id' => $trip->id
             ]
         ));
         $response->assertStatus(200);
@@ -144,21 +126,16 @@ class CreateTripTest extends TestCase
         $this->assertDatabaseHas(
           'trips',
           [
-              'price' => $trip->price,
-              'seats' => $trip->seats,
-              'start_at' => $trip->start_at,
-              'end_at' => $trip->end_at,
-              'vehicle_id' => $trip->vehicle_id,
-              'user_id' => $trip->user_id
+              'price' => (float) $trip['price'],
+              'seats' => $trip['seats'],
+              'vehicle_id' => $trip['vehicle_id'],
           ]
         );
 
         $this->assertDatabaseHas(
             'routes',
             [
-                'from' => ['a'],
-                'to' => ['b'],
-                'trip_id' => $trip->id
+                'trip_id' => json_decode($response->getContent())->id,
             ]
         );
     }
@@ -168,4 +145,14 @@ class CreateTripTest extends TestCase
      * Add a test to check if the user has driver permissions
      */
     public function user_can_not_create_trip_without_driver_permissions(){}
+
+    private function getTripData($extraData = [])
+    {
+        return array_merge(factory(Trip::class)->make()->toArray(), [
+            'end_at' => Carbon::now()->timestamp,
+            'start_at' => Carbon::now()->addHour(1)->timestamp,
+            'from' => ['a'],
+            'to' => ['b'],
+        ], $extraData);
+    }
 }
