@@ -42,8 +42,8 @@ $factory->define(App\Models\Vehicle::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Trip::class, function (Faker\Generator $faker) {
     return [
         'price' => $faker->randomFloat(),
-        'start_at' => $faker->dateTime(),
-        'end_at' => $faker->dateTimeBetween('now', '+3 hour'),
+        'start_at' => $faker->dateTimeBetween('-1 hour', 'now'),
+        'end_at' => $faker->dateTimeBetween('+1 hour', '+3 hours'),
         'vehicle_id' => 1,
         'user_id' => 1
     ];
