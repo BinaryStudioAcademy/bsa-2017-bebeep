@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
+use App\Http\Requests\DeleteCarRequest;
 use App\Models\Vehicle;
 
 class CarRepository extends BaseRepository
@@ -27,11 +28,11 @@ class CarRepository extends BaseRepository
     }
 
     /**
-     * @param $id
-     * @return int
+     * @param Vehicle $vehicle
+     * @return bool|null
      */
-    public function destroy($id)
+    public function destroy(Vehicle $vehicle)
     {
-        return $this->delete($id);
+        return $vehicle->first()->delete();
     }
 }

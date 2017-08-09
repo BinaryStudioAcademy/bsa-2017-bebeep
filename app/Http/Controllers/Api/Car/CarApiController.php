@@ -21,7 +21,7 @@ class CarApiController extends Controller
     public function create(CreateCarRequest $request)
     {
         $car = $this->carService->create($request);
-        return response()->json(['success create' => true, $request->all(), $car]);
+        return response()->json(['success create car' => true, $car]);
     }
 
     public function update(UpdateCarRequest $request)
@@ -31,6 +31,7 @@ class CarApiController extends Controller
 
     public function delete(DeleteCarRequest $request)
     {
+//        $this->carService->destroy($request);
         return response()->json(['success delete' => true, $request->all()]);
     }
 }
