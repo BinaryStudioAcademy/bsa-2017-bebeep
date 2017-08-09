@@ -5,13 +5,30 @@ namespace App\Services;
 use App\Exceptions\Auth\CreateTokenException;
 use App\Exceptions\Auth\InvalidCredentialsException;
 use App\Exceptions\Auth\UserNotFoundException;
+use App\Exceptions\Auth\UserNotVerifiedException;
 use App\Http\Requests\LoginRequest;
-use App\User;
+use App\Repositories\UserRepository;
+use App\Services\Requests\TokenRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
 
 class AuthUserService
 {
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * AuthUserService constructor.
+     *
+     * @param UserRepository $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Auth service
      *
@@ -20,14 +37,23 @@ class AuthUserService
      * @throws CreateTokenException
      * @throws InvalidCredentialsException
      * @throws UserNotFoundException
+     * @throws UserNotVerifiedException
      */
     public function auth(LoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
-        $user = User::where('email', $request->email)->first();
+        $credentials = [
+            'email' => $request->getEmail(),
+            'password' => $request->getPassword(),
+        ];
+
+        $user = $this->userRepository->getUserByEmail($request->getEmail());
 
         if(is_null($user)) {
-            throw new UserNotFoundException('user not register');
+            throw new UserNotFoundException('user not register', 404);
+        }
+
+        if(!$this->userRepository->checkIfUserVerified($user)) {
+            throw new UserNotVerifiedException('user not verified', 401);
         }
 
         try {
@@ -42,5 +68,18 @@ class AuthUserService
         }
 
         return $token;
+    }
+
+    /**
+     * Logout service method
+     *
+     * @param TokenRequest $tokenRequest
+     * @param \Tymon\JWTAuth\JWTAuth $JWTAuth
+     */
+    public function logout(TokenRequest $tokenRequest, \Tymon\JWTAuth\JWTAuth $JWTAuth)
+    {
+        $token = $tokenRequest->getToken();
+
+        $JWTAuth->setToken($token)->invalidate();
     }
 }

@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Exceptions\Auth\CreateTokenException;
 use App\Exceptions\Auth\InvalidCredentialsException;
 use App\Exceptions\Auth\UserNotFoundException;
+use App\Exceptions\Auth\UserNotVerifiedException;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\TokenRequest;
 use App\Services\AuthUserService;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\JWTAuth;
 
 class ApiAuthController extends Controller
@@ -38,9 +40,9 @@ class ApiAuthController extends Controller
         try {
             $token = $this->authUserService->auth($request);
 
-            return response()->json(['token' => $token], 200);
+            return response()->json(['token' => $token, 'code' => 200], 200);
 
-        } catch (UserNotFoundException | InvalidCredentialsException | CreateTokenException $e) {
+        } catch (UserNotFoundException | InvalidCredentialsException | CreateTokenException | UserNotVerifiedException $e) {
             return response()->json([
                 'error' => $e->getMessage(),
                 'code' => $e->getCode()
@@ -57,11 +59,19 @@ class ApiAuthController extends Controller
      */
     public function logout(TokenRequest $request, JWTAuth $JWTAuth)
     {
-        if($JWTAuth->setToken($request->token)->invalidate()) {
+        try {
+            $this->authUserService->logout($request, $JWTAuth);
+
             return response()->json([
                 'status' => 'ok',
-                'message' => 'Token was turned down'
+                'message' => 'token was turned down'
             ]);
+
+        } catch (TokenInvalidException $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'code' => $e->getStatusCode()
+            ], $e->getStatusCode());
         }
     }
 }
