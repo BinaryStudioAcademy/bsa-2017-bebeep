@@ -2,9 +2,7 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\Route;
-use App\Models\Trip;
-use App\Models\Vehicle;
+use App\Models\{Trip, Vehicle, Route};
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
