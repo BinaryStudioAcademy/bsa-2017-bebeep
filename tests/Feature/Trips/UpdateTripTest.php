@@ -71,7 +71,7 @@ class UpdateTripTest extends TestCase
                 'end_at' => Carbon::now()->timestamp
             ]
         ));
-        $response->assertStatus(422)->assertJsonStructure(['start_at' => [], 'end_at' => []]);
+        $response->assertStatus(422)->assertJsonStructure(['end_at' => []]);
     }
 
     public function user_can_successfully_update_trip_with_valid_data()
@@ -86,11 +86,12 @@ class UpdateTripTest extends TestCase
             'price' => 250,
             'seats' => 2,
             'vehicle_id' => $vehicle->id,
-            'user_id' => $user->id
+            'user_id' => $vehicle->user_id
         ])->toArray(), [
-            'end_at' => Carbon::now()->timestamp,
-            'start_at' => Carbon::now()->addHour(10)->timestamp,
+            'start_at' => Carbon::now()->addHour(1)->timestamp,
+            'end_at' => Carbon::now()->addHour(10)->timestamp,
         ]);
+
         $this->url = $this->getUrl($trip->id);
 
         $response = $this->json($this->method, $this->url, array_merge(
