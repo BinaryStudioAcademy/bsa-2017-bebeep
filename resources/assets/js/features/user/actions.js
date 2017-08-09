@@ -1,4 +1,5 @@
 import * as actions from './actionTypes';
+import axios from 'axios';
 
 export const registerSuccess = data => ({
     type: actions.REGISTER_SUCCESS,
@@ -12,26 +13,11 @@ export const registerFailed = data => ({
 
 export const doRegister = (data) => {
     return dispatch => {
-        return fetch('/api/user/register', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            })
+        axios.post('/api/user/register', data)
             .then(response => {
-                if (response.status == 200) {
-                    return response.json();
-                } else {
-                    return Promise.reject(response.json())
-                }
+                console.log(response);
+                dispatch(registerSuccess(response.data))
             })
-            .then(
-                data => dispatch(registerSuccess(data)),
-                failed => failed.then(data =>
-                    dispatch(registerFailed(data))
-                )
-            );
+            .catch(error => dispatch(registerFailed(error.response.data)));
     };
 };
