@@ -21,3 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'driver'],function () {
     Route::get('/trips','Api\Driver\TripListController@index');
 });
+
+Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    Route::post('register', ['as' => 'register', 'uses' => 'Auth\RegisterController@register']);
+    Route::post('verify', ['as' => 'verify', 'uses' => 'Auth\RegisterController@verify']);
+});
