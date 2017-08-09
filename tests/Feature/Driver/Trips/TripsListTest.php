@@ -60,5 +60,4 @@ class TripsListTest extends TestCase
         $response->assertJson(['user_id'=>['The user id field is required.']]);
     }
 
-
 }

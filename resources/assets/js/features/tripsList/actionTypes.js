@@ -1,0 +1,1 @@
+export const TRIPSLIST_GET_ALL = 'TRIPSLIST_GET_ALL';

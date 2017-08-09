@@ -1,34 +1,50 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-
+import { getTrips } from "../actions";
+import { bindActionCreators } from 'redux';
 import TripsListItem from './TripsListItem';
 
 class ListWithTripsItems extends  Component{
-    render() {
-        const { tripsList } = this.props.state;
-        let usersList = (
-            <ul className="UserList">
+    constructor(props) {
+        super(props);
 
-            </ul>
-        );
+       this.props.getTrips();
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        const oldState = this.props.tripsState,
+            newState = nextProps.tripsState;
+
+        return newState.trips.length !== oldState.trips.length;
+    }
+
+    render() {
+       const trips = this.props.tripsState.trips;
+
+        let tripsList =
+            trips.map(function (tripData, index) {
+                return (
+                    <TripsListItem  key={index} tripsData={tripsData}/>
+                );
+            });
+
 
         return (
             <div>
-
-                {usersList}
+                {tripsList}
             </div>
-        )
+        );
     }
-
 }
 
-// function mapStateToProps (state) {
-//     return {
-//         state: { ...state, users: state.users.filter(
-//             item => item.user.toLowerCase().includes(state.filter.toLowerCase()))
-//         }
-//     }
-// }
-//
-// export default connect(mapStateToProps)(ListWithTripsItems);
-export default (ListWithTripsItems);
+const ListWithTripsItemsConnected = connect(
+    (state) => {
+        return { tripsState: state.trips };
+    },
+    (dispatch) => bindActionCreators({ getTrips }, dispatch)
+
+)(ListWithTripsItems);
+
+export default ListWithTripsItemsConnected;
+
+
