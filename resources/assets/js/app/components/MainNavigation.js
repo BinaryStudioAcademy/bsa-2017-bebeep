@@ -45,9 +45,12 @@ class MainNavigation extends Component {
 
               <div className={"navbar-collapse " + navClass} id="navbarToogle">
                 <ul className="navbar-nav mr-auto">
-                  <li className="nav-item">
-                    <Link to="/vehicles" className="nav-link">Vehicles</Link>
-                  </li>
+                    <li className="nav-item">
+                        <Link to="/vehicles" className="nav-link">Vehicles</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/trips" className="nav-link">Trips</Link>
+                    </li>
                 </ul>
 
                 <ul className="nav navbar-nav navbar-right">

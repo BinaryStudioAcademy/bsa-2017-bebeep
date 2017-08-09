@@ -23,7 +23,7 @@ class GetTripsListRequest extends FormRequest implements InterfaceGetTripsListRe
      *
      * @return array
      */
-    public function validate()
+    public function rules()
     {
         return [
             'user_id' => 'required|integer'
