@@ -19,7 +19,8 @@ class TripListController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $result = $this->service->getUserTrips($request['id']);
         if(!isset($result))
             return response()->json(['error' => 'trips not found'], 404);

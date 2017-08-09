@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::group(['prefix' => 'driver'],function () {
-    Route::get('/','Api\Driver\TripListController@index');
+    Route::get('/trips','Api\Driver\TripListController@index');
 });
