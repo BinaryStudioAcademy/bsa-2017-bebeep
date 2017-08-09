@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Services\Requests\LoginRequest as LoginRequestContract;
 
-class LoginRequest extends FormRequest
+class LoginRequest extends FormRequest implements LoginRequestContract
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,5 +28,21 @@ class LoginRequest extends FormRequest
             'email' => "required|email",
             'password' => "required|min:6",
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->get('email');
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->get('password');
     }
 }
