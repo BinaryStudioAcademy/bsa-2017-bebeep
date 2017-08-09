@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Services\Requests\CreateCarRequest as CreateCarRequestInterface;
 
 class CreateCarRequest extends FormRequest implements CreateCarRequestInterface
+
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +25,7 @@ class CreateCarRequest extends FormRequest implements CreateCarRequestInterface
      */
     public function rules()
     {
+
         return [
             'brand' => "required",
             'model' => "required",
@@ -63,6 +65,4 @@ class CreateCarRequest extends FormRequest implements CreateCarRequestInterface
     {
         return $this->get('year');
     }
-
-
 }

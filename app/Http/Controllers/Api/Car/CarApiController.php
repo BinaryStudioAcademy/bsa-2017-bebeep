@@ -31,7 +31,7 @@ class CarApiController extends Controller
 
     public function delete(DeleteCarRequest $request)
     {
-//        $this->carService->destroy($request);
         return response()->json(['success delete' => true, $request->all()]);
+
     }
 }
