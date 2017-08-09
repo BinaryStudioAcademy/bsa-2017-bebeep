@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api\Driver;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GetTripsListRequest;
 use App\Services\TripsListService;
 use Illuminate\Http\Request;
 
@@ -16,12 +17,13 @@ class TripListController extends Controller
 
     /**
      * Return user trips.
-     * @param Request $request
+     * @param GetTripsListRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index(GetTripsListRequest $request)
     {
-        $result = $this->service->getUserTrips($request['id']);
+        $userId = $request->getUserId();
+        $result = $this->service->getUserTrips($userId);
         if( count($result) == 0 )
             return response()->json(['error' => 'trips not found'], 404);
         return response()->json($result);
