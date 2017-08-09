@@ -2,21 +2,18 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\Trip;
 use App\Models\Vehicle;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\JwtTestCase;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class CreateTripTest extends JwtTestCase
+class CreateTripTest extends BaseTripTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
-    private $url;
-    private $method = 'POST';
+    protected $url;
+    protected $method = 'POST';
 
     public function setUp()
     {
@@ -39,7 +36,7 @@ class CreateTripTest extends JwtTestCase
      */
     public function user_can_not_create_trip_if_not_all_fields_is_filled()
     {
-        $user = factory(User::class)->create();
+        $user = $this->getDriverUser();
 
         $response = $this->jsonAsUser($user, []);
         $response->assertStatus(422);
@@ -68,11 +65,11 @@ class CreateTripTest extends JwtTestCase
      */
     public function user_cant_create_trip_with_not_his_car()
     {
-        $user = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $user = $this->getDriverUser();
+        $user2 = $this->getDriverUser();
         $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user2->id]);
 
-        $tripData = $this->getValidTripData($user->id, $vehicle->id);
+        $tripData = $this->getValidTripData($vehicle->id);
 
         $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $tripData);
         $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
@@ -83,7 +80,7 @@ class CreateTripTest extends JwtTestCase
      */
     public function user_can_not_create_trip_with_wrong_time_data()
     {
-        $user = factory(User::class)->create();
+        $user = $this->getDriverUser();
         $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user->id]);
 
         $response = $this->jsonAsUser($user, ['start_at' => str_random(10), 'vehicle_id' => $vehicle->id]);
@@ -111,7 +108,7 @@ class CreateTripTest extends JwtTestCase
      */
     public function user_can_not_create_trip_with_wrong_car_data()
     {
-        $user = factory(User::class)->create();
+        $user = $this->getDriverUser();
 
         $response = $this->jsonAsUser($user, ['vehicle_id' => 2]);
         $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
@@ -130,13 +127,13 @@ class CreateTripTest extends JwtTestCase
      */
     public function user_can_create_trip_if_all_data_is_valid()
     {
-        $user = factory(User::class)->create();
+        $user = $this->getDriverUser();
         $vehicle = factory(Vehicle::class)->create([
             'seats' => 4,
             'user_id' => $user->id,
         ]);
 
-        $trip = $this->getValidTripData($user->id, $vehicle->id);
+        $trip = $this->getValidTripData($vehicle->id);
 
         $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);
         $response->assertStatus(200);
@@ -161,55 +158,15 @@ class CreateTripTest extends JwtTestCase
 
     /**
      * @test
-     * Add a test to check if the user has driver permissions
      */
     public function user_can_not_create_trip_without_driver_permissions()
     {
-    }
+        $user = factory(User::class)->create();
+        $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user->id]);
 
-    /**
-     * @param $user
-     * @param $data
-     * @return \Illuminate\Foundation\Testing\TestResponse
-     */
-    private function jsonAsUser($user, $data)
-    {
-        return $this->jsonRequestAsUser($user, $this->method, $this->url, $this->getTripData($data));
-    }
+        $tripData = $this->getValidTripData($vehicle->id);
 
-    /**
-     * Return basic trip data for testing with extraData
-     *
-     * @param array $extraData
-     * @return array
-     */
-    private function getTripData($extraData = [])
-    {
-        return array_merge(factory(Trip::class)->make()->toArray(), [
-            'end_at' => Carbon::now()->timestamp,
-            'start_at' => Carbon::now()->addHour(1)->timestamp,
-            'from' => ['a'],
-            'to' => ['b'],
-        ], $extraData);
-    }
-
-    /**
-     * @param $userId
-     * @param $vehicleId
-     * @return array
-     */
-    private function getValidTripData($userId, $vehicleId)
-    {
-        return array_merge(factory(Trip::class)->make([
-            'price' => 350,
-            'seats' => 3,
-            'vehicle_id' => $vehicleId,
-            'user_id' => $userId,
-        ])->toArray(), [
-            'start_at' => Carbon::now()->addMinutes(10)->timestamp,
-            'end_at' => Carbon::now()->addHour(1)->timestamp,
-            'from' => ['a'],
-            'to' => ['b'],
-        ]);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $tripData);
+        $response->assertStatus(422);
     }
 }

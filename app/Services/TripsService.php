@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\Trip\TripWrongStartTimeException;
 use App\Exceptions\Trip\TripWrongEndTimeException;
+use App\Exceptions\User\UserHasNotPermissionsToCreateTripsException;
 use App\Exceptions\Vehicle\VehicleSeatsNotAvailableException;
 use App\Models\{Trip, Vehicle, Route};
 use Carbon\Carbon;
@@ -24,12 +25,17 @@ class TripsService
     /**
      * @param CreateTripRequest $request
      * @return Trip
-     * @throws TripWrongStartTimeException
      * @throws TripWrongEndTimeException
+     * @throws TripWrongStartTimeException
+     * @throws UserHasNotPermissionsToCreateTripsException
      * @throws VehicleSeatsNotAvailableException
      */
     public function create(CreateTripRequest $request) : Trip
     {
+        if (!Auth::user()->isDriver()) {
+            throw new UserHasNotPermissionsToCreateTripsException('User has not permissions to create trip');
+        }
+
         $tripAttributes = [
             'price' => $request->getPrice(),
             'seats' => $request->getSeats(),
@@ -41,21 +47,21 @@ class TripsService
 
         $routeAttributes = [
             'from' => $request->getFrom(),
-            'to' => $request->getTo()
+            'to' => $request->getTo(),
         ];
 
         $vehicle = Vehicle::find($request->getVehicleId());
 
         if ($vehicle->seats < $request->getSeats()) {
-            throw new VehicleSeatsNotAvailableException();
+            throw new VehicleSeatsNotAvailableException('Count of seats is incorrect');
         }
 
         if ($request->getStartAt() > $request->getEndAt()) {
-            throw new TripWrongEndTimeException();
+            throw new TripWrongEndTimeException('Incorrect end time');
         }
 
         if ($request->getStartAt() < Carbon::now()) {
-            throw new TripWrongStartTimeException();
+            throw new TripWrongStartTimeException('Incorrect start time');
         }
 
         $trip = $this->tripRepository->save(new Trip($tripAttributes));

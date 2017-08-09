@@ -16,6 +16,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
+        'permissions' => App\User::PASSENGER_PERMISSION,
         'first_name' => $faker->name,
         'last_name' => $faker->name,
         'phone' => str_replace("+", "", $faker->e164PhoneNumber),

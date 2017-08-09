@@ -5,11 +5,10 @@ namespace Tests\Feature\Trips;
 use App\Models\{Trip, Vehicle};
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\JwtTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Carbon\Carbon;
 
-class UpdateTripTest extends JwtTestCase
+class UpdateTripTest extends BaseTripTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
@@ -136,21 +135,5 @@ class UpdateTripTest extends JwtTestCase
     private function getUrl($id)
     {
         return route('trips.update', $id);
-    }
-
-    /**
-     * Return basic trip data for testing with extraData
-     *
-     * @param array $extraData
-     * @return array
-     */
-    private function getTripData($extraData = [])
-    {
-        return array_merge(factory(Trip::class)->make()->toArray(), [
-            'end_at' => Carbon::now()->timestamp,
-            'start_at' => Carbon::now()->addHour(1)->timestamp,
-            'from' => ['a'],
-            'to' => ['b'],
-        ], $extraData);
     }
 }
