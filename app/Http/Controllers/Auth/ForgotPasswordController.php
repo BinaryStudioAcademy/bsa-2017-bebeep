@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\User\VerifyException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Services\Contracts\PasswordService;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
 
 class ForgotPasswordController extends Controller
 {
@@ -20,13 +24,21 @@ class ForgotPasswordController extends Controller
 
     use SendsPasswordResetEmails;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    protected $passwordService;
+
+    public function __construct(PasswordService $passwordService)
     {
-        $this->middleware('guest');
+        $this->passwordService = $passwordService;
+    }
+
+    public function forgot(ForgotPasswordRequest $request)
+    {
+        try {
+            $this->passwordService->forgot($request);
+        } catch(VerifyException $e) {
+            return response()->json(['email' => $e->getMessage()], 422);
+        }
+
+        return response()->json();
     }
 }

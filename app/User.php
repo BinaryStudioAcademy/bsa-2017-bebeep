@@ -7,7 +7,9 @@ use App\Models\Trip;
 use App\Models\Vehicle;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Jobs\SendConfirmationEmail;
+use App\Mail\PasswordResetEmail;
+use Mail;
+
 
 class User extends Authenticatable
 {
@@ -119,5 +121,21 @@ class User extends Authenticatable
     public function isDriver() : bool
     {
         return (bool) ($this->attributes['permissions'] & self::DRIVER_PERMISSION);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVerified() : bool
+    {
+        return $this->is_verified === true;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        Mail::to($this)->send(new PasswordResetEmail($token));
     }
 }

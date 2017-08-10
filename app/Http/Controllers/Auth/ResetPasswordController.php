@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ResetPasswordRequest;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
@@ -20,20 +21,20 @@ class ResetPasswordController extends Controller
 
     use ResetsPasswords;
 
-    /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function reset(ResetPasswordRequest $request)
     {
-        $this->middleware('guest');
+        /*
+        $response = $this->broker()->reset(
+            $this->credentials($request), function ($user, $password) {
+                $this->resetPassword($user, $password);
+            }
+        );
+
+        // If the password was successfully reset, we will redirect the user back to
+        // the application's home authenticated view. If there is an error we can
+        // redirect them back to where they came from with their error message.
+        return $response == Password::PASSWORD_RESET
+            ? $this->sendResetResponse($response)
+            : $this->sendResetFailedResponse($request, $response);*/
     }
 }
