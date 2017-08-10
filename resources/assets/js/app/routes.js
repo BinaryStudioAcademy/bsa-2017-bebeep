@@ -5,17 +5,17 @@ import App from './App';
 import Home from './layouts/Home';
 import NotFound from './layouts/NotFound';
 
-import Dashboard from 'features/user/layouts/Dashboard';
-import UserProfile from 'features/user/layouts/UserProfile';
+import Dashboard from '../features/user/layouts/Dashboard';
+import UserProfile from '../features/user/layouts/UserProfile';
 
-import { ProfileForm, ProfileAvatar, AccountPassword } from 'features/user/components/Dashboard';
+import { ProfileForm, ProfileAvatar, AccountPassword } from '../features/user/components/Dashboard';
 
-import RegisterForm from 'features/user/layouts/RegisterForm';
-import RegisterSuccess from 'features/user/layouts/RegisterSuccess';
-import RegisterVerify from 'features/user/layouts/RegisterVerify';
+import RegisterForm from '../features/user/layouts/RegisterForm';
+import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
+import RegisterVerify from '../features/user/layouts/RegisterVerify';
 
-import Vehicles from 'features/vehicle/layouts/Vehicles';
-import VehicleDetails from 'features/vehicle/layouts/VehicleDetails';
+import Vehicles from '../features/vehicle/layouts/Vehicles';
+import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 
 export default (
     <Route path="/" component={ App }>

@@ -11,12 +11,6 @@ const baseSettings = {
 const settings = baseSettings[process.env.NODE_ENV];
 
 module.exports = {
-    resolve: {
-        modules: [
-            path.join(__dirname, 'resources/assets/js'),
-            'node_modules'
-        ]
-    },
     module: {
         rules: [
             {
