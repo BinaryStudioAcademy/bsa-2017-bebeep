@@ -5,5 +5,5 @@ import user from '../features/user/reducer';
 
 export default combineReducers({
     vehicle,
-    user,
+    user
 });
