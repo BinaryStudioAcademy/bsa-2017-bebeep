@@ -1,7 +1,7 @@
 import React from 'react';
 import CreateTrip from '../components/Create/CreateTrip';
 import PageHeader from '../../../app/components/PageHeader';
-import GoogleApiWrapper from '../../../app/components/GoogleApiWrapper';
+
 import '../styles/create_trip.scss';
 
 class CreateWrap extends React.Component {
@@ -13,7 +13,7 @@ class CreateWrap extends React.Component {
                         <CreateTrip/>
                     </div>
                     <div className="row">
-                        <GoogleApiWrapper />
+                        <div className="google-map">{/*<GoogleMap />*/}</div>
                     </div>
             </div>
         );
