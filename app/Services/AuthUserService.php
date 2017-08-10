@@ -52,7 +52,7 @@ class AuthUserService
             throw new UserNotFoundException('user not register', 404);
         }
 
-        if(!$this->userRepository->checkIfUserVerified($user)) {
+        if(!$user->isVerified()) {
             throw new UserNotVerifiedException('user not verified', 401);
         }
 

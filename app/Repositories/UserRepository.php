@@ -36,15 +36,4 @@ class UserRepository extends BaseRepository
     {
         return User::where('email', $email)->first();
     }
-
-    /**
-     * Check if user is verified
-     *
-     * @param User $user
-     * @return bool
-     */
-    public function checkIfUserVerified(User $user) : bool
-    {
-        return $user->is_verified;
-    }
 }
