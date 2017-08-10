@@ -49,22 +49,21 @@ class AuthUserService
         $user = $this->userRepository->getUserByEmail($request->getEmail());
 
         if(is_null($user)) {
-            throw new UserNotFoundException('user not register', 404);
+            throw new UserNotFoundException('User not register');
         }
 
         if(!$user->isVerified()) {
-            throw new UserNotVerifiedException('user not verified', 401);
+            throw new UserNotVerifiedException('User not verified');
         }
 
         try {
             $token = JWTAuth::attempt($credentials);
 
             if(!$token) {
-                throw new InvalidCredentialsException("invalid credentials", 401);
+                throw new InvalidCredentialsException("Invalid credentials");
             }
-
         } catch (JWTException $e) {
-            throw new CreateTokenException('could_not_create_token', 500);
+            throw new CreateTokenException('Could not create token');
         }
 
         return $token;
