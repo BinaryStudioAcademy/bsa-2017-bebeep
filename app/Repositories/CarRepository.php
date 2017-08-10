@@ -28,9 +28,8 @@ class CarRepository extends BaseRepository
     }
 
     /**
-     * @param Vehicle $vehicle
      * @param $id
-     * @return bool|null
+     * @return int
      */
     public function destroy($id)
     {
