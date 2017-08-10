@@ -1,6 +1,6 @@
 import * as actions from './actionTypes';
 import axios from 'axios';
-import { RegisterValidate, VerifyValidator } from '../../app/services/UserService';
+import { RegisterValidate, VerifyValidator, RegisterValidator } from '../../app/services/UserService';
 
 export const registerSuccess = data => ({
     type: actions.USER_REGISTER_SUCCESS,
@@ -36,7 +36,7 @@ export const verifyFailed = data => ({
 });
 
 export const doVerify = (email, token) => dispatch => {
-    const emailValid = VerifyValidator.email(email);
+    const emailValid = RegisterValidator.email(email);
     const tokenValid = VerifyValidator.token(token);
     if (!emailValid.valid) {
         return dispatch(verifyFailed({email: emailValid.error}));
