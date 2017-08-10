@@ -1,6 +1,6 @@
 import * as actions from './actionTypes';
 import axios from 'axios';
-import { RegisterValidate, VerifyValidator, RegisterValidator } from '../../app/services/UserService';
+import { RegisterValidate, VerifyValidator, RegisterValidator } from 'app/services/UserService';
 
 export const registerSuccess = data => ({
     type: actions.USER_REGISTER_SUCCESS,
