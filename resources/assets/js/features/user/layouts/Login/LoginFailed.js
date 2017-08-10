@@ -12,11 +12,10 @@ class LoginSuccess extends Component {
         }
     }
 
-
     render() {
 
         let resp = {};
-        if (!this.props.failedNoActivation) {
+        if (this.props.failedNoActivation) {
             resp = {
                 msg: "Your user wasn't activated yet! To receive activation email click ",
                 url: "/register/verify"

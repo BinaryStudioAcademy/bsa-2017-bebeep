@@ -14,7 +14,7 @@ class Form extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.successLogin) {
             browserHistory.push('/login/success');
-        } else if (nextProps.failedNoUser) {
+        } else if (nextProps.failedNoUser || nextProps.failedNoActivation) {
             browserHistory.push('/login/failed');
         }
     }

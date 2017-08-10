@@ -8,6 +8,8 @@ class LoginSuccess extends Component {
     componentWillMount() {
         if (!this.props.successLogin) {
             browserHistory.push('/login');
+        } else if (this.props.failedNoUser || this.props.failedNoActivation) {
+            browserHistory.push('/login/failed');
         } else {
             browserHistory.push('/dashboard');
         }
@@ -32,7 +34,9 @@ class LoginSuccess extends Component {
 
 const LoginSuccessConnected = connect(
     (state) => ({
-        successLogin: state.user.login.success
+        successLogin: state.user.login.success,
+        failedNoUser: state.user.login.failedNoUser,
+        failedNoActivation: state.user.login.failedNoActivation
     })
 )(LoginSuccess);
 

@@ -3,6 +3,8 @@ import * as actions from './actionTypes';
 const initialState = {
     login: {
         success: false,
+        failedNoUser: false,
+        failedNoActivation: false,
         errors: {}
     }
 };
