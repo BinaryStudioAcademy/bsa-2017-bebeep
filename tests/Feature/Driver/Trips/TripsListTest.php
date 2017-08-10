@@ -30,7 +30,7 @@ class TripsListTest extends TestCase
             );
             $route = factory(Route::class)->create(['trip_id' => $trip->id]);
         }
-        $response = $this->json('GET', $this->url,['user_id'=>$user->id]);
+        $response = $this->json('POST', $this->url,['user_id'=>$user->id]);
         $response->assertStatus(200);
         $response->assertJsonFragment([[
             'id' => $trip->id,
@@ -48,7 +48,7 @@ class TripsListTest extends TestCase
     {
         $user = factory(User::class)->create();
         $vehicle = factory(Vehicle::class)->create(['user_id'=>$user->id]);
-        $response = $this->json('GET', $this->url,['user_id'=>$user->id]);
+        $response = $this->json('POST', $this->url,['user_id'=>$user->id]);
         $response->assertStatus(422);
         $response->assertJson(['error'=>'trips not found']);
     }
@@ -56,7 +56,7 @@ class TripsListTest extends TestCase
     /** @test */
     public function user_have_to_pass_valid_fields()
     {
-        $response = $this->json('GET', $this->url,['id'=>7]);
+        $response = $this->json('POST', $this->url,['id'=>7]);
         $response->assertStatus(422);
         $response->assertJson(['user_id'=>['The user id field is required.']]);
     }

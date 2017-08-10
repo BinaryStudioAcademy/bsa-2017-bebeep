@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::group(['prefix' => 'driver'],function () {
-    Route::get('/trips','Api\Driver\TripListController@index');
+    Route::post('/trips','Api\Driver\TripListController@index');
 });
 
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {

@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { getTrips, filterPast,filterUpcoming } from "../actions";
 import { bindActionCreators } from 'redux';
 import TripsListItem from './TripsListItem';
-import GoogleMapEx from './GoogleMapEx';
-import './ListWithTripsItems.scss';
+import { Link } from 'react-router';
+import './css/ListWithTripsItems.scss';
 
 class ListWithTripsItems extends  Component{
     constructor(props) {
@@ -40,7 +40,6 @@ class ListWithTripsItems extends  Component{
                     <TripsListItem  key={index} tripData={tripData}/>
                 );
             }) : 'No trips';
-
 
         return (
             <div>
