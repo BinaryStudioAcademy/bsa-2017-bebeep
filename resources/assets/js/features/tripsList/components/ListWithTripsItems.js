@@ -40,6 +40,7 @@ class ListWithTripsItems extends  Component{
                     <TripsListItem  key={index} tripData={tripData}/>
                 );
             }) : 'No trips';
+
         return (
             <div>
                 <div className="tabs-buttons">

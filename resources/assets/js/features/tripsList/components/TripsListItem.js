@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Map from './map';
+import Modal from './modal';
 import './css/TripsListItem.scss';
 
 class TripsListItem extends Component {
     constructor(props){
         super(props);
-        this.state = { isOpen: false };
+        this.state = { isModalOpen: false };
+    }
+
+    openModal() {
+        this.setState({ isModalOpen: true })
+    }
+
+    closeModal() {
+        this.setState({ isModalOpen: false })
     }
 
     render() {
@@ -18,6 +27,7 @@ class TripsListItem extends Component {
                     <Link to={ 'trips/' + data.id+'/edit' }>
                         <button className="btn btn-default">Edit</button>
                     </Link>
+
                 </div>
             );
         }
@@ -31,11 +41,23 @@ class TripsListItem extends Component {
                         Start: {data.start_at}<br/>
                         End: {data.end_at}<br/>
                     </div>
-                    <div className="list-map" onClick={this.toggleModal} >
+                    <div className="list-map" onClick={() => this.openModal()} >
                         <Map from={data.from} to={data.to} />
                     </div>
+
                     {edit}
                 </li>
+                <Modal isOpen={this.state.isModalOpen} onClose={() => this.closeModal()}>
+                    <div className="big-map">
+                        <Map from={data.from} to={data.to} />
+                    </div>
+                    <div className="row">
+                        <div className="col-md-10" />
+                        <div className="col-md-1">
+                            <button className="btn btn-default" onClick={() => this.closeModal()}>Close</button>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         );
     }
