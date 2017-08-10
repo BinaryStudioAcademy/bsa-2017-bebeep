@@ -26,20 +26,20 @@ export const TripCreateValidator = {
         };
     },
     from: function from(data) {
-            const valid = (data[0].length) > 0;
-            let error = valid ? "" : 'Enter trip start point';
-            return {
-                valid,
-                error
-            };
+        const valid = typeof data === 'object';
+        let error = valid ? "" : 'Enter trip start point';
+        return {
+            valid,
+            error
+        };
     },
     to: function to(data) {
-            const valid = (data[0].length) > 0;
-            let error = valid ? "" : 'Enter trip endpoint';
-            return {
-                valid,
-                error
-            };
+        const valid = typeof data === 'object';
+        let error = valid ? "" : 'Enter trip endpoint';
+        return {
+            valid,
+            error
+        };
     },
     price: function price(data) {
         const valid = data > 0;

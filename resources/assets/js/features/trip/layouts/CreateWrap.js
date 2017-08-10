@@ -12,9 +12,6 @@ class CreateWrap extends React.Component {
                     <div className="row">
                         <CreateTrip/>
                     </div>
-                    <div className="row">
-                        <div className="google-map">{/*<GoogleMap />*/}</div>
-                    </div>
             </div>
         );
     }

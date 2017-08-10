@@ -8,3 +8,11 @@ div.google-map {
     min-width: 600px;
     margin: auto;
 }
+.autocomplete-container {
+    position: absolute;
+    top: 40px;
+    background-color: white;
+    border: 1px solid #999;
+    width: 100%;
+    z-index: 1000;
+}
