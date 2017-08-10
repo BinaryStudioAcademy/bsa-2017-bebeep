@@ -44,6 +44,7 @@ class User extends Authenticatable
         'permissions',
         'phone',
         'birth_date',
+        'about_me',
     ];
 
     /**
