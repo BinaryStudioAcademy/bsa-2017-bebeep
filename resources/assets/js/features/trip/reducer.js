@@ -22,7 +22,7 @@ export default function (state = initState, action) {
             return {
                 ...state,
                 create: {
-                    errors: action.trip
+                    errors: action.data
                 }
             };
         default: {

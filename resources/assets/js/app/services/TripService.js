@@ -1,6 +1,6 @@
 export const TripCreateValidator = {
     vehicle_id: function vehicle_id(data) {
-            const valid = data.trim() !== "";
+            const valid = data !== "";
             let error = valid ? "" : 'Please select a car';
             return {
                 valid,
@@ -9,72 +9,82 @@ export const TripCreateValidator = {
     },
     start_at: function start_at(data) {
             let today = new Date();
-            const valid = data <= today.setHours(today.getHours() +1);
+            const valid = data >= Math.round(today.setHours(today.getHours() +1) / 1000);
             let error = valid ? "" : 'The trip should begin at least an hour later';
             return {
                 valid,
                 error
             };
     },
-    price: function price(data) {
-            const valid = data > 0;
-            let error = valid ? "" : 'Trip price must be more that 0';
-            return {
-                valid,
-                error
-            };
-    },
-    seats: function seats(data) {
-            const valid = data > 0;
-            let error = valid ? "": 'Trip price must be more that 0';
-            return {
-                valid,
-                error
-            };
+    end_at: function end_at(data) {
+        let today = new Date();
+        const valid = data >= Math.round(today.setHours(today.getHours() +2) / 1000);
+        let error = valid ? "" : "End trip time is required and should end at least an hour later start time";
+        return {
+            valid,
+            error
+        };
     },
     from: function from(data) {
-            const valid = data.length > 0;
-            let error = valid ? "" : 'Select trip from point';
+            const valid = (data[0].length) > 0;
+            let error = valid ? "" : 'Enter trip start point';
             return {
                 valid,
                 error
             };
     },
     to: function to(data) {
-            const valid = data.length > 0;
-            let error = valid ? "" : 'Select trip to point';
+            const valid = (data[0].length) > 0;
+            let error = valid ? "" : 'Enter trip endpoint';
             return {
                 valid,
                 error
             };
+    },
+    price: function price(data) {
+        const valid = data > 0;
+        let error = valid ? "" : 'Trip price must be more that 0';
+        return {
+            valid,
+            error
+        };
+    },
+    seats: function seats(data) {
+        const valid = data > 0;
+        let error = valid ? "": 'Trip price must be more that 0';
+        return {
+            valid,
+            error
+        };
     }
 };
 
 export const TripValidate = (data = {
     vehicle_id: "",
     start_at: "",
-    price: "",
-    seats: "",
+    end_at: "",
     from: "",
-    to: ""
+    to: "",
+    price: "",
+    seats: ""
 }) => {
         let result = {
                 valid: true,
                 errors: {}
         };
         let storeResult = (result, valid, field) => {
-                result.valid = result.valid && valid.valid;
-                if (!result.valid) {
-                        result.errors[field] = valid.error;
-                    }
-                return result;
-            };
+            result.valid = result.valid && valid.valid;
+            if (!result.valid) {
+                result.errors[field] = valid.error;
+            }
+            return result;
+        };
         for (let field of Object.keys(data)) {
-            console.log(data[field]);
-            //storeResult(result, TripCreateValidator[field](data[field]), field);
+            storeResult(result, TripCreateValidator[field](data[field]), field);
         }
+        console.log(result);
         return result;
-    };
+};
 
 const TripService = {
     TripCreateValidator,

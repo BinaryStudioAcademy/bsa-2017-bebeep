@@ -16,11 +16,11 @@ const createTripDispatch = (data, token) => {
     return dispatch => {
         const validated = TripValidate(data);
         if (validated.valid) {
-            /*axios.post('/api/trips/create', data, {
+            axios.post('/api/trips/create', data, {
                 headers: { Authorization: "Bearer " + token }
             })
                 .then(response => { dispatch(createTripSuccess(response.data))})
-                .catch(error => dispatch(createTripFailed(error.response.data)));*/
+                .catch(error => dispatch(createTripFailed(error.response.data)));
         } else {
             dispatch(createTripFailed(validated.errors))
         }

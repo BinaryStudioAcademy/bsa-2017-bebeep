@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import createTripDispatch from '../../actions';
 import { bindActionCreators } from 'redux';
+import Input from '../../../../app/components/Input';
 
 class CreateTrip extends React.Component {
 
@@ -13,61 +14,61 @@ class CreateTrip extends React.Component {
             vehicle_id: e.target['vehicle_id'].value,
             start_at: Math.round(date),
             end_at: 1513036800,
-            from: e.target['from'].value.split(),
-            to: e.target['to'].value.split(),
             price: e.target['price'].value,
             seats: e.target['seats'].value,
+            from: e.target['from'].value.split(),
+            to: e.target['to'].value.split(),
         }, token);
     }
 
     render() {
         const {errors} = this.props;
         return (
-            <form role="form" className="form-horizontal" action="/api/trips/create" method="POST" onSubmit={this.onSubmit.bind(this)}>
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="vehicle_id">Select car</label>
-                    <div className="col-sm-6">
-                        <select name="vehicle_id" className="form-control" id="vehicle_id" required="required">
-                            <option value="2">1</option>
+            <form role="form" className="trip-create-from" action="/api/trips/create" method="POST" onSubmit={this.onSubmit.bind(this)}>
+                <div className={"form-group row" + (errors.vehicle_id ? 'has-danger' : '')}>
+                    <label className="form-control-label text-muted col-sm-4" htmlFor="vehicle_id">Select car</label>
+                    <div className="col-sm-8">
+                        <select name="vehicle_id" className="form-control" id="vehicle_id" >
+                            <option value="2">2</option>
                         </select>
                         <div className="form-control-feedback">{ errors.vehicle_id }</div>
                     </div>
                 </div>
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="start_at">Trip start time</label>
-                    <div className="col-sm-6">
-                        <input type="datetime-local" name="start_at" className="form-control" id="start_at" required="required"/>
-                    </div>
-                    <div className="form-control-feedback">{ errors.start_at }</div>
-                </div>
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="price">Price</label>
-                    <div className="col-sm-6">
-                        <input type="number" min="1" name="price" className="form-control" id="price" required="required"/>
-                    </div>
-                    <div className="form-control-feedback">{ errors.price }</div>
-                </div>
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="seats">Available seats</label>
-                    <div className="col-sm-6">
-                        <input type="number" min="1" max="3" name="seats" className="form-control" id="seats" required="required"/>
-                    </div>
-                    <div className="form-control-feedback">{ errors.seats }</div>
-                </div>
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="from">From location</label>
-                    <div className="col-sm-6">
-                        <input type="search" name="from" className="form-control" id="from" required="required"/>
-                    </div>
-                    <div className="form-control-feedback">{ errors.from }</div>
-                </div>
-                <div className="form-group">
-                    <label className="control-label col-sm-2" htmlFor="to">To location</label>
-                    <div className="col-sm-6">
-                        <input type="search" name="to" className="form-control" id="to" required="required"/>
-                    </div>
-                    <div className="form-control-feedback">{ errors.to }</div>
-                </div>
+                <Input
+                    type="datetime-local"
+                    name="start_at"
+                    id="start_at"
+                    required={false}
+                    error={errors.start_at}>Trip start time
+                </Input>
+                <Input
+                    type="number"
+                    name="price"
+                    id="price"
+                    required={false}
+                    error={errors.price}>Price
+                </Input>
+                <Input
+                    type="number"
+                    name="seats"
+                    id="seats"
+                    required={false}
+                    error={errors.seats}>Available seats
+                </Input>
+                <Input
+                    type="text"
+                    name="from"
+                    id="from"
+                    required={false}
+                    error={errors.from}>Start point
+                </Input>
+                <Input
+                    type="text"
+                    name="to"
+                    id="to"
+                    required={false}
+                    error={errors.to}>Endpoint
+                </Input>
                 <div className="form-group">
                     <div className="col-sm-offset-2 col-sm-6">
                         <button type="submit" className="btn btn-primary">Create new trip</button>
