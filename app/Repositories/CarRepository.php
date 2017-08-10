@@ -29,10 +29,11 @@ class CarRepository extends BaseRepository
 
     /**
      * @param Vehicle $vehicle
+     * @param $id
      * @return bool|null
      */
-    public function destroy(Vehicle $vehicle)
+    public function destroy($id)
     {
-        return $vehicle->first()->delete();
+        return $this->delete($id);
     }
 }
