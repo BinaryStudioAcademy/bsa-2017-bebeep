@@ -17,10 +17,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Route::group(['prefix' => 'v1'],function () {
+    Route::group(['prefix' => 'driver'],function () {
+        Route::get('/trips','Api\Driver\TripListController@index');
+    });
+//});
 
-Route::group(['prefix' => 'driver'],function () {
-    Route::post('/trips','Api\Driver\TripListController@index');
-});
 
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('register', ['as' => 'register', 'uses' => 'Auth\RegisterController@register']);

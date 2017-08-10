@@ -13,6 +13,7 @@
 <body>
     <div id="bebeep-app"></div>
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACTI_jCTcZ9m87Vp9k10oPDZpkQik8Njo"></script>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
