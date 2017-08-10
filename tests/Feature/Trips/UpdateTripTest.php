@@ -2,9 +2,10 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\{Trip, Vehicle};
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Trip;
+use App\Models\Vehicle;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UpdateTripTest extends BaseTripTestCase
 {
@@ -78,10 +79,12 @@ class UpdateTripTest extends BaseTripTestCase
      * @test
      * Add a test to check if the user has driver permissions
      */
-    public function user_can_not_update_trip_without_driver_permissions(){}
+    public function user_can_not_update_trip_without_driver_permissions()
+    {
+    }
 
     /**
-     * Get url from trips.update route
+     * Get url from trips.update route.
      *
      * @param $id
      * @return string

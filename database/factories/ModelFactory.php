@@ -19,14 +19,13 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'permissions' => App\User::PASSENGER_PERMISSION,
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
-        'phone' => str_replace("+", "", $faker->e164PhoneNumber),
+        'phone' => str_replace('+', '', $faker->e164PhoneNumber),
         'birth_date' => $faker->dateTime,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
 });
-
 
 $factory->define(App\Models\Vehicle::class, function (Faker\Generator $faker) {
     return [

@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Route;
 use App\Models\Trip;
+use App\Models\Route;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class TripRepository extends BaseRepository

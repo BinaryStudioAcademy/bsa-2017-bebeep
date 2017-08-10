@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\Vehicle;
 use App\User;
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            return (bool)((int)Auth::user()->permissions & (int)$parameters[0]);
+            return (bool) ((int) Auth::user()->permissions & (int) $parameters[0]);
         });
 
         Validator::extend('max_seats_from_vehicle', function ($attribute, $value, $parameters, $validator) {
@@ -51,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            return $vehicle->seats > (int)$value;
+            return $vehicle->seats > (int) $value;
         });
 
         Validator::extend('greater_than_date', function ($attribute, $value, $parameters, $validator) {
@@ -59,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            return (int)$parameters[0] < (int)$value;
+            return (int) $parameters[0] < (int) $value;
         });
     }
 }

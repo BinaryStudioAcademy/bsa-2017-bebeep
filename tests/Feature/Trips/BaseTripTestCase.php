@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\Trip;
 use App\User;
 use Carbon\Carbon;
+use App\Models\Trip;
 use Tests\JwtTestCase;
 
 class BaseTripTestCase extends JwtTestCase
@@ -25,7 +25,7 @@ class BaseTripTestCase extends JwtTestCase
     }
 
     /**
-     * Return basic trip data for testing with extraData
+     * Return basic trip data for testing with extraData.
      *
      * @param array $extraData
      * @return array

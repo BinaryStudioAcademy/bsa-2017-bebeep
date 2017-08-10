@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
-use App\Http\Requests\CreateTripRequest;
-use App\Http\Requests\UpdateTripRequest;
 use App\Models\Trip;
 use App\Services\TripsService;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CreateTripRequest;
+use App\Http\Requests\UpdateTripRequest;
+use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
 class TripsController extends Controller
 {

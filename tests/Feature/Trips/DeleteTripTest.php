@@ -2,12 +2,11 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\{
-    Trip, Vehicle
-};
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Trip;
+use App\Models\Vehicle;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DeleteTripTest extends BaseTripTestCase
 {
@@ -101,7 +100,7 @@ class DeleteTripTest extends BaseTripTestCase
     }
 
     /**
-     * Get url from trips.delete route
+     * Get url from trips.delete route.
      *
      * @param $id
      * @return string

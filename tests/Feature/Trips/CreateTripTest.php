@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\Vehicle;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Vehicle;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CreateTripTest extends BaseTripTestCase
 {
@@ -141,7 +141,7 @@ class CreateTripTest extends BaseTripTestCase
         $this->assertDatabaseHas(
             'trips',
             [
-                'price' => (float)$trip['price'],
+                'price' => (float) $trip['price'],
                 'seats' => $trip['seats'],
                 'vehicle_id' => $trip['vehicle_id'],
                 'user_id' => $user->id,

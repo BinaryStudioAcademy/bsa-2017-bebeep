@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Criteria\User\NotVerifiedUserCriteria;
-use App\Events\UserRegistered;
-use App\Exceptions\User\VerifyException;
-use App\Services\Requests\RegisterUserRequest;
-use App\Repositories\UserRepository;
-use App\Services\Requests\VerifyUserRequest;
 use App\User;
+use App\Events\UserRegistered;
+use App\Repositories\UserRepository;
+use App\Exceptions\User\VerifyException;
+use App\Services\Requests\VerifyUserRequest;
+use App\Criteria\User\NotVerifiedUserCriteria;
+use App\Services\Requests\RegisterUserRequest;
 
 class RegisterUserService
 {
@@ -52,7 +52,7 @@ class RegisterUserService
 
         $user = $this->userRepository->first();
 
-        if (!$user) {
+        if (! $user) {
             throw new VerifyException('User cannot be verified');
         }
 

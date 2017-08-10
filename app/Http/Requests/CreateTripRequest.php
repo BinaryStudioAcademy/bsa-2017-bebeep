@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Trip;
-use App\Services\Requests\CreateTripRequest as CreateTripRequestInterface;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Trip;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Services\Requests\CreateTripRequest as CreateTripRequestInterface;
 
 class CreateTripRequest extends FormRequest implements CreateTripRequestInterface
 {
@@ -56,7 +56,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getPrice(): float
     {
-        return (float)$this->get('price');
+        return (float) $this->get('price');
     }
 
     /**
@@ -64,7 +64,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getSeats(): int
     {
-        return (int)$this->get('seats');
+        return (int) $this->get('seats');
     }
 
     /**
@@ -96,7 +96,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getFrom(): array
     {
-        return (array)$this->get('from');
+        return (array) $this->get('from');
     }
 
     /**
@@ -104,6 +104,6 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getTo(): array
     {
-        return (array)$this->get('to');
+        return (array) $this->get('to');
     }
 }

@@ -2,15 +2,14 @@
 
 namespace App\Services;
 
-use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
-use App\Models\{
-    Trip, Route
-};
 use App\User;
+use App\Models\Trip;
+use App\Models\Route;
 use App\Repositories\TripRepository;
+use Illuminate\Support\Facades\Validator;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
-use Illuminate\Support\Facades\Validator;
+use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
 class TripsService
 {

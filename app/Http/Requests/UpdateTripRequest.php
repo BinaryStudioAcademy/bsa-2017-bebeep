@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Services\Requests\UpdateTripRequest as UpdateTripRequestInterface;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Services\Requests\UpdateTripRequest as UpdateTripRequestInterface;
 
 class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterface
 {
