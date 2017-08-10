@@ -2,18 +2,20 @@ import * as actions from './actionTypes';
 
 const initialState = {
     register: {
+        validate: false,
         success: false,
         errors: {},
-        verify: {
-            success: false,
-            errors: {},
-        }
+        user: {}
+    },
+    verify: {
+        success: false,
+        errors: {},
     }
 };
 
 export default function (state = initialState, action) {
     switch(action.type) {
-        case actions.REGISTER_SUCCESS:
+        case actions.USER_REGISTER_SUCCESS:
             return {
                 ...state,
                 register: {
@@ -21,7 +23,7 @@ export default function (state = initialState, action) {
                     errors: {}
                 }
             };
-        case actions.REGISTER_FAILED:
+        case actions.USER_REGISTER_FAILED:
             return {
                 ...state,
                 register: {
@@ -30,29 +32,33 @@ export default function (state = initialState, action) {
                     success: false
                 }
             };
-
-        case actions.REGISTER_VERIFY_FAILED:
+        case actions.USER_REGISTER_VALIDATE:
             return {
                 ...state,
                 register: {
                     ...state.register,
-                    verify: {
-                        ...state.register.verify,
-                        errors: action.data,
-                        success: false
-                    }
+                    success: false,
+                    errors: action.errors,
+                    validate: action.validate,
+                    user: action.data
                 }
             };
-        case actions.REGISTER_VERIFY_SUCCESS:
+        case actions.USER_VERIFY_FAILED:
             return {
                 ...state,
-                register: {
-                    ...state.register,
-                    verify: {
-                        ...state.register.verify,
-                        success: true,
-                        errors: {}
-                    }
+                verify: {
+                    ...state.verify,
+                    errors: action.data,
+                    success: false
+                }
+            };
+        case actions.USER_VERIFY_SUCCESS:
+            return {
+                ...state,
+                verify: {
+                    ...state.verify,
+                    success: true,
+                    errors: {}
                 }
             };
         default: {

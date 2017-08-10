@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { doRegister } from '../../actions';
-import Input from './Input';
+import { bindActionCreators } from 'redux';
+import { doRegister, registerValidate } from '../../actions';
+import Input from '../../../../app/components/Input';
 import { browserHistory } from 'react-router';
+import '../../styles/user_register.scss';
 
 class Form extends React.Component {
 
@@ -13,7 +15,7 @@ class Form extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.props.dispatch(doRegister({
+        this.props.registerValidate({
             first_name: e.target['first_name'].value,
             last_name: e.target['last_name'].value,
             phone: e.target['phone'].value,
@@ -23,13 +25,20 @@ class Form extends React.Component {
             role_passenger: e.target['role_passenger'].checked,
             password: e.target['password'].value,
             password_confirmation: e.target['password_confirmation'].value
-        }));
+        });
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.successRegister) {
             browserHistory.push('/register/success');
         }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.isValidData) {
+            this.props.doRegister(nextProps.registerUserData);
+        }
+        return true;
     }
 
     render() {
@@ -46,38 +55,38 @@ class Form extends React.Component {
                         type="text"
                         name="first_name"
                         id="first_name"
-                        required={true}
+                        required={false}
                         error={errors.first_name}
                     >First name</Input>
                     <Input
                         type="text"
                         name="last_name"
                         id="last_name"
-                        required={true}
+                        required={false}
                         error={errors.last_name}
                     >Last name</Input>
                     <Input
                         type="email"
                         name="email"
                         id="email"
-                        required={true}
+                        required={false}
                         error={errors.email}
                     >E-mail</Input>
                     <Input
                         type="tel"
                         name="phone"
                         id="phone"
-                        required={true}
+                        required={false}
                         error={errors.phone}
                     >Phone number</Input>
                     <Input
                         type="date"
                         name="birth_date"
                         id="birth_date"
-                        required={true}
+                        required={false}
                         error={errors.birth_date}
                     >Birth date</Input>
-                    <div className="form-group row">
+                    <div className={"form-group row " + (this.props.errors.role ? 'has-danger' : '')}>
                         <div className="col-sm-4">
                             Role
                         </div>
@@ -101,19 +110,23 @@ class Form extends React.Component {
                                 /> passenger
                             </label>
                         </div>
+                        <div className="offset-sm-4 col-sm-8">
+                            <div className="form-control-feedback">{ this.props.errors.role }</div>
+                        </div>
                     </div>
                     <Input
                         type="password"
                         name="password"
                         id="password"
-                        required={true}
+                        required={false}
                         error={errors.password}
                     >Password</Input>
                     <Input
                         type="password"
                         name="password_confirmation"
                         id="password_confirmation"
-                        required={true}
+                        required={false}
+                        error={errors.password_confirmation}
                     >Repeat password</Input>
                 </div>
 
@@ -132,8 +145,12 @@ class Form extends React.Component {
 const FormConnected = connect(
     (state) => ({
         errors: state.user.register.errors,
-        successRegister: state.user.register.success
-    })
+        successRegister: state.user.register.success,
+        isValidData: state.user.register.validate,
+        registerUserData: state.user.register.user,
+    }),
+    (dispatch) =>
+        bindActionCreators({doRegister, registerValidate}, dispatch)
 )(Form);
 
 export default FormConnected;
