@@ -37,8 +37,8 @@ class CarService
         return $car;
     }
 
-    public function destroy(DestroyCarRequest $request){
-        return $this->carRepository->destroy($request->getId());
+    public function destroy($id){
+        return $this->carRepository->destroy($id);
     }
 
 }

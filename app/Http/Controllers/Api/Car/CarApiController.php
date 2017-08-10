@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCarRequest;
 use App\Http\Requests\DeleteCarRequest;
 use App\Http\Controllers\Controller;
 use App\Services\CarService;
+use Illuminate\Http\Request;
 
 class CarApiController extends Controller
 {
@@ -29,9 +30,10 @@ class CarApiController extends Controller
         return response()->json(['success update' => true, $request]);
     }
 
-    public function delete(DeleteCarRequest $request)
+    public function delete(DeleteCarRequest $requests)
     {
-        return response()->json(['success delete' => true, $request->all()]);
+//        $this->carService->destroy($requests->id);
+        return response()->json(['success delete' => true, $this->carService->destroy($requests->id)]);
 
     }
 }
