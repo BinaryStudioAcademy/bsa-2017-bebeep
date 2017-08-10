@@ -1,27 +1,65 @@
-import { GoogleMap, Marker } from "react-google-maps";
-import React, { Component } from 'react';
+import {
+    default as React,
+    Component,
+} from "react";
 
+import {
+    withGoogleMap,
+    GoogleMap,
+    DirectionsRenderer,
+} from "react-google-maps";
 
-class GoogleMapEx extends Component {
+const  googleMapURL="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places,geometry&key=AIzaSyAFmHDx19mBe0FC2rsGPIyq6cOUldzOKyk";
+
+const DirectionsExampleGoogleMap = withGoogleMap(props => (
+    <GoogleMap
+        googleMapURL={googleMapURL}
+        defaultZoom={7}
+        defaultCenter={props.center}
+    >
+        {props.directions && <DirectionsRenderer directions={props.directions} />}
+    </GoogleMap>
+));
+
+export default class DirectionsExample extends Component {
+
+    state = {
+        origin: new google.maps.LatLng(41.8507300, -87.6512600),
+        destination: new google.maps.LatLng(41.8525800, -87.6514100),
+        directions: null,
+    }
+
+    componentDidMount() {
+        const DirectionsService = new google.maps.DirectionsService();
+
+        DirectionsService.route({
+            origin: this.state.origin,
+            destination: this.state.destination,
+            travelMode: google.maps.TravelMode.DRIVING,
+        }, (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK) {
+                this.setState({
+                    directions: result,
+                });
+            } else {
+                console.error(`error fetching directions ${result}`);
+            }
+        });
+    }
+
     render() {
-        const  googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.27&libraries=places,geometry&key=AIzaSyAFmHDx19mBe0FC2rsGPIyq6cOUldzOKyk";
-        return(
-        <GoogleMap
-            ref={props.onMapLoad}
-            defaultZoom={3}
-            defaultCenter={{lat: -25.363882, lng: 131.044922}}
-            googleMapURL={googleMapURL}
-            onClick={props.onMapClick}
-        >
-            {props.markers.map((marker, index) => (
-                <Marker
-                    {...marker}
-                    onRightClick={() => props.onMarkerRightClick(index)}
-                />
-            ))}
-        </GoogleMap>
+        return (
+            <DirectionsExampleGoogleMap
+                containerElement={
+                    <div style={{ height: `100%` }} />
+                }
+                mapElement={
+                    <div style={{ height: `100%` }} />
+                }
+                center={this.state.origin}
+                directions={this.state.directions}
+            />
         );
-    };
+    }
 }
 
-export default GoogleMapEx;

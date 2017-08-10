@@ -14,6 +14,6 @@ class TripsManager implements InterfaceTripsManager
             ->join('routes', 'routes.trip_id', '=', 'trips.id')
             ->join('vehicles', 'trips.vehicle_id', '=', 'vehicles.id')
             ->where('trips.user_id', '=', $id)
-            ->get(['from', 'to', 'brand', 'model', 'start_at', 'end_at']);
+            ->get(['trips.id','from', 'to', 'brand', 'model', 'start_at', 'end_at']);
     }
 }

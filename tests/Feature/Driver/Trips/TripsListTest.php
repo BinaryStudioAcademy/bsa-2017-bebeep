@@ -33,6 +33,7 @@ class TripsListTest extends TestCase
         $response = $this->json('GET', $this->url,['user_id'=>$user->id]);
         $response->assertStatus(200);
         $response->assertJsonFragment([[
+            'id' => $trip->id,
             'from'=> json_encode($route->from),
             'to' =>  json_encode($route->to),
             'brand' => $vehicle->brand,
