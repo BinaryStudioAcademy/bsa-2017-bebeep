@@ -8,6 +8,6 @@ const tripsData = [
 export function getTrips() {
     return {
         type: actions.TRIPSLIST_GET_ALL,
-        trips: tripsData
+        trips: tripsData,
     };
 };

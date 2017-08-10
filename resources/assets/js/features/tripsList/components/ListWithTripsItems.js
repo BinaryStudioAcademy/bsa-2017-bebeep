@@ -19,27 +19,28 @@ class ListWithTripsItems extends  Component{
     }
 
     render() {
-       const trips = this.props.tripsState.trips;
-
-        let tripsList =
+        let trips = this.props.tripsState.trips;
+        console.log(trips);
+        let tripsList = (trips.length >= 1)
+            ?
             trips.map(function (tripData, index) {
                 return (
-                    <TripsListItem  key={index} tripsData={tripsData}/>
+                    <TripsListItem  key={index} tripData={tripData}/>
                 );
-            });
+            }) :null;
 
 
         return (
-            <div>
+            <ul className="list-group">
                 {tripsList}
-            </div>
+            </ul>
         );
     }
 }
 
 const ListWithTripsItemsConnected = connect(
     (state) => {
-        return { tripsState: state.trips };
+        return { tripsState: state.tripsList };
     },
     (dispatch) => bindActionCreators({ getTrips }, dispatch)
 
