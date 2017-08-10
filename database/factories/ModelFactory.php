@@ -51,8 +51,8 @@ $factory->define(App\Models\Trip::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Route::class, function (Faker\Generator $faker) {
     return [
-        'from' => ['a'],
-        'to'=> ['b'],
+        'from' => ['49.82380909','24.03808194'],
+        'to'=> ['49.55372551','25.59814053'],
         'trip_id' =>1
     ];
 });

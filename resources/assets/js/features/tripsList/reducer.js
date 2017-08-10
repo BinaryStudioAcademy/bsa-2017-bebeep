@@ -2,7 +2,8 @@ import * as actions from './actionTypes';
 
 const initialState = {
     trips: [],
-    filtered: []
+    filtered: [],
+
 };
 
 
