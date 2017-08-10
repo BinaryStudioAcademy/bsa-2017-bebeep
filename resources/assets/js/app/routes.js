@@ -5,17 +5,17 @@ import App from './App';
 import Home from './layouts/Home';
 import NotFound from './layouts/NotFound';
 
-import Dashboard from '../features/user/layouts/Dashboard';
-import UserProfile from '../features/user/layouts/UserProfile';
-import UserProfileForm from '../features/user/components/UserProfileForm';
-import UserAvatar from '../features/user/components/UserAvatar';
+import Dashboard from 'features/user/layouts/Dashboard';
+import UserProfile from 'features/user/layouts/UserProfile';
 
-import Vehicles from '../features/vehicle/layouts/Vehicles';
-import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
+import { ProfileForm, ProfileAvatar, AccountPassword } from 'features/user/components/Dashboard';
 
-import RegisterForm from '../features/user/layouts/RegisterForm';
-import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
-import RegisterVerify from '../features/user/layouts/RegisterVerify';
+import RegisterForm from 'features/user/layouts/RegisterForm';
+import RegisterSuccess from 'features/user/layouts/RegisterSuccess';
+import RegisterVerify from 'features/user/layouts/RegisterVerify';
+
+import Vehicles from 'features/vehicle/layouts/Vehicles';
+import VehicleDetails from 'features/vehicle/layouts/VehicleDetails';
 
 export default (
     <Route path="/" component={ App }>
@@ -34,21 +34,24 @@ export default (
         <Route path="dashboard">
             <IndexRoute component={ Dashboard } />
 
+            {/* This route for user cars */}
+            <Route path="my-cars" component={ Dashboard /*User Cars layout*/ } />
+
             {/* This route for user trips */}
-            <Route path="my-trips" component={ Dashboard /*Trips layout */ } />
+            <Route path="my-trips" component={ Dashboard /*User Trips layout */ } />
 
             {/* This route for user bookings */}
-            <Route path="my-bookings" component={ Dashboard /*Bookings layout*/ } />
+            <Route path="my-bookings" component={ Dashboard /*User Bookings layout*/ } />
 
             {/* User profile */}
             <Redirect from='profile' to='profile/general' />
             <Route path="profile" component={ UserProfile }>
 
-                <Route path="general" component={ UserProfileForm } />
-                <Route path="avatar" component={ UserAvatar } />
+                <Route path="general" component={ ProfileForm } />
+                <Route path="avatar" component={ ProfileAvatar } />
+                <Route path="password" component={ AccountPassword } />
 
-                {/*<Route path="preferences" component={ UserPreferences } />
-                <Route path="password" component={ UserPassword } />*/}
+                {/*<Route path="preferences" component={ UserPreferences } />*/}
             </Route>
         </Route>
 

@@ -2,6 +2,11 @@ body {
     background: #efefef url('../images/cardboard.png')
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 .page-header {
     margin-bottom: 1.5rem;
     color: #444;

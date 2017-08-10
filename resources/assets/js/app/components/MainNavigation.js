@@ -53,7 +53,7 @@ class MainNavigation extends Component {
 
                 <ul className="nav navbar-nav navbar-right">
                   <li className="nav-item">
-                    <Link to="#" className="nav-link" activeClassName="active">Login</Link>
+                    <Link to="/login" className="nav-link" activeClassName="active">Login</Link>
                   </li>
 
                   <li className="nav-item">
