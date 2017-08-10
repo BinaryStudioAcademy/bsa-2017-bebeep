@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as actions from './actionTypes';
-import { TripValidate } from '../../app/services/TripService';
+import { CreateTripValidate } from '../../app/services/TripService';
 
 export const createTripSuccess = (data) => ({
     type: actions.TRIP_CREATE_SEND_SUCCESS,
@@ -14,7 +14,8 @@ export const createTripFailed = (data) => ({
 
 const createTripDispatch = (data, token) => {
     return dispatch => {
-        const validated = TripValidate(data);
+        const validated = CreateTripValidate(data);
+
         if (validated.valid) {
             axios.post('/api/trips/create', data, {
                 headers: { Authorization: "Bearer " + token }
