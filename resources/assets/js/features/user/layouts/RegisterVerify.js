@@ -1,5 +1,5 @@
 import React from 'react';
-import { doVerify } from '../actions';
+import { doVerify } from 'features/user/actions';
 import PageHeader from 'app/components/PageHeader';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
