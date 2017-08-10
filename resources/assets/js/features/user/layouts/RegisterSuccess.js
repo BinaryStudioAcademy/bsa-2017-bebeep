@@ -8,7 +8,7 @@ class RegisterSuccess extends Component {
 
     componentWillMount() {
         if (!this.props.successRegister) {
-            browserHistory.push('/register');
+            browserHistory.push('/registration');
         }
     }
 

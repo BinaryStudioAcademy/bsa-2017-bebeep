@@ -17,9 +17,9 @@ export default (
         <Route path="vehicles" component={ Vehicles } />
         <Route path="vehicles/:id" component={ VehicleDetails } />
 
-        <Route path="register" component={ RegisterForm } />
-        <Route path="register/success" component={ RegisterSuccess } />
-        <Route path="register/verify" component={ RegisterVerify } />
+        <Route path="registration" component={ RegisterForm } />
+        <Route path="registration/success" component={ RegisterSuccess } />
+        <Route path="verification" component={ RegisterVerify } />
 
         <Route path="*" component={ NotFound } />
     </Route>

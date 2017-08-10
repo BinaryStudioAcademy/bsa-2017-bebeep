@@ -3,7 +3,7 @@
 
 Please, verify your E-mail:
 
-@component('mail::button', ['url' => url('/register/verify?email=' . $user->email . '&token=' . $user->verification_token)])
+@component('mail::button', ['url' => url('/verification?email=' . $user->email . '&token=' . $user->verification_token)])
     Verify
 @endcomponent
 

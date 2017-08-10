@@ -30,7 +30,7 @@ class Form extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.successRegister) {
-            browserHistory.push('/register/success');
+            browserHistory.push('/registration/success');
         }
     }
 
