@@ -62,8 +62,7 @@ class RegisterUserTest extends JwtTestCase
         $this->assertDatabaseMissing(
             config('auth.passwords.users.table'),
             [
-                'email' => $user->email,
-                'created_at' => date('Y-m-d H:i', time())
+                'email' => $user->email
             ]
         );
         $response = $this->json('POST', $this->urlPasswordForgot, ['email' => $user->email]);
@@ -71,8 +70,7 @@ class RegisterUserTest extends JwtTestCase
         $this->assertDatabaseHas(
             config('auth.passwords.users.table'),
             [
-                'email' => $user->email,
-                'created_at' => date('Y-m-d H:i', time())
+                'email' => $user->email
             ]
         );
     }
@@ -94,6 +92,12 @@ class RegisterUserTest extends JwtTestCase
         $user = factory(User::class)->create();
         $user->is_verified = true;
         $user->save();
+        $token = str_random(64);
+        \DB::table(config('auth.passwords.users.table'))->insert([
+            'email' => $user->email,
+            'token' => $token,
+            'created_at' => date('Y-m-d H:i:s', time())
+        ]);
         $response = $this->json('POST', $this->urlPasswordReset, [
             'email' => $user->email,
             'token' => 'incorrect_token',
@@ -115,7 +119,7 @@ class RegisterUserTest extends JwtTestCase
         \DB::table(config('auth.passwords.users.table'))->insert([
             'email' => $user->email,
             'token' => $token,
-            'created_at' => date('Y-m-d H:i', time() - 60 * 24)
+            'created_at' => date('Y-m-d H:i:s', time() - 60 * 24)
         ]);
         $response = $this->json('POST', $this->urlPasswordReset, [
             'email' => $user->email,
