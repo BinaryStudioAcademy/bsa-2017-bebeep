@@ -22,11 +22,22 @@ export function getVehicle(id) {
     };
 };
 
-/*
 export function addVehicle(vehicle) {
-    // return type: actions.VEHICLE_ADD
+    return {
+        type: actions.VEHICLE_ADD
+    };
 };
 
+export const doCreate = (data) => {
+    return dispatch => {
+        axios.post('/api/car/create', data)
+            .then(response => dispatch(createSuccess(response.data)))
+            // .catch(error => dispatch(createFailed(error.response.data)))
+        ;
+    };
+};
+
+/*
 export function editVehicle(id) {
     // return type: actions.VEHICLE_EDIT
 };

@@ -3,6 +3,9 @@ import * as actions from './actionTypes';
 const initialState = {
     vehicles: [],
     vehicle: {},
+    create: {
+        errors: {}
+    }
 };
 
 export default function (state = initialState, action) {
