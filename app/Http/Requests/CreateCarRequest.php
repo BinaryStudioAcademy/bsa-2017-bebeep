@@ -25,7 +25,6 @@ class CreateCarRequest extends FormRequest implements CreateCarRequestInterface
      */
     public function rules()
     {
-
         return [
             'brand' => "required",
             'model' => "required",
@@ -33,6 +32,7 @@ class CreateCarRequest extends FormRequest implements CreateCarRequestInterface
             'body' => "required",
             'seats' => "required",
             'year' => "required",
+            'photo' => "required",
         ];
     }
 
@@ -61,8 +61,13 @@ class CreateCarRequest extends FormRequest implements CreateCarRequestInterface
         return $this->get('seats');
     }
 
-    public function getYear(): int
+    public function getYear(): string
     {
         return $this->get('year');
+    }
+
+    public function getPhoto(): string
+    {
+        return $this->get('photo');
     }
 }

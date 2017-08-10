@@ -22,8 +22,4 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('verify', ['as' => 'verify', 'uses' => 'Auth\RegisterController@verify']);
 });
 
-Route::group(['prefix' => 'car', 'as' => 'car'], function () {
-    Route::post('create', ['as' => 'create', 'uses' => 'Api\\Car\\CarApiController@create']);
-    Route::patch('update', ['as' => 'update', 'uses' => 'Api\\Car\\CarApiController@update']);
-    Route::delete('delete', ['as' => 'delete', 'uses' => 'Api\\Car\\CarApiController@delete']);
-});
+Route::resource('v1/car', "Api\\Car\\CarController");

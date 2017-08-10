@@ -4,7 +4,6 @@
 namespace App\Services;
 
 use App\Services\Requests\CreateCarRequest;
-use App\Services\Requests\DestroyCarRequest;
 use App\Repositories\CarRepository;
 use App\Models\Vehicle;
 
@@ -29,7 +28,8 @@ class CarService
             'color' => $request->getColor(),
             'body' => $request->getBody(),
             'seats' => $request->getSeats(),
-            'year' => $request->getYear(),
+            'year' => date_create_from_format("Y",$request->getYear()),
+            'photo' => $request->getPhoto(),
         ];
 
         $car = $this->carRepository->save(new Vehicle($attributes));
@@ -37,7 +37,35 @@ class CarService
         return $car;
     }
 
-    public function destroy($id){
+    public function update(CreateCarRequest $request, $id): Vehicle
+    {
+        $attributes = [
+            'brand' => $request->getBrand(),
+            'model' => $request->getModel(),
+            'color' => $request->getColor(),
+            'body' => $request->getBody(),
+            'seats' => $request->getSeats(),
+            'year' => $request->getYear(),
+            'photo' => $request->getPhoto()
+        ];
+
+        $car = $this->carRepository->update($attributes, $id);
+
+        return $car;
+    }
+
+    public function getAll()
+    {
+        return $this->carRepository->all();
+    }
+
+    public function getById($id)
+    {
+        return $this->carRepository->find($id);
+    }
+
+    public function destroy($id)
+    {
         return $this->carRepository->destroy($id);
     }
 

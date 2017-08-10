@@ -20,6 +20,7 @@ class Vehicle extends Model
         'seats',
         'year',
         'user_id',
+        'photo',
     ];
 
     /**
