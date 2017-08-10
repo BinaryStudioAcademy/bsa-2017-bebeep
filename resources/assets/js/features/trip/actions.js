@@ -1,27 +1,29 @@
 import axios from 'axios';
 import * as actions from './actionTypes';
+import { TripValidate } from '../../app/services/TripService';
 
-export const createTripSuccess = (trip) => ({
-    type: /*actions.TRIP_CREATE_SEND_SUCCESS*/ 'TRIP_CREATE_SEND_SUCCESS',
-    trip
+export const createTripSuccess = (data) => ({
+    type: actions.TRIP_CREATE_SEND_SUCCESS,
+    data
 });
 
-export const createTripFailed = (trip) => ({
+export const createTripFailed = (data) => ({
     type: actions.TRIP_CREATE_SEND_FAILED,
-    trip
+    data
 });
 
-const createTripDispatch = (trip) => {
+const createTripDispatch = (data, token) => {
     return dispatch => {
-        let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDIzNTc3NjMsImV4cCI6MTUwMjk2MjU2MywibmJmIjoxNTAyMzU3NzYzLCJqdGkiOiJVYXpNbHkyYVFIV2pPcnBjIn0._eSxtg_VASZu-vfji9TYzfMcFQ6AVm40MEZ0gA_8InU';
-        axios.post('/api/trips/create', trip, {
-            headers: { Authorization: "Bearer " + token }
-        })
-            .then(response => {
-                console.log(response);
-                dispatch(createTripSuccess(response.trip))
+        const validated = TripValidate(data);
+        if (validated.valid) {
+            /*axios.post('/api/trips/create', data, {
+                headers: { Authorization: "Bearer " + token }
             })
-            .catch(/*error => dispatch(createTripFailed(error.response.trip))*/);
+                .then(response => { dispatch(createTripSuccess(response.data))})
+                .catch(error => dispatch(createTripFailed(error.response.data)));*/
+        } else {
+            dispatch(createTripFailed(validated.errors))
+        }
     };
 };
 
