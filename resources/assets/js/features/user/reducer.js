@@ -14,6 +14,8 @@ export default function (state = initialState, action) {
                 ...state,
                 login: {
                     success: true,
+                    failedNoUser: false,
+                    failedNoActivation: false,
                     errors: {}
                 }
             };
@@ -23,6 +25,8 @@ export default function (state = initialState, action) {
                 login: {
                     ...state.login,
                     errors: action.data,
+                    failedNoUser: true,
+                    failedNoActivation: false,
                     success: false
                 }
             };
@@ -33,6 +37,8 @@ export default function (state = initialState, action) {
                 login: {
                     ...state.login,
                     errors: action.data,
+                    failedNoUser: false,
+                    failedNoActivation: true,
                     success: false
                 }
             };

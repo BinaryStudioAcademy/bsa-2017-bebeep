@@ -13,7 +13,9 @@ class Form extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.successLogin) {
-            browserHistory.push('/register/success');
+            browserHistory.push('/login/success');
+        } else if (nextProps.failedNoUser) {
+            browserHistory.push('/login/failed');
         }
     }
 
@@ -68,7 +70,9 @@ class Form extends React.Component {
 const FormConnected = connect(
     (state) => ({
         errors: state.user.login.errors,
-        successLogin: state.user.login.success
+        successLogin: state.user.login.success,
+        failedNoUser: state.user.login.failedNoUser,
+        failedNoActivation: state.user.login.failedNoActivation
     })
 )(Form);
 

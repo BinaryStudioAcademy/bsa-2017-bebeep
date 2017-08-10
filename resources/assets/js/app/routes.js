@@ -7,7 +7,8 @@ import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import NotFound from './layouts/NotFound';
 import LoginForm from '../features/user/layouts/Login/LoginForm';
-import LoginSuccess from '../features/user/layouts/Login/LoginSuccess.js'
+import LoginSuccess from '../features/user/layouts/Login/LoginSuccess';
+import LoginFailed from '../features/user/layouts/Login/LoginFailed';
 
 export default (
     <Route path="/" component={ App }>
@@ -18,6 +19,7 @@ export default (
 
         <Route path="login" component={ LoginForm } />
         <Route path="login/success" component={ LoginSuccess } />
+        <Route path="login/failed" component={ LoginFailed } />
 
         <Route path="*" component={ NotFound } />
     </Route>
