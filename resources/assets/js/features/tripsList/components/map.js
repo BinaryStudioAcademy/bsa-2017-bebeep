@@ -19,7 +19,7 @@ const DirectionsExampleGoogleMap = withGoogleMap(props => (
     </GoogleMap>
 ));
 
-export default class DirectionsExample extends Component {
+export default class Map extends Component {
 
     state = {
         origin: new google.maps.LatLng(this.props.from[0], this.props.from[1]),

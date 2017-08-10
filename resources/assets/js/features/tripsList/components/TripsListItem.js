@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import DirectionsExample from './map';
+import Map from './map';
 import './css/TripsListItem.scss';
+
 class TripsListItem extends Component {
     constructor(props){
         super(props);
-        this.displayModal = this.displayModal.bind(this)
-    }
-
-    displayModal(){
-        alert('lal');
-        return true;
+        this.state = { isOpen: false };
     }
 
     render() {
@@ -25,6 +21,7 @@ class TripsListItem extends Component {
                 </div>
             );
         }
+
         return (
             <div>
                 <li className="list-group-item">
@@ -34,12 +31,11 @@ class TripsListItem extends Component {
                         Start: {data.start_at}<br/>
                         End: {data.end_at}<br/>
                     </div>
-                    <div className="list-map" onClick={this.displayModal} >
-                        <DirectionsExample from={data.from} to={data.to} />
+                    <div className="list-map" onClick={this.toggleModal} >
+                        <Map from={data.from} to={data.to} />
                     </div>
                     {edit}
                 </li>
-
             </div>
         );
     }
