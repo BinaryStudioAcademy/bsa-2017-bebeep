@@ -24,16 +24,6 @@ class RegisterUserTest extends JwtTestCase
         $this->urlPasswordForgot = route('user.password.forgot');
     }
 
-    // forgot
-    // get email -> find user -> set token -> send email with token -> 200
-    //                                                              -> 422, User not found
-    //                                                              -> 422, User not verified
-    // reset
-    // get email, token, password, password_confirmation -> find user -> validate token -> validate password -> change password and remember token -> 200
-//                                                                    -> 422, email invalid
-    //                                                                                  -> 422, token is expired
-    //                                                                                                       -> 422, password invalid
-
     /**
      * @test
      */

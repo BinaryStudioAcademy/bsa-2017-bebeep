@@ -9,6 +9,8 @@ import NotFound from './layouts/NotFound';
 import RegisterForm from '../features/user/layouts/RegisterForm';
 import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
 import RegisterVerify from '../features/user/layouts/RegisterVerify';
+import PasswordForgot from '../features/user/layouts/PasswordForgot';
+import PasswordReset from '../features/user/layouts/PasswordReset';
 
 export default (
     <Route path="/" component={ App }>
@@ -20,6 +22,9 @@ export default (
         <Route path="registration" component={ RegisterForm } />
         <Route path="registration/success" component={ RegisterSuccess } />
         <Route path="verification" component={ RegisterVerify } />
+
+        <Route path="password/forgot" component={ PasswordForgot } />
+        <Route path="password/reset" component={ PasswordReset } />
 
         <Route path="*" component={ NotFound } />
     </Route>
