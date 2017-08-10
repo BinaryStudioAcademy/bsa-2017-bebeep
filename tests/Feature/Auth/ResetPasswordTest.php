@@ -3,6 +3,9 @@
 namespace Tests\Feature\Auth;
 
 use App\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Tests\JwtTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -92,11 +95,10 @@ class RegisterUserTest extends JwtTestCase
         $user = factory(User::class)->create();
         $user->is_verified = true;
         $user->save();
-        $token = str_random(64);
+        $token = Password::broker()->createToken($user);
         \DB::table(config('auth.passwords.users.table'))->insert([
             'email' => $user->email,
             'token' => $token,
-            'created_at' => date('Y-m-d H:i:s', time())
         ]);
         $response = $this->json('POST', $this->urlPasswordReset, [
             'email' => $user->email,
@@ -115,12 +117,14 @@ class RegisterUserTest extends JwtTestCase
         $user = factory(User::class)->create();
         $user->is_verified = true;
         $user->save();
-        $token = str_random(64);
+        $token = Password::broker()->createToken($user);
         \DB::table(config('auth.passwords.users.table'))->insert([
             'email' => $user->email,
             'token' => $token,
-            'created_at' => date('Y-m-d H:i:s', time() - 60 * 24)
         ]);
+        \DB::table(config('auth.passwords.users.table'))
+            ->where('email', $user->email)
+            ->update(['created_at' => Carbon::now()->subHours(24)]);
         $response = $this->json('POST', $this->urlPasswordReset, [
             'email' => $user->email,
             'token' => $token,
@@ -135,14 +139,13 @@ class RegisterUserTest extends JwtTestCase
      */
     public function success_reset_password()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->make(['password' => 'secret123']);
         $user->is_verified = true;
         $user->save();
-        $token = str_random(64);
+        $token = Password::broker()->createToken($user);
         \DB::table(config('auth.passwords.users.table'))->insert([
             'email' => $user->email,
-            'token' => $token,
-            'created_at' => date('Y-m-d H:i', time())
+            'token' => $token
         ]);
         $response = $this->json('POST', $this->urlPasswordReset, [
             'email' => $user->email,
@@ -151,15 +154,8 @@ class RegisterUserTest extends JwtTestCase
             'password_confirmation' => '1a2b3c'
         ]);
         $response->assertStatus(200);
-
-        $this->assertDatabaseHas(
-            'users',
-            [
-                'email' => $user->email,
-                'password' => bcrypt('1a2b3c'),
-                'remember_token' => $token
-            ]
-        );
+        $user = User::where(['id' => $user->id])->first();
+        $this->assertTrue(app('hash')->check('1a2b3c', $user->password));
     }
 
 
@@ -171,7 +167,7 @@ class RegisterUserTest extends JwtTestCase
         $user = factory(User::class)->create();
         $user->is_verified = true;
         $user->save();
-        $token = str_random(64);
+        $token = Password::broker()->createToken($user);
         \DB::table(config('auth.passwords.users.table'))->insert([
             'email' => $user->email,
             'token' => $token,
