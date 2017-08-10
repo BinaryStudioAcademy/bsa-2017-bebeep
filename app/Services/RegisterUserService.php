@@ -43,9 +43,10 @@ class RegisterUserService
 
     /**
      * @param VerifyUserRequest $request
+     * @return string
      * @throws VerifyException
      */
-    public function verify(VerifyUserRequest $request)
+    public function verify(VerifyUserRequest $request) : string
     {
         $this->userRepository->pushCriteria(new NotVerifiedUserCriteria($request->getEmail(), $request->getToken()));
 
@@ -58,6 +59,8 @@ class RegisterUserService
         $user->is_verified = true;
         $user->verification_token = null;
 
-        $this->userRepository->save($user);
+        $user = $this->userRepository->save($user);
+
+        return \JWTAuth::fromUser($user);
     }
 }

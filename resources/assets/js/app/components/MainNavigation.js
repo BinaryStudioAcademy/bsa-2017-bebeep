@@ -57,7 +57,7 @@ class MainNavigation extends Component {
                   </li>
 
                   <li className="nav-item">
-                    <Link to="#" className="nav-link" activeClassName="active">Register</Link>
+                    <Link to="/registration" className="nav-link" activeClassName="active">Register</Link>
                   </li>
                 </ul>
 
@@ -66,8 +66,8 @@ class MainNavigation extends Component {
                   <button className="btn btn-secondary dropdown-toggle"
                       type="button" data-toggle="dropdown" aria-haspopup="true"
                       aria-expanded={this.state.isDropdownOpen}
-                      onClick={this.toggleUserDropdown}>
-                    User Name
+                      onClick={this.toggleUserDropdown}
+                    >User Name
                   </button>
 
                   <div className="dropdown-menu dropdown-menu-right">
