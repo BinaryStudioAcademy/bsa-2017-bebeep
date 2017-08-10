@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { getVehicles } from 'features/vehicle/actions';
+import { getVehicles } from '../actions';
 
 import VehicleItem from './VehicleItem';
 
