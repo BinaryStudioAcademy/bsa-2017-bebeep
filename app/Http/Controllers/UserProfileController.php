@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Services\UserProfileService;
 
 class UserProfileController extends Controller
 {
+    /**
+     * @var \App\Services\UserProfileService
+     */
     private $userProfileService;
 
+    /**
+     * @param \App\Services\UserProfileService $userProfileService
+     */
     public function __construct(UserProfileService $userProfileService)
     {
         $this->userProfileService = $userProfileService;
@@ -21,36 +28,6 @@ class UserProfileController extends Controller
     {
         $user = $this->userProfileService->getGeneralData();
 
-        return response()->json(['user' => $user]);
+        return response()->json($user);
     }
-
-    /**
-     * @param RegisterUserRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    /*
-    public function register(RegisterUserRequest $request)
-    {
-        $user = $this->registerUserService->register($request);
-
-        return response()->json(['user' => $user]);
-    }
-    */
-
-    /**
-     * @param VerifyUserRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    /*
-    public function verify(VerifyUserRequest $request)
-    {
-        try {
-            $authToken = $this->registerUserService->verify($request);
-        } catch (VerifyException $e) {
-            return response()->json(['token' => [$e->getMessage()]], 422);
-        };
-
-        return response()->json(['token' => $authToken]);
-    }
-    */
 }

@@ -8,6 +8,13 @@ const initialState = {
     verify: {
         success: false,
         errors: {},
+    },
+    profile: {
+        data: {},
+        errors: {}
+    },
+    password_change: {
+        errors: {}
     }
 };
 
@@ -48,16 +55,43 @@ export default function (state = initialState, action) {
                     errors: {}
                 }
             };
-        /*
-USER_PROFILE_EDIT
-USER_PASSWORD_EDIT
-USER_AVATAR_EDIT
- */
-        case actions.USER_PROFILE_EDIT:
+
+        case actions.USER_PROFILE_GET_SUCCESS:
+        case actions.USER_PROFILE_EDIT_SUCCESS:
             return {
                 ...state,
-                user: action.user
+                profile: {
+                    ...state.profile,
+                    data: action.data,
+                    errors: {}
+                }
             };
+
+        case actions.USER_PROFILE_EDIT_FAILED:
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    errors: action.data,
+                }
+            };
+
+        case actions.USER_PASSWORD_CHANGE_SUCCESS:
+            return {
+                ...state,
+                password_change: {
+                    errors: {}
+                }
+            };
+
+        case actions.USER_PASSWORD_CHANGE_FAILED:
+            return {
+                ...state,
+                password_change: {
+                    errors: action.data
+                }
+            };
+
         default:
             return state;
     }

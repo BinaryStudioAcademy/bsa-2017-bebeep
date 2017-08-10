@@ -78,7 +78,7 @@ class MainNavigation extends Component {
 
                     <div className="dropdown-divider"></div>
 
-                    <Link to="#" className="dropdown-item">Logout</Link>
+                    <Link to="/logout" className="dropdown-item">Logout</Link>
                   </div>
                 </div>
               </div>

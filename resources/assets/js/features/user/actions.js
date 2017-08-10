@@ -1,6 +1,12 @@
 import * as actions from './actionTypes';
 import axios from 'axios';
-import { RegisterValidate, VerifyValidator, RegisterValidator } from '../../app/services/UserService';
+import {
+    RegisterValidate,
+    VerifyValidator,
+    RegisterValidator,
+    ProfileValidate,
+    PasswordChangeValidate
+} from '../../app/services/UserService';
 
 export const registerSuccess = data => ({
     type: actions.USER_REGISTER_SUCCESS,
@@ -53,22 +59,79 @@ export const doVerify = (email, token) => dispatch => {
     }
 };
 
-/*
-USER_PROFILE_EDIT
-USER_PASSWORD_CHANGE
-USER_AVATAR_CHANGE
- */
-const profileData = {
-    'first_name': 'Ruslan',
-    'last_name': 'Dan',
-    'email': 'example@gmail.com',
-    'phone': '380959996655',
-    'birth_date': '1975-04-10'
+export const getProfile = () => {
+    return dispatch => {
+        axios.get('/api/user/profile')
+            .then(response => {
+                console.log(response);
+                dispatch({
+                    type: actions.USER_PROFILE_GET_SUCCESS,
+                    data: response.data
+                })
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
 };
 
-export function editProfile() {
-    return {
-        type: actions.USER_PROFILE_EDIT,
-        user: profileData,
+export const editProfile = (data) => {
+    return dispatch => {
+        const validate = ProfileValidate(data);
+
+        if (validate.valid) {
+            console.log(data);
+            /*axios.post('/api/user/profile/edit', data)
+                .then(response => {
+                    console.log(response);
+                    dispatch({
+                        type: actions.USER_PROFILE_EDIT_SUCCESS
+                    })
+                })
+                .catch(error => {
+                    console.log(error);
+                    dispatch({
+                        type: actions.USER_PROFILE_EDIT_FAILED,
+                        data: error.response.data,
+                    });
+                });*/
+        } else {
+            dispatch({
+                type: actions.USER_PROFILE_EDIT_FAILED,
+                data: validate.errors,
+            });
+        }
+    };
+
+    /*USER_PROFILE_EDIT_SUCCESS
+USER_PROFILE_EDIT_FAILED*/
+};
+
+export const changePassword = (data) => {
+    return dispatch => {
+        const validate = PasswordChangeValidate(data);
+
+        if (validate.valid) {
+            console.log(data);
+            /*axios.post('/api/user/password/change', data)
+                .then(response => {
+                    console.log(response);
+                    dispatch({
+                        type: actions.USER_PASSWORD_CHANGE_SUCCESS
+                    })
+                })
+                .catch(error => {
+                    console.log(error);
+                    dispatch({
+                        type: actions.USER_PASSWORD_CHANGE_FAILED,
+                        data: error.response.data,
+                    });
+                });*/
+        } else {
+            dispatch({
+                type: actions.USER_PASSWORD_CHANGE_FAILED,
+                data: validate.errors,
+            });
+        }
     };
 };

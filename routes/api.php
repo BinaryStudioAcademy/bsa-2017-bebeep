@@ -20,4 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('register', ['middleware' => 'jwt.guest', 'as' => 'register', 'uses' => 'Auth\RegisterController@register']);
     Route::post('verify', ['middleware' => 'jwt.guest', 'as' => 'verify', 'uses' => 'Auth\RegisterController@verify']);
+
+    // middleware - jwt.auth
+    Route::get('profile', ['middleware' => 'jwt.guest', 'as' => 'profile', 'uses' => 'UserProfileController@getGeneral']);
 });

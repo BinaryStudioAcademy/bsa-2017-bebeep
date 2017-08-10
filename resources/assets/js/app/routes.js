@@ -7,9 +7,12 @@ import NotFound from './layouts/NotFound';
 
 import Dashboard from '../features/user/layouts/Dashboard';
 import UserProfile from '../features/user/layouts/UserProfile';
+import { General, Avatar } from '../features/user/layouts/Profile';
+import { Password } from '../features/user/layouts/Account';
 
-import { ProfileForm, ProfileAvatar, AccountPassword } from '../features/user/components/Dashboard';
-
+/* import { Form, Success, Verify } from '../features/user/layouts/Register'; */
+/* Put these layouts into Register dir and create index.js in it */
+/* like index.js in layouts/Profile */
 import RegisterForm from '../features/user/layouts/RegisterForm';
 import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
 import RegisterVerify from '../features/user/layouts/RegisterVerify';
@@ -47,11 +50,11 @@ export default (
             <Redirect from='profile' to='profile/general' />
             <Route path="profile" component={ UserProfile }>
 
-                <Route path="general" component={ ProfileForm } />
-                <Route path="avatar" component={ ProfileAvatar } />
-                <Route path="password" component={ AccountPassword } />
+                <Route path="general" component={ General } />
+                <Route path="avatar" component={ Avatar } />
+                <Route path="password" component={ Password } />
 
-                {/*<Route path="preferences" component={ UserPreferences } />*/}
+                {/*<Route path="preferences" component={ Preferences } />*/}
             </Route>
         </Route>
 
