@@ -20,11 +20,34 @@ class CreateTrip extends React.Component {
             }
         };
 
-        this.onStartPointChange = (address) => {this.geoPointChange('start', address);};
-        this.onEndPointChange = (address) => {this.geoPointChange('end', address);};
+        this.onChangeStartPoint = this.changeStartPoint.bind(this);
+        this.onChangeEndPoint = this.changeEndPoint.bind(this);
+
+        this.onSelectStartPoint = this.onSelectStartPoint.bind(this);
+        this.onSelectEndPoint = this.onSelectEndPoint.bind(this);
     }
 
-    geoPointChange(type, address) {
+    changeStartPoint(address) {
+        this.setState({
+            startPoint: {address: address}
+        })
+    }
+
+    changeEndPoint(address) {
+        this.setState({
+            endPoint: {address: address}
+        })
+    }
+
+    onSelectStartPoint(address) {
+        this.selectGeoPoint('start', address);
+    }
+
+    onSelectEndPoint(address) {
+        this.selectGeoPoint('end', address);
+    }
+
+    selectGeoPoint(type, address) {
         this.setState({
             [type + 'Point']: {
                 address: address,
@@ -36,16 +59,16 @@ class CreateTrip extends React.Component {
             .then(results => {
                 this.setState({
                     [type + 'Point']: {
-                        address: address,
-                        place: results[0]
+                        place: results[0],
+                        address: address
                     }
-                })
+                });
             })
             .catch(error => {
-                console.log(error);
                 this.setState({
                     [type + 'Point']: {
-                        place: null
+                        place: null,
+                        address: address
                     }
                 })
             });
@@ -80,12 +103,12 @@ class CreateTrip extends React.Component {
 
         const startPoint = {
             value: this.state.startPoint.address,
-            onChange: this.onStartPointChange,
+            onChange: this.onChangeStartPoint,
         };
 
         const endPoint = {
             value: this.state.endPoint.address,
-            onChange: this.onEndPointChange,
+            onChange: this.onChangeEndPoint,
         };
 
         return (
@@ -128,14 +151,20 @@ class CreateTrip extends React.Component {
                     <div className="form-group row">
                         <label className="form-control-label text-muted col-sm-4">Start Point</label>
                         <div className="col-sm-8">
-                            <PlacesAutocomplete inputProps={startPoint} classNames={placesCssClasses} />
+                            <PlacesAutocomplete inputProps={startPoint} classNames={placesCssClasses}
+                                                onSelect={this.onSelectStartPoint}
+                                                onEnterKeyDown={this.onSelectStartPoint}
+                            />
                         </div>
                     </div>
 
                     <div className="form-group row">
                         <label className="form-control-label text-muted col-sm-4">End Point</label>
                         <div className="col-sm-8">
-                            <PlacesAutocomplete inputProps={endPoint} classNames={placesCssClasses} />
+                            <PlacesAutocomplete inputProps={endPoint} classNames={placesCssClasses}
+                                                onSelect={this.onSelectEndPoint}
+                                                onEnterKeyDown={this.onSelectEndPoint}
+                            />
                         </div>
                     </div>
 
