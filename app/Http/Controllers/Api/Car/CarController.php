@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\Car;
 
 use App\Models\Vehicle;
 use App\Services\CarService;
-use App\Http\Requests\CreateCarRequest;
-use App\Http\Requests\UpdateCarRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateCarRequest;
+use Illuminate\Support\Facades\Auth;
 
 
 class CarController extends Controller
@@ -50,7 +50,6 @@ class CarController extends Controller
      */
     public function store(CreateCarRequest $request)
     {
-//        return $request->all();
         return $car = $this->carService->create($request);
     }
 
