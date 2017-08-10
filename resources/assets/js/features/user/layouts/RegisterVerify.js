@@ -1,6 +1,6 @@
 import React from 'react';
 import { doVerify } from '../actions';
-import PageHeader from '../../../app/components/PageHeader';
+import PageHeader from 'app/components/PageHeader';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';

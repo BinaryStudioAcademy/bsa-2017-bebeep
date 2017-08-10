@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import MainHeader from './components/MainHeader';
+import MainHeader from 'app/components/MainHeader';
 
-import './bootstrap/bootstrap.scss';
-import './styles/app.scss';
+import 'app/bootstrap/bootstrap.scss';
+import 'app/styles/app.scss';
 
 class App extends Component {
 

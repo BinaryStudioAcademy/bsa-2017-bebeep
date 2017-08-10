@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import PageHeader from '../components/PageHeader';
+import PageHeader from 'app/components/PageHeader';
 
 class Home extends Component {
 

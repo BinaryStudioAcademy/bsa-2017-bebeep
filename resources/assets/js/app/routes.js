@@ -1,14 +1,14 @@
 import React from 'react';
 import { IndexRoute, Route, Redirect } from 'react-router';
 
-import App from './App';
-import Home from './layouts/Home';
-import Vehicles from '../features/vehicle/layouts/Vehicles';
-import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
-import NotFound from './layouts/NotFound';
-import RegisterForm from '../features/user/layouts/RegisterForm';
-import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
-import RegisterVerify from '../features/user/layouts/RegisterVerify';
+import App from 'app/App';
+import Home from 'app/layouts/Home';
+import Vehicles from 'features/vehicle/layouts/Vehicles';
+import VehicleDetails from 'features/vehicle/layouts/VehicleDetails';
+import NotFound from 'app/layouts/NotFound';
+import RegisterForm from 'features/user/layouts/RegisterForm';
+import RegisterSuccess from 'features/user/layouts/RegisterSuccess';
+import RegisterVerify from 'features/user/layouts/RegisterVerify';
 
 export default (
     <Route path="/" component={ App }>

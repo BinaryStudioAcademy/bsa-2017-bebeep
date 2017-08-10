@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { doRegister } from '../../actions';
-import Input from '../../../../app/components/Input';
+import Input from 'app/components/Input';
 import { browserHistory } from 'react-router';
 import '../../styles/user_register.scss';
 

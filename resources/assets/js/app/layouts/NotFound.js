@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-import PageHeader from '../components/PageHeader';
+import PageHeader from 'app/components/PageHeader';
 
 class NotFound extends Component {
 

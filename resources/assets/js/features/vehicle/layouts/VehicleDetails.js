@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import PageHeader from '../../../app/components/PageHeader';
+import PageHeader from 'app/components/PageHeader';
 import VehicleProfile from '../components/VehicleProfile';
 
 import '../styles/vehicle.scss';
