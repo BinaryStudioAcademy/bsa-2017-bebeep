@@ -24,6 +24,7 @@
     "babel-polyfill": "^6.23.0",
     "bootstrap": "^4.0.0-alpha.6",
     "prop-types": "^15.5.10",
+    "rc-calendar": "^9.1.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-fa": "^4.2.0",

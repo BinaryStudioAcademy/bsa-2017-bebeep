@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 
 class MainNavigation extends Component {
+
     constructor(props) {
         super(props);
 
@@ -46,17 +47,17 @@ class MainNavigation extends Component {
               <div className={"navbar-collapse " + navClass} id="navbarToogle">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <Link to="/vehicles" className="nav-link">Vehicles</Link>
+                    <Link to="/vehicles" className="nav-link" activeClassName="active">Vehicles</Link>
                   </li>
                 </ul>
 
                 <ul className="nav navbar-nav navbar-right">
                   <li className="nav-item">
-                    <Link to="#" className="nav-link">Login</Link>
+                    <Link to="#" className="nav-link" activeClassName="active">Login</Link>
                   </li>
 
                   <li className="nav-item">
-                    <Link to="#" className="nav-link">Register</Link>
+                    <Link to="#" className="nav-link" activeClassName="active">Register</Link>
                   </li>
                 </ul>
 
@@ -70,10 +71,10 @@ class MainNavigation extends Component {
                   </button>
 
                   <div className="dropdown-menu dropdown-menu-right">
-                    <Link to="#" className="dropdown-item">Dashboard</Link>
-                    <Link to="#" className="dropdown-item">My trips</Link>
-                    <Link to="#" className="dropdown-item">My bookings</Link>
-                    <Link to="#" className="dropdown-item">Profile</Link>
+                    <Link to="/dashboard" className="dropdown-item">Dashboard</Link>
+                    <Link to="/dashboard/my-trips" className="dropdown-item">My trips</Link>
+                    <Link to="/dashboard/my-bookings" className="dropdown-item">My bookings</Link>
+                    <Link to="/dashboard/profile/general" className="dropdown-item">Profile</Link>
 
                     <div className="dropdown-divider"></div>
 
