@@ -50,8 +50,8 @@ export default function (state = initialState, action) {
             };
         /*
 USER_PROFILE_EDIT
-USER_PASSWORD_CHANGE
-USER_AVATAR_CHANGE
+USER_PASSWORD_EDIT
+USER_AVATAR_EDIT
  */
         case actions.USER_PROFILE_EDIT:
             return {
