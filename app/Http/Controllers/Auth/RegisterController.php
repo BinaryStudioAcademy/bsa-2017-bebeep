@@ -25,7 +25,7 @@ class RegisterController extends Controller
     {
         $user = $this->registerUserService->register($request);
 
-        return response()->json(['success' => true, 'user' => $user]);
+        return response()->json(['user' => $user]);
     }
 
     /**
@@ -40,6 +40,6 @@ class RegisterController extends Controller
             return response()->json(['token' => [$e->getMessage()]], 422);
         };
 
-        return response()->json(['success' => true, 'token' => $authToken]);
+        return response()->json(['token' => $authToken]);
     }
 }
