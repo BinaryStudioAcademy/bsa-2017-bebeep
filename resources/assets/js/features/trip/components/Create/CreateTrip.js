@@ -27,7 +27,7 @@ class CreateTrip extends React.Component {
                     <label className="control-label col-sm-2" htmlFor="vehicle_id">Select car</label>
                     <div className="col-sm-6">
                         <select name="vehicle_id" className="form-control" id="vehicle_id" required="required">
-                            <option value="1">1</option>
+                            <option value="2">1</option>
                         </select>
                     </div>
                 </div>

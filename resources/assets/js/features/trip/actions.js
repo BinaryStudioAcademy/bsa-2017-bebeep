@@ -13,7 +13,10 @@ export const createTripFailed = (trip) => ({
 
 const createTripDispatch = (trip) => {
     return dispatch => {
-        axios.post('/api/trips/create', trip)
+        let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDIzNTc3NjMsImV4cCI6MTUwMjk2MjU2MywibmJmIjoxNTAyMzU3NzYzLCJqdGkiOiJVYXpNbHkyYVFIV2pPcnBjIn0._eSxtg_VASZu-vfji9TYzfMcFQ6AVm40MEZ0gA_8InU';
+        axios.post('/api/trips/create', trip, {
+            headers: { Authorization: "Bearer " + token }
+        })
             .then(response => {
                 console.log(response);
                 dispatch(createTripSuccess(response.trip))
