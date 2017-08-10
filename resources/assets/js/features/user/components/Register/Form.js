@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { doRegister, registerValidate } from '../../actions';
+import { doRegister } from '../../actions';
 import Input from '../../../../app/components/Input';
 import { browserHistory } from 'react-router';
 import '../../styles/user_register.scss';
@@ -15,7 +15,7 @@ class Form extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.props.registerValidate({
+        this.props.doRegister({
             first_name: e.target['first_name'].value,
             last_name: e.target['last_name'].value,
             phone: e.target['phone'].value,
@@ -32,13 +32,6 @@ class Form extends React.Component {
         if (nextProps.successRegister) {
             browserHistory.push('/register/success');
         }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.isValidData) {
-            this.props.doRegister(nextProps.registerUserData);
-        }
-        return true;
     }
 
     render() {
@@ -86,7 +79,7 @@ class Form extends React.Component {
                         required={false}
                         error={errors.birth_date}
                     >Birth date</Input>
-                    <div className={"form-group row " + (this.props.errors.role ? 'has-danger' : '')}>
+                    <div className={"form-group row " + (errors.role ? 'has-danger' : '')}>
                         <div className="col-sm-4">
                             Role
                         </div>
@@ -111,7 +104,7 @@ class Form extends React.Component {
                             </label>
                         </div>
                         <div className="offset-sm-4 col-sm-8">
-                            <div className="form-control-feedback">{ this.props.errors.role }</div>
+                            <div className="form-control-feedback">{ errors.role }</div>
                         </div>
                     </div>
                     <Input
@@ -146,11 +139,9 @@ const FormConnected = connect(
     (state) => ({
         errors: state.user.register.errors,
         successRegister: state.user.register.success,
-        isValidData: state.user.register.validate,
-        registerUserData: state.user.register.user,
     }),
     (dispatch) =>
-        bindActionCreators({doRegister, registerValidate}, dispatch)
+        bindActionCreators({doRegister}, dispatch)
 )(Form);
 
 export default FormConnected;

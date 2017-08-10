@@ -24,8 +24,8 @@ class RegisterVerify extends React.Component {
                 <PageHeader header={ 'Verify account' } />
                 <div className="card" >
                     <div className="card-block">
-                        <div className={"alert " + (errors.token ? 'alert-danger' : '')} role="alert">
-                            { errors.token || 'Verifying...' }
+                        <div className={"alert " + (errors.token || errors.email ? 'alert-danger' : '')} role="alert">
+                            { errors.token || errors.email || 'Verifying...' }
                         </div>
                     </div>
                 </div>
