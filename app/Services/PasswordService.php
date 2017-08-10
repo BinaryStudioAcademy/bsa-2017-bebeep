@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\User\PasswordResetException;
 use App\Exceptions\User\VerifyException;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
@@ -35,7 +36,30 @@ class PasswordService implements PasswordServiceContract
 
     public function reset(ResetPasswordRequest $request)
     {
-        // TODO: Implement reset() method.
+        $response = $this->broker()->reset(
+            [
+                'email' => $request->getEmail(),
+                'token' => $request->getToken(),
+                'password' => $request->getPass(),
+                'password_confirmation' => $request->getPasswordConfirmation(),
+            ],
+            function ($user, $password) {
+                $this->userRepository->changePassword($user, $password);
+            }
+        );
+        if ($response !== Password::PASSWORD_RESET) {
+            switch($response) {
+                case Password::INVALID_PASSWORD:
+                    throw new PasswordResetException("Invalid password", PasswordResetException::INVALID_PASSWORD);
+                    break;
+                case Password::INVALID_TOKEN:
+                    throw new PasswordResetException("Invalid token", PasswordResetException::INVALID_TOKEN);
+                    break;
+                case Password::INVALID_USER:
+                    throw new PasswordResetException("Invalid user", PasswordResetException::INVALID_USER);
+                    break;
+            }
+        }
     }
 
     /**
