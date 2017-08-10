@@ -14,27 +14,26 @@ class TripsListTest extends TestCase
     use DatabaseMigrations, DatabaseTransactions;
 
     protected $method = 'GET';
-    protected $url = 'api/driver/trips';
+    protected $url = 'api/v1/trips';
 
     /** @test */
-    public function driver_can_see_trips()
+    public function user_can_see_trips()
     {
         $user = factory(User::class)->create();
         $vehicle = factory(Vehicle::class)->create(['user_id'=>$user->id]);
-        for($i = 0;$i<2;$i++) {
-            $trip = factory(Trip::class)->create(
-                [
-                    'price' => 100,
-                    'seats' => 1,
-                    'vehicle_id' => $vehicle->id,
-                    'user_id' => $user->id
-                ]
-            );
-            $route = factory(Route::class)->create(['trip_id' => $trip->id]);
-        }
+        $trip = factory(Trip::class)->create(
+            [
+                'price' => 100,
+                'seats' => 1,
+                'vehicle_id' => $vehicle->id,
+                'user_id' => $user->id
+            ]
+        );
+        $route = factory(Route::class)->create(['trip_id' => $trip->id]);
+
         $response = $this->json($this->method, $this->url,['user_id'=>$user->id]);
         $response->assertStatus(200);
-        $response->assertJsonFragment([[
+        $response->assertExactJson([[
             'id' => $trip->id,
             'from'=> json_encode($route->from),
             'to' =>  json_encode($route->to),
@@ -46,7 +45,7 @@ class TripsListTest extends TestCase
     }
 
     /** @test */
-    public function see_error_if_driver_doesnt_have_trips()
+    public function see_error_if_user_doesnt_have_trips()
     {
         $user = factory(User::class)->create();
         $vehicle = factory(Vehicle::class)->create(['user_id'=>$user->id]);

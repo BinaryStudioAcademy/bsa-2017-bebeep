@@ -5,6 +5,7 @@ use App\Exceptions\Trip\UserNotHaveTrips;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetTripsListRequest;
 use App\Services\TripsListService;
+use Illuminate\Http\Request;
 
 class TripListController extends Controller
 {
