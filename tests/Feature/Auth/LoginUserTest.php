@@ -17,13 +17,13 @@ class LoginUserTest extends TestCase
      */
     public function guest_cant_auth_if_not_all_required_fields_is_filled()
     {
-        $response = $this->json('POST', '/api/user/authenticate', []);
+        $response = $this->json('POST', '/api/user/authorization', []);
         $response->assertStatus(422);
 
-        $response = $this->json('POST', '/api/user/authenticate', factory(User::class)->make(['email' => null])->toArray());
+        $response = $this->json('POST', '/api/user/authorization', factory(User::class)->make(['email' => null])->toArray());
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
 
-        $response = $this->json('POST', '/api/user/authenticate',
+        $response = $this->json('POST', '/api/user/authorization',
             factory(User::class)->make(['password' => null])->toArray());
         $response->assertStatus(422)->assertJsonStructure(['password' => []]);
 
@@ -35,7 +35,7 @@ class LoginUserTest extends TestCase
      */
     public function guest_cant_auth_if_password_to_short()
     {
-        $response = $this->json('POST', '/api/user/authenticate',
+        $response = $this->json('POST', '/api/user/authorization',
             factory(User::class)->make(['password' => str_random(5)])->toArray());
         $response->assertStatus(422)->assertJsonStructure(['password' => []]);
     }
@@ -45,7 +45,7 @@ class LoginUserTest extends TestCase
      */
     public function guest_cant_auth_if_he_is_not_registered()
     {
-        $response = $this->json('POST', '/api/user/authenticate', ['email' => 'example@gmail.com', 'password' => 'secret']);
+        $response = $this->json('POST', '/api/user/authorization', ['email' => 'example@gmail.com', 'password' => 'secret']);
         $response->assertStatus(404);
     }
 
@@ -56,7 +56,7 @@ class LoginUserTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->json('POST', '/api/user/authenticate', ['email' => $user->email, 'password' => $user->password]);
+        $this->json('POST', '/api/user/authorization', ['email' => $user->email, 'password' => $user->password]);
 
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
@@ -74,7 +74,7 @@ class LoginUserTest extends TestCase
         $user->is_verified = false;
         $user->save();
 
-        $response = $this->json('POST', '/api/user/authenticate', ['email' => $user->email, 'password' => $user->password]);
+        $response = $this->json('POST', '/api/user/authorization', ['email' => $user->email, 'password' => $user->password]);
         $response->assertStatus(401);
     }
 }
