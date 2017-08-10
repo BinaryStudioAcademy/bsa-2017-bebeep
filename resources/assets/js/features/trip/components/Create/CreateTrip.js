@@ -117,7 +117,7 @@ class CreateTrip extends React.Component {
                     Create Trip
                 </div>
                 <div className="card-block">
-                    <div className={"form-group row" + (errors.vehicle_id ? 'has-danger' : '')}>
+                    <div className={"form-group row " + (errors.vehicle_id ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="vehicle_id">Select car</label>
                         <div className="col-sm-8">
                             <select name="vehicle_id" className="form-control" id="vehicle_id" >
