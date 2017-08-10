@@ -3,10 +3,8 @@
 namespace Tests\Feature\Trips;
 
 use App\Models\{Trip, Vehicle};
-use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Carbon\Carbon;
 
 class UpdateTripTest extends BaseTripTestCase
 {

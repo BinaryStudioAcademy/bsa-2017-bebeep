@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Trip;
 use App\Services\Requests\CreateTripRequest as CreateTripRequestInterface;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -27,15 +29,18 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function rules()
     {
+        $minStartAt = Carbon::now()->addSeconds(Trip::MIN_DELAY_TO_START_DATE)->timestamp;
+
         return [
             'price' => 'required',
-            'seats' => 'required|integer|min:0',
-            'start_at' => 'required|integer',
-            'end_at' => 'required|integer',
+            'seats' => 'required|integer|min:0|max_seats_from_vehicle:'.$this->get('vehicle_id'),
+            'start_at' => 'required|integer|greater_than_date:'.$minStartAt,
+            'end_at' => 'required|integer|greater_than_date:'.$this->get('start_at'),
             'from' => 'required|array',
             'to' => 'required|array',
             'vehicle_id' => [
                 'required',
+                'role:'.User::DRIVER_PERMISSION,
                 'integer',
                 Rule::exists('vehicles', 'id')->where(function ($query) {
                     $query->where([
@@ -51,7 +56,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getPrice(): float
     {
-        return (float) $this->get('price');
+        return (float)$this->get('price');
     }
 
     /**
@@ -59,7 +64,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getSeats(): int
     {
-        return (int) $this->get('seats');
+        return (int)$this->get('seats');
     }
 
     /**
@@ -91,7 +96,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getFrom(): array
     {
-        return (array) $this->get('from');
+        return (array)$this->get('from');
     }
 
     /**
@@ -99,6 +104,6 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getTo(): array
     {
-        return (array) $this->get('to');
+        return (array)$this->get('to');
     }
 }
