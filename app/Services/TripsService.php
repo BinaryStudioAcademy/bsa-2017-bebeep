@@ -14,8 +14,15 @@ use Illuminate\Support\Facades\Validator;
 
 class TripsService
 {
+    /**
+     * @var TripRepository
+     */
     private $tripRepository;
 
+    /**
+     * TripsService constructor.
+     * @param TripRepository $tripRepository
+     */
     public function __construct(TripRepository $tripRepository)
     {
         $this->tripRepository = $tripRepository;
