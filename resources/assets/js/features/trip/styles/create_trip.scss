@@ -6,13 +6,12 @@
     width: 100%;
     z-index: 1000;
 }
-
-.card-block {
-    min-height: 450px;
+.card {
+    max-height: 600px;
 }
+
 .google-map {
-    height: 400px;
-    min-height: 400px;
+    height: 430px;
     width: 100%;
-    margin-bottom: 2px;
+    margin-top: 10px;
 }

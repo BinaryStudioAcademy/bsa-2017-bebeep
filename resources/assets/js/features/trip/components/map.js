@@ -3,7 +3,7 @@ import { withGoogleMap, GoogleMap, DirectionsRenderer } from "react-google-maps"
 
 const DirectionsExampleGoogleMap = withGoogleMap(props => (
      <GoogleMap
-         defaultZoom={7}
+         defaultZoom={10}
          defaultCenter={props.center}>
          {props.directions && <DirectionsRenderer directions={props.directions} />}
      </GoogleMap>
@@ -30,11 +30,9 @@ export default class Map extends Component {
                                directions: result,
                            });
                    } else {
-                       console.error(`error fetching directions ${result}`);
+                       console.log(`error fetching directions ${result}`);
                    }
            });
-           console.log('form', this.props.from[0], this.props.from[1]);
-           console.log('to', this.props.to[0], this.props.to[1]);
    }
 
    render() {
