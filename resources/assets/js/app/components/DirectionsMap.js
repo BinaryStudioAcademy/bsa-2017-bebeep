@@ -3,8 +3,8 @@ import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap
-        defaultZoom={10}
-        defaultCenter={props.center}>
+        defaultZoom={5}
+        defaultCenter={{lat: 48.379433, lng: 31.1655799}}>
         {props.directions && <DirectionsRenderer directions={props.directions}/>}
     </GoogleMap>
 ));
@@ -14,6 +14,8 @@ export default class DirectionsMap extends React.Component {
         origin: this.props.from,
         destination: this.props.to,
         directions: null,
+        distance: null,
+        duration: null
     };
 
     componentDidMount() {
@@ -27,12 +29,14 @@ export default class DirectionsMap extends React.Component {
             if (status === google.maps.DirectionsStatus.OK) {
                 this.setState({
                     directions: result,
+                    distance: result.routes[0].legs[0].distance.text,
+                    duration: result.routes[0].legs[0].duration.text,
+                    start_address: result.routes[0].legs[0].start_address,
+                    end_address: result.routes[0].legs[0].end_address
                 });
 
                 return;
             }
-
-            console.log(`error fetching directions ${result}`, result);
         });
     }
 
@@ -43,7 +47,6 @@ export default class DirectionsMap extends React.Component {
                     {this.props.title}
                 </div>
                 <div className="card-block google-map">
-                    {this.props.from.lat ? (
                         <GoogleMapContainer
                             containerElement={
                                 <div style={{height: `100%`}}/>
@@ -54,10 +57,20 @@ export default class DirectionsMap extends React.Component {
                             center={this.state.origin}
                             directions={this.state.directions}
                         />
-                    ) : (
-                        <p>Enter start point to view map</p>
-                    )}
                 </div>
+                {this.state.distance  ?
+                    (
+                        <div className="card-footer">
+                            <h6>Trip info</h6>
+                            <span className="text-muted">Start point address: </span>{this.state.start_address}<br/>
+                            <span className="text-muted">End point address: </span>{this.state.end_address}<br/>
+                            <span className="text-muted">Distance: </span>{this.state.distance}<br/>
+                            <span className="text-muted">Duration: </span>{this.state.duration}
+                        </div>
+                    ) : (
+                            <div></div>
+                        )
+                }
             </div>
         );
     }

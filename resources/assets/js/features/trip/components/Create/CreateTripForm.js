@@ -44,7 +44,6 @@ class CreateTripForm extends React.Component {
                         required={false}
                         error={errors.seats}>Available seats
                     </Input>
-
                     <div className={"form-group row " + (this.props.errors.from ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4">Start Point</label>
                         <div className="col-sm-8">
@@ -56,7 +55,6 @@ class CreateTripForm extends React.Component {
                             <div className="form-control-feedback">{this.props.errors.from}</div>
                         </div>
                     </div>
-
                     <div className={"form-group row " + (this.props.errors.to ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4">End Point</label>
                         <div className="col-sm-8">
@@ -68,7 +66,6 @@ class CreateTripForm extends React.Component {
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>
                     </div>
-
                     <div className="form-group">
                         <div className="text-center">
                             <button type="submit" className="btn btn-primary">Create new trip</button>
