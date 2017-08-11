@@ -15,21 +15,17 @@ class ResetPasswordRequest extends FormRequest implements ResetPasswordRequestIn
 
     public function rules()
     {
-        return [
-            'email' => "required|email",
-            'token' => "required",
-            'password' => "required|confirmed|min:6",
-        ];
+        return [];
     }
 
     public function getEmail()
     {
-        return $this->get('email');
+        return $this->route('email');
     }
 
     public function getToken()
     {
-        return $this->get('token');
+        return $this->header('Token');
     }
 
     public function getPass()
@@ -37,9 +33,9 @@ class ResetPasswordRequest extends FormRequest implements ResetPasswordRequestIn
         return $this->get('password');
     }
 
+
     public function getPasswordConfirmation()
     {
-        return $this->get('password_confirmation');
+        return $this->get('password');
     }
-
 }

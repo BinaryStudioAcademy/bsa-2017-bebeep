@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Services\Contracts\PasswordService;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Validator;
 
 class ResetPasswordController extends Controller
 {
@@ -32,6 +33,19 @@ class ResetPasswordController extends Controller
 
     public function reset(ResetPasswordRequest $request)
     {
+        /** @var  \Illuminate\Validation\Validator  $validator */
+        $validator = Validator::make([
+            'email' => $request->getEmail(),
+            'token' => $request->getToken(),
+            'password' => $request->getPass()
+        ],[
+            'email' => "required|email",
+            'token' => "required",
+            'password' => "required|min:6",
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
         try {
             $this->passwordService->reset($request);
         } catch (PasswordResetException $e) {
