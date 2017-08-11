@@ -2,15 +2,7 @@ import * as actions from './actionTypes';
 
 const initState = {
     create: {
-        errors: {},
-        startPoint: {
-            lat: '50.5084682',
-            lng: '30.608410999999933'
-        },
-        endPoint: {
-            lat: '50.5084512',
-            lng: '30.607431700000006'
-        },
+        errors: {}
     },
     edit: {
         errors: {}

@@ -14,14 +14,14 @@ class CreateTrip extends React.Component {
             startPoint: {
                 address: '',
                 place: null,
-                lat: null,//50.5289909,
-                lng: null,//30.622925
+                lat: null,
+                lng: null,
             },
             endPoint: {
                 address: '',
                 place: null,
-                lat: null,//50.5084512,
-                lng: null,//30.6074317
+                lat: null,
+                lng: null,
             }
         };
 
@@ -70,8 +70,6 @@ class CreateTrip extends React.Component {
                         lng: results[0].geometry.location.lng()
                     }
                 });
-                console.log('start: ', this.state.startPoint.lat, this.state.startPoint.lng);
-                console.log('end: ', this.state.endPoint.lat, this.state.endPoint.lng);
             })
             .catch(error => {
                 this.setState({
