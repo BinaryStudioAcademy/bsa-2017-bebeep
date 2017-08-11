@@ -14,6 +14,11 @@ class CarController extends Controller
     private $carService;
     private $permissionService;
 
+    /**
+     * CarController constructor.
+     * @param CarService $carService
+     * @param PermissionService $permissionService
+     */
     public function __construct(CarService $carService, PermissionService $permissionService)
     {
         $this->carService = $carService;
@@ -23,15 +28,10 @@ class CarController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function index()
     {
-//        return response()->json(
-//            $this->carService->getAll()->map(function (Vehicle $cars) {
-//                return $cars;
-//            })
-//        );
         return $this->carService->getAll();
     }
 
@@ -63,8 +63,8 @@ class CarController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|mixed
      */
     public function show($id)
     {
@@ -95,7 +95,7 @@ class CarController extends Controller
      *
      * @param CreateCarRequest $request
      * @param $id
-     * @return Vehicle
+     * @return Vehicle|\Illuminate\Http\JsonResponse
      */
     public function update(CreateCarRequest $request, $id)
     {
@@ -112,7 +112,7 @@ class CarController extends Controller
      ** Remove the specified resource from storage.
      *
      * @param $id
-     * @return int
+     * @return \Illuminate\Http\JsonResponse|int
      */
     public function destroy($id)
     {
