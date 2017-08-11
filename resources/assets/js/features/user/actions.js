@@ -67,8 +67,9 @@ export const forgotPassword = (email) => dispatch => {
     if (!valid.valid) {
         return dispatch(forgotPasswordFailed({email: valid.error}));
     } else {
-        axios.post('/api/user/password/forgot', {
-            email: email
+        axios.post('/api/authorization', {
+            email: email,
+            type: 'reset-password'
         })
             .then(response => dispatch(forgotPasswordSuccess()))
             .catch(error => dispatch(forgotPasswordFailed(error.response.data)));
@@ -97,11 +98,10 @@ export const resetPassword = (data) => dispatch => {
             token: validToken.error,
         }));
     }
-    return axios.post('/api/user/password/reset', {
-            email: data.email,
-            password: data.password,
-            password_confirmation: data.password_confirmation,
-            token: data.token,
+    return axios.put(`/api/users/${data.email}/password`, {
+            password: data.password
+        }, {
+            headers: {'Token': data.token}
         })
             .then(response => dispatch(resetPasswordSuccess()))
             .catch(error => dispatch(resetPasswordFailed(error.response.data)));
