@@ -3,7 +3,8 @@ import PageHeader from '../../../app/components/PageHeader';
 import Input from '../../../app/components/Input';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {forgotPassword} from '../actions';
+import {forgotPasswordSuccess, forgotPasswordFailed} from '../actions';
+import { PasswordRequest } from '../services/RequestService';
 import '../styles/password_forgot.scss';
 
 class PasswordForgot extends React.Component {
@@ -13,8 +14,11 @@ class PasswordForgot extends React.Component {
     }
 
     onSubmit(e) {
+        const { forgotPasswordSuccess, forgotPasswordFailed } = this.props;
         e.preventDefault();
-        this.props.forgotPassword(e.target['email'].value);
+        PasswordRequest.forgotPassword(e.target['email'].value)
+            .then(data => forgotPasswordSuccess())
+            .catch(error => forgotPasswordFailed(error));
     }
 
     render() {
@@ -52,7 +56,7 @@ const PasswordForgotConnected = connect(
         success: state.user.password.forgot.success,
     }),
     (dispatch) =>
-        bindActionCreators({ forgotPassword }, dispatch)
+        bindActionCreators({ forgotPasswordSuccess, forgotPasswordFailed }, dispatch)
 )(PasswordForgot);
 
 export default PasswordForgotConnected;

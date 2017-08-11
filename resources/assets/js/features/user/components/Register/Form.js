@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { doRegister } from '../../actions';
+import { registerSuccess, registerFailed } from '../../actions';
 import Input from '../../../../app/components/Input';
 import { browserHistory } from 'react-router';
+import { RegisterRequest } from '../../services/RequestService';
 import '../../styles/user_register.scss';
 
 class Form extends React.Component {
@@ -14,8 +15,9 @@ class Form extends React.Component {
     }
 
     onSubmit(e) {
+        const {registerSuccess, registerFailed} = this.props;
         e.preventDefault();
-        this.props.doRegister({
+        RegisterRequest.doRegister({
             first_name: e.target['first_name'].value,
             last_name: e.target['last_name'].value,
             phone: e.target['phone'].value,
@@ -25,7 +27,9 @@ class Form extends React.Component {
             role_passenger: e.target['role_passenger'].checked,
             password: e.target['password'].value,
             password_confirmation: e.target['password_confirmation'].value
-        });
+        })
+            .then(data => registerSuccess(data))
+            .catch(error => registerFailed(error));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -141,7 +145,7 @@ const FormConnected = connect(
         successRegister: state.user.register.success,
     }),
     (dispatch) =>
-        bindActionCreators({doRegister}, dispatch)
+        bindActionCreators({registerSuccess, registerFailed}, dispatch)
 )(Form);
 
 export default FormConnected;

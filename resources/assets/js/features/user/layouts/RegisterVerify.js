@@ -1,15 +1,19 @@
 import React from 'react';
-import { doVerify } from '../actions';
+import { verifyFailed, verifySuccess } from '../actions';
 import PageHeader from '../../../app/components/PageHeader';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
+import { RegisterRequest } from '../services/RequestService'
 
 class RegisterVerify extends React.Component {
 
     componentWillMount() {
-        const {email, token} = this.props.location.query;
-        this.props.doVerify(email, token);
+        const {email, token} = this.props.location.query,
+            {verifySuccess, verifyFailed} = this.props;
+        RegisterRequest.doVerify(email, token)
+            .then(data => verifySuccess(data))
+            .catch(error => verifyFailed(error));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -40,7 +44,7 @@ const RegisterVerifyConnected = connect(
         errors: state.user.verify.errors
     }),
     (dispatch) =>
-        bindActionCreators({doVerify}, dispatch)
+        bindActionCreators({verifyFailed, verifySuccess}, dispatch)
 )(RegisterVerify);
 
 export default RegisterVerifyConnected;

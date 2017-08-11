@@ -3,7 +3,8 @@ import PageHeader from '../../../app/components/PageHeader';
 import Input from '../../../app/components/Input';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {resetPassword} from '../actions';
+import {resetPasswordSuccess, resetPasswordFailed} from '../actions';
+import { PasswordRequest } from '../services/RequestService';
 import { browserHistory } from 'react-router';
 import '../styles/password_forgot.scss';
 
@@ -14,13 +15,16 @@ class PasswordReset extends React.Component {
     }
 
     onSubmit(e) {
+        const {resetPasswordSuccess, resetPasswordFailed} = this.props;
         e.preventDefault();
-        this.props.resetPassword({
+        PasswordRequest.resetPassword({
             email: e.target['email'].value,
             password: e.target['password'].value,
             password_confirmation: e.target['password_confirmation'].value,
             token: e.target['token'].value,
-        });
+        })
+            .then(response => resetPasswordSuccess())
+            .catch(error => resetPasswordFailed(error));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -77,7 +81,7 @@ const PasswordResetConnected = connect(
         success: state.user.password.reset.success
     }),
     (dispatch) =>
-        bindActionCreators({resetPassword}, dispatch)
+        bindActionCreators({resetPasswordSuccess, resetPasswordFailed}, dispatch)
 )(PasswordReset);
 
 export default PasswordResetConnected;
