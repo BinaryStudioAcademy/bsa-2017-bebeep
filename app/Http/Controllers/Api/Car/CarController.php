@@ -4,25 +4,29 @@ namespace App\Http\Controllers\Api\Car;
 
 use App\Models\Vehicle;
 use App\Services\CarService;
+use App\Services\CarBodyService;
 use App\Services\PermissionService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCarRequest;
-use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller
 {
     private $carService;
     private $permissionService;
+    private $carBodyService;
 
     /**
      * CarController constructor.
      * @param CarService $carService
      * @param PermissionService $permissionService
      */
-    public function __construct(CarService $carService, PermissionService $permissionService)
+    public function __construct(CarService $carService,
+                                PermissionService $permissionService,
+                                CarBodyService $carBodyService)
     {
         $this->carService = $carService;
         $this->permissionService = $permissionService;
+        $this->carBodyService = $carBodyService;
     }
 
     /**
@@ -131,5 +135,10 @@ class CarController extends Controller
     private function accessDenied()
     {
         return response()->json('Access denied', 403);
+    }
+
+    public function getCarBody(){
+        return $this->carBodyService->getAll();
+//        return response()->json('Access denied', 403);
     }
 }

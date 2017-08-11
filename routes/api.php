@@ -25,4 +25,5 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('v1/car', "Api\\Car\\CarController");
+    Route::get('v1/carBody', ['uses' => 'Api\\Car\\CarController@getCarBody']);
 });
