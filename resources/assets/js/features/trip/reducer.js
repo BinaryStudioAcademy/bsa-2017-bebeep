@@ -25,6 +25,20 @@ export default function (state = initState, action) {
                     errors: action.data
                 }
             };
+        case actions.TRIP_UPDATE_SEND_SUCCESS:
+            return {
+                ...state,
+                create: {
+                    errors: {}
+                }
+            };
+        case actions.TRIP_UPDATE_SEND_FAILED:
+            return {
+                ...state,
+                create: {
+                    errors: action.data
+                }
+            };
         default: {
             return state;
         }

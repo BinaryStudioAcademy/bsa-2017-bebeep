@@ -30,13 +30,13 @@ class CreateTrip extends React.Component {
     changeStartPoint(address) {
         this.setState({
             startPoint: {address: address}
-        })
+        });
     }
 
     changeEndPoint(address) {
         this.setState({
             endPoint: {address: address}
-        })
+        });
     }
 
     onSelectStartPoint(address) {
@@ -148,23 +148,25 @@ class CreateTrip extends React.Component {
                         error={errors.seats}>Available seats
                     </Input>
 
-                    <div className="form-group row">
+                    <div className={"form-group row " + (this.props.errors.from ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4">Start Point</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={startPoint} classNames={placesCssClasses}
                                                 onSelect={this.onSelectStartPoint}
                                                 onEnterKeyDown={this.onSelectStartPoint}
                             />
+                            <div className="form-control-feedback">{ this.props.errors.from }</div>
                         </div>
                     </div>
 
-                    <div className="form-group row">
+                    <div className={"form-group row " + (this.props.errors.to ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4">End Point</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={endPoint} classNames={placesCssClasses}
                                                 onSelect={this.onSelectEndPoint}
                                                 onEnterKeyDown={this.onSelectEndPoint}
                             />
+                            <div className="form-control-feedback">{ this.props.errors.to }</div>
                         </div>
                     </div>
 
