@@ -13,7 +13,7 @@ class AddAboutMeToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function($table) {
+        Schema::table('users', function(Blueprint $table) {
             $table->text('about_me')->nullable()
                 ->after('birth_date');
         });
@@ -26,7 +26,7 @@ class AddAboutMeToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function($table) {
+        Schema::table('users', function(Blueprint $table) {
             $table->dropColumn('about_me');
         });
     }
