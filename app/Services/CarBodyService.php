@@ -19,6 +19,9 @@ class CarBodyService
         $this->carBodyRepository = $carBodyRepository;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAll()
     {
         return $this->carBodyRepository->all();

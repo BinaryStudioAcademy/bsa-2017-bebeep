@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\Car;
 use App\Models\Vehicle;
 use App\Services\CarService;
 use App\Services\CarBodyService;
+use App\Services\CarColorService;
+use App\Services\CarMarkService;
+use App\Services\CarModelService;
 use App\Services\PermissionService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCarRequest;
@@ -14,19 +17,33 @@ class CarController extends Controller
     private $carService;
     private $permissionService;
     private $carBodyService;
+    private $carColorService;
+    private $carMarkService;
+    private $carModelService;
 
     /**
      * CarController constructor.
+     *
      * @param CarService $carService
      * @param PermissionService $permissionService
+     * @param CarBodyService $carBodyService
+     * @param CarColorService $carColorService
+     * @param CarMarkService $carMarkService
+     * @param CarModelService $carModelService
      */
     public function __construct(CarService $carService,
                                 PermissionService $permissionService,
-                                CarBodyService $carBodyService)
+                                CarBodyService $carBodyService,
+                                CarColorService $carColorService,
+                                CarMarkService $carMarkService,
+                                CarModelService $carModelService)
     {
         $this->carService = $carService;
         $this->permissionService = $permissionService;
         $this->carBodyService = $carBodyService;
+        $this->carColorService = $carColorService;
+        $this->carMarkService = $carMarkService;
+        $this->carModelService = $carModelService;
     }
 
     /**
@@ -137,8 +154,32 @@ class CarController extends Controller
         return response()->json('Access denied', 403);
     }
 
+    /**
+     * @return mixed
+     */
     public function getCarBody(){
         return $this->carBodyService->getAll();
-//        return response()->json('Access denied', 403);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCarColor(){
+        return $this->carColorService->getAll();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCarMark(){
+        return $this->carMarkService->getAll();
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getCarModel($id){
+        return $this->carModelService->getModelByIdMark($id);
     }
 }
