@@ -7,9 +7,14 @@ import TripsListItem from './TripsListItem';
 import './css/ListWithTripsItems.scss';
 
 class ListWithTripsItems extends  Component{
-    constructor(props) {
+
+    constructor(props){
         super(props);
+        this.props.getTrips();
         this.props.filterPast();
+    }
+    componentDidMount() {
+         this.props.filterPast();
     }
 
     render() {

@@ -26,13 +26,7 @@ class GetTripsListRequest extends FormRequest implements InterfaceGetTripsListRe
     public function rules()
     {
         return [
-            'user_id' => 'required|integer'
         ];
     }
 
-    /** @inheritdoc */
-    public function getUserId():int
-    {
-        return (int)$this->get('user_id');
-    }
 }
