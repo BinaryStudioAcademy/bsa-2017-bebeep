@@ -31,7 +31,7 @@ class Form extends React.Component {
         const { errors } = this.props;
 
         return (
-            <form role="form" className="card login-form" action="/api/user/authenticate" method="POST"
+            <form role="form" className="card login-form" action="/api/user/authorization" method="POST"
                   onSubmit={ this.onSubmit }>
                 <div className="card-header">
                     Enter your credentials

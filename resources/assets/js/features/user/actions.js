@@ -66,7 +66,7 @@ export const loginSuccess = data => ({
 
 export const doLogin = (data) => {
     return dispatch => {
-        axios.post('/api/user/authenticate', data)
+        axios.post('/api/user/authorization', data)
             .then(response => dispatch(loginSuccess(response.data)))
             .catch(error => dispatch(loginFailed(error.response.data)))
         ;
