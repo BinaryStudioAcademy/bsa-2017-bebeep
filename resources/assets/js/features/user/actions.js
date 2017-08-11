@@ -1,6 +1,7 @@
 import * as actions from './actionTypes';
 import axios from 'axios';
 import { RegisterValidate, VerifyValidator, RegisterValidator } from '../../app/services/UserService';
+import sessionApi from './sessionApi';
 
 export const registerSuccess = data => ({
     type: actions.USER_REGISTER_SUCCESS,
@@ -53,22 +54,40 @@ export const doVerify = (email, token) => dispatch => {
     }
 };
 
-export const loginFailed = data => ({
-    type: data.code == 404 ? actions.LOGIN_FAILED_NOUSER : actions.LOGIN_FAILED_NOACTIVATION,
-    data
-});
+// export const loginFailed = data => ({
+//     type: data.code == 404 ? actions.LOGIN_FAILED_NOUSER : actions.LOGIN_FAILED_NOACTIVATION,
+//     data
+// });
 
-export const loginSuccess = data => ({
-    type: actions.LOGIN_SUCCESS,
-    data
-});
+// export const loginSuccess = data => ({
+//     type: actions.LOGIN_SUCCESS,
+//     data
+// });
 
 
-export const doLogin = (data) => {
-    return dispatch => {
-        axios.post('/api/user/authorization', data)
-            .then(response => dispatch(loginSuccess(response.data)))
-            .catch(error => dispatch(loginFailed(error.response.data)))
-        ;
+// export const doLogin = (data) => {
+//     return dispatch => {
+//         axios.post('/api/user/authorization', data)
+//             .then(response => dispatch(loginSuccess(response.data)))
+//             .catch(error => dispatch(loginFailed(error.response.data)))
+//         ;
+//     }
+// }
+
+// added with JWT integration
+export function loginSuccess() {
+    return { type: actions.LOGIN_SUCCESS }
+}
+
+export function logInUser(credentials) {
+    return function(dispatch) {
+        return sessionApi.login(credentials)
+            .then(response => {
+                sessionStorage.setItem('jwt', response.token);
+                dispatch(loginSuccess());
+            })
+            .catch(error => {
+                throw(error);
+            });
     }
 }

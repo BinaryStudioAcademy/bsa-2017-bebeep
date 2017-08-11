@@ -1,4 +1,5 @@
 import * as actions from './actionTypes';
+import { browserHistory } from 'react-router';
 
 const initialState = {
     register: {
@@ -14,7 +15,8 @@ const initialState = {
         failedNoUser: false,
         failedNoActivation: false,
         errors: {}
-    }
+    },
+    session: !!sessionStorage.jwt
 };
 
 export default function (state = initialState, action) {
@@ -55,38 +57,41 @@ export default function (state = initialState, action) {
                 }
             };
         case actions.LOGIN_SUCCESS:
-            return {
-                ...state,
-                login: {
-                    success: true,
-                    failedNoUser: false,
-                    failedNoActivation: false,
-                    errors: {}
-                }
-            };
-        case actions.LOGIN_FAILED_NOUSER:
-            return {
-                ...state,
-                login: {
-                    ...state.login,
-                    errors: action.data,
-                    failedNoUser: true,
-                    failedNoActivation: false,
-                    success: false
-                }
-            };
+            browserHistory.push('/dashboard')
+            return !!sessionStorage.jwt
+        // case actions.LOGIN_SUCCESS:
+        //     return {
+        //         ...state,
+        //         login: {
+        //             success: true,
+        //             failedNoUser: false,
+        //             failedNoActivation: false,
+        //             errors: {}
+        //         }
+        //     };
+        // case actions.LOGIN_FAILED_NOUSER:
+        //     return {
+        //         ...state,
+        //         login: {
+        //             ...state.login,
+        //             errors: action.data,
+        //             failedNoUser: true,
+        //             failedNoActivation: false,
+        //             success: false
+        //         }
+        //     };
 
-        case actions.LOGIN_FAILED_NOACTIVATION:
-            return {
-                ...state,
-                login: {
-                    ...state.login,
-                    errors: action.data,
-                    failedNoUser: false,
-                    failedNoActivation: true,
-                    success: false
-                }
-            };
+        // case actions.LOGIN_FAILED_NOACTIVATION:
+        //     return {
+        //         ...state,
+        //         login: {
+        //             ...state.login,
+        //             errors: action.data,
+        //             failedNoUser: false,
+        //             failedNoActivation: true,
+        //             success: false
+        //         }
+        //     };
 
         default: {
             return state;

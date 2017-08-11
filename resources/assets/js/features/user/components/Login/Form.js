@@ -1,62 +1,61 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { doLogin } from '../../actions';
+// import { doLogin } from '../../actions';
+import * as actions from '../../actions';
+import TextInput from './TextInput';
 import Input from './Input';
 import { browserHistory } from 'react-router';
+import { bindActionCreators } from 'redux';
 
 class Form extends React.Component {
 
-    constructor() {
-        super();
-        this.onSubmit = this.onSubmit.bind(this);
+    constructor(props) {
+        super(props);
+        this.state = { credentials: { email: '', password: ''}};
+        this.onChange = this.onChange.bind(this);
+        this.onSave = this.onSave.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.successLogin) {
-            browserHistory.push('/login/success');
-        } else if (nextProps.failedNoUser || nextProps.failedNoActivation) {
-            browserHistory.push('/login/failed');
-        }
+    onChange(event) {
+        const field = event.target.name;
+        const credentials = this.state.credentials;
+        credentials[field] = event.target.value;
+
+        return this.setState({ credentials: credentials });
     }
 
-    onSubmit(e) {
-        e.preventDefault();
-        this.props.dispatch(doLogin({
-            email: e.target['email'].value,
-            password: e.target['password'].value,
-        }));
+    onSave(event) {
+        event.preventDefault();
+        this.props.actions.logInUser(this.state.credentials);
     }
 
     render() {
-        const { errors } = this.props;
-
         return (
-            <form role="form" className="card login-form" action="/api/user/authorization" method="POST"
-                  onSubmit={ this.onSubmit }>
+
+            <form role="form" className="card login-form" action="/api/user/authorization" method="POST">
                 <div className="card-header">
                     Enter your credentials
                 </div>
                 <div className="card-block">
-                    <Input
-                        type="email"
+                    <TextInput
                         name="email"
-                        id="email"
-                        required={true}
-                        error={ errors.email }
-                    >E-mail</Input>
+                        label="email"
+                        value={ this.state.credentials.email }
+                        onChange={ this.onChange }/>
 
-                    <Input
-                        type="password"
+                    <TextInput
                         name="password"
-                        id="password"
-                        required={true}
-                        error={ errors.password }
-                    >Password</Input>
+                        label="password"
+                        type="password"
+                        value={ this.state.credentials.password }
+                        onChange={ this.onChange }/>
                 </div>
 
                 <div className="card-footer">
                     <div className="text-center">
-                        <button className="btn btn-primary">
+                        <button
+                            className="btn btn-primary"
+                            onClick={ this.onSave }>
                             Login
                         </button>
                     </div>
@@ -67,13 +66,10 @@ class Form extends React.Component {
 
 }
 
-const FormConnected = connect(
-    (state) => ({
-        errors: state.user.login.errors,
-        successLogin: state.user.login.success,
-        failedNoUser: state.user.login.failedNoUser,
-        failedNoActivation: state.user.login.failedNoActivation
-    })
-)(Form);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(actions, dispatch)
+    };
+}
 
-export default FormConnected;
+export default connect(null, mapDispatchToProps)(Form);

@@ -18,7 +18,10 @@ export default (
     <Route path="/" component={ App }>
         <IndexRoute component={ Home } />
 
-        <Route path="vehicles" component={ Vehicles } />
+        <Route path="vehicles" component={ Vehicles } onEnter={ requireAuth }>
+            // as example to restrict path for unauthenticated users
+            <Route path="vehicles/create" component={ Vehicles } />
+        </Route>
         <Route path="vehicles/:id" component={ VehicleDetails } />
 
         <Route path="registration" component={ RegisterForm } />
@@ -32,3 +35,12 @@ export default (
         <Route path="*" component={ NotFound } />
     </Route>
 );
+
+function requireAuth(nextState, replace) {
+    if (!sessionStorage.jwt) {
+        replace({
+            pathname: '/login',
+            state: { nextPathname: nextState.location.pathname }
+        })
+    }
+}
