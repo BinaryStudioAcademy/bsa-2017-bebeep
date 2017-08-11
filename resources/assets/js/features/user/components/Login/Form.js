@@ -4,6 +4,7 @@ import * as actions from '../../actions';
 import TextInput from './TextInput';
 import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
+import '../../styles/user.scss';
 
 class Form extends React.Component {
 
@@ -28,6 +29,9 @@ class Form extends React.Component {
     }
 
     render() {
+
+        const { errors } = this.props;
+
         return (
 
             <form role="form" className="card login-form" action="/api/user/authorization" method="POST">
@@ -39,6 +43,7 @@ class Form extends React.Component {
                         name="email"
                         label="Email"
                         value={ this.state.credentials.email }
+                        error={ errors.email }
                         onChange={ this.onChange }/>
 
                     <TextInput
@@ -46,6 +51,7 @@ class Form extends React.Component {
                         label="Password"
                         type="password"
                         value={ this.state.credentials.password }
+                        error={ errors.password }
                         onChange={ this.onChange }/>
                 </div>
 
@@ -70,4 +76,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(Form);
+export default connect((state) => ({ errors: state.user.login.errors }), mapDispatchToProps)(Form);
