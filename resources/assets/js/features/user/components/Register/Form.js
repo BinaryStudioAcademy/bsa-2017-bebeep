@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { registerSuccess, registerFailed } from '../../actions';
 import Input from '../../../../app/components/Input';
 import { browserHistory } from 'react-router';
-import { RegisterRequest } from '../../services/RequestService';
+import UserManager from '../../services/UserManager';
 import '../../styles/user_register.scss';
 
 class Form extends React.Component {
@@ -17,7 +17,7 @@ class Form extends React.Component {
     onSubmit(e) {
         const {registerSuccess, registerFailed} = this.props;
         e.preventDefault();
-        RegisterRequest.doRegister({
+        UserManager.doRegister({
             first_name: e.target['first_name'].value,
             last_name: e.target['last_name'].value,
             phone: e.target['phone'].value,

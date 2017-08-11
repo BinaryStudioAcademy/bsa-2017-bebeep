@@ -4,7 +4,7 @@ import Input from '../../../app/components/Input';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {forgotPasswordSuccess, forgotPasswordFailed} from '../actions';
-import { PasswordRequest } from '../services/RequestService';
+import UserManager from '../services/UserManager';
 import '../styles/password_forgot.scss';
 
 class PasswordForgot extends React.Component {
@@ -16,7 +16,7 @@ class PasswordForgot extends React.Component {
     onSubmit(e) {
         const { forgotPasswordSuccess, forgotPasswordFailed } = this.props;
         e.preventDefault();
-        PasswordRequest.forgotPassword(e.target['email'].value)
+        UserManager.forgotPassword(e.target['email'].value)
             .then(data => forgotPasswordSuccess())
             .catch(error => forgotPasswordFailed(error));
     }

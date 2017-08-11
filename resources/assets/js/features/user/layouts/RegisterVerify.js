@@ -4,14 +4,14 @@ import PageHeader from '../../../app/components/PageHeader';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
-import { RegisterRequest } from '../services/RequestService'
+import UserManager from '../services/UserManager';
 
 class RegisterVerify extends React.Component {
 
     componentWillMount() {
         const {email, token} = this.props.location.query,
             {verifySuccess, verifyFailed} = this.props;
-        RegisterRequest.doVerify(email, token)
+        UserManager.doVerify(email, token)
             .then(data => verifySuccess(data))
             .catch(error => verifyFailed(error));
     }

@@ -1,13 +1,13 @@
-import { MakeRequest } from '../../../app/services/RequestService';
+import { makeRequest } from '../../../app/services/RequestService';
 import { RegisterValidate, VerifyValidator, RegisterValidator } from '../../../app/services/UserService';
 
-export const PasswordRequest = {
+const UserManager = {
     forgotPassword(email) {
         const valid = RegisterValidator.email(email);
         if (!valid.valid) {
             return Promise.reject({email: valid.error});
         } else {
-            return MakeRequest('post', '/api/authorization', {
+            return makeRequest('post', '/api/authorization', {
                 email: email,
                 type: 'reset-password'
             }).then(
@@ -30,7 +30,7 @@ export const PasswordRequest = {
                 token: validToken.error,
             });
         }
-        return MakeRequest('put', `/api/users/${data.email}/password`, {
+        return makeRequest('put', `/api/users/${data.email}/password`, {
             password: data.password
         }, {
             headers: {'Token': data.token}
@@ -39,14 +39,12 @@ export const PasswordRequest = {
                 response => Promise.resolve(response.data),
                 error => Promise.reject(error.response.data)
             );
-    }
-};
+    },
 
-export const RegisterRequest = {
     doRegister(data) {
         const validate = RegisterValidate(data);
         if (validate.valid) {
-            return MakeRequest('post', '/api/user/register', data)
+            return makeRequest('post', '/api/user/register', data)
                 .then(
                     response => Promise.resolve(response.data),
                     error => Promise.reject(error.response.data)
@@ -65,7 +63,7 @@ export const RegisterRequest = {
                 token: tokenValid.error
             });
         } else {
-            return MakeRequest('post', '/api/user/verify', {
+            return makeRequest('post', '/api/user/verify', {
                 email: email,
                 token: token
             })
@@ -77,9 +75,7 @@ export const RegisterRequest = {
     }
 };
 
-const RequestService = {
-    PasswordRequest,
-    RegisterRequest
-};
 
-export default RequestService;
+export default UserManager;
+
+
