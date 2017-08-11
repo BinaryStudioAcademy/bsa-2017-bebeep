@@ -8,9 +8,7 @@ export const makeRequest = (method, ...args) => {
 
 export const securedRequest = (method, ...args) => {
     // do something with header (args[2].headers)
-    if (typeof axios[method] === 'function') {
-        return axios[method].apply(this, args);
-    }
+    return makeRequest(method, ...args)
 };
 
 const RequestService = {
