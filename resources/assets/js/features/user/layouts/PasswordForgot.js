@@ -1,6 +1,7 @@
 import React from 'react';
 import PageHeader from '../../../app/components/PageHeader';
 import Input from '../../../app/components/Input';
+import Modal from '../../../app/components/Modal';
 import { makeRequest } from '../../../app/services/RequestService';
 import validate from 'validate.js';
 import '../styles/password_forgot.scss';
@@ -9,7 +10,8 @@ class PasswordForgot extends React.Component {
     constructor() {
         super();
         this.state = {
-            success: false,
+            formIsOpen: false,
+            alertIsOpen: false,
             errors: {}
         };
         this.onSubmit = this.onSubmit.bind(this);
@@ -21,7 +23,6 @@ class PasswordForgot extends React.Component {
             error = validate.single(email, {presence: true, email: true});
         if (error) {
             this.setState({
-                success: false,
                 errors: { email: error.join(', ') }
             });
         } else {
@@ -30,11 +31,11 @@ class PasswordForgot extends React.Component {
                     type: 'reset-password'
                 }).then(
                     response => this.setState({
-                        success: true,
+                        alertIsOpen: true,
+                        formIsOpen: false,
                         errors: {}
                     }),
                     error => this.setState({
-                        success: false,
                         errors: error.response.data
                     })
                 );
@@ -42,29 +43,45 @@ class PasswordForgot extends React.Component {
     }
 
     render() {
-        const {errors, success} = this.state;
+        const {errors, formIsOpen, alertIsOpen} = this.state;
         return (
             <div>
                 <PageHeader header={ 'Recover password' } />
-                <form method="post" action="/api/password/forgot" className="card password-form" onSubmit={this.onSubmit}>
-                    <div className="card-header">Enter your email address and we will send you a link to reset your password.</div>
-                    <div className="card-block">
-                        <div className={"alert alert-success " + (success ? '' : 'alert_hide')}>
-                            Link to reset password send to your email
+                <a href="#" onClick={(e) => {
+                    e.preventDefault();
+                    this.setState({formIsOpen: true, alertIsOpen: false});
+                }}>Forgot password ?</a>
+                <Modal isOpen={formIsOpen}>
+                    <form method="post" action="/api/password/forgot" className="password-form" onSubmit={this.onSubmit}>
+                        <div className="modal-header">Enter your email address and we will send you a link to reset your password.</div>
+                        <div className="modal-body">
+                            <Input
+                                name="email"
+                                type="email"
+                                id="email"
+                                error={errors.email}
+                            >E-mail</Input>
                         </div>
-                        <Input
-                            name="email"
-                            type="email"
-                            id="email"
-                            error={errors.email}
-                        >E-mail</Input>
-                    </div>
-                    <div className="card-footer">
-                        <div className="col-sm-8 offset-sm-4">
+                        <div className="modal-footer text-right">
+                            <button className="btn" onClick={(e) => {
+                                e.preventDefault();
+                                this.setState({formIsOpen: false});
+                            }}>Cancel</button>
                             <button className="btn btn-primary" role="button">Send password reset email</button>
                         </div>
+                    </form>
+                </Modal>
+                <Modal isOpen={alertIsOpen}>
+                    <div className={"alert alert-success password-alert-success"}>
+                        <button type="button" className="close" onClick={(e) => {
+                            e.preventDefault();
+                            this.setState({alertIsOpen: false});
+                        }}>
+                            <span>&times;</span>
+                        </button>
+                        Link to reset password send to your email
                     </div>
-                </form>
+                </Modal>
             </div>
         )
     }
