@@ -10,14 +10,6 @@ import axios from 'axios'
 // ];
 const url = 'http://localhost/api/v1/trips';
 
-
-
-// export function getTrips(tripsData) {
-//     return { type: actions.TRIPSLIST_GET_ALL,
-//         trips: axios.get(url)
-//     };
-// }
-
 export function getTrips(){
     return dispatch => {
         axios.get(url)
