@@ -1,8 +1,3 @@
-div.google-map {
-    height: 400px;
-    width: 100%;
-    background-color: #eee;
-}
 .autocomplete-container {
     position: absolute;
     top: 40px;
@@ -10,4 +5,14 @@ div.google-map {
     border: 1px solid #999;
     width: 100%;
     z-index: 1000;
+}
+
+.card-block {
+    min-height: 450px;
+}
+.google-map {
+    height: 400px;
+    min-height: 400px;
+    width: 100%;
+    margin-bottom: 2px;
 }

@@ -2,8 +2,8 @@ import Validator from './Validator';
 
 const createTripRules = {
     vehicle_id: Validator.required('Please select a car'),
-    start_at: Validator.required('The trip should begin at least an hour later'),
-    end_at: Validator.required('End trip time is required and should end at least an hour later start time'),
+    start_at: Validator.required('Please enter trip start time'),
+    end_at: Validator.required('Please enter trip end time'),
     from: Validator.required('Enter trip start point'),
     to: Validator.required('Enter trip end point'),
     price: [Validator.required('Enter trip price'), Validator.greaterThan(1, 'Trip price must be greater than 0')],

@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import Input from '../../../../app/components/Input';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
 
+
 class CreateTrip extends React.Component {
     constructor(props) {
         super(props);
@@ -77,8 +78,8 @@ class CreateTrip extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDIzODIxMjMsImV4cCI6MTUwMjk4NjkyMywibmJmIjoxNTAyMzgyMTIzLCJqdGkiOiIwbkdsejZzcFQzWjlleVhRIn0.otg9BJNfZa4rytNA5n--cUaOTGYl8-YVSBf0sWO5f7w';
-
+        //let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDIzODIxMjMsImV4cCI6MTUwMjk4NjkyMywibmJmIjoxNTAyMzgyMTIzLCJqdGkiOiIwbkdsejZzcFQzWjlleVhRIn0.otg9BJNfZa4rytNA5n--cUaOTGYl8-YVSBf0sWO5f7w';
+        let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDI0NDkwMTMsImV4cCI6MTUwMzA1MzgxMywibmJmIjoxNTAyNDQ5MDEzLCJqdGkiOiJCZWR1dE9wOTAxUzhCQjVqIn0.RZC3NxU8Sws2hBEfGMzc-5El1WX_skrYnF36kTmc9I8';
         let date = new Date(e.target['start_at'].value).getTime() / 1000;
 
         this.props.createTripDispatch({
@@ -90,6 +91,8 @@ class CreateTrip extends React.Component {
             from: this.state.startPoint.place,
             to: this.state.endPoint.place,
         }, token);
+        //console.log('from', this.state.startPoint.place);
+        //console.log('to', this.state.endPoint.place);
     }
 
     render() {
@@ -121,7 +124,7 @@ class CreateTrip extends React.Component {
                         <label className="form-control-label text-muted col-sm-4" htmlFor="vehicle_id">Select car</label>
                         <div className="col-sm-8">
                             <select name="vehicle_id" className="form-control" id="vehicle_id" >
-                                <option value="2">2</option>
+                                <option value="1">1</option>
                             </select>
                             <div className="form-control-feedback">{ errors.vehicle_id }</div>
                         </div>
