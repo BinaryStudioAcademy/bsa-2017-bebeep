@@ -4,7 +4,6 @@ namespace Tests\Feature\Auth;
 
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Tests\JwtTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

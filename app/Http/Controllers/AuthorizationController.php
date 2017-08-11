@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\User\VerifyException;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Services\PasswordService;
-use App\Services\Requests\AuthorizationRequest;
 use Illuminate\Http\Request;
 
 class AuthorizationController extends Controller {
