@@ -25,7 +25,8 @@ export default class Map extends Component {
         origin: new google.maps.LatLng(this.props.from[0], this.props.from[1]),
         destination: new google.maps.LatLng(this.props.to[0], this.props.to[1]),
         directions: null,
-    }
+    };
+
 
     componentDidMount() {
         const DirectionsService = new google.maps.DirectionsService();

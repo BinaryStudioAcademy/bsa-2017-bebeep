@@ -3,8 +3,9 @@ import * as actions from './actionTypes';
 const initialState = {
     trips: [], // list user trips
     filtered: [], // filtered user trips
+
     isOpen: false, // status of modal window
-    modalData: [] // data in modal window
+    modalData: [], // data in modal window
 };
 
 

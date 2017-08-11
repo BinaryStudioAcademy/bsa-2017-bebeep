@@ -1,29 +1,48 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { hideModal } from "../actions";
+import Map from './map';
+
 import './css/modal.scss';
 
 class Modal extends Component {
     render() {
-        if (this.props.isOpen === false)
+        let modalData = this.props.tripsState.modalData;
+        if (this.props.tripsState.isOpen === false)
             return null;
 
-        this.props.blockModal();
         return (
             <div className="backdropStyle">
                 <div className="modalStyle">
-                    {this.props.children}
+                    <div className="big-map">
+                        <Map from={modalData.from} to={modalData.to} />
+                    </div>
+                    <div className="row">
+                        <div className="col-md-10" />
+                        <div className="col-md-1">
+                            <button className="btn btn-secondary" onClick={this.props.hideModal}>Close</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="backdropStyle"
-                     onClick={this.props.onClose}/>
+                     onClick={this.props.hideModal}/>
 
             </div>
         );
     }
-    // close(e) {
-    //     e.preventDefault();
-    //     if (this.props.onClose) {
-    //         this.props.onClose()
-    //     }
-    // }
 }
-export default Modal;
+
+function mapStateToProps (state) {
+    return {
+      tripsState: state.tripsList
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+return bindActionCreators({hideModal}, dispatch);
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Modal);
+

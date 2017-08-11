@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
 import { showModal,hideModal } from "../actions";
-import Modal from './modal';
 import Map from './map';
 import './css/TripsListItem.scss';
 
@@ -20,7 +19,6 @@ class TripsListItem extends Component {
 
     render() {
         let data = this.props.tripData;
-        let modalData = this.props.tripData;
         let edit = null;
         if( new Date(data.start_at)>new Date() ) {
             edit = (
@@ -44,24 +42,10 @@ class TripsListItem extends Component {
                     </div>
                     {/*Small map*/}
                     <div className="list-map" onClick={this.showModal} >
-                        <Map from={data.from} to={data.to} />
+                        <Map key={new Date()} from={data.from} to={data.to} />
                     </div>
-
                     {edit}
                 </li>
-
-                <Modal isOpen={this.props.tripsState.isOpen}  onClose={this.props.hideModal} >
-                    <div className="big-map">
-                        <Map from={modalData.from} to={modalData.to} />
-                    </div>
-                    <div className="row">
-                        <div className="col-md-10" />
-                        <div className="col-md-1">
-                            <button className="btn btn-secondary" onClick={this.props.hideModal}>Close</button>
-                        </div>
-                    </div>
-                </Modal>
-
             </div>
         );
     }

@@ -1,12 +1,12 @@
 .modalStyle{
   position: absolute;
-  top: 50%;
   left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
   background-color: #fcfcfc;
   border-radius: 3px;
-  box-shadow: 0 0 20px #333;
+  box-shadow: 0 0 2px rgba(51, 51, 51, 0.48);
   padding: 20px;
   width: 80%;
 }
@@ -19,3 +19,9 @@
   left: 0px;
   z-index: 9998;
 };
+
+.big-map{
+  height: 450px;
+  width: 100%;
+  margin-bottom:2px;
+}

@@ -9,20 +9,13 @@ import './css/ListWithTripsItems.scss';
 class ListWithTripsItems extends  Component{
     constructor(props) {
         super(props);
-        this.props.getTrips();
         this.props.filterPast();
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        const oldState = this.props.tripsState,
-            newState = nextProps.tripsState;
-
-        return newState.filtered.length !== oldState.filtered.length+1;
     }
 
     render() {
         let trips  = this.props.tripsState.filtered;
         let tripsList = 'No trips';
+        let modalData = this.props.tripsState.modalData;
 
         if(trips.length > 0){
             tripsList = trips.map(function (tripData, index) {
@@ -46,7 +39,6 @@ class ListWithTripsItems extends  Component{
                 <ul className="list-group">
                     {tripsList}
                 </ul>
-
             </div>
         );
     }
