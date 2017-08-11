@@ -6,7 +6,7 @@ import Home from './layouts/Home';
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import NotFound from './layouts/NotFound';
-import CreateWrap from '../features/trip/layouts/CreateWrap';
+import CreateTrip from '../features/trip/components/Create/CreateTrip';
 import RegisterForm from '../features/user/layouts/RegisterForm';
 import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
 import RegisterVerify from '../features/user/layouts/RegisterVerify';
@@ -17,7 +17,7 @@ export default (
 
         <Route path="vehicles" component={ Vehicles } />
         <Route path="vehicles/:id" component={ VehicleDetails } />
-        <Route path="trip/create" component={ CreateWrap } />
+        <Route path="trip/create" component={ CreateTrip } />
         <Route path="trip/edit/:id" component={ Vehicles /*TripEdit*/ } />
 
         <Route path="registration" component={ RegisterForm } />
