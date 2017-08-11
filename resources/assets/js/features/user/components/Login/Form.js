@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { doLogin } from '../../actions';
 import * as actions from '../../actions';
 import TextInput from './TextInput';
-import Input from './Input';
 import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 
@@ -26,7 +24,7 @@ class Form extends React.Component {
 
     onSave(event) {
         event.preventDefault();
-        this.props.actions.logInUser(this.state.credentials);
+        this.props.actions.doLogin(this.state.credentials);
     }
 
     render() {
@@ -39,13 +37,13 @@ class Form extends React.Component {
                 <div className="card-block">
                     <TextInput
                         name="email"
-                        label="email"
+                        label="Email"
                         value={ this.state.credentials.email }
                         onChange={ this.onChange }/>
 
                     <TextInput
                         name="password"
-                        label="password"
+                        label="Password"
                         type="password"
                         value={ this.state.credentials.password }
                         onChange={ this.onChange }/>

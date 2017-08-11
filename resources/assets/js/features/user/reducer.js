@@ -11,12 +11,9 @@ const initialState = {
         errors: {},
     },
     login: {
-        success: false,
-        failedNoUser: false,
-        failedNoActivation: false,
+        success: !!sessionStorage.jwt,
         errors: {}
-    },
-    session: !!sessionStorage.jwt
+    }
 };
 
 export default function (state = initialState, action) {
@@ -58,40 +55,20 @@ export default function (state = initialState, action) {
             };
         case actions.LOGIN_SUCCESS:
             browserHistory.push('/dashboard')
-            return !!sessionStorage.jwt
-        // case actions.LOGIN_SUCCESS:
-        //     return {
-        //         ...state,
-        //         login: {
-        //             success: true,
-        //             failedNoUser: false,
-        //             failedNoActivation: false,
-        //             errors: {}
-        //         }
-        //     };
-        // case actions.LOGIN_FAILED_NOUSER:
-        //     return {
-        //         ...state,
-        //         login: {
-        //             ...state.login,
-        //             errors: action.data,
-        //             failedNoUser: true,
-        //             failedNoActivation: false,
-        //             success: false
-        //         }
-        //     };
-
-        // case actions.LOGIN_FAILED_NOACTIVATION:
-        //     return {
-        //         ...state,
-        //         login: {
-        //             ...state.login,
-        //             errors: action.data,
-        //             failedNoUser: false,
-        //             failedNoActivation: true,
-        //             success: false
-        //         }
-        //     };
+            return {
+                ...state,
+                login: {
+                    success: !!sessionStorage.jwt
+                }
+            };
+        case actions.LOGIN_FAILED:
+            return {
+                ...state,
+                login: {
+                    success: false,
+                    errors: action.data
+                }
+            };
 
         default: {
             return state;

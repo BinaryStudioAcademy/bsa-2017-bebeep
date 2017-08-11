@@ -1,7 +1,6 @@
 import * as actions from './actionTypes';
 import axios from 'axios';
 import { RegisterValidate, VerifyValidator, RegisterValidator } from '../../app/services/UserService';
-import sessionApi from './sessionApi';
 
 export const registerSuccess = data => ({
     type: actions.USER_REGISTER_SUCCESS,
@@ -54,40 +53,39 @@ export const doVerify = (email, token) => dispatch => {
     }
 };
 
-// export const loginFailed = data => ({
-//     type: data.code == 404 ? actions.LOGIN_FAILED_NOUSER : actions.LOGIN_FAILED_NOACTIVATION,
-//     data
-// });
 
-// export const loginSuccess = data => ({
-//     type: actions.LOGIN_SUCCESS,
-//     data
-// });
+export const loginSuccess = data => ({
+    type: actions.LOGIN_SUCCESS,
+    data
+});
 
+export const loginFailed = data => ({
+    type: actions.LOGIN_FAILED,
+    data
+});
 
-// export const doLogin = (data) => {
-//     return dispatch => {
-//         axios.post('/api/user/authorization', data)
-//             .then(response => dispatch(loginSuccess(response.data)))
-//             .catch(error => dispatch(loginFailed(error.response.data)))
-//         ;
-//     }
-// }
+export const doLogin = (credentials) => dispatch => {
+    const emailValid = RegisterValidator.email(credentials.email);
+    const passwordValid = RegisterValidator.password(credentials.password);
 
-// added with JWT integration
-export function loginSuccess() {
-    return { type: actions.LOGIN_SUCCESS }
-}
+    if (!emailValid.valid) {
+        return dispatch(loginFailed({ email: emailValid.error }));
+    }
 
-export function logInUser(credentials) {
-    return function(dispatch) {
-        return sessionApi.login(credentials)
+    if (!passwordValid.valid) {
+        return dispatch(loginFailed({ password: passwordValid.error }));
+    } else {
+        axios.post('/api/user/authorization', {
+            email: credentials.email,
+            password: credentials.password
+        })
             .then(response => {
-                sessionStorage.setItem('jwt', response.token);
-                dispatch(loginSuccess());
+                sessionStorage.setItem('jwt', response.data.token);
+                dispatch(loginSuccess(response.data))
             })
             .catch(error => {
-                throw(error);
+                sessionStorage.removeItem('jwt');
+                dispatch(loginFailed(error.response.data))
             });
     }
-}
+};
