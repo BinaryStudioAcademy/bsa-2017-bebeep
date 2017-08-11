@@ -73,7 +73,12 @@ class RegisterUserTest extends JwtTestCase
      */
     public function cant_reset_password_if_incorrect_email()
     {
-        $response = $this->json('POST', $this->urlPasswordReset, ['email' => 'someuserthatnotexists@test.com']);
+        $response = $this->json('POST', $this->urlPasswordReset, [
+            'email' => 'someuserthatnotexists@test.com',
+            'token' => 'sometoken',
+            'password' => '1a2b3c',
+            'password_confirmation' => '1a2b3c'
+        ]);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
     }
 
