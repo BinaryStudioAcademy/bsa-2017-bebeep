@@ -3,18 +3,31 @@ import PageHeader from '../../../app/components/PageHeader';
 import Input from '../../../app/components/Input';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import {forgotPassword} from '../actions';
 import '../styles/password_forgot.scss';
 
 class PasswordForgot extends React.Component {
+    constructor() {
+        super();
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+        this.props.forgotPassword(e.target['email'].value);
+    }
 
     render() {
-        const {errors} = this.props;
+        const {errors, success} = this.props;
         return (
             <div>
                 <PageHeader header={ 'Recover password' } />
-                <form method="post" action="/api/password/forgot" className="card password-form" >
+                <form method="post" action="/api/password/forgot" className="card password-form" onSubmit={this.onSubmit}>
                     <div className="card-header">Enter your email address and we will send you a link to reset your password.</div>
                     <div className="card-block">
+                        <div className={"alert alert-success " + (success ? '' : 'alert_hide')}>
+                            Link to reset password send to your email
+                        </div>
                         <Input
                             name="email"
                             type="email"
@@ -35,10 +48,11 @@ class PasswordForgot extends React.Component {
 
 const PasswordForgotConnected = connect(
     (state) => ({
-        errors: {}
+        errors: state.user.password.forgot.errors,
+        success: state.user.password.forgot.success,
     }),
     (dispatch) =>
-        bindActionCreators({}, dispatch)
+        bindActionCreators({ forgotPassword }, dispatch)
 )(PasswordForgot);
 
 export default PasswordForgotConnected;
