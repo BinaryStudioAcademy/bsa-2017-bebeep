@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import Map from './map';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+
+import { showModal,hideModal } from "../actions";
 import Modal from './modal';
+import Map from './map';
 import './css/TripsListItem.scss';
 
 class TripsListItem extends Component {
     constructor(props){
         super(props);
-        this.state = { isModalOpen: false };
+        this.showModal = this.showModal.bind(this);
     }
 
-    openModal() {
-        this.setState({ isModalOpen: true })
-    }
-
-    closeModal() {
-        this.setState({ isModalOpen: false })
+    showModal(){
+        this.props.showModal(this.props.tripData)
     }
 
     render() {
         let data = this.props.tripData;
+        let modalData = this.props.tripData;
         let edit = null;
         if( new Date(data.start_at)>new Date() ) {
             edit = (
@@ -41,26 +42,39 @@ class TripsListItem extends Component {
                         Start: {data.start_at}<br/>
                         End: {data.end_at}<br/>
                     </div>
-                    <div className="list-map" onClick={() => this.openModal()} >
+                    {/*Small map*/}
+                    <div className="list-map" onClick={this.showModal} >
                         <Map from={data.from} to={data.to} />
                     </div>
 
                     {edit}
                 </li>
-                <Modal isOpen={this.state.isModalOpen} onClose={() => this.closeModal()}>
+
+                <Modal isOpen={this.props.tripsState.isOpen}  onClose={this.props.hideModal} >
                     <div className="big-map">
-                        <Map from={data.from} to={data.to} />
+                        <Map from={modalData.from} to={modalData.to} />
                     </div>
                     <div className="row">
                         <div className="col-md-10" />
                         <div className="col-md-1">
-                            <button className="btn btn-default" onClick={() => this.closeModal()}>Close</button>
+                            <button className="btn btn-secondary" onClick={this.props.hideModal}>Close</button>
                         </div>
                     </div>
                 </Modal>
+
             </div>
         );
     }
 }
 
-export default TripsListItem;
+function mapStateToProps (state) {
+    return {
+        tripsState: state.tripsList
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({showModal,hideModal}, dispatch);
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(TripsListItem);

@@ -1,9 +1,10 @@
 import * as actions from './actionTypes';
 
 const initialState = {
-    trips: [],
-    filtered: [],
-
+    trips: [], // list user trips
+    filtered: [], // filtered user trips
+    isOpen: false, // status of modal window
+    modalData: [] // data in modal window
 };
 
 
@@ -16,23 +17,35 @@ export default function (state = initialState, action) {
             };
         }
         case actions.TRIPSLIST_FILTER_PAST: {
-            console.log(state);
             return {
             ...state,
-            filtered: action.trips.filter(
+            filtered: state.trips.filter(
                 item => (new Date(item.start_at)<new Date()))
-
             };
         }
 
         case actions.TRIPSLIST_FILTER_UPCOMING: {
-            console.log(state);
             return {
                 ...state,
-                filtered: action.trips.filter(
+                filtered: state.trips.filter(
                     item => new Date(item.start_at)>new Date())
-
             };
+        }
+
+        case actions.TRIPSLIST_SHOW_MODAL:{
+            return {
+                ...state,
+                isOpen:true,
+                modalData: action.modalData
+            }
+        }
+
+        case actions.TRIPSLIST_HIDE_MODAL:{
+            return {
+                ...state,
+                isOpen:false,
+                modalData:[]
+            }
         }
         default: {
             return state;

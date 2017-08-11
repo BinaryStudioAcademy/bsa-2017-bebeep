@@ -1,6 +1,5 @@
 import React from 'react';
 import { IndexRoute, Route, Redirect } from 'react-router';
-
 import App from './App';
 import Home from './layouts/Home';
 import Vehicles from '../features/vehicle/layouts/Vehicles';

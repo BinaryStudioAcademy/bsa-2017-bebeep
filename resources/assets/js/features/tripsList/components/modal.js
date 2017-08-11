@@ -6,6 +6,7 @@ class Modal extends Component {
         if (this.props.isOpen === false)
             return null;
 
+        this.props.blockModal();
         return (
             <div className="backdropStyle">
                 <div className="modalStyle">
@@ -13,15 +14,16 @@ class Modal extends Component {
                 </div>
 
                 <div className="backdropStyle"
-                     onClick={e => this.close(e)}/>
+                     onClick={this.props.onClose}/>
+
             </div>
         );
     }
-    close(e) {
-        e.preventDefault();
-        if (this.props.onClose) {
-            this.props.onClose()
-        }
-    }
+    // close(e) {
+    //     e.preventDefault();
+    //     if (this.props.onClose) {
+    //         this.props.onClose()
+    //     }
+    // }
 }
 export default Modal;
