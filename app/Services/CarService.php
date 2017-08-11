@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Services\Requests\CreateCarRequest;
 use App\Repositories\CarRepository;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\Auth;
 
 class CarService
 {
@@ -30,6 +31,7 @@ class CarService
             'seats' => $request->getSeats(),
             'year' => date_create_from_format("Y",$request->getYear()),
             'photo' => $request->getPhoto(),
+            'user_id' => Auth::user()->id,
         ];
 
         $car = $this->carRepository->save(new Vehicle($attributes));
@@ -56,7 +58,7 @@ class CarService
 
     public function getAll()
     {
-        return $this->carRepository->all();
+        return $this->carRepository->findWhere(['user_id'=>Auth::user()->id]);
     }
 
     public function getById($id)

@@ -38,5 +38,5 @@ class VehicleApiTest extends TestCase
         $response =  $this->json('GET', self::ENDPOINT );
         $response->assertHeader('Content-Type', 'application/json');
     }
-    
+
 }

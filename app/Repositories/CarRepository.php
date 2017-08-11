@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
-use App\Http\Requests\DeleteCarRequest;
 use App\Models\Vehicle;
 
 class CarRepository extends BaseRepository

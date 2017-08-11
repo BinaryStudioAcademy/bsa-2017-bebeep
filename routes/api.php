@@ -22,4 +22,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('verify', ['as' => 'verify', 'uses' => 'Auth\RegisterController@verify']);
 });
 
-Route::resource('v1/car', "Api\\Car\\CarController");
+
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::resource('v1/car', "Api\\Car\\CarController");
+});
