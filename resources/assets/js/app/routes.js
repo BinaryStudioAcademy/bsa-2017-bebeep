@@ -6,7 +6,7 @@ import Home from './layouts/Home';
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import NotFound from './layouts/NotFound';
-import CreateTrip from '../features/trip/components/Create/CreateTrip';
+import CreateTrip from '../features/trip/layouts/CreateTrip';
 import RegisterForm from '../features/user/layouts/RegisterForm';
 import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
 import RegisterVerify from '../features/user/layouts/RegisterVerify';

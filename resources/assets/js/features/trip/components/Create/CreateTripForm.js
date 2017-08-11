@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from '../../../app/components/Input';
+import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
 class CreateTripForm extends React.Component {

@@ -1,6 +1,5 @@
 import React from 'react';
-import CreateTripForm from '../../layouts/CreateTripForm';
-import PageHeader from '../../../../app/components/PageHeader';
+import CreateTripForm from './CreateTripForm';
 import DirectionsMap from "../../../../app/components/DirectionsMap";
 import {geocodeByAddress} from 'react-places-autocomplete';
 import {connect} from 'react-redux';
@@ -8,8 +7,7 @@ import createTripDispatch from '../../actions';
 import {bindActionCreators} from 'redux';
 import '../../styles/create_trip.scss';
 
-
-class CreateTrip extends React.Component {
+class CreateTripContainer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -107,27 +105,24 @@ class CreateTrip extends React.Component {
         };
 
         return (
-            <div>
-                <PageHeader header={'Create new trip'}/>
-                <div className="row">
-                    <div className="col-sm-6">
-                        <CreateTripForm
-                            errors={this.props.errors}
-                            startPoint={startPointProps}
-                            endPoint={endPointProps}
-                            onSelectEndPoint={this.onSelectEndPoint.bind(this)}
-                            onSelectStartPoint={this.onSelectStartPoint.bind(this)}
-                            placesCssClasses={placesCssClasses}
-                            onSubmit={this.onSubmit.bind(this)}
-                        />
-                    </div>
-                    <div className="col-sm-6">
-                        <DirectionsMap title="Preview Trip"
-                                       key={Date.now()}
-                                       from={CreateTrip.getCoordinatesFromPlace(this.state.startPoint.place)}
-                                       to={CreateTrip.getCoordinatesFromPlace(this.state.endPoint.place)}
-                        />
-                    </div>
+            <div className="row">
+                <div className="col-sm-6">
+                    <CreateTripForm
+                        errors={this.props.errors}
+                        startPoint={startPointProps}
+                        endPoint={endPointProps}
+                        onSelectEndPoint={this.onSelectEndPoint.bind(this)}
+                        onSelectStartPoint={this.onSelectStartPoint.bind(this)}
+                        placesCssClasses={placesCssClasses}
+                        onSubmit={this.onSubmit.bind(this)}
+                    />
+                </div>
+                <div className="col-sm-6">
+                    <DirectionsMap title="Preview Trip"
+                                   key={Date.now()}
+                                   from={CreateTripContainer.getCoordinatesFromPlace(this.state.startPoint.place)}
+                                   to={CreateTripContainer.getCoordinatesFromPlace(this.state.endPoint.place)}
+                    />
                 </div>
             </div>
         );
@@ -150,6 +145,6 @@ const CreateTripDispatch = connect(
         errors: state.trip.create.errors
     }),
     (dispatch) => bindActionCreators({createTripDispatch}, dispatch)
-)(CreateTrip);
+)(CreateTripContainer);
 
 export default CreateTripDispatch;
