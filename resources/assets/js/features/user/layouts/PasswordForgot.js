@@ -1,28 +1,48 @@
 import React from 'react';
 import PageHeader from '../../../app/components/PageHeader';
 import Input from '../../../app/components/Input';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {forgotPasswordSuccess, forgotPasswordFailed} from '../actions';
-import UserManager from '../services/UserManager';
+import { makeRequest } from '../../../app/services/RequestService';
+import validate from 'validate.js';
 import '../styles/password_forgot.scss';
 
 class PasswordForgot extends React.Component {
     constructor() {
         super();
+        this.state = {
+            success: false,
+            errors: {}
+        };
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     onSubmit(e) {
-        const { forgotPasswordSuccess, forgotPasswordFailed } = this.props;
         e.preventDefault();
-        UserManager.forgotPassword(e.target['email'].value)
-            .then(data => forgotPasswordSuccess())
-            .catch(error => forgotPasswordFailed(error));
+        const email = e.target['email'].value,
+            error = validate.single(email, {presence: true, email: true});
+        if (error) {
+            this.setState({
+                success: false,
+                errors: { email: error.join(', ') }
+            });
+        } else {
+            makeRequest('post', '/api/authorization', {
+                    email: email,
+                    type: 'reset-password'
+                }).then(
+                    response => this.setState({
+                        success: true,
+                        errors: {}
+                    }),
+                    error => this.setState({
+                        success: false,
+                        errors: error.response.data
+                    })
+                );
+        }
     }
 
     render() {
-        const {errors, success} = this.props;
+        const {errors, success} = this.state;
         return (
             <div>
                 <PageHeader header={ 'Recover password' } />
@@ -50,13 +70,4 @@ class PasswordForgot extends React.Component {
     }
 }
 
-const PasswordForgotConnected = connect(
-    (state) => ({
-        errors: state.user.password.forgot.errors,
-        success: state.user.password.forgot.success,
-    }),
-    (dispatch) =>
-        bindActionCreators({ forgotPasswordSuccess, forgotPasswordFailed }, dispatch)
-)(PasswordForgot);
-
-export default PasswordForgotConnected;
+export default PasswordForgot;

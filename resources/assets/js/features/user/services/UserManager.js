@@ -1,20 +1,16 @@
 import { makeRequest } from '../../../app/services/RequestService';
+import validate from 'validate.js';
 import { RegisterValidate, VerifyValidator, RegisterValidator } from '../../../app/services/UserService';
 
 const UserManager = {
     forgotPassword(email) {
-        const valid = RegisterValidator.email(email);
-        if (!valid.valid) {
-            return Promise.reject({email: valid.error});
-        } else {
-            return makeRequest('post', '/api/authorization', {
-                email: email,
-                type: 'reset-password'
-            }).then(
-                response => Promise.resolve(response.data),
-                error =>Promise.reject(error.response.data)
-            );
-        }
+        return makeRequest('post', '/api/authorization', {
+            email: email,
+            type: 'reset-password'
+        }).then(
+            response => Promise.resolve(response.data),
+            error =>Promise.reject(error.response.data)
+        );
     },
 
     resetPassword(data) {
