@@ -4,6 +4,7 @@ import Input from '../../../app/components/Input';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {resetPassword} from '../actions';
+import { browserHistory } from 'react-router';
 import '../styles/password_forgot.scss';
 
 class PasswordReset extends React.Component {
@@ -20,6 +21,12 @@ class PasswordReset extends React.Component {
             password_confirmation: e.target['password_confirmation'].value,
             token: e.target['token'].value,
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.success) {
+            browserHistory.push('/login');
+        }
     }
 
     render() {
