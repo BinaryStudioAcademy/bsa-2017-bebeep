@@ -83,7 +83,7 @@ class GeneralForm extends Component {
                         type="date"
                         name="birth_date"
                         id="birth_date"
-                        value={ profile.birth_date }
+                        value={ profile.birth_date.substr(0, 10) }
                         required={ false }
                         error={ errors.birth_date }
                     >Birth date</Input>
