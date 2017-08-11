@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { registerSuccess, registerFailed } from '../../actions';
+import { registerSuccess } from '../../actions';
 import Input from '../../../../app/components/Input';
 import { browserHistory } from 'react-router';
-import UserManager from '../../services/UserManager';
+import { RegisterValidate } from '../../../../app/services/UserService';
+import { makeRequest } from '../../../../app/services/RequestService';
 import '../../styles/user_register.scss';
 
 class Form extends React.Component {
@@ -12,34 +13,46 @@ class Form extends React.Component {
     constructor() {
         super();
         this.onSubmit = this.onSubmit.bind(this);
+        this.state = {
+            errors: {}
+        };
     }
 
     onSubmit(e) {
-        const {registerSuccess, registerFailed} = this.props;
         e.preventDefault();
-        UserManager.doRegister({
-            first_name: e.target['first_name'].value,
-            last_name: e.target['last_name'].value,
-            phone: e.target['phone'].value,
-            email: e.target['email'].value,
-            birth_date: e.target['birth_date'].value,
-            role_driver: e.target['role_driver'].checked,
-            role_passenger: e.target['role_passenger'].checked,
-            password: e.target['password'].value,
-            password_confirmation: e.target['password_confirmation'].value
-        })
-            .then(data => registerSuccess(data))
-            .catch(error => registerFailed(error));
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.successRegister) {
-            browserHistory.push('/registration/success');
+        const {registerSuccess} = this.props,
+            registerData = {
+                first_name: e.target['first_name'].value,
+                last_name: e.target['last_name'].value,
+                phone: e.target['phone'].value,
+                email: e.target['email'].value,
+                birth_date: e.target['birth_date'].value,
+                role_driver: e.target['role_driver'].checked,
+                role_passenger: e.target['role_passenger'].checked,
+                password: e.target['password'].value,
+                password_confirmation: e.target['password_confirmation'].value
+            };
+        const validate = RegisterValidate(registerData);
+        if (!validate.valid) {
+            this.setState({
+                errors: validate.errors
+            });
+        } else {
+            makeRequest('post', '/api/user/register', registerData)
+                .then(
+                    response => {
+                        registerSuccess();
+                        browserHistory.push('/registration/success');
+                    },
+                    error => this.setState({
+                        errors: error.response.data
+                    })
+                );
         }
     }
 
     render() {
-        const {errors} = this.props;
+        const {errors} = this.state;
 
         return (
             <form role="form" className="card register-form" action="/api/user/register" method="POST"
@@ -140,12 +153,9 @@ class Form extends React.Component {
 }
 
 const FormConnected = connect(
-    (state) => ({
-        errors: state.user.register.errors,
-        successRegister: state.user.register.success,
-    }),
+    null,
     (dispatch) =>
-        bindActionCreators({registerSuccess, registerFailed}, dispatch)
+        bindActionCreators({registerSuccess}, dispatch)
 )(Form);
 
 export default FormConnected;

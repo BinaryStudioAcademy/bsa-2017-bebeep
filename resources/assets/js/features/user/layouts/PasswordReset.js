@@ -1,40 +1,46 @@
 import React from 'react';
 import PageHeader from '../../../app/components/PageHeader';
 import Input from '../../../app/components/Input';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {resetPasswordSuccess, resetPasswordFailed} from '../actions';
-import UserManager from '../services/UserManager';
+import UserService from '../services/UserService';
 import { browserHistory } from 'react-router';
+import validate from 'validate.js';
 import '../styles/password_forgot.scss';
 
 class PasswordReset extends React.Component {
     constructor() {
         super();
+        this.state = {
+            errors: {}
+        };
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     onSubmit(e) {
-        const {resetPasswordSuccess, resetPasswordFailed} = this.props;
         e.preventDefault();
-        UserManager.resetPassword({
-            email: e.target['email'].value,
-            password: e.target['password'].value,
-            password_confirmation: e.target['password_confirmation'].value,
-            token: e.target['token'].value,
-        })
-            .then(response => resetPasswordSuccess())
-            .catch(error => resetPasswordFailed(error));
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.success) {
-            browserHistory.push('/login');
+        const data = {
+                email: e.target['email'].value,
+                password: e.target['password'].value,
+                password_confirmation: e.target['password_confirmation'].value,
+                token: e.target['token'].value,
+            },
+            result = validate(data, {
+                email: { presence: true, email: true },
+                token: { presence: true },
+                password: { presence: true, length: {minimum: 6} },
+                password_confirmation: { equality: 'password' },
+            });
+        if (result) {
+            this.setState({errors: result});
+        } else {
+            UserService.resetPassword(data.email, data.token, data.password)
+                .then(response => browserHistory.push('/login'))
+                .catch(error => this.setState({errors: error})
+        );
         }
     }
 
     render() {
-        const {errors} = this.props;
+        const {errors} = this.state;
         return (
             <div>
                 <PageHeader header={ 'Recover password' } />
@@ -75,13 +81,4 @@ class PasswordReset extends React.Component {
     }
 }
 
-const PasswordResetConnected = connect(
-    (state) => ({
-        errors: state.user.password.reset.errors,
-        success: state.user.password.reset.success
-    }),
-    (dispatch) =>
-        bindActionCreators({resetPasswordSuccess, resetPasswordFailed}, dispatch)
-)(PasswordReset);
-
-export default PasswordResetConnected;
+export default PasswordReset;
