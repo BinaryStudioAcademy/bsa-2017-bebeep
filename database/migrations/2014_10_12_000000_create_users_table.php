@@ -24,7 +24,6 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('permissions')->default(1);
 
             $table->datetime('birth_date')->nullable();
-            $table->text('about_me')->nullable();
 
             $table->string('verification_token')->nullable();
             $table->boolean('is_verified')->default(false);
