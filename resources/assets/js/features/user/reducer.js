@@ -12,7 +12,7 @@ const initialState = {
     },
     login: {
         success: !!sessionStorage.jwt,
-        errors: {}
+        errors: {},
     }
 };
 
@@ -61,12 +61,24 @@ export default function (state = initialState, action) {
                     success: !!sessionStorage.jwt
                 }
             };
+        case actions.LOGIN_VERIFY_FAILED:
+            return {
+                ...state,
+                login: {
+                    success: false,
+                    errors: action.data,
+                }
+            };
+        case actions.LOGIN_FAILED_NO_ACTIVATION:
+        case actions.LOGIN_FAILED_NO_USER:
+        case actions.LOGIN_FAILED_BAD_CREDENTIALS:
         case actions.LOGIN_FAILED:
             return {
                 ...state,
                 login: {
                     success: false,
-                    errors: action.data
+                    errors: action.response.data,
+                    httpStatus: action.response.status,
                 }
             };
 

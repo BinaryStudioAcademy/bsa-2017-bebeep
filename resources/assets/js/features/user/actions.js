@@ -59,33 +59,59 @@ export const loginSuccess = data => ({
     data
 });
 
-export const loginFailed = data => ({
-    type: actions.LOGIN_FAILED,
+export const loginFormFailed = data => ({
+    type: actions.LOGIN_VERIFY_FAILED,
     data
 });
+
+function processFailedLoginResponse(response) {
+    switch (response.status) {
+        case 401:
+            return {
+                type: actions.LOGIN_FAILED_NO_ACTIVATION,
+                response
+            };
+        case 404:
+            return {
+                type: actions.LOGIN_FAILED_NO_USER,
+                response
+            };
+        case 422:
+            return {
+                type: actions.LOGIN_FAILED_BAD_CREDENTIALS,
+                response
+            }
+        default:
+            return {
+                type: actions.LOGIN_FAILED,
+                response
+            }
+    }
+};
 
 export const doLogin = (credentials) => dispatch => {
     const emailValid = RegisterValidator.email(credentials.email);
     const passwordValid = RegisterValidator.password(credentials.password);
 
     if (!emailValid.valid) {
-        return dispatch(loginFailed({ email: emailValid.error }));
+        return dispatch(loginFormFailed({ email: emailValid.error }));
     }
 
     if (!passwordValid.valid) {
-        return dispatch(loginFailed({ password: passwordValid.error }));
-    } else {
-        axios.post('/api/user/authorization', {
-            email: credentials.email,
-            password: credentials.password
-        })
-            .then(response => {
-                sessionStorage.setItem('jwt', response.data.token);
-                dispatch(loginSuccess(response.data))
-            })
-            .catch(error => {
-                sessionStorage.removeItem('jwt');
-                dispatch(loginFailed(error.response.data))
-            });
+        return dispatch(loginFormFailed({ password: passwordValid.error }));
     }
+
+    axios.post('/api/user/authorization', {
+        email: credentials.email,
+        password: credentials.password
+    })
+        .then(response => {
+            sessionStorage.setItem('jwt', response.data.token);
+            dispatch(loginSuccess(response.data))
+        })
+        .catch(error => {
+            sessionStorage.removeItem('jwt');
+            dispatch(processFailedLoginResponse(error.response))
+        });
+
 };

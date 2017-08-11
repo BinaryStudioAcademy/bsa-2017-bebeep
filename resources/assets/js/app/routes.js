@@ -9,7 +9,6 @@ import NotFound from './layouts/NotFound';
 import RegisterForm from '../features/user/layouts/RegisterForm';
 import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
 import RegisterVerify from '../features/user/layouts/RegisterVerify';
-
 import LoginForm from '../features/user/layouts/Login/LoginForm';
 import LoginSuccess from '../features/user/layouts/Login/LoginSuccess';
 import LoginFailed from '../features/user/layouts/Login/LoginFailed';

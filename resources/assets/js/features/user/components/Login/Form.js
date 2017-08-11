@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import TextInput from './TextInput';
-import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 import '../../styles/user.scss';
 
@@ -10,9 +9,23 @@ class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { credentials: { email: '', password: ''}};
+        this.state = { credentials: { email: '', password: '' }};
         this.onChange = this.onChange.bind(this);
         this.onSave = this.onSave.bind(this);
+        this.pickErrorMessage = this.pickErrorMessage.bind(this);
+    }
+
+    pickErrorMessage(code) {
+        switch(code) {
+            case 401:
+                return (<div>Your e-mail was not activated yet. <a href="/verification">Click to proceed with verification</a></div>)
+            case 404:
+                return (<div>User with such e-mail wasn't registered yet. <a href="/registration"> Goto to registration page </a></div>)
+            case 422:
+                return (<div>E-mail and password are not corressponding each other</div>)
+            default:
+                return (<div>Some problems appeared. Try once more in a moment</div>)
+        }
     }
 
     onChange(event) {
@@ -30,13 +43,13 @@ class Form extends React.Component {
 
     render() {
 
-        const { errors } = this.props;
+        const { errors, errorMessage } = this.props;
 
         return (
 
             <form role="form" className="card login-form" action="/api/user/authorization" method="POST">
-                <div className="card-header">
-                    Enter your credentials
+                <div className={ "card-header " + (this.props.httpCode ? 'alert-danger' : '')}>
+                    {(this.props.httpCode ? this.pickErrorMessage(this.props.httpCode) : "Enter your credentials" )}
                 </div>
                 <div className="card-block">
                     <TextInput
@@ -76,4 +89,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect((state) => ({ errors: state.user.login.errors }), mapDispatchToProps)(Form);
+export default connect((state) => ({
+    errors: state.user.login.errors,
+    httpCode: state.user.login.httpStatus
+}), mapDispatchToProps)(Form);
