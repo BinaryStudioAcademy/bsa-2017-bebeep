@@ -3,10 +3,10 @@
 
 namespace App\Services;
 
-use App\Services\Requests\CreateCarRequest;
-use App\Repositories\CarRepository;
 use App\Models\Vehicle;
+use App\Repositories\CarRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Services\Requests\CreateCarRequest;
 
 class CarService
 {
@@ -33,7 +33,7 @@ class CarService
             'color' => $request->getColor(),
             'body' => $request->getBody(),
             'seats' => $request->getSeats(),
-            'year' => date_create_from_format("Y", $request->getYear()),
+            'year' => $request->getYear(),
             'photo' => $request->getPhoto(),
             'user_id' => Auth::user()->id,
         ];

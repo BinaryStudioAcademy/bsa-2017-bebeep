@@ -10,6 +10,6 @@ interface CreateCarRequest
     public function getColor() : string;
     public function getBody() : string;
     public function getSeats() : int;
-    public function getYear() : string ;
+    public function getYear() : int ;
     public function getPhoto() : string ;
 }

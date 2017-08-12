@@ -180,6 +180,10 @@ class CarController extends Controller
      * @return mixed
      */
     public function getCarModel($id){
-        return $this->carModelService->getModelByIdMark($id);
+        if ($this->carModelService->getModelByIdMark($id)->count() !== 0){
+            return $this->carModelService->getModelByIdMark($id);
+        } else {
+            return response()->json('Not found', 404);
+        }
     }
 }

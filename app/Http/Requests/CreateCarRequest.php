@@ -61,7 +61,7 @@ class CreateCarRequest extends FormRequest implements CreateCarRequestInterface
         return $this->get('seats');
     }
 
-    public function getYear(): string
+    public function getYear(): int
     {
         return $this->get('year');
     }
