@@ -2,38 +2,83 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\Auth\CreateTokenException;
+use App\Exceptions\Auth\InvalidCredentialsException;
+use App\Exceptions\Auth\UserNotFoundException;
+use App\Exceptions\Auth\UserNotVerifiedException;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\TokenRequest;
+use App\Services\AuthUserService;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\JWTAuth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
+    /**
+     * @var AuthUserService
+     */
+    private $authUserService;
 
     /**
-     * Where to redirect users after login.
+     * ApiAuthController constructor.
      *
-     * @var string
+     * @param AuthUserService $authUserService
      */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct(AuthUserService $authUserService)
     {
-        $this->middleware('guest')->except('logout');
+        $this->authUserService = $authUserService;
+    }
+
+    /**
+     * Authenticate user by JWT
+     *
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function authorization(LoginRequest $request)
+    {
+        try {
+            $token = $this->authUserService->auth($request);
+
+            return response()->json(['token' => $token], 200);
+        }
+        catch (UserNotFoundException $e) {
+            return response()->json(['error' => $e->getMessage()], 404);
+        }
+        catch (UserNotVerifiedException $e) {
+            return response()->json(['error' => $e->getMessage()], 401);
+        }
+        catch (InvalidCredentialsException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+        catch (CreateTokenException $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    /**
+     * Logout
+     *
+     * @param TokenRequest $request
+     * @param JWTAuth $JWTAuth
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(TokenRequest $request, JWTAuth $JWTAuth)
+    {
+        try {
+            $this->authUserService->logout($request, $JWTAuth);
+
+            return response()->json([
+                'status' => 'ok',
+                'message' => 'token was turned down'
+            ]);
+
+        } catch (TokenInvalidException $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'code' => $e->getStatusCode()
+            ], $e->getStatusCode());
+        }
     }
 }

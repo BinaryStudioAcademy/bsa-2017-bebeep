@@ -1,24 +1,44 @@
 import React from 'react';
-import { doVerify } from '../actions';
-import PageHeader from 'app/components/PageHeader';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
+import validate from 'validate.js';
+
+import PageHeader from 'app/components/PageHeader';
+
+import { makeRequest } from 'app/services/RequestService';
 
 class RegisterVerify extends React.Component {
 
-    componentWillMount() {
-        const {email, token} = this.props.location.query;
-        this.props.doVerify(email, token);
+    constructor() {
+        super();
+        this.state = {
+            errors: {}
+        };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.successVerify) {
-            browserHistory.push('/login');
+    componentWillMount() {
+        const {email, token} = this.props.location.query,
+            result = validate({
+                email, token
+            }, {
+                email: {presence: true, email: true},
+                token: {presence: true},
+            });
+        if (result) {
+            this.setState({errors: result});
+        } else {
+            return makeRequest('post', '/api/user/verify', {
+                email: email,
+                token: token
+            })
+                .then(
+                    response => browserHistory.push('/login'),
+                    error => this.setState({errors: error.response.data})
+                );
         }
     }
+
     render() {
-        const {errors} = this.props;
+        const {errors} = this.state;
         return (
             <div>
                 <PageHeader header={ 'Verify account' } />
@@ -34,13 +54,4 @@ class RegisterVerify extends React.Component {
     }
 }
 
-const RegisterVerifyConnected = connect(
-    (state) => ({
-        successVerify: state.user.verify.success,
-        errors: state.user.verify.errors
-    }),
-    (dispatch) =>
-        bindActionCreators({doVerify}, dispatch)
-)(RegisterVerify);
-
-export default RegisterVerifyConnected;
+export default RegisterVerify;

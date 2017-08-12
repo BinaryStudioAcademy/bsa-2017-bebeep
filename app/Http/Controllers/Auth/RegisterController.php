@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\User\VerifyException;
-use App\Http\Requests\RegisterUserRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\VerifyUserRequest;
 use App\Services\RegisterUserService;
+use App\Exceptions\User\VerifyException;
+use App\Http\Requests\VerifyUserRequest;
+use App\Http\Requests\RegisterUserRequest;
 
 class RegisterController extends Controller
 {
@@ -38,7 +38,7 @@ class RegisterController extends Controller
             $authToken = $this->registerUserService->verify($request);
         } catch (VerifyException $e) {
             return response()->json(['token' => [$e->getMessage()]], 422);
-        };
+        }
 
         return response()->json(['token' => $authToken]);
     }

@@ -169,5 +169,4 @@ return [
         'storage' => 'Tymon\JWTAuth\Providers\Storage\IlluminateCacheAdapter',
 
     ],
-
 ];
