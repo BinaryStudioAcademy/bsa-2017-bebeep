@@ -1,4 +1,5 @@
 import * as actions from './actionTypes';
+import moment from 'moment';
 
 const initialState = {
     trips: [], // list user trips
@@ -21,16 +22,16 @@ export default function (state = initialState, action) {
             return {
             ...state,
             filtered: state.trips.filter(
-                item => (new Date(item.start_at)<new Date()))
-            };
+                item => ( moment.utc(item.start_at).local().isBefore(new Date()) )
+            )};
         }
 
         case actions.TRIPSLIST_FILTER_UPCOMING: {
             return {
                 ...state,
                 filtered: state.trips.filter(
-                    item => new Date(item.start_at)>new Date())
-            };
+                    item => ( moment.utc(item.start_at).local().isAfter(new Date()) )
+                )};
         }
 
         case actions.TRIPSLIST_SHOW_MODAL:{

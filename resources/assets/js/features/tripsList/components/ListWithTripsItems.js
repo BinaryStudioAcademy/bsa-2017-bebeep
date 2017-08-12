@@ -34,10 +34,10 @@ class ListWithTripsItems extends  Component{
             <div>
                 <div className="tabs-buttons">
                     <div className="tab-button">
-                        <input type="button" className="btn btn-secondary tab-button" value="Past trips" onClick={this.props.filterPast} />
+                        <button className="btn btn-secondary tab-button" onClick={this.props.filterPast}>Past trips </button>
                     </div>
                     <div className="tab-button">
-                        <input type="button" className="btn btn-secondary tab-button" value="Upcoming trips" onClick={this.props.filterUpcoming} />
+                        <button className="btn btn-secondary tab-button" onClick={this.props.filterUpcoming}>Upcoming trips</button>
                     </div>
                 </div>
 
@@ -56,7 +56,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({getTrips, filterPast,filterUpcoming}, dispatch);
+    return bindActionCreators({getTrips, filterPast,filterUpcoming},dispatch);
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ListWithTripsItems);

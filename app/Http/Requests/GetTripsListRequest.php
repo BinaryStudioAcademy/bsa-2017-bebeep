@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 use App\Http\Requests\Contracts\GetTripsListRequest as InterfaceGetTripsListRequest;
+use Illuminate\Validation\Rule;
 
 class GetTripsListRequest extends FormRequest implements InterfaceGetTripsListRequest
 {
@@ -26,7 +27,17 @@ class GetTripsListRequest extends FormRequest implements InterfaceGetTripsListRe
     public function rules()
     {
         return [
+            'filter'=> ['string', Rule::in(['past','upcoming'])]
         ];
+    }
+
+    /**
+     * Return type of selected filter
+     * @return mixed
+     */
+    public function getFilter()
+    {
+        return $this->filter;
     }
 
 }

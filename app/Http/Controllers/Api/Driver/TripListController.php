@@ -22,11 +22,20 @@ class TripListController extends Controller
      */
     public function index(GetTripsListRequest $request)
     {
+        $userId = 1; //TODO: change user ID
         try {
-            $userId = 1; //TODO: change user ID
-            $result = $this->service->getUserTrips($userId);
+            switch ($request->getFilter()){
+                case 'past':
+                    $result = $this->service->getPastUserTrips($userId);
+                    break;
+                case 'upcoming':
+                    $result = $this->service->getUpcomingUserTrips($userId);
+                    break;
+                default:
+                    $result = $this->service->getUserTrips($userId);
+            }
         }catch (UserNotHaveTrips $e){
-            return response()->json([]);
+            $result = [];
         }
 
         return response()->json($result);
