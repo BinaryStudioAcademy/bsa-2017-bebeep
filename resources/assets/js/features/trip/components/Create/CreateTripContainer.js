@@ -6,7 +6,6 @@ import Validator from '../../../../app/services/Validator';
 import {securedRequest} from '../../../../app/services/RequestService';
 import {createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
 import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
-import {tripCreateSuccess} from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import '../../styles/create_trip.scss';
@@ -103,7 +102,7 @@ class CreateTripContainer extends React.Component {
         this.setState({errors: {}});
 
         securedRequest('post', '/api/trips/create', data).then((response) => {
-            this.props.tripCreateSuccess(response.data);
+            // TODO: dispatch addTrip(TRIPLIST_ADD action)
             this.setState({errors: {}});
         }).catch((error) => {
             this.setState({
@@ -156,7 +155,7 @@ class CreateTripContainer extends React.Component {
 
 const CreateTripContainerConnected = connect(
     null,
-    (dispatch) => bindActionCreators({tripCreateSuccess}, dispatch)
+    (dispatch) => bindActionCreators({}, dispatch)
 )(CreateTripContainer);
 
 export default CreateTripContainerConnected;
