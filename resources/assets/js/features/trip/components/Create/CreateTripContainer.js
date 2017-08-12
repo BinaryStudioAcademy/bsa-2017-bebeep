@@ -70,16 +70,29 @@ class CreateTripContainer extends React.Component {
             });
     }
 
+    setEndTime(time) {
+        this.endTime = time;
+    }
+
+    getTime(start_at) {
+        let start_date = new Date(start_at).getTime() / 1000;
+        start_date = Math.round(start_date);
+        let end_at = this.endTime + start_date;
+        return {
+            start_at: start_date,
+            end_at: end_at
+        }
+    }
+
     onSubmit(e) {
         e.preventDefault();
-        let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDIzODIxMjMsImV4cCI6MTUwMjk4NjkyMywibmJmIjoxNTAyMzgyMTIzLCJqdGkiOiIwbkdsejZzcFQzWjlleVhRIn0.otg9BJNfZa4rytNA5n--cUaOTGYl8-YVSBf0sWO5f7w';
-        //let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDI0NDkwMTMsImV4cCI6MTUwMzA1MzgxMywibmJmIjoxNTAyNDQ5MDEzLCJqdGkiOiJCZWR1dE9wOTAxUzhCQjVqIn0.RZC3NxU8Sws2hBEfGMzc-5El1WX_skrYnF36kTmc9I8';
-        let date = new Date(e.target['start_at'].value).getTime() / 1000;
-
+        //let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDIzODIxMjMsImV4cCI6MTUwMjk4NjkyMywibmJmIjoxNTAyMzgyMTIzLCJqdGkiOiIwbkdsejZzcFQzWjlleVhRIn0.otg9BJNfZa4rytNA5n--cUaOTGYl8-YVSBf0sWO5f7w';
+        let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDI0NDkwMTMsImV4cCI6MTUwMzA1MzgxMywibmJmIjoxNTAyNDQ5MDEzLCJqdGkiOiJCZWR1dE9wOTAxUzhCQjVqIn0.RZC3NxU8Sws2hBEfGMzc-5El1WX_skrYnF36kTmc9I8';
+        let time = this.getTime(e.target['start_at'].value);
         this.props.createTripDispatch({
             vehicle_id: e.target['vehicle_id'].value,
-            start_at: Math.round(date),
-            end_at: 1513036800,
+            start_at: time.start_at,
+            end_at: time.end_at,
             price: e.target['price'].value,
             seats: e.target['seats'].value,
             from: this.state.startPoint.place,
@@ -122,6 +135,7 @@ class CreateTripContainer extends React.Component {
                                    key={Date.now()}
                                    from={CreateTripContainer.getCoordinatesFromPlace(this.state.startPoint.place)}
                                    to={CreateTripContainer.getCoordinatesFromPlace(this.state.endPoint.place)}
+                                   endTime={this.setEndTime.bind(this)}
                     />
                 </div>
             </div>

@@ -27,12 +27,14 @@ export default class DirectionsMap extends React.Component {
             travelMode: google.maps.TravelMode.DRIVING,
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
+                let response = result.routes[0].legs[0];
+                this.props.endTime(response.duration.value);
                 this.setState({
                     directions: result,
-                    distance: result.routes[0].legs[0].distance.text,
-                    duration: result.routes[0].legs[0].duration.text,
-                    start_address: result.routes[0].legs[0].start_address,
-                    end_address: result.routes[0].legs[0].end_address
+                    distance: response.distance.text,
+                    duration: response.duration.text,
+                    start_address: response.start_address,
+                    end_address: response.end_address
                 });
 
                 return;
