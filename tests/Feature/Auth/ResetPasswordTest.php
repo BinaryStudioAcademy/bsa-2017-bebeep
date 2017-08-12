@@ -9,7 +9,7 @@ use Tests\JwtTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class RegisterUserTest extends JwtTestCase
+class ResetPasswordTest extends JwtTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
