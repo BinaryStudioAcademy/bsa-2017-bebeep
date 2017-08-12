@@ -82,7 +82,7 @@ export default (
         </Route>
 
         {/* This route for trip creating */}
-        <Route path="trip/create" component={ CreateTrip } />
+        <Route path="trip/create" component={ CreateTrip } onEnter={ requireAuth } />
 
         <Route path="*" component={ NotFound } />
     </Route>

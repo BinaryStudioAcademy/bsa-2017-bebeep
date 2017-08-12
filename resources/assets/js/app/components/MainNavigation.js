@@ -34,9 +34,11 @@ class MainNavigation extends Component {
         return (
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link to="/vehicles" className="nav-link" activeClassName="active">
-                    Vehicles
+                <Link to="/dashboard/my-vehicles" className="nav-link" activeClassName="active">
+                    My vehicles
                 </Link>
+              </li>
+              <li className="nav-item">
                 <Link to="/trip/create" className="nav-link" activeClassName="active">
                     Create new trip
                 </Link>
@@ -46,6 +48,8 @@ class MainNavigation extends Component {
     }
 
     showUserLinks() {
+        const dropdownClass = this.state.isDropdownOpen ? 'show' : '';
+
         if (!sessionStorage.jwt) {
             return (
                 <ul className="nav navbar-nav navbar-right">
@@ -85,7 +89,6 @@ class MainNavigation extends Component {
 
     render() {
         const navClass = !this.state.isNavOpen ? 'collapse' : '';
-        const dropdownClass = this.state.isDropdownOpen ? 'show' : '';
 
         return (
             <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
