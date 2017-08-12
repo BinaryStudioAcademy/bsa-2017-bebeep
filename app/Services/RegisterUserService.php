@@ -62,7 +62,7 @@ class RegisterUserService
 
         $user = $this->userRepository->first();
 
-        if (!$user) {
+        if (! $user) {
             throw new VerifyException('User cannot be verified');
         }
 

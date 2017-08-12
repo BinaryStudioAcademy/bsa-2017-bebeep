@@ -17,6 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 
     Route::post('register', [
@@ -29,6 +30,17 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         'middleware' => 'jwt.guest',
         'as' => 'verify',
         'uses' => 'Auth\RegisterController@verify',
+    ]);
+
+    Route::post('authorization', [
+        'middleware' => 'jwt.guest',
+        'as' => 'authorization',
+        'uses' => 'Auth\LoginController@authorization'
+    ]);
+
+    Route::post('logout', [
+        'as' => 'logout',
+        'uses' => 'Auth\LoginController@logout'
     ]);
 
     // TODO :: middleware - jwt.auth
@@ -44,4 +56,27 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         'as' => 'profile.update',
         'uses' => 'User\ProfileController@update',
     ]);
+
 });
+
+Route::group([
+    'prefix' => 'trips',
+    'as' => 'trips.',
+    'middleware' => ['jwt.auth', 'jwt.role:' . \App\User::DRIVER_PERMISSION],
+], function () {
+    Route::post('create', ['as' => 'create', 'uses' => 'TripsController@create']);
+    Route::patch('update/{trip}', ['as' => 'update', 'uses' => 'TripsController@update']);
+    Route::delete('{trip}', ['as' => 'delete', 'uses' => 'TripsController@delete']);
+});
+
+Route::post('v1/password-resets', [
+    'middleware' => 'jwt.guest',
+    'as' => 'password.forgot',
+    'uses' => 'Auth\PasswordResetsController@forgot',
+]);
+
+Route::put('v1/password-resets', [
+    'middleware' => 'jwt.guest',
+    'as' => 'password.reset',
+    'uses' => 'Auth\PasswordResetsController@reset',
+]);

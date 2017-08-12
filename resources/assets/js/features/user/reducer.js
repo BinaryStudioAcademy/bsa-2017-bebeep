@@ -1,12 +1,12 @@
 import * as actions from './actionTypes';
+import { browserHistory } from 'react-router';
 
 const initialState = {
     register: {
         success: false,
-        errors: {}
     },
-    verify: {
-        success: false,
+    login: {
+        success: !!sessionStorage.jwt,
         errors: {},
     },
     profile: {
@@ -25,34 +25,45 @@ export default function (state = initialState, action) {
                 ...state,
                 register: {
                     success: true,
-                    errors: {}
                 }
             };
-        case actions.USER_REGISTER_FAILED:
+        case actions.LOGIN_SUCCESS:
+            browserHistory.push('/dashboard')
             return {
                 ...state,
-                register: {
-                    ...state.register,
+                login: {
+                    success: !!sessionStorage.jwt
+                }
+            };
+        case actions.LOGIN_VERIFY_FAILED:
+            return {
+                ...state,
+                login: {
+                    success: false,
                     errors: action.data,
-                    success: false
                 }
             };
-        case actions.USER_VERIFY_FAILED:
+        case actions.LOGIN_FAILED_NO_ACTIVATION:
+        case actions.LOGIN_FAILED_NO_USER:
+        case actions.LOGIN_FAILED_BAD_CREDENTIALS:
+        case actions.LOGIN_FAILED:
             return {
                 ...state,
-                verify: {
-                    ...state.verify,
-                    errors: action.data,
-                    success: false
+                login: {
+                    success: false,
+                    errors: action.response.data,
+                    httpStatus: action.response.status,
                 }
             };
-        case actions.USER_VERIFY_SUCCESS:
+
+        case actions.LOGOUT_SUCCESS:
+        case actions.LOGOUT_FAILED:
             return {
                 ...state,
-                verify: {
-                    ...state.verify,
-                    success: true,
-                    errors: {}
+                login: {
+                    success: !!sessionStorage.jwt,
+                    errors: action.response.data,
+                    httpStatus: action.response.status,
                 }
             };
 

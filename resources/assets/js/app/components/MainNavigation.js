@@ -27,6 +27,62 @@ class MainNavigation extends Component {
         });
     }
 
+    showMainLinks() {
+        if (!sessionStorage.jwt) {
+            return (<ul className="navbar-nav mr-auto"></ul>);
+        }
+        return (
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link to="/vehicles" className="nav-link" activeClassName="active">
+                    Vehicles
+                </Link>
+                <Link to="/trip/create" className="nav-link" activeClassName="active">
+                    Create new trip
+                </Link>
+              </li>
+            </ul>
+        );
+    }
+
+    showUserLinks() {
+        if (!sessionStorage.jwt) {
+            return (
+                <ul className="nav navbar-nav navbar-right">
+                  <li className="nav-item">
+                    <Link to="/login" className="nav-link" activeClassName="active">Login</Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to="/registration" className="nav-link" activeClassName="active">Register</Link>
+                  </li>
+                </ul>
+            );
+        }
+        return (
+            <div className={"nav-item dropdown " + dropdownClass}>
+              <button className="btn btn-secondary dropdown-toggle"
+                  type="button" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded={this.state.isDropdownOpen}
+                  onClick={this.toggleUserDropdown}
+                >User Name
+              </button>
+
+              <div className="dropdown-menu dropdown-menu-right">
+
+                <Link to="/dashboard" className="dropdown-item">Dashboard</Link>
+                <Link to="/dashboard/my-trips" className="dropdown-item">My trips</Link>
+                <Link to="/dashboard/my-bookings" className="dropdown-item">My bookings</Link>
+                <Link to="/dashboard/profile/general" className="dropdown-item">Profile</Link>
+
+                <div className="dropdown-divider"></div>
+
+                <Link to="/logout" className="dropdown-item">Logout</Link>
+              </div>
+            </div>
+        );
+    }
+
     render() {
         const navClass = !this.state.isNavOpen ? 'collapse' : '';
         const dropdownClass = this.state.isDropdownOpen ? 'show' : '';
@@ -45,42 +101,8 @@ class MainNavigation extends Component {
               <IndexLink to="/" className="navbar-brand">BeBeep</IndexLink>
 
               <div className={"navbar-collapse " + navClass} id="navbarToogle">
-                <ul className="navbar-nav mr-auto">
-                  <li className="nav-item">
-                    <Link to="/vehicles" className="nav-link" activeClassName="active">Vehicles</Link>
-                  </li>
-                </ul>
-
-                <ul className="nav navbar-nav navbar-right">
-                  <li className="nav-item">
-                    <Link to="/login" className="nav-link" activeClassName="active">Login</Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link to="/registration" className="nav-link" activeClassName="active">Register</Link>
-                  </li>
-                </ul>
-
-                <div className={"nav-item dropdown " + dropdownClass}>
-
-                  <button className="btn btn-secondary dropdown-toggle"
-                      type="button" data-toggle="dropdown" aria-haspopup="true"
-                      aria-expanded={this.state.isDropdownOpen}
-                      onClick={this.toggleUserDropdown}
-                    >User Name
-                  </button>
-
-                  <div className="dropdown-menu dropdown-menu-right">
-                    <Link to="/dashboard" className="dropdown-item">Dashboard</Link>
-                    <Link to="/dashboard/my-trips" className="dropdown-item">My trips</Link>
-                    <Link to="/dashboard/my-bookings" className="dropdown-item">My bookings</Link>
-                    <Link to="/dashboard/profile/general" className="dropdown-item">Profile</Link>
-
-                    <div className="dropdown-divider"></div>
-
-                    <Link to="/logout" className="dropdown-item">Logout</Link>
-                  </div>
-                </div>
+                { this.showMainLinks() }
+                { this.showUserLinks() }
               </div>
             </nav>
         );

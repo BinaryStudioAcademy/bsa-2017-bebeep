@@ -1,3 +1,5 @@
+import validate from 'validate.js';
+
 export const RegisterValidator = {
     last_name: (data) => {
         const valid = data.trim() !== "";
@@ -24,10 +26,10 @@ export const RegisterValidator = {
         };
     },
     email: (data) => {
-        const valid = !!data.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        let error = valid ? "" : "Invalid email";
+        const result = validate.single(data, { presence: true, email: true });
+        let error = result ? result.join(", ") : "";
         return {
-            valid,
+            valid: !result,
             error
         };
     },

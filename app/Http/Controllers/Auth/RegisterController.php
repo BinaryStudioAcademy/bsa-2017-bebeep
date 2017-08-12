@@ -44,7 +44,7 @@ class RegisterController extends Controller
             $authToken = $this->registerUserService->verify($request);
         } catch (VerifyException $e) {
             return response()->json(['token' => [$e->getMessage()]], 422);
-        };
+        }
 
         return response()->json(['token' => $authToken]);
     }
