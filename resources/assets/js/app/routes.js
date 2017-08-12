@@ -30,48 +30,59 @@ export default (
     <Route path="/" component={ App }>
         <IndexRoute component={ Home } />
 
-        <Route path="vehicles" component={ Vehicles } onEnter={ requireAuth }>
-            {/* as example to restrict path for unauthenticated users */}
-            <Route path="vehicles/create" component={ Vehicles } />
-        </Route>
-
-        <Route path="vehicles/:id" component={ VehicleDetails } />
-        <Route path="trip/create" component={ CreateTrip } />
-        <Route path="trip/edit/:id" component={ Vehicles /*TripEdit*/ } />
-
         {/* User registration and email verification */}
         <Route path="registration" component={ RegisterForm } />
         <Route path="registration/success" component={ RegisterSuccess } />
         <Route path="verification" component={ RegisterVerify } />
 
-        <Route path="password/reset" component={ PasswordReset } />
+        {/* User login, logout and password reset */}
         <Route path="login" component={ LoginForm } />
         <Route path="logout" component={ Logout } />
+        <Route path="password/reset" component={ PasswordReset } />
 
         {/* User dashboard */}
-        <Route path="dashboard">
+        <Route path="dashboard" onEnter={ requireAuth }>
             <IndexRoute component={ Dashboard } />
 
-            {/* This route for user vehicles */}
-            <Route path="my-vehicles" component={ Dashboard /*User vehicles layout*/ } />
+            {/* These routes for user vehicles */}
+            <Route path="my-vehicles">
+                {/* All user vehicles */}
+                <IndexRoute component={ Vehicles /* User vehicles layout */ } />
 
-            {/* This route for user trips */}
-            <Route path="my-trips" component={ Dashboard /*User Trips layout */ } />
+                {/* User vehicle by id */}
+                <Route path=":id" component={ VehicleDetails /* User vehicle edit layout */ } />
+
+                {/* User vehicle create */}
+                <Route path="create" component={ Vehicles /* User vehicle create layout */ } />
+            </Route>
+
+            {/* These routes for user trips */}
+            <Route path="my-trips">
+                {/* All user vehicles */}
+                <IndexRoute component={ Dashboard /* User trips layout */ } />
+
+                {/* User trip by id */}
+                <Route path=":id" component={ Dashboard /* User trip edit layout */ } />
+            </Route>
 
             {/* This route for user bookings */}
-            <Route path="my-bookings" component={ Dashboard /*User Bookings layout*/ } />
+            <Route path="my-bookings" component={ Dashboard /* User bookings layout */ } />
 
-            {/* User profile */}
+            {/* These routes for user profile */}
             <Redirect from='profile' to='profile/general' />
+
             <Route path="profile" component={ UserProfile }>
-
+                {/* User general profile */}
                 <Route path="general" component={ General } />
+                {/* User avatar */}
                 <Route path="avatar" component={ Avatar } />
+                {/* User password change */}
                 <Route path="password" component={ Password } />
-
-                {/*<Route path="preferences" component={ Preferences } />*/}
             </Route>
         </Route>
+
+        {/* This route for trip creating */}
+        <Route path="trip/create" component={ CreateTrip } />
 
         <Route path="*" component={ NotFound } />
     </Route>
