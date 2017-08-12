@@ -126,7 +126,6 @@ class User extends Authenticatable
      */
     public function isVerified() : bool
     {
-        return $this->is_verified === true;
+        return (bool) ($this->attributes['is_verified']);
     }
-
 }
