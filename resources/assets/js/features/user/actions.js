@@ -116,14 +116,14 @@ export const doLogin = (credentials) => dispatch => {
 
 };
 
-export const logoutSuccess = data => ({
+export const logoutSuccess = response => ({
     type: actions.LOGOUT_SUCCESS,
-    data
+    response
 });
 
-export const logoutFailed = data => ({
+export const logoutFailed = response => ({
     type: actions.LOGOUT_FAILED,
-    data
+    response
 });
 
 export const doLogout = (data) => {

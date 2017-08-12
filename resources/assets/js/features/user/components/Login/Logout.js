@@ -2,23 +2,37 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
 import '../../styles/user.scss';
 
 class Form extends React.Component {
 
     constructor(props) {
         super();
+        this.pickMessage = this.pickMessage.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.actions.doLogout();
     }
 
     componentDidMount() {
-        this.props.actions.doLogout();
+        setTimeout(() => {
+          browserHistory.push('/')
+        }, 5000);
+    }
+
+    pickMessage(code) {
+        if (code != 200) {
+            return (<div>Logout is failed due to error</div>);
+        } else {
+            return (<div>You were successfully logout!</div>);
+        }
     }
 
     render() {
 
-        return (
-            <div>You were successfully logout!</div>
-        );
+        return ( this.pickMessage(this.props.httpCode) );
     }
 
 }

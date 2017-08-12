@@ -87,8 +87,8 @@ export default function (state = initialState, action) {
                 ...state,
                 login: {
                     success: !!sessionStorage.jwt,
-                    errors: action.data.data,
-                    httpStatus: action.data.status,
+                    errors: action.response.data,
+                    httpStatus: action.response.status,
                 }
             };
 
