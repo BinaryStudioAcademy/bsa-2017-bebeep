@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Services\Contracts\PasswordService;
-use Illuminate\Foundation\Auth\ResetsPasswords;
 use Validator;
 
 class PasswordResetsController extends Controller
@@ -27,6 +26,7 @@ class PasswordResetsController extends Controller
         } catch (VerifyException $e) {
             return response()->json(['email' => [$e->getMessage()]], 422);
         }
+        return response()->json();
     }
 
     public function reset(ResetPasswordRequest $request)
@@ -34,12 +34,7 @@ class PasswordResetsController extends Controller
         try {
             $this->passwordService->reset($request);
         } catch (PasswordResetException $e) {
-            $code = [
-                PasswordResetException::INVALID_USER => 'email',
-                PasswordResetException::INVALID_TOKEN => 'token',
-                PasswordResetException::INVALID_PASSWORD => 'password',
-            ];
-            return response()->json([$code[$e->getCode()] => [$e->getMessage()]], 422);
+            return response()->json([$e->getField() => [$e->getMessage()]], 422);
         }
         return response()->json();
     }

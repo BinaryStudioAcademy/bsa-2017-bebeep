@@ -7,8 +7,6 @@ use App\Models\Trip;
 use App\Models\Vehicle;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Mail\PasswordResetEmail;
-use Mail;
 
 
 class User extends Authenticatable
@@ -131,11 +129,4 @@ class User extends Authenticatable
         return $this->is_verified === true;
     }
 
-    /**
-     * @param string $token
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        Mail::to($this)->send(new PasswordResetEmail($token));
-    }
 }
