@@ -13,7 +13,6 @@ class VehicleApiTest extends JwtTestCase
     use DatabaseMigrations, DatabaseTransactions;
 
     const ENDPOINT = '/api/v1/car';
-    const DATE = '2014-01-01';
 
     public $storeData = [
                         "brand" => "bmw",
@@ -35,44 +34,50 @@ class VehicleApiTest extends JwtTestCase
                         "photo" => "url_photo_or_path_to_file"
                          ];
 
-    /**
-     * test index
-     */
-//    public function test_get_marks_cars(){
-//        $user = factory(User::class)->create();
-//        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Mark');
-//        $response->assertHeader('Content-Type', 'application/json');
-//        $response->assertStatus(200);
-//    }
-//
-//    public function test_get_bodies_cars(){
-//        $user = factory(User::class)->create();
-//        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Body');
-//        $response->assertHeader('Content-Type', 'application/json');
-//        $response->assertStatus(200);
-//    }
-//
-//    public function test_get_color_cars(){
-//        $user = factory(User::class)->create();
-//        $response = $this->actingAs($user, 2)->json('GET', self::ENDPOINT.'Color');
-////        $response = $this->actingAs($user)->call('GET', self::ENDPOINT.'Color');
-//        $response->assertHeader('Content-Type', 'application/json');
-//        $response->assertStatus(200);
-//    }
-//
-//    public function test_get_models_car_bmw(){
-//        $user = factory(User::class)->create();
-//        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Model/10');
-//
-//        $response->assertHeader('Content-Type', 'application/json');
-//        $response->assertStatus(200);
-//    }
-//
-//    public function test_get_not_exiting_models_car(){
-//        $user = factory(User::class)->create();
-//        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Model/999999');
-//        $response->assertStatus(404);
-//    }
+
+    public function test_get_marks_cars(){
+        $this->seed('DatabaseSeeder');
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Mark');
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+    }
+
+    public function test_get_bodies_cars(){
+        $this->seed('DatabaseSeeder');
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Body');
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+    }
+
+    public function test_get_color_cars(){
+        $this->seed('DatabaseSeeder');
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Color');
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+    }
+
+    public function test_get_models_car_bmw(){
+        $this->seed('DatabaseSeeder');
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Model/10');
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+    }
+
+    public function test_get_not_exiting_models_car(){
+        $this->seed('DatabaseSeeder');
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Model/999999');
+        $response->assertStatus(404);
+    }
 
     public function test_car_store(){
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
@@ -83,19 +88,56 @@ class VehicleApiTest extends JwtTestCase
         $response->assertJsonFragment($this->storeData);
     }
 
-//    public function test_car_get_on_index(){
-//        $user = factory(User::class)->create();
-//        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'/1');
-////        $response->assertHeader('Content-Type', 'application/json');
-//        $response->assertStatus(200);
-//        $response->assertJsonFragment($this->storeData);
-//    }
-//
-//    public function test_car_update(){
-//        $user = factory(User::class)->create();
-//        $response = $this->actingAs($user)->json('PATCH', self::ENDPOINT.'/1', $this->updateStoreData);
-////        $response->assertHeader('Content-Type', 'application/json');
-//        $response->assertStatus(200);
-//        $response->assertJsonFragment($this->updateStoreData);
-//    }
+    public function test_car_get_on_index(){
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+
+        $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'/1');
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+        $response->assertJsonFragment($this->storeData);
+    }
+
+    public function test_car_update(){
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+
+        $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
+        $response = $this->actingAs($user)->json('PATCH', self::ENDPOINT.'/1', $this->updateStoreData);
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+        $response->assertJsonFragment($this->updateStoreData);
+    }
+
+    public function test_car_delete(){
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+
+        $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
+        $response = $this->actingAs($user)->json('DELETE', self::ENDPOINT.'/1');
+        $response->assertStatus(204);
+    }
+
+    public function test_user_no_driver_cannot_car_store(){
+        $user = factory(User::class)->create(['permissions' => User::PASSENGER_PERMISSION]);
+
+        $response = $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
+        $response->assertStatus(403);
+        $response->assertSee('Access denied');
+    }
+
+
+    public function test_wrong_method(){
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+
+        $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
+        $response = $this->actingAs($user)->json('POST', self::ENDPOINT.'/1');
+        $response->assertStatus(405);
+    }
+
+    public function test_get_not_exiting_car(){
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+
+        $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'/9999');
+        $response->assertStatus(404);
+    }
 }

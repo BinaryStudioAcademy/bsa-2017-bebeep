@@ -139,8 +139,12 @@ class CarController extends Controller
     {
         $vehicle = $this->carService->getById($id);
 
-        if ($this->permissionService->canDeleteCar($vehicle->id)) {
-            return $this->carService->destroy($id);
+        if ($this->permissionService->canDeleteCar($vehicle->user_id)) {
+            if ($this->carService->destroy($id)){
+                return response()->json('', 204);
+            } else {
+                return response()->json('', 404);
+            }
         } else {
             return $this->accessDenied();
         }
