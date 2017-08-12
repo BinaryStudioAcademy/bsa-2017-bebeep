@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Criteria\User\NotVerifiedUserCriteria;
-use App\Events\UserRegistered;
-use App\Exceptions\User\VerifyException;
-use App\Services\Requests\RegisterUserRequest;
-use App\Repositories\UserRepository;
-use App\Services\Requests\VerifyUserRequest;
 use App\User;
+use App\Events\UserRegistered;
+use App\Repositories\UserRepository;
+use App\Exceptions\User\VerifyException;
+use App\Services\Requests\VerifyUserRequest;
+use App\Criteria\User\NotVerifiedUserCriteria;
+use App\Services\Requests\RegisterUserRequest;
 
 class RegisterUserService
 {
@@ -43,21 +43,24 @@ class RegisterUserService
 
     /**
      * @param VerifyUserRequest $request
+     * @return string
      * @throws VerifyException
      */
-    public function verify(VerifyUserRequest $request)
+    public function verify(VerifyUserRequest $request) : string
     {
         $this->userRepository->pushCriteria(new NotVerifiedUserCriteria($request->getEmail(), $request->getToken()));
 
         $user = $this->userRepository->first();
 
-        if (!$user) {
+        if (! $user) {
             throw new VerifyException('User cannot be verified');
         }
 
         $user->is_verified = true;
         $user->verification_token = null;
 
-        $this->userRepository->save($user);
+        $user = $this->userRepository->save($user);
+
+        return \JWTAuth::fromUser($user);
     }
 }

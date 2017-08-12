@@ -1,21 +1,27 @@
 <?php
-
 namespace App\Repositories;
 
-use Illuminate\Support\Collection;
-use Prettus\Repository\Eloquent\BaseRepository;
 use App\Models\Trip;
+use Illuminate\Database\Eloquent\Collection;
+use Prettus\Repository\Eloquent\BaseRepository;
 
-class TripRepository extends BaseRepository {
-
+class TripRepository extends BaseRepository
+{
     /**
-     * Specify Model class name
-     *
      * @return string
      */
     public function model()
     {
         return Trip::class;
+    }
+    /**
+     * @param Trip $trip
+     * @return Trip
+     */
+    public function save(Trip $trip)
+    {
+        $trip->push();
+        return $trip;
     }
 
     /**
@@ -26,17 +32,22 @@ class TripRepository extends BaseRepository {
     public function getAllTrips($userId) :Collection
     {
         $trips = Trip::where('trips.user_id','=',$userId)->
-            join('routes', 'routes.trip_id', '=', 'trips.id')->
-            join('vehicles', 'trips.vehicle_id', '=', 'vehicles.id')->
-            get(['trips.id','from', 'to', 'brand', 'model', 'start_at', 'end_at']);
+        join('routes', 'routes.trip_id', '=', 'trips.id')->
+        join('vehicles', 'trips.vehicle_id', '=', 'vehicles.id')->
+        get(['trips.id','from', 'to', 'brand', 'model', 'start_at', 'end_at']);
 
         return $trips;
     }
 
+    /**
+     * Data about past user trips.
+     * @param $userId
+     * @return Collection
+     */
     public function getPastTrips($userId) :Collection
     {
         $pastTrips = Trip::where('trips.user_id','=',$userId)->
-            whereDate('start_at', '<=',new \DateTime())->
+        whereDate('start_at', '<=',new \DateTime())->
         join('routes', 'routes.trip_id', '=', 'trips.id')->
         join('vehicles', 'trips.vehicle_id', '=', 'vehicles.id')->
         get(['trips.id','from', 'to', 'brand', 'model', 'start_at', 'end_at']);
@@ -44,14 +55,20 @@ class TripRepository extends BaseRepository {
         return $pastTrips;
     }
 
+    /**
+     * Data about upcoming user trips.
+     * @param $userId
+     * @return Collection
+     */
     public function getUpcomingTrips($userId) :Collection
     {
-        $pastTrips = Trip::where('trips.user_id','=',$userId)->
+        $upcomingTrips = Trip::where('trips.user_id','=',$userId)->
         whereDate('start_at', '>',new \DateTime())->
         join('routes', 'routes.trip_id', '=', 'trips.id')->
         join('vehicles', 'trips.vehicle_id', '=', 'vehicles.id')->
         get(['trips.id','from', 'to', 'brand', 'model', 'start_at', 'end_at']);
 
-        return $pastTrips;
+        return $upcomingTrips;
     }
+
 }

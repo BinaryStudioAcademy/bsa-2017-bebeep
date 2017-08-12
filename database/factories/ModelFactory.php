@@ -16,9 +16,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'first_name' => $faker->name,
-        'last_name' => $faker->name,
-        'phone' => str_replace("+", "", $faker->e164PhoneNumber),
+        'permissions' => App\User::PASSENGER_PERMISSION,
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'phone' => str_replace('+', '', $faker->e164PhoneNumber),
         'birth_date' => $faker->dateTime,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
@@ -26,41 +27,40 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-
 $factory->define(App\Models\Vehicle::class, function (Faker\Generator $faker) {
     return [
-        'brand' => $faker->name,
-        'model' => $faker->unique()->randomLetter,
+        'brand' => $faker->company,
+        'model' => $faker->unique()->word,
         'color' => $faker->safeColorName,
-        'body' => $faker->text(50),
-
-        'seats' => $faker->numberBetween(1,6),
-        'user_id' => 1
+        'body' => $faker->word,
+        'seats' => $faker->numberBetween(4, 8),
+        'user_id' => 1,
     ];
 });
 
 $factory->define(App\Models\Trip::class, function (Faker\Generator $faker) {
     return [
-        'price' => $faker->randomFloat(),
-        'start_at' => $faker->dateTimeBetween('-1 hour', 'now'),
-        'end_at' => $faker->dateTimeBetween('+1 hour', '+3 hours'),
+        'price' => $faker->numberBetween(1, 1000),
+        'start_at' => \Carbon\Carbon::now()->toDateTimeString(),
+        'end_at' => \Carbon\Carbon::now()->addHour(3)->toDateTimeString(),
         'vehicle_id' => 1,
-        'user_id' => 1
+        'seats' => $faker->numberBetween(1, 3),
+        'user_id' => 1,
     ];
 });
 
 $factory->define(App\Models\Route::class, function (Faker\Generator $faker) {
     return [
-        'from' =>["a"],
-        'to'=>["b"],
-        'trip_id' =>1
+        'from' => ['a'],
+        'to' => ['b'],
+        'trip_id' => 1,
     ];
 });
 
 $factory->define(App\Models\Booking::class, function (Faker\Generator $faker) {
     return [
-        'status'=> 'active',
+        'status' => 'active',
         'trip_id' => 1,
-        'user_id' => 1
+        'user_id' => 1,
     ];
 });
