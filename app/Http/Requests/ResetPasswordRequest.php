@@ -20,7 +20,7 @@ class ResetPasswordRequest extends FormRequest implements ResetPasswordRequestIn
 
     public function getEmail()
     {
-        return $this->route('email');
+        return $this->get('email');
     }
 
     public function getToken()

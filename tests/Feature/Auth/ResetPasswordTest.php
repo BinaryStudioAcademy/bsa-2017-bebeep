@@ -20,8 +20,8 @@ class RegisterUserTest extends JwtTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->urlPasswordReset = route('password.reset', ['email' => self::DEFAULT_EMAIL]);
-        $this->urlPasswordForgot = route('authorization');
+        $this->urlPasswordReset = route('password.reset');
+        $this->urlPasswordForgot = route('password.forgot');
     }
 
     /**
@@ -31,7 +31,6 @@ class RegisterUserTest extends JwtTestCase
     {
         $response = $this->json('POST', $this->urlPasswordForgot, [
             'email' => 'someuserthatnotexists@test.com',
-            'type' => 'reset-password'
         ]);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
     }
@@ -44,7 +43,6 @@ class RegisterUserTest extends JwtTestCase
         $user = factory(User::class)->create();
         $response = $this->json('POST', $this->urlPasswordForgot, [
             'email' => $user->email,
-            'type' => 'reset-password'
         ]);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
     }
@@ -66,7 +64,6 @@ class RegisterUserTest extends JwtTestCase
         );
         $response = $this->json('POST', $this->urlPasswordForgot, [
             'email' => $user->email,
-            'type' => 'reset-password'
         ]);
         $response->assertStatus(200);
         $this->assertDatabaseHas(
@@ -82,7 +79,8 @@ class RegisterUserTest extends JwtTestCase
      */
     public function cant_reset_password_if_incorrect_email()
     {
-        $response = $this->json('PUT', route('password.reset', ['email' => 'someuserthatnotexists@test.com']), [
+        $response = $this->json('PUT', $this->urlPasswordReset, [
+            'email' => 'someuserthatnotexists@test.com',
             'password' => '1a2b3c'
         ], ['Token' => 'sometoken']);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
@@ -93,7 +91,7 @@ class RegisterUserTest extends JwtTestCase
      */
     public function cant_reset_password_if_incorrect_token()
     {
-        $user = factory(User::class)->make(['email' => self::DEFAULT_EMAIL]);
+        $user = factory(User::class)->create();
         $user->is_verified = true;
         $user->save();
         $token = Password::broker()->createToken($user);
@@ -102,8 +100,8 @@ class RegisterUserTest extends JwtTestCase
             'token' => $token,
         ]);
         $response = $this->json('PUT', $this->urlPasswordReset, [
+            'email' => $user->email,
             'password' => '1a2b3c',
-            'test' => 'test',
         ], ['Token' => 'incorrect_token']);
         $response->assertStatus(422)->assertJsonStructure(['token' => []]);
     }
@@ -125,6 +123,7 @@ class RegisterUserTest extends JwtTestCase
             ->where('email', $user->email)
             ->update(['created_at' => Carbon::now()->subHours(24)]);
         $response = $this->json('PUT', $this->urlPasswordReset, [
+            'email' => $user->email,
             'password' => '1a2b3c',
         ], ['Token' => $token]);
         $response->assertStatus(422)->assertJsonStructure(['token' => []]);
@@ -144,6 +143,7 @@ class RegisterUserTest extends JwtTestCase
             'token' => $token
         ]);
         $response = $this->json('PUT', $this->urlPasswordReset, [
+            'email' => $user->email,
             'password' => '1a2b3c'
         ], ['Token' => $token]);
         $response->assertStatus(200);
@@ -166,6 +166,7 @@ class RegisterUserTest extends JwtTestCase
             'token' => $token,
         ]);
         $response = $this->json('PUT', $this->urlPasswordReset, [
+            'email' => $user->email,
             'password' => '',
         ], ['Token' => $token]);
         $response->assertStatus(422)->assertJsonStructure(['password' => []]);

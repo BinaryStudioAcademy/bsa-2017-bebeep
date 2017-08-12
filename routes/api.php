@@ -23,9 +23,6 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 });
 
 Route::middleware('jwt.guest')
-    ->post('/authorization', "AuthorizationController@index")
-    ->name('authorization');
-
+    ->post('v1/password-resets', ['as' => 'password.forgot', 'uses' => 'Auth\PasswordResetsController@forgot']);
 Route::middleware('jwt.guest')
-    ->put('/users/{email}/password', "Auth\ResetPasswordController@reset")
-    ->name('password.reset');
+    ->put('v1/password-resets', ['as' => 'password.reset', 'uses' => 'Auth\PasswordResetsController@reset']);

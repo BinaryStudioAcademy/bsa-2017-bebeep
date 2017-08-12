@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\User\PasswordResetException;
+use App\Exceptions\User\VerifyException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Services\Contracts\PasswordService;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Validator;
 
-class ResetPasswordController extends Controller
+class PasswordResetsController extends Controller
 {
     protected $passwordService;
 
@@ -18,21 +20,17 @@ class ResetPasswordController extends Controller
         $this->passwordService = $passwordService;
     }
 
+    public function forgot(ForgotPasswordRequest $request)
+    {
+        try {
+            $this->passwordService->forgot($request);
+        } catch (VerifyException $e) {
+            return response()->json(['email' => [$e->getMessage()]], 422);
+        }
+    }
+
     public function reset(ResetPasswordRequest $request)
     {
-        /** @var  \Illuminate\Validation\Validator  $validator */
-        $validator = Validator::make([
-            'email' => $request->getEmail(),
-            'token' => $request->getToken(),
-            'password' => $request->getPass()
-        ],[
-            'email' => "required|email",
-            'token' => "required",
-            'password' => "required|min:6",
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
         try {
             $this->passwordService->reset($request);
         } catch (PasswordResetException $e) {
