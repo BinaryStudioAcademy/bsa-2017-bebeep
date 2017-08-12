@@ -34,7 +34,7 @@ class PasswordService implements PasswordServiceContract
 
         $token = $this->broker()->createToken($user);
 
-        Mail::to($this)->send(new PasswordResetEmail($token));
+        Mail::to($user)->send(new PasswordResetEmail($token));
     }
 
     public function reset(ResetPasswordRequest $request)
