@@ -14,7 +14,12 @@ class TripsListService implements InterfaceTripsListService
         $this->manager = $manager;
     }
 
-    /** @inheritdoc */
+    /**
+     * Return data about all user trips
+     * @param int $userId
+     * @return mixed
+     * @throws UserNotHaveTrips
+     */
     public function getUserTrips(int $userId){
       $allUserTrips = $this->manager->userTrips($userId);
       if( count($allUserTrips) == 0 )

@@ -26,7 +26,7 @@ class TripListController extends Controller
             $userId = 1; //TODO: change user ID
             $result = $this->service->getUserTrips($userId);
         }catch (UserNotHaveTrips $e){
-            return response()->json(['error' => 'trips not found'], 422);
+            return response()->json([]);
         }
 
         return response()->json($result);
