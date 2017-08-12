@@ -128,4 +128,12 @@ class User extends Authenticatable
     {
         return (bool) ($this->attributes['permissions'] & $role);
     }
+
+    /*
+     * @return bool
+     */
+    public function isVerified() : bool
+    {
+        return (bool) ($this->attributes['is_verified']);
+    }
 }
