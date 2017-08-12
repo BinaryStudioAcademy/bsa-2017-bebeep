@@ -1,8 +1,22 @@
 import * as actions from './actionTypes';
 
-const initState = {
+const initialState = {
+    create: {
+        trip: null,
+    }
 };
 
-export default function (state = initState, action) {
-    return state;
+export default function (state = initialState, action) {
+    switch (action.type) {
+        case actions.TRIP_CREATE_SUCCESS:
+            return {
+                ...state,
+                create: {
+                    trip: action.data,
+                }
+            };
+        default: {
+            return state;
+        }
+    }
 };

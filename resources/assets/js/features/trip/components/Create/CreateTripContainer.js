@@ -2,10 +2,13 @@ import React from 'react';
 import CreateTripForm from './CreateTripForm';
 import DirectionsMap from "../../../../app/components/DirectionsMap";
 import {geocodeByAddress} from 'react-places-autocomplete';
-import moment from 'moment';
 import Validator from '../../../../app/services/Validator';
 import {securedRequest} from '../../../../app/services/RequestService';
-import {createTripRules} from '../../../../app/services/TripService';
+import {createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
+import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
+import {tripCreateSuccess} from '../../actions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import '../../styles/create_trip.scss';
 
 class CreateTripContainer extends React.Component {
@@ -76,27 +79,10 @@ class CreateTripContainer extends React.Component {
         this.endTime = time;
     }
 
-    getTime(start_at) {
-        if (!start_at) {
-            return {
-                start_at: null,
-                end_at: null
-            }
-        }
-
-        start_at = moment(start_at).unix();
-        let end_at = start_at + this.endTime;
-
-        return {
-            start_at: start_at,
-            end_at: end_at
-        }
-    }
-
     onSubmit(e) {
         e.preventDefault();
 
-        let time = this.getTime(e.target['start_at'].value);
+        let time = getStartAndEndTime(e.target['start_at'].value, this.endTime);
         let data = {
             vehicle_id: e.target['vehicle_id'].value,
             start_at: time.start_at,
@@ -117,6 +103,7 @@ class CreateTripContainer extends React.Component {
         this.setState({errors: {}});
 
         securedRequest('post', '/api/trips/create', data).then((response) => {
+            this.props.tripCreateSuccess(response.data);
             this.setState({errors: {}});
         }).catch((error) => {
             this.setState({
@@ -157,25 +144,19 @@ class CreateTripContainer extends React.Component {
                 </div>
                 <div className="col-sm-6">
                     <DirectionsMap title="Preview Trip"
-                                   from={CreateTripContainer.getCoordinatesFromPlace(this.state.startPoint.place)}
-                                   to={CreateTripContainer.getCoordinatesFromPlace(this.state.endPoint.place)}
+                                   from={getCoordinatesFromPlace(this.state.startPoint.place)}
+                                   to={getCoordinatesFromPlace(this.state.endPoint.place)}
                                    endTime={this.setEndTime.bind(this)}
                     />
                 </div>
             </div>
         );
     }
-
-    static getCoordinatesFromPlace(place) {
-        if (!place) {
-            return {lat: 0, lng: 0};
-        }
-
-        return {
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng(),
-        };
-    }
 }
 
-export default CreateTripContainer;
+const CreateTripContainerConnected = connect(
+    null,
+    (dispatch) => bindActionCreators({tripCreateSuccess}, dispatch)
+)(CreateTripContainer);
+
+export default CreateTripContainerConnected;
