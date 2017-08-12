@@ -11,24 +11,38 @@ const GoogleMapContainer = withGoogleMap(props => (
 
 export default class DirectionsMap extends React.Component {
     state = {
-        origin: this.props.from,
-        destination: this.props.to,
         directions: null,
         distance: null,
-        duration: null
+        duration: null,
+        start_address: null,
+        end_address: null,
+        requestId: null
     };
 
-    componentDidMount() {
-        const DirectionsService = new google.maps.DirectionsService();
+    constructor() {
+        super();
 
-        DirectionsService.route({
-            origin: this.state.origin,
-            destination: this.state.destination,
+        this.DirectionsService = new google.maps.DirectionsService();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (
+            this.props.from.lat === nextProps.from.lat &&
+            this.props.to.lng === nextProps.to.lng &&
+            this.props.from.lat === nextProps.from.lat &&
+            this.props.to.lng === nextProps.to.lng
+        ) {
+            return;
+        }
+
+        this.DirectionsService.route({
+            origin: nextProps.from,
+            destination: nextProps.to,
             travelMode: google.maps.TravelMode.DRIVING,
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
                 let response = result.routes[0].legs[0];
-                this.props.endTime(response.duration.value);
+
                 this.setState({
                     directions: result,
                     distance: response.distance.text,
@@ -37,7 +51,7 @@ export default class DirectionsMap extends React.Component {
                     end_address: response.end_address
                 });
 
-                return;
+                this.props.endTime(response.duration.value);
             }
         });
     }
@@ -56,7 +70,7 @@ export default class DirectionsMap extends React.Component {
                             mapElement={
                                 <div style={{height: `100%`}}/>
                             }
-                            center={this.state.origin}
+                            center={this.props.from}
                             directions={this.state.directions}
                         />
                 </div>
@@ -70,7 +84,7 @@ export default class DirectionsMap extends React.Component {
                             <span className="text-muted">Duration: </span>{this.state.duration}
                         </div>
                     ) : (
-                            <div></div>
+                            <div>&nbsp;</div>
                         )
                 }
             </div>

@@ -40,7 +40,6 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
             'to' => 'required|array',
             'vehicle_id' => [
                 'required',
-                'role:'.User::DRIVER_PERMISSION,
                 'integer',
                 Rule::exists('vehicles', 'id')->where(function ($query) {
                     $query->where([

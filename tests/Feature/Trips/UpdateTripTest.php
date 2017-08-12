@@ -26,9 +26,6 @@ class UpdateTripTest extends BaseTripTestCase
         $response->assertStatus(400);
     }
 
-    /**
-     * @test
-     */
     public function user_can_not_update_trip_if_not_all_fields_is_filled()
     {
         $user = $this->getDriverUser();
@@ -57,9 +54,6 @@ class UpdateTripTest extends BaseTripTestCase
         $response->assertStatus(422)->assertJsonStructure(['to' => []]);
     }
 
-    /**
-     * @test
-     */
     public function user_cant_update_trip_with_not_his_car()
     {
         $user = $this->getDriverUser();

@@ -89,7 +89,7 @@ class DeleteTripTest extends BaseTripTestCase
         $this->url = $this->getUrl($trip->id);
 
         $response = $this->jsonAsUser($user);
-        $response->assertStatus(422);
+        $response->assertStatus(403);
 
         $this->assertDatabaseHas(
             'trips',

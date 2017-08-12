@@ -32,14 +32,6 @@ class AppServiceProvider extends ServiceProvider
 
     private function extendValidator()
     {
-        Validator::extend('role', function ($attribute, $value, $parameters, $validator) {
-            if (! $parameters || ! Auth::user()) {
-                return false;
-            }
-
-            return (bool) ((int) Auth::user()->permissions & (int) $parameters[0]);
-        });
-
         Validator::extend('max_seats_from_vehicle', function ($attribute, $value, $parameters, $validator) {
             if (! $parameters || ! Auth::user() || ! $parameters[0]) {
                 return false;

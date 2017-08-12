@@ -119,4 +119,13 @@ class User extends Authenticatable
     {
         return (bool) ($this->attributes['permissions'] & self::DRIVER_PERMISSION);
     }
+
+    /**
+     * @param int $role
+     * @return bool
+     */
+    public function hasRole(int $role) : bool
+    {
+        return (bool) ($this->attributes['permissions'] & $role);
+    }
 }

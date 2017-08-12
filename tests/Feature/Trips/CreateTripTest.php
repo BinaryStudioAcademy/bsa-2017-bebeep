@@ -167,6 +167,6 @@ class CreateTripTest extends BaseTripTestCase
         $tripData = $this->getValidTripData($vehicle->id);
 
         $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $tripData);
-        $response->assertStatus(422);
+        $response->assertStatus(403);
     }
 }

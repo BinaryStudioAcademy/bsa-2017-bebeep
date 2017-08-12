@@ -24,13 +24,6 @@ class CreateTripForm extends React.Component {
                         </div>
                     </div>
                     <Input
-                        type="datetime-local"
-                        name="start_at"
-                        id="start_at"
-                        required={false}
-                        error={errors.start_at}>Trip start time
-                    </Input>
-                    <Input
                         type="number"
                         name="price"
                         id="price"
@@ -66,6 +59,13 @@ class CreateTripForm extends React.Component {
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>
                     </div>
+                    <Input
+                        type="datetime-local"
+                        name="start_at"
+                        id="start_at"
+                        required={false}
+                        error={errors.start_at}>Trip start time
+                    </Input>
                     <div className="form-group">
                         <div className="text-center">
                             <button type="submit" className="btn btn-primary">Create new trip</button>

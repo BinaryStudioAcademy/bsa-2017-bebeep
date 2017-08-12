@@ -132,7 +132,6 @@ class CreateTripContainer extends React.Component {
                 </div>
                 <div className="col-sm-6">
                     <DirectionsMap title="Preview Trip"
-                                   key={Date.now()}
                                    from={CreateTripContainer.getCoordinatesFromPlace(this.state.startPoint.place)}
                                    to={CreateTripContainer.getCoordinatesFromPlace(this.state.endPoint.place)}
                                    endTime={this.setEndTime.bind(this)}

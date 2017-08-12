@@ -18,11 +18,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
-    Route::post('register', ['middleware' => 'jwt.guest', 'as' => 'register', 'uses' => 'Auth\RegisterController@register']);
+    Route::post('register',
+        ['middleware' => 'jwt.guest', 'as' => 'register', 'uses' => 'Auth\RegisterController@register']);
     Route::post('verify', ['middleware' => 'jwt.guest', 'as' => 'verify', 'uses' => 'Auth\RegisterController@verify']);
 });
 
-Route::group(['prefix' => 'trips', 'as' => 'trips.', 'middleware' => ['jwt.auth']], function () {
+Route::group([
+    'prefix' => 'trips',
+    'as' => 'trips.',
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
+], function () {
     Route::post('create', ['as' => 'create', 'uses' => 'TripsController@create']);
     Route::patch('update/{trip}', ['as' => 'update', 'uses' => 'TripsController@update']);
     Route::delete('{trip}', ['as' => 'delete', 'uses' => 'TripsController@delete']);
