@@ -2,9 +2,10 @@ import React from 'react';
 import CreateTripForm from './CreateTripForm';
 import DirectionsMap from "../../../../app/components/DirectionsMap";
 import {geocodeByAddress} from 'react-places-autocomplete';
-import {connect} from 'react-redux';
-import createTripDispatch from '../../actions';
-import {bindActionCreators} from 'redux';
+import moment from 'moment';
+import Validator from '../../../../app/services/Validator';
+import {securedRequest} from '../../../../app/services/RequestService';
+import {createTripRules} from '../../../../app/services/TripService';
 import '../../styles/create_trip.scss';
 
 class CreateTripContainer extends React.Component {
@@ -12,6 +13,7 @@ class CreateTripContainer extends React.Component {
         super(props);
 
         this.state = {
+            errors: {},
             startPoint: {
                 address: '',
                 place: null,
@@ -75,21 +77,27 @@ class CreateTripContainer extends React.Component {
     }
 
     getTime(start_at) {
-        let start_date = new Date(start_at).getTime() / 1000;
-        start_date = Math.round(start_date);
-        let end_at = this.endTime + start_date;
+        if (!start_at) {
+            return {
+                start_at: null,
+                end_at: null
+            }
+        }
+
+        start_at = moment(start_at).unix();
+        let end_at = start_at + this.endTime;
+
         return {
-            start_at: start_date,
+            start_at: start_at,
             end_at: end_at
         }
     }
 
     onSubmit(e) {
         e.preventDefault();
-        //let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDIzODIxMjMsImV4cCI6MTUwMjk4NjkyMywibmJmIjoxNTAyMzgyMTIzLCJqdGkiOiIwbkdsejZzcFQzWjlleVhRIn0.otg9BJNfZa4rytNA5n--cUaOTGYl8-YVSBf0sWO5f7w';
-        let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJpYXQiOjE1MDI0NDkwMTMsImV4cCI6MTUwMzA1MzgxMywibmJmIjoxNTAyNDQ5MDEzLCJqdGkiOiJCZWR1dE9wOTAxUzhCQjVqIn0.RZC3NxU8Sws2hBEfGMzc-5El1WX_skrYnF36kTmc9I8';
+
         let time = this.getTime(e.target['start_at'].value);
-        this.props.createTripDispatch({
+        let data = {
             vehicle_id: e.target['vehicle_id'].value,
             start_at: time.start_at,
             end_at: time.end_at,
@@ -97,7 +105,24 @@ class CreateTripContainer extends React.Component {
             seats: e.target['seats'].value,
             from: this.state.startPoint.place,
             to: this.state.endPoint.place,
-        }, token);
+        };
+
+        const validated = Validator.validate(createTripRules, data);
+
+        if (!validated.valid) {
+            this.setState({errors: validated.errors});
+            return;
+        }
+
+        this.setState({errors: {}});
+
+        securedRequest('post', '/api/trips/create', data).then((response) => {
+            this.setState({errors: {}});
+        }).catch((error) => {
+            this.setState({
+                errors: error.response.data
+            })
+        });
     }
 
     render() {
@@ -121,7 +146,7 @@ class CreateTripContainer extends React.Component {
             <div className="row">
                 <div className="col-sm-6">
                     <CreateTripForm
-                        errors={this.props.errors}
+                        errors={this.state.errors}
                         startPoint={startPointProps}
                         endPoint={endPointProps}
                         onSelectEndPoint={this.onSelectEndPoint.bind(this)}
@@ -153,11 +178,4 @@ class CreateTripContainer extends React.Component {
     }
 }
 
-const CreateTripDispatch = connect(
-    (state) => ({
-        errors: state.trip.create.errors
-    }),
-    (dispatch) => bindActionCreators({createTripDispatch}, dispatch)
-)(CreateTripContainer);
-
-export default CreateTripDispatch;
+export default CreateTripContainer;
