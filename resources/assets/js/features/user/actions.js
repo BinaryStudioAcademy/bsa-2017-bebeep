@@ -115,3 +115,33 @@ export const doLogin = (credentials) => dispatch => {
         });
 
 };
+
+export const logoutSuccess = data => ({
+    type: actions.LOGOUT_SUCCESS,
+    data
+});
+
+export const logoutFailed = data => ({
+    type: actions.LOGOUT_FAILED,
+    data
+});
+
+export const doLogout = (data) => {
+    const token = sessionStorage.getItem('jwt');
+    const axiosLogout = axios.create();
+
+    return dispatch => {
+        axiosLogout.defaults.headers.post['Authorization'] = "Bearer " + token;
+
+        axiosLogout.post('/api/user/logout', {
+            token: token
+        })
+            .then(response => {
+                sessionStorage.removeItem('jwt');
+                dispatch(logoutSuccess(response.data))
+            })
+            .catch(error => {
+                dispatch(logoutFailed(error.response))
+            });
+    }
+};

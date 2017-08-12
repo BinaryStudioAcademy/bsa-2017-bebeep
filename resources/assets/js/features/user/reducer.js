@@ -81,6 +81,16 @@ export default function (state = initialState, action) {
                     httpStatus: action.response.status,
                 }
             };
+        case actions.LOGOUT_SUCCESS:
+        case actions.LOGOUT_FAILED:
+            return {
+                ...state,
+                login: {
+                    success: !!sessionStorage.jwt,
+                    errors: action.data.data,
+                    httpStatus: action.data.status,
+                }
+            };
 
         default: {
             return state;

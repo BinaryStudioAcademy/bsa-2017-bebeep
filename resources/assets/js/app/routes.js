@@ -10,8 +10,7 @@ import RegisterForm from '../features/user/layouts/RegisterForm';
 import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
 import RegisterVerify from '../features/user/layouts/RegisterVerify';
 import LoginForm from '../features/user/layouts/Login/LoginForm';
-import LoginSuccess from '../features/user/layouts/Login/LoginSuccess';
-import LoginFailed from '../features/user/layouts/Login/LoginFailed';
+import Logout from '../features/user/layouts/Login/Logout';
 
 export default (
     <Route path="/" component={ App }>
@@ -28,8 +27,7 @@ export default (
         <Route path="verification" component={ RegisterVerify } />
 
         <Route path="login" component={ LoginForm } />
-        <Route path="login/success" component={ LoginSuccess } />
-        <Route path="login/failed" component={ LoginFailed } />
+        <Route path="logout" component={ Logout } />
 
         <Route path="*" component={ NotFound } />
     </Route>

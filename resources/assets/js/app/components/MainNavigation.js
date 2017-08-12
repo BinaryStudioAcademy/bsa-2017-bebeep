@@ -29,6 +29,8 @@ class MainNavigation extends Component {
     render() {
         const navClass = !this.state.isNavOpen ? 'collapse' : '';
         const dropdownClass = this.state.isDropdownOpen ? 'show' : '';
+        const logInUrl = !!sessionStorage.jwt ? '/logout' : '/login';
+        const logInMsg = !!sessionStorage.jwt ? 'Logout' : 'Login';
 
         return (
             <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
@@ -52,7 +54,7 @@ class MainNavigation extends Component {
 
                 <ul className="nav navbar-nav navbar-right">
                   <li className="nav-item">
-                    <Link to="/login" className="nav-link">Login</Link>
+                    <Link to={ logInUrl } className="nav-link">{ logInMsg }</Link>
                   </li>
 
                   <li className="nav-item">
