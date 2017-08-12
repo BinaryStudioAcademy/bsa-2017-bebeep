@@ -121,4 +121,28 @@ class User extends Authenticatable
     {
         return (bool) ($this->attributes['permissions'] & self::DRIVER_PERMISSION);
     }
+
+    /**
+     * Check whether the user can uncheck the passenger role.
+     *
+     * For this, the user should not have any bookings.
+     *
+     * @return bool
+     */
+    public function canUncheckPassenger(): bool
+    {
+        return $this->bookings()->first() === null;
+    }
+
+    /**
+     * Check whether the user can uncheck the driver role.
+     *
+     * For this, the user should not have any created trips.
+     *
+     * @return bool
+     */
+    public function canUncheckDriver(): bool
+    {
+        return $this->trips()->first() === null;
+    }
 }
