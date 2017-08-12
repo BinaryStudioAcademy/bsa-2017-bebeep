@@ -10,6 +10,7 @@ import CreateTrip from '../features/trip/layouts/CreateTrip';
 import RegisterForm from '../features/user/layouts/RegisterForm';
 import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
 import RegisterVerify from '../features/user/layouts/RegisterVerify';
+import PasswordReset from '../features/user/layouts/PasswordReset';
 import LoginForm from '../features/user/layouts/Login/LoginForm';
 import Logout from '../features/user/layouts/Login/Logout';
 
@@ -29,6 +30,7 @@ export default (
         <Route path="registration/success" component={ RegisterSuccess } />
         <Route path="verification" component={ RegisterVerify } />
 
+        <Route path="password/reset" component={ PasswordReset } />
         <Route path="login" component={ LoginForm } />
         <Route path="logout" component={ Logout } />
 

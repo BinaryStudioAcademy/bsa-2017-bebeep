@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use App\User;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
+use App\Services\Contracts\PasswordService as PasswordServiceContract;
+use App\Services\PasswordService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(PasswordServiceContract::class, PasswordService::class);
     }
 
     private function extendValidator()
