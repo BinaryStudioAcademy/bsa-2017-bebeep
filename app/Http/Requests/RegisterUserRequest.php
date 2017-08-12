@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Services\Requests\RegisterUserRequest as RegisterUserRequestInterface;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Services\Requests\RegisterUserRequest as RegisterUserRequestInterface;
 
 class RegisterUserRequest extends FormRequest implements RegisterUserRequestInterface
 {

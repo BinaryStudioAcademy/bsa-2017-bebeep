@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
 use App\User;
+use Prettus\Repository\Eloquent\BaseRepository;
 
 class UserRepository extends BaseRepository
 {

@@ -2,11 +2,14 @@
 
 namespace App\Criteria\User;
 
-use Prettus\Repository\Contracts\CriteriaInterface;
-use Prettus\Repository\Contracts\RepositoryInterface;
+use Prettus\Repository\Contracts\{
+    CriteriaInterface,
+    RepositoryInterface
+};
 
 /**
  * Class NotVerifiedUserCriteriaCriteria
+ *
  * @package namespace App\Criteria;
  */
 class NotVerifiedUserCriteria implements CriteriaInterface
