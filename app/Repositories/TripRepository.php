@@ -22,21 +22,8 @@ class TripRepository extends BaseRepository
      */
     public function save(Trip $trip)
     {
-        $trip->save();
+        $trip->push();
 
         return $trip;
-    }
-
-    /**
-     * @param Trip $trip
-     * @param Route $route
-     * @return Route
-     */
-    public function addRoute(Trip $trip, Route $route)
-    {
-        $route->trip_id = $trip->id;
-        $route->save();
-
-        return $route;
     }
 }

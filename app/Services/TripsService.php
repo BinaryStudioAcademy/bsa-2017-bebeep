@@ -49,7 +49,7 @@ class TripsService
         ];
 
         $trip = $this->tripRepository->save(new Trip($tripAttributes));
-        $this->tripRepository->addRoute($trip, new Route($routeAttributes));
+        $trip->routes()->create($routeAttributes);
 
         return $trip;
     }
