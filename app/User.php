@@ -7,7 +7,7 @@ use App\Models\Trip;
 use App\Models\Vehicle;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Jobs\SendConfirmationEmail;
+
 
 class User extends Authenticatable
 {
