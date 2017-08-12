@@ -47,7 +47,7 @@ class PasswordReset extends React.Component {
                 <form method="post" action="/api/password/forgot" className="card password-form" onSubmit={this.onSubmit}>
                     <div className="card-header">Reset password.</div>
                     <div className="card-block">
-                        <div className={"alert alert-danger" + (errors.token ? '' : 'alert_hide')}>
+                        <div className={"alert alert-danger " + (errors.token ? '' : 'alert_hide')}>
                             {errors.token}
                         </div>
                         <Input

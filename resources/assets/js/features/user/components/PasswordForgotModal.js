@@ -25,9 +25,8 @@ class PasswordForgotModal extends React.Component {
                 errors: { email: error.join(', ') }
             });
         } else {
-            makeRequest('post', '/api/authorization', {
-                email: email,
-                type: 'reset-password'
+            makeRequest('post', '/api/v1/password-resets', {
+                email: email
             }).then(
                 response => this.setState({
                     alertIsOpen: true,
