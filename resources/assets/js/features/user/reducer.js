@@ -56,6 +56,21 @@ export default function (state = initialState, action) {
                 }
             };
 
+        case actions.USER_PROFILE_CHECK_SUCCESS:
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    data: {
+                        ...state.profile.data,
+                        [`role_${action.role}`]: action.value
+                    },
+                }
+            };
+
+        case actions.USER_PROFILE_CHECK_FAILED:
+            return state;
+
         case actions.USER_PROFILE_GET_SUCCESS:
         case actions.USER_PROFILE_EDIT_SUCCESS:
             return {

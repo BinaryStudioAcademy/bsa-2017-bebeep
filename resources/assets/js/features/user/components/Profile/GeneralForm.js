@@ -3,26 +3,37 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 
-import { getProfile, editProfile } from '../../actions';
+import { getProfile, editProfile, changeRole } from '../../actions';
 
 import Input from '../../../../app/components/Input';
 import Textarea from '../../../../app/components/Textarea';
 
 class GeneralForm extends Component {
 
-    constructor() {
-        super();
-        this.onSubmit = this.onSubmit.bind(this);
+    constructor(props) {
+        super(props);
 
-        /*
-        const PASSENGER_PERMISSION = 1;
-        const DRIVER_PERMISSION = 2;
-        const ADMIN_PERMISSION = 4;
-        */
+        this.onSubmit = this.onSubmit.bind(this);
+        this.handleRoleDriverChange = this.handleRoleDriverChange.bind(this);
+        this.handleRolePassengerChange = this.handleRolePassengerChange.bind(this);
     }
 
     componentDidMount() {
         this.props.getProfile();
+    }
+
+    handleRoleDriverChange(e) {
+        this.props.changeRole(e.target.checked, {
+            role: 'driver',
+            can_check: this.props.profile.can_uncheck_driver
+        });
+    }
+
+    handleRolePassengerChange(e) {
+        this.props.changeRole(e.target.checked, {
+            role: 'passenger',
+            can_check: this.props.profile.can_uncheck_passenger
+        });
     }
 
     onSubmit(e) {
@@ -42,10 +53,16 @@ class GeneralForm extends Component {
     render() {
         const { profile, errors } = this.props;
 
-        return (_.isEmpty(profile) ? <div></div> :
+        if (_.isEmpty(profile)) {
+            return (<div></div>);
+        }
 
-            <form role="form" className="card profile-form" action="/api/user/profile/edit" method="POST"
-                  onSubmit={ this.onSubmit }>
+        return (
+            <form role="form" className="card profile-form"
+                  method="POST"
+                  action="/api/user/profile/edit"
+                  onSubmit={ this.onSubmit }
+            >
                 <div className="card-block">
                     <Input
                         type="text"
@@ -83,7 +100,7 @@ class GeneralForm extends Component {
                         type="date"
                         name="birth_date"
                         id="birth_date"
-                        value={ profile.birth_date.substr(0, 10) }
+                        value={ profile.birth_date }
                         required={ false }
                         error={ errors.birth_date }
                     >Birth date</Input>
@@ -98,6 +115,8 @@ class GeneralForm extends Component {
                                        id="role_driver"
                                        name="role_driver"
                                        value="1"
+                                       checked={ profile.role_driver }
+                                       onChange={ this.handleRoleDriverChange }
                                 /> driver
                             </label>
                         </div>
@@ -108,6 +127,8 @@ class GeneralForm extends Component {
                                        id="role_passenger"
                                        name="role_passenger"
                                        value="1"
+                                       checked={ profile.role_passenger }
+                                       onChange={ this.handleRolePassengerChange }
                                 /> passenger
                             </label>
                         </div>
@@ -143,7 +164,7 @@ const GeneralFormConnected = connect(
         errors: state.user.profile.errors
     }),
     (dispatch) =>
-        bindActionCreators({ getProfile, editProfile }, dispatch)
+        bindActionCreators({ getProfile, editProfile, changeRole }, dispatch)
 )(GeneralForm);
 
 export default GeneralFormConnected;

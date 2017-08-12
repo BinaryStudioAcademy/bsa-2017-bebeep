@@ -63,10 +63,10 @@ export const getProfile = () => {
     return dispatch => {
         axios.get('/api/user/profile')
             .then(response => {
-                console.log(response);
+                console.log(response.data);
                 dispatch({
                     type: actions.USER_PROFILE_GET_SUCCESS,
-                    data: response.data
+                    data: response.data.data
                 })
             })
             .catch(error => {
@@ -75,13 +75,26 @@ export const getProfile = () => {
     };
 };
 
+export const changeRole = (value, checkbox) => {
+    if (!checkbox.can_check) {
+        return {
+            type: actions.USER_PROFILE_CHECK_FAILED,
+        };
+    }
+    return {
+        type: actions.USER_PROFILE_CHECK_SUCCESS,
+        role: checkbox.role,
+        value
+    };
+}
+
 export const editProfile = (data) => {
     return dispatch => {
         const validate = ProfileValidate(data);
 
         if (validate.valid) {
             console.log(data);
-            /*axios.post('/api/user/profile/edit', data)
+            /*axios.post('/api/user/profile', data)
                 .then(response => {
                     console.log(response);
                     dispatch({
