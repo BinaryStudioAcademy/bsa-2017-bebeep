@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
 import { getTrips, filterPast,filterUpcoming } from "../actions";
-import TripsListItem from './TripsListItem';
+import List from './list';
 import './css/ListWithTripsItems.scss';
 
 class ListWithTripsItems extends  Component{
@@ -19,31 +19,14 @@ class ListWithTripsItems extends  Component{
 
     render() {
         let trips  = this.props.tripsState.filtered;
-        let tripsList = 'No trips';
-        let modalData = this.props.tripsState.modalData;
-
-        if(trips.length > 0){
-            tripsList = trips.map(function (tripData, index) {
-                return (
-                    <TripsListItem  key={index} tripData={tripData}/>
-                );
-            });
-        }
-
         return (
             <div>
-                <div className="tabs-buttons">
-                    <div className="tab-button">
-                        <button className="btn btn-secondary tab-button" onClick={this.props.filterPast}>Past trips </button>
-                    </div>
-                    <div className="tab-button">
-                        <button className="btn btn-secondary tab-button" onClick={this.props.filterUpcoming}>Upcoming trips</button>
-                    </div>
-                </div>
-
-                <ul className="list-group">
-                    {tripsList}
+                <ul className="pagination d-flex justify-content-center">
+                    <li className="page-item"><a className="page-link" href="#" onClick={this.props.filterPast}>Past trips</a></li>
+                    <li className="page-item"><a className="page-link" href="#" onClick={this.props.filterUpcoming}>Upcoming trips</a></li>
                 </ul>
+
+                <List allTrips={trips}/>
             </div>
         );
     }

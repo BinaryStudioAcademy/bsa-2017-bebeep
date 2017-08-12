@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
-import { showModal,hideModal } from "../actions";
+import { showModal } from "../actions";
 import Map from './map';
 import './css/TripsListItem.scss';
 
@@ -58,7 +58,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({showModal,hideModal}, dispatch);
+    return bindActionCreators({showModal}, dispatch);
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(TripsListItem);

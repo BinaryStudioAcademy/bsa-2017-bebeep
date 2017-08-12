@@ -31,7 +31,7 @@ class TripsListService implements InterfaceTripsListService
      * @param int $userId
      * @return Collection
      */
-    public function getPastUserTrips(int $userId)
+    public function getPastUserTrips(int $userId) :Collection
     {
         $pastUserTrips = $this->repository->getPastTrips($userId);
 
@@ -43,7 +43,7 @@ class TripsListService implements InterfaceTripsListService
      * @param int $userId
      * @return Collection
      */
-    public function getUpcomingUserTrips(int $userId)
+    public function getUpcomingUserTrips(int $userId) :Collection
     {
         $upcomingUserTrips = $this->repository->getUpcomingTrips($userId);
 
