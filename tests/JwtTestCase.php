@@ -15,11 +15,29 @@ class JwtTestCase extends TestCase
      */
     public function actingAs(Authenticatable $user, $driver = null)
     {
+        if ($this->user && $this->user->id == $user->getAuthIdentifier()) {
+            return $this;
+        }
+
         $this->user = $user;
+
         return $this;
     }
 
     /**
+     * @param $user
+     * @param $method
+     * @param $url
+     * @param $data
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    public function jsonRequestAsUser($user, $method, $url, $data)
+    {
+        return $this->actingAs($user)->json($method, $url, $data);
+    }
+
+    /**
+
      * Call the given URI and return the Response.
      *
      * @param  string $method

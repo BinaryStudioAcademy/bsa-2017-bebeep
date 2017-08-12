@@ -2,12 +2,11 @@
 
 namespace App;
 
-use App\Models\Booking;
 use App\Models\Trip;
+use App\Models\Booking;
 use App\Models\Vehicle;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
 
 class User extends Authenticatable
 {
@@ -122,6 +121,15 @@ class User extends Authenticatable
     }
 
     /**
+     * @param int $role
+     * @return bool
+     */
+    public function hasRole(int $role) : bool
+    {
+        return (bool) ($this->attributes['permissions'] & $role);
+    }
+
+    /*
      * @return bool
      */
     public function isVerified() : bool
