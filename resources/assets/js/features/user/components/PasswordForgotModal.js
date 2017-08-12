@@ -18,7 +18,7 @@ class PasswordForgotModal extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const email = e.target['email'].value,
+        const email = e.target['forgotten_email'].value,
             error = validate.single(email, {presence: true, email: true});
         if (error) {
             this.setState({
@@ -41,19 +41,22 @@ class PasswordForgotModal extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        this.setState({formIsOpen: newProps.isOpen});
+        if (this.state.formIsOpen !== newProps.isOpen) {
+            this.setState({formIsOpen: newProps.isOpen});
+        }
     }
 
     render() {
         const {errors, formIsOpen, alertIsOpen} = this.state;
+        const onClosed = this.props.onClosed || (() => {});
         return (
             <div>
-                <Modal isOpen={formIsOpen}>
-                    <form method="post" action="/api/password/forgot" className="password-form" onSubmit={this.onSubmit}>
+                <Modal isOpen={formIsOpen} onClosed={() => { this.state.formIsOpen = false; onClosed(); }}>
+                    <form method="post" action="/api/password/forgot" className="password-form" onSubmit={this.onSubmit} autoComplete="false">
                         <div className="modal-header">Enter your email address and we will send you a link to reset your password.</div>
                         <div className="modal-body">
                             <Input
-                                name="email"
+                                name="forgotten_email"
                                 type="email"
                                 id="email"
                                 error={errors.email}
@@ -68,7 +71,7 @@ class PasswordForgotModal extends React.Component {
                         </div>
                     </form>
                 </Modal>
-                <Modal isOpen={alertIsOpen}>
+                <Modal isOpen={alertIsOpen} onClosed={() => { this.state.alertIsOpen = false; onClosed(); }}>
                     <div className={"alert alert-success password-alert-success"}>
                         <button type="button" className="close" onClick={(e) => {
                             e.preventDefault();

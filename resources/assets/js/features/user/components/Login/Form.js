@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import TextInput from './TextInput';
 import { bindActionCreators } from 'redux';
+import PasswordForgotModal from '../PasswordForgotModal';
 import '../../styles/user.scss';
 
 class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { credentials: { email: '', password: '' }};
+        this.state = { credentials: { email: '', password: '' }, forgotModalIsOpen: false };
         this.onChange = this.onChange.bind(this);
         this.onSave = this.onSave.bind(this);
         this.pickErrorMessage = this.pickErrorMessage.bind(this);
@@ -46,38 +47,48 @@ class Form extends React.Component {
         const { errors, errorMessage } = this.props;
 
         return (
-
-            <form role="form" className="card login-form" action="/api/user/authorization" method="POST">
-                <div className={ "card-header " + (this.props.httpCode ? 'alert-danger' : '')}>
-                    {(this.props.httpCode ? this.pickErrorMessage(this.props.httpCode) : "Enter your credentials" )}
-                </div>
-                <div className="card-block">
-                    <TextInput
-                        name="email"
-                        label="Email"
-                        value={ this.state.credentials.email }
-                        error={ errors.email }
-                        onChange={ this.onChange }/>
-
-                    <TextInput
-                        name="password"
-                        label="Password"
-                        type="password"
-                        value={ this.state.credentials.password }
-                        error={ errors.password }
-                        onChange={ this.onChange }/>
-                </div>
-
-                <div className="card-footer">
-                    <div className="text-center">
-                        <button
-                            className="btn btn-primary"
-                            onClick={ this.onSave }>
-                            Login
-                        </button>
+            <div>
+                <form role="form" className="card login-form" action="/api/user/authorization" method="POST">
+                    <div className={ "card-header " + (this.props.httpCode ? 'alert-danger' : '')}>
+                        {(this.props.httpCode ? this.pickErrorMessage(this.props.httpCode) : "Enter your credentials" )}
                     </div>
-                </div>
-            </form>
+                    <div className="card-block">
+                        <TextInput
+                            name="email"
+                            label="Email"
+                            value={ this.state.credentials.email }
+                            error={ errors.email }
+                            onChange={ this.onChange }/>
+
+                        <TextInput
+                            name="password"
+                            label="Password"
+                            type="password"
+                            value={ this.state.credentials.password }
+                            error={ errors.password }
+                            onChange={ this.onChange }/>
+                    </div>
+
+                    <div className="card-footer">
+                        <div className="row">
+                            <div className="text-right col-6">
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={ this.onSave }>
+                                    Login
+                                </button>
+                            </div>
+                            <div className="col-6 text-right">
+                                <a href="#" onClick={(e) => {
+                                    e.preventDefault();
+                                    this.setState({forgotModalIsOpen: true});
+                                }}>Forgot password ?</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <PasswordForgotModal isOpen={this.state.forgotModalIsOpen} onClosed={() => this.state.forgotModalIsOpen = false }/>
+            </div>
         );
     }
 

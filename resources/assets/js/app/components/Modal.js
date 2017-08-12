@@ -16,12 +16,21 @@ class Modal extends React.Component {
     }
 
     hide() {
+        const onClosed = this.props.onClosed || (() => {});
         this.setState({isShow: false});
-        setTimeout(() => this.setState({isDisplay: false}), 150);
+        setTimeout(() => {
+            this.setState({isDisplay: false});
+            onClosed();
+        }, 150);
     }
 
     componentWillReceiveProps(newProps) {
-        newProps.isOpen ? this.show() : this.hide();
+        if (newProps.isOpen && !this.state.isShow) {
+            this.show();
+        }
+        if (!newProps.isOpen && this.state.isShow) {
+            this.hide();
+        }
     }
 
     render() {

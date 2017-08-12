@@ -91,7 +91,7 @@ export const doLogout = (data) => {
         })
             .then(response => {
                 sessionStorage.removeItem('jwt');
-                dispatch(logoutSuccess(response.data))
+                dispatch(logoutSuccess(response))
             })
             .catch(error => {
                 dispatch(logoutFailed(error.response))
