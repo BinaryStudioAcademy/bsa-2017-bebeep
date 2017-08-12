@@ -73,8 +73,7 @@ class TripsService
     public function delete(Trip $trip, $user)
     {
         if (
-            $trip->user_id != $user->id ||
-            ! Validator::make(['v' => true], ['v' => 'role:'.User::DRIVER_PERMISSION])->passes()
+            $trip->user_id != $user->id
         ) {
             throw new UserHasNotPermissionsToDeleteTripException('User has not permissions to delete this trip');
         }
