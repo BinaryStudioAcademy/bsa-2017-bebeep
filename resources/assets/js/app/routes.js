@@ -20,13 +20,16 @@ export default (
     <Route path="/" component={ App }>
         <IndexRoute component={ Home } />
 
-        <Route path="vehicles" component={ Vehicles } onEnter={ requireAuth }>
-            // as example to restrict path for unauthenticated users
-            <Route path="vehicles/create" component={ Vehicles } />
+        <Route path="vehicles" onEnter={ requireAuth }>
+            <IndexRoute component={ Vehicles } />
+            <Route path="create" component={ Vehicles } />
+            <Route path=":id" component={ VehicleDetails } />
         </Route>
-        <Route path="vehicles/:id" component={ VehicleDetails } />
-        <Route path="trip/create" component={ CreateTrip } />
-        <Route path="trip/edit/:id" component={ Vehicles /*TripEdit*/ } />
+
+        <Route path="trip" onEnter={ requireAuth }>
+            <Route path="create" component={ CreateTrip } />
+            <Route path="edit/:id" component={ Vehicles /*TripEdit*/ } />
+        </Route>
 
         <Route path="registration" component={ RegisterForm } onEnter={ alreadyAuth } />
         <Route path="registration/success" component={ RegisterSuccess } onEnter={ alreadyAuth } />
