@@ -1,13 +1,13 @@
 
 const storage = sessionStorage,
-    tokenKey = 'jwt',
+    tokenKeyName = 'jwt',
     redirectPaths = {
         not_auth: 'login',
         auth: 'dashboard',
     };
 
 export const getAuthToken = () => {
-    return storage[tokenKey];
+    return storage[tokenKeyName];
 };
 
 export const isAuthTokenExists = () => {
@@ -15,11 +15,11 @@ export const isAuthTokenExists = () => {
 };
 
 export const setAuthToken = (token) => {
-    storage.setItem(tokenKey, token);
+    storage.setItem(tokenKeyName, token);
 };
 
 export const removeAuthToken = () => {
-    storage.removeItem(tokenKey);
+    storage.removeItem(tokenKeyName);
 };
 
 export const requireAuth = (nextState, replace) => {
