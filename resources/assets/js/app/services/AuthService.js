@@ -16,11 +16,11 @@ export const isAuthorized = () => {
     return !!getAuthToken();
 };
 
-export const setAuthToken = (token) => {
+export const initSession = (token) => {
     storage.setItem(tokenKeyName, token);
 };
 
-export const removeAuthToken = () => {
+export const destroySession = () => {
     storage.removeItem(tokenKeyName);
 };
 
@@ -66,8 +66,8 @@ export const requireGuest = (nextState, replace) => {
 const AuthService = {
     getAuthToken,
     isAuthorized,
-    setAuthToken,
-    removeAuthToken,
+    initSession,
+    destroySession,
     getAuthUser,
     requireAuth,
     requireGuest,
