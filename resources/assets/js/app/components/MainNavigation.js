@@ -36,8 +36,6 @@ class MainNavigation extends Component {
 
         const authUser = getAuthUser();
 
-        console.log(authUser);
-
         return (
             <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
               <button className="navbar-toggler navbar-toggler-right" type="button"

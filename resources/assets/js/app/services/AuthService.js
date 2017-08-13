@@ -24,18 +24,25 @@ export const removeAuthToken = () => {
     storage.removeItem(tokenKeyName);
 };
 
-export const getAuthUser = (params) => {
+export const decodeAuthToken = () => {
     try {
-        const decoded = jwtDecode(getAuthToken());
-
-        if (_.isEmpty(params)) {
-            return decoded;
-        }
-        return _.pick(decoded, params);
+        return jwtDecode(getAuthToken());
 
     } catch(error) {
+        return null;
+    }
+};
+
+export const getAuthUser = (params) => {
+    const decoded = decodeAuthToken();
+
+    if (_.isEmpty(decoded)) {
         return { username: 'Guest' };
     }
+    if (_.isEmpty(params)) {
+        return decoded;
+    }
+    return _.pick(decoded, params);
 };
 
 export const requireAuth = (nextState, replace) => {
