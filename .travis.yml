@@ -34,5 +34,6 @@ branches:
 deploy:
     provider: script
     script: scripts/deploy-prod.sh
+    skip_cleanup: true
     on:
         branch: feature/deploy
