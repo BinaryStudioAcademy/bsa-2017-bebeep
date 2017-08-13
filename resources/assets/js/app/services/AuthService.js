@@ -1,3 +1,5 @@
+import jwtDecode from 'jwt-decode';
+import _ from 'lodash';
 
 const storage = sessionStorage,
     tokenKeyName = 'jwt',
@@ -20,6 +22,20 @@ export const setAuthToken = (token) => {
 
 export const removeAuthToken = () => {
     storage.removeItem(tokenKeyName);
+};
+
+export const getAuthUser = (params) => {
+    try {
+        const decoded = jwtDecode(getAuthToken());
+
+        if (_.isEmpty(params)) {
+            return decoded;
+        }
+        return _.pick(decoded, params);
+
+    } catch(error) {
+        return { username: 'Guest' };
+    }
 };
 
 export const requireAuth = (nextState, replace) => {
@@ -45,6 +61,7 @@ const AuthService = {
     isAuthTokenExists,
     setAuthToken,
     removeAuthToken,
+    getAuthUser,
     requireAuth,
     alreadyAuth,
 };

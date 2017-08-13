@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 
-import { isAuthTokenExists } from '../services/AuthService';
+import { isAuthTokenExists, getAuthUser } from '../services/AuthService';
 
 class MainNavigation extends Component {
     constructor(props) {
@@ -33,6 +33,10 @@ class MainNavigation extends Component {
         const dropdownClass = this.state.isDropdownOpen ? 'show' : '';
         const logInUrl = isAuthTokenExists() ? '/logout' : '/login';
         const logInMsg = isAuthTokenExists() ? 'Logout' : 'Login';
+
+        const authUser = getAuthUser();
+
+        console.log(authUser);
 
         return (
             <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
@@ -70,7 +74,7 @@ class MainNavigation extends Component {
                       type="button" data-toggle="dropdown" aria-haspopup="true"
                       aria-expanded={this.state.isDropdownOpen}
                       onClick={this.toggleUserDropdown}>
-                    User Name
+                    { authUser.username }
                   </button>
 
                   <div className="dropdown-menu dropdown-menu-right">
