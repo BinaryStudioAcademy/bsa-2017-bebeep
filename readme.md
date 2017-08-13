@@ -25,6 +25,31 @@ docker-compose exec web php artisan migrate:install
 
 For Windows OS - `winpty docker-compose exec web php artisan <your command>`  
 
+### Frontend part (SPA)
+
+Install all javascript packages:  
+
+``` bash
+npm install
+```
+
+Compile all resources:  
+
+_Development_  
+``` bash
+npm run dev
+```
+
+_... with the automatically recompile_  
+``` bash
+npm run watch
+```
+
+_Production_  
+``` bash
+npm run prod
+```
+
 Done. Go to:
 
 ```bash

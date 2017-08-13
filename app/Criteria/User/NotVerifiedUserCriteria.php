@@ -6,8 +6,7 @@ use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Class NotVerifiedUserCriteriaCriteria
- * @package namespace App\Criteria;
+ * Class NotVerifiedUserCriteriaCriteria.
  */
 class NotVerifiedUserCriteria implements CriteriaInterface
 {
@@ -21,7 +20,7 @@ class NotVerifiedUserCriteria implements CriteriaInterface
     }
 
     /**
-     * Apply criteria in query repository
+     * Apply criteria in query repository.
      *
      * @param                     $model
      * @param RepositoryInterface $repository
