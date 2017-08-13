@@ -50,7 +50,7 @@ class ForAuthUser extends Component {
 
                   <div className="dropdown-menu dropdown-menu-right">
 
-                    <Link to="#" className="dropdown-item">Dashboard</Link>
+                    <Link to="/dashboard" className="dropdown-item">Dashboard</Link>
                     <Link to="#" className="dropdown-item">My trips</Link>
                     <Link to="#" className="dropdown-item">My bookings</Link>
                     <Link to="#" className="dropdown-item">Profile</Link>
