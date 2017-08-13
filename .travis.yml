@@ -21,6 +21,8 @@ script:
     - cp .env.example .env
     - docker-compose pull
     - docker-compose run --rm composer install
+    - docker-compose run --rm node npm install
+    - docker-compose run --rm node npm run prod
     - docker-compose up --exit-code-from tests tests
 
 branches:
