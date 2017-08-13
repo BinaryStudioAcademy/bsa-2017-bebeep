@@ -7,23 +7,15 @@ const requestParams = {
     }
 };
 
-export const makeRequest = (method, ...args) => {
-    if (typeof axios[method] === 'function') {
-        args.push(requestParams);
+const setAuthHeaders = (config) => {
+    config.headers['Authorization'] = 'Bearer ' + getAuthToken(); // TODO: token is GLOBAL STATE
 
-        return axios[method].apply(this, args);
-    }
+    return config;
 };
 
-export const securedRequest = (method, ...args) => {
-    requestParams.headers['Authorization'] = 'Bearer ' + getAuthToken();
+const simpleRequest = axios.create(requestParams);
+const securedRequest = axios.create(requestParams);
 
-    return makeRequest(method, ...args)
-};
+securedRequest.interceptors.request.use(setAuthHeaders, null);
 
-const RequestService = {
-    makeRequest,
-    securedRequest
-};
-
-export default RequestService;
+export { simpleRequest, securedRequest };
