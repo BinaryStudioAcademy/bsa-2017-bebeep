@@ -12,7 +12,7 @@ export const getAuthToken = () => {
     return storage[tokenKeyName];
 };
 
-export const isAuthTokenExists = () => {
+export const isAuthorized = () => {
     return !!getAuthToken();
 };
 
@@ -46,7 +46,7 @@ export const getAuthUser = (params) => {
 };
 
 export const requireAuth = (nextState, replace) => {
-    if (!isAuthTokenExists()) {
+    if (!isAuthorized()) {
         replace({
             pathname: '/' + redirectPaths.not_auth,
             state: { nextPathname: nextState.location.pathname }
@@ -55,7 +55,7 @@ export const requireAuth = (nextState, replace) => {
 };
 
 export const alreadyAuth = (nextState, replace) => {
-    if (isAuthTokenExists()) {
+    if (isAuthorized()) {
         replace({
             pathname: '/' + redirectPaths.auth,
             state: { nextPathname: nextState.location.pathname }
@@ -65,7 +65,7 @@ export const alreadyAuth = (nextState, replace) => {
 
 const AuthService = {
     getAuthToken,
-    isAuthTokenExists,
+    isAuthorized,
     setAuthToken,
     removeAuthToken,
     getAuthUser,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 
-import { isAuthTokenExists } from '../../services/AuthService';
+import { isAuthorized } from '../../services/AuthService';
 
 import ForAuthUser from './ForAuthUser';
 import ForGuestUser from './ForGuestUser';
@@ -26,7 +26,7 @@ class MainNavigation extends Component {
 
     render() {
         const navClass = !this.state.isNavOpen ? 'collapse' : '';
-        const navLinks = isAuthTokenExists() ? <ForAuthUser /> : <ForGuestUser />;
+        const navLinks = isAuthorized() ? <ForAuthUser /> : <ForGuestUser />;
 
         return (
             <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
