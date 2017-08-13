@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import _ from 'lodash';
 
-const storage = sessionStorage,
+const storage = localStorage,
     tokenKeyName = 'jwt',
     redirect = {
         authPath: 'login',
