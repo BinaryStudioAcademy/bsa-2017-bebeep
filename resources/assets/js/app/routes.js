@@ -13,6 +13,7 @@ import RegisterVerify from '../features/user/layouts/RegisterVerify';
 import PasswordReset from '../features/user/layouts/PasswordReset';
 import LoginForm from '../features/user/layouts/Login/LoginForm';
 import Logout from '../features/user/layouts/Login/Logout';
+import Dashboard from '../features/user/layouts/Dashboard';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 
@@ -21,6 +22,8 @@ export default (
         <IndexRoute component={ Home } />
 
         <Route onEnter={ requireAuth }>
+            <Route path="/dashboard" component={ Dashboard } />
+
             <Route path="vehicles">
                 <IndexRoute component={ Vehicles } />
                 <Route path="create" component={ Vehicles } />
