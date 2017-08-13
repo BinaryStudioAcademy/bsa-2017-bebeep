@@ -29,9 +29,10 @@ branches:
     only:
         - master
         - development
+        - feature/deploy
 
 deploy:
     provider: script
     script: scripts/deploy-prod.sh
     on:
-        branch: master
+        branch: feature/deploy
