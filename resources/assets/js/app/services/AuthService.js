@@ -3,9 +3,9 @@ import _ from 'lodash';
 
 const storage = sessionStorage,
     tokenKeyName = 'jwt',
-    redirectPaths = {
-        not_auth: 'login',
-        auth: 'dashboard',
+    redirect = {
+        authPath: 'login',
+        rootPath: 'dashboard',
     };
 
 export const getAuthToken = () => {
@@ -48,7 +48,7 @@ export const getAuthUser = (params) => {
 export const requireAuth = (nextState, replace) => {
     if (!isAuthorized()) {
         replace({
-            pathname: '/' + redirectPaths.not_auth,
+            pathname: '/' + redirect.authPath,
             state: { nextPathname: nextState.location.pathname }
         })
     }
@@ -57,7 +57,7 @@ export const requireAuth = (nextState, replace) => {
 export const alreadyAuth = (nextState, replace) => {
     if (isAuthorized()) {
         replace({
-            pathname: '/' + redirectPaths.auth,
+            pathname: '/' + redirect.rootPath,
             state: { nextPathname: nextState.location.pathname }
         })
     }
