@@ -56,8 +56,12 @@ class AuthUserService
             throw new UserNotVerifiedException('User not verified');
         }
 
+        $customClaims = [
+            'username' => $user->getFullName(),
+        ];
+
         try {
-            $token = JWTAuth::attempt($credentials);
+            $token = JWTAuth::attempt($credentials, $customClaims);
 
             if(!$token) {
                 throw new InvalidCredentialsException("Invalid credentials");
