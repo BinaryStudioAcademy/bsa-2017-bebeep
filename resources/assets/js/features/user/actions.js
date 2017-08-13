@@ -2,6 +2,8 @@ import * as actions from './actionTypes';
 import axios from 'axios';
 import { RegisterValidator } from '../../app/services/UserService';
 
+import { getAuthToken, setAuthToken, removeAuthToken } from '../../app/services/AuthService';
+
 export const registerSuccess = data => ({
     type: actions.USER_REGISTER_SUCCESS,
     data
@@ -59,11 +61,11 @@ export const doLogin = (credentials) => dispatch => {
         password: credentials.password
     })
         .then(response => {
-            sessionStorage.setItem('jwt', response.data.token);
+            setAuthToken(response.data.token);
             dispatch(loginSuccess(response.data))
         })
         .catch(error => {
-            sessionStorage.removeItem('jwt');
+            removeAuthToken();
             dispatch(processFailedLoginResponse(error.response))
         });
 
@@ -80,7 +82,7 @@ export const logoutFailed = response => ({
 });
 
 export const doLogout = (data) => {
-    const token = sessionStorage.getItem('jwt');
+    const token = getAuthToken();
     const axiosLogout = axios.create();
 
     return dispatch => {
@@ -90,7 +92,7 @@ export const doLogout = (data) => {
             token: token
         })
             .then(response => {
-                sessionStorage.removeItem('jwt');
+                removeAuthToken();
                 dispatch(logoutSuccess(response))
             })
             .catch(error => {

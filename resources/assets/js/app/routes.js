@@ -14,6 +14,8 @@ import PasswordReset from '../features/user/layouts/PasswordReset';
 import LoginForm from '../features/user/layouts/Login/LoginForm';
 import Logout from '../features/user/layouts/Login/Logout';
 
+import { requireAuth, alreadyAuth } from '../app/services/AuthService';
+
 export default (
     <Route path="/" component={ App }>
         <IndexRoute component={ Home } />
@@ -26,23 +28,14 @@ export default (
         <Route path="trip/create" component={ CreateTrip } />
         <Route path="trip/edit/:id" component={ Vehicles /*TripEdit*/ } />
 
-        <Route path="registration" component={ RegisterForm } />
-        <Route path="registration/success" component={ RegisterSuccess } />
-        <Route path="verification" component={ RegisterVerify } />
+        <Route path="registration" component={ RegisterForm } onEnter={ alreadyAuth } />
+        <Route path="registration/success" component={ RegisterSuccess } onEnter={ alreadyAuth } />
+        <Route path="verification" component={ RegisterVerify } onEnter={ alreadyAuth } />
 
-        <Route path="password/reset" component={ PasswordReset } />
-        <Route path="login" component={ LoginForm } />
-        <Route path="logout" component={ Logout } />
+        <Route path="password/reset" component={ PasswordReset } onEnter={ alreadyAuth } />
+        <Route path="login" component={ LoginForm } onEnter={ alreadyAuth } />
+        <Route path="logout" component={ Logout } onEnter={ requireAuth } />
 
         <Route path="*" component={ NotFound } />
     </Route>
 );
-
-function requireAuth(nextState, replace) {
-    if (!sessionStorage.jwt) {
-        replace({
-            pathname: '/login',
-            state: { nextPathname: nextState.location.pathname }
-        })
-    }
-}
