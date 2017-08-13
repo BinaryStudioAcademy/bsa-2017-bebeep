@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Trip extends Model
 {
+    const MIN_DELAY_TO_START_DATE = 3600;
+
     /**
      * The attributes that are mass assignable.
      *

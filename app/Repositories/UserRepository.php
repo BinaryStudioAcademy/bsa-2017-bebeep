@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
 use App\User;
+use Prettus\Repository\Eloquent\BaseRepository;
 
 class UserRepository extends BaseRepository
 {
@@ -24,5 +24,16 @@ class UserRepository extends BaseRepository
         $user->save();
 
         return $user;
+    }
+
+    /**
+     * Get user by email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function getUserByEmail(string $email)
+    {
+        return User::where('email', $email)->first();
     }
 }

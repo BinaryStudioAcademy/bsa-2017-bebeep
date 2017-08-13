@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Services\Requests\VerifyUserRequest as VerifyUserRequestInterface;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Services\Requests\VerifyUserRequest as VerifyUserRequestInterface;
 
 class VerifyUserRequest extends FormRequest implements VerifyUserRequestInterface
 {

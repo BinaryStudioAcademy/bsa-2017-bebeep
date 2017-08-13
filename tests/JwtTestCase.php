@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests;
 
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -17,8 +16,25 @@ class JwtTestCase extends TestCase
      */
     public function actingAs(Authenticatable $user, $driver = null)
     {
+        if ($this->user && $this->user->id == $user->getAuthIdentifier()) {
+            return $this;
+        }
+
         $this->user = $user;
+
         return $this;
+    }
+
+    /**
+     * @param $user
+     * @param $method
+     * @param $url
+     * @param $data
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    public function jsonRequestAsUser($user, $method, $url, $data)
+    {
+        return $this->actingAs($user)->json($method, $url, $data);
     }
 
     /**
@@ -38,7 +54,9 @@ class JwtTestCase extends TestCase
         if ($this->user) {
             $server['HTTP_AUTHORIZATION'] = 'Bearer '.\JWTAuth::fromUser($this->user);
         }
+
         $server['HTTP_ACCEPT'] = 'application/json';
+
         return parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
     }
 }

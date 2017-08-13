@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Services\Requests\RegisterUserRequest as RegisterUserRequestInterface;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Services\Requests\RegisterUserRequest as RegisterUserRequestInterface;
 
 class RegisterUserRequest extends FormRequest implements RegisterUserRequestInterface
 {
@@ -26,13 +26,13 @@ class RegisterUserRequest extends FormRequest implements RegisterUserRequestInte
     public function rules()
     {
         return [
-            'first_name' => "required",
-            'last_name' => "required",
-            'email' => "required|email|unique:users,email",
-            'phone' => "required|digits_between:1,15",
-            'password' => "required|confirmed|min:6",
-            'role_driver' => "required_if:role_passenger,==,''",
-            'role_passenger' => "required_if:role_driver,==,''",
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|digits_between:1,15',
+            'password' => 'required|confirmed|min:6',
+            'role_driver' => 'required_without:role_passenger',
+            'role_passenger' => 'required_without:role_driver',
         ];
     }
 
@@ -89,6 +89,10 @@ class RegisterUserRequest extends FormRequest implements RegisterUserRequestInte
 
         if ($this->get('role_driver')) {
             $permissions |= User::DRIVER_PERMISSION;
+        }
+
+        if (! $permissions) {
+            $permissions = User::PASSENGER_PERMISSION;
         }
 
         return $permissions;
