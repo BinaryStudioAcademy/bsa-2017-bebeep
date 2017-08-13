@@ -1,6 +1,8 @@
 import * as actions from './actionTypes';
 import axios from 'axios';
+
 import { RegisterValidator } from '../../app/services/UserService';
+import { simpleRequest, securedRequest } from '../../app/services/RequestService';
 
 import { getAuthToken, initSession, destroySession } from '../../app/services/AuthService';
 
@@ -56,7 +58,7 @@ export const doLogin = (credentials) => dispatch => {
         return dispatch(loginFormFailed({ password: passwordValid.error }));
     }
 
-    axios.post('/api/user/authorization', {
+    simpleRequest.post('/api/user/authorization', {
         email: credentials.email,
         password: credentials.password
     })
@@ -83,12 +85,9 @@ export const logoutFailed = response => ({
 
 export const doLogout = (data) => {
     const token = getAuthToken();
-    const axiosLogout = axios.create();
 
     return dispatch => {
-        axiosLogout.defaults.headers.post['Authorization'] = "Bearer " + token;
-
-        axiosLogout.post('/api/user/logout', {
+        securedRequest.post('/api/user/logout', {
             token: token
         })
             .then(response => {
