@@ -3,17 +3,18 @@ import { IndexRoute, Route, Redirect } from 'react-router';
 
 import App from './App';
 import Home from './layouts/Home';
+import NotFound from './layouts/NotFound';
+
+import { RegisterForm, RegisterSuccess, RegisterVerify } from '../features/user/layouts/Register';
+import { LoginForm, Logout } from '../features/user/layouts/Login';
+import PasswordReset from '../features/user/layouts/PasswordReset';
+
+import Dashboard from '../features/user/layouts/Dashboard';
+
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
-import NotFound from './layouts/NotFound';
+
 import CreateTrip from '../features/trip/layouts/CreateTrip';
-import RegisterForm from '../features/user/layouts/RegisterForm';
-import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
-import RegisterVerify from '../features/user/layouts/RegisterVerify';
-import PasswordReset from '../features/user/layouts/PasswordReset';
-import LoginForm from '../features/user/layouts/Login/LoginForm';
-import Logout from '../features/user/layouts/Login/Logout';
-import Dashboard from '../features/user/layouts/Dashboard';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 

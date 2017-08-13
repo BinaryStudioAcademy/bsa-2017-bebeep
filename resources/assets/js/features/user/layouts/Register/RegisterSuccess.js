@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-
-import PageHeader from '../../../app/components/PageHeader';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+
+import PageHeader from '../../../../app/components/PageHeader';
 
 class RegisterSuccess extends Component {
 
@@ -13,7 +13,6 @@ class RegisterSuccess extends Component {
     }
 
     render() {
-
         return (
             <div>
                 <PageHeader header={ 'Register' } />
