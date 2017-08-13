@@ -54,7 +54,7 @@ export const requireAuth = (nextState, replace) => {
     }
 };
 
-export const alreadyAuth = (nextState, replace) => {
+export const requireGuest = (nextState, replace) => {
     if (isAuthorized()) {
         replace({
             pathname: '/' + redirect.rootPath,
@@ -70,7 +70,7 @@ const AuthService = {
     removeAuthToken,
     getAuthUser,
     requireAuth,
-    alreadyAuth,
+    requireGuest,
 };
 
 export default AuthService;

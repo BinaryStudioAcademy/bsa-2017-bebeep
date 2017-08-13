@@ -14,30 +14,35 @@ import PasswordReset from '../features/user/layouts/PasswordReset';
 import LoginForm from '../features/user/layouts/Login/LoginForm';
 import Logout from '../features/user/layouts/Login/Logout';
 
-import { requireAuth, alreadyAuth } from '../app/services/AuthService';
+import { requireAuth, requireGuest } from '../app/services/AuthService';
 
 export default (
     <Route path="/" component={ App }>
         <IndexRoute component={ Home } />
 
-        <Route path="vehicles" onEnter={ requireAuth }>
-            <IndexRoute component={ Vehicles } />
-            <Route path="create" component={ Vehicles } />
-            <Route path=":id" component={ VehicleDetails } />
+        <Route onEnter={ requireAuth }>
+            <Route path="vehicles">
+                <IndexRoute component={ Vehicles } />
+                <Route path="create" component={ Vehicles } />
+                <Route path=":id" component={ VehicleDetails } />
+            </Route>
+
+            <Route path="trip">
+                <Route path="create" component={ CreateTrip } />
+                <Route path="edit/:id" component={ Vehicles /*TripEdit*/ } />
+            </Route>
+
+            <Route path="logout" component={ Logout } />
         </Route>
 
-        <Route path="trip" onEnter={ requireAuth }>
-            <Route path="create" component={ CreateTrip } />
-            <Route path="edit/:id" component={ Vehicles /*TripEdit*/ } />
+        <Route onEnter={ requireGuest }>
+            <Route path="registration" component={ RegisterForm } />
+            <Route path="registration/success" component={ RegisterSuccess } />
+            <Route path="verification" component={ RegisterVerify } />
+
+            <Route path="login" component={ LoginForm } />
+            <Route path="password/reset" component={ PasswordReset } />
         </Route>
-
-        <Route path="registration" component={ RegisterForm } onEnter={ alreadyAuth } />
-        <Route path="registration/success" component={ RegisterSuccess } onEnter={ alreadyAuth } />
-        <Route path="verification" component={ RegisterVerify } onEnter={ alreadyAuth } />
-
-        <Route path="password/reset" component={ PasswordReset } onEnter={ alreadyAuth } />
-        <Route path="login" component={ LoginForm } onEnter={ alreadyAuth } />
-        <Route path="logout" component={ Logout } onEnter={ requireAuth } />
 
         <Route path="*" component={ NotFound } />
     </Route>
