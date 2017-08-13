@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Modal from '../components/modal';
+import MapModal from '../components/MapModal';
 import PageHeader from '../../../app/components/PageHeader';
 import ListWithTripsItems from '../components/ListWithTripsItems';
 
@@ -11,7 +11,7 @@ class TripsList extends Component {
             <div>
                 <PageHeader header={ 'Trips list' } />
                 <ListWithTripsItems />
-                <Modal/>
+                <MapModal/>
             </div>
         )
     }

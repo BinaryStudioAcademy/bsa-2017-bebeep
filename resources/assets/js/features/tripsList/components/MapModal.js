@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { hideModal } from "../actions";
-import Map from './map';
+import MapDirection from './MapDirection';
 
 import './css/modal.scss';
 
-class Modal extends Component {
+class MapModal extends Component {
     render() {
         let modalData = this.props.tripsState.modalData;
         if (this.props.tripsState.isOpen === false)
@@ -16,7 +16,7 @@ class Modal extends Component {
             <div className="backdropStyle">
                 <div className="modalStyle">
                     <div className="big-map">
-                        <Map from={modalData.from} to={modalData.to} />
+                        <MapDirection from={modalData.from} to={modalData.to} />
                     </div>
                     <div className="row">
                         <div className="col-md-10" />
@@ -44,5 +44,5 @@ function mapDispatchToProps(dispatch) {
 return bindActionCreators({hideModal}, dispatch);
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Modal);
+export default connect(mapStateToProps,mapDispatchToProps)(MapModal);
 

@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-
-import { getTrips, filterPast,filterUpcoming } from "../actions";
-import List from './list';
+import { filterPast,filterUpcoming } from "../actions";
+import List from './List';
 import './css/ListWithTripsItems.scss';
 
 class ListWithTripsItems extends  Component{
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.props.getTrips();
         this.props.filterPast();
-    }
-    componentDidMount() {
-         this.props.filterPast();
     }
 
     render() {
@@ -39,7 +34,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({getTrips, filterPast,filterUpcoming},dispatch);
+    return bindActionCreators({filterPast,filterUpcoming},dispatch);
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ListWithTripsItems);

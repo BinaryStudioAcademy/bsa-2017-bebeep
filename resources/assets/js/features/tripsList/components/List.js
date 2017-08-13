@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-
 import TripsListItem from './TripsListItem';
 
 class List extends Component{
-    constructor(props){
-        super(props);
-    }
-
     render(){
         let trips = this.props.allTrips;
         let tripsList = "No trips";

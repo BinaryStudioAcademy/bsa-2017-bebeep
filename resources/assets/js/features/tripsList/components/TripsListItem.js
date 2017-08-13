@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
 import { showModal } from "../actions";
-import Map from './map';
+import MapDirection from './MapDirection';
 import './css/TripsListItem.scss';
 
 class TripsListItem extends Component {
@@ -42,7 +42,7 @@ class TripsListItem extends Component {
                     </div>
                     {/*Small map*/}
                     <div className="list-map" onClick={this.showModal} >
-                        <Map key={new Date()} from={data.from} to={data.to} />
+                        <MapDirection key={new Date()} from={data.from} to={data.to} />
                     </div>
                     {edit}
                 </li>
