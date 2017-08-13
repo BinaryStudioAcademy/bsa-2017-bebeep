@@ -136,4 +136,12 @@ class User extends Authenticatable
     {
         return (bool) ($this->attributes['is_verified']);
     }
+
+    /**
+     * @return string
+     */
+    public function getFullName() : string
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
 }
