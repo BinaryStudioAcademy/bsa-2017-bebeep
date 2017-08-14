@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { connect } from 'react-redux'
 import MapDirection from './MapDirection';
 import './css/TripsListItem.scss';
 
@@ -46,11 +45,6 @@ class TripsListItem extends Component {
     }
 }
 
-function mapStateToProps (state) {
-    return {
-        tripsState: state.tripsList
-    }
-}
 
 
-export default connect(mapStateToProps)(TripsListItem);
+export default TripsListItem;
