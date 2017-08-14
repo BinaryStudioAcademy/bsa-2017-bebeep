@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import { filterPast,filterUpcoming } from "../actions";
+import { fetchPast,fetchUpcoming } from "../actions";
 import List from './List';
 import './css/ListWithTripsItems.scss';
 
@@ -9,19 +9,21 @@ class ListWithTripsItems extends  Component{
 
     constructor(props) {
         super(props);
-        this.props.filterPast();
+        this.props.fetchPast();
     }
 
     render() {
-        let trips  = this.props.tripsState.filtered;
+         let trips= this.props.tripsState.trips;
+         let modalData = this.props.tripsState.modalData ;
+
         return (
             <div>
                 <ul className="pagination d-flex justify-content-center">
-                    <li className="page-item"><a className="page-link" href="#" onClick={this.props.filterPast}>Past trips</a></li>
-                    <li className="page-item"><a className="page-link" href="#" onClick={this.props.filterUpcoming}>Upcoming trips</a></li>
+                    <li className="page-item"><a className="page-link" href="#" onClick={this.props.fetchPast}>Past trips</a></li>
+                    <li className="page-item"><a className="page-link" href="#" onClick={this.props.fetchUpcoming}>Upcoming trips</a></li>
                 </ul>
 
-                <List allTrips={trips}/>
+                <List allTrips={trips} modalData ={modalData}/>
             </div>
         );
     }
@@ -34,7 +36,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({filterPast,filterUpcoming},dispatch);
+    return bindActionCreators({fetchPast,fetchUpcoming},dispatch);
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ListWithTripsItems);

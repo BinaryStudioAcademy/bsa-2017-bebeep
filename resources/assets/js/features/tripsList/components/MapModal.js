@@ -1,48 +1,48 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux';
-import { hideModal } from "../actions";
 import MapDirection from './MapDirection';
-
+import Modal from '../../../app/components/Modal';
 import './css/modal.scss';
 
+
 class MapModal extends Component {
+    constructor() {
+        super();
+        this.state = {
+            formIsOpen: false
+        };
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (this.state.formIsOpen !== newProps.isOpen) {
+            this.setState({formIsOpen: newProps.isOpen});
+        }
+    }
+
+
     render() {
-        let modalData = this.props.tripsState.modalData;
-        if (this.props.tripsState.isOpen === false)
-            return null;
+        let modalData = this.props.modalData;
+        const {formIsOpen} = this.state;
+        const onClosed = this.props.onClosed || (() => {});
 
         return (
-            <div className="backdropStyle">
-                <div className="modalStyle">
-                    <div className="big-map">
-                        <MapDirection from={modalData.from} to={modalData.to} />
-                    </div>
-                    <div className="row">
-                        <div className="col-md-10" />
-                        <div className="col-md-1">
-                            <button className="btn btn-secondary" onClick={this.props.hideModal}>Close</button>
+            <Modal isOpen={formIsOpen} onClosed={() => { this.state.formIsOpen = false; onClosed(); }}>
+                    <div className="modal-header">Big map</div>
+                    <div className="modal-body">
+                        <div className="big-map">
+                            <MapDirection from={modalData.from} to={modalData.to}/>
                         </div>
                     </div>
-                </div>
-
-                <div className="backdropStyle"
-                     onClick={this.props.hideModal}/>
-
-            </div>
+                    <div className="modal-footer text-right">
+                        <button className="btn" onClick={(e) => {
+                            e.preventDefault();
+                            this.setState({formIsOpen: false});
+                            onClosed();
+                        }}>Close</button>
+                    </div>
+            </Modal>
         );
     }
 }
 
-function mapStateToProps (state) {
-    return {
-      tripsState: state.tripsList
-    }
-}
 
-function mapDispatchToProps(dispatch) {
-return bindActionCreators({hideModal}, dispatch);
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(MapModal);
-
+export default MapModal;

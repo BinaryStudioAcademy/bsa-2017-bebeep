@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux';
-
-import { showModal } from "../actions";
 import MapDirection from './MapDirection';
 import './css/TripsListItem.scss';
 
@@ -13,8 +10,8 @@ class TripsListItem extends Component {
         this.showModal = this.showModal.bind(this);
     }
 
-    showModal(){
-        this.props.showModal(this.props.tripData)
+    showModal(event){
+        this.props.openModal(event,this.props.tripData);
     }
 
     render() {
@@ -23,7 +20,7 @@ class TripsListItem extends Component {
         if( new Date(data.start_at)>new Date() ) {
             edit = (
                 <div className="list-actions">
-                    <Link to={ 'trips/' + data.id+'/edit' }>
+                    <Link to={ 'trip/edit/'+ data.id }>
                         <button className="btn btn-default">Edit</button>
                     </Link>
 
@@ -32,8 +29,7 @@ class TripsListItem extends Component {
         }
 
         return (
-            <div>
-                <li className="list-group-item">
+                <li className="list-group-item" onClick={this.showModal}>
                     <div className="list-data">
                         Brand: {data.brand} <br/>
                         Model: {data.model}<br/>
@@ -41,12 +37,11 @@ class TripsListItem extends Component {
                         End: {data.end_at}<br/>
                     </div>
                     {/*Small map*/}
-                    <div className="list-map" onClick={this.showModal} >
-                        <MapDirection key={new Date()} from={data.from} to={data.to} />
+                    <div className="list-map"  >
+                        <MapDirection  from={data.from} to={data.to} />
                     </div>
                     {edit}
                 </li>
-            </div>
         );
     }
 }
@@ -57,8 +52,5 @@ function mapStateToProps (state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({showModal}, dispatch);
-}
 
-export default connect(mapStateToProps,mapDispatchToProps)(TripsListItem);
+export default connect(mapStateToProps)(TripsListItem);

@@ -1,43 +1,26 @@
 import * as actions from './actionTypes';
 
 const initialState = {
-    filtered: [],
-    isOpen: false,
-    modalData: [],
+    trips: [],
 };
 
 
 export default function (state = initialState, action) {
     switch(action.type) {
-        case actions.TRIPSLIST_FILTER_PAST: {
+        case actions.TRIPSLIST_FETCH_PAST: {
             return {
                 ...state,
-                filtered: action.filtered
+                trips: action.trips
             };
         }
 
-        case actions.TRIPSLIST_FILTER_UPCOMING: {
+        case actions.TRIPSLIST_FETCH_UPCOMING: {
             return {
                 ...state,
-                filtered: action.filtered
+                trips: action.trips
             };
         }
 
-        case actions.TRIPSLIST_SHOW_MODAL:{
-            return {
-                ...state,
-                isOpen:true,
-                modalData: action.modalData
-            };
-        }
-
-        case actions.TRIPSLIST_HIDE_MODAL:{
-            return {
-                ...state,
-                isOpen:false,
-                modalData:[]
-            };
-        }
         default: {
             return state;
         }
