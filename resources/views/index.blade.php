@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvY4byPK3_fVxs7eEoJFwG9dFiuz3ghuY&libraries=places,geometry"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_api_key') }}&libraries=places,geometry"></script>
 </head>
 
 <body>
