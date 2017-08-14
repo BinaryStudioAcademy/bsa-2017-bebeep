@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{wildcard?}', function () {
+    return view('index');
+})
+->where('wildcard', '.+');
