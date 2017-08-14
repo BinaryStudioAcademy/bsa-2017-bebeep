@@ -1,0 +1,23 @@
+.autocomplete-container {
+  position: absolute;
+  font-size: 12px;
+  top: 30px;
+  background-color: white;
+  border: 1px solid #999;
+  width: 100%;
+  z-index: 1000;
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+#PlacesAutocomplete__root {
+  margin-bottom: 0;
+}
+
+.search-input {
+  font-size: 13px;
+}
+
+.btn-search {
+  border-radius: 30px;
+  width: 100%;
+}
