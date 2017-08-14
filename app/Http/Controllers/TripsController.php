@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchTripRequest;
 use App\Models\Trip;
 use App\Services\TripsService;
 use Illuminate\Support\Facades\Auth;
@@ -61,5 +62,10 @@ class TripsController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    public function search(SearchTripRequest $request) {
+        $data = $this->tripsService->search($request);
+        return response()->json($data);
     }
 }

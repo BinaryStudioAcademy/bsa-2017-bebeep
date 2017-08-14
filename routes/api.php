@@ -33,7 +33,11 @@ Route::group([
     Route::post('create', ['as' => 'create', 'uses' => 'TripsController@create']);
     Route::patch('update/{trip}', ['as' => 'update', 'uses' => 'TripsController@update']);
     Route::delete('{trip}', ['as' => 'delete', 'uses' => 'TripsController@delete']);
+
 });
+
+Route::get('v1/trips/search', ['as' => 'search', 'uses' => 'TripsController@search']);
+
 
 Route::middleware('jwt.guest')->post('v1/password-resets', ['as' => 'password.forgot', 'uses' => 'Auth\PasswordResetsController@forgot']);
 Route::middleware('jwt.guest')->put('v1/password-resets', ['as' => 'password.reset', 'uses' => 'Auth\PasswordResetsController@reset']);

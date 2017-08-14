@@ -6,9 +6,11 @@ use App\User;
 use App\Models\Trip;
 use App\Models\Route;
 use App\Repositories\TripRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
+use App\Services\Requests\SearchTripRequest;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
 class TripsService
@@ -79,5 +81,56 @@ class TripsService
         }
 
         $this->tripRepository->delete($trip->id);
+    }
+
+    /**
+     * @param SearchTripRequest $request
+     * @return array
+     */
+    public function search(SearchTripRequest $request) :array
+    {
+        $data = [];
+        $faker = \Faker\Factory::create();
+        $countAllData = $request->getLimit() * 3;
+        for ($i = 1; $i < $countAllData + 1; $i++) {
+            $user = factory(User::class)->make();
+            $trip = factory(Trip::class)->make([
+                'start_at' => $faker->dateTimeInInterval('0 years', $interval = '+ 5 days')
+            ]);
+            $data[] = [
+                'id' => $i,
+                'price' => $trip->price,
+                'seats' => $trip->seats,
+                'from' => $faker->city,
+                'to' => $faker->city,
+                'start_at' => $trip->start_at,
+                'user' => [
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'birth_date' => $user->birth_date,
+                    'photo' => 'http://lorempixel.com/200/200/'
+                ],
+            ];
+        }
+        usort($data, function($a, $b) use ($request) {
+            $first = $request->isAsc() ? 'a' : 'b';
+            $second = $request->isAsc() ? 'b' : 'a';
+            switch($request->getSort()) {
+                case 'price':
+                    return $$first['price'] <=> $$second['price'];
+                case 'start_at':
+                    return $$first['start_at']->timestamp <=> $$second['start_at']->timestamp;
+                default:
+                    return $$first['id'] <=> $$second['id'];
+            }
+        });
+        $pages = array_chunk($data, $request->getLimit());
+        $countData = count($pages);
+        return [
+            'data' => ($countData >= $request->getPage()
+                ? $pages[$request->getPage() - 1]
+                : $pages[$countData - 1]),
+            'size' => $countAllData
+        ];
     }
 }
