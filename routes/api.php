@@ -16,10 +16,21 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::group([
+    'prefix' => 'trips',
+    'as' => 'trips.',
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
+], function () {
 Route::group(['prefix' => 'v1'],function () {
-    Route::get('/trips','Api\Driver\TripListController@index');
+    Route::group(['prefix' => 'trips'],function () {
+        Route::get('/','Api\Driver\TripListController@index');
+        Route::get('past','Api\Driver\TripListController@past');
+        Route::get('upcoming','Api\Driver\TripListController@upcoming');
+    });
 });
+});
+
+
 
 
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {

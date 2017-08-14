@@ -6,16 +6,17 @@ use App\Models\Trip;
 use App\Models\Vehicle;
 use App\User;
 use Carbon\Carbon;
+use Tests\JwtTestCase;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class TripsListTest extends TestCase
+class TripsListTest extends JwtTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
     protected $method = 'GET';
-    protected $url = 'api/v1/trips';
+    protected $url = 'api/v1/trips/';
 
     /** @test */
     public function user_can_see_trips()
@@ -32,7 +33,7 @@ class TripsListTest extends TestCase
         );
         $route = factory(Route::class)->create(['trip_id' => $trip->id]);
 
-        $response = $this->json($this->method, $this->url);
+        $response = $this->jsonRequestAsUser($user,$this->method, $this->url );
         $response->assertStatus(200);
         $response->assertJsonFragment([[
             'id' => $trip->id,
@@ -48,10 +49,10 @@ class TripsListTest extends TestCase
     /** @test */
     public function see_empty_array_if_user_doesnt_have_trips()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
         $vehicle = factory(Vehicle::class)->create(['user_id'=>$user->id]);
-        $response = $this->json($this->method, $this->url);
-        $response->assertStatus(200);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url);
+//        $response->assertStatus(200);
         $response->assertJson([]);
     }
 
@@ -70,7 +71,7 @@ class TripsListTest extends TestCase
         );
         $route2 = factory(Route::class)->create(['trip_id' => $trip2->id]);
 
-        $response = $this->json($this->method, $this->url,['filter'=>'past']);
+        $response = $this->json($this->method, $this->url.'past');
         $response->assertStatus(200);
         $response->assertJson([[
             'id' => $trip->id,
@@ -83,7 +84,7 @@ class TripsListTest extends TestCase
         ]]);
 
 
-        $response = $this->json($this->method, $this->url,['filter'=>'upcoming']);
+        $response = $this->json($this->method, $this->url.'upcoming');
         $response->assertStatus(200);
         $response->assertJson([[
             'id' => $trip2->id,

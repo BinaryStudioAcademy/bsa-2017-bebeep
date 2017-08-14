@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Contracts;
+namespace App\Services\Requests;
 
 
 interface GetTripsListRequest

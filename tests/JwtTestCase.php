@@ -31,7 +31,7 @@ class JwtTestCase extends TestCase
      * @param $data
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    public function jsonRequestAsUser($user, $method, $url, $data)
+    public function jsonRequestAsUser($user, $method, $url, $data=[])
     {
         return $this->actingAs($user)->json($method, $url, $data);
     }
