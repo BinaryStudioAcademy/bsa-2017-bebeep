@@ -26,4 +26,15 @@ class TripRepository extends BaseRepository
 
         return $trip;
     }
+
+    /**
+     * @param Trip $trip
+     * @return Trip
+     */
+    public function softDelete(Trip $trip)
+    {
+        $trip->delete();
+
+        return $trip;
+    }
 }

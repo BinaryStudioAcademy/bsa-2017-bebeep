@@ -74,7 +74,7 @@ class DeleteTripTest extends BaseTripTestCase
         $response = $this->jsonAsUser($user);
         $response->assertStatus(200);
 
-        $this->assertDatabaseMissing('trips', ['id' => $trip->id]);
+        $this->assertDatabaseHas('trips', ['id' => $trip->id, 'deleted_at' => $response->json()['deleted_at']]);
     }
 
     /**

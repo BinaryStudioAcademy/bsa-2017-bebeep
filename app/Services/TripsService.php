@@ -2,14 +2,11 @@
 
 namespace App\Services;
 
-use App\User;
 use App\Models\Trip;
-use App\Models\Route;
 use App\Repositories\TripRepository;
-use Illuminate\Support\Facades\Validator;
+use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
-use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
 class TripsService
 {
@@ -68,16 +65,18 @@ class TripsService
     /**
      * @param Trip $trip
      * @param $user
-     * @throws UserHasNotPermissionsToDeleteTripException
+     * @return Trip
      */
     public function delete(Trip $trip, $user)
     {
-        if (
-            $trip->user_id != $user->id
-        ) {
-            throw new UserHasNotPermissionsToDeleteTripException('User has not permissions to delete this trip');
+        $rules = [TripOwnerRule::class];
+
+        foreach ($rules as $rule) {
+            (new $rule)->validate($trip, $user);
         }
 
-        $this->tripRepository->delete($trip->id);
+        $this->tripRepository->softDelete($trip);
+
+        return $trip;
     }
 }
