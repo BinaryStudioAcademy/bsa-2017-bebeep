@@ -6,6 +6,8 @@ use App\User;
 use App\Models\Trip;
 use App\Models\Route;
 use App\Repositories\TripRepository;
+use App\Exceptions\Trip\TripNotFoundException;
+use App\Exceptions\Trip\UserDeniedTrip;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
@@ -55,14 +57,37 @@ class TripsService
     }
 
     /**
-     * @param Trip $trip
+     * Update trip service
+     *
+     * @param $tripId
      * @param UpdateTripRequest $request
      * @param $user
      * @return Trip
+     * @throws TripNotFoundException
+     * @throws UserDeniedTrip
      */
-    public function update(Trip $trip, UpdateTripRequest $request, $user): Trip
+    public function update($tripId, UpdateTripRequest $request, $user)
     {
-        return $trip;
+        $trip = $this->tripRepository->findTripById($tripId);
+
+        if(is_null($trip)) {
+            throw new TripNotFoundException("Trip not found");
+        }
+
+        if($user->id != $trip->user_id) {
+            throw new UserDeniedTrip("The user is denied access to the trip");
+        }
+
+        $tripAttributes = [
+            'price' => $request->getPrice(),
+            'seats' => $request->getSeats(),
+            'start_at' => $request->getStartAt(),
+            'end_at' => $request->getEndAt(),
+            'vehicle_id' => $request->getVehicleId(),
+        ];
+
+        $result = $this->tripRepository->updateTrip($trip, $tripAttributes);
+        return $result;
     }
 
     /**

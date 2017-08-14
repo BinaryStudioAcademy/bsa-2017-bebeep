@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Trip\TripNotFoundException;
+use App\Exceptions\Trip\UserDeniedTrip;
 use App\Models\Trip;
 use App\Services\TripsService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateTripRequest;
 use App\Http\Requests\UpdateTripRequest;
@@ -37,15 +40,24 @@ class TripsController extends Controller
     }
 
     /**
-     * @param Trip $trip
+     * Update trip
+     *
+     * @param $tripId
      * @param UpdateTripRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Trip $trip, UpdateTripRequest $request)
+    public function update($tripId, UpdateTripRequest $request)
     {
-        $trip = $this->tripsService->update($trip, $request, Auth::user());
-
-        return response()->json($trip);
+        try{
+            $trip = $this->tripsService->update($tripId, $request, Auth::user());
+            return response()->json($trip, 200);
+        }
+        catch (TripNotFoundException $e) {
+            return response()->json(['error' => $e->getMessage()], 404);
+        }
+        catch (UserDeniedTrip $e) {
+            return response()->json(['error' => $e->getMessage()], 401);
+        }
     }
 
     /**
