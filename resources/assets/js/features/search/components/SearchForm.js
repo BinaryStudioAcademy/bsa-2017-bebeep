@@ -1,6 +1,9 @@
 import React from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import {geocodeByAddress} from 'react-places-autocomplete';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import '../styles/react-datepicker.scss';
 import '../styles/search-index.scss';
 
 class SearchForm extends React.Component {
@@ -15,13 +18,22 @@ class SearchForm extends React.Component {
             endPoint: {
                 address: '',
                 place: null,
-            }
+            },
+            startDate: null
         };
+
+        this.handleDateChange = this.handleDateChange.bind(this);
     }
 
     onChangeStartPoint(address) {
         this.setState({
             startPoint: {address: address}
+        });
+    }
+
+    handleDateChange(date) {
+        this.setState({
+            startDate: date
         });
     }
 
@@ -131,14 +143,14 @@ class SearchForm extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-3">
-                            <div className="form-group">
-                                <label htmlFor="endPoint" className="sr-only">Going to</label>
-                                <div className="col-md-9">
-                                    <input type="text" placeholder="Date" className="form-control search-input"/>
-                                </div>
-                            </div>
-                        </div>
+                        <DatePicker
+                            todayButton={"Today"}
+                            selected={this.state.startDate}
+                            onChange={this.handleDateChange}
+                            placeholderText="Date"
+                            minDate={moment()}
+                            className="form-control date-picker"
+                        />
                         <div className="col-md-3">
                             <button type="submit" className="btn btn-search btn-primary">Find a ride</button>
                         </div>
