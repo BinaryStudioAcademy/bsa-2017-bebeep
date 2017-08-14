@@ -7,21 +7,22 @@ use App\Repositories\TripRepository;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
+use App\Validators\DeleteTripValidator;
 
 class TripsService
 {
-    /**
-     * @var TripRepository
-     */
     private $tripRepository;
+    private $deleteTripValidator;
 
     /**
      * TripsService constructor.
      * @param TripRepository $tripRepository
+     * @param DeleteTripValidator $deleteTripValidator
      */
-    public function __construct(TripRepository $tripRepository)
+    public function __construct(TripRepository $tripRepository, DeleteTripValidator $deleteTripValidator)
     {
         $this->tripRepository = $tripRepository;
+        $this->deleteTripValidator = $deleteTripValidator;
     }
 
     /**
@@ -69,12 +70,7 @@ class TripsService
      */
     public function delete(Trip $trip, $user)
     {
-        $rules = [TripOwnerRule::class];
-
-        foreach ($rules as $rule) {
-            (new $rule)->validate($trip, $user);
-        }
-
+        $this->deleteTripValidator->validate($trip, $user);
         $this->tripRepository->softDelete($trip);
 
         return $trip;
