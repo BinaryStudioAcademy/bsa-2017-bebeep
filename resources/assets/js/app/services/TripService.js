@@ -1,5 +1,6 @@
 import Validator from './Validator';
 import moment from 'moment';
+import { makeRequest } from './RequestService';
 
 export const createTripRules = {
     vehicle_id: Validator.required('Please select a car'),
@@ -26,4 +27,22 @@ export const getStartAndEndTime = (start_at, duration) => {
         start_at: start_at,
         end_at: end_at
     }
+};
+
+export const search = (
+    tripData = {
+        from: { coordinate: { lng: 0, lat: 0 } },
+        to: { coordinate: { lng: 0, lat: 0 } },
+        start_at: 0
+    }, page = 1, sort = 'price', order = 'asc', limit = 10
+) => {
+    return makeRequest('get', '/api/v1/trips/search', {
+        fc: tripData.from.coordinate.lng + '|' + tripData.from.coordinate.lat,
+        tc: tripData.to.coordinate.lng + '|' + tripData.to.coordinate.lat,
+        start: tripData.start_at,
+        sort,
+        order,
+        page,
+        limit
+    })
 };
