@@ -7,7 +7,7 @@ class List extends Component{
         super(props);
         this.state = {
             isOpen:false,
-            trip: {from:['0','0'], to:['1','1']}
+            trip: {from:['49.82','24.03'], to:['49.51','25.52']}
         };
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);

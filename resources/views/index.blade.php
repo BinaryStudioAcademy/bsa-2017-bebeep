@@ -8,13 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvY4byPK3_fVxs7eEoJFwG9dFiuz3ghuY&libraries=places,geometry"></script>
-</head>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api_key') }}&libraries=places,geometry"></script></head>
 
 <body>
     <div id="bebeep-app"></div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACTI_jCTcZ9m87Vp9k10oPDZpkQik8Njo"></script>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
