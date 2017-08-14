@@ -35,7 +35,7 @@ class MapModal extends Component {
                     <div className="modal-footer text-right">
                         <button className="btn" onClick={(e) => {
                             e.preventDefault();
-                            this.setState({formIsOpen: false});
+                            this.state.formIsOpen = false;
                             onClosed();
                         }}>Close</button>
                     </div>
