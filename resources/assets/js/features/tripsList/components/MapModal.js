@@ -26,7 +26,7 @@ class MapModal extends Component {
 
         return (
             <Modal isOpen={formIsOpen} onClosed={() => { this.state.formIsOpen = false; onClosed(); }}>
-                    <div className="modal-header">Big map</div>
+                    <div className="modal-header">MAP:</div>
                     <div className="modal-body">
                         <div className="big-map">
                             <MapDirection from={modalData.from} to={modalData.to}/>
