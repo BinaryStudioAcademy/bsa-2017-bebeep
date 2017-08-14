@@ -150,6 +150,7 @@ class SearchForm extends React.Component {
                             placeholderText="Date"
                             minDate={moment()}
                             className="form-control date-picker"
+                            isClearable={true}
                         />
                         <div className="col-md-3">
                             <button type="submit" className="btn btn-search btn-primary">Find a ride</button>

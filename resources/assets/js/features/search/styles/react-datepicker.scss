@@ -51,7 +51,6 @@
   background-color: #fff;
   color: #000;
   border: 1px solid #aeaeae;
-  border-radius: 0.3rem;
   display: inline-block;
   position: relative; }
 
@@ -78,7 +77,7 @@
 
 .react-datepicker__header {
   text-align: center;
-  background-color: #f0f0f0;
+  background-color: rgba(240, 240, 240, 0.42);
   border-bottom: 1px solid #aeaeae;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
@@ -159,20 +158,20 @@
 .react-datepicker__day {
   color: #000;
   display: inline-block;
-  width: 1.7rem;
-  line-height: 1.7rem;
+  width: 1.6rem;
+  line-height: 1.6rem;
   text-align: center;
-  margin: 0.166rem; }
+  margin: 0.165rem; }
 
 .react-datepicker__day {
   cursor: pointer; }
 .react-datepicker__day:hover {
-  border-radius: 0.3rem;
+  border-radius: 20px;
   background-color: #f0f0f0; }
 .react-datepicker__day--today {
   font-weight: bold; }
 .react-datepicker__day--highlighted {
-  border-radius: 0.3rem;
+  border-radius: 20px;
   background-color: #3dcc4a;
   color: #fff; }
 .react-datepicker__day--highlighted:hover {
@@ -182,13 +181,13 @@
 .react-datepicker__day--highlighted-custom-2 {
   color: green; }
 .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range {
-  border-radius: 0.3rem;
+  border-radius: 20px;
   background-color: #216ba5;
   color: #fff; }
 .react-datepicker__day--selected:hover, .react-datepicker__day--in-selecting-range:hover, .react-datepicker__day--in-range:hover {
   background-color: #1d5d90; }
 .react-datepicker__day--keyboard-selected {
-  border-radius: 0.3rem;
+  border-radius: 20px;
   background-color: #2a87d0;
   color: #fff; }
 .react-datepicker__day--keyboard-selected:hover {
@@ -291,7 +290,7 @@
   padding: 0;
   vertical-align: middle; }
 .react-datepicker__close-icon::after {
-  background-color: #216ba5;
+  background-color: #2a87d0;
   border-radius: 50%;
   bottom: 0;
   box-sizing: border-box;
@@ -310,7 +309,7 @@
   top: 50%; }
 
 .react-datepicker__today-button {
-  background: #f0f0f0;
+  background: rgba(240, 240, 240, 0.42);
   border-top: 1px solid #aeaeae;
   cursor: pointer;
   text-align: center;
