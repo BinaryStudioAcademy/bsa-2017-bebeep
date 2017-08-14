@@ -4,6 +4,8 @@ import {geocodeByAddress} from 'react-places-autocomplete';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import {getCoordinatesFromPlace} from '../../../app/services/GoogleMapService';
+import {searchIndexRules} from '../../../app/services/SearchIndex';
+import Validator from '../../../app/services/Validator';
 
 import '../styles/react-datepicker.scss';
 import '../styles/search-index.scss';
@@ -12,6 +14,7 @@ class SearchForm extends React.Component {
     constructor() {
         super();
         this.state = {
+            errors: {},
             startPoint: {
                 address: '',
                 place: null,
@@ -35,6 +38,21 @@ class SearchForm extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
+        let data = {
+            from: this.state.startPoint.address,
+            to: this.state.endPoint.address,
+            start_at: this.state.startDate ? this.state.startDate.unix() : null
+        };
+
+        const validated = Validator.validate(searchIndexRules, data);
+
+        if (!validated.valid) {
+            this.setState({errors: validated.errors});
+            return;
+        }
+
+        this.setState({errors: {}});
+
         console.log('time ', this.state.startDate.unix());
         console.log('from ', this.state.startPoint.address, getCoordinatesFromPlace(this.state.startPoint.place));
         console.log('to ', this.state.endPoint.address, getCoordinatesFromPlace(this.state.endPoint.place));
@@ -127,7 +145,7 @@ class SearchForm extends React.Component {
                 <div className="row">
                     <form role="form" className="form-inline search-form" action="" method="POST" onSubmit={this.onSubmit.bind(this)}>
                         <div className="col-md-3">
-                            <div className="form-group">
+                            <div className={"form-group " + (this.state.errors.from ? 'has-danger' : '')}>
                                 <label htmlFor="startPoint" className="sr-only">Leaving from</label>
                                     <div className="col-md-12">
                                         <PlacesAutocomplete
@@ -143,7 +161,7 @@ class SearchForm extends React.Component {
                             </div>
                         </div>
                         <div className="col-md-3">
-                            <div className="form-group">
+                            <div className={"form-group " + (this.state.errors.to ? 'has-danger' : '')}>
                                 <label htmlFor="endPoint" className="sr-only">Going to</label>
                                 <div className="col-md-12">
                                     <PlacesAutocomplete
@@ -164,7 +182,7 @@ class SearchForm extends React.Component {
                             onChange={this.handleDateChange}
                             placeholderText="Date"
                             minDate={moment()}
-                            className="form-control date-picker"
+                            className={"form-control date-picker " + (this.state.errors.start_at ? 'picker-error' : '')}
                             isClearable={true}
                         />
                         <div className="col-md-3">
