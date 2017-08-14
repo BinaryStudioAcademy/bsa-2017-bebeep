@@ -3,26 +3,41 @@ import PlacesAutocomplete from 'react-places-autocomplete';
 import {geocodeByAddress} from 'react-places-autocomplete';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import {getCoordinatesFromPlace} from '../../../app/services/GoogleMapService';
+
 import '../styles/react-datepicker.scss';
 import '../styles/search-index.scss';
 
 class SearchForm extends React.Component {
     constructor() {
         super();
-
         this.state = {
             startPoint: {
                 address: '',
                 place: null,
+                coordinate: {
+                    lan: 0,
+                    lng: 0
+                }
             },
             endPoint: {
                 address: '',
                 place: null,
+                coordinate: {
+                    lan: 0,
+                    lng: 0
+                }
             },
             startDate: null
         };
-
         this.handleDateChange = this.handleDateChange.bind(this);
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+        console.log('time ', this.state.startDate.unix());
+        console.log('from ', this.state.startPoint.address, getCoordinatesFromPlace(this.state.startPoint.place));
+        console.log('to ', this.state.endPoint.address, getCoordinatesFromPlace(this.state.endPoint.place));
     }
 
     onChangeStartPoint(address) {
@@ -110,7 +125,7 @@ class SearchForm extends React.Component {
 
         return (
                 <div className="row">
-                    <form role="form" className="form-inline search-form" action="" method="POST">
+                    <form role="form" className="form-inline search-form" action="" method="POST" onSubmit={this.onSubmit.bind(this)}>
                         <div className="col-md-3">
                             <div className="form-group">
                                 <label htmlFor="startPoint" className="sr-only">Leaving from</label>
