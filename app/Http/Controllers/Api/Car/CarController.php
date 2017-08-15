@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Car;
 
 use App\Models\Vehicle;
 use App\Services\CarService;
-use App\Services\CarColorService;
 use App\Services\CarMarkService;
 use App\Services\CarModelService;
 use App\Http\Controllers\Controller;
@@ -13,7 +12,6 @@ use App\Http\Requests\CreateCarRequest;
 class CarController extends Controller
 {
     private $carService;
-    private $carColorService;
     private $carMarkService;
     private $carModelService;
 
@@ -21,17 +19,14 @@ class CarController extends Controller
      * CarController constructor.
      *
      * @param CarService $carService
-     * @param CarColorService $carColorService
      * @param CarMarkService $carMarkService
      * @param CarModelService $carModelService
      */
     public function __construct(CarService $carService,
-                                CarColorService $carColorService,
                                 CarMarkService $carMarkService,
                                 CarModelService $carModelService)
     {
         $this->carService = $carService;
-        $this->carColorService = $carColorService;
         $this->carMarkService = $carMarkService;
         $this->carModelService = $carModelService;
 
@@ -117,13 +112,6 @@ class CarController extends Controller
         } else {
             return response()->json('', 404);
         }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCarColor(){
-        return $this->carColorService->getAll();
     }
 
     /**

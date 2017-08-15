@@ -29,9 +29,9 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 Route::group(['middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION]], function () {
     Route::resource('v1/car', "Api\\Car\\CarController");
     Route::resource('v1/car-body', 'Api\\Car\\CarBodyController');
-    Route::resource('v1/carColor',  'Api\\Car\\CarController@getCarColor');
-    Route::resource('v1/carMark', 'Api\\Car\\CarController@getCarMark');
-    Route::resource('v1/carModel/{idMark}', 'Api\\Car\\CarController@getCarModel');
+    Route::resource('v1/car-color',  'Api\\Car\\CarColorController');
+    Route::resource('v1/car-brand', 'Api\\Car\\CarController@getCarMark');
+    Route::get('v1/car-brand/{model}/models', 'Api\\Car\\CarController@getCarModel');
 });
 
 Route::group([
