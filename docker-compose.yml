@@ -21,6 +21,7 @@ services:
 
     web:
         image: sergeyb/dev
+        build: ./.docker/images/web/
         ports:
             - "80:80"
             - "443:443"
@@ -43,7 +44,7 @@ services:
         depends_on:
             mysql:
                 condition: service_healthy
-        command: ["php", "vendor/bin/phpunit", "tests"]
+        command: /var/www/.docker/utils/run-tests.sh
 
     composer:
         restart: 'no'
@@ -51,3 +52,9 @@ services:
         volumes:
             - $PWD:/app
             - $PWD/.composer:/composer
+
+    node:
+        image: "node:8"
+        volumes:
+            - ./:/usr/src/app
+        working_dir: /usr/src/app

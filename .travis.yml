@@ -1,0 +1,37 @@
+sudo: required
+
+services:
+    - docker
+
+env:
+    - DOCKER_COMPOSE_VERSION=1.14.0
+
+cache:
+    directories:
+        - .composer
+
+before_install:
+    - sudo service mysql stop
+    - sudo rm /usr/local/bin/docker-compose
+    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+    - chmod +x docker-compose
+    - sudo mv docker-compose /usr/local/bin
+
+script:
+    - cp .env.example .env
+    - docker-compose pull
+    - docker-compose run --rm composer install
+    - docker-compose run --rm node npm install -q
+    - docker-compose run --rm node npm run prod
+    - docker-compose up --exit-code-from tests tests
+
+branches:
+    only:
+        - master
+        - development
+
+deploy:
+    provider: script
+    script: scripts/deploy-prod.sh
+    on:
+        branch: master

@@ -60,6 +60,6 @@ class TripsController extends Controller
             return response()->json(['errors' => [$e->getMessage()]], 422);
         }
 
-        return response()->json(['success' => true]);
+        return response()->json($trip);
     }
 }

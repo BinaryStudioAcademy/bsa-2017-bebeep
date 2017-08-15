@@ -36,5 +36,6 @@ RUN apt-get update -y && apt-get install -y --force-yes \
 RUN apt-get install beanstalkd
 
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+RUN a2enmod rewrite
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]

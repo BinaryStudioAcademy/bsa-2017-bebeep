@@ -2,7 +2,7 @@ import React from 'react';
 import { IndexRoute, Route, Redirect } from 'react-router';
 
 import App from './App';
-import Home from './layouts/Home';
+import SearchIndex from '../features/search/index/layouts/SearchIndex';
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import NotFound from './layouts/NotFound';
@@ -16,7 +16,7 @@ import Logout from '../features/user/layouts/Login/Logout';
 
 export default (
     <Route path="/" component={ App }>
-        <IndexRoute component={ Home } />
+        <IndexRoute component={ SearchIndex } />
 
         <Route path="vehicles" component={ Vehicles } onEnter={ requireAuth }>
             // as example to restrict path for unauthenticated users
