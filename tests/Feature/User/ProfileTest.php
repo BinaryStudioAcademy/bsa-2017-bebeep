@@ -3,20 +3,34 @@
 namespace Tests\Feature\User;
 
 use App\User;
-use App\Models\Trip;
-use App\Models\Vehicle;
-use App\Models\Booking;
+use App\Models\{
+    Trip,
+    Vehicle,
+    Booking
+};
 use Tests\JwtTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\{
+    DatabaseMigrations,
+    DatabaseTransactions
+};
 
 class ProfileTest extends JwtTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
+    /**
+     * @var array
+     */
     private $routeShow = ['GET'];
+
+    /**
+     * @var array
+     */
     private $routeUpdate = ['PUT'];
 
+    /**
+     * @var array
+     */
     private $driverData = [
         'first_name' => 'Alex',
         'last_name' => 'Gartner',
@@ -25,6 +39,9 @@ class ProfileTest extends JwtTestCase
         'birth_date' => '1984-04-24',
     ];
 
+    /**
+     * @var array
+     */
     private $passengerData = [
         'first_name' => 'Bill',
         'last_name' => 'King',
@@ -124,8 +141,8 @@ class ProfileTest extends JwtTestCase
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
 
-        $this->createVehicle();
-        $this->createTrip();
+        $this->createVehicle($user->id);
+        $this->createTrip($user->id);
 
         $response = $this->jsonRequestAsUser($user, $this->routeShow[0], $this->routeShow[1]);
 
@@ -158,8 +175,8 @@ class ProfileTest extends JwtTestCase
     public function user_can_not_uncheck_role_passenger_in_profile_form()
     {
         $user = $this->createPassenger();
-
         $driver = $this->createDriver();
+
         $this->createVehicle($driver->id);
         $this->createTrip($driver->id);
         $this->createBooking($user->id);
@@ -173,40 +190,138 @@ class ProfileTest extends JwtTestCase
             ]]);
     }
 
-    private function createDriver(array $params = []): User
+    /**
+     * @test
+     */
+    public function user_can_not_update_profile_with_invalid_data()
     {
-        return factory(User::class)->create($this->driverData + [
-            'id' => 1,
-            'permissions' => $params['permissions'] ?? User::DRIVER_PERMISSION,
+        $user = $this->createPassenger();
+        $userWithExistingEmail = $this->createPassenger([
+            'email' => 'is_exists@example.com',
         ]);
+
+        $response = $this->jsonUpdateUser($user, []);
+        $response->assertStatus(422);
+
+        $response = $this->jsonUpdateUser($user, ['first_name' => null]);
+        $response->assertStatus(422);
+
+        $response = $this->jsonUpdateUser($user, ['last_name' => null]);
+        $response->assertStatus(422);
+
+        $response = $this->jsonUpdateUser($user, ['email' => null]);
+        $response->assertStatus(422);
+
+        $response = $this->jsonUpdateUser($user, ['email' => 'Lorem ipsum dolor.']);
+        $response->assertStatus(422);
+
+        $response = $this->jsonUpdateUser($user, ['email' => $userWithExistingEmail->email]);
+        $response->assertStatus(422);
+
+        $response = $this->jsonUpdateUser($user, ['phone' => null]);
+        $response->assertStatus(422);
+
+        $response = $this->jsonUpdateUser($user, ['phone' => 'dds1234567']);
+        $response->assertStatus(422);
+
+        $response = $this->jsonUpdateUser($user, ['birth_date' => '1984 dfdf 08 -13']);
+        $response->assertStatus(422);
+
+        $response = $this->jsonUpdateUser($user, ['about_me' => str_random(505)]);
+        $response->assertStatus(422);
+
+        $response = $this->jsonUpdateUser($user, [
+            'role_driver' => false,
+            'role_passenger' => false,
+        ]);
+        $response->assertStatus(422);
+
+        /*
+            'role_driver' => 'role_can_uncheck:driver',
+            'role_passenger' => 'role_can_uncheck:passenger',
+         */
     }
 
-    private function createPassenger(array $params = []): User
+    /**
+     * Send request on the user profile update.
+     *
+     * @param \App\User $user
+     * @param array $updatedData
+     *
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    private function jsonUpdateUser(User $user, array $updatedData = [])
     {
-        return factory(User::class)->create($this->passengerData + [
-            'id' => 2,
-            'permissions' => $params['permissions'] ?? User::PASSENGER_PERMISSION,
-        ]);
+        return $this->jsonRequestAsUser(
+            $user,
+            $this->routeUpdate[0],
+            $this->routeUpdate[1],
+            $updatedData
+        );
     }
 
-    private function createVehicle(): Vehicle
+    /**
+     * Create a new driver.
+     *
+     * @param  array $fields
+     * @return \App\User
+     */
+    private function createDriver(array $fields = []): User
+    {
+        $fields['permissions'] = $fields['permissions'] ?? User::DRIVER_PERMISSION;
+
+        return factory(User::class)->create(array_merge($this->driverData, $fields));
+    }
+
+    /**
+     * Create a new passenger.
+     *
+     * @param  array $fields
+     * @return \App\User
+     */
+    private function createPassenger(array $fields = []): User
+    {
+        $fields['permissions'] = $fields['permissions'] ?? User::PASSENGER_PERMISSION;
+
+        return factory(User::class)->create(array_merge($this->passengerData, $fields));
+    }
+
+    /**
+     * Create a new vehicle.
+     *
+     * @param  int $userId
+     * @return \App\Models\Vehicle
+     */
+    private function createVehicle(int $userId): Vehicle
     {
         return factory(Vehicle::class)->create([
-            'user_id' => 1,
+            'user_id' => $userId,
         ]);
     }
 
-    private function createTrip(): Trip
+    /**
+     * Create a new trip.
+     *
+     * @param  int $userId
+     * @return \App\Models\Trip
+     */
+    private function createTrip(int $userId): Trip
     {
         return factory(Trip::class)->create([
-            'user_id' => 1,
+            'user_id' => $userId,
         ]);
     }
 
-    private function createBooking(): Booking
+    /**
+     * Create a new booking.
+     *
+     * @param  int $userId
+     * @return \App\Models\Booking
+     */
+    private function createBooking(int $userId): Booking
     {
         return factory(Booking::class)->create([
-            'user_id' => 2,
+            'user_id' => $userId,
         ]);
     }
 }
