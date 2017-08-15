@@ -37,12 +37,14 @@ export const search = (
     }, page = 1, sort = 'price', order = 'asc', limit = 10
 ) => {
     return makeRequest('get', '/api/v1/trips/search', {
-        fc: tripData.from.coordinate.lng + '|' + tripData.from.coordinate.lat,
-        tc: tripData.to.coordinate.lng + '|' + tripData.to.coordinate.lat,
-        start: tripData.start_at,
-        sort,
-        order,
-        page,
-        limit
+        params: {
+            fc: tripData.from.coordinate.lng + '|' + tripData.from.coordinate.lat,
+            tc: tripData.to.coordinate.lng + '|' + tripData.to.coordinate.lat,
+            start: tripData.start_at,
+            sort,
+            order,
+            page,
+            limit
+        }
     })
 };

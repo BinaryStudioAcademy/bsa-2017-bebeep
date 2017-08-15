@@ -21,33 +21,61 @@ class TripList extends React.Component {
         };
     }
 
-    getData() {
-        const {limit, page, sort, order} = this.state;
+    getData({limit, page, sort, order}) {
         search(this.props.tripData, page, sort, order, limit)
             .then(response => this.setState({ tripsList: response.data }))
             .catch(error => this.setState({ errors: error.response.data }));
     }
 
     componentWillMount() {
-        this.getData();
+        this.getData(this.state);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.getData();
+        this.getData(this.state);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextState.page !== this.state.page) {
-            this.getData();
+        console.log([nextState.page, this.state.page]);
+        if (
+            nextState.page !== this.state.page
+            ||
+            nextState.sort !== this.state.sort
+            ||
+            nextState.order !== this.state.order
+        ) {
+            this.getData(nextState);
         }
         return true;
+    }
+
+    setSort(field) {
+        if (this.state.sort === field) {
+            this.toggleOrderSort();
+        } else {
+            this.setState({sort: field});
+        }
+    }
+
+    toggleOrderSort() {
+        this.setState({order: this.state.order === 'asc' ? 'desc' : 'asc'});
     }
 
     render() {
         const { tripsList, limit, page, sort, order } = this.state;
 
         return (
-            <div>
+            <div className="trip-list">
+                <div className="trip-list__sort-row">
+                    <a href="#sort/price"
+                       onClick={e => { this.setSort('price') }}
+                       className={"trip-list__sort" + (sort === 'price' ? " trip-list__sort_active" : '') + (order === 'asc' ? " trip-list__sort_asc" : "")}
+                    >Price</a>
+                    <a href="#sort/start"
+                       onClick={e => { this.setSort('start_at') }}
+                       className={"trip-list__sort" + (sort === 'start_at' ? " trip-list__sort_active" : '') + (order === 'asc' ? " trip-list__sort_asc" : "")}
+                    >Date</a>
+                </div>
                 {tripsList.data.map((trip) =>
                     <TripItem key={trip.id} trip={trip} />
                 )}

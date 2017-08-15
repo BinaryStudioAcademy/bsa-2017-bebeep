@@ -119,7 +119,7 @@ class TripsService
                 case 'price':
                     return $$first['price'] <=> $$second['price'];
                 case 'start_at':
-                    return $$first['start_at']->timestamp <=> $$second['start_at']->timestamp;
+                    return $$first['start_at'] <=> $$second['start_at'];
                 default:
                     return $$first['id'] <=> $$second['id'];
             }

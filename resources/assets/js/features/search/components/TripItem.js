@@ -18,7 +18,10 @@ class TripItem extends React.Component {
                     <span className="trip-item__user-name">{ fullName }</span>
                     <span className="trip-item__user-age">{age}</span>
                 </div>
-                <div className="trip-item__trip-container">{startDate}</div>
+                <div className="trip-item__trip-container">
+                    <div className="trip-item__start-date">{startDate}</div>
+                    <div className="trip-item__price">${trip.price}</div>
+                </div>
             </div>
         )
     }
