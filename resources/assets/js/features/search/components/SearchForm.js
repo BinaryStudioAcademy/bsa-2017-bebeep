@@ -19,18 +19,12 @@ class SearchForm extends React.Component {
             startPoint: {
                 address: '',
                 place: null,
-                coordinate: {
-                    lan: null,
-                    lng: null
-                }
+                coordinate: {lan: null, lng: null}
             },
             endPoint: {
                 address: '',
                 place: null,
-                coordinate: {
-                    lan: null,
-                    lng: null
-                }
+                coordinate: {lan: null, lng: null}
             },
             startDate: null
         };
@@ -39,7 +33,22 @@ class SearchForm extends React.Component {
 
     onClick(e) {
         e.preventDefault();
-        let data = {
+        const toBeValidated = {
+            from: this.state.startPoint.place,
+            to: this.state.endPoint.place,
+            start_at: this.state.startDate,
+        };
+
+        const validated = Validator.validate(searchIndexRules, toBeValidated);
+
+        if (!validated.valid) {
+            this.setState({errors: validated.errors});
+            return;
+        }
+
+        this.setState({errors: {}});
+
+        const data = {
             from: {
                 name: this.state.startPoint.address,
                 coordinate: getCoordinatesFromPlace(this.state.startPoint.place)
@@ -50,15 +59,6 @@ class SearchForm extends React.Component {
             },
             start_at: this.state.startDate ? this.state.startDate.unix() : null
         };
-
-        const validated = Validator.validate(searchIndexRules, data);
-
-        if (!validated.valid) {
-            this.setState({errors: validated.errors});
-            return;
-        }
-
-        this.setState({errors: {}});
         this.props.search(data);
     }
 
