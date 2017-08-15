@@ -2,7 +2,7 @@ import React from 'react';
 import { IndexRoute, Route, Redirect } from 'react-router';
 
 import App from './App';
-import SearchIndex from '../features/search/layouts/SearchIndex';
+import SearchIndex from '../features/search/index/layouts/SearchIndex';
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import NotFound from './layouts/NotFound';
