@@ -95,6 +95,18 @@ class PasswordService implements PasswordServiceContract
     }
 
     /**
+     * @inheritdoc
+     */
+    public function update(int $userId, UpdatePasswordRequest $request): void
+    {
+        $attributes = [
+            'password' => bcrypt($request->getPassword()),
+        ];
+
+        $this->userRepository->update($attributes, $userId);
+    }
+
+    /**
      * Get the password broker.
      *
      * @return \Illuminate\Auth\Passwords\PasswordBroker

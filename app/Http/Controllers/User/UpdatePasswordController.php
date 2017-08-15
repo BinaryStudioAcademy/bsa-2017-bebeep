@@ -24,7 +24,7 @@ class UpdatePasswordController extends Controller
     }
 
     /**
-     * Change the user profile password.
+     * Update the current user password.
      *
      * @param \App\Http\Requests\UpdatePasswordRequest $request
      *
@@ -32,10 +32,8 @@ class UpdatePasswordController extends Controller
      */
     public function update(UpdatePasswordRequest $request): JsonResponse
     {
-        return response()->json($request->all());
+        $this->passwordService->update(Auth::user()->id, $request);
 
-        $res = $this->passwordService->update(Auth::user()->id, $request);
-
-        return response()->json($res);
+        return response()->json();
     }
 }

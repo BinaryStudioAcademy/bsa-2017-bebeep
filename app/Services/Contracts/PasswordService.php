@@ -25,4 +25,14 @@ interface PasswordService
      * @return void
      */
     public function reset(ResetPasswordRequest $request): void;
+
+    /**
+     * Update the current user password.
+     *
+     * @param int $userId
+     * @param \App\Services\Requests\UpdatePasswordRequest $request
+     *
+     * @return void
+     */
+    public function update(int $userId, UpdatePasswordRequest $request): void;
 }
