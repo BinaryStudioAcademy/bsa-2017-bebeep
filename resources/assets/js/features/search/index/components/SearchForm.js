@@ -61,7 +61,6 @@ class SearchForm extends React.Component {
             },
             start_at: this.state.startDate ? this.state.startDate.unix() : null
         };
-        console.log(data);
         this.props.searchSuccess(data);
     }
 
