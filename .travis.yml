@@ -8,7 +8,7 @@ env:
 
 cache:
     directories:
-        - .composer
+        - .composer/
 
 before_install:
     - openssl aes-256-cbc -K $encrypted_31fd2d3149ec_key -iv $encrypted_31fd2d3149ec_iv -in .travis/id_rsa.enc -out .travis/id_rsa -d
