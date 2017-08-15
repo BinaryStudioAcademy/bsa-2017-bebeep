@@ -58,10 +58,5 @@ class UserProfileService
         $this->userRepository->update($attributes, $userId);
 
         return $this->getGeneral($userId);
-
-        /*$id = 1; // TODO :: Auth::user()->id
-        return $this->userRepository
-            ->setPresenter(UserProfilePresenter::class)
-            ->find($id);*/
     }
 }
