@@ -37,7 +37,6 @@ class JwtTestCase extends TestCase
     }
 
     /**
-
      * Call the given URI and return the Response.
      *
      * @param  string $method
