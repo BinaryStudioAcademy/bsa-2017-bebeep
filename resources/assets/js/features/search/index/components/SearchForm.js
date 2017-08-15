@@ -57,7 +57,7 @@ class SearchForm extends React.Component {
             },
             to: {
                 name: this.state.endPoint.address,
-                coordinate: getCoordinatesFromPlace(this.state.startPoint.place)
+                coordinate: getCoordinatesFromPlace(this.state.endPoint.place)
             },
             start_at: this.state.startDate ? this.state.startDate.unix() : null
         };
