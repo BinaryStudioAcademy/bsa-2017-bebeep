@@ -22,6 +22,7 @@ class TripList extends React.Component {
             order: props.location.query.order === 'desc' ? 'desc' : 'asc',
             preloader: true,
         };
+        this.onClickTrip = this.onClickTrip.bind(this);
     }
 
     getData({limit, page, sort, order}) {
@@ -80,6 +81,10 @@ class TripList extends React.Component {
         browserHistory.replace(`${pathname}?${newQuery.join('&')}`);
     }
 
+    onClickTrip(tripId) {
+        browserHistory.push(`/trip/${tripId}`);
+    }
+
     render() {
         const { tripsList, limit, page, sort, order, preloader } = this.state;
         const currentPage = page > tripsList.size / limit ? Math.ceil(tripsList.size / limit) : page;
@@ -106,7 +111,7 @@ class TripList extends React.Component {
                 <div className="trip-list__item-container">
                     {preload}
                     {tripsList.data.map((trip) =>
-                        <TripItem key={trip.id} trip={trip} />
+                        <TripItem key={trip.id} trip={trip} onClick={ this.onClickTrip }/>
                     )}
                 </div>
                 <div className="row trip-list__pagination">

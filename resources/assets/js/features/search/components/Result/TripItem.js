@@ -3,9 +3,9 @@ import '../../styles/trip-item.scss';
 
 class TripItem extends React.Component {
     render() {
-        const {trip} = this.props;
+        const {trip, onClick} = this.props;
         return (
-            <div className="trip-item row">
+            <div className="trip-item row" onClick={e => onClick(trip.id)}>
                 <div className="trip-item__user-container col-sm-4">
                     <img src={ trip.user.photo + '?' + trip.id }
                          alt={ trip.user.full_name }
