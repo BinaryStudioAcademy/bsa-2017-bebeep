@@ -27,6 +27,36 @@ class TripsController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAll()
+    {
+        $trips = $this->tripsService->getAll(Auth::user());
+
+        return response()->json($trips);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUpcoming()
+    {
+        $trips = $this->tripsService->getUpcoming(Auth::user());
+
+        return response()->json($trips);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getPast()
+    {
+        $trips = $this->tripsService->getPast(Auth::user());
+
+        return response()->json($trips);
+    }
+
+    /**
      * @param CreateTripRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -61,7 +91,7 @@ class TripsController extends Controller
             return response()->json(['errors' => [$e->getMessage()]], 422);
         }
 
-        return response()->json(['success' => true]);
+        return response()->json($trip);
     }
 
     public function search(SearchTripRequest $request) {

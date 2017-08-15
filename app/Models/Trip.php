@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Trip extends Model
 {
+    use SoftDeletes;
+
     const MIN_DELAY_TO_START_DATE = 3600;
 
     /**
@@ -27,6 +30,7 @@ class Trip extends Model
      * @var array
      */
     protected $dates = [
+        'deleted_at',
         'created_at',
         'updated_at',
         'start_at',
@@ -42,11 +46,11 @@ class Trip extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function vehicle()
     {
-        return $this->hasOne(Vehicle::class);
+        return $this->belongsTo(Vehicle::class);
     }
 
     /**
