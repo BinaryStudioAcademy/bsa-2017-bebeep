@@ -10,41 +10,87 @@ class Pagination extends React.Component {
     clickPage(e) {
         e.preventDefault();
         const {page, onChangePage} = this.props,
-            newPage = parseInt(e.target.dataset.page);
-
+            newPage = parseInt(e.currentTarget.dataset.page);
         if (newPage !== page) {
             onChangePage(newPage)
         }
     }
 
-    getPageLink(n, name, page) {
+    getPageLink(n, key, name, currentPage, disabled = false) {
         return (
-            <a href="#"
-               onClick={this.clickPage}
-               data-page={n}
-               key={n + '' + name}
-               className={'pagination__item ' + (n === page ? 'pagination__item_active' : '')}>{name}</a>
+            <span
+                key={key}
+                className={'page-item' + (n === currentPage ? ' active' : '') + (disabled ? ' disabled' : '')}
+            >
+                <a href="#"
+                   onClick={this.clickPage}
+                   data-page={n}
+                   className="page-link"
+                >{name}</a>
+            </span>
         );
     }
 
     getLinks({ size, limit, page}) {
         const countPages = Math.ceil(size / limit);
         let pages = [];
-        if (page > 1) {
+        if (countPages <= 1) {
+            return pages;
+        }
+
+        pages.push(
+            this.getPageLink(page - 1, 'prev', (<i className="fa fa-arrow-left" />), page, page <= 1)
+        );
+
+        pages.push(
+            this.getPageLink(1, 1, 1, page)
+        );
+
+        if (page > 2) {
+            if (page > 3) {
+                pages.push(
+                    this.getPageLink('...', '...1', '...', page, true)
+                );
+            }
+            if (page == countPages && countPages > 3) {
+                pages.push(
+                    this.getPageLink(page - 2, page - 2, page - 2, page)
+                );
+            }
             pages.push(
-                this.getPageLink(page - 1, 'prev', page)
+                this.getPageLink(page - 1, page - 1, page - 1, page)
             );
         }
-        for (let i = 1; i <= countPages; i++) {
+
+        if (page != 1 && page != countPages) {
             pages.push(
-                this.getPageLink(i, i, page)
+                this.getPageLink(page, page, page, page)
             );
         }
-        if (page < countPages) {
+
+        if (page < countPages - 1) {
             pages.push(
-                this.getPageLink(page + 1, 'next', page)
+                this.getPageLink(page + 1, page + 1, page + 1, page)
             );
+            if (page == 1 && countPages > 3) {
+                pages.push(
+                    this.getPageLink(page + 2, page + 2, page + 2, page)
+                );
+            }
+            if (countPages > 4) {
+                pages.push(
+                    this.getPageLink('...', '...2', '...', page, true)
+                );
+            }
         }
+
+        pages.push(
+            this.getPageLink(countPages, countPages, countPages, page)
+        );
+
+        pages.push(
+            this.getPageLink(page + 1, 'next', (<i className="fa fa-arrow-right" />), page, page >= countPages)
+        );
         return pages;
     }
 
@@ -52,7 +98,7 @@ class Pagination extends React.Component {
         let pages = this.getLinks(this.props);
 
         return (
-            <div className="pagination">
+            <div className="pagination justify-content-end">
                 {pages}
             </div>
         );
