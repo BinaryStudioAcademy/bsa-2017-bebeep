@@ -13,7 +13,7 @@ class PermissionService extends Auth implements PermissionInterface
      */
     public function canViewCar($userId): bool
     {
-        if ($this::user()->permissions === 2 && $this::user()->id === $userId) {
+        if ($this::user()->id === $userId) {
             return true;
         } else {
             return false;

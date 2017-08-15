@@ -70,7 +70,7 @@ class CarService
      */
     public function getAll()
     {
-        return $this->carRepository->findWhere(['user_id' => Auth::user()->id]);
+        return $this->carRepository->all();
     }
 
     /**

@@ -44,6 +44,8 @@ class CarController extends Controller
         $this->carColorService = $carColorService;
         $this->carMarkService = $carMarkService;
         $this->carModelService = $carModelService;
+
+        $this->middleware('is.owner', ['only' => ['index', 'show', 'destroy']]);
     }
 
     /**
@@ -74,11 +76,11 @@ class CarController extends Controller
      */
     public function store(CreateCarRequest $request)
     {
-        if ($this->permissionService->canAddCar()) {
+//        if ($this->permissionService->canAddCar()) {
             return $car = $this->carService->create($request);
-        } else {
-            return $this->accessDenied();
-        }
+//        } else {
+//            return $this->accessDenied();
+//        }
     }
 
     /**
@@ -91,11 +93,11 @@ class CarController extends Controller
     {
         $vehicle = $this->carService->getById($id);
 
-        if ($this->permissionService->canViewCar($vehicle->user_id)) {
+//        if ($this->permissionService->canViewCar($vehicle->user_id)) {
             return $vehicle;
-        } else {
-            return $this->accessDenied();
-        }
+//        } else {
+//            return $this->accessDenied();
+//        }
     }
 
     /**
