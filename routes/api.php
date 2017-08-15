@@ -60,7 +60,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         Route::patch('password', [
             'middleware' => 'jwt.auth',
             'as' => 'password.update',
-            'uses' => 'User\PasswordUpdateController@update',
+            'uses' => 'User\UpdatePasswordController@update',
         ]);
 
     });

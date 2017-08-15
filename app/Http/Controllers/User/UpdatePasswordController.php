@@ -6,9 +6,9 @@ use Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Contracts\PasswordService;
-use App\Http\Requests\PasswordChangeRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 
-class PasswordUpdateController extends Controller
+class UpdatePasswordController extends Controller
 {
     /**
      * @var \App\Services\PasswordService
@@ -24,15 +24,15 @@ class PasswordUpdateController extends Controller
     }
 
     /**
-     * Change the user account password.
+     * Change the user profile password.
      *
-     * @param \App\Http\Requests\PasswordChangeRequest $request
+     * @param \App\Http\Requests\UpdatePasswordRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(PasswordChangeRequest $request): JsonResponse
+    public function update(UpdatePasswordRequest $request): JsonResponse
     {
-        return response()->json($request);
+        return response()->json($request->all());
 
         $res = $this->passwordService->change(Auth::user()->id, $request);
 
