@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Auth;
 use App\User;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Services\Requests\UpdateUserProfileRequest as UpdateUserProfileRequestInterface;
 
@@ -28,7 +30,11 @@ class UpdateUserProfileRequest extends FormRequest implements UpdateUserProfileR
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|exists:users,email',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore(Auth::user()->id),
+            ],
             'phone' => 'required|digits_between:1,15',
             'birth_date' => 'date',
             'about_me' => 'max:500',
