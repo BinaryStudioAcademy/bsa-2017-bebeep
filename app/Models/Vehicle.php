@@ -38,4 +38,12 @@ class Vehicle extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function trip()
+    {
+        return $this->hasMany(Trip::class);
+    }
 }

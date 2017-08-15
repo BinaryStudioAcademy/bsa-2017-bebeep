@@ -4,13 +4,9 @@ namespace Tests\Feature\Trips;
 
 use App\Models\Trip;
 use App\Models\Vehicle;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UpdateTripTest extends BaseTripTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     protected $url;
     protected $method = 'PATCH';
 
