@@ -108,7 +108,9 @@ export const doLogout = (data) => {
 
 export const getProfile = () => {
     return dispatch => {
-        axios.get('/api/user/profile')
+        axios.get('/api/user/profile', {headers: {
+            'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+        }})
             .then(response => {
                 console.log(response.data);
                 dispatch({
