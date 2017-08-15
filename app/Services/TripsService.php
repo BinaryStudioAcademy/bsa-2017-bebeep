@@ -97,14 +97,35 @@ class TripsService
             $trip = factory(Trip::class)->make([
                 'start_at' => $faker->dateTimeInInterval('0 years', $interval = '+ 5 days')
             ]);
+            $route = factory(Route::class)->make([
+                'from' => $faker->city,
+                'to' => $faker->city
+            ]);
+            /** @var Carbon $start_at */
+            $start_at = $trip->start_at;
+            if ($start_at->isToday()) {
+                $start = "Today";
+            } else {
+                $start = [
+                        'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
+                    ][$start_at->dayOfWeek] . ' ' . $start_at->day . ' ' . [
+                        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                    ][$start_at->month];
+            }
+
             $data[] = [
                 'id' => $i,
                 'price' => $trip->price,
                 'seats' => $trip->seats,
-                'from' => $faker->city,
-                'to' => $faker->city,
+                'start_date' => $start,
                 'start_at' => $trip->start_at->timestamp,
+                'route' => [
+                    'from' => $route->from,
+                    'to' => $route->to,
+                ],
                 'user' => [
+                    'full_name' => $user->first_name . ' ' . $user->last_name,
+                    'age' => Carbon::now()->year - $user->birth_date->year,
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
                     'birth_date' => $user->birth_date->timestamp,
