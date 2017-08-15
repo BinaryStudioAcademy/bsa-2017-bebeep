@@ -42,8 +42,8 @@ export const createFailed = data => ({
 
 export const doCreate = (data) => {
     return dispatch => {
-        axios.post('/api/car/create', data)
-        // axios.post('/api/car', data)
+        // axios.post('/api/car/create', data)
+        axios.post('/api/car', data)
             .then(response => dispatch(createSuccess(response.data)))
             .catch(error => dispatch(createFailed(error.response.data)))
         ;

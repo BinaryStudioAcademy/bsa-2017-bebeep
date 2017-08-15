@@ -69,17 +69,17 @@ class Form extends React.Component {
     };
 
     getBrandOptions = () => {
-      return axios.get(`/api/v1/carMark`)
-        .then((response) => {
-          return response.data;
-        }).then((json) => {
-          return { options: json };
-        });
+        return axios.get(`/api/v1/car-brand`)
+            .then((response) => {
+                return response.data;
+            }).then((json) => {
+                return { options: json };
+            });
     }
 
     getModelOptions = () => {
         // let idBrand = this.state.brand.selected;
-        return axios.get(`/api/v1/carModel/1`)
+        return axios.get(`/api/v1/car-brand/1/models`)
             .then((response) => {
                 return response.data;
             }).then((json) => {
@@ -103,7 +103,7 @@ class Form extends React.Component {
     // }
 
     getBodyOptions = () => {
-      return axios.get(`/api/v1/carBody`)
+      return axios.get(`/api/v1/car-body`)
         .then((response) => {
           return response.data;
         }).then((json) => {
@@ -112,7 +112,7 @@ class Form extends React.Component {
     }
 
     getColorOptions = () => {
-      return axios.get(`/api/v1/carColor`)
+      return axios.get(`/api/v1/car-color`)
         .then((response) => {
           return response.data;
         }).then((json) => {
@@ -124,7 +124,7 @@ class Form extends React.Component {
         const {errors} = this.props;
 
         return (
-            <form role="form" className="card vehicle-form" action="/api/car/create" method="POST"
+            <form role="form" className="card vehicle-form" action="/api/car" method="POST"
                   onSubmit={ this.onSubmit }>
                 <div className="card-header">
                     Enter vehicle details
