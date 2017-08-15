@@ -26,6 +26,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
 });
 
+
 Route::group(['middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION]], function () {
     Route::resource('v1/car', "Api\\Car\\CarController");
     Route::resource('v1/car-body', 'Api\\Car\\CarBodyController');
@@ -33,6 +34,7 @@ Route::group(['middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISS
     Route::resource('v1/car-brand', 'Api\\Car\\CarBrandController');
     Route::get('v1/car-brand/{model}/models', 'Api\\Car\\CarBrandController@getCarModel');
 });
+
 
 Route::group([
     'prefix' => 'trips',
