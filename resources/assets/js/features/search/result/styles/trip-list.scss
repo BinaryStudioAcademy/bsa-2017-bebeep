@@ -4,9 +4,13 @@
 
   &__header {
     background-color: #fff;
-    text-align: right;
   }
-  
+
+  &__sort-container {
+    text-align: right;
+    padding-right: 0;
+  }
+
   &__sort {
     display: inline-block;
     padding: 10px 5px;
@@ -32,5 +36,26 @@
     }
   }
 
+  &__item-container {
+    position: relative;
+  }
 
+  &__preloader {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -15px;
+    left: -15px;
+    min-height: 500px;
+    text-align: center;
+    padding-top: 20px;
+    background: rgba(255,255,255, .8);
+    color: #FF5722;
+    z-index: 1;
+  }
+
+  &__pagination {
+    background-color: #fff;
+    padding: 10px 0;
+  }
 }

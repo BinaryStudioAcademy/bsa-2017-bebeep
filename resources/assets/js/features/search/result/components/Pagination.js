@@ -9,9 +9,9 @@ class Pagination extends React.Component {
 
     clickPage(e) {
         e.preventDefault();
-        const {page, onChangePage} = this.props,
+        const {page, onChangePage, isDisabled} = this.props,
             newPage = parseInt(e.currentTarget.dataset.page);
-        if (newPage !== page) {
+        if (newPage !== page && !isDisabled) {
             onChangePage(newPage)
         }
     }
@@ -33,6 +33,7 @@ class Pagination extends React.Component {
 
     getLinks({ size, limit, page}) {
         const countPages = Math.ceil(size / limit);
+
         let pages = [];
         if (countPages <= 1) {
             return pages;
