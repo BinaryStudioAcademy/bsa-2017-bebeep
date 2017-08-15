@@ -43,14 +43,12 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         'uses' => 'Auth\LoginController@logout'
     ]);
 
-    // TODO :: middleware - jwt.auth
     Route::get('profile', [
         'middleware' => 'jwt.auth',
         'as' => 'profile.show',
         'uses' => 'User\ProfileController@show',
     ]);
 
-    // TODO :: middleware - jwt.auth
     Route::put('profile', [
         'middleware' => 'jwt.auth',
         'as' => 'profile.update',
