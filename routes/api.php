@@ -30,6 +30,9 @@ Route::group([
     'as' => 'trips.',
     'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
 ], function () {
+    Route::get('/', ['as' => 'all', 'uses' => 'TripsController@getAll']);
+    Route::get('/upcoming', ['as' => 'upcoming', 'uses' => 'TripsController@getUpcoming']);
+    Route::get('/past', ['as' => 'past', 'uses' => 'TripsController@getPast']);
     Route::post('create', ['as' => 'create', 'uses' => 'TripsController@create']);
     Route::patch('update/{trip}', ['as' => 'update', 'uses' => 'TripsController@update']);
     Route::delete('{trip}', ['as' => 'delete', 'uses' => 'TripsController@delete']);

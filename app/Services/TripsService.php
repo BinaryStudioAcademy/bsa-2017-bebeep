@@ -2,12 +2,17 @@
 
 namespace App\Services;
 
+use App\Criteria\Trips\AllDriverTripsCriteria;
+use App\Criteria\Trips\PastDriverTripsCriteria;
+use App\Criteria\Trips\UpcomingDriverTripsCriteria;
 use App\Models\Trip;
 use App\Repositories\TripRepository;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
+use App\User;
 use App\Validators\DeleteTripValidator;
+use Prettus\Repository\Contracts\CriteriaInterface;
 
 class TripsService
 {
@@ -23,6 +28,33 @@ class TripsService
     {
         $this->tripRepository = $tripRepository;
         $this->deleteTripValidator = $deleteTripValidator;
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function getAll(User $user)
+    {
+        return $this->tripRepository->getByCriteria(new AllDriverTripsCriteria($user));
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function getUpcoming(User $user)
+    {
+        return $this->tripRepository->getByCriteria(new UpcomingDriverTripsCriteria($user));
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function getPast(User $user)
+    {
+        return $this->tripRepository->getByCriteria(new PastDriverTripsCriteria($user));
     }
 
     /**

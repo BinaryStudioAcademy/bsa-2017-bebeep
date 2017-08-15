@@ -46,11 +46,11 @@ class Trip extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function vehicle()
     {
-        return $this->hasOne(Vehicle::class);
+        return $this->belongsTo(Vehicle::class);
     }
 
     /**

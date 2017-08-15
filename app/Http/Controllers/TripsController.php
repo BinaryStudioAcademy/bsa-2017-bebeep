@@ -25,6 +25,33 @@ class TripsController extends Controller
         $this->tripsService = $tripsService;
     }
 
+    public function getAll()
+    {
+        $trips = $this->tripsService->getAll(Auth::user());
+
+        return response()->json($trips);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUpcoming()
+    {
+        $trips = $this->tripsService->getUpcoming(Auth::user());
+
+        return response()->json($trips);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getPast()
+    {
+        $trips = $this->tripsService->getPast(Auth::user());
+
+        return response()->json($trips);
+    }
+
     /**
      * @param CreateTripRequest $request
      * @return \Illuminate\Http\JsonResponse
