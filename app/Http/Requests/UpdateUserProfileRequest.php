@@ -32,8 +32,8 @@ class UpdateUserProfileRequest extends FormRequest implements UpdateUserProfileR
             'phone' => 'required|digits_between:1,15',
             'birth_date' => 'required|date',
             'about_me' => 'max:500',
-            'role_driver' => 'required_without:role_passenger',
-            'role_passenger' => 'required_without:role_driver',
+            'role_driver' => 'required_without:role_passenger|role_can_uncheck:driver',
+            'role_passenger' => 'required_without:role_driver|role_can_uncheck:passenger',
         ];
     }
 

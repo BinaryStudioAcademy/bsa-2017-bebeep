@@ -6,7 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Services\UserProfileService;
+use App\Services\Contracts\UserProfileService;
 use App\Http\Requests\UpdateUserProfileRequest;
 
 class ProfileController extends Controller
@@ -39,7 +39,7 @@ class ProfileController extends Controller
     /**
      * Update the user profile general data.
      *
-     * @param  UpdateUserProfileRequest $request
+     * @param \App\Http\Requests\UpdateUserProfileRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      */

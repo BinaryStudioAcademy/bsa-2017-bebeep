@@ -6,8 +6,9 @@ use App\User;
 use App\Repositories\UserRepository;
 use App\Presenters\UserProfilePresenter;
 use App\Services\Requests\UpdateUserProfileRequest;
+use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 
-class UserProfileService
+class UserProfileService implements UserProfileServiceContract
 {
     /**
      * @var \App\Repositories\UserRepository
@@ -23,9 +24,7 @@ class UserProfileService
     }
 
     /**
-     * Get the user profile general data.
-     *
-     * @return array
+     * @inheritdoc
      */
     public function getGeneral(int $userId): array
     {
@@ -35,13 +34,9 @@ class UserProfileService
     }
 
     /**
-     * Update the user profile general data.
-     *
-     * @param int $userId
-     *
-     * @return array
+     * @inheritdoc
      */
-    public function updateGeneral(int $userId, UpdateUserProfileRequest $request)
+    public function updateGeneral(int $userId, UpdateUserProfileRequest $request): array
     {
         $attributes = [
             'email' => $request->getEmail(),
@@ -52,8 +47,6 @@ class UserProfileService
             'about_me' => $request->getAboutMe(),
             'permissions' => $request->getPermissions(),
         ];
-
-        //return $attributes;
 
         $this->userRepository->update($attributes, $userId);
 
