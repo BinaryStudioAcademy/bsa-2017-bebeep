@@ -14,10 +14,10 @@ class ProfileTest extends JwtTestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
-    protected $routeShow = ['GET'];
-    protected $routeUpdate = ['PUT'];
+    private $routeShow = ['GET'];
+    private $routeUpdate = ['PUT'];
 
-    protected $passengerData = [
+    private $passengerData = [
         'first_name' => 'Bill',
         'last_name' => 'King',
         'email' => 'bking@gmail.com',
@@ -26,7 +26,7 @@ class ProfileTest extends JwtTestCase
         'about_me' => 'Lorem ipsum dolor sit amet.',
     ];
 
-    protected $driverData = [
+    private $driverData = [
         'first_name' => 'Alex',
         'last_name' => 'Gartner',
         'email' => 'alex@example.com',
@@ -45,7 +45,7 @@ class ProfileTest extends JwtTestCase
     /**
      * @test
      */
-    public function guest_cant_show_profile()
+    public function guest_can_not_show_profile()
     {
         $response = $this->json($this->routeShow[0], $this->routeShow[1]);
         $response->assertStatus(400);
@@ -54,7 +54,7 @@ class ProfileTest extends JwtTestCase
     /**
      * @test
      */
-    public function guest_cant_update_profile()
+    public function guest_can_not_update_profile()
     {
         $response = $this->json($this->routeUpdate[0], $this->routeUpdate[1]);
         $response->assertStatus(400);
