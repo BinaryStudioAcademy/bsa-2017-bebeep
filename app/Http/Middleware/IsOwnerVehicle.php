@@ -9,7 +9,7 @@ use Tymon\JWTAuth\JWTAuth;
 use Tymon\JWTAuth\Middleware\BaseMiddleware;
 use App\Services\CarService;
 
-class IsOwnerResource extends BaseMiddleware
+class IsOwnerVehicle extends BaseMiddleware
 {
     protected $carService;
     public function __construct(ResponseFactory $response,

@@ -8,14 +8,12 @@ use App\Services\CarBodyService;
 use App\Services\CarColorService;
 use App\Services\CarMarkService;
 use App\Services\CarModelService;
-use App\Services\PermissionService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCarRequest;
 
 class CarController extends Controller
 {
     private $carService;
-    private $permissionService;
     private $carBodyService;
     private $carColorService;
     private $carMarkService;
@@ -25,27 +23,25 @@ class CarController extends Controller
      * CarController constructor.
      *
      * @param CarService $carService
-     * @param PermissionService $permissionService
      * @param CarBodyService $carBodyService
      * @param CarColorService $carColorService
      * @param CarMarkService $carMarkService
      * @param CarModelService $carModelService
      */
     public function __construct(CarService $carService,
-                                PermissionService $permissionService,
                                 CarBodyService $carBodyService,
                                 CarColorService $carColorService,
                                 CarMarkService $carMarkService,
                                 CarModelService $carModelService)
     {
         $this->carService = $carService;
-        $this->permissionService = $permissionService;
         $this->carBodyService = $carBodyService;
         $this->carColorService = $carColorService;
         $this->carMarkService = $carMarkService;
         $this->carModelService = $carModelService;
 
-        $this->middleware('is.owner', ['only' => ['index', 'show', 'destroy']]);
+        $this->middleware('is.owner.vehicle',
+            ['only' => ['show', 'edit', 'update', 'destroy']]);
     }
 
     /**
@@ -65,7 +61,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        return $this->permissionService->canAddCar();
+        return true;
     }
 
     /**
@@ -76,11 +72,7 @@ class CarController extends Controller
      */
     public function store(CreateCarRequest $request)
     {
-//        if ($this->permissionService->canAddCar()) {
-            return $car = $this->carService->create($request);
-//        } else {
-//            return $this->accessDenied();
-//        }
+        return $car = $this->carService->create($request);
     }
 
     /**
@@ -91,13 +83,7 @@ class CarController extends Controller
      */
     public function show($id)
     {
-        $vehicle = $this->carService->getById($id);
-
-//        if ($this->permissionService->canViewCar($vehicle->user_id)) {
-            return $vehicle;
-//        } else {
-//            return $this->accessDenied();
-//        }
+        return $this->carService->getById($id);
     }
 
     /**
@@ -108,9 +94,7 @@ class CarController extends Controller
      */
     public function edit($id)
     {
-        $vehicle = $this->carService->getById($id);
-
-        return $this->permissionService->canEditCar($vehicle->id);
+        return $this->carService->getById($id);
     }
 
     /**
@@ -122,13 +106,7 @@ class CarController extends Controller
      */
     public function update(CreateCarRequest $request, $id)
     {
-        $vehicle = $this->carService->getById($id);
-
-        if ($this->permissionService->canEditCar($vehicle->id)) {
-            return $this->carService->update($request, $id);
-        } else {
-            return $this->accessDenied();
-        }
+        return $this->carService->update($request, $id);
     }
 
     /**
@@ -139,25 +117,11 @@ class CarController extends Controller
      */
     public function destroy($id)
     {
-        $vehicle = $this->carService->getById($id);
-
-        if ($this->permissionService->canDeleteCar($vehicle->user_id)) {
-            if ($this->carService->destroy($id)){
-                return response()->json('', 204);
-            } else {
-                return response()->json('', 404);
-            }
+        if ($this->carService->destroy($id)){
+            return response()->json('', 204);
         } else {
-            return $this->accessDenied();
+            return response()->json('', 404);
         }
-    }
-
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    private function accessDenied()
-    {
-        return response()->json('Access denied', 403);
     }
 
     /**
