@@ -1,4 +1,4 @@
-@import '../../../../../../../node_modules/font-awesome/scss/_variables';
+@import '~font-awesome/scss/_variables';
 
 .trip-item {
   $borderColor: #bbb;
@@ -103,6 +103,7 @@
   }
   &__route {
     margin-bottom: 10px;
+    word-break: break-word;
 
     &-item {
       color: #999;

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { search } from '../../../../app/services/TripService';
 import TripItem from './TripItem';
 import Pagination from './Pagination';
+import '../styles/trip-list.scss';
 
 class TripList extends React.Component {
 
@@ -64,18 +65,20 @@ class TripList extends React.Component {
         const { tripsList, limit, page, sort, order } = this.state;
 
         return (
-            <div className="trip-list-container">
-                <div className="trip-list__sort-row">
-                    <a href="#sort/price"
-                       onClick={e => { this.setSort('price') }}
-                       className={"trip-list__sort" + (sort === 'price' ? " trip-list__sort_active" : '') + (order === 'asc' ? " trip-list__sort_asc" : "")}
-                    >Price</a>
-                    <a href="#sort/start"
-                       onClick={e => { this.setSort('start_at') }}
-                       className={"trip-list__sort" + (sort === 'start_at' ? " trip-list__sort_active" : '') + (order === 'asc' ? " trip-list__sort_asc" : "")}
-                    >Date</a>
+            <div className="trip-list">
+                <div className="row trip-list__header">
+                    <div className="trip-list__sort-container offset-sm-8 col-sm-4">
+                        <a href="#sort/price"
+                           onClick={e => { this.setSort('price') }}
+                           className={"trip-list__sort" + (sort === 'price' ? " trip-list__sort_active" : '') + (order === 'asc' ? " trip-list__sort_asc" : "")}
+                        >Price</a>
+                        <a href="#sort/start"
+                           onClick={e => { this.setSort('start_at') }}
+                           className={"trip-list__sort" + (sort === 'start_at' ? " trip-list__sort_active" : '') + (order === 'asc' ? " trip-list__sort_asc" : "")}
+                        >Date</a>
+                    </div>
                 </div>
-                <div className="trip-list">
+                <div className="trip-list__item-container">
                     {tripsList.data.map((trip) =>
                         <TripItem key={trip.id} trip={trip} />
                     )}
