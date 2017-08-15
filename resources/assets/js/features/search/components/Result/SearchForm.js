@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 class SearchForm extends React.Component {
 
@@ -14,15 +15,20 @@ class SearchForm extends React.Component {
     }
 
     render() {
+        const {tripData} = this.props;
         return (
             <div>
-                <input ref={ (input) => this.inputFrom = input } type="text" name="from" placeholder="From" />
+                <input ref={ (input) => this.inputFrom = input } type="text" name="from" placeholder="From" defaultValue={tripData.from.name} />
                 <div className="btn" onClick={this.swapFromTo}>&lt;-&gt;</div>
-                <input ref={ (input) => this.inputTo = input } type="text" name="to" placeholder="To"/>
+                <input ref={ (input) => this.inputTo = input } type="text" name="to" placeholder="To"  defaultValue={tripData.to.name} />
                 <input type="submit" value="Search"/>
             </div>
         )
     }
 }
 
-export default SearchForm;
+const SearchFormConnect = connect( state => ({
+    tripData: state.search
+}))(SearchForm);
+
+export default SearchFormConnect;

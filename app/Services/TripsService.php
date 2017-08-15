@@ -120,7 +120,7 @@ class TripsService
     {
         $data = [];
         $faker = \Faker\Factory::create();
-        $countAllData = $request->getLimit() * 3;
+        $countAllData = $request->getLimit() * 4.2;
         for ($i = 1; $i < $countAllData + 1; $i++) {
             $user = factory(User::class)->make();
             $trip = factory(Trip::class)->make([
@@ -190,7 +190,7 @@ class TripsService
         $pages = array_chunk($data, $request->getLimit());
         $countData = count($pages);
         return [
-            'data' => ($countData >= $request->getPage()
+            'data' => ($countData > $request->getPage()
                 ? $pages[$request->getPage() - 1]
                 : $pages[$countData - 1]),
             'size' => $countAllData

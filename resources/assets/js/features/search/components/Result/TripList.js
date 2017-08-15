@@ -37,10 +37,6 @@ class TripList extends React.Component {
         this.getData(this.state);
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.getData(this.state);
-    }
-
     shouldComponentUpdate(nextProps, nextState) {
         if (
             nextState.page !== this.state.page
@@ -48,6 +44,8 @@ class TripList extends React.Component {
             nextState.sort !== this.state.sort
             ||
             nextState.order !== this.state.order
+            ||
+            nextProps.tripData != this.props.tripData
         ) {
             nextState.preloader = true;
             this.getData(nextState);
@@ -92,7 +90,7 @@ class TripList extends React.Component {
             ? (<div className="trip-list__preloader"><i className="fa fa-circle-o-notch fa-spin fa-4x fa-fw" /></div>)
             : '';
         return (
-            <div className="trip-list">
+            <div className="trip-list container">
                 <div className="row trip-list__header">
                     <div className="col-8 align-self-center">
                         Found trips: {tripsList.size}
@@ -116,7 +114,7 @@ class TripList extends React.Component {
                 </div>
                 <div className="row trip-list__pagination">
                     <div className="col-sm-6 align-self-center">
-                        Showing {currentPage * limit} of {tripsList.size}
+                        Showing {(currentPage - 1) * limit + tripsList.data.length} of {tripsList.size}
                     </div>
                     <div className="col-sm-6">
                         <Pagination
