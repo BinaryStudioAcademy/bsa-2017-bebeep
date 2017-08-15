@@ -9,15 +9,9 @@ use App\Models\{
     Booking
 };
 use Tests\JwtTestCase;
-use Illuminate\Foundation\Testing\{
-    DatabaseMigrations,
-    DatabaseTransactions
-};
 
 class ProfileTest extends JwtTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     /**
      * @var array
      */
@@ -204,37 +198,31 @@ class ProfileTest extends JwtTestCase
         $response->assertStatus(422);
 
         $response = $this->jsonUpdateUser($user, ['first_name' => null]);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['first_name' => []]);
 
         $response = $this->jsonUpdateUser($user, ['last_name' => null]);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['last_name' => []]);
 
         $response = $this->jsonUpdateUser($user, ['email' => null]);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['email' => []]);
 
         $response = $this->jsonUpdateUser($user, ['email' => 'Lorem ipsum dolor.']);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['email' => []]);
 
         $response = $this->jsonUpdateUser($user, ['email' => $userWithExistingEmail->email]);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['email' => []]);
 
         $response = $this->jsonUpdateUser($user, ['phone' => null]);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['phone' => []]);
 
         $response = $this->jsonUpdateUser($user, ['phone' => 'dds1234567']);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['phone' => []]);
 
         $response = $this->jsonUpdateUser($user, ['birth_date' => '1984 dfdf 08 -13']);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['birth_date' => []]);
 
         $response = $this->jsonUpdateUser($user, ['about_me' => str_random(505)]);
-        $response->assertStatus(422);
-
-        $response = $this->jsonUpdateUser($user, [
-            'role_driver' => false,
-            'role_passenger' => false,
-        ]);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['about_me' => []]);
     }
 
     /**
@@ -250,7 +238,7 @@ class ProfileTest extends JwtTestCase
         $this->createTrip($user->id);
 
         $response = $this->jsonUpdateUser($user, ['role_driver' => false]);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['role_driver' => []]);
     }
 
     /**
@@ -266,7 +254,7 @@ class ProfileTest extends JwtTestCase
         $this->createBooking($user->id);
 
         $response = $this->jsonUpdateUser($user, ['role_passenger' => false]);
-        $response->assertStatus(422);
+        $response->assertStatus(422)->assertJsonStructure(['role_passenger' => []]);
     }
 
     /**
