@@ -25,6 +25,9 @@ class TripsController extends Controller
         $this->tripsService = $tripsService;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAll()
     {
         $trips = $this->tripsService->getAll(Auth::user());
