@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { search } from '../../../app/services/TripService';
+import { search } from '../../../../app/services/TripService';
 import TripItem from './TripItem';
 import Pagination from './Pagination';
 

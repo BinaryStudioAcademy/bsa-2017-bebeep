@@ -13,7 +13,7 @@ import RegisterVerify from '../features/user/layouts/RegisterVerify';
 import PasswordReset from '../features/user/layouts/PasswordReset';
 import LoginForm from '../features/user/layouts/Login/LoginForm';
 import Logout from '../features/user/layouts/Login/Logout';
-import SearchResult from '../features/search/layouts/SearchResult';
+import SearchResult from '../features/search/result/layouts/SearchResult';
 
 export default (
     <Route path="/" component={ App }>

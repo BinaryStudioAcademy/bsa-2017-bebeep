@@ -1,5 +1,5 @@
 import React from 'react';
-import PageHeader from '../../../app/components/PageHeader';
+import PageHeader from '../../../../app/components/PageHeader';
 import Filter from '../components/Filter';
 import SearchForm from '../components/SearchForm';
 import TripList from '../components/TripList';
