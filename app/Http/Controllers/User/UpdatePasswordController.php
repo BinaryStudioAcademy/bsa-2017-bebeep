@@ -34,7 +34,7 @@ class UpdatePasswordController extends Controller
     {
         return response()->json($request->all());
 
-        $res = $this->passwordService->change(Auth::user()->id, $request);
+        $res = $this->passwordService->update(Auth::user()->id, $request);
 
         return response()->json($res);
     }

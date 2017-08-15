@@ -11,7 +11,8 @@ use App\Services\{
 };
 use App\Validators\{
     DeleteTripValidator,
-    CanUncheckRoleValidator
+    CanUncheckRoleValidator,
+    IsPasswordCurrentValidator
 };
 use App\Services\Contracts\{
     PasswordService as PasswordServiceContract,
@@ -90,6 +91,12 @@ class AppServiceProvider extends ServiceProvider
             'role_can_uncheck',
             CanUncheckRoleValidator::class,
             CanUncheckRoleValidator::ERROR_MSG
+        );
+
+        Validator::extend(
+            'is_password_current',
+            IsPasswordCurrentValidator::class,
+            IsPasswordCurrentValidator::ERROR_MSG
         );
     }
 }
