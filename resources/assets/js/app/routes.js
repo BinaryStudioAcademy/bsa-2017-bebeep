@@ -2,6 +2,7 @@ import React from 'react';
 import { IndexRoute, Route, Redirect } from 'react-router';
 
 import App from './App';
+
 import Home from './layouts/Home';
 import NotFound from './layouts/NotFound';
 
@@ -10,6 +11,8 @@ import { LoginForm, Logout } from '../features/user/layouts/Login';
 import PasswordReset from '../features/user/layouts/PasswordReset';
 
 import Dashboard from '../features/user/layouts/Dashboard';
+
+import SearchIndex from '../features/search/index/layouts/SearchIndex';
 
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
@@ -20,7 +23,7 @@ import { requireAuth, requireGuest } from '../app/services/AuthService';
 
 export default (
     <Route path="/" component={ App }>
-        <IndexRoute component={ Home } />
+        <IndexRoute component={ SearchIndex } />
 
         <Route onEnter={ requireAuth }>
             <Route path="/dashboard" component={ Dashboard } />
