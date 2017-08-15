@@ -5,8 +5,6 @@ import App from './App';
 import NotFound from './layouts/NotFound';
 
 import SearchIndex from '../features/search/index/layouts/SearchIndex';
-import Vehicles from '../features/vehicle/layouts/Vehicles';
-import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 
 import Dashboard from '../features/user/layouts/Dashboard';
 import UserProfile from '../features/user/layouts/UserProfile';
