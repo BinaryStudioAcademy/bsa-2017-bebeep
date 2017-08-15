@@ -20,7 +20,7 @@ class ProfileTest extends JwtTestCase
     /**
      * @var array
      */
-    private $routeUpdate = ['PUT'];
+    private $routeUpdate = ['PATCH'];
 
     /**
      * @var array

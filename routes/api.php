@@ -43,18 +43,27 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         'uses' => 'Auth\LoginController@logout'
     ]);
 
-    Route::get('profile', [
-        'middleware' => 'jwt.auth',
-        'as' => 'profile.show',
-        'uses' => 'User\ProfileController@show',
-    ]);
+    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
 
-    Route::put('profile', [
-        'middleware' => 'jwt.auth',
-        'as' => 'profile.update',
-        'uses' => 'User\ProfileController@update',
-    ]);
+        Route::get('/', [
+            'middleware' => 'jwt.auth',
+            'as' => 'show',
+            'uses' => 'User\ProfileController@show',
+        ]);
 
+        Route::patch('/', [
+            'middleware' => 'jwt.auth',
+            'as' => 'update',
+            'uses' => 'User\ProfileController@update',
+        ]);
+
+        Route::patch('password', [
+            'middleware' => 'jwt.auth',
+            'as' => 'password.update',
+            'uses' => 'User\PasswordController@update',
+        ]);
+
+    });
 });
 
 Route::group([
