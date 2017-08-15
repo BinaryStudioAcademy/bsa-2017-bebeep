@@ -45,14 +45,14 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 
     // TODO :: middleware - jwt.auth
     Route::get('profile', [
-        'middleware' => 'jwt.guest',
+        'middleware' => 'jwt.auth',
         'as' => 'profile.show',
         'uses' => 'User\ProfileController@show',
     ]);
 
     // TODO :: middleware - jwt.auth
     Route::put('profile', [
-        'middleware' => 'jwt.guest',
+        'middleware' => 'jwt.auth',
         'as' => 'profile.update',
         'uses' => 'User\ProfileController@update',
     ]);
