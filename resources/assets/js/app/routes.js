@@ -2,14 +2,19 @@ import React from 'react';
 import { IndexRoute, Route, Redirect } from 'react-router';
 
 import App from './App';
+import NotFound from './layouts/NotFound';
+
 import SearchIndex from '../features/search/index/layouts/SearchIndex';
+
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
-import NotFound from './layouts/NotFound';
+
 import CreateTrip from '../features/trip/layouts/CreateTrip';
+
 import RegisterForm from '../features/user/layouts/RegisterForm';
 import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
 import RegisterVerify from '../features/user/layouts/RegisterVerify';
+
 import PasswordReset from '../features/user/layouts/PasswordReset';
 import LoginForm from '../features/user/layouts/Login/LoginForm';
 import Logout from '../features/user/layouts/Login/Logout';

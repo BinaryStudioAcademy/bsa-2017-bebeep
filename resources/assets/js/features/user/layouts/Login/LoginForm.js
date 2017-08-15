@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import PageHeader from '../../../../app/components/PageHeader';
-import Form from '../../components/Login/Form';
+import PageHeader from 'app/components/PageHeader';
+import Form from 'features/user/components/Login/Form';
 
-import '../../styles/user.scss';
+import 'features/user/styles/user.scss';
 
 class LoginForm extends Component {
 

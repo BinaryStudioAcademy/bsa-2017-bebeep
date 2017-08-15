@@ -1,5 +1,5 @@
 import React from "react";
-import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
+import { withGoogleMap, GoogleMap, DirectionsRenderer } from "react-google-maps";
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap

@@ -1,6 +1,6 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 import validate from 'validate.js';
+import { browserHistory } from 'react-router';
 
 import PageHeader from 'app/components/PageHeader';
 

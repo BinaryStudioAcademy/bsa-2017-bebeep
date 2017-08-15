@@ -1,10 +1,11 @@
 import React from 'react';
-import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
+
+import Input from 'app/components/Input';
 
 class CreateTripForm extends React.Component {
     render() {
-        const {errors} = this.props;
+        const { errors } = this.props;
 
         return (
             <form role="form" className="card trip-create-from" action="/api/trips/create" method="POST"

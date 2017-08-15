@@ -1,5 +1,6 @@
-import * as actions from './actionTypes';
 import { browserHistory } from 'react-router';
+
+import * as actions from './actionTypes';
 
 const initialState = {
     register: {

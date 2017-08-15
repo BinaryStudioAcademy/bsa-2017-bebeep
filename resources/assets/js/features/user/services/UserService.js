@@ -1,4 +1,4 @@
-import { makeRequest } from '../../../app/services/RequestService';
+import { makeRequest } from 'app/services/RequestService';
 
 const UserService = {
     resetPassword(email, token, password) {

@@ -1,14 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import {geocodeByAddress} from 'react-places-autocomplete';
+import { geocodeByAddress } from 'react-places-autocomplete';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
-import {searchIndexRules} from '../../../../app/services/SearchIndex';
-import Validator from '../../../../app/services/Validator';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {searchSuccess} from '../actions';
+
+import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
+import { searchIndexRules } from 'app/services/SearchIndex';
+import Validator from 'app/services/Validator';
+import { searchSuccess } from '../actions';
 
 import '../styles/react-datepicker.scss';
 import '../styles/search-index.scss';
