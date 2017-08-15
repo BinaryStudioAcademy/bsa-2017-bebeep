@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\UserProfileService;
+use App\Http\Requests\UpdateUserProfileRequest;
 
 class ProfileController extends Controller
 {
@@ -29,7 +31,7 @@ class ProfileController extends Controller
      */
     public function show(): JsonResponse
     {
-        $user = $this->userProfileService->getGeneralData();
+        $user = $this->userProfileService->getGeneral(Auth::user()->id);
 
         return response()->json($user);
     }
@@ -37,11 +39,13 @@ class ProfileController extends Controller
     /**
      * Update the user profile general data.
      *
+     * @param  UpdateUserProfileRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(): JsonResponse
+    public function update(UpdateUserProfileRequest $request): JsonResponse
     {
-        $user = $this->userProfileService->getGeneralData();
+        $user = $this->userProfileService->updateGeneral(Auth::user()->id, $request);
 
         return response()->json($user);
     }
