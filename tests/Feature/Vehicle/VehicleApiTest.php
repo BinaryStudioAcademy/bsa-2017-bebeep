@@ -35,11 +35,11 @@ class VehicleApiTest extends JwtTestCase
                          ];
 
 
-    public function test_get_marks_cars(){
+    public function test_get_models_cars(){
         $this->seed('DatabaseSeeder');
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
-        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Mark');
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'-brand');
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
     }
@@ -48,7 +48,7 @@ class VehicleApiTest extends JwtTestCase
         $this->seed('DatabaseSeeder');
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
-        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Body');
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'-body');
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
     }
@@ -57,7 +57,7 @@ class VehicleApiTest extends JwtTestCase
         $this->seed('DatabaseSeeder');
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
-        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Color');
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'-color');
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
     }
@@ -66,7 +66,7 @@ class VehicleApiTest extends JwtTestCase
         $this->seed('DatabaseSeeder');
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
-        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Model/10');
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'-brand/10/models');
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
     }
@@ -75,7 +75,7 @@ class VehicleApiTest extends JwtTestCase
         $this->seed('DatabaseSeeder');
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
-        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'Model/999999');
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'-brand/99999/models');
         $response->assertStatus(404);
     }
 
@@ -121,7 +121,7 @@ class VehicleApiTest extends JwtTestCase
 
         $response = $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
         $response->assertStatus(403);
-        $response->assertSee('Access denied');
+        $response->assertSee('You have not permissions!');
     }
 
 
