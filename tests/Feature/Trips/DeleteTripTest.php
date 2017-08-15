@@ -5,13 +5,9 @@ namespace Tests\Feature\Trips;
 use App\User;
 use App\Models\Trip;
 use App\Models\Vehicle;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DeleteTripTest extends BaseTripTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     protected $url = 'api/trip/delete';
     protected $method = 'DELETE';
 
