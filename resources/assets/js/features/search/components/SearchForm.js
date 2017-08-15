@@ -7,6 +7,8 @@ import {getCoordinatesFromPlace} from '../../../app/services/GoogleMapService';
 import {searchIndexRules} from '../../../app/services/SearchIndex';
 import Validator from '../../../app/services/Validator';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {searchSuccess} from '../actions';
 
 import '../styles/react-datepicker.scss';
 import '../styles/search-index.scss';
@@ -59,7 +61,7 @@ class SearchForm extends React.Component {
             },
             start_at: this.state.startDate ? this.state.startDate.unix() : null
         };
-        this.props.search(data);
+        this.props.searchSuccess(data);
     }
 
     onChangeStartPoint(address) {
@@ -198,12 +200,8 @@ class SearchForm extends React.Component {
     }
 }
 
-export default  connect(
-    state => ({}),
-    dispatch => ({
-        search: (data) => {
-            dispatch({ type: 'SEARCH_INDEX_SUCCESS', data})
-        }
-    })
+export default connect(
+    null,
+    (dispatch) => bindActionCreators({searchSuccess}, dispatch)
 )(SearchForm);
 
