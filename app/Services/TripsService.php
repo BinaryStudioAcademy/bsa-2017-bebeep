@@ -7,7 +7,7 @@ use App\Models\Trip;
 use App\Models\Route;
 use App\Repositories\TripRepository;
 use App\Exceptions\Trip\TripNotFoundException;
-use App\Exceptions\Trip\UserDeniedTrip;
+use App\Exceptions\Trip\UserCantEditTripException;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
@@ -64,7 +64,7 @@ class TripsService
      * @param $user
      * @return Trip
      * @throws TripNotFoundException
-     * @throws UserDeniedTrip
+     * @throws UserCantEditTripException
      */
     public function update($tripId, UpdateTripRequest $request, $user)
     {
@@ -75,7 +75,7 @@ class TripsService
         }
 
         if($user->id != $trip->user_id) {
-            throw new UserDeniedTrip("The user is denied access to the trip");
+            throw new UserCantEditTripException("User can't edit this trip");
         }
 
         $tripAttributes = [

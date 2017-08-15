@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\Trip\TripNotFoundException;
-use App\Exceptions\Trip\UserDeniedTrip;
+use App\Exceptions\Trip\UserCantEditTripException;
 use App\Models\Trip;
 use App\Services\TripsService;
 use Illuminate\Http\Request;
@@ -55,7 +55,7 @@ class TripsController extends Controller
         catch (TripNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], 404);
         }
-        catch (UserDeniedTrip $e) {
+        catch (UserCantEditTripException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
