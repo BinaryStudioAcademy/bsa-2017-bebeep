@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/trip-item.scss';
+import '../../styles/trip-item.scss';
 
 class TripItem extends React.Component {
     render() {

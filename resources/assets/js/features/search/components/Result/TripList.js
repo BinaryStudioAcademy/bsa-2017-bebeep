@@ -4,7 +4,7 @@ import { search } from '../../../../app/services/TripService';
 import TripItem from './TripItem';
 import Pagination from './Pagination';
 import { withRouter, browserHistory } from 'react-router';
-import '../styles/trip-list.scss';
+import '../../styles/trip-list.scss';
 
 class TripList extends React.Component {
 

@@ -8,10 +8,10 @@ import {searchIndexRules} from '../../../../app/services/SearchIndex';
 import Validator from '../../../../app/services/Validator';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {searchSuccess} from '../actions';
+import {searchSuccess} from '../../actions';
 
-import '../styles/react-datepicker.scss';
-import '../styles/search-index.scss';
+import '../../styles/react-datepicker.scss';
+import '../../styles/search-index.scss';
 
 class SearchForm extends React.Component {
     constructor() {

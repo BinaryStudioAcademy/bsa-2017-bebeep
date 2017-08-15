@@ -1,8 +1,8 @@
 import React from 'react';
-import PageHeader from '../../../../app/components/PageHeader';
-import Filter from '../components/Filter';
-import SearchForm from '../components/SearchForm';
-import TripList from '../components/TripList';
+import PageHeader from '../../../app/components/PageHeader';
+import Filter from '../components/Result/Filter';
+import SearchForm from '../components/Result/SearchForm';
+import TripList from '../components/Result/TripList';
 
 class SearchResult extends React.Component {
     render() {

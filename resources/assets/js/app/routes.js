@@ -2,7 +2,7 @@ import React from 'react';
 import { IndexRoute, Route, Redirect } from 'react-router';
 
 import App from './App';
-import SearchIndex from '../features/search/index/layouts/SearchIndex';
+import SearchIndex from '../features/search/layouts/SearchIndex';
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import NotFound from './layouts/NotFound';
@@ -13,7 +13,7 @@ import RegisterVerify from '../features/user/layouts/RegisterVerify';
 import PasswordReset from '../features/user/layouts/PasswordReset';
 import LoginForm from '../features/user/layouts/Login/LoginForm';
 import Logout from '../features/user/layouts/Login/Logout';
-import SearchResult from '../features/search/result/layouts/SearchResult';
+import SearchResult from '../features/search/layouts/SearchResult';
 
 export default (
     <Route path="/" component={ App }>
