@@ -2,14 +2,23 @@
 
 namespace App\Providers;
 
+use Auth;
+use Validator;
 use App\Models\Vehicle;
+use App\Services\{
+    PasswordService,
+    UserProfileService
+};
+use App\Validators\{
+    DeleteTripValidator,
+    CanUncheckRoleValidator
+};
+use App\Services\Contracts\{
+    PasswordService as PasswordServiceContract,
+    UserProfileService as UserProfileServiceContract
+};
 use App\Rules\DeleteTrip\TripOwnerRule;
-use App\Validators\DeleteTripValidator;
-use Illuminate\Support\Facades\Auth;
-use App\Services\Contracts\PasswordService as PasswordServiceContract;
-use App\Services\PasswordService;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,14 +40,26 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(PasswordServiceContract::class, PasswordService::class);
+        $this->app->bind(UserProfileServiceContract::class, UserProfileService::class);
+
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);
         });
     }
 
-    private function extendValidator()
+    /**
+     * Extend the validator with custom rules.
+     *
+     * @return void
+     */
+    private function extendValidator(): void
     {
-        Validator::extend('max_seats_from_vehicle', function ($attribute, $value, $parameters, $validator) {
+        Validator::extend('max_seats_from_vehicle', function (
+            string $attribute,
+            int $value,
+            array $parameters,
+            $validator
+        ) {
             if (! $parameters || ! Auth::user() || ! $parameters[0]) {
                 return false;
             }
@@ -52,12 +73,23 @@ class AppServiceProvider extends ServiceProvider
             return $vehicle->seats > (int) $value;
         });
 
-        Validator::extend('greater_than_date', function ($attribute, $value, $parameters, $validator) {
+        Validator::extend('greater_than_date', function (
+            string $attribute,
+            int $value,
+            array $parameters,
+            $validator
+        ) {
             if (! $parameters || ! $parameters[0]) {
                 return false;
             }
 
             return (int) $parameters[0] < (int) $value;
         });
+
+        Validator::extend(
+            'role_can_uncheck',
+            CanUncheckRoleValidator::class,
+            CanUncheckRoleValidator::ERROR_MSG
+        );
     }
 }
