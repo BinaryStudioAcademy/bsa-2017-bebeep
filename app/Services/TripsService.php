@@ -95,34 +95,47 @@ class TripsService
         for ($i = 1; $i < $countAllData + 1; $i++) {
             $user = factory(User::class)->make();
             $trip = factory(Trip::class)->make([
+                'id' => $i,
                 'start_at' => $faker->dateTimeInInterval('0 years', $interval = '+ 5 days')
             ]);
-            $route = factory(Route::class)->make([
-                'from' => $faker->city,
-                'to' => $faker->city
-            ]);
+
+            $routes = [
+                'from' => ['point' => $faker->city, 'id' => $i.'1'],
+                'to' => ['point' => $faker->city, 'id' => $i.'2'],
+                'points' => []
+            ];
+            $routes['points'][] = $routes['from'];
+            $routes['points'][] = $routes['to'];
+            if (rand(1, 1000) > 500) {
+                array_unshift($routes['points'], ['point' => $faker->city, 'id' => $i.'3']);
+            }
+            if (rand(1, 1000) > 500) {
+                $routes['points'][] = ['point' => $faker->city, 'id' => $i.'4'];
+            }
+
             /** @var Carbon $start_at */
             $start_at = $trip->start_at;
             if ($start_at->isToday()) {
                 $start = "Today";
+            } else if ($start_at->isTomorrow()) {
+                $start = "Tomorrow";
             } else {
                 $start = [
                         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
-                    ][$start_at->dayOfWeek] . ' ' . $start_at->day . ' ' . [
+                    ][$start_at->dayOfWeek] . '. ' . str_pad($start_at->day, 2, '0', STR_PAD_LEFT) . ' ' . [
                         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-                    ][$start_at->month];
+                    ][$start_at->month - 1];
             }
-
+            $hours = str_pad($start_at->hour, 2, '0', STR_PAD_LEFT);
+            $minutes = str_pad($start_at->minute, 2, '0', STR_PAD_LEFT);
+            $start .= " - {$hours}:{$minutes}";
             $data[] = [
                 'id' => $i,
                 'price' => $trip->price,
                 'seats' => $trip->seats,
                 'start_date' => $start,
                 'start_at' => $trip->start_at->timestamp,
-                'route' => [
-                    'from' => $route->from,
-                    'to' => $route->to,
-                ],
+                'route' => $routes,
                 'user' => [
                     'full_name' => $user->first_name . ' ' . $user->last_name,
                     'age' => Carbon::now()->year - $user->birth_date->year,

@@ -24,7 +24,7 @@ class TripList extends React.Component {
     getData({limit, page, sort, order}) {
         search(this.props.tripData, page, sort, order, limit)
             .then(response => this.setState({ tripsList: response.data }))
-            .catch(error => this.setState({ errors: error.response.data }));
+            .catch(error => this.setState({ errors: error.response }));
     }
 
     componentWillMount() {
@@ -36,7 +36,6 @@ class TripList extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log([nextState.page, this.state.page]);
         if (
             nextState.page !== this.state.page
             ||
@@ -65,7 +64,7 @@ class TripList extends React.Component {
         const { tripsList, limit, page, sort, order } = this.state;
 
         return (
-            <div className="trip-list">
+            <div className="trip-list-container">
                 <div className="trip-list__sort-row">
                     <a href="#sort/price"
                        onClick={e => { this.setSort('price') }}
@@ -76,9 +75,11 @@ class TripList extends React.Component {
                        className={"trip-list__sort" + (sort === 'start_at' ? " trip-list__sort_active" : '') + (order === 'asc' ? " trip-list__sort_asc" : "")}
                     >Date</a>
                 </div>
-                {tripsList.data.map((trip) =>
-                    <TripItem key={trip.id} trip={trip} />
-                )}
+                <div className="trip-list">
+                    {tripsList.data.map((trip) =>
+                        <TripItem key={trip.id} trip={trip} />
+                    )}
+                </div>
                 <Pagination
                     size={tripsList.size}
                     page={page}
