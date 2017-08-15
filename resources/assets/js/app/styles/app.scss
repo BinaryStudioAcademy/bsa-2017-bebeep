@@ -7,6 +7,14 @@ img {
     height: auto;
 }
 
+.noselect,
+.form-check-label {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .page-header {
     margin-bottom: 1.5rem;
     color: #444;
