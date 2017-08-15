@@ -4,31 +4,22 @@ namespace App\Http\Controllers\Api\Car;
 
 use App\Models\Vehicle;
 use App\Services\CarService;
-use App\Services\CarMarkService;
-use App\Services\CarModelService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCarRequest;
 
 class CarController extends Controller
 {
     private $carService;
-    private $carMarkService;
-    private $carModelService;
+
 
     /**
      * CarController constructor.
      *
      * @param CarService $carService
-     * @param CarMarkService $carMarkService
-     * @param CarModelService $carModelService
      */
-    public function __construct(CarService $carService,
-                                CarMarkService $carMarkService,
-                                CarModelService $carModelService)
+    public function __construct(CarService $carService)
     {
         $this->carService = $carService;
-        $this->carMarkService = $carMarkService;
-        $this->carModelService = $carModelService;
 
         $this->middleware('is.owner.vehicle',
             ['only' => ['show', 'edit', 'update', 'destroy']]);
@@ -114,22 +105,4 @@ class CarController extends Controller
         }
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCarMark(){
-        return $this->carMarkService->getAll();
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getCarModel($id){
-        if ($this->carModelService->getModelByIdMark($id)->count() !== 0){
-            return $this->carModelService->getModelByIdMark($id);
-        } else {
-            return response()->json('Not found', 404);
-        }
-    }
 }
