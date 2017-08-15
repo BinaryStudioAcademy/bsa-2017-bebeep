@@ -2,8 +2,11 @@ import React from 'react';
 import { IndexRoute, Route, Redirect } from 'react-router';
 
 import App from './App';
-import Home from './layouts/Home';
 import NotFound from './layouts/NotFound';
+
+import SearchIndex from '../features/search/index/layouts/SearchIndex';
+import Vehicles from '../features/vehicle/layouts/Vehicles';
+import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 
 import Dashboard from '../features/user/layouts/Dashboard';
 import UserProfile from '../features/user/layouts/UserProfile';
@@ -28,7 +31,7 @@ import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 
 export default (
     <Route path="/" component={ App }>
-        <IndexRoute component={ Home } />
+        <IndexRoute component={ SearchIndex } />
 
         {/* User registration and email verification */}
         <Route path="registration" component={ RegisterForm } />
