@@ -6,6 +6,7 @@ import moment from 'moment';
 import {getCoordinatesFromPlace} from '../../../app/services/GoogleMapService';
 import {searchIndexRules} from '../../../app/services/SearchIndex';
 import Validator from '../../../app/services/Validator';
+import {connect} from 'react-redux';
 
 import '../styles/react-datepicker.scss';
 import '../styles/search-index.scss';
@@ -19,16 +20,16 @@ class SearchForm extends React.Component {
                 address: '',
                 place: null,
                 coordinate: {
-                    lan: 0,
-                    lng: 0
+                    lan: null,
+                    lng: null
                 }
             },
             endPoint: {
                 address: '',
                 place: null,
                 coordinate: {
-                    lan: 0,
-                    lng: 0
+                    lan: null,
+                    lng: null
                 }
             },
             startDate: null
@@ -36,11 +37,17 @@ class SearchForm extends React.Component {
         this.handleDateChange = this.handleDateChange.bind(this);
     }
 
-    onSubmit(e) {
+    onClick(e) {
         e.preventDefault();
         let data = {
-            from: this.state.startPoint.address,
-            to: this.state.endPoint.address,
+            from: {
+                name: this.state.startPoint.address,
+                coordinate: getCoordinatesFromPlace(this.state.startPoint.place)
+            },
+            to: {
+                name: this.state.endPoint.address,
+                coordinate: getCoordinatesFromPlace(this.state.startPoint.place)
+            },
             start_at: this.state.startDate ? this.state.startDate.unix() : null
         };
 
@@ -52,10 +59,7 @@ class SearchForm extends React.Component {
         }
 
         this.setState({errors: {}});
-
-        console.log('time ', this.state.startDate.unix());
-        console.log('from ', this.state.startPoint.address, getCoordinatesFromPlace(this.state.startPoint.place));
-        console.log('to ', this.state.endPoint.address, getCoordinatesFromPlace(this.state.endPoint.place));
+        this.props.search(data);
     }
 
     onChangeStartPoint(address) {
@@ -143,7 +147,7 @@ class SearchForm extends React.Component {
 
         return (
                 <div className="row">
-                    <form role="form" className="form-inline search-form" action="" method="POST" onSubmit={this.onSubmit.bind(this)}>
+                    <form role="form" className="form-inline search-form" action="" method="POST">
                         <div className="col-md-3">
                             <div className={"form-group " + (this.state.errors.from ? 'has-danger' : '')}>
                                 <label htmlFor="startPoint" className="sr-only">Leaving from</label>
@@ -186,7 +190,7 @@ class SearchForm extends React.Component {
                             isClearable={true}
                         />
                         <div className="col-md-3">
-                            <button type="submit" className="btn btn-search btn-primary">Find a ride</button>
+                            <button type="submit" className="btn btn-search btn-primary" onClick={this.onClick.bind(this)}>Find a ride</button>
                         </div>
                     </form>
                 </div>
@@ -194,5 +198,12 @@ class SearchForm extends React.Component {
     }
 }
 
-export default  SearchForm;
+export default  connect(
+    state => ({}),
+    dispatch => ({
+        search: (data) => {
+            dispatch({ type: 'SEARCH_INDEX_SUCCESS', data})
+        }
+    })
+)(SearchForm);
 
