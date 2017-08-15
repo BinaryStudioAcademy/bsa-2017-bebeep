@@ -3,9 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Services\Requests\UpdateCarRequest as UpdateCarRequestInterface;
+use App\Services\Requests\SaveCarRequestInterface as CreateCarRequestInterface;
+use Illuminate\Http\Request;
 
-class UpdateCarRequest extends FormRequest implements UpdateCarRequestInterface
+class SaveCarRequest extends FormRequest implements CreateCarRequestInterface
+
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,6 +18,7 @@ class UpdateCarRequest extends FormRequest implements UpdateCarRequestInterface
     {
         return true;
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -30,6 +33,7 @@ class UpdateCarRequest extends FormRequest implements UpdateCarRequestInterface
             'body' => "required",
             'seats' => "required",
             'year' => "required",
+            'photo' => "required",
         ];
     }
 
@@ -58,7 +62,7 @@ class UpdateCarRequest extends FormRequest implements UpdateCarRequestInterface
         return $this->get('seats');
     }
 
-    public function getYear(): string
+    public function getYear(): int
     {
         return $this->get('year');
     }
@@ -66,5 +70,9 @@ class UpdateCarRequest extends FormRequest implements UpdateCarRequestInterface
     public function getPhoto(): string
     {
         return $this->get('photo');
+    }
+    public function getUserId(): int
+    {
+        return $this->user()->id;
     }
 }

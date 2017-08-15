@@ -3,7 +3,7 @@
 
 namespace App\Services\Requests;
 
-interface CreateCarRequest
+interface SaveCarRequestInterface
 {
     public function getBrand() : string;
     public function getModel() : string;
@@ -12,4 +12,5 @@ interface CreateCarRequest
     public function getSeats() : int;
     public function getYear() : int ;
     public function getPhoto() : string ;
+    public function getUserId() : int ;
 }

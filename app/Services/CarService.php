@@ -5,8 +5,9 @@ namespace App\Services;
 
 use App\Models\Vehicle;
 use App\Repositories\CarRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Requests\CreateCarRequest;
+use App\Services\Requests\SaveCarRequestInterface;
 
 class CarService
 {
@@ -22,10 +23,10 @@ class CarService
     }
 
     /**
-     * @param CreateCarRequest $request
+     * @param SaveCarRequestInterface $request
      * @return Vehicle
      */
-    public function create(CreateCarRequest $request): Vehicle
+    public function create(SaveCarRequestInterface $request): Vehicle
     {
         $attributes = [
             'brand' => $request->getBrand(),
@@ -35,7 +36,7 @@ class CarService
             'seats' => $request->getSeats(),
             'year' => $request->getYear(),
             'photo' => $request->getPhoto(),
-            'user_id' => Auth::user()->id,
+            'user_id' => $request->getUserId(),
         ];
 
         $car = $this->carRepository->save(new Vehicle($attributes));
@@ -44,11 +45,11 @@ class CarService
     }
 
     /**
-     * @param CreateCarRequest $request
+     * @param SaveCarRequestInterface $request
      * @param $id
      * @return Vehicle
      */
-    public function update(CreateCarRequest $request, $id): Vehicle
+    public function update(SaveCarRequestInterface $request, $id): Vehicle
     {
         $attributes = [
             'brand' => $request->getBrand(),
@@ -59,18 +60,18 @@ class CarService
             'year' => $request->getYear(),
             'photo' => $request->getPhoto()
         ];
-
-        $car = $this->carRepository->update($attributes, $id);
+        $car = $this->carRepository->updateVehicle(new Vehicle($attributes), $id);
 
         return $car;
     }
 
     /**
+     * @param Request $request
      * @return mixed
      */
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return $this->carRepository->findWhere(['user_id' => Auth::user()->id]);
+        return $this->carRepository->findWhere(['user_id' => $request->user()->id]);
     }
 
     /**

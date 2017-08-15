@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api\Car;
 
 use App\Models\Vehicle;
 use App\Services\CarService;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateCarRequest;
+use App\Http\Requests\SaveCarRequest;
 
 class CarController extends Controller
 {
@@ -21,18 +22,17 @@ class CarController extends Controller
     {
         $this->carService = $carService;
 
-        $this->middleware('is.owner.vehicle',
+        $this->middleware('is.vehicle.owner',
             ['only' => ['show', 'edit', 'update', 'destroy']]);
     }
 
     /**
-     * Display a listing of the resource.
-     *
+     * @param Request $request
      * @return mixed
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->carService->getAll();
+        return $this->carService->getAll($request);
     }
 
     /**
@@ -48,10 +48,10 @@ class CarController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CreateCarRequest $request
+     * @param SaveCarRequest $request
      * @return Vehicle|\Illuminate\Http\JsonResponse
      */
-    public function store(CreateCarRequest $request)
+    public function store(SaveCarRequest $request)
     {
         return $car = $this->carService->create($request);
     }
@@ -81,11 +81,11 @@ class CarController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param CreateCarRequest $request
+     * @param SaveCarRequest $request
      * @param $id
      * @return Vehicle|\Illuminate\Http\JsonResponse
      */
-    public function update(CreateCarRequest $request, $id)
+    public function update(SaveCarRequest $request, $id)
     {
         return $this->carService->update($request, $id);
     }
@@ -98,11 +98,10 @@ class CarController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->carService->destroy($id)){
+        if ($this->carService->destroy($id)) {
             return response()->json('', 204);
         } else {
             return response()->json('', 404);
         }
     }
-
 }

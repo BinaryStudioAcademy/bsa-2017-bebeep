@@ -23,7 +23,7 @@ class CarModelService
      * @param $id
      * @return mixed
      */
-    public function getModelByIdMark($id)
+    public function getModelByMarkId($id)
     {
         return $this->carModelRepository->findWhere(['id_car_mark' => $id]);
     }

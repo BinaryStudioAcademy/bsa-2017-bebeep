@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
 use App\Models\Vehicle;
+use Prettus\Repository\Eloquent\BaseRepository;
 
 class CarRepository extends BaseRepository
 {
@@ -22,6 +22,13 @@ class CarRepository extends BaseRepository
     public function save(Vehicle $vehicle) : Vehicle
     {
         $vehicle->save();
+
+        return $vehicle;
+    }
+
+    public function updateVehicle(Vehicle $vehicle, $id) : Vehicle
+    {
+        $this->update($vehicle->toArray(), $id);
 
         return $vehicle;
     }
