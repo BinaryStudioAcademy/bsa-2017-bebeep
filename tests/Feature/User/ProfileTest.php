@@ -235,11 +235,69 @@ class ProfileTest extends JwtTestCase
             'role_passenger' => false,
         ]);
         $response->assertStatus(422);
+    }
 
-        /*
-            'role_driver' => 'role_can_uncheck:driver',
-            'role_passenger' => 'role_can_uncheck:passenger',
-         */
+    /**
+     * @test
+     */
+    public function user_can_not_update_profile_if_false_driver_with_can_not_uncheck_role_driver()
+    {
+        $user = $this->createDriver([
+            'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
+        ]);
+
+        $this->createVehicle($user->id);
+        $this->createTrip($user->id);
+
+        $response = $this->jsonUpdateUser($user, ['role_driver' => false]);
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_not_update_profile_if_false_passenger_with_can_not_uncheck_role_passenger()
+    {
+        $user = $this->createPassenger();
+        $driver = $this->createDriver();
+
+        $this->createVehicle($driver->id);
+        $this->createTrip($driver->id);
+        $this->createBooking($user->id);
+
+        $response = $this->jsonUpdateUser($user, ['role_passenger' => false]);
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_update_profile_successfully()
+    {
+        $updatedData = [
+            'first_name' => 'Alexander',
+            'last_name' => 'Gartner',
+            'email' => 'alex_new123@example.com',
+            'phone' => '380501112200',
+            'birth_date' => '1984-04-24',
+            'about_me' => 'Lorem ipsum dolor sit amet...',
+            'role_driver' => true,
+            'role_passenger' => false,
+        ];
+
+        $user = $this->createDriver([
+            'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
+        ]);
+        $this->createVehicle($user->id);
+        $this->createTrip($user->id);
+
+        $response = $this->jsonUpdateUser($user, $updatedData);
+
+        $response->assertStatus(200)
+             ->assertExactJson(['data' => $updatedData + [
+                'can_uncheck_driver' => false,
+                'can_uncheck_passenger' => true,
+            ]]);
     }
 
     /**
