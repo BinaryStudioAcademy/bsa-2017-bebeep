@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class CarMarksTableSeeder extends Seeder
+class CarBrandsTableSeeder extends Seeder
 {
 
     /**
@@ -14,9 +14,9 @@ class CarMarksTableSeeder extends Seeder
     {
         
 
-        \DB::table('car_marks')->delete();
+        \DB::table('car_brands')->delete();
         
-        \DB::table('car_marks')->insert(array (
+        \DB::table('car_brands')->insert(array (
             0 => 
             array (
                 'name' => 'AC',

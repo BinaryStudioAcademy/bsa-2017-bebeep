@@ -4,15 +4,15 @@
 namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
-use App\Models\CarMark;
+use App\Models\CarBrand;
 
-class CarMarkRepository extends BaseRepository
+class CarBrandRepository extends BaseRepository
 {
     /**
      * @return string
      */
     public function model()
     {
-        return CarMark::class;
+        return CarBrand::class;
     }
 }
