@@ -86,7 +86,14 @@ class TripsService
             'vehicle_id' => $request->getVehicleId(),
         ];
 
+        $routeAttributes = [
+            'from' => $request->getFrom(),
+            'to' => $request->getTo(),
+        ];
+
         $result = $this->tripRepository->updateTrip($trip, $tripAttributes);
+        $result->routes()->fill($routeAttributes)->save();
+
         return $result;
     }
 

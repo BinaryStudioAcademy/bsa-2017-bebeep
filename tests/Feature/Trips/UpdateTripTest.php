@@ -51,6 +51,12 @@ class UpdateTripTest extends BaseTripTestCase
 
         $response = $this->jsonAsUser($user, ['vehicle_id' => null]);
         $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
+
+        $response = $this->jsonAsUser($user, ['from' => null]);
+        $response->assertStatus(422)->assertJsonStructure(['from' => []]);
+
+        $response = $this->jsonAsUser($user, ['to' => null]);
+        $response->assertStatus(422)->assertJsonStructure(['to' => []]);
     }
 
     /**
