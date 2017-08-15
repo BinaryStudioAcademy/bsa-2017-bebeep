@@ -1,4 +1,5 @@
 import * as actions from './actionTypes';
+import axios from 'axios';
 
 const vehiclesData = [
     {id: 1, name: 'BMW 007', type: 'Car 1'},
@@ -28,11 +29,23 @@ export function addVehicle(vehicle) {
     };
 };
 
+export const createSuccess = data => ({
+    type: actions.CREATE_VEHICLE_SUCCESS,
+    data
+});
+
+export const createFailed = data => ({
+    type: actions.CREATE_VEHICLE_FAILED,
+    data
+});
+
+
 export const doCreate = (data) => {
     return dispatch => {
         axios.post('/api/car/create', data)
+        // axios.post('/api/car', data)
             .then(response => dispatch(createSuccess(response.data)))
-            // .catch(error => dispatch(createFailed(error.response.data)))
+            .catch(error => dispatch(createFailed(error.response.data)))
         ;
     };
 };

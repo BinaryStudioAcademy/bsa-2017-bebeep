@@ -26,6 +26,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
 });
 
+
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('v1/car', "Api\\Car\\CarController");
     Route::get('v1/carBody', ['uses' => 'Api\\Car\\CarController@getCarBody']);
@@ -33,6 +34,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('v1/carMark', ['uses' => 'Api\\Car\\CarController@getCarMark']);
     Route::get('v1/carModel/{idMark}', ['uses' => 'Api\\Car\\CarController@getCarModel']);
 });
+
 
 Route::group([
     'prefix' => 'trips',
