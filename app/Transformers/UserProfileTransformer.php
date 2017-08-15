@@ -29,8 +29,8 @@ class UserProfileTransformer extends TransformerAbstract
             'about_me' => $user->about_me,
             'role_driver' => $user->isDriver(),
             'role_passenger' => $user->isPassenger(),
-            'can_uncheck_driver' => $user->canUncheckDriver(),
-            'can_uncheck_passenger' => $user->canUncheckPassenger(),
+            'can_uncheck_driver' => !$user->hasTrip(),
+            'can_uncheck_passenger' => !$user->hasBooking(),
         ];
     }
 }

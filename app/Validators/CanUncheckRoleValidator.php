@@ -29,8 +29,8 @@ class CanUncheckRoleValidator
             return false;
         }
 
-        $canUncheck = 'canUncheck' . ucfirst($parameters[0]);
+        $hasRelation = strtolower($parameters[0]) === 'driver' ? 'hasTrip' : 'hasBooking';
 
-        return $value || ! $value && Auth::user()->$canUncheck();
+        return $value || false === $value && false === Auth::user()->$hasRelation();
     }
 }
