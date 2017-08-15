@@ -9,7 +9,7 @@ class VehicleItem extends Component {
 
         return (
             <li className="list-group-item">
-                <Link to={ 'vehicles/' + vehicle.id }>{ vehicle.name }</Link>
+                <Link to={ 'mycars/vehicle/' + vehicle.id }>{ vehicle.name }</Link>
             </li>
         );
     }
