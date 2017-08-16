@@ -1,10 +1,10 @@
 import React from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { doCreate } from '../../actions';
 import Input from './Input';
-import { browserHistory } from 'react-router';
 import Select from 'react-select';
-import axios from 'axios';
+import { VehicleValidate } from '../../../../app/services/VehicleService';
 
 class Form extends React.Component {
 
@@ -14,6 +14,7 @@ class Form extends React.Component {
         this.onSave = this.onSave.bind(this);
         this.logChange = this.logChange.bind(this);
         this.state = {
+            errors: {},
             brand: {
                 selected: false,
                 placeholder: 'Select vehicle brand',
@@ -23,6 +24,7 @@ class Form extends React.Component {
                 disabled: true,
                 placeholder: 'Select vehicle brand first',
             },
+            year: false,
             color: {
                 selected: false,
                 placeholder: 'Select vehicle color',
@@ -31,6 +33,8 @@ class Form extends React.Component {
                 selected: false,
                 placeholder: 'Select vehicle body',
             },
+            seats: false,
+            photo: false,
         };
 
 
@@ -42,15 +46,27 @@ class Form extends React.Component {
 
     onSubmit(event) {
         event.preventDefault();
-        this.props.dispatch(doCreate({
-            brand: this.state.brand.selected,
-            model: this.state.model.selected,
-            year: this.state.year,
-            color: this.state.color.selected,
-            body: this.state.color.selected,
-            seats: this.state.seats,
-            photo: this.state.photo,
-        }));
+        const vehicleData = {
+                brand: event.target['brand'].value,
+                model: event.target['model'].value,
+                year: event.target['year'].value,
+                color: event.target['color'].value,
+                body: event.target['body'].value,
+                seats: event.target['seats'].value,
+                photo: event.target['photo'].value,
+            };
+
+        const val = VehicleValidate(vehicleData);
+        console.log(val);
+
+        if (!val.valid) {
+            this.setState({
+                errors: val.errors
+            });
+        } else {
+            this.props.dispatch(doCreate(vehicleData));
+        }
+
     };
 
     onSave(event) {
@@ -59,7 +75,7 @@ class Form extends React.Component {
 
     // componentWillReceiveProps(nextProps) {
     //     if (nextProps.successCreate) {
-    //         browserHistory.push('/create/success');
+    //         browserHistory.push('/mycars');
     //     }
     // }
 
@@ -121,10 +137,10 @@ class Form extends React.Component {
     }
 
     render() {
-        const {errors} = this.props;
+        const { errors } = this.state;
 
         return (
-            <form role="form" className="card vehicle-form" action="/api/car" method="POST"
+            <form role="form" className="card vehicle-form" action="/api/v1/car" method="POST"
                   onSubmit={ this.onSubmit }>
                 <div className="card-header">
                     Enter vehicle details
@@ -182,8 +198,7 @@ class Form extends React.Component {
                         type="year"
                         name="year"
                         id="year"
-                        required={true}
-                        error={errors.year}
+                        error={ errors.year }
                         onChange={ data => {
                             this.setState({
                                     year: data.year
@@ -239,14 +254,13 @@ class Form extends React.Component {
                         type="text"
                         name="seats"
                         id="seats"
-                        required={true}
                         onChange={ data => {
                             this.setState({
                                     seats: data.seats
                                 });
                             }
                         }
-                        error={errors.seats}
+                        error={ errors.seats }
                     >Seats</Input>
                     <Input
                         type="text"
@@ -258,15 +272,13 @@ class Form extends React.Component {
                                 });
                             }
                         }
-                        required={true}
+                        error={ errors.photo }
                     >Photo</Input>
                 </div>
 
                 <div className="card-footer">
                     <div className="text-center">
-                        <button
-                            className="btn btn-primary"
-                            onClick={ this.onSubmit }>
+                        <button className="btn btn-primary">
                             Create
                         </button>
                     </div>
