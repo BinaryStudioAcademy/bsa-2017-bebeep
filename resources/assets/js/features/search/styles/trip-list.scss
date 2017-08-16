@@ -41,6 +41,14 @@
     min-height: 500px;
   }
 
+  &__item-link {
+    color: #272727;
+    &:hover {
+      color: #272727;
+      text-decoration: none;
+    }
+  }
+  
   &__preloader {
     position: absolute;
     top: 0;

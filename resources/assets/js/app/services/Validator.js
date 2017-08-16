@@ -43,4 +43,14 @@ export default class Validator
             return value < parameter ? errorMessage : false;
         }
     }
+
+    static coordinate(errorMessage) {
+        return (value) => {
+            const coord = Object.assign({lng: null, lat: null}, value);
+            if (validate.isEmpty(coord.lat) || validate.isEmpty(coord.lng)) {
+                return errorMessage;
+            }
+            return false;
+        }
+    }
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { search } from '../../../../app/services/TripService';
 import TripItem from './TripItem';
 import Pagination from './Pagination';
-import { withRouter, browserHistory } from 'react-router';
+import { withRouter, browserHistory, Link } from 'react-router';
 import '../../styles/trip-list.scss';
 
 class TripList extends React.Component {
@@ -22,19 +22,15 @@ class TripList extends React.Component {
             order: props.location.query.order === 'desc' ? 'desc' : 'asc',
             preloader: true,
         };
-        this.onClickTrip = this.onClickTrip.bind(this);
+        this.getData(props, this.state);
     }
 
-    getData({limit, page, sort, order}) {
-        search(this.props.tripData, page, sort, order, limit)
+    getData({tripData}, {limit, page, sort, order}) {
+        search(tripData, page, sort, order, limit)
             .then(response => {
                 this.setState({ tripsList: response.data, preloader: false });
             })
             .catch(error => this.setState({ errors: error.response, preloader: false }));
-    }
-
-    componentWillMount() {
-        this.getData(this.state);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -48,7 +44,7 @@ class TripList extends React.Component {
             nextProps.tripData != this.props.tripData
         ) {
             nextState.preloader = true;
-            this.getData(nextState);
+            this.getData(nextProps, nextState);
         }
         return true;
     }
@@ -79,10 +75,6 @@ class TripList extends React.Component {
         browserHistory.replace(`${pathname}?${newQuery.join('&')}`);
     }
 
-    onClickTrip(tripId) {
-        browserHistory.push(`/trip/${tripId}`);
-    }
-
     render() {
         const { tripsList, limit, page, sort, order, preloader } = this.state;
         const currentPage = page > tripsList.size / limit ? Math.ceil(tripsList.size / limit) : page;
@@ -109,7 +101,9 @@ class TripList extends React.Component {
                 <div className="trip-list__item-container">
                     {preload}
                     {tripsList.data.map((trip) =>
-                        <TripItem key={trip.id} trip={trip} onClick={ this.onClickTrip }/>
+                        <Link to={`/trip/${trip.id}`} className="trip-list__item-link">
+                            <TripItem key={trip.id} trip={trip} />
+                        </Link>
                     )}
                 </div>
                 <div className="row trip-list__pagination">
