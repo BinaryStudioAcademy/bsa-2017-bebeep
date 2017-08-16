@@ -2,31 +2,66 @@
 
 namespace App\Services;
 
-use App\User;
+use App\Criteria\Trips\AllDriverTripsCriteria;
+use App\Criteria\Trips\PastDriverTripsCriteria;
+use App\Criteria\Trips\UpcomingDriverTripsCriteria;
 use App\Models\Trip;
-use App\Models\Route;
 use App\Repositories\TripRepository;
+use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Exceptions\Trip\TripNotFoundException;
 use App\Exceptions\Trip\UserCantEditTripException;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
-use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
+use App\User;
+use App\Validators\DeleteTripValidator;
+use App\Validators\RestoreTripValidator;
+use Prettus\Repository\Contracts\CriteriaInterface;
 
 class TripsService
 {
-    /**
-     * @var TripRepository
-     */
     private $tripRepository;
+    private $deleteTripValidator;
+    private $restoreTripValidator;
 
     /**
      * TripsService constructor.
      * @param TripRepository $tripRepository
+     * @param DeleteTripValidator $deleteTripValidator
+     * @param RestoreTripValidator $restoreTripValidator
      */
-    public function __construct(TripRepository $tripRepository)
+    public function __construct(TripRepository $tripRepository, DeleteTripValidator $deleteTripValidator, RestoreTripValidator $restoreTripValidator)
     {
         $this->tripRepository = $tripRepository;
+        $this->deleteTripValidator = $deleteTripValidator;
+        $this->restoreTripValidator = $restoreTripValidator;
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function getAll(User $user)
+    {
+        return $this->tripRepository->getByCriteria(new AllDriverTripsCriteria($user));
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function getUpcoming(User $user)
+    {
+        return $this->tripRepository->getByCriteria(new UpcomingDriverTripsCriteria($user));
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function getPast(User $user)
+    {
+        return $this->tripRepository->getByCriteria(new PastDriverTripsCriteria($user));
     }
 
     /**
@@ -100,16 +135,26 @@ class TripsService
     /**
      * @param Trip $trip
      * @param $user
-     * @throws UserHasNotPermissionsToDeleteTripException
+     * @return Trip
      */
     public function delete(Trip $trip, $user)
     {
-        if (
-            $trip->user_id != $user->id
-        ) {
-            throw new UserHasNotPermissionsToDeleteTripException('User has not permissions to delete this trip');
-        }
+        $this->deleteTripValidator->validate($trip, $user);
+        $this->tripRepository->softDelete($trip);
 
-        $this->tripRepository->delete($trip->id);
+        return $trip;
+    }
+
+    /**
+     * @param Trip $trip
+     * @param $user
+     * @return Trip
+     */
+    public function restore(Trip $trip, $user)
+    {
+        $this->restoreTripValidator->validate($trip, $user);
+        $this->tripRepository->restore($trip);
+
+        return $trip;
     }
 }

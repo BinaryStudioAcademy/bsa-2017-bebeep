@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
+use App\Rules\DeleteTrip\TripOwnerRule;
+use App\Validators\DeleteTripValidator;
+use App\Validators\RestoreTripValidator;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
 use App\Services\PasswordService;
@@ -29,6 +32,14 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(PasswordServiceContract::class, PasswordService::class);
+
+        $this->app->bind(DeleteTripValidator::class, function ($app) {
+            return new DeleteTripValidator(new TripOwnerRule);
+        });
+
+        $this->app->bind(RestoreTripValidator::class, function ($app) {
+            return new RestoreTripValidator(new TripOwnerRule);
+        });
     }
 
     private function extendValidator()

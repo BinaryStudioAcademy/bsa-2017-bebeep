@@ -1,5 +1,5 @@
 body {
-    background: #efefef url('../images/cardboard.png')
+    /*background: #efefef url('../images/cardboard.png')*/
 }
 
 header {
@@ -8,4 +8,8 @@ header {
 
 h1 {
     font-size: 24px
+}
+
+.hover:hover {
+    cursor: pointer;
 }
