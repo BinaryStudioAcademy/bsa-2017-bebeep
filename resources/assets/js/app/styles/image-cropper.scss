@@ -1,0 +1,60 @@
+.image-cropper__dropzone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    padding: .5rem;
+    text-align: center;
+    border: 2px dashed #666;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: .6;
+    -webkit-transition: opacity .4s;
+    transition: opacity .4s;
+}
+.image-cropper__dropzone--active,
+.image-cropper__dropzone:active {
+    opacity: 1;
+}
+
+.image-cropper__base-cropper {
+    width: 300px;
+    height: 300px;
+    margin: auto;
+}
+
+.image-cropper__buttons-rotate {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.image-cropper__btn-image-rotate {
+    margin: 0 .25rem;
+    padding: .5rem .75rem;
+    cursor: pointer;
+}
+.image-cropper__btn-image-rotate-icon {
+    opacity: .6;
+    -webkit-transition: opacity .4s;
+    transition: opacity .4s;
+}
+.image-cropper__btn-image-rotate:hover .image-cropper__btn-image-rotate-icon {
+    opacity: 1;
+}
+
+.image-cropper__preview-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.image-cropper__image-preview {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+
+.image-cropper__btn-save {
+    cursor: pointer;
+}

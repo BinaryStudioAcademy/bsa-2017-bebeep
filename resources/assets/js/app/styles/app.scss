@@ -3,6 +3,10 @@ img {
     height: auto;
 }
 
+.hide {
+    display: none !important;
+}
+
 .noselect,
 .form-check-label {
     -webkit-user-select: none;

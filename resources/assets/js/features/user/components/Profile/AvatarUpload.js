@@ -3,6 +3,7 @@ import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 
 import '../../../../app/styles/react-cropper.scss';
+import '../../../../app/styles/image-cropper.scss';
 
 class AvatarUpload extends Component {
 
@@ -10,17 +11,12 @@ class AvatarUpload extends Component {
         super(props);
 
         this.state = {
-            image: ''
+            image: null
         };
 
         this.onImageDrop = this.onImageDrop.bind(this);
-        this.onImageCrop = this.onImageCrop.bind(this);
         this.imageRotate = this.imageRotate.bind(this);
-    }
-
-    imageRotate(e) {
-        const degree = e.target.getAttribute('rotate') === 'left' ? -90 : 90;
-        this.cropper.rotate(degree);
+        this.onImageSave = this.onImageSave.bind(this);
     }
 
     onImageDrop(files) {
@@ -29,61 +25,69 @@ class AvatarUpload extends Component {
         });
     }
 
-    onImageCrop() {
-        //console.log(this.cropper.getCroppedCanvas().toDataURL());
+    imageRotate(direction) {
+        const degree = direction === 'left' ? -90 : 90;
+        this.cropper.rotate(degree);
     }
 
-    handleImageUpload(file) {
-        console.log(file);
+    onImageSave() {
+        const avatar = this.cropper.getCroppedCanvas().toDataURL();
+        console.log(avatar);
     }
 
     render() {
+        const { image } = this.state;
+        const classHide = null === image ? ' hide' : '';
+
         return (
             <div className="row avatar-upload">
                 <div className="col-4">
                     <Dropzone
+                        className="image-cropper__dropzone noselect"
+                        activeClassName="image-cropper__dropzone--active noselect"
                         multiple={ false }
                         accept="image/*"
                         onDrop={ this.onImageDrop }
                         ref={ (dropzone) => { this.dropzone = dropzone; } }
                     >
                         <p>Drop an image or click to select a file to upload.</p>
-
-                        {/*<button type="button" className="btn btn-primary"
-                            onClick={ () => { this.dropzone.open() }}
-                        >
-                            Open File Dialog
-                        </button>*/}
                     </Dropzone>
                 </div>
 
-                <div className="col-6">
-                    <Cropper
-                        src={ this.state.image }
-                        style={ {height: 300, width: 300} }
-                        aspectRatio={ 1 / 1 }
-                        guides={ true }
-                        preview=".img-preview"
-                        autoCropArea={ 1 }
-                        crop={ this.onImageCrop }
-                        ref={ (cropper) => { this.cropper = cropper; } }
-                    />
-                    <div>
-                        <button className="btn" rotate="left"
-                                onClick={ this.imageRotate }>
-                            <i className="fa fa-undo" aria-hidden="true"></i>
-                        </button>
+                <div className="col-5">
+                    <div className={"image-cropper__cropper-wrapper" + classHide}>
+                        <Cropper
+                            className="image-cropper__base-cropper"
+                            src={ image }
+                            aspectRatio={ 1 / 1 }
+                            autoCropArea={ .8 }
+                            preview=".image-cropper__image-preview"
+                            viewMode={ 1 }
+                            ref={ (cropper) => { this.cropper = cropper; } }
+                        />
+                        <div className="image-cropper__buttons-rotate">
+                            <button className="btn image-cropper__btn-image-rotate"
+                                    onClick={ () => this.imageRotate('left') }>
+                                <i className="image-cropper__btn-image-rotate-icon fa fa-undo" aria-hidden="true"></i>
+                            </button>
 
-                        <button className="btn" rotate="right"
-                                onClick={ this.imageRotate }>
-                            <i className="fa fa-repeat" aria-hidden="true"></i>
-                        </button>
+                            <button className="btn image-cropper__btn-image-rotate"
+                                    onClick={ () => this.imageRotate('right') }>
+                                <i className="image-cropper__btn-image-rotate-icon fa fa-repeat" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <div className="col-2">
-                    <div className="img-preview"
-                        style={{ width: 100, height: 100, overflow: "hidden" }}></div>
+                    <div className={"image-cropper__preview-wrapper" + classHide}>
+                        <div className="image-cropper__image-preview"></div>
+
+                        <button className="image-cropper__btn-save btn btn-primary"
+                                onClick={ this.onImageSave }>
+                            Save
+                        </button>
+                    </div>
                 </div>
             </div>
         )
