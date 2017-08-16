@@ -8,7 +8,7 @@ use App\Models\Vehicle;
 class UpdateTripTest extends BaseTripTestCase
 {
     protected $url;
-    protected $method = 'PATCH';
+    protected $method = 'PUT';
 
     /**
      * @test
