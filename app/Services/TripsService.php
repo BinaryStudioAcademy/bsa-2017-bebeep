@@ -107,7 +107,7 @@ class TripsService
      * @param Trip $trip
      * @param UpdateTripRequest $request
      * @param $user
-     * @return Trip
+     * @return mixed
      */
     public function update(Trip $trip, UpdateTripRequest $request, $user)
     {
@@ -126,7 +126,7 @@ class TripsService
             'to' => $request->getTo(),
         ];
 
-        $result = $this->tripRepository->updateTrip($trip, $tripAttributes);
+        $result = $this->tripRepository->update($tripAttributes, $trip->id);
         $result->routes()->update($routeAttributes);
 
         return $result;

@@ -48,29 +48,4 @@ class TripRepository extends BaseRepository
 
         return $trip;
     }
-
-    /**
-     * Update trip
-     *
-     * @param Trip $trip
-     * @param $attributes
-     * @return Trip
-     */
-    public function updateTrip(Trip $trip, $attributes)
-    {
-        $trip->fill($attributes)->save();
-
-        return $trip;
-    }
-
-    /**
-     * Find trip by id
-     *
-     * @param $id
-     * @return mixed
-     */
-    public function findTripById($id)
-    {
-        return $this->find($id);
-    }
 }
