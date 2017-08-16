@@ -24,39 +24,23 @@ class UpdateTripTest extends BaseTripTestCase
     /**
      * @test
      */
-    public function guest_cant_edit_trip()
-    {
-        $response = $this->json($this->method, $this->url, []);
-        $response->assertStatus(400);
-    }
-
-    /**
-     * @test
-     */
-    public function user_can_not_edit_trip_if_not_all_fields_is_filled()
+    public function user_cant_edit_trip_if_trip_id_is_not_correct()
     {
         $user = $this->getDriverUser();
+        factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
 
-        $response = $this->jsonAsUser($user, []);
-        $response->assertStatus(422);
+        $this->url = $this->getUrl($trip->id + 1);
 
-        $response = $this->jsonAsUser($user, ['price' => null]);
-        $response->assertStatus(422)->assertJsonStructure(['price' => []]);
+        $response = $this->jsonAsUser($user);
+        $response->assertStatus(404);
 
-        $response = $this->jsonAsUser($user, ['start_at' => null]);
-        $response->assertStatus(422)->assertJsonStructure(['start_at' => []]);
-
-        $response = $this->jsonAsUser($user, ['end_at' => null]);
-        $response->assertStatus(422)->assertJsonStructure(['end_at' => []]);
-
-        $response = $this->jsonAsUser($user, ['vehicle_id' => null]);
-        $response->assertStatus(422)->assertJsonStructure(['vehicle_id' => []]);
-
-        $response = $this->jsonAsUser($user, ['from' => null]);
-        $response->assertStatus(422)->assertJsonStructure(['from' => []]);
-
-        $response = $this->jsonAsUser($user, ['to' => null]);
-        $response->assertStatus(422)->assertJsonStructure(['to' => []]);
+        $this->assertDatabaseHas(
+            'trips',
+            [
+                'id' => $trip->id,
+            ]
+        );
     }
 
     /**

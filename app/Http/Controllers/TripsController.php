@@ -72,15 +72,15 @@ class TripsController extends Controller
     /**
      * Update trip
      *
-     * @param $tripId
+     * @param $trip
      * @param UpdateTripRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update($tripId, UpdateTripRequest $request)
+    public function update(Trip $trip, UpdateTripRequest $request)
     {
         try{
-            $trip = $this->tripsService->update($tripId, $request, Auth::user());
-            return response()->json($trip, 200);
+            $result = $this->tripsService->update($trip, $request, Auth::user());
+            return response()->json($result, 200);
         }
         catch (TripNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], 404);

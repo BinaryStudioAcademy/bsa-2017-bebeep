@@ -94,17 +94,15 @@ class TripsService
     /**
      * Update trip service
      *
-     * @param $tripId
+     * @param $trip
      * @param UpdateTripRequest $request
      * @param $user
      * @return Trip
      * @throws TripNotFoundException
      * @throws UserCantEditTripException
      */
-    public function update($tripId, UpdateTripRequest $request, $user)
+    public function update(Trip $trip, UpdateTripRequest $request, $user)
     {
-        $trip = $this->tripRepository->findTripById($tripId);
-
         if(is_null($trip)) {
             throw new TripNotFoundException("Trip not found");
         }
