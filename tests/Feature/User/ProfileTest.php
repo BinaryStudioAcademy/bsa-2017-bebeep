@@ -85,8 +85,8 @@ class ProfileTest extends JwtTestCase
                 'about_me' => null,
                 'role_driver' => true,
                 'role_passenger' => false,
-                'can_uncheck_driver' => true,
-                'can_uncheck_passenger' => true,
+                'can_uncheck_role_driver' => true,
+                'can_uncheck_role_passenger' => true,
             ]]);
     }
 
@@ -103,8 +103,8 @@ class ProfileTest extends JwtTestCase
              ->assertExactJson(['data' => $this->passengerData + [
                 'role_driver' => false,
                 'role_passenger' => true,
-                'can_uncheck_driver' => true,
-                'can_uncheck_passenger' => true,
+                'can_uncheck_role_driver' => true,
+                'can_uncheck_role_passenger' => true,
             ]]);
     }
 
@@ -121,8 +121,8 @@ class ProfileTest extends JwtTestCase
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
-                'can_uncheck_driver' => true,
-                'can_uncheck_passenger' => true,
+                'can_uncheck_role_driver' => true,
+                'can_uncheck_role_passenger' => true,
             ]]);
     }
 
@@ -142,8 +142,8 @@ class ProfileTest extends JwtTestCase
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
-                'can_uncheck_driver' => false,
-                'can_uncheck_passenger' => true,
+                'can_uncheck_role_driver' => false,
+                'can_uncheck_role_passenger' => true,
             ]]);
     }
 
@@ -158,8 +158,8 @@ class ProfileTest extends JwtTestCase
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
-                'can_uncheck_driver' => true,
-                'can_uncheck_passenger' => true,
+                'can_uncheck_role_driver' => true,
+                'can_uncheck_role_passenger' => true,
             ]]);
     }
 
@@ -179,8 +179,8 @@ class ProfileTest extends JwtTestCase
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
-                'can_uncheck_driver' => true,
-                'can_uncheck_passenger' => false,
+                'can_uncheck_role_driver' => true,
+                'can_uncheck_role_passenger' => false,
             ]]);
     }
 
@@ -293,8 +293,8 @@ class ProfileTest extends JwtTestCase
 
         $response->assertStatus(200)
              ->assertExactJson(['data' => $updatedData + [
-                'can_uncheck_driver' => false,
-                'can_uncheck_passenger' => true,
+                'can_uncheck_role_driver' => false,
+                'can_uncheck_role_passenger' => true,
             ]]);
     }
 
