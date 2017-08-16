@@ -1,18 +1,11 @@
 import React from 'react';
-import CreateTripForm from './CreateTripForm';
+import EditTripForm from './EditTripForm';
 import DirectionsMap from "../../../../app/components/DirectionsMap";
 import {geocodeByAddress} from 'react-places-autocomplete';
 import Validator from '../../../../app/services/Validator';
-import {securedRequest} from '../../../../app/services/RequestService';
-import {createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
 import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
-import {tripCreateSuccess} from '../../actions';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router';
-import '../../styles/create_trip.scss';
 
-class CreateTripContainer extends React.Component {
+class EditTripContainer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -82,39 +75,6 @@ class CreateTripContainer extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-
-        let time = getStartAndEndTime(e.target['start_at'].value, this.endTime);
-        let data = {
-            vehicle_id: e.target['vehicle_id'].value,
-            start_at: time.start_at,
-            end_at: time.end_at,
-            price: e.target['price'].value,
-            seats: e.target['seats'].value,
-            from: this.state.startPoint.place,
-            to: this.state.endPoint.place,
-        };
-
-        const validated = Validator.validate(createTripRules, data);
-
-        if (!validated.valid) {
-            this.setState({errors: validated.errors});
-            return;
-        }
-
-        this.setState({errors: {}});
-
-
-        securedRequest.post('/api/v1/trips', data).then((response) => {
-            this.props.tripCreateSuccess(response.data);
-            this.setState({errors: {}});
-            if(response.status === 200) {
-                browserHistory.push('/dashboard');
-            }
-        }).catch((error) => {
-            this.setState({
-                errors: error.response.data
-            })
-        });
     }
 
     render() {
@@ -137,7 +97,8 @@ class CreateTripContainer extends React.Component {
         return (
             <div className="row">
                 <div className="col-sm-6">
-                    <CreateTripForm
+                    <EditTripForm
+                        id={this.props.id}
                         errors={this.state.errors}
                         startPoint={startPointProps}
                         endPoint={endPointProps}
@@ -148,20 +109,15 @@ class CreateTripContainer extends React.Component {
                     />
                 </div>
                 <div className="col-sm-6">
-                    <DirectionsMap title="Preview Trip"
-                                   from={getCoordinatesFromPlace(this.state.startPoint.place)}
-                                   to={getCoordinatesFromPlace(this.state.endPoint.place)}
-                                   endTime={this.setEndTime.bind(this)}
+                    <DirectionsMap
+                        title="Preview Trip"
+                        from={getCoordinatesFromPlace(this.state.startPoint.place)}
+                        to={getCoordinatesFromPlace(this.state.endPoint.place)}
+                        endTime={this.setEndTime.bind(this)}
                     />
                 </div>
             </div>
         );
     }
 }
-
-const CreateTripContainerConnected = connect(
-    null,
-    (dispatch) => bindActionCreators({tripCreateSuccess}, dispatch)
-)(CreateTripContainer);
-
-export default CreateTripContainerConnected;
+export default EditTripContainer;

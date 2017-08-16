@@ -18,6 +18,7 @@ import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 
 import CreateTrip from '../features/trip/layouts/CreateTrip';
+import EditTrip from '../features/trip/layouts/EditTrip';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 
@@ -36,7 +37,7 @@ export default (
 
             <Route path="trip">
                 <Route path="create" component={ CreateTrip } />
-                <Route path="edit/:id" component={ Vehicles /*TripEdit*/ } />
+                <Route path="edit/:id" component={ EditTrip } />
             </Route>
 
             <Route path="logout" component={ Logout } />
