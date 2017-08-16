@@ -1,10 +1,10 @@
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { doCreate } from '../../actions';
 import Input from './Input';
 import Select from 'react-select';
 import { VehicleValidate } from '../../../../app/services/VehicleService';
+import { securedRequest } from '../../../../app/services/RequestService';
 
 class Form extends React.Component {
 
@@ -73,11 +73,11 @@ class Form extends React.Component {
         this.props.actions.doLogin(this.state.credentials);
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.successCreate) {
-    //         browserHistory.push('/mycars');
-    //     }
-    // }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.successCreate) {
+            browserHistory.push('/mycars');
+        }
+    }
 
     logChange(val) {
 
@@ -85,7 +85,7 @@ class Form extends React.Component {
     };
 
     getBrandOptions = () => {
-        return axios.get(`/api/v1/car-brand`)
+        return securedRequest.get(`/api/v1/car-brand`)
             .then((response) => {
                 return response.data;
             }).then((json) => {
@@ -95,7 +95,7 @@ class Form extends React.Component {
 
     getModelOptions = () => {
         // let idBrand = this.state.brand.selected;
-        return axios.get(`/api/v1/car-brand/1/models`)
+        return securedRequest.get(`/api/v1/car-brand/1/models`)
             .then((response) => {
                 return response.data;
             }).then((json) => {
@@ -106,7 +106,7 @@ class Form extends React.Component {
 
     // getModelOptions = (idBrand) => {
     //     if (idBrand) {
-    //         return axios.get(`/api/v1/carModel/${idBrand}`)
+    //         return securedRequest.get(`/api/v1/carModel/${idBrand}`)
     //             .then((response) => {
     //                 return response.data;
     //             }).then((json) => {
@@ -119,7 +119,7 @@ class Form extends React.Component {
     // }
 
     getBodyOptions = () => {
-      return axios.get(`/api/v1/car-body`)
+      return securedRequest.get(`/api/v1/car-body`)
         .then((response) => {
           return response.data;
         }).then((json) => {
@@ -128,7 +128,7 @@ class Form extends React.Component {
     }
 
     getColorOptions = () => {
-      return axios.get(`/api/v1/car-color`)
+      return securedRequest.get(`/api/v1/car-color`)
         .then((response) => {
           return response.data;
         }).then((json) => {

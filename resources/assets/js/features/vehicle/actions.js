@@ -1,5 +1,5 @@
 import * as actions from './actionTypes';
-import axios from 'axios';
+import { securedRequest } from '../../app/services/RequestService';
 
 const vehiclesData = [
     {id: 1, name: 'BMW 007', type: 'Car 1'},
@@ -42,9 +42,9 @@ export const createFailed = data => ({
 
 export const doCreate = (data) => {
     return dispatch => {
-        axios.post('/api/v1/car', data)
+        securedRequest.post('/api/v1/car', data)
             .then(response => dispatch(createSuccess(response.data)))
-            .catch(error => dispatch(createFailed(error.response.data)))
+            .catch(error => dispatch(createFailed(/*error.response.data*/)))
         ;
     };
 };

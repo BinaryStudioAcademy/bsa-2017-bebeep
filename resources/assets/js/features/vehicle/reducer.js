@@ -25,14 +25,19 @@ export default function (state = initialState, action) {
             };
         }
 
-        /*case actions.VEHICLE_ADD: {
+        case actions.CREATE_VEHICLE_SUCCESS: {
             return {
                 ...state,
+                vehicle: {
+                    create: {
+                        success: true
+                    }
+                },
                 users: [...state.users, action.user]
             };
         }
 
-        case actions.VEHICLE_EDIT: {
+        /*case actions.VEHICLE_EDIT: {
             return {
                 ...state,
                 vehicle: action.vehicle
