@@ -3,6 +3,10 @@ import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
 class EditTripForm extends React.Component {
+    componentDidMount() {
+
+    }
+
     render() {
         const {errors} = this.props;
 
