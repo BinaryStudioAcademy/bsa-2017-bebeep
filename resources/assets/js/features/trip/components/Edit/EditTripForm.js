@@ -68,7 +68,7 @@ class EditTripForm extends React.Component {
                     </Input>
                     <div className="form-group">
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">Create new trip</button>
+                            <button type="submit" className="btn btn-primary">Edit trip</button>
                         </div>
                     </div>
                 </div>

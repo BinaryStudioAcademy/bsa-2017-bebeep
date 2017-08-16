@@ -12,11 +12,11 @@ class EditTripContainer extends React.Component {
         this.state = {
             errors: {},
             startPoint: {
-                address: '',
+                address: 'Киев, Kyiv city, Ukraine',
                 place: null,
             },
             endPoint: {
-                address: '',
+                address: 'Одесса, Ukraine',
                 place: null,
             }
         };
