@@ -9,7 +9,7 @@ use App\Models\Vehicle;
 class RestoreTripTest extends BaseTripTestCase
 {
     protected $url;
-    protected $method = 'PUT';
+    protected $method = 'DELETE';
 
     /**
      * @test

@@ -50,7 +50,7 @@ class Trip extends React.Component {
     }
 
     restoreSelf() {
-        securedRequest.put('/api/v1/trips/' + this.props.trip.id + '/restore').then(() => {
+        securedRequest.delete('/api/v1/trips/trash/' + this.props.trip.id).then(() => {
             this.setState({
                 deletable: this.props.deletable,
                 editable: this.props.editable,
