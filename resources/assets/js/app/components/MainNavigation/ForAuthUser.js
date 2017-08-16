@@ -38,11 +38,11 @@ class ForAuthUser extends Component {
                         Create new trip
                     </Link>
                   </li>
-                    {/*TODO: DELETE THIS*/}
                   <li className="nav-item">
-                     <Link to="/trip/edit/1" className="nav-link" activeClassName="active">
-                        Edit trip
-                  </Link></li>
+                      <Link to="/trips" className="nav-link" activeClassName="active">
+                          My trips
+                      </Link>
+                  </li>
                 </ul>
 
                 <div className={"nav-item dropdown " + dropdownClass}>

@@ -12,22 +12,26 @@ use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
 use App\User;
 use App\Validators\DeleteTripValidator;
+use App\Validators\RestoreTripValidator;
 use Prettus\Repository\Contracts\CriteriaInterface;
 
 class TripsService
 {
     private $tripRepository;
     private $deleteTripValidator;
+    private $restoreTripValidator;
 
     /**
      * TripsService constructor.
      * @param TripRepository $tripRepository
      * @param DeleteTripValidator $deleteTripValidator
+     * @param RestoreTripValidator $restoreTripValidator
      */
-    public function __construct(TripRepository $tripRepository, DeleteTripValidator $deleteTripValidator)
+    public function __construct(TripRepository $tripRepository, DeleteTripValidator $deleteTripValidator, RestoreTripValidator $restoreTripValidator)
     {
         $this->tripRepository = $tripRepository;
         $this->deleteTripValidator = $deleteTripValidator;
+        $this->restoreTripValidator = $restoreTripValidator;
     }
 
     /**
@@ -104,6 +108,19 @@ class TripsService
     {
         $this->deleteTripValidator->validate($trip, $user);
         $this->tripRepository->softDelete($trip);
+
+        return $trip;
+    }
+
+    /**
+     * @param Trip $trip
+     * @param $user
+     * @return Trip
+     */
+    public function restore(Trip $trip, $user)
+    {
+        $this->restoreTripValidator->validate($trip, $user);
+        $this->tripRepository->restore($trip);
 
         return $trip;
     }
