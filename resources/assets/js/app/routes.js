@@ -6,6 +6,10 @@ import NotFound from './layouts/NotFound';
 
 import SearchIndex from '../features/search/index/layouts/SearchIndex';
 
+import { LoginForm, Logout } from '../features/user/layouts/Login';
+import PasswordReset from '../features/user/layouts/PasswordReset';
+import { RegisterForm, RegisterSuccess, RegisterVerify } from '../features/user/layouts/Register';
+
 import Dashboard from '../features/user/layouts/Dashboard';
 import {
     ProfileBase,
@@ -14,86 +18,67 @@ import {
     ProfilePassword
 } from '../features/user/layouts/Profile';
 
-/* import { Form, Success, Verify } from '../features/user/layouts/Register'; */
-/* Put these layouts into Register dir and create index.js in it */
-/* like index.js in layouts/Profile */
-
-import { RegisterForm, RegisterSuccess, RegisterVerify } from '../features/user/layouts/Register';
-import { LoginForm, Logout } from '../features/user/layouts/Login';
-import PasswordReset from '../features/user/layouts/PasswordReset';
-
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 
 import CreateTrip from '../features/trip/layouts/CreateTrip';
 
+import { requireAuth, requireGuest } from '../app/services/AuthService';
+
 export default (
     <Route path="/" component={ App }>
+        {/* Index page */}
         <IndexRoute component={ SearchIndex } />
 
-        {/* User registration and email verification */}
-        <Route path="registration" component={ RegisterForm } />
-        <Route path="registration/success" component={ RegisterSuccess } />
-        <Route path="verification" component={ RegisterVerify } />
+        {/* Routes only for auth users */}
+        <Route onEnter={ requireAuth }>
 
-        {/* User login, logout and password reset */}
-        <Route path="login" component={ LoginForm } />
-        <Route path="logout" component={ Logout } />
-        <Route path="password/reset" component={ PasswordReset } />
-
-        {/* User dashboard */}
-        <Route path="dashboard" onEnter={ requireAuth }>
-            <IndexRoute component={ Dashboard } />
-
-            {/* These routes for user vehicles */}
-            <Route path="my-vehicles">
-                {/* All user vehicles */}
-                <IndexRoute component={ Vehicles /* User vehicles layout */ } />
-
-                {/* User vehicle by id */}
-                <Route path=":id" component={ VehicleDetails /* User vehicle edit layout */ } />
-
-                {/* User vehicle create */}
-                <Route path="create" component={ Vehicles /* User vehicle create layout */ } />
+            {/* Vehicle creating and show details */}
+            <Route path="vehicles">
+                <IndexRoute component={ Vehicles } />
+                <Route path="create" component={ Vehicles } />
+                <Route path=":id" component={ VehicleDetails } />
             </Route>
 
-            {/* These routes for user trips */}
-            <Route path="my-trips">
-                {/* All user vehicles */}
-                <IndexRoute component={ Dashboard /* User trips layout */ } />
-
-                {/* User trip by id */}
-                <Route path=":id" component={ Dashboard /* User trip edit layout */ } />
+            {/* Trip creating and editing */}
+            <Route path="trip">
+                <Route path="create" component={ CreateTrip } />
+                <Route path="edit/:id" component={ Vehicles /*TripEdit*/ } />
             </Route>
 
-            {/* This route for user bookings */}
-            <Route path="my-bookings" component={ Dashboard /* User bookings layout */ } />
+            {/* User dashboard */}
+            <Route path="dashboard">
+                <IndexRoute component={ Dashboard } />
 
-            {/* These routes for user profile */}
-            <Redirect from='profile' to='profile/general' />
-
-            <Route path="profile" component={ ProfileBase }>
-                {/* User general profile */}
-                <Route path="general" component={ ProfileGeneral } />
-                {/* User avatar */}
-                <Route path="avatar" component={ ProfileAvatar } />
-                {/* User password change */}
-                <Route path="password" component={ ProfilePassword } />
+                {/* User profile */}
+                <Redirect from='profile' to='profile/general' />
+                <Route path="profile" component={ ProfileBase }>
+                    {/* User profile general */}
+                    <Route path="general" component={ ProfileGeneral } />
+                    {/* User profile avatar */}
+                    <Route path="avatar" component={ ProfileAvatar } />
+                    {/* User profile password */}
+                    <Route path="password" component={ ProfilePassword } />
+                </Route>
             </Route>
+
+            {/* User logout */}
+            <Route path="logout" component={ Logout } />
         </Route>
 
-        {/* This route for trip creating */}
-        <Route path="trip/create" component={ CreateTrip } onEnter={ requireAuth } />
+        {/* Routes only for guest users */}
+        <Route onEnter={ requireGuest }>
+            {/* User registration and email verification */}
+            <Route path="registration" component={ RegisterForm } />
+            <Route path="registration/success" component={ RegisterSuccess } />
+            <Route path="verification" component={ RegisterVerify } />
 
+            {/* User login and password reset */}
+            <Route path="login" component={ LoginForm } />
+            <Route path="password/reset" component={ PasswordReset } />
+        </Route>
+
+        {/* Page not found */}
         <Route path="*" component={ NotFound } />
     </Route>
 );
-
-function requireAuth(nextState, replace) {
-    if (!sessionStorage.jwt) {
-        replace({
-            pathname: '/login',
-            state: { nextPathname: nextState.location.pathname }
-        })
-    }
-}

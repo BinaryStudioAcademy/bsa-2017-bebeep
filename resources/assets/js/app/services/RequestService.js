@@ -1,19 +1,21 @@
 import axios from 'axios';
+import { getAuthToken } from './AuthService';
 
-export const makeRequest = (method, ...args) => {
-    if (typeof axios[method] === 'function') {
-        return axios[method].apply(this, args);
+const requestParams = {
+    headers: {
+        'Accept': 'application/json',
     }
 };
 
-export const securedRequest = (method, ...args) => {
-    // do something with header (args[2].headers)
-    return makeRequest(method, ...args)
+const setAuthHeaders = (config) => {
+    config.headers['Authorization'] = 'Bearer ' + getAuthToken(); // TODO: token is GLOBAL STATE
+
+    return config;
 };
 
-const RequestService = {
-    makeRequest,
-    securedRequest
-};
+const simpleRequest = axios.create(requestParams);
+const securedRequest = axios.create(requestParams);
 
-export default RequestService;
+securedRequest.interceptors.request.use(setAuthHeaders, null);
+
+export { simpleRequest, securedRequest };

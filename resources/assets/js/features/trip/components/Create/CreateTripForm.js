@@ -7,7 +7,7 @@ class CreateTripForm extends React.Component {
         const {errors} = this.props;
 
         return (
-            <form role="form" className="card trip-create-from" action="/api/trips/create" method="POST"
+            <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
                   onSubmit={this.props.onSubmit}>
                 <div className="card-header">
                     Create Trip
