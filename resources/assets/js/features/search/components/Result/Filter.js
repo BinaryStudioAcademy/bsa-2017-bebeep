@@ -2,16 +2,49 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import Slider, {Range} from 'rc-slider';
 import moment from 'moment';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {filter} from '../../actions';
 import '../../styles/filter.scss';
 
 class Filter extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            startDate: null,
-            timeRange: [0, 24],
-            priceRange: [10, 300],
+            startDate: props.startDate,
+            timeRange: props.filterData.time,
+            priceRange: props.filterData.price,
         };
+        this.dateChange = this.dateChange.bind(this);
+        this.timeChange = this.timeChange.bind(this);
+        this.priceChange = this.priceChange.bind(this);
+    }
+
+    dateChange(startDate) {
+        this.setState({startDate});
+    }
+
+    timeChange(timeRange) {
+        this.setState({timeRange});
+    }
+
+    priceChange(priceRange) {
+        this.setState({priceRange});
+    }
+
+    setFilter({startDate, timeRange, priceRange}) {
+        this.props.filter({
+            date: startDate ? startDate.unix() : null,
+            time: timeRange,
+            price: priceRange,
+        });
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextState.startDate !== this.state.startDate) {
+            this.setFilter(nextState);
+        }
+        return true;
     }
 
     render() {
@@ -24,8 +57,8 @@ class Filter extends React.Component {
                         <DatePicker
                             todayButton={"Today"}
                             selected={this.state.startDate}
-                            onChange={date => this.setState({startDate: date})}
-                            placeholderText="Date"
+                            onChange={this.dateChange}
+                            placeholderText="mm/dd/yyyy"
                             minDate={moment()}
                             className="form-control"
                             isClearable={true}
@@ -36,8 +69,9 @@ class Filter extends React.Component {
                             max={24}
                             allowCross={false}
                             defaultValue={timeRange}
-                            onChange={(value) => this.setState({timeRange: value})}
+                            onChange={this.timeChange}
                             pushable
+                            onAfterChange={() => this.setFilter(this.state)}
                         />
                     </div>
                 </div>
@@ -48,13 +82,14 @@ class Filter extends React.Component {
                             From <span className="filter__currency">$</span>{priceRange[0]} to <span className="filter__currency">$</span>{priceRange[1]}
                         </div>
                         <Range
-                            min={10}
-                            max={300}
+                            min={0}
+                            max={1000}
                             step={10}
                             allowCross={false}
-                            defaultValue={priceRange}
-                            onChange={(value) => this.setState({priceRange: value})}
+                            defaultValue={[0, 1000]}
+                            onChange={this.priceChange}
                             pushable
+                            onAfterChange={() => this.setFilter(this.state)}
                         />
                     </div>
                 </div>
@@ -63,4 +98,10 @@ class Filter extends React.Component {
     }
 }
 
-export default Filter;
+export default connect(
+    (state) => ({
+        filterData: state.search.filter,
+        startDate: state.search.start_at,
+    }),
+    (dispatch) => bindActionCreators({filter}, dispatch)
+)(Filter);

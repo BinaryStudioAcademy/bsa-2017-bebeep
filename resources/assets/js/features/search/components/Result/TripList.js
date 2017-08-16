@@ -77,10 +77,16 @@ class TripList extends React.Component {
 
     render() {
         const { tripsList, limit, page, sort, order, preloader } = this.state;
-        const currentPage = page > tripsList.size / limit ? Math.ceil(tripsList.size / limit) : page;
+        const countPage = tripsList.size / limit || 1;
+        const currentPage = page > countPage ? Math.ceil(countPage) : (page < 1 ? 1 : page);
         const preload = preloader
             ? (<div className="trip-list__preloader"><i className="fa fa-circle-o-notch fa-spin fa-4x fa-fw" /></div>)
             : '';
+        const notFoundMessage = tripsList.data.length === 0 ? (
+                <div className="d-flex justify-content-center trip-list__not-found">
+                    <span className="align-self-center">Trips not found ...</span>
+                </div>
+            ) : '';
         return (
             <div className="trip-list container">
                 <div className="row trip-list__header">
@@ -100,6 +106,7 @@ class TripList extends React.Component {
                 </div>
                 <div className="trip-list__item-container">
                     {preload}
+                    {notFoundMessage}
                     {tripsList.data.map((trip) =>
                         <Link key={trip.id}  to={`/trip/${trip.id}`} className="trip-list__item-link">
                             <TripItem trip={trip} />

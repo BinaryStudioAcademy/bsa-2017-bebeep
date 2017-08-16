@@ -10,7 +10,11 @@ const initialState = {
         name: '',
         coordinate: {lan: null, lng: null,}
     },
-    start_at: null
+    start_at: null,
+    filter: {
+        time: [0, 24],
+        price: [0, 0]
+    }
 };
 
 export default function (state = initialState, action) {
@@ -29,6 +33,16 @@ export default function (state = initialState, action) {
                 },
                 start_at: action.data.start_at,
 
+            };
+        case actions.SEARCH_FILTER:
+            return {
+                ...state,
+                start_at: action.data.date,
+                filter: {
+                    ...state.filter,
+                    time: action.data.time,
+                    price: action.data.price
+                }
             };
         default:
             return state;
