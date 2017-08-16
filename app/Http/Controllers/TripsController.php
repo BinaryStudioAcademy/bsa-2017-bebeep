@@ -92,4 +92,21 @@ class TripsController extends Controller
 
         return response()->json($trip);
     }
+
+    /**
+     * @param $tripId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restore($tripId)
+    {
+        $trip = Trip::withTrashed()->where('id', $tripId)->firstOrFail();
+
+        try {
+            $this->tripsService->restore($trip, Auth::user());
+        } catch (\Exception $e) {
+            return response()->json(['errors' => [$e->getMessage()]], 422);
+        }
+
+        return response()->json($trip);
+    }
 }
