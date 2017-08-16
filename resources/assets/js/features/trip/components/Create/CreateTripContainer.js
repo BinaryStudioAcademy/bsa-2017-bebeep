@@ -9,6 +9,8 @@ import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService
 import {tripCreateSuccess} from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
+
 import '../../styles/create_trip.scss';
 
 class CreateTripContainer extends React.Component {
@@ -101,16 +103,19 @@ class CreateTripContainer extends React.Component {
         }
 
         this.setState({errors: {}});
-
-
-        securedRequest('post', '/api/v1/trips', data).then((response) => {
+        
+        securedRequest.post('/api/v1/trips', data).then((response) => {
             this.props.tripCreateSuccess(response.data);
             this.setState({errors: {}});
+            if(response.status === 200) {
+                browserHistory.push('/dashboard');
+            }
         }).catch((error) => {
             this.setState({
                 errors: error.response.data
             })
         });
+
     }
 
     render() {
