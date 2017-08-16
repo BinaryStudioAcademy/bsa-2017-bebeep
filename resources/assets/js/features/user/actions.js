@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 import * as actions from './actionTypes';
+
 import { RegisterValidator } from 'app/services/UserService';
+import { simpleRequest, securedRequest } from 'app/services/RequestService';
+import { getAuthToken, initSession, destroySession } from 'app/services/AuthService';
 
 export const registerSuccess = data => ({
     type: actions.USER_REGISTER_SUCCESS,
@@ -55,16 +58,16 @@ export const doLogin = (credentials) => dispatch => {
         return dispatch(loginFormFailed({ password: passwordValid.error }));
     }
 
-    axios.post('/api/user/authorization', {
+    simpleRequest.post('/api/user/authorization', {
         email: credentials.email,
         password: credentials.password
     })
         .then(response => {
-            sessionStorage.setItem('jwt', response.data.token);
+            initSession(response.data.token);
             dispatch(loginSuccess(response.data))
         })
         .catch(error => {
-            sessionStorage.removeItem('jwt');
+            destroySession();
             dispatch(processFailedLoginResponse(error.response))
         });
 
@@ -81,17 +84,14 @@ export const logoutFailed = response => ({
 });
 
 export const doLogout = (data) => {
-    const token = sessionStorage.getItem('jwt');
-    const axiosLogout = axios.create();
+    const token = getAuthToken();
 
     return dispatch => {
-        axiosLogout.defaults.headers.post['Authorization'] = "Bearer " + token;
-
-        axiosLogout.post('/api/user/logout', {
+        securedRequest.post('/api/user/logout', {
             token: token
         })
             .then(response => {
-                sessionStorage.removeItem('jwt');
+                destroySession();
                 dispatch(logoutSuccess(response))
             })
             .catch(error => {

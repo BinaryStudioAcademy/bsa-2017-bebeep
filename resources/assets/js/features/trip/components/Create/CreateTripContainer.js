@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
 import { geocodeByAddress } from 'react-places-autocomplete';
 
 import Validator from 'app/services/Validator';
@@ -12,9 +13,10 @@ import { createTripRules, getStartAndEndTime } from 'app/services/TripService';
 import CreateTripForm from './CreateTripForm';
 import { tripCreateSuccess } from 'features/trip/actions';
 
-import '../../styles/create_trip.scss';
+import 'features/trip/styles/create_trip.scss';
 
 class CreateTripContainer extends React.Component {
+
     constructor(props) {
         super(props);
 
@@ -105,14 +107,18 @@ class CreateTripContainer extends React.Component {
 
         this.setState({errors: {}});
 
-        securedRequest('post', '/api/trips/create', data).then((response) => {
+        securedRequest.post('/api/v1/trips', data).then((response) => {
             this.props.tripCreateSuccess(response.data);
             this.setState({errors: {}});
+            if(response.status === 200) {
+                browserHistory.push('/dashboard');
+            }
         }).catch((error) => {
             this.setState({
                 errors: error.response.data
             })
         });
+
     }
 
     render() {

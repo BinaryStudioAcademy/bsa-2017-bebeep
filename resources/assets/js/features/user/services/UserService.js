@@ -1,8 +1,8 @@
-import { makeRequest } from 'app/services/RequestService';
+import { simpleRequest } from 'app/services/RequestService';
 
 const UserService = {
     resetPassword(email, token, password) {
-        return makeRequest('put', `/api/v1/password-resets`, {
+        return simpleRequest.put('/api/v1/password-resets', {
             email: email,
             password: password
         }, {

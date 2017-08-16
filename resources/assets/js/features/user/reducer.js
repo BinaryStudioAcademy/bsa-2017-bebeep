@@ -1,13 +1,14 @@
 import { browserHistory } from 'react-router';
 
 import * as actions from './actionTypes';
+import { isAuthorized } from 'app/services/AuthService';
 
 const initialState = {
     register: {
         success: false,
     },
     login: {
-        success: !!sessionStorage.jwt,
+        success: isAuthorized(),
         errors: {},
     }
 };
@@ -26,7 +27,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 login: {
-                    success: !!sessionStorage.jwt
+                    success: isAuthorized()
                 }
             };
         case actions.LOGIN_VERIFY_FAILED:
@@ -54,7 +55,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 login: {
-                    success: !!sessionStorage.jwt,
+                    success: isAuthorized(),
                     errors: action.response.data,
                     httpStatus: action.response.status,
                 }

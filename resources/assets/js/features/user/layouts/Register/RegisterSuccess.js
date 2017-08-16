@@ -13,7 +13,6 @@ class RegisterSuccess extends Component {
     }
 
     render() {
-
         return (
             <div>
                 <PageHeader header={ 'Register' } />

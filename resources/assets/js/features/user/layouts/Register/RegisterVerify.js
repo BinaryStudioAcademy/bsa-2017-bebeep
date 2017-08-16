@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 
 import PageHeader from 'app/components/PageHeader';
 
-import { makeRequest } from 'app/services/RequestService';
+import { simpleRequest } from 'app/services/RequestService';
 
 class RegisterVerify extends React.Component {
 
@@ -26,7 +26,7 @@ class RegisterVerify extends React.Component {
         if (result) {
             this.setState({errors: result});
         } else {
-            return makeRequest('post', '/api/user/verify', {
+            return simpleRequest.post('/api/user/verify', {
                 email: email,
                 token: token
             })

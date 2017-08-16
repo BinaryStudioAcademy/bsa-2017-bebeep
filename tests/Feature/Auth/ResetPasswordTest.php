@@ -6,13 +6,9 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Password;
 use Tests\JwtTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ResetPasswordTest extends JwtTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     const DEFAULT_EMAIL = 'default.email@example.com';
 
     protected $urlPasswordReset;
