@@ -3,9 +3,11 @@
 namespace Tests;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class JwtTestCase extends TestCase
 {
+    use DatabaseMigrations;
 
     protected $user;
 
