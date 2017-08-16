@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import PageHeader from '../../../../app/components/PageHeader';
-import PasswordForm from '../../components/Account/PasswordForm';
+import PasswordForm from '../../components/Profile/PasswordForm';
 
 class ProfilePassword extends Component {
 
