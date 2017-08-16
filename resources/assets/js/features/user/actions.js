@@ -110,19 +110,14 @@ export const doLogout = (data) => {
 
 export const getProfile = () => {
     return dispatch => {
-        axios.get('/api/user/profile', {headers: {
-            'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
-        }})
+        securedRequest.get('/api/user/profile')
             .then(response => {
-                console.log(response.data);
                 dispatch({
                     type: actions.USER_PROFILE_GET_SUCCESS,
                     data: response.data.data
                 })
             })
-            .catch(error => {
-                console.log(error);
-            });
+            .catch(error => {});
     };
 };
 

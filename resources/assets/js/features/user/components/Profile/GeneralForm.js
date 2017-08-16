@@ -8,37 +8,71 @@ import { getProfile, editProfile, changeRole } from '../../actions';
 import Input from '../../../../app/components/Input';
 import Textarea from '../../../../app/components/Textarea';
 
+import UserService from '../../services/UserService';
+
+import { RegisterValidator } from '../../../../app/services/UserService';
+
 class GeneralForm extends Component {
 
     constructor(props) {
         super(props);
 
+        this.state = {
+            profile: {},
+            isValid: true,
+            errors: {}
+        };
+
+        this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.handleRoleDriverChange = this.handleRoleDriverChange.bind(this);
-        this.handleRolePassengerChange = this.handleRolePassengerChange.bind(this);
     }
 
     componentDidMount() {
-        this.props.getProfile();
+        UserService.getProfileGeneral()
+            .then(response => {
+                this.setState({
+                    profile: response.data,
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
-    handleRoleDriverChange(e) {
-        this.props.changeRole(e.target.checked, {
-            role: 'driver',
-            can_check: this.props.profile.can_uncheck_driver
+    handleChange(e) {
+        const target = e.target;
+        const name = target.name;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+
+        if ((name === 'role_driver' ||
+            name === 'role_passenger') &&
+            !this.state.profile['can_uncheck_' + name]
+        ) {
+            e.target.checked = !e.target.checked;
+            return;
+        }
+
+        const validate = RegisterValidator[name](value);
+        this.setState({
+            ...this.state.errors,
+            isValid: validate.valid,
+            errors: {
+                [name]: validate.error
+            }
         });
-    }
 
-    handleRolePassengerChange(e) {
-        this.props.changeRole(e.target.checked, {
-            role: 'passenger',
-            can_check: this.props.profile.can_uncheck_passenger
+        this.setState({
+            profile: {
+                ...this.state.profile,
+                [name]: value,
+            }
         });
     }
 
     onSubmit(e) {
         e.preventDefault();
-        this.props.editProfile({
+
+        const profileData = {
             first_name: e.target.first_name.value,
             last_name: e.target.last_name.value,
             email: e.target.email.value,
@@ -47,20 +81,22 @@ class GeneralForm extends Component {
             role_driver: e.target.role_driver.checked,
             role_passenger: e.target.role_passenger.checked,
             about_me: e.target.about_me.value,
-        });
+        };
     }
 
     render() {
-        const { profile, errors } = this.props;
+        const { profile, errors } = this.state;
 
         if (_.isEmpty(profile)) {
             return (<div></div>);
         }
 
+        console.log(this.state);
+
         return (
             <form role="form" className="card profile-form"
                   method="POST"
-                  action="/api/user/profile/edit"
+                  action="/api/user/profile"
                   onSubmit={ this.onSubmit }
             >
                 <div className="card-block">
@@ -71,6 +107,7 @@ class GeneralForm extends Component {
                         value={ profile.first_name }
                         required={ false }
                         error={ errors.first_name }
+                        onChange={ this.handleChange }
                     >First name</Input>
                     <Input
                         type="text"
@@ -79,6 +116,7 @@ class GeneralForm extends Component {
                         value={ profile.last_name }
                         required={ false }
                         error={ errors.last_name }
+                        onChange={ this.handleChange }
                     >Last name</Input>
                     <Input
                         type="email"
@@ -87,6 +125,7 @@ class GeneralForm extends Component {
                         value={ profile.email }
                         required={ false }
                         error={ errors.email }
+                        onChange={ this.handleChange }
                     >E-mail</Input>
                     <Input
                         type="tel"
@@ -95,6 +134,7 @@ class GeneralForm extends Component {
                         value={ profile.phone }
                         required={ false }
                         error={ errors.phone }
+                        onChange={ this.handleChange }
                     >Phone number</Input>
                     <Input
                         type="date"
@@ -103,7 +143,9 @@ class GeneralForm extends Component {
                         value={ profile.birth_date }
                         required={ false }
                         error={ errors.birth_date }
+                        onChange={ this.handleChange }
                     >Birth date</Input>
+
                     <div className={ "form-group row " + (errors.role ? 'has-danger' : '') }>
                         <div className="col-sm-4">
                             Role
@@ -116,7 +158,7 @@ class GeneralForm extends Component {
                                        name="role_driver"
                                        value="1"
                                        checked={ profile.role_driver }
-                                       onChange={ this.handleRoleDriverChange }
+                                       onChange={ this.handleChange }
                                 /> driver
                             </label>
                         </div>
@@ -128,7 +170,7 @@ class GeneralForm extends Component {
                                        name="role_passenger"
                                        value="1"
                                        checked={ profile.role_passenger }
-                                       onChange={ this.handleRolePassengerChange }
+                                       onChange={ this.handleChange }
                                 /> passenger
                             </label>
                         </div>
@@ -140,9 +182,10 @@ class GeneralForm extends Component {
                     <Textarea
                         name="about_me"
                         id="about_me"
-                        value={ profile.about_me }
+                        value={ profile.about_me || '' }
                         required={ false }
                         error={ errors.about_me }
+                        onChange={ this.handleChange }
                     >About me</Textarea>
                 </div>
 
@@ -158,13 +201,14 @@ class GeneralForm extends Component {
     }
 }
 
-const GeneralFormConnected = connect(
+/*const GeneralFormConnected = connect(
     (state) => ({
         profile: state.user.profile.data,
         errors: state.user.profile.errors
     }),
     (dispatch) =>
         bindActionCreators({ getProfile, editProfile, changeRole }, dispatch)
-)(GeneralForm);
+)(GeneralForm);*/
 
-export default GeneralFormConnected;
+//export default GeneralFormConnected;
+export default GeneralForm;

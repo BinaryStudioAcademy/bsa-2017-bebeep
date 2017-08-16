@@ -12,7 +12,7 @@ class Textarea extends Component {
                         id={ this.props.id }
                         cols="30"
                         rows="10"
-                        defaultValue={ this.props.value }
+                        value={ this.props.value }
                         required={ this.props.required }
                         onChange={ this.props.onChange }
                     ></textarea>
