@@ -102,6 +102,17 @@ class TripsService
     }
 
     /**
+     * Get trip by id
+     *
+     * @param Trip $trip
+     * @return mixed
+     */
+    public function show(Trip $trip)
+    {
+        return $this->tripRepository->getTripById($trip);
+    }
+
+    /**
      * Update trip service
      *
      * @param Trip $trip

@@ -68,6 +68,19 @@ class TripsController extends Controller
     }
 
     /**
+     * Show trip
+     *
+     * @param Trip $trip
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Trip $trip)
+    {
+        $result = $this->tripsService->show($trip);
+
+        return response()->json($result, 200);
+    }
+
+    /**
      * Update trip
      *
      * @param $trip
