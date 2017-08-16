@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { changePassword } from '../../actions';
-
 import Input from '../../../../app/components/Input';
 
 class PasswordForm extends Component {
@@ -15,11 +13,11 @@ class PasswordForm extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.props.changePassword({
+        /*this.props.changePassword({
             current_password: e.target.current_password.value,
             password: e.target.password.value,
             password_confirmation: e.target.password_confirmation.value
-        });
+        });*/
     }
 
     render() {
@@ -67,12 +65,4 @@ class PasswordForm extends Component {
     }
 }
 
-const PasswordFormConnected = connect(
-    (state) => ({
-        errors: state.user.password_change.errors
-    }),
-    (dispatch) =>
-        bindActionCreators({ changePassword }, dispatch)
-)(PasswordForm);
-
-export default PasswordFormConnected;
+export default PasswordForm;

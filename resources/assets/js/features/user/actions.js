@@ -1,15 +1,7 @@
 import axios from 'axios';
 import * as actions from './actionTypes';
 
-import { RegisterValidator } from '../../app/services/UserService';
-/*
-RegisterValidate,
-VerifyValidator,
-RegisterValidator,
-ProfileValidate,
-PasswordChangeValidate
-*/
-
+import { UserValidator } from '../../app/services/UserService';
 import { simpleRequest, securedRequest } from '../../app/services/RequestService';
 import { getAuthToken, initSession, destroySession } from '../../app/services/AuthService';
 
@@ -26,6 +18,11 @@ export const loginSuccess = data => ({
 
 export const loginFormFailed = data => ({
     type: actions.LOGIN_VERIFY_FAILED,
+    data
+});
+
+export const updateProfileSuccess = data => ({
+    type: actions.USER_PROFILE_UPDATE_SUCCESS,
     data
 });
 
@@ -55,8 +52,8 @@ function processFailedLoginResponse(response) {
 };
 
 export const doLogin = (credentials) => dispatch => {
-    const emailValid = RegisterValidator.email(credentials.email);
-    const passwordValid = RegisterValidator.password(credentials.password);
+    const emailValid = UserValidator.email(credentials.email);
+    const passwordValid = UserValidator.password(credentials.password);
 
     if (!emailValid.valid) {
         return dispatch(loginFormFailed({ email: emailValid.error }));
@@ -106,91 +103,4 @@ export const doLogout = (data) => {
                 dispatch(logoutFailed(error.response))
             });
     }
-};
-
-export const getProfile = () => {
-    return dispatch => {
-        securedRequest.get('/api/user/profile')
-            .then(response => {
-                dispatch({
-                    type: actions.USER_PROFILE_GET_SUCCESS,
-                    data: response.data.data
-                })
-            })
-            .catch(error => {});
-    };
-};
-
-export const changeRole = (value, checkbox) => {
-    if (!checkbox.can_check) {
-        return {
-            type: actions.USER_PROFILE_CHECK_FAILED,
-        };
-    }
-    return {
-        type: actions.USER_PROFILE_CHECK_SUCCESS,
-        role: checkbox.role,
-        value
-    };
-}
-
-export const editProfile = (data) => {
-    return dispatch => {
-        const validate = ProfileValidate(data);
-
-        if (validate.valid) {
-            console.log(data);
-            /*axios.post('/api/user/profile', data)
-                .then(response => {
-                    console.log(response);
-                    dispatch({
-                        type: actions.USER_PROFILE_EDIT_SUCCESS
-                    })
-                })
-                .catch(error => {
-                    console.log(error);
-                    dispatch({
-                        type: actions.USER_PROFILE_EDIT_FAILED,
-                        data: error.response.data,
-                    });
-                });*/
-        } else {
-            dispatch({
-                type: actions.USER_PROFILE_EDIT_FAILED,
-                data: validate.errors,
-            });
-        }
-    };
-
-    /*USER_PROFILE_EDIT_SUCCESS
-USER_PROFILE_EDIT_FAILED*/
-};
-
-export const changePassword = (data) => {
-    return dispatch => {
-        const validate = PasswordChangeValidate(data);
-
-        if (validate.valid) {
-            console.log(data);
-            /*axios.post('/api/user/password/change', data)
-                .then(response => {
-                    console.log(response);
-                    dispatch({
-                        type: actions.USER_PASSWORD_CHANGE_SUCCESS
-                    })
-                })
-                .catch(error => {
-                    console.log(error);
-                    dispatch({
-                        type: actions.USER_PASSWORD_CHANGE_FAILED,
-                        data: error.response.data,
-                    });
-                });*/
-        } else {
-            dispatch({
-                type: actions.USER_PASSWORD_CHANGE_FAILED,
-                data: validate.errors,
-            });
-        }
-    };
 };

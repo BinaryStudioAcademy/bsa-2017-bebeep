@@ -10,6 +10,14 @@ const UserService = {
             );
     },
 
+    updateProfileGeneral(profileData) {
+        return securedRequest.patch('/api/user/profile', profileData)
+            .then(
+                response => Promise.resolve(response.data),
+                error => Promise.reject(error.response.data)
+            );
+    },
+
     resetPassword(email, token, password) {
         return simpleRequest.put('/api/v1/password-resets', {
             email: email,

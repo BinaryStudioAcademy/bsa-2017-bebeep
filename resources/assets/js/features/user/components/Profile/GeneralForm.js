@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 
-import { getProfile, editProfile, changeRole } from '../../actions';
-
 import Input from '../../../../app/components/Input';
 import Textarea from '../../../../app/components/Textarea';
 
-import UserService from '../../services/UserService';
+import { updateProfileSuccess } from '../../actions';
 
-import { RegisterValidator } from '../../../../app/services/UserService';
+import UserService from '../../services/UserService';
+import { ProfileValidate } from '../../../../app/services/UserService';
+import { securedRequest } from '../../../../app/services/RequestService';
 
 class GeneralForm extends Component {
 
@@ -19,12 +19,12 @@ class GeneralForm extends Component {
 
         this.state = {
             profile: {},
-            isValid: true,
+            profileNotFound: false,
             errors: {}
         };
 
-        this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.handleRoleChange = this.handleRoleChange.bind(this);
     }
 
     componentDidMount() {
@@ -35,63 +35,71 @@ class GeneralForm extends Component {
                 });
             })
             .catch(error => {
-                console.log(error);
+                this.setState({
+                    profileNotFound: true,
+                });
             });
     }
 
-    handleChange(e) {
-        const target = e.target;
-        const name = target.name;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
+    handleRoleChange(e) {
+        const roleCheck = e.target;
 
-        if ((name === 'role_driver' ||
-            name === 'role_passenger') &&
-            !this.state.profile['can_uncheck_' + name]
-        ) {
-            e.target.checked = !e.target.checked;
+        if (!this.state.profile['can_uncheck_' + roleCheck.name]) {
+            roleCheck.checked = !roleCheck.checked;
             return;
         }
-
-        const validate = RegisterValidator[name](value);
-        this.setState({
-            ...this.state.errors,
-            isValid: validate.valid,
-            errors: {
-                [name]: validate.error
-            }
-        });
-
-        this.setState({
-            profile: {
-                ...this.state.profile,
-                [name]: value,
-            }
-        });
     }
 
     onSubmit(e) {
         e.preventDefault();
 
+        const form = e.target;
+        const { updateProfileSuccess } = this.props;
+
         const profileData = {
-            first_name: e.target.first_name.value,
-            last_name: e.target.last_name.value,
-            email: e.target.email.value,
-            phone: e.target.phone.value,
-            birth_date: e.target.birth_date.value,
-            role_driver: e.target.role_driver.checked,
-            role_passenger: e.target.role_passenger.checked,
-            about_me: e.target.about_me.value,
+            first_name: form.first_name.value,
+            last_name: form.last_name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            birth_date: form.birth_date.value,
+            role_driver: form.role_driver.checked,
+            role_passenger: form.role_passenger.checked,
+            about_me: form.about_me.value,
         };
+
+        const validate = ProfileValidate(profileData);
+        if (!validate.valid) {
+            this.setState({
+                errors: validate.errors
+            });
+            return;
+        }
+
+        UserService.updateProfileGeneral(profileData)
+            .then(response => {
+                //console.log(response.data);
+                // TODO :: updateProfileSuccess method will change the user name
+                // in the main navigation dropdown
+                updateProfileSuccess();
+            })
+            .catch(error => {
+                this.setState({
+                    errors: error.response.data
+                });
+            });
     }
 
     render() {
-        const { profile, errors } = this.state;
+        const { profile, errors, profileNotFound } = this.state;
 
+        if (profileNotFound) {
+            return (
+                <div className="alert alert-danger" role="alert">Profile data not found!</div>
+            );
+        }
         if (_.isEmpty(profile)) {
             return (<div></div>);
         }
-
-        console.log(this.state);
 
         return (
             <form role="form" className="card profile-form"
@@ -104,46 +112,41 @@ class GeneralForm extends Component {
                         type="text"
                         name="first_name"
                         id="first_name"
-                        value={ profile.first_name }
+                        defaultValue={ profile.first_name }
                         required={ false }
                         error={ errors.first_name }
-                        onChange={ this.handleChange }
                     >First name</Input>
                     <Input
                         type="text"
                         name="last_name"
                         id="last_name"
-                        value={ profile.last_name }
+                        defaultValue={ profile.last_name }
                         required={ false }
                         error={ errors.last_name }
-                        onChange={ this.handleChange }
                     >Last name</Input>
                     <Input
                         type="email"
                         name="email"
                         id="email"
-                        value={ profile.email }
+                        defaultValue={ profile.email }
                         required={ false }
                         error={ errors.email }
-                        onChange={ this.handleChange }
                     >E-mail</Input>
                     <Input
                         type="tel"
                         name="phone"
                         id="phone"
-                        value={ profile.phone }
+                        defaultValue={ profile.phone }
                         required={ false }
                         error={ errors.phone }
-                        onChange={ this.handleChange }
                     >Phone number</Input>
                     <Input
                         type="date"
                         name="birth_date"
                         id="birth_date"
-                        value={ profile.birth_date }
+                        defaultValue={ profile.birth_date }
                         required={ false }
                         error={ errors.birth_date }
-                        onChange={ this.handleChange }
                     >Birth date</Input>
 
                     <div className={ "form-group row " + (errors.role ? 'has-danger' : '') }>
@@ -157,8 +160,8 @@ class GeneralForm extends Component {
                                        id="role_driver"
                                        name="role_driver"
                                        value="1"
-                                       checked={ profile.role_driver }
-                                       onChange={ this.handleChange }
+                                       defaultChecked={ profile.role_driver }
+                                       onChange={ this.handleRoleChange }
                                 /> driver
                             </label>
                         </div>
@@ -169,8 +172,8 @@ class GeneralForm extends Component {
                                        id="role_passenger"
                                        name="role_passenger"
                                        value="1"
-                                       checked={ profile.role_passenger }
-                                       onChange={ this.handleChange }
+                                       defaultChecked={ profile.role_passenger }
+                                       onChange={ this.handleRoleChange }
                                 /> passenger
                             </label>
                         </div>
@@ -182,10 +185,9 @@ class GeneralForm extends Component {
                     <Textarea
                         name="about_me"
                         id="about_me"
-                        value={ profile.about_me || '' }
+                        defaultValue={ profile.about_me || '' }
                         required={ false }
                         error={ errors.about_me }
-                        onChange={ this.handleChange }
                     >About me</Textarea>
                 </div>
 
@@ -201,14 +203,10 @@ class GeneralForm extends Component {
     }
 }
 
-/*const GeneralFormConnected = connect(
-    (state) => ({
-        profile: state.user.profile.data,
-        errors: state.user.profile.errors
-    }),
+const GeneralFormConnected = connect(
+    null,
     (dispatch) =>
-        bindActionCreators({ getProfile, editProfile, changeRole }, dispatch)
-)(GeneralForm);*/
+        bindActionCreators({ updateProfileSuccess }, dispatch)
+)(GeneralForm);
 
-//export default GeneralFormConnected;
-export default GeneralForm;
+export default GeneralFormConnected;

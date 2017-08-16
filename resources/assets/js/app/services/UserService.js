@@ -1,6 +1,20 @@
 import validate from 'validate.js';
+import moment from 'moment';
 
-export const RegisterValidator = {
+validate.extend(validate.validators.datetime, {
+    // The value is guaranteed not to be null or undefined but otherwise it
+    // could be anything.
+    parse: function(value, options) {
+        return +moment.utc(value);
+    },
+    // Input is a unix timestamp
+    format: function(value, options) {
+        var format = options.dateOnly ? "YYYY-MM-DD" : "YYYY-MM-DD hh:mm:ss";
+        return moment.utc(value).format(format);
+    }
+});
+
+export const UserValidator = {
     last_name: (data) => {
         const valid = data.trim() !== "";
         let error = valid ? "" : "Last name is required";
@@ -33,17 +47,10 @@ export const RegisterValidator = {
             error
         };
     },
-    birth_date: (data) => {
-        const valid = data.trim() !== "";
-        let error = valid ? "" : "Phone is required";
-        return {
-            valid,
-            error
-        };
-    },
     role: (role_driver, role_passenger) => {
         const valid = role_driver || role_passenger;
         let error = valid ? "" : "Choose your role";
+
         return {
             valid,
             error
@@ -60,6 +67,22 @@ export const RegisterValidator = {
     password_confirmation: (password_confirmation, password) => {
         const valid = password === password_confirmation;
         let error = valid ? "" : "Repeated password does not match";
+        return {
+            valid,
+            error
+        };
+    },
+    birth_date: (data) => {
+        const result = validate.single(data, { datetime: { dateOnly: true }});
+        let error = result ? result.join(", ") : "";
+        return {
+            valid: !result,
+            error
+        };
+    },
+    about_me: (data) => {
+        const valid = data.length <= 500;
+        let error = valid ? "" : "About us must be less or equal 500 characters";
         return {
             valid,
             error
@@ -93,16 +116,16 @@ export const RegisterValidate = (data = {
         if (field === "role_passenger" || field === "role_driver" || field === "password_confirmation") {
             continue;
         }
-        storeResult(result, RegisterValidator[field](data[field]), field);
+        storeResult(result, UserValidator[field](data[field]), field);
     }
-    storeResult(result, RegisterValidator.role(
+    storeResult(result, UserValidator.role(
         data['role_driver'],
         data['role_passenger']),
         'role'
     );
     storeResult(
         result,
-        RegisterValidator.password_confirmation(data['password_confirmation'], data['password']),
+        UserValidator.password_confirmation(data['password_confirmation'], data['password']),
         'password_confirmation'
     );
     return result;
@@ -149,17 +172,17 @@ export const PasswordChangeValidate = (data = {
 
     storeResult(
         result,
-        RegisterValidator.password(data['current_password']),
+        UserValidator.password(data['current_password']),
         'current_password'
     );
     storeResult(
         result,
-        RegisterValidator.password(data['password']),
+        UserValidator.password(data['password']),
         'password'
     );
     storeResult(
         result,
-        RegisterValidator.password_confirmation(data['password_confirmation'], data['password']),
+        UserValidator.password_confirmation(data['password_confirmation'], data['password']),
         'password_confirmation'
     );
     storeResult(
@@ -169,17 +192,6 @@ export const PasswordChangeValidate = (data = {
     );
 
     return result;
-};
-
-export const ProfileValidator = {
-    about_me: (data) => {
-        const valid = data.length <= 500;
-        let error = valid ? "" : "About us must be less or equal 500 characters";
-        return {
-            valid,
-            error
-        };
-    },
 };
 
 export const ProfileValidate = (data = {
@@ -205,26 +217,26 @@ export const ProfileValidate = (data = {
     };
 
     for (let field of Object.keys(data)) {
-        if (field === "role_passenger" || field === "role_driver" || field === "about_me") {
+        if (field === "role_passenger" || field === "role_driver") {
             continue;
         }
-        storeResult(result, RegisterValidator[field](data[field]), field);
+        storeResult(result, UserValidator[field](data[field]), field);
     }
 
-    storeResult(result, RegisterValidator.role(
-        data['role_driver'],
-        data['role_passenger']),
+    storeResult(
+        result,
+        UserValidator.role(data['role_driver'], data['role_passenger']),
         'role'
     );
-    storeResult(result, ProfileValidator.about_me(data['about_me']), 'about_me');
 
     return result;
 };
 
 const UserService = {
-    RegisterValidator,
+    UserValidator,
+    VerifyValidator,
     RegisterValidate,
-    VerifyValidator
+    ProfileValidate,
 };
 
 export default UserService;

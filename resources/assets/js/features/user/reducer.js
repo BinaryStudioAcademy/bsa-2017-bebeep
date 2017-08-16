@@ -10,13 +10,6 @@ const initialState = {
     login: {
         success: isAuthorized(),
         errors: {},
-    },
-    profile: {
-        data: {},
-        errors: {}
-    },
-    password_change: {
-        errors: {}
     }
 };
 
@@ -69,56 +62,8 @@ export default function (state = initialState, action) {
                 }
             };
 
-        case actions.USER_PROFILE_CHECK_SUCCESS:
-            return {
-                ...state,
-                profile: {
-                    ...state.profile,
-                    data: {
-                        ...state.profile.data,
-                        [`role_${action.role}`]: action.value
-                    },
-                }
-            };
-
-        case actions.USER_PROFILE_CHECK_FAILED:
+        case actions.USER_PROFILE_UPDATE_SUCCESS:
             return state;
-
-        case actions.USER_PROFILE_GET_SUCCESS:
-        case actions.USER_PROFILE_EDIT_SUCCESS:
-            return {
-                ...state,
-                profile: {
-                    ...state.profile,
-                    data: action.data,
-                    errors: {}
-                }
-            };
-
-        case actions.USER_PROFILE_EDIT_FAILED:
-            return {
-                ...state,
-                profile: {
-                    ...state.profile,
-                    errors: action.data,
-                }
-            };
-
-        case actions.USER_PASSWORD_CHANGE_SUCCESS:
-            return {
-                ...state,
-                password_change: {
-                    errors: {}
-                }
-            };
-
-        case actions.USER_PASSWORD_CHANGE_FAILED:
-            return {
-                ...state,
-                password_change: {
-                    errors: action.data
-                }
-            };
 
         default:
             return state;
