@@ -19,8 +19,9 @@ class VehicleProfile extends Component {
         return (
             <div className="card">
               <div className="card-block">
-                <h4 className="card-title">{ vehicle.name }</h4>
-                <p className="card-text">{ vehicle.type }</p>
+                <h4 className="card-title">{ vehicle.id } { vehicle.body } { vehicle.brand }</h4>
+                <p className="card-text">Year: { vehicle.year }</p>
+                <p className="card-text">Seats: { vehicle.year }</p>
               </div>
             </div>
         );
