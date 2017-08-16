@@ -125,7 +125,7 @@ class TripsService
         ];
 
         $result = $this->tripRepository->updateTrip($trip, $tripAttributes);
-        $result->routes()->fill($routeAttributes)->save();
+        $result->routes()->update($routeAttributes);
 
         return $result;
     }
