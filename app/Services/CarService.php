@@ -6,7 +6,6 @@ namespace App\Services;
 use App\Models\Vehicle;
 use App\Repositories\CarRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Requests\SaveCarRequestInterface;
 
 class CarService
@@ -60,6 +59,7 @@ class CarService
             'year' => $request->getYear(),
             'photo' => $request->getPhoto()
         ];
+
         $car = $this->carRepository->updateVehicle(new Vehicle($attributes), $id);
 
         return $car;
