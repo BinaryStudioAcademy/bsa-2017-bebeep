@@ -10,8 +10,16 @@ const UserService = {
             );
     },
 
-    updateProfileGeneral(profileData) {
-        return securedRequest.patch('/api/user/profile', profileData)
+    updateProfileGeneral(updatedData) {
+        return securedRequest.patch('/api/user/profile', updatedData)
+            .then(
+                response => Promise.resolve(response.data),
+                error => Promise.reject(error.response.data)
+            );
+    },
+
+    updateProfilePassword(updatedData) {
+        return securedRequest.patch('/api/user/profile/password', updatedData)
             .then(
                 response => Promise.resolve(response.data),
                 error => Promise.reject(error.response.data)

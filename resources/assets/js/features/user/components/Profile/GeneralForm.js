@@ -5,12 +5,17 @@ import _ from 'lodash';
 
 import Input from '../../../../app/components/Input';
 import Textarea from '../../../../app/components/Textarea';
+import StatusModal from '../_Modals/StatusModal';
 
 import { updateProfileSuccess } from '../../actions';
 
 import UserService from '../../services/UserService';
 import { ProfileValidate } from '../../../../app/services/UserService';
-import { securedRequest } from '../../../../app/services/RequestService';
+
+const MODAL_MSG = {
+    success: 'User profile general data successfully updated!',
+    error: 'Failed to update the user profile general data! Check the validation!',
+};
 
 class GeneralForm extends Component {
 
@@ -20,7 +25,12 @@ class GeneralForm extends Component {
         this.state = {
             profile: {},
             profileNotFound: false,
-            errors: {}
+            errors: {},
+            modal: {
+                isOpen: false,
+                status: '',
+                msg: '',
+            },
         };
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -75,22 +85,37 @@ class GeneralForm extends Component {
             return;
         }
 
+        this.setState({
+            errors: {}
+        });
+
         UserService.updateProfileGeneral(profileData)
             .then(response => {
-                //console.log(response.data);
+                this.setState({
+                    modal: {
+                        isOpen: true,
+                        status: 'success',
+                        msg: MODAL_MSG.success,
+                    }
+                });
                 // TODO :: updateProfileSuccess method will change the user name
                 // in the main navigation dropdown
                 updateProfileSuccess();
             })
             .catch(error => {
                 this.setState({
-                    errors: error.response.data
+                    errors: error,
+                    modal: {
+                        isOpen: true,
+                        status: 'error',
+                        msg: MODAL_MSG.error,
+                    }
                 });
             });
     }
 
     render() {
-        const { profile, errors, profileNotFound } = this.state;
+        const { profile, errors, profileNotFound, modal } = this.state;
 
         if (profileNotFound) {
             return (
@@ -102,103 +127,108 @@ class GeneralForm extends Component {
         }
 
         return (
-            <form role="form" className="card profile-form"
-                  method="POST"
-                  action="/api/user/profile"
-                  onSubmit={ this.onSubmit }
-            >
-                <div className="card-block">
-                    <Input
-                        type="text"
-                        name="first_name"
-                        id="first_name"
-                        defaultValue={ profile.first_name }
-                        required={ false }
-                        error={ errors.first_name }
-                    >First name</Input>
-                    <Input
-                        type="text"
-                        name="last_name"
-                        id="last_name"
-                        defaultValue={ profile.last_name }
-                        required={ false }
-                        error={ errors.last_name }
-                    >Last name</Input>
-                    <Input
-                        type="email"
-                        name="email"
-                        id="email"
-                        defaultValue={ profile.email }
-                        required={ false }
-                        error={ errors.email }
-                    >E-mail</Input>
-                    <Input
-                        type="tel"
-                        name="phone"
-                        id="phone"
-                        defaultValue={ profile.phone }
-                        required={ false }
-                        error={ errors.phone }
-                    >Phone number</Input>
-                    <Input
-                        type="date"
-                        name="birth_date"
-                        id="birth_date"
-                        defaultValue={ profile.birth_date }
-                        required={ false }
-                        error={ errors.birth_date }
-                    >Birth date</Input>
+            <div>
+                <form role="form" className="card profile-form"
+                      method="POST"
+                      action="/api/user/profile"
+                      onSubmit={ this.onSubmit }
+                >
+                    <div className="card-block">
+                        <Input
+                            type="text"
+                            name="first_name"
+                            id="first_name"
+                            defaultValue={ profile.first_name }
+                            required={ false }
+                            error={ errors.first_name }
+                        >First name</Input>
+                        <Input
+                            type="text"
+                            name="last_name"
+                            id="last_name"
+                            defaultValue={ profile.last_name }
+                            required={ false }
+                            error={ errors.last_name }
+                        >Last name</Input>
+                        <Input
+                            type="email"
+                            name="email"
+                            id="email"
+                            defaultValue={ profile.email }
+                            required={ false }
+                            error={ errors.email }
+                        >E-mail</Input>
+                        <Input
+                            type="tel"
+                            name="phone"
+                            id="phone"
+                            defaultValue={ profile.phone }
+                            required={ false }
+                            error={ errors.phone }
+                        >Phone number</Input>
+                        <Input
+                            type="date"
+                            name="birth_date"
+                            id="birth_date"
+                            defaultValue={ profile.birth_date }
+                            required={ false }
+                            error={ errors.birth_date }
+                        >Birth date</Input>
 
-                    <div className={ "form-group row " + (errors.role ? 'has-danger' : '') }>
-                        <div className="col-sm-4">
-                            Role
+                        <div className={ "form-group row " + (errors.role ? 'has-danger' : '') }>
+                            <div className="col-sm-4">
+                                Role
+                            </div>
+                            <div className="form-check col-sm-4">
+                                <label className="form-check-label">
+                                    <input className="form-check-input"
+                                           type="checkbox"
+                                           id="role_driver"
+                                           name="role_driver"
+                                           value="1"
+                                           defaultChecked={ profile.role_driver }
+                                           onChange={ this.handleRoleChange }
+                                    /> driver
+                                </label>
+                            </div>
+                            <div className="form-check col-sm-4">
+                                <label className="form-check-label">
+                                    <input className="form-check-input"
+                                           type="checkbox"
+                                           id="role_passenger"
+                                           name="role_passenger"
+                                           value="1"
+                                           defaultChecked={ profile.role_passenger }
+                                           onChange={ this.handleRoleChange }
+                                    /> passenger
+                                </label>
+                            </div>
+                            <div className="offset-sm-4 col-sm-8">
+                                <div className="form-control-feedback">{ errors.role }</div>
+                            </div>
                         </div>
-                        <div className="form-check col-sm-4">
-                            <label className="form-check-label">
-                                <input className="form-check-input"
-                                       type="checkbox"
-                                       id="role_driver"
-                                       name="role_driver"
-                                       value="1"
-                                       defaultChecked={ profile.role_driver }
-                                       onChange={ this.handleRoleChange }
-                                /> driver
-                            </label>
-                        </div>
-                        <div className="form-check col-sm-4">
-                            <label className="form-check-label">
-                                <input className="form-check-input"
-                                       type="checkbox"
-                                       id="role_passenger"
-                                       name="role_passenger"
-                                       value="1"
-                                       defaultChecked={ profile.role_passenger }
-                                       onChange={ this.handleRoleChange }
-                                /> passenger
-                            </label>
-                        </div>
-                        <div className="offset-sm-4 col-sm-8">
-                            <div className="form-control-feedback">{ errors.role }</div>
-                        </div>
+
+                        <Textarea
+                            name="about_me"
+                            id="about_me"
+                            defaultValue={ profile.about_me || '' }
+                            required={ false }
+                            error={ errors.about_me }
+                        >About me</Textarea>
                     </div>
 
-                    <Textarea
-                        name="about_me"
-                        id="about_me"
-                        defaultValue={ profile.about_me || '' }
-                        required={ false }
-                        error={ errors.about_me }
-                    >About me</Textarea>
-                </div>
-
-                <div className="card-footer">
-                    <div className="text-center">
-                        <button className="btn btn-primary">
-                            Save
-                        </button>
+                    <div className="card-footer">
+                        <div className="text-center">
+                            <button className="btn btn-primary">
+                                Save
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+
+                <StatusModal modal={ modal } isOpen={ modal.isOpen }
+                    onClosed={ () => this.state.modal.isOpen = false }/>
+            </div>
         )
     }
 }

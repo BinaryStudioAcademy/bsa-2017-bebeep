@@ -144,54 +144,16 @@ export const VerifyValidator = {
 
 export const PasswordChangeValidator = {
     passwordIsChanged: (new_password, current_password) => {
+        const checkPasswordLength = UserValidator.password(new_password);
+        if (!checkPasswordLength.valid) {
+            return checkPasswordLength;
+        }
+
         const valid = current_password !== new_password;
         let error = valid ? "" : "You already have this password, enter another one.";
-        return {
-            valid,
-            error
-        };
+
+        return { valid, error };
     },
-};
-
-export const PasswordChangeValidate = (data = {
-    current_password: "",
-    password: "",
-    password_confirmation: ""
-}) => {
-    let result = {
-        valid: true,
-        errors: {}
-    };
-    let storeResult = (result, valid, field) => {
-        result.valid = result.valid && valid.valid;
-        if (!result.valid) {
-            result.errors[field] = valid.error;
-        }
-        return result;
-    };
-
-    storeResult(
-        result,
-        UserValidator.password(data['current_password']),
-        'current_password'
-    );
-    storeResult(
-        result,
-        UserValidator.password(data['password']),
-        'password'
-    );
-    storeResult(
-        result,
-        UserValidator.password_confirmation(data['password_confirmation'], data['password']),
-        'password_confirmation'
-    );
-    storeResult(
-        result,
-        PasswordChangeValidator.passwordIsChanged(data['password'], data['current_password']),
-        'password'
-    );
-
-    return result;
 };
 
 export const ProfileValidate = (data = {
@@ -232,11 +194,48 @@ export const ProfileValidate = (data = {
     return result;
 };
 
+export const PasswordUpdateValidate = (data = {
+    current_password: "",
+    password: "",
+    password_confirmation: ""
+}) => {
+    let result = {
+        valid: true,
+        errors: {}
+    };
+    let storeResult = (result, valid, field) => {
+        result.valid = result.valid && valid.valid;
+        if (!result.valid) {
+            result.errors[field] = valid.error;
+        }
+        return result;
+    };
+
+    storeResult(
+        result,
+        UserValidator.password(data['current_password']),
+        'current_password'
+    );
+    storeResult(
+        result,
+        UserValidator.password_confirmation(data['password_confirmation'], data['password']),
+        'password_confirmation'
+    );
+    storeResult(
+        result,
+        PasswordChangeValidator.passwordIsChanged(data['password'], data['current_password']),
+        'password'
+    );
+
+    return result;
+};
+
 const UserService = {
     UserValidator,
     VerifyValidator,
     RegisterValidate,
     ProfileValidate,
+    PasswordUpdateValidate
 };
 
 export default UserService;
