@@ -1,48 +1,14 @@
 import React from 'react';
 import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import EditTripService from '../../services/EditTripService';
-import moment from 'moment';
 
 class EditTripForm extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            trip: {},
-            notFoundTrip: false,
-        };
-    }
-
-    componentDidMount() {
-        const response = {
-            price: 111,
-            seats: 5,
-            start_at: 1502928000,
-        };
-        response.start_at = EditTripService.convertTime(response.start_at);
-        this.setState({
-            trip: response,
-        });
-        /*EditTripService.getTrip()
-            .then(response => {
-                this.setState({
-                    trip: response,
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    notFoundTrip: true,
-                });
-            });*/
-    }
 
     render() {
-        const { errors } = this.props;
-        const { trip } = this.state;
+        const { errors, trip } = this.props;
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method=""
-                  onSubmit={this.props.onSubmit} key={moment()}>
+                  onSubmit={this.props.onSubmit} key={this.props.now}>
                 <div className="card-header">
                     Edit Trip #{this.props.id}
                 </div>
