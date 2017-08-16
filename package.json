@@ -27,6 +27,7 @@
     "bootstrap": "^4.0.0-alpha.6",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
+    "rc-slider": "^8.3.1",
     "react": "^15.6.1",
     "react-datepicker": "^0.53.0",
     "react-dom": "^15.6.1",
