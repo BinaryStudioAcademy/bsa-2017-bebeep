@@ -67,7 +67,8 @@ class UpdatePasswordTest extends JwtTestCase
         $response = $this->jsonUpdatePassword($user, ['password_confirmation' => 'qwerty']);
         $response->assertStatus(422)->assertJsonStructure(['password' => []]);
 
-        // Error - the password size is less 6 symbols
+        // Error - the password size is less
+        // than the minimum allowed number of characters
         $response = $this->jsonUpdatePassword($user, ['password' => $newPassword]);
         $response->assertStatus(422)->assertJsonStructure(['password' => []]);
     }

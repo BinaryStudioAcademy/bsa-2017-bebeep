@@ -197,30 +197,40 @@ class ProfileTest extends JwtTestCase
         $response = $this->jsonUpdateUser($user, []);
         $response->assertStatus(422);
 
+        // Error - the first_name is required
         $response = $this->jsonUpdateUser($user, ['first_name' => null]);
         $response->assertStatus(422)->assertJsonStructure(['first_name' => []]);
 
+        // Error - the last_name is required
         $response = $this->jsonUpdateUser($user, ['last_name' => null]);
         $response->assertStatus(422)->assertJsonStructure(['last_name' => []]);
 
+        // Error - the email is required
         $response = $this->jsonUpdateUser($user, ['email' => null]);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
 
+        // Error - the email is exactly email
         $response = $this->jsonUpdateUser($user, ['email' => 'Lorem ipsum dolor.']);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
 
+        // Error - the email is unique
         $response = $this->jsonUpdateUser($user, ['email' => $userWithExistingEmail->email]);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
 
+        // Error - the phone is required
         $response = $this->jsonUpdateUser($user, ['phone' => null]);
         $response->assertStatus(422)->assertJsonStructure(['phone' => []]);
 
+        // Error - the phone has the valid format
         $response = $this->jsonUpdateUser($user, ['phone' => 'dds1234567']);
         $response->assertStatus(422)->assertJsonStructure(['phone' => []]);
 
+        // Error - the birth_date has the valid format
         $response = $this->jsonUpdateUser($user, ['birth_date' => '1984 dfdf 08 -13']);
         $response->assertStatus(422)->assertJsonStructure(['birth_date' => []]);
 
+        // Error - the about_me size is longer
+        // than the maximum allowed number of characters
         $response = $this->jsonUpdateUser($user, ['about_me' => str_random(505)]);
         $response->assertStatus(422)->assertJsonStructure(['about_me' => []]);
     }
