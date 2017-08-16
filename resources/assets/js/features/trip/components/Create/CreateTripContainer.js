@@ -108,7 +108,7 @@ class CreateTripContainer extends React.Component {
             this.props.tripCreateSuccess(response.data);
             this.setState({errors: {}});
 
-            if(response.status === 200) {
+            if (response.status === 200) {
                 browserHistory.push('/trips');
             }
         }).catch((error) => {
