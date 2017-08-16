@@ -15,7 +15,7 @@ class UpdateUserProfileRequest extends FormRequest implements UpdateUserProfileR
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -25,7 +25,7 @@ class UpdateUserProfileRequest extends FormRequest implements UpdateUserProfileR
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'first_name' => 'required',

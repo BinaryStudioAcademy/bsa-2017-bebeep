@@ -13,7 +13,7 @@ class UpdatePasswordRequest extends FormRequest implements UpdatePasswordRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,7 +23,7 @@ class UpdatePasswordRequest extends FormRequest implements UpdatePasswordRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'current_password' => 'required|is_password_current',
