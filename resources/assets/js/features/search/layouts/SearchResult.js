@@ -10,8 +10,14 @@ class SearchResult extends React.Component {
             <div>
                 <PageHeader header={'Search trips'}/>
                 <SearchForm />
-                <Filter />
-                <TripList />
+                <div className="row">
+                    <div className="col-md-3">
+                        <Filter />
+                    </div>
+                    <div className="col-md-9">
+                        <TripList />
+                    </div>
+                </div>
             </div>
         )
     }

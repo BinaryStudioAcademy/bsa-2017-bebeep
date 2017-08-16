@@ -101,8 +101,8 @@ class TripList extends React.Component {
                 <div className="trip-list__item-container">
                     {preload}
                     {tripsList.data.map((trip) =>
-                        <Link to={`/trip/${trip.id}`} className="trip-list__item-link">
-                            <TripItem key={trip.id} trip={trip} />
+                        <Link key={trip.id}  to={`/trip/${trip.id}`} className="trip-list__item-link">
+                            <TripItem trip={trip} />
                         </Link>
                     )}
                 </div>
