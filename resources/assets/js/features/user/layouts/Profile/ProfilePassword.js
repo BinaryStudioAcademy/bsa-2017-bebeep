@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PageHeader from '../../../../app/components/PageHeader';
 import PasswordForm from '../../components/Account/PasswordForm';
 
-class Password extends Component {
+class ProfilePassword extends Component {
 
     render() {
         return (
@@ -15,4 +15,4 @@ class Password extends Component {
     }
 }
 
-export default Password;
+export default ProfilePassword;

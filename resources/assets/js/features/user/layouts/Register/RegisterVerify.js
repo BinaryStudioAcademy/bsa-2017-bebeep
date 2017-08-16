@@ -1,8 +1,9 @@
 import React from 'react';
-import PageHeader from '../../../app/components/PageHeader';
-import { browserHistory } from 'react-router';
 import validate from 'validate.js';
-import { makeRequest } from '../../../app/services/RequestService';
+import { browserHistory } from 'react-router';
+
+import PageHeader from '../../../../app/components/PageHeader';
+import { makeRequest } from '../../../../app/services/RequestService';
 
 class RegisterVerify extends React.Component {
 

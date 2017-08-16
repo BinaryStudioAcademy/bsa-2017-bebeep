@@ -7,25 +7,25 @@ import NotFound from './layouts/NotFound';
 import SearchIndex from '../features/search/index/layouts/SearchIndex';
 
 import Dashboard from '../features/user/layouts/Dashboard';
-import UserProfile from '../features/user/layouts/UserProfile';
-import { General, Avatar } from '../features/user/layouts/Profile';
-import { Password } from '../features/user/layouts/Account';
+import {
+    ProfileBase,
+    ProfileGeneral,
+    ProfileAvatar,
+    ProfilePassword
+} from '../features/user/layouts/Profile';
 
 /* import { Form, Success, Verify } from '../features/user/layouts/Register'; */
 /* Put these layouts into Register dir and create index.js in it */
 /* like index.js in layouts/Profile */
 
-import CreateTrip from '../features/trip/layouts/CreateTrip';
-
-import RegisterForm from '../features/user/layouts/RegisterForm';
-import RegisterSuccess from '../features/user/layouts/RegisterSuccess';
-import RegisterVerify from '../features/user/layouts/RegisterVerify';
+import { RegisterForm, RegisterSuccess, RegisterVerify } from '../features/user/layouts/Register';
+import { LoginForm, Logout } from '../features/user/layouts/Login';
 import PasswordReset from '../features/user/layouts/PasswordReset';
-import LoginForm from '../features/user/layouts/Login/LoginForm';
-import Logout from '../features/user/layouts/Login/Logout';
 
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
+
+import CreateTrip from '../features/trip/layouts/CreateTrip';
 
 export default (
     <Route path="/" component={ App }>
@@ -72,13 +72,13 @@ export default (
             {/* These routes for user profile */}
             <Redirect from='profile' to='profile/general' />
 
-            <Route path="profile" component={ UserProfile }>
+            <Route path="profile" component={ ProfileBase }>
                 {/* User general profile */}
-                <Route path="general" component={ General } />
+                <Route path="general" component={ ProfileGeneral } />
                 {/* User avatar */}
-                <Route path="avatar" component={ Avatar } />
+                <Route path="avatar" component={ ProfileAvatar } />
                 {/* User password change */}
-                <Route path="password" component={ Password } />
+                <Route path="password" component={ ProfilePassword } />
             </Route>
         </Route>
 

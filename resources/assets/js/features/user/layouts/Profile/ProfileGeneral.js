@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PageHeader from '../../../../app/components/PageHeader';
 import GeneralForm from '../../components/Profile/GeneralForm';
 
-class General extends Component {
+class ProfileGeneral extends Component {
 
     render() {
         return (
@@ -15,4 +15,4 @@ class General extends Component {
     }
 }
 
-export default General;
+export default ProfileGeneral;

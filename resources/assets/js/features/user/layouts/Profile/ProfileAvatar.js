@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PageHeader from '../../../../app/components/PageHeader';
 import AvatarUpload from '../../components/Profile/AvatarUpload';
 
-class Avatar extends Component {
+class ProfileAvatar extends Component {
 
     render() {
         return (
@@ -15,4 +15,4 @@ class Avatar extends Component {
     }
 }
 
-export default Avatar;
+export default ProfileAvatar;

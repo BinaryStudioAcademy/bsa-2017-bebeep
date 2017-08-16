@@ -1,7 +1,11 @@
-import General from './General';
-import Avatar from './Avatar';
+import ProfileBase from './ProfileBase';
+import ProfileGeneral from './ProfileGeneral';
+import ProfileAvatar from './ProfileAvatar';
+import ProfilePassword from './ProfilePassword';
 
 export {
-    General,
-    Avatar,
+    ProfileBase,
+    ProfileGeneral,
+    ProfileAvatar,
+    ProfilePassword,
 };

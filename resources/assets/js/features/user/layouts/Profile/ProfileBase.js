@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-import '../styles/profile.scss';
+import '../../styles/profile.scss';
 
-class UserProfile extends Component {
+class ProfileBase extends Component {
 
     render() {
         return (
@@ -24,19 +24,6 @@ class UserProfile extends Component {
                                 activeClassName="menu-sidebar__link--active"
                             >Avatar</Link>
                         </li>
-
-                        {/*<li className="menu-sidebar__item">
-                            <Link to="/dashboard/profile/preferences"
-                                className="menu-sidebar__link"
-                                activeClassName="menu-sidebar__link--active"
-                            >Preferences</Link>
-                        </li>
-                        <li className="menu-sidebar__item">
-                            <Link to="/dashboard/profile/vehicle/add"
-                                className="menu-sidebar__link"
-                                activeClassName="menu-sidebar__link--active"
-                            >My vehicle</Link>
-                        </li>*/}
                       </ul>
                     </aside>
 
@@ -60,4 +47,4 @@ class UserProfile extends Component {
     }
 }
 
-export default UserProfile;
+export default ProfileBase;
