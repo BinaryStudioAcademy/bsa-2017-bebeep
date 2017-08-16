@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\Trip\TripNotFoundException;
 use App\Exceptions\Trip\UserCantEditTripException;
 use App\Models\Trip;
 use App\Services\TripsService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateTripRequest;
 use App\Http\Requests\UpdateTripRequest;
@@ -81,11 +79,7 @@ class TripsController extends Controller
         try{
             $result = $this->tripsService->update($trip, $request, Auth::user());
             return response()->json($result, 200);
-        }
-        catch (TripNotFoundException $e) {
-            return response()->json(['error' => $e->getMessage()], 404);
-        }
-        catch (UserCantEditTripException $e) {
+        } catch (UserCantEditTripException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }

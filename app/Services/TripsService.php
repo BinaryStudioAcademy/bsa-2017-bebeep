@@ -10,6 +10,7 @@ use App\Repositories\TripRepository;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Exceptions\Trip\TripNotFoundException;
 use App\Exceptions\Trip\UserCantEditTripException;
+use App\Validators\UpdateTripValidator;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
@@ -23,18 +24,27 @@ class TripsService
     private $tripRepository;
     private $deleteTripValidator;
     private $restoreTripValidator;
+    private $updateTripValidator;
 
     /**
      * TripsService constructor.
+     *
      * @param TripRepository $tripRepository
      * @param DeleteTripValidator $deleteTripValidator
      * @param RestoreTripValidator $restoreTripValidator
+     * @param UpdateTripValidator $updateTripValidator
      */
-    public function __construct(TripRepository $tripRepository, DeleteTripValidator $deleteTripValidator, RestoreTripValidator $restoreTripValidator)
+    public function __construct(
+        TripRepository $tripRepository,
+        DeleteTripValidator $deleteTripValidator,
+        RestoreTripValidator $restoreTripValidator,
+        UpdateTripValidator $updateTripValidator
+    )
     {
         $this->tripRepository = $tripRepository;
         $this->deleteTripValidator = $deleteTripValidator;
         $this->restoreTripValidator = $restoreTripValidator;
+        $this->updateTripValidator = $updateTripValidator;
     }
 
     /**
@@ -94,22 +104,14 @@ class TripsService
     /**
      * Update trip service
      *
-     * @param $trip
+     * @param Trip $trip
      * @param UpdateTripRequest $request
      * @param $user
      * @return Trip
-     * @throws TripNotFoundException
-     * @throws UserCantEditTripException
      */
     public function update(Trip $trip, UpdateTripRequest $request, $user)
     {
-        if(is_null($trip)) {
-            throw new TripNotFoundException("Trip not found");
-        }
-
-        if($user->id != $trip->user_id) {
-            throw new UserCantEditTripException("User can't edit this trip");
-        }
+        $this->updateTripValidator->validate($trip, $user);
 
         $tripAttributes = [
             'price' => $request->getPrice(),

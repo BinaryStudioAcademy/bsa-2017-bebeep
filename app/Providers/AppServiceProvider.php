@@ -6,11 +6,13 @@ use App\Models\Vehicle;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
 use App\Validators\RestoreTripValidator;
+use App\Validators\UpdateTripValidator;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
 use App\Services\PasswordService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +41,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(RestoreTripValidator::class, function ($app) {
             return new RestoreTripValidator(new TripOwnerRule);
+        });
+
+        $this->app->bind(UpdateTripValidator::class, function ($app) {
+            return new UpdateTripValidator(new TripUpdateOwnerRule);
         });
     }
 
