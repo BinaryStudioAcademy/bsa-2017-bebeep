@@ -45,10 +45,7 @@ class Filter extends React.Component {
                     <div className="filter__prop-name">Price</div>
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
-                            From
-                            <span className="filter__currency">$</span>{priceRange[0]}
-                            to
-                            <span className="filter__currency">$</span>{priceRange[1]}
+                            From <span className="filter__currency">$</span>{priceRange[0]} to <span className="filter__currency">$</span>{priceRange[1]}
                         </div>
                         <Range
                             min={10}
