@@ -2,6 +2,8 @@ import React from 'react';
 import '../styles/trip-card.scss';
 import moment from 'moment';
 import DirectionsMap from "../../../app/components/DirectionsMap";
+import {Link} from 'react-router';
+import {securedRequest} from '../../../app/services/RequestService';
 
 class Trip extends React.Component {
     constructor(props) {
@@ -10,7 +12,10 @@ class Trip extends React.Component {
         this.state = {
             startDate: this.getStartDate(),
             startPlace: this.getStartPlace(),
-            endPlace: this.getEndPlace()
+            endPlace: this.getEndPlace(),
+            deletable: this.props.deletable,
+            editable: this.props.editable,
+            isDeleted: false
         };
     }
 
@@ -34,9 +39,29 @@ class Trip extends React.Component {
         return this.props.trip.routes[this.props.trip.routes.length - 1].to;
     }
 
+    deleteSelf() {
+        securedRequest.delete('/api/v1/trips/' + this.props.trip.id).then(() => {
+            this.setState({
+                deletable: false,
+                editable: false,
+                isDeleted: true
+            });
+        });
+    }
+
+    restoreSelf() {
+        securedRequest.put('/api/v1/trips/' + this.props.trip.id + '/restore').then(() => {
+            this.setState({
+                deletable: this.props.deletable,
+                editable: this.props.editable,
+                isDeleted: false
+            });
+        });
+    }
+
     render() {
         return (
-            <div className="col-sm-4 trip-item">
+            <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
                 {this.state.startPlace ? (
                     <DirectionsMap title={this.state.startDate}
                                    needDirection="1"
@@ -52,9 +77,14 @@ class Trip extends React.Component {
                             </div>
                         </div>
                         <div className="card-block trip-actions">
-                            <a href="#" className="btn btn-primary">Edit</a>
-                            {this.props.deletable ? (
-                                <a href="#" className="btn btn-danger">Delete</a>
+                            {this.state.editable ? (
+                                <Link to={'/trip/edit/' + this.props.trip.id} className="btn btn-primary">Edit</Link>
+                            ) : (<span>&nbsp;</span>)}
+                            {this.state.deletable ? (
+                                <button onClick={this.deleteSelf.bind(this)} className="btn btn-danger hover">Delete</button>
+                            ) : (<span>&nbsp;</span>)}
+                            {this.state.isDeleted ? (
+                                <span>Deleted successfully &nbsp;<button onClick={this.restoreSelf.bind(this)} className="btn btn-default hover">Restore</button></span>
                             ) : (<span>&nbsp;</span>)}
                         </div>
                     </DirectionsMap>
