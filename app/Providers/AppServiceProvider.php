@@ -11,6 +11,7 @@ use App\Services\{
 };
 use App\Validators\{
     DeleteTripValidator,
+    RestoreTripValidator,
     CanUncheckRoleValidator,
     IsPasswordCurrentValidator
 };
@@ -45,6 +46,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);
+        });
+
+        $this->app->bind(RestoreTripValidator::class, function ($app) {
+            return new RestoreTripValidator(new TripOwnerRule);
         });
     }
 
