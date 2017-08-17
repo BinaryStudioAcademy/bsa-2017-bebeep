@@ -17,14 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/avatar', function (Request $request) {
-    $user = \App\User::find(1);
-
-    $res = $user->getAvatarUrl();
-
-    return response()->json($res);
-});
-
 
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 
@@ -71,7 +63,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             'uses' => 'User\UpdatePasswordController@update',
         ]);
 
-        Route::post('avatar', [
+        Route::patch('avatar', [
             'middleware' => 'jwt.auth',
             'as' => 'avatar.update',
             'uses' => 'User\AvatarController@update',
