@@ -126,5 +126,12 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
         return $this->getOrder() === 'desc';
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilter(): array
+    {
+        return $this->get('filter');
+    }
 
 }

@@ -6,11 +6,12 @@ export const search = (
         from: { coordinate: { lng: null, lat: null } },
         to: { coordinate: { lng: null, lat: null } },
         start_at: null
-    }, page = 1, sort = 'price', order = 'asc', limit = 10
+    }, page = 1, sort = 'price', order = 'asc', limit = 10,
+    filter = {}
 ) => {
     const { from, to, start_at }= tripData;
     return makeRequest('get', '/api/v1/trips/search', {
-        params: {
+        params: setFilter({
             fc: encodeCoord(from.coordinate),
             tc: encodeCoord(to.coordinate),
             start: start_at,
@@ -18,8 +19,23 @@ export const search = (
             order,
             page,
             limit
-        }
+        }, filter)
     })
+};
+
+export const setFilter = (params = {}, filter) => {
+    let newParams = {};
+    for (let field in filter) {
+        if (filter[field]) {
+            if (filter[field] instanceof Array) {
+                newParams[`filter[${field}][min]`] = filter[field][0];
+                newParams[`filter[${field}][max]`] = filter[field][1];
+            } else {
+                newParams[`filter[${field}]`] = filter[field];
+            }
+        }
+    }
+    return Object.assign(params, newParams);
 };
 
 export const encodeCoord = (coord = {lng: null, lat: null}) =>
@@ -30,8 +46,9 @@ export const decodeCoord = (coordinate = '') => {
     return {lng: +coord[0], lat: +coord[1]}
 };
 
-export const getDataFromQuery = (query, oldTripData) => {
-    const { from, to, start_at } = oldTripData;
+export const getDataFromQuery = (oldTripData) => {
+    const { query } =  browserHistory.getCurrentLocation(),
+        { from, to, start_at } = oldTripData;
     let newFrom = null,
         newTo = null,
         newStartAt = null;

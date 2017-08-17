@@ -190,10 +190,13 @@ class TripsService
         $pages = array_chunk($data, $request->getLimit());
         $countData = count($pages);
         return [
-            'data' => ($countData > $request->getPage()
+            'collection' => ($countData > $request->getPage()
                 ? $pages[$request->getPage() - 1]
                 : $pages[$countData - 1]),
-            'size' => $countAllData
+            'meta' => [
+                'total' => $countAllData,
+                'price' => [ 'max' => 1000, 'min' => 0 ]
+            ]
         ];
     }
 }

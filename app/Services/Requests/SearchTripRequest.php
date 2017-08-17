@@ -81,4 +81,11 @@ interface SearchTripRequest {
      * @return bool
      */
     public function isDesc() : bool;
+
+    /**
+     * Get filter array
+     *
+     * @return array
+     */
+    public function getFilter() : array;
 }

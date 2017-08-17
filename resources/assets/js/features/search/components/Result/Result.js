@@ -5,7 +5,7 @@ import TripList from './TripList';
 import SortPanel from './SortPanel';
 import Pagination from './Pagination';
 import { connect } from 'react-redux';
-import { search, encodeCoord, getDataFromQuery, setUrl} from '../../services/SearchService';
+import { search, encodeCoord, getDataFromQuery, setUrl, setFilter} from '../../services/SearchService';
 import { searchResult } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { withRouter, browserHistory } from 'react-router';
@@ -17,23 +17,26 @@ class Result extends React.Component {
         this.state = {
             collection: [],
             meta: {
-                totalSize: 0
+                totalSize: 0,
+                priceRange: [0,0]
             },
             preloader: true,
             sort: props.location.query.sort || 'price',
             order: props.location.query.order || 'asc',
             page: +props.location.query.page || 1,
             limit: 10,
+            filter: {},
+            resetFilter: false,
             errors: {}
         };
 
         this.onChangeSort = this.onChangeSort.bind(this);
         this.onChangePage = this.onChangePage.bind(this);
-
+        this.onChangeFilter = this.onChangeFilter.bind(this);
     }
 
     componentWillMount() {
-        const newTripData = getDataFromQuery(this.props.location.query, this.props.tripData);
+        const newTripData = getDataFromQuery(this.props.tripData);
         if (Object.keys(newTripData).length) {
             this.props.searchResult(newTripData);
         } else {
@@ -43,26 +46,33 @@ class Result extends React.Component {
 
     onChangePage(page) {
         this.setState({page});
-        setUrl({page})
     }
 
     onChangeSort(sort) {
         if (sort === this.state.sort) {
             const order = this.state.order === 'asc' ? 'desc' : 'asc';
             this.setState({order});
-            setUrl({order});
         } else {
             this.setState({sort});
-            setUrl({sort});
         }
     }
 
-    getData({tripData}, {limit, page, sort, order}) {
-        search(tripData, page, sort, order, limit)
+    onChangeFilter(filter) {
+        this.setState({filter});
+    }
+
+    getData({tripData}, {limit, page, sort, order}, filter) {
+        search(tripData, page, sort, order, limit, filter)
             .then(response => {
                 this.setState({
-                    collection: response.data.data,
-                    meta: {totalSize: response.data.size},
+                    collection: response.data.collection,
+                    meta: {
+                        totalSize: response.data.meta.total,
+                        priceRange: [
+                            response.data.meta.price.min,
+                            response.data.meta.price.max
+                        ]
+                    },
                     preloader: false
                 });
             })
@@ -89,6 +99,8 @@ class Result extends React.Component {
             ||
             nextState.order !== this.state.order
             ||
+            nextState.filter !== this.state.filter
+            ||
             nextProps.tripData != this.props.tripData
         ) {
             setUrl({
@@ -103,22 +115,31 @@ class Result extends React.Component {
             });
 
             nextState.preloader = true;
-            this.getData(nextProps, nextState);
+            // reset filter if choosed new location
+            if (nextProps.tripData != this.props.tripData) {
+                nextState.filter = {};
+                nextState.resetFilter = true;
+                this.setState({resetFilter: false});
+            }
+            this.getData(nextProps, nextState, nextState.filter);
         }
         return true;
     }
 
     render() {
-        const {sort, order, page, limit, meta, collection, preloader} = this.state,
+        const {sort, order, page, limit, meta, collection, preloader, resetFilter} = this.state,
             currentPage = this.getCurrentPage(page, limit, meta.totalSize),
             countResult = this.countResult(currentPage, collection.length, limit);
-
         return (
             <div>
                 <SearchForm />
                 <div className="row">
                     <div className="col-md-3">
-                        <Filter />
+                        <Filter
+                            resetFilter={resetFilter}
+                            onChange={this.onChangeFilter}
+                            priceBounds={meta.priceRange}
+                        />
                     </div>
                     <div className="col-md-9">
                         <div className="trip-list container">
