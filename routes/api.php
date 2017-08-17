@@ -94,6 +94,8 @@ Route::group([
     Route::delete('trash/{tripId}', ['as' => 'restore', 'uses' => 'TripsController@restore']);
 });
 
+Route::post('v1/trips/search', ['as' => 'search', 'uses' => 'TripsController@search']);
+
 Route::post('v1/password-resets', [
     'middleware' => 'jwt.guest',
     'as' => 'password.forgot',
