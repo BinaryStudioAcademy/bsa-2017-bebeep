@@ -14,5 +14,5 @@ interface UpdateTripRule
      * @param User $user
      * @return bool
      */
-    public function validate(Trip $trip, User $user) : bool;
+    public function validate(Trip $trip, User $user): bool;
 }

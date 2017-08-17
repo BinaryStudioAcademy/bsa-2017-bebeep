@@ -12,7 +12,7 @@ class App extends Component {
             <div id="application">
                 <MainHeader />
 
-                <div className="container">
+                <div className="main-container container py-4">
                     {this.props.children}
                 </div>
             </div>

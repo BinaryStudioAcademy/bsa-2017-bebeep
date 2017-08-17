@@ -9,7 +9,6 @@ class NotFound extends Component {
         return (
             <div className="container text-center">
                 <PageHeader header={'This is a demo 404 page!'} />
-                <hr />
                 <Link to="/">Back To Home View</Link>
             </div>
         )

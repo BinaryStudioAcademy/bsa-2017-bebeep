@@ -2,16 +2,26 @@
 
 namespace App\Providers;
 
-use App\Models\Vehicle;
-use App\Rules\DeleteTrip\TripOwnerRule;
-use App\Validators\DeleteTripValidator;
-use App\Validators\RestoreTripValidator;
-use App\Validators\UpdateTripValidator;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Contracts\PasswordService as PasswordServiceContract;
-use App\Services\PasswordService;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Vehicle;
+use App\Services\{
+    PasswordService,
+    UserProfileService
+};
+use App\Validators\{
+    UpdateTripValidator,
+    DeleteTripValidator,
+    RestoreTripValidator,
+    CanUncheckRoleValidator,
+    IsPasswordCurrentValidator
+};
+use App\Services\Contracts\{
+    PasswordService as PasswordServiceContract,
+    UserProfileService as UserProfileServiceContract
+};
+use Illuminate\Support\ServiceProvider;
+use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(PasswordServiceContract::class, PasswordService::class);
+        $this->app->bind(UserProfileServiceContract::class, UserProfileService::class);
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);
@@ -48,9 +59,19 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    private function extendValidator()
+    /**
+     * Extend the validator with custom rules.
+     *
+     * @return void
+     */
+    private function extendValidator(): void
     {
-        Validator::extend('max_seats_from_vehicle', function ($attribute, $value, $parameters, $validator) {
+        Validator::extend('max_seats_from_vehicle', function (
+            $attribute,
+            $value,
+            $parameters,
+            $validator
+        ) {
             if (! $parameters || ! Auth::user() || ! $parameters[0]) {
                 return false;
             }
@@ -64,12 +85,29 @@ class AppServiceProvider extends ServiceProvider
             return $vehicle->seats > (int) $value;
         });
 
-        Validator::extend('greater_than_date', function ($attribute, $value, $parameters, $validator) {
+        Validator::extend('greater_than_date', function (
+            $attribute,
+            $value,
+            $parameters,
+            $validator
+        ) {
             if (! $parameters || ! $parameters[0]) {
                 return false;
             }
 
             return (int) $parameters[0] < (int) $value;
         });
+
+        Validator::extend(
+            'role_can_uncheck',
+            CanUncheckRoleValidator::class,
+            CanUncheckRoleValidator::ERROR_MSG
+        );
+
+        Validator::extend(
+            'is_password_current',
+            IsPasswordCurrentValidator::class,
+            IsPasswordCurrentValidator::ERROR_MSG
+        );
     }
 }

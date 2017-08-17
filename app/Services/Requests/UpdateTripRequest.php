@@ -6,17 +6,17 @@ use Carbon\Carbon;
 
 interface UpdateTripRequest
 {
-    public function getPrice() : float;
+    public function getPrice(): float;
 
-    public function getSeats() : int;
+    public function getSeats(): int;
 
-    public function getStartAt() : Carbon;
+    public function getStartAt(): Carbon;
 
-    public function getEndAt() : Carbon;
+    public function getEndAt(): Carbon;
 
-    public function getVehicleId() : int;
+    public function getVehicleId(): int;
 
-    public function getFrom() : array;
+    public function getFrom(): array;
 
-    public function getTo() : array;
+    public function getTo(): array;
 }
