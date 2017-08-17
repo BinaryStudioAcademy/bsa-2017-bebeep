@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-class Modal extends React.Component {
+class Modal extends Component {
 
     constructor() {
         super();

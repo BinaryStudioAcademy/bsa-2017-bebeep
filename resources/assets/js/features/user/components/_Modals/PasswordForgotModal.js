@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import validate from 'validate.js';
 
 import Input from 'app/components/Input';
 import Modal from 'app/components/Modal';
 import { simpleRequest } from 'app/services/RequestService';
 
-import '../styles/password_forgot.scss';
+import 'features/user/styles/password_forgot.scss';
 
-class PasswordForgotModal extends React.Component {
+
+class PasswordForgotModal extends Component {
     constructor() {
         super();
         this.state = {

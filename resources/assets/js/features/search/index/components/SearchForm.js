@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import PlacesAutocomplete from 'react-places-autocomplete';
-import { geocodeByAddress } from 'react-places-autocomplete';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
+import { PlacesAutocomplete, geocodeByAddress } from 'react-places-autocomplete';
 
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 import { searchIndexRules } from 'app/services/SearchIndex';
@@ -14,7 +13,8 @@ import { searchSuccess } from '../actions';
 import '../styles/react-datepicker.scss';
 import '../styles/search-index.scss';
 
-class SearchForm extends React.Component {
+class SearchForm extends Component {
+
     constructor() {
         super();
         this.state = {
@@ -149,54 +149,60 @@ class SearchForm extends React.Component {
             </div>);
 
         return (
-                <div className="row">
-                    <form role="form" className="form-inline search-form" action="" method="POST">
-                        <div className="col-md-3">
-                            <div className={"form-group " + (this.state.errors.from ? 'has-danger' : '')}>
-                                <label htmlFor="startPoint" className="sr-only">Leaving from</label>
-                                    <div className="col-md-12">
-                                        <PlacesAutocomplete
-                                            inputProps={startPointProps}
-                                            classNames={placesCssClasses}
-                                            onSelect={this.onSelectStartPoint.bind(this)}
-                                            onEnterKeyDown={this.onSelectStartPoint.bind(this)}
-                                            googleLogo={false}
-                                            autocompleteItem={AutocompleteItem}
-                                            highlightFirstSuggestion={true}
-                                        />
-                                    </div>
-                            </div>
+            <form role="form" className="search-form" action="" method="POST">
+                <div className="row py-4 px-2 px-lg-4">
+                    <div className="col-sm-6 col-lg-3">
+                        <div className={"form-group " + (this.state.errors.from ? 'has-danger' : '')}>
+                            <label htmlFor="startPoint" className="sr-only">Leaving from</label>
+                            <PlacesAutocomplete
+                                inputProps={startPointProps}
+                                classNames={placesCssClasses}
+                                onSelect={this.onSelectStartPoint.bind(this)}
+                                onEnterKeyDown={this.onSelectStartPoint.bind(this)}
+                                googleLogo={false}
+                                autocompleteItem={AutocompleteItem}
+                                highlightFirstSuggestion={true}
+                            />
                         </div>
-                        <div className="col-md-3">
-                            <div className={"form-group " + (this.state.errors.to ? 'has-danger' : '')}>
-                                <label htmlFor="endPoint" className="sr-only">Going to</label>
-                                <div className="col-md-12">
-                                    <PlacesAutocomplete
-                                        inputProps={endPointProps}
-                                        classNames={placesCssClasses}
-                                        onSelect={this.onSelectEndPoint.bind(this)}
-                                        onEnterKeyDown={this.onSelectEndPoint.bind(this)}
-                                        googleLogo={false}
-                                        autocompleteItem={AutocompleteItem}
-                                        highlightFirstSuggestion={true}
-                                    />
-                                </div>
-                            </div>
+                    </div>
+                    <div className="col-sm-6 col-lg-3">
+                        <div className={"form-group " +
+                                (this.state.errors.to ? 'has-danger' : '')}>
+
+                            <label htmlFor="endPoint" className="sr-only">Going to</label>
+                            <PlacesAutocomplete
+                                inputProps={endPointProps}
+                                classNames={placesCssClasses}
+                                onSelect={this.onSelectEndPoint.bind(this)}
+                                onEnterKeyDown={this.onSelectEndPoint.bind(this)}
+                                googleLogo={false}
+                                autocompleteItem={AutocompleteItem}
+                                highlightFirstSuggestion={true}
+                            />
                         </div>
+                    </div>
+                    <div className="col-sm-6 col-lg-3">
                         <DatePicker
                             todayButton={"Today"}
                             selected={this.state.startDate}
                             onChange={this.handleDateChange}
                             placeholderText="Date"
                             minDate={moment()}
-                            className={"form-control date-picker " + (this.state.errors.start_at ? 'picker-error' : '')}
+                            className={"form-control date-picker " +
+                                (this.state.errors.start_at ? 'picker-error' : '')}
                             isClearable={true}
                         />
-                        <div className="col-md-3">
-                            <button type="submit" className="btn btn-search btn-primary" onClick={this.onClick.bind(this)}>Find a ride</button>
-                        </div>
-                    </form>
+                    </div>
+                    <div className="col-sm-6 col-lg-3">
+                        <button type="submit"
+                            className="btn btn-search btn-primary px-5"
+                            onClick={this.onClick.bind(this)}
+                        >
+                            Find a ride
+                        </button>
+                    </div>
                 </div>
+            </form>
         );
     }
 }

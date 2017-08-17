@@ -50,6 +50,7 @@ export default function (state = initialState, action) {
                     httpStatus: action.response.status,
                 }
             };
+
         case actions.LOGOUT_SUCCESS:
         case actions.LOGOUT_FAILED:
             return {
@@ -61,8 +62,10 @@ export default function (state = initialState, action) {
                 }
             };
 
-        default: {
+        case actions.USER_PROFILE_UPDATE_SUCCESS:
             return state;
-        }
+
+        default:
+            return state;
     }
 };

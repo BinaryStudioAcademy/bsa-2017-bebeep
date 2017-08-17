@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 
-import { isAuthorized } from '../../services/AuthService';
+import { isAuthorized } from 'app/services/AuthService';
 
 import ForAuthUser from './ForAuthUser';
 import ForGuestUser from './ForGuestUser';

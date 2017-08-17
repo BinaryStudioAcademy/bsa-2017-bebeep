@@ -1,10 +1,10 @@
 import axios from 'axios';
-
 import * as actions from './actionTypes';
 
-import { RegisterValidator } from 'app/services/UserService';
+import { UserValidator } from 'app/services/UserService';
 import { simpleRequest, securedRequest } from 'app/services/RequestService';
 import { getAuthToken, initSession, destroySession } from 'app/services/AuthService';
+
 
 export const registerSuccess = data => ({
     type: actions.USER_REGISTER_SUCCESS,
@@ -18,6 +18,11 @@ export const loginSuccess = data => ({
 
 export const loginFormFailed = data => ({
     type: actions.LOGIN_VERIFY_FAILED,
+    data
+});
+
+export const updateProfileSuccess = data => ({
+    type: actions.USER_PROFILE_UPDATE_SUCCESS,
     data
 });
 
@@ -47,8 +52,8 @@ function processFailedLoginResponse(response) {
 };
 
 export const doLogin = (credentials) => dispatch => {
-    const emailValid = RegisterValidator.email(credentials.email);
-    const passwordValid = RegisterValidator.password(credentials.password);
+    const emailValid = UserValidator.email(credentials.email);
+    const passwordValid = UserValidator.password(credentials.password);
 
     if (!emailValid.valid) {
         return dispatch(loginFormFailed({ email: emailValid.error }));

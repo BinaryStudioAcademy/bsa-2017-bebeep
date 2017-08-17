@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-class Input extends React.Component {
+class Input extends Component {
     render() {
         return (
             <div className={"form-group row " + (this.props.error ? 'has-danger' : '')} >
@@ -11,6 +11,8 @@ class Input extends React.Component {
                            className={"form-control " + (this.props.error ? 'form-control-danger' : '')}
                            id={ this.props.id }
                            name={ this.props.name }
+                           value={ this.props.value }
+                           defaultValue={ this.props.defaultValue }
                            required={ this.props.required }
                            onChange={ this.props.onChange }
                     />

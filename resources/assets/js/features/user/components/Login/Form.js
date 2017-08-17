@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import TextInput from './TextInput';
-import PasswordForgotModal from '../PasswordForgotModal';
+import PasswordForgotModal from '../_Modals/PasswordForgotModal';
 
 import * as actions from 'features/user/actions';
 
 import 'features/user/styles/user.scss';
 
-class Form extends React.Component {
+class Form extends Component {
 
     constructor(props) {
         super(props);

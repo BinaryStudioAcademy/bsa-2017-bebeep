@@ -17,6 +17,7 @@ class CreateBookingsTable extends Migration
             $table->increments('id');
 
             $table->string('status');
+            $table->timestamps();
 
             $table->unsignedInteger('trip_id')->index()->nullable();
             $table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade');

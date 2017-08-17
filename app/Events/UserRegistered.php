@@ -10,11 +10,15 @@ class UserRegistered
 {
     use Dispatchable, SerializesModels;
 
+    /**
+     * @var \App\User
+     */
     public $user;
 
     /**
      * Create a new event instance.
-     * @param User $user
+     *
+     * @param \App\User $user
      */
     public function __construct(User $user)
     {

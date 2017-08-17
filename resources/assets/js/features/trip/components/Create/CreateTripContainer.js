@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
@@ -15,7 +15,7 @@ import { tripCreateSuccess } from 'features/trip/actions';
 
 import 'features/trip/styles/create_trip.scss';
 
-class CreateTripContainer extends React.Component {
+class CreateTripContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -110,8 +110,9 @@ class CreateTripContainer extends React.Component {
         securedRequest.post('/api/v1/trips', data).then((response) => {
             this.props.tripCreateSuccess(response.data);
             this.setState({errors: {}});
-            if(response.status === 200) {
-                browserHistory.push('/dashboard');
+
+            if (response.status === 200) {
+                browserHistory.push('/trips');
             }
         }).catch((error) => {
             this.setState({

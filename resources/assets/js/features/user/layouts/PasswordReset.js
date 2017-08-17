@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import validate from 'validate.js';
 import { browserHistory } from 'react-router';
 
@@ -9,7 +9,8 @@ import UserService from '../services/UserService';
 
 import '../styles/password_forgot.scss';
 
-class PasswordReset extends React.Component {
+class PasswordReset extends Component {
+
     constructor() {
         super();
         this.state = {

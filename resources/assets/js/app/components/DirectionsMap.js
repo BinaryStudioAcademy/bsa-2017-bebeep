@@ -25,6 +25,12 @@ export default class DirectionsMap extends React.Component {
         this.DirectionsService = new google.maps.DirectionsService();
     }
 
+    componentWillMount() {
+        if (this.props.needDirection) {
+            this.renderDirection(this.props);
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         if (
             this.props.from.lat === nextProps.from.lat &&
@@ -35,9 +41,13 @@ export default class DirectionsMap extends React.Component {
             return;
         }
 
+        this.renderDirection(nextProps);
+    }
+
+    renderDirection(props) {
         this.DirectionsService.route({
-            origin: nextProps.from,
-            destination: nextProps.to,
+            origin: props.from,
+            destination: props.to,
             travelMode: google.maps.TravelMode.DRIVING,
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
@@ -87,6 +97,7 @@ export default class DirectionsMap extends React.Component {
                             <div>&nbsp;</div>
                         )
                 }
+                {this.props.children}
             </div>
         );
     }
