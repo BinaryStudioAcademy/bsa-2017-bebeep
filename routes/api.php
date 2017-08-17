@@ -72,7 +72,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 
         Route::delete('avatar', [
             'middleware' => 'jwt.auth',
-            'as' => 'avatar.remove',
+            'as' => 'avatar.delete',
             'uses' => 'User\AvatarController@destroy',
         ]);
 

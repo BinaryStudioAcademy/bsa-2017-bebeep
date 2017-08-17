@@ -9,18 +9,17 @@ use App\Models\{
     Booking
 };
 use Tests\JwtTestCase;
+use Illuminate\Support\Facades\Artisan;
 
 class ProfileTest extends JwtTestCase
 {
     /**
      * @var array
      */
-    private $routeShow = ['GET'];
-
-    /**
-     * @var array
-     */
-    private $routeUpdate = ['PATCH'];
+    private $routes = [
+        'get' => [ 'GET' ],
+        'update' => [ 'PATCH' ],
+    ];
 
     /**
      * @var array
@@ -48,9 +47,10 @@ class ProfileTest extends JwtTestCase
     public function setUp()
     {
         parent::setUp();
+        Artisan::call("migrate:refresh");
 
-        $this->routeShow[] = route('user.profile.show');
-        $this->routeUpdate[] = route('user.profile.update');
+        $this->routes['get'][] = route('user.profile.show');
+        $this->routes['update'][] = route('user.profile.update');
     }
 
     /**
@@ -58,7 +58,7 @@ class ProfileTest extends JwtTestCase
      */
     public function guest_can_not_show_profile()
     {
-        $response = $this->json($this->routeShow[0], $this->routeShow[1]);
+        $response = $this->json($this->routes['get'][0], $this->routes['get'][1]);
         $response->assertStatus(400);
     }
 
@@ -67,7 +67,7 @@ class ProfileTest extends JwtTestCase
      */
     public function guest_can_not_update_profile()
     {
-        $response = $this->json($this->routeUpdate[0], $this->routeUpdate[1]);
+        $response = $this->json($this->routes['update'][0], $this->routes['update'][1]);
         $response->assertStatus(400);
     }
 
@@ -78,7 +78,7 @@ class ProfileTest extends JwtTestCase
     {
         $user = $this->createDriver();
 
-        $response = $this->jsonRequestAsUser($user, $this->routeShow[0], $this->routeShow[1]);
+        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
 
         $response->assertStatus(200)
              ->assertExactJson(['data' => $this->driverData + [
@@ -97,7 +97,7 @@ class ProfileTest extends JwtTestCase
     {
         $user = $this->createPassenger();
 
-        $response = $this->jsonRequestAsUser($user, $this->routeShow[0], $this->routeShow[1]);
+        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
 
         $response->assertStatus(200)
              ->assertExactJson(['data' => $this->passengerData + [
@@ -117,7 +117,7 @@ class ProfileTest extends JwtTestCase
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
 
-        $response = $this->jsonRequestAsUser($user, $this->routeShow[0], $this->routeShow[1]);
+        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
@@ -138,7 +138,7 @@ class ProfileTest extends JwtTestCase
         $this->createVehicle($user->id);
         $this->createTrip($user->id);
 
-        $response = $this->jsonRequestAsUser($user, $this->routeShow[0], $this->routeShow[1]);
+        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
@@ -154,7 +154,7 @@ class ProfileTest extends JwtTestCase
     {
         $user = $this->createPassenger();
 
-        $response = $this->jsonRequestAsUser($user, $this->routeShow[0], $this->routeShow[1]);
+        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
@@ -175,7 +175,7 @@ class ProfileTest extends JwtTestCase
         $this->createTrip($driver->id);
         $this->createBooking($user->id);
 
-        $response = $this->jsonRequestAsUser($user, $this->routeShow[0], $this->routeShow[1]);
+        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
@@ -310,8 +310,8 @@ class ProfileTest extends JwtTestCase
     {
         return $this->jsonRequestAsUser(
             $user,
-            $this->routeUpdate[0],
-            $this->routeUpdate[1],
+            $this->routes['update'][0],
+            $this->routes['update'][1],
             $updatedData
         );
     }
