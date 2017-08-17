@@ -1,14 +1,71 @@
 import React from 'react';
 import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
+import EditTripService from '../../services/EditTripService';
+import moment from 'moment';
+import { securedRequest } from '../../../../app/services/RequestService';
 
 class EditTripForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            trip: {
+                price: null,
+                seats: null,
+                start_at: null,
+                from: {
+                    geometry: {
+                        location: {lat: 0, lng: 0}
+                    },
+                    formatted_address: "",
+                },
+
+                to: {
+                    geometry: {
+                        location: {lat: 0, lng: 0}
+                    },
+                    formatted_address: "",
+                },
+            },
+            notFoundTrip: false,
+            errors: {},
+            startPoint: {
+                address: 'Kyiv City, Kiev, Ukraine, 02000',
+                place: null,
+            },
+            endPoint: {
+                address: 'Kharkiv, Kharkiv Oblast, Ukraine',
+                place: null,
+            }
+        };
+    }
+
+    componentDidMount() {
+        EditTripService.getTrip(this.props.id)
+            .then(response => {
+                response = EditTripService.transformData(response);
+                this.setState({
+                    trip: response,
+                });
+                console.log('time', response.start_at);
+            })
+            .catch(error => {
+                this.setState({
+                    notFoundTrip: true,
+                });
+            });
+    }
 
     render() {
-        const { errors, trip } = this.props;
+        const { errors } = this.props;
+        const { trip, notFoundTrip } = this.state;
+        if (notFoundTrip) {
+            <div className="alert alert-danger" role="alert">Can`t load this trip. Please try later</div>
+        }
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method=""
-                  onSubmit={this.props.onSubmit} key={this.props.now}>
+                  onSubmit={this.props.onSubmit} key={moment()}>
                 <div className="card-header">
                     Edit Trip #{this.props.id}
                 </div>
@@ -36,7 +93,6 @@ class EditTripForm extends React.Component {
                         name="seats"
                         id="seats"
                         defaultValue={ trip.seats }
-                        keys={new Date()}
                         required={false}
                         error={errors.seats}>Available seats
                     </Input>

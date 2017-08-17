@@ -12,7 +12,7 @@ class EditTripContainer extends React.Component {
         super(props);
 
         this.state = {
-            trip: {
+            /*trip: {
                 price: null,
                 seats: null,
                 start_at: null,
@@ -29,7 +29,7 @@ class EditTripContainer extends React.Component {
                     },
                     formatted_address: "",
                 },
-            },
+            },*/
             notFoundTrip: false,
             errors: {},
             startPoint: {
@@ -43,43 +43,6 @@ class EditTripContainer extends React.Component {
         };
     }
 
-    componentDidMount() {
-        const response = {
-            price: 111,
-            seats: 5,
-            start_at: 1502928000,
-            from: {
-                geometry: {
-                    location: {lat: 50.4501, lng: 30.523400000000038}
-                },
-                formatted_address: "Kyiv City, Kiev, Ukraine, 02000",
-            },
-
-            to: {
-                geometry: {
-                    location: {lat: 49.839683, lng: 24.029717000000005}
-                },
-                formatted_address: "Kharkiv, Kharkiv Oblast, Ukraine",
-            },
-        };
-        response.start_at = EditTripService.convertTime(response.start_at);
-        this.setState({
-            trip: response,
-        });
-        console.log(response);
-
-        /*EditTripService.getTrip(this.props.id)
-         .then(response => {
-         this.setState({
-         trip: response,
-         });
-         })
-         .catch(error => {
-         this.setState({
-         notFoundTrip: true,
-         });
-         });*/
-    }
 
     onChangeStartPoint(address) {
         this.setState({
@@ -154,7 +117,6 @@ class EditTripContainer extends React.Component {
             value: this.state.endPoint.address,
             onChange: this.onChangeEndPoint.bind(this),
         };
-
         return (
             <div className="row">
                 <div className="col-sm-6">
@@ -167,8 +129,6 @@ class EditTripContainer extends React.Component {
                         onSelectStartPoint={this.onSelectStartPoint.bind(this)}
                         placesCssClasses={placesCssClasses}
                         onSubmit={this.onSubmit.bind(this)}
-                        trip={trip}
-                        now={moment()}
                     />
                 </div>
                 <div className="col-sm-6">
@@ -176,8 +136,8 @@ class EditTripContainer extends React.Component {
                         title="Preview Trip"
                         endTime={() => {}}
                         needDirection="1"
-                        from={trip.from.geometry.location}
-                        to={trip.to.geometry.location}
+                        from=''
+                        to=''
                     />
                 </div>
             </div>
