@@ -26,6 +26,14 @@ const UserService = {
             );
     },
 
+    updateProfileAvatar(updatedData) {
+        return securedRequest.put('/api/user/profile/avatar', updatedData)
+            .then(
+                response => Promise.resolve(response.data),
+                error => Promise.reject(error.response.data)
+            );
+    },
+
     resetPassword(email, token, password) {
         return simpleRequest.put('/api/v1/password-resets', {
             email: email,

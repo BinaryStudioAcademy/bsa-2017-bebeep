@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 
+import UserService from '../../services/UserService';
+
 import '../../../../app/styles/react-cropper.scss';
 import '../../../../app/styles/image-cropper.scss';
+
+const AVATAR_WIDTH = 100;
+const AVATAR_HEIGHT = 100;
 
 class AvatarUpload extends Component {
 
@@ -11,7 +16,8 @@ class AvatarUpload extends Component {
         super(props);
 
         this.state = {
-            image: null
+            imageFile: null,
+            imagePreview: null,
         };
 
         this.onImageDrop = this.onImageDrop.bind(this);
@@ -21,7 +27,8 @@ class AvatarUpload extends Component {
 
     onImageDrop(files) {
         this.setState({
-            image: files[0].preview
+            imageFile: files[0],
+            imagePreview: files[0].preview
         });
     }
 
@@ -30,14 +37,55 @@ class AvatarUpload extends Component {
         this.cropper.rotate(degree);
     }
 
+    imageCrop() {
+        const imageType = this.state.imageFile.type;
+
+        return this.cropper.getCroppedCanvas({
+            width: AVATAR_WIDTH,
+            height: AVATAR_HEIGHT,
+        }).toDataURL(imageType);
+    }
+
     onImageSave() {
-        const avatar = this.cropper.getCroppedCanvas().toDataURL();
-        console.log(avatar);
+        const updatedData = {
+            'avatar': this.imageCrop(),
+        };
+
+        UserService.updateProfileAvatar(updatedData)
+            .then(response => {
+                /*this.setState({
+                    modal: {
+                        isOpen: true,
+                        status: 'success',
+                        msg: MODAL_MSG.success,
+                    }
+                });*/
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+                /*this.setState({
+                    errors: error,
+                    modal: {
+                        isOpen: true,
+                        status: 'error',
+                        msg: MODAL_MSG.error,
+                    }
+                });*/
+            });
+
+        /*this.cropper.getCroppedCanvas({
+            width: AVATAR_WIDTH,
+            height: AVATAR_HEIGHT,
+        }).toBlob((image) => {
+            console.log(image);
+        });*/
+        //console.log(avatar);
     }
 
     render() {
-        const { image } = this.state;
-        const classHide = null === image ? ' hide' : '';
+        const { imagePreview } = this.state;
+        const classHide = null === imagePreview ? ' hide' : '';
 
         return (
             <div className="row avatar-upload">
@@ -58,7 +106,7 @@ class AvatarUpload extends Component {
                     <div className={"image-cropper__cropper-wrapper" + classHide}>
                         <Cropper
                             className="image-cropper__base-cropper"
-                            src={ image }
+                            src={ imagePreview }
                             aspectRatio={ 1 / 1 }
                             autoCropArea={ .8 }
                             preview=".image-cropper__image-preview"
