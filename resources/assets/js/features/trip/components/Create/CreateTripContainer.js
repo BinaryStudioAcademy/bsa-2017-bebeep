@@ -26,8 +26,33 @@ class CreateTripContainer extends React.Component {
             endPoint: {
                 address: '',
                 place: null,
-            }
+            },
+            waypoints: []
         };
+    }
+
+    onWaypointAdd(e) {
+        e.preventDefault();
+
+        this.setState({
+            waypoints: [
+                ...this.state.waypoints,
+                {
+                    value: '',
+                    onChange: this.onWaypointChange.bind(this),
+                    onSelect: this.onWaypointSelect.bind(this)
+                }
+            ]
+        });
+        console.log('Add');
+    }
+
+    onWaypointChange(address, index) {
+        console.log(address, 'change', index);
+    }
+
+    onWaypointSelect(address) {
+        console.log(address, 'select');
     }
 
     onChangeStartPoint(address) {
@@ -116,7 +141,6 @@ class CreateTripContainer extends React.Component {
                 errors: error.response.data
             })
         });
-
     }
 
     render() {
@@ -147,6 +171,8 @@ class CreateTripContainer extends React.Component {
                         onSelectStartPoint={this.onSelectStartPoint.bind(this)}
                         placesCssClasses={placesCssClasses}
                         onSubmit={this.onSubmit.bind(this)}
+                        waypoints={this.state.waypoints}
+                        onWaypointAdd={this.onWaypointAdd.bind(this)}
                     />
                 </div>
                 <div className="col-sm-6">

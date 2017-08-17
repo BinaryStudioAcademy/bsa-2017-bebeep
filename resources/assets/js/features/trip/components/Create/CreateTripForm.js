@@ -6,6 +6,16 @@ class CreateTripForm extends React.Component {
     render() {
         const {errors} = this.props;
 
+        let waypointsView = this.props.waypoints.map((point, index) =>
+            <div className="col-sm-8" key={index}>
+                <PlacesAutocomplete inputProps={{value: point.value, onChange(address) {point.onChange(address, index)}}}
+                                    classNames={this.props.placesCssClasses}
+                                    onSelect={point.onSelect}
+                                    onEnterKeyDown={point.onSelect}
+                />
+            </div>
+        );
+
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
                   onSubmit={this.props.onSubmit}>
@@ -66,6 +76,12 @@ class CreateTripForm extends React.Component {
                         required={false}
                         error={errors.start_at}>Trip start time
                     </Input>
+
+                    {waypointsView}
+                    <div className="form-group text-right">
+                        <a href="#" onClick={this.props.onWaypointAdd}>Add stopover</a>
+                    </div>
+
                     <div className="form-group">
                         <div className="text-center">
                             <button type="submit" className="btn btn-primary">Create new trip</button>
