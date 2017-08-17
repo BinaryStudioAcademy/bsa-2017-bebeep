@@ -6,37 +6,41 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-//use App\Services\Contracts\PasswordService;
-//use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\UpdateUserAvatarRequest;
+use App\Services\Contracts\UserProfileService;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 
 class AvatarController extends Controller
 {
     /**
-     * @var \App\Services\PasswordService
+     * @var \App\Services\Contracts\UserProfileService
      */
-    private $userAvatarService;
+    private $userProfileService;
 
     /**
-     * @param \App\Services\PasswordService $passwordService
+     * @param \App\Services\Contracts\UserProfileService $userProfileService
      */
-    /*public function __construct(PasswordService $userAvatarService)
+    public function __construct(UserProfileService $userProfileService)
     {
-        $this->userAvatarService = $userAvatarService;
-    }*/
+        $this->userProfileService = $userProfileService;
+    }
 
     /**
      * Update the current user avatar.
      *
-     * @param \App\Http\Requests\UpdatePasswordRequest $request
+     * @param \App\Http\Requests\UpdateUserAvatarRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request): JsonResponse
+    public function update(UpdateUserAvatarRequest $request): JsonResponse
     {
-        return response()->json($request->avatar);
+        try {
+            $avatar = $this->userProfileService->updateAvatar(Auth::user()->id, $request);
 
-        //$this->passwordService->update(Auth::user()->id, $request);
+        } catch (FileCannotBeAdded $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
 
-        return response()->json();
+        return response()->json($avatar);
     }
 }

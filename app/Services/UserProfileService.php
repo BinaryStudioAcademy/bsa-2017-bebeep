@@ -3,13 +3,18 @@
 namespace App\Services;
 
 use App\User;
+use App\Services\Requests\{
+    UpdateUserAvatarRequest,
+    UpdateUserProfileRequest
+};
 use App\Repositories\UserRepository;
 use App\Presenters\UserProfilePresenter;
-use App\Services\Requests\UpdateUserProfileRequest;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 
 class UserProfileService implements UserProfileServiceContract
 {
+    const AVATAR_MEDIA_NAME = 'avatar';
+
     /**
      * @var \App\Repositories\UserRepository
      */
@@ -51,5 +56,23 @@ class UserProfileService implements UserProfileServiceContract
         $this->userRepository->update($attributes, $userId);
 
         return $this->getGeneral($userId);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function updateAvatar(int $userId, UpdateUserAvatarRequest $request): string
+    {
+        $user = $this->userRepository->find($userId);
+
+        $fileName = str_random(20);
+        $mediaCollectionName = 'images';
+
+        return $user
+           ->addMediaFromBase64($request->getAvatar(), 'image/*')
+           ->usingName(self::AVATAR_MEDIA_NAME)
+           ->usingFileName($fileName)
+           ->toMediaCollection($mediaCollectionName)
+           ->getFullUrl();
     }
 }

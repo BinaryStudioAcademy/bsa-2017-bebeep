@@ -2,7 +2,10 @@
 
 namespace App\Services\Contracts;
 
-use App\Services\Requests\UpdateUserProfileRequest;
+use App\Services\Requests\{
+    UpdateUserAvatarRequest,
+    UpdateUserProfileRequest
+};
 
 interface UserProfileService
 {
@@ -22,4 +25,14 @@ interface UserProfileService
      * @return array
      */
     public function updateGeneral(int $userId, UpdateUserProfileRequest $request): array;
+
+    /**
+     * Update the user profile avatar.
+     *
+     * @param int $userId
+     * @param \App\Services\Requests\UpdateUserAvatarRequest $request
+     *
+     * @return string The avatar image full url
+     */
+    public function updateAvatar(int $userId, UpdateUserAvatarRequest $request): string;
 }
