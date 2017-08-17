@@ -4,7 +4,7 @@ namespace App\Services\Requests;
 
 interface VerifyUserRequest
 {
-    public function getEmail() : ?string;
+    public function getEmail(): ?string;
 
-    public function getToken() : ?string;
+    public function getToken(): ?string;
 }

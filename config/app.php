@@ -175,6 +175,7 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Themsaid\MailPreview\MailPreviewServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
 
         /*
          * Application Service Providers...
