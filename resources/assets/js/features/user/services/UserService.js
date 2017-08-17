@@ -26,8 +26,8 @@ const UserService = {
             );
     },
 
-    updateProfileAvatar(updatedData, params) {
-        return securedRequest.post('/api/user/profile/avatar', updatedData, params)
+    updateProfileAvatar(updatedData) {
+        return securedRequest.post('/api/user/profile/avatar', updatedData)
             .then(
                 response => Promise.resolve(response.data),
                 error => Promise.reject(error.response.data)

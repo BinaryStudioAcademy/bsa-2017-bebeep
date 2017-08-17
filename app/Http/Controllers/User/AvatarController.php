@@ -33,7 +33,7 @@ class AvatarController extends Controller
      */
     public function update(Request $request): JsonResponse
     {
-        return response()->json($request->file('avatar'));
+        return response()->json($request->avatar);
 
         //$this->passwordService->update(Auth::user()->id, $request);
 

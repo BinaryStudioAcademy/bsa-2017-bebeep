@@ -47,24 +47,11 @@ class AvatarUpload extends Component {
     }
 
     onImageSave() {
-        /*const updatedData = {
+        const updatedData = {
             'avatar': this.imageCrop(),
-        };*/
-
-        var updatedData = new FormData();
-        updatedData.append('avatar', this.state.imageFile);
-
-        const config = {
-            transformRequest: function(data) { return data; }
-            //headers: { 'Content-Type': 'multipart/form-data' },
-            /*onUploadProgress: function(progressEvent) {
-                let percentCompleted = Math.round(
-                    progressEvent.loaded * 100 / progressEvent.total
-                );
-            }*/
         };
 
-        UserService.updateProfileAvatar(updatedData, config)
+        UserService.updateProfileAvatar(updatedData)
             .then(response => {
                 /*this.setState({
                     modal: {
@@ -74,7 +61,6 @@ class AvatarUpload extends Component {
                     }
                 });*/
                 console.log(response);
-                //this.uploadProgress.innerHTML = response.data;
             })
             .catch(error => {
                 console.log(error);
@@ -87,14 +73,6 @@ class AvatarUpload extends Component {
                     }
                 });*/
             });
-
-        /*this.cropper.getCroppedCanvas({
-            width: AVATAR_WIDTH,
-            height: AVATAR_HEIGHT,
-        }).toBlob((image) => {
-            console.log(image);
-        });*/
-        //console.log(avatar);
     }
 
     render() {
@@ -117,7 +95,7 @@ class AvatarUpload extends Component {
                 </div>
 
                 <div className="col-5">
-                    <div className={"image-cropper__cropper-wrapper" + classHide}>
+                    <div className={ "image-cropper__cropper-wrapper" + classHide }>
                         <Cropper
                             className="image-cropper__base-cropper"
                             src={ imagePreview }
@@ -130,27 +108,28 @@ class AvatarUpload extends Component {
                         <div className="image-cropper__buttons-rotate">
                             <button className="btn image-cropper__btn-image-rotate"
                                     onClick={ () => this.imageRotate('left') }>
-                                <i className="image-cropper__btn-image-rotate-icon fa fa-undo" aria-hidden="true"></i>
+                                <i className="image-cropper__btn-image-rotate-icon fa fa-undo"
+                                    aria-hidden="true"></i>
                             </button>
 
                             <button className="btn image-cropper__btn-image-rotate"
                                     onClick={ () => this.imageRotate('right') }>
-                                <i className="image-cropper__btn-image-rotate-icon fa fa-repeat" aria-hidden="true"></i>
+                                <i className="image-cropper__btn-image-rotate-icon fa fa-repeat"
+                                    aria-hidden="true" />
                             </button>
                         </div>
                     </div>
                 </div>
 
                 <div className="col-2">
-                    <div className={"image-cropper__preview-wrapper" + classHide}>
-                        <div className="image-cropper__image-preview"></div>
+                    <div className={ "image-cropper__preview-wrapper" + classHide }>
+                        <div className="image-cropper__image-preview"
+                            style={{ width: AVATAR_WIDTH, height: AVATAR_HEIGHT }} />
 
                         <button className="image-cropper__btn-save btn btn-primary"
                                 onClick={ this.onImageSave }>
                             Save
                         </button>
-
-                        <div ref={ (uploadProgress) => { this.uploadProgress = uploadProgress; } }></div>
                     </div>
                 </div>
             </div>
