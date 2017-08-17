@@ -137,7 +137,7 @@ class TripsService
             'to' => $request->getTo(),
         ];
 
-        $result = $this->tripRepository->update($tripAttributes, $trip->id);
+        $result = $this->tripRepository->update($tripAttributes, $trip->id); // don't use this way of storing models. Your repository shouldn't know about arrays
         $result->routes()->update($routeAttributes);
 
         return $result;
