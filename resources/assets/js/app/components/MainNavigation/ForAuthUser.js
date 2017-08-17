@@ -61,7 +61,7 @@ class ForAuthUser extends Component {
                     <Link to="/dashboard" className="dropdown-item">{translate('dashboard')}</Link>
                     <Link to="#" className="dropdown-item">{translate('my_trips')}</Link>
                     <Link to="#" className="dropdown-item">{translate('my_bookings')}</Link>
-                    <Link to="#" className="dropdown-item">{translate('profile')}</Link>
+                    <Link to="/dashboard/profile" className="dropdown-item">{translate('profile')}</Link>
 
                     <div className="dropdown-divider"></div>
 

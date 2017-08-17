@@ -7,5 +7,5 @@ use App\User;
 
 interface DeleteTripRule
 {
-    public function validate(Trip $trip, User $user) : bool;
+    public function validate(Trip $trip, User $user): bool;
 }

@@ -11,7 +11,7 @@ class PageHeader extends Component {
         const { header } = this.props;
 
         return (
-            <header id="header">
+            <header className="page-header">
                 <h1 className="h4">{header}</h1>
             </header>
         );

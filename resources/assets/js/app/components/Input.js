@@ -11,6 +11,8 @@ class Input extends React.Component {
                            className={"form-control " + (this.props.error ? 'form-control-danger' : '')}
                            id={ this.props.id }
                            name={ this.props.name }
+                           value={ this.props.value }
+                           defaultValue={ this.props.defaultValue }
                            required={ this.props.required }
                            onChange={ this.props.onChange }
                     />
