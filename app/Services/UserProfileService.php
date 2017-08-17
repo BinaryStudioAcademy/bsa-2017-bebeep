@@ -29,7 +29,7 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * @inheritdoc
      */
-    public function getGeneral(int $userId) : array
+    public function getGeneral(int $userId): array
     {
         return $this->userRepository
             ->setPresenter(UserProfilePresenter::class)
@@ -39,7 +39,7 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * @inheritdoc
      */
-    public function updateGeneral(int $userId, UpdateUserProfileRequest $request) : array
+    public function updateGeneral(int $userId, UpdateUserProfileRequest $request): array
     {
         $attributes = [
             'email' => $request->getEmail(),
@@ -59,7 +59,7 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * @inheritdoc
      */
-    public function updateAvatar(int $userId, UpdateUserAvatarRequest $request) : string
+    public function updateAvatar(int $userId, UpdateUserAvatarRequest $request): string
     {
         $user = $this->userRepository->find($userId);
 
@@ -78,7 +78,7 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * @inheritdoc
      */
-    public function deleteAvatar(int $userId) : void
+    public function deleteAvatar(int $userId): void
     {
         $user = $this->userRepository->find($userId);
         $user->deleteAvatar();

@@ -107,7 +107,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * @return bool
      */
-    public function isAdmin() : bool
+    public function isAdmin(): bool
     {
         return (bool) ($this->attributes['permissions'] & self::ADMIN_PERMISSION);
     }
@@ -115,7 +115,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * @return bool
      */
-    public function isPassenger() : bool
+    public function isPassenger(): bool
     {
         return (bool) ($this->attributes['permissions'] & self::PASSENGER_PERMISSION);
     }
@@ -123,7 +123,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * @return bool
      */
-    public function isDriver() : bool
+    public function isDriver(): bool
     {
         return (bool) ($this->attributes['permissions'] & self::DRIVER_PERMISSION);
     }
@@ -132,7 +132,7 @@ class User extends Authenticatable implements HasMedia
      * @param int $role
      * @return bool
      */
-    public function hasRole(int $role) : bool
+    public function hasRole(int $role): bool
     {
         return (bool) ($this->attributes['permissions'] & $role);
     }
@@ -140,7 +140,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * @return bool
      */
-    public function isVerified() : bool
+    public function isVerified(): bool
     {
         return (bool) ($this->attributes['is_verified']);
     }
@@ -150,7 +150,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @return bool
      */
-    public function hasBooking() : bool
+    public function hasBooking(): bool
     {
         return $this->bookings()->first() !== null;
     }
@@ -160,7 +160,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @return bool
      */
-    public function hasTrip() : bool
+    public function hasTrip(): bool
     {
         return $this->trips()->first() !== null;
     }
@@ -168,7 +168,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * @return string
      */
-    public function getFullName() : string
+    public function getFullName(): string
     {
         return "{$this->first_name} {$this->last_name}";
     }
@@ -176,9 +176,9 @@ class User extends Authenticatable implements HasMedia
     /**
      * Get the user avatar media instance.
      *
-     * @return \Spatie\MediaLibrary\Media
+     * @return \Spatie\MediaLibrary\Media|null
      */
-    public function getAvatar() : Media
+    public function getAvatar(): ?Media
     {
         return $this->getFirstMedia(self::MEDIA_AVATARS_COLLECTION);
     }
@@ -187,10 +187,15 @@ class User extends Authenticatable implements HasMedia
      * Get the full url of the user avatar.
      *
      * @param  bool $fullUrl
-     * @return string
+     * @return string|null
      */
-    public function getAvatarUrl(bool $fullUrl = false) : string
+    public function getAvatarUrl(bool $fullUrl = false): ?string
     {
+        $avatar = $this->getAvatar();
+
+        if ($avatar === null) {
+            return null;
+        }
         if ($fullUrl) {
             return $this->getAvatar()->getFullUrl();
         }
@@ -202,7 +207,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @return $this
      */
-    public function deleteAvatar() : self
+    public function deleteAvatar(): self
     {
         return $this->clearMediaCollection(self::MEDIA_AVATARS_COLLECTION);
     }

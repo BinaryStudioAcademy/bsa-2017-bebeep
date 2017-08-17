@@ -26,6 +26,18 @@ class AvatarController extends Controller
     }
 
     /**
+     * Get the user profile avatar.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(): JsonResponse
+    {
+        $avatar = $this->userProfileService->getAvatar(Auth::user()->id);
+
+        return response()->json($avatar);
+    }
+
+    /**
      * Update the current user avatar.
      *
      * @param \App\Http\Requests\UpdateUserAvatarRequest $request

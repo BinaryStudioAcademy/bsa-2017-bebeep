@@ -53,7 +53,7 @@ class RegisterUserService
      * @return string
      * @throws \App\Exceptions\User\VerifyException
      */
-    public function verify(VerifyUserRequest $request) : string
+    public function verify(VerifyUserRequest $request): string
     {
         $this->userRepository->pushCriteria(new NotVerifiedUserCriteria(
             $request->getEmail(),
