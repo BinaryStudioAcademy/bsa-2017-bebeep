@@ -11,12 +11,12 @@ use App\Http\Requests\UpdatePasswordRequest;
 class UpdatePasswordController extends Controller
 {
     /**
-     * @var \App\Services\PasswordService
+     * @var \App\Services\Contracts\PasswordService
      */
     private $passwordService;
 
     /**
-     * @param \App\Services\PasswordService $passwordService
+     * @param \App\Services\Contracts\PasswordService $passwordService
      */
     public function __construct(PasswordService $passwordService)
     {

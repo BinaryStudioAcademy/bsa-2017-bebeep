@@ -11,12 +11,12 @@ use App\Http\Requests\UpdateUserProfileRequest;
 class ProfileController extends Controller
 {
     /**
-     * @var \App\Services\UserProfileService
+     * @var \App\Services\Contracts\UserProfileService
      */
     private $userProfileService;
 
     /**
-     * @param \App\Services\UserProfileService $userProfileService
+     * @param \App\Services\Contracts\UserProfileService $userProfileService
      */
     public function __construct(UserProfileService $userProfileService)
     {
