@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import { getVehicle } from '../actions';
 
@@ -18,11 +19,12 @@ class VehicleProfile extends Component {
 
         return (
             <div className="card">
-              <div className="card-block">
-                <h4 className="card-title">{ vehicle.id } { vehicle.body } { vehicle.brand }</h4>
-                <p className="card-text">Year: { vehicle.year }</p>
-                <p className="card-text">Seats: { vehicle.year }</p>
-              </div>
+                <div className="card-header">
+                    <Link title="Click here to edit this vehicle" to={ '/mycars/vehicle/' + vehicle.id + '/edit' }>{ vehicle.id } { vehicle.body } { vehicle.brand }</Link></div>
+                <div className="card-block">
+                    <p className="card-text">Year: { vehicle.year }</p>
+                    <p className="card-text">Seats: { vehicle.seats }</p>
+                </div>
             </div>
         );
     }

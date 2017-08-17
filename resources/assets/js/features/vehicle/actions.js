@@ -29,7 +29,7 @@ export function getVehicle(id) {
             .catch(error => dispatch(getVehicleFailed(error.response)))
         ;
     };
-    id = parseInt(id, 10);
+    // id = parseInt(id, 10);
 
     // return {
     //     type: actions.VEHICLE_GET_SUCCESS,
@@ -50,7 +50,7 @@ export function getVehicle(id) {
 
 export function addVehicle(vehicle) {
     return {
-        type: actions.VEHICLE_ADD
+        type: actions.VEHICLE_CREATE_SUCCESS
     };
 };
 
@@ -74,7 +74,6 @@ export const getVehicleFailed = vehicle => ({
     vehicle
 });
 
-
 export const createSuccess = data => ({
     type: actions.VEHICLE_CREATE_SUCCESS,
     data
@@ -85,7 +84,6 @@ export const createFailed = data => ({
     data
 });
 
-
 export const doCreate = (data) => {
     return dispatch => {
         securedRequest.post('/api/v1/car', data)
@@ -95,12 +93,30 @@ export const doCreate = (data) => {
     };
 };
 
+export const editSuccess = data => ({
+    type: actions.VEHICLE_EDIT_SUCCESS,
+    data
+});
+
+export const editFailed = data => ({
+    type: actions.VEHICLE_EDIT_FAILED,
+    data
+});
+
+export const doEdit = (data) => {
+    return dispatch => {
+        securedRequest.put('/api/v1/car', data)
+            .then(response => dispatch(editSuccess(response.data)))
+            .catch(error => dispatch(editFailed(error.response)))
+        ;
+    };
+};
 /*
 export function editVehicle(id) {
-    // return type: actions.VEHICLE_EDIT
+    // return type: actions.VEHICLE_EDIT_SUCCESS
 };
 
 export function deleteVehicle(id) {
-    // return type: actions.VEHICLE_DELETE
+    // return type: actions.VEHICLE_DELETE_SUCCESS
 };
 */

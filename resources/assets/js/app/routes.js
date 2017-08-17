@@ -17,6 +17,7 @@ import SearchIndex from '../features/search/index/layouts/SearchIndex';
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import VehicleForm from '../features/vehicle/layouts/VehicleForm';
+import VehicleEditForm from '../features/vehicle/layouts/VehicleUpdate';
 
 import CreateTrip from '../features/trip/layouts/CreateTrip';
 
@@ -29,9 +30,12 @@ export default (
         <Route onEnter={ requireAuth }>
             <Route path="/dashboard" component={ Dashboard } />
 
-            <Route path="mycars" component={ Vehicles } />
-            <Route path="mycars/vehicle/:id" component={ VehicleDetails } />
-            <Route path="mycars/create" component={ VehicleForm } />
+            <Route path="mycars">
+                <IndexRoute component={ Vehicles } />
+                <Route path="create" component={ VehicleForm } />
+                <Route path="vehicle/:id" component={ VehicleDetails } />
+                <Route path="vehicle/:id/edit" component={ VehicleEditForm } />
+            </Route>
 
             <Route path="vehicles">
                 <IndexRoute component={ Vehicles } />
