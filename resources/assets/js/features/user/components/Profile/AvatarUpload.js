@@ -47,11 +47,24 @@ class AvatarUpload extends Component {
     }
 
     onImageSave() {
-        const updatedData = {
+        /*const updatedData = {
             'avatar': this.imageCrop(),
+        };*/
+
+        var updatedData = new FormData();
+        updatedData.append('avatar', this.state.imageFile);
+
+        const config = {
+            transformRequest: function(data) { return data; }
+            //headers: { 'Content-Type': 'multipart/form-data' },
+            /*onUploadProgress: function(progressEvent) {
+                let percentCompleted = Math.round(
+                    progressEvent.loaded * 100 / progressEvent.total
+                );
+            }*/
         };
 
-        UserService.updateProfileAvatar(updatedData)
+        UserService.updateProfileAvatar(updatedData, config)
             .then(response => {
                 /*this.setState({
                     modal: {
@@ -61,6 +74,7 @@ class AvatarUpload extends Component {
                     }
                 });*/
                 console.log(response);
+                //this.uploadProgress.innerHTML = response.data;
             })
             .catch(error => {
                 console.log(error);
@@ -135,6 +149,8 @@ class AvatarUpload extends Component {
                                 onClick={ this.onImageSave }>
                             Save
                         </button>
+
+                        <div ref={ (uploadProgress) => { this.uploadProgress = uploadProgress; } }></div>
                     </div>
                 </div>
             </div>

@@ -5,12 +5,16 @@ namespace App;
 use App\Models\Trip;
 use App\Models\Booking;
 use App\Models\Vehicle;
+use Spatie\MediaLibrary\HasMedia\{
+    HasMediaTrait,
+    Interfaces\HasMedia
+};
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use Notifiable;
+    use Notifiable, HasMediaTrait;
 
     const PASSENGER_PERMISSION = 1;
     const DRIVER_PERMISSION = 2;

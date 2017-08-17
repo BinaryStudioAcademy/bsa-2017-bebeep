@@ -63,7 +63,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             'uses' => 'User\UpdatePasswordController@update',
         ]);
 
-        Route::put('avatar', [
+        Route::post('avatar', [
             'middleware' => 'jwt.auth',
             'as' => 'avatar.update',
             'uses' => 'User\AvatarController@update',
