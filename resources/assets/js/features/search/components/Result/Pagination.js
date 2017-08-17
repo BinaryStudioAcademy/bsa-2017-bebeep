@@ -32,68 +32,43 @@ class Pagination extends React.Component {
         );
     }
 
-    getLinks({ size, limit, page}) {
-        const countPages = Math.ceil(size / limit);
+    getLinks({page, size, limit}) {
+        let current = page,
+            last = Math.ceil(size / limit),
+            delta = 1,
+            left = current - delta,
+            right = current + delta + 1,
+            range = [],
+            rangeWithDots = [],
+            l;
 
-        let pages = [];
-        if (countPages <= 1) {
-            return pages;
-        }
-
-        pages.push(
-            this.getPageLink(page - 1, 'prev', (<i className="fa fa-arrow-left" />), page, page <= 1)
-        );
-
-        pages.push(
-            this.getPageLink(1, 1, 1, page)
-        );
-
-        if (page > 2) {
-            if (page > 3) {
-                pages.push(
-                    this.getPageLink('...', '...1', '...', page, true)
-                );
-            }
-            if (page == countPages && countPages > 3) {
-                pages.push(
-                    this.getPageLink(page - 2, page - 2, page - 2, page)
-                );
-            }
-            pages.push(
-                this.getPageLink(page - 1, page - 1, page - 1, page)
-            );
-        }
-
-        if (page != 1 && page != countPages) {
-            pages.push(
-                this.getPageLink(page, page, page, page)
-            );
-        }
-
-        if (page < countPages - 1) {
-            pages.push(
-                this.getPageLink(page + 1, page + 1, page + 1, page)
-            );
-            if (page == 1 && countPages > 3) {
-                pages.push(
-                    this.getPageLink(page + 2, page + 2, page + 2, page)
-                );
-            }
-            if (countPages > 4) {
-                pages.push(
-                    this.getPageLink('...', '...2', '...', page, true)
-                );
+        for (let i = 1; i <= last; i++) {
+            if (i == 1 || i == last || i >= left && i < right) {
+                range.push(i);
             }
         }
 
-        pages.push(
-            this.getPageLink(countPages, countPages, countPages, page)
+        rangeWithDots.push(
+            this.getPageLink(current - 1, 'prev', (<i className="fa fa-arrow-left" />), page, page <= 1)
         );
 
-        pages.push(
-            this.getPageLink(page + 1, 'next', (<i className="fa fa-arrow-right" />), page, page >= countPages)
+        for (let i of range) {
+            if (l) {
+                if (i - l === 2) {
+                    rangeWithDots.push(this.getPageLink(l + 1, l + 1, l + 1, current, false));
+                } else if (i - l !== 1) {
+                    rangeWithDots.push(this.getPageLink('...' + l, '...' + l, '...', current, true));
+                }
+            }
+            rangeWithDots.push(this.getPageLink(i, i, i, current, false));
+            l = i;
+        }
+
+        rangeWithDots.push(
+            this.getPageLink(current + 1, 'next', (<i className="fa fa-arrow-right" />), page, page >= last)
         );
-        return pages;
+
+        return rangeWithDots;
     }
 
     render() {
