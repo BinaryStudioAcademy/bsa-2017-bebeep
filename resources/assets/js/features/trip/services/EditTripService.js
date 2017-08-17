@@ -5,8 +5,8 @@ const EditTripService = {
     getTrip(id) {
         return securedRequest.get('/api/v1/trips/show/'+id)
             .then(
-                response => Promise.resolve(response.data),
-                error => Promise.reject(error.response.data)
+                response => Promise.resolve(response.data[id-1]),
+                error => Promise.reject(error.response.data[id-1])
             );
     },
     transformData(response) {

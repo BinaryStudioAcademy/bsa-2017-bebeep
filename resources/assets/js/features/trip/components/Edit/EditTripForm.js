@@ -3,6 +3,7 @@ import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import EditTripService from '../../services/EditTripService';
 import moment from 'moment';
+import {geocodeByAddress} from 'react-places-autocomplete';
 
 class EditTripForm extends React.Component {
     constructor(props) {
@@ -12,31 +13,16 @@ class EditTripForm extends React.Component {
             trip: {
                 price: null,
                 seats: null,
-                start_at: null,
-                routes: {
-                    from: {
-                        geometry: {
-                            location: {lat: 0, lng: 0}
-                        },
-                        formatted_address: "",
-                    },
-
-                    to: {
-                        geometry: {
-                            location: {lat: 0, lng: 0}
-                        },
-                        formatted_address: "",
-                    },
-                }
+                start_at: null
             },
             notFoundTrip: false,
             errors: {},
             startPoint: {
-                address: 'Kyiv City, Kiev, Ukraine, 02000',
+                address: '',
                 place: null,
             },
             endPoint: {
-                address: 'Kharkiv, Kharkiv Oblast, Ukraine',
+                address: '',
                 place: null,
             }
         };
@@ -47,8 +33,21 @@ class EditTripForm extends React.Component {
             .then(response => {
                 response = EditTripService.transformData(response);
                 this.setState({
-                    trip: response
+                    trip: response,
+                    startPoint: {
+                        geometry: {
+                            location: response.routes[0].from.geometry.location
+                        },
+                        address: response.routes[0].from.formatted_address
+                    },
+                    endPoint: {
+                        geometry: {
+                            location: response.routes[0].to.geometry.location
+                        },
+                        address: response.routes[0].to.formatted_address
+                    },
                 });
+                this.setStartPlaces();
             })
             .catch(error => {
                 this.setState({
@@ -57,10 +56,78 @@ class EditTripForm extends React.Component {
             });
     }
 
+    setStartPlaces() {
+        const { startPoint , endPoint } = this.state;
+        this.props.startPlaces(startPoint, endPoint);
+    }
+
+    onChangeStartPoint(address) {
+        this.setState({
+            startPoint: {address: address}
+        });
+    }
+
+    onChangeEndPoint(address) {
+        this.setState({
+            endPoint: {address: address}
+        });
+    }
+
+    onSelectStartPoint(address) {
+        this.selectGeoPoint('start', address);
+    }
+
+    onSelectEndPoint(address) {
+        this.selectGeoPoint('end', address);
+    }
+
+    selectGeoPoint(type, address) {
+        this.setState({
+            [type + 'Point']: {
+                address: address,
+                place: null
+            }
+        });
+
+        geocodeByAddress(address)
+            .then(results => {
+                this.setState({
+                    [type + 'Point']: {
+                        place: results[0],
+                        address: address,
+                    }
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    [type + 'Point']: {
+                        place: null,
+                        address: address,
+                    }
+                })
+            });
+    }
 
     render() {
         const { errors } = this.props;
         const { trip, notFoundTrip } = this.state;
+
+        const startPointProps = {
+            value: this.state.startPoint.address,
+            onChange: this.onChangeStartPoint.bind(this),
+        };
+
+        const endPointProps = {
+            value: this.state.endPoint.address,
+            onChange: this.onChangeEndPoint.bind(this),
+        };
+
+        const placesCssClasses = {
+            root: 'form-group',
+            input: 'form-control',
+            autocompleteContainer: 'autocomplete-container'
+        };
+
         if (notFoundTrip) {
             <div className="alert alert-danger" role="alert">Can`t load this trip. Please try later</div>
         }
@@ -76,7 +143,7 @@ class EditTripForm extends React.Component {
                             car</label>
                         <div className="col-sm-8">
                             <select name="vehicle_id" className="form-control" id="vehicle_id">
-                                <option value="1">1</option>
+                                <option value="1">BMW X5</option>
                             </select>
                             <div className="form-control-feedback">{errors.vehicle_id}</div>
                         </div>
@@ -100,10 +167,10 @@ class EditTripForm extends React.Component {
                     <div className={"form-group row " + (this.props.errors.from ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4">Start Point</label>
                         <div className="col-sm-8">
-                            <PlacesAutocomplete inputProps={this.props.startPoint}
-                                                classNames={this.props.placesCssClasses}
-                                                onSelect={this.props.onSelectStartPoint}
-                                                onEnterKeyDown={this.props.onSelectStartPoint}
+                            <PlacesAutocomplete inputProps={startPointProps}
+                                                classNames={placesCssClasses}
+                                                onSelect={this.onSelectStartPoint}
+                                                onEnterKeyDown={this.onSelectStartPoint}
                             />
                             <div className="form-control-feedback">{this.props.errors.from}</div>
                         </div>
@@ -111,10 +178,10 @@ class EditTripForm extends React.Component {
                     <div className={"form-group row " + (this.props.errors.to ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4">End Point</label>
                         <div className="col-sm-8">
-                            <PlacesAutocomplete inputProps={this.props.endPoint}
-                                                classNames={this.props.placesCssClasses}
-                                                onSelect={this.props.onSelectEndPoint}
-                                                onEnterKeyDown={this.props.onSelectEndPoint}
+                            <PlacesAutocomplete inputProps={endPointProps}
+                                                classNames={placesCssClasses}
+                                                onSelect={this.onSelectEndPoint}
+                                                onEnterKeyDown={this.onSelectEndPoint}
                             />
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>
