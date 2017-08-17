@@ -89,7 +89,7 @@ class EditTripContainer extends React.Component {
                             from={this.state.startPlace.geometry.location}
                             to={this.state.endPlace.geometry.location}
                         />
-                    ) : (<span>&nbsp;</span>)}
+                    ) : (<div className="map-loading"></div>)}
                 </div>
             </div>
         );

@@ -173,6 +173,7 @@ class EditTripForm extends React.Component {
                                                 classNames={placesCssClasses}
                                                 onSelect={this.onSelectStartPoint}
                                                 onEnterKeyDown={this.onSelectStartPoint}
+                                                key={moment()}
                             />
                             <div className="form-control-feedback">{this.props.errors.from}</div>
                         </div>
@@ -184,6 +185,7 @@ class EditTripForm extends React.Component {
                                                 classNames={placesCssClasses}
                                                 onSelect={this.onSelectEndPoint}
                                                 onEnterKeyDown={this.onSelectEndPoint}
+                                                key={moment()}
                             />
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>
