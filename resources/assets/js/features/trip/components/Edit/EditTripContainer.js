@@ -46,8 +46,8 @@ class EditTripContainer extends React.Component {
             end_at: time.end_at,
             price: e.target['price'].value,
             seats: e.target['seats'].value,
-            //from: this.state.startPoint.place,
-            //to: this.state.endPoint.place,
+            from: this.state.startPlace,
+            to: this.state.endPlace,
         };
         const validated = Validator.validate(createTripRules, data);
 

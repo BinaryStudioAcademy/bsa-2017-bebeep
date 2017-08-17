@@ -38,13 +38,15 @@ class EditTripForm extends React.Component {
                         geometry: {
                             location: response.routes[0].from.geometry.location
                         },
-                        address: response.routes[0].from.formatted_address
+                        address: response.routes[0].from.formatted_address,
+                        place_id: response.routes[0].from.place_id
                     },
                     endPoint: {
                         geometry: {
                             location: response.routes[0].to.geometry.location
                         },
-                        address: response.routes[0].to.formatted_address
+                        address: response.routes[0].to.formatted_address,
+                        place_id: response.routes[0].from.place_id
                     },
                 });
                 this.setStartPlaces();

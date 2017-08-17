@@ -3,7 +3,7 @@ import moment from 'moment';
 
 const EditTripService = {
     getTrip(id) {
-        return securedRequest.get('/api/v1/trips/show/'+id)
+        return securedRequest.get('/api/v1/trips/show/' + id)
             .then(
                 response => Promise.resolve(response.data[id-1]),
                 error => Promise.reject(error.response.data[id-1])
@@ -13,6 +13,13 @@ const EditTripService = {
         response.start_at = moment.utc(response.start_at +`0000`, "YYYY-MM-DD HH:mm:ss Z").local().format("YYYY-MM-DDThh:mm");
         response.price = parseInt(response.price);
         return response;
+    },
+    sendUpdatedTrip(id, data) {
+        const tripUrl = 'api/v1/trips/' + id;
+        return securedRequest.put(tripUrl, data)
+            .then(
+                success => true
+            );
     }
 };
 
