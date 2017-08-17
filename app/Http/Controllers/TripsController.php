@@ -75,7 +75,7 @@ class TripsController extends Controller
      */
     public function show(Trip $trip)
     {
-        $result = $this->tripsService->show($trip);
+        $result = $this->tripsService->show($trip, Auth::user());
 
         return response()->json($result, 200);
     }
