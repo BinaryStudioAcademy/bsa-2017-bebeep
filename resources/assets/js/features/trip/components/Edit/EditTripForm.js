@@ -13,19 +13,21 @@ class EditTripForm extends React.Component {
                 price: null,
                 seats: null,
                 start_at: null,
-                from: {
-                    geometry: {
-                        location: {lat: 0, lng: 0}
+                routes: {
+                    from: {
+                        geometry: {
+                            location: {lat: 0, lng: 0}
+                        },
+                        formatted_address: "",
                     },
-                    formatted_address: "",
-                },
 
-                to: {
-                    geometry: {
-                        location: {lat: 0, lng: 0}
+                    to: {
+                        geometry: {
+                            location: {lat: 0, lng: 0}
+                        },
+                        formatted_address: "",
                     },
-                    formatted_address: "",
-                },
+                }
             },
             notFoundTrip: false,
             errors: {},
@@ -45,7 +47,7 @@ class EditTripForm extends React.Component {
             .then(response => {
                 response = EditTripService.transformData(response);
                 this.setState({
-                    trip: response,
+                    trip: response
                 });
             })
             .catch(error => {
@@ -54,6 +56,7 @@ class EditTripForm extends React.Component {
                 });
             });
     }
+
 
     render() {
         const { errors } = this.props;

@@ -2,7 +2,7 @@ import React from 'react';
 import EditTripForm from './EditTripForm';
 import DirectionsMap from "../../../../app/components/DirectionsMap";
 import {geocodeByAddress} from 'react-places-autocomplete';
-import { getStartAndEndTime} from '../../../../app/services/TripService';
+import { createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
 import Validator from '../../../../app/services/Validator';
 import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
 import EditTripService from '../../services/EditTripService';
@@ -16,19 +16,21 @@ class EditTripContainer extends React.Component {
                 price: null,
                 seats: null,
                 start_at: null,
-                from: {
-                    geometry: {
-                        location: {lat: 50.449427, lng: 30.484366000000023}
+                routes: {
+                    from: {
+                        geometry: {
+                            location: {lat: 50.449427, lng: 30.484366000000023}
+                        },
+                        formatted_address: "",
                     },
-                    formatted_address: "",
-                },
 
-                to: {
-                    geometry: {
-                        location: {lat: 46.472945, lng: 30.74872879999998}
+                    to: {
+                        geometry: {
+                            location: {lat: 46.472945, lng: 30.74872879999998}
+                        },
+                        formatted_address: "",
                     },
-                    formatted_address: "",
-                },
+                }
             },
             notFoundTrip: false,
             errors: {},
@@ -108,6 +110,15 @@ class EditTripContainer extends React.Component {
             //from: this.state.startPoint.place,
             //to: this.state.endPoint.place,
         };
+        const validated = Validator.validate(createTripRules, data);
+
+        if (!validated.valid) {
+            this.setState({errors: validated.errors});
+            return;
+        }
+
+        this.setState({errors: {}});
+
         console.log(data);
     }
 
@@ -127,6 +138,7 @@ class EditTripContainer extends React.Component {
             value: this.state.endPoint.address,
             onChange: this.onChangeEndPoint.bind(this),
         };
+
         return (
             <div className="row">
                 <div className="col-sm-6">
@@ -146,8 +158,8 @@ class EditTripContainer extends React.Component {
                         title="Preview Trip"
                         endTime={this.setEndTime.bind(this)}
                         needDirection="1"
-                        from={this.state.trip.from.geometry.location}
-                        to={this.state.trip.to.geometry.location}
+                        from={this.state.trip.routes.from.geometry.location}
+                        to={this.state.trip.routes.to.geometry.location}
                     />
                 </div>
             </div>
