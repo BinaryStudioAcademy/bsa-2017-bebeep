@@ -1,6 +1,5 @@
 import React from 'react';
 import TripItem from './TripItem';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import '../../styles/trip-list.scss';
 
@@ -21,13 +20,11 @@ class TripList extends React.Component {
                 </div>
             ) : '';
         return (
-            <div>
+            <div className="trip-list">
                 {preload}
                 {notFoundMessage}
                 {collection.map((trip) =>
-                    <Link key={trip.id}  to={`/trip/${trip.id}`} className="trip-list__item-link">
-                        <TripItem trip={trip} />
-                    </Link>
+                    <TripItem key={trip.id} trip={trip} />
                 )}
             </div>
         )

@@ -1,0 +1,16 @@
+.search-result {
+
+  &__header {
+    background-color: #fff;
+  }
+
+  &__sort-container {
+    text-align: right;
+    padding-right: 0;
+  }
+
+  &__pagination {
+    background-color: #fff;
+    padding: 10px 0;
+  }
+}

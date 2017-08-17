@@ -4,9 +4,11 @@
   $borderColor: #bbb;
   $bgColor: #fff;
 
+  display: block;
   background-color: $bgColor;
   border-top: 1px solid $borderColor;
   padding: 10px 0;
+  color: #272727;
 
   &:last-child {
     border-bottom: 1px solid $borderColor;
@@ -14,6 +16,8 @@
 
   &:hover {
     background-color: darken($bgColor, 1%);
+    color: #272727;
+    text-decoration: none;
     cursor: pointer;
   }
 

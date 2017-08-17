@@ -1,0 +1,26 @@
+@import '~font-awesome/scss/_variables';
+
+.search-sort {
+  display: inline-block;
+  padding: 10px 5px;
+  color: #121212;
+
+  &:focus,
+  &:hover,
+  &_active {
+    text-decoration: none;
+    background-color: #efefef;
+    color: #121212;
+  }
+
+  &_active:after {
+    content: $fa-var-long-arrow-up;
+    font-family: FontAwesome;
+    vertical-align: middle;
+    margin-left: 3px;
+    font-size: .8rem;
+  }
+  &_active.trip-list__sort_asc:after {
+    content: $fa-var-long-arrow-down;
+  }
+}

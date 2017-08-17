@@ -9,6 +9,7 @@ import { search, encodeCoord, getDataFromQuery, setUrl, setFilter} from '../../s
 import { searchResult } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { withRouter, browserHistory } from 'react-router';
+import '../../styles/search-result.scss';
 
 class Result extends React.Component {
 
@@ -131,7 +132,7 @@ class Result extends React.Component {
             currentPage = this.getCurrentPage(page, limit, meta.totalSize),
             countResult = this.countResult(currentPage, collection.length, limit);
         return (
-            <div>
+            <div className="search-result">
                 <SearchForm />
                 <div className="row">
                     <div className="col-md-3">
@@ -142,12 +143,12 @@ class Result extends React.Component {
                         />
                     </div>
                     <div className="col-md-9">
-                        <div className="trip-list container">
-                            <div className="row trip-list__header">
+                        <div className="container">
+                            <div className="row search-result__header">
                                 <div className="col-8 align-self-center">
                                     Found trips: {meta.totalSize}
                                 </div>
-                                <div className="trip-list__sort-container col-4">
+                                <div className="search-result__sort-container col-4">
                                     <SortPanel
                                         sort={sort}
                                         order={order}
@@ -155,13 +156,13 @@ class Result extends React.Component {
                                     />
                                 </div>
                             </div>
-                            <div className="trip-list__item-container">
+                            <div className="search-result__item-container">
                                 <TripList
                                     collection={collection}
                                     preloader={preloader}
                                 />
                             </div>
-                            <div className="row trip-list__pagination">
+                            <div className="row search-result__pagination">
                                 <div className="col-sm-6 align-self-center">
                                     Showing {countResult} of {meta.totalSize}
                                 </div>

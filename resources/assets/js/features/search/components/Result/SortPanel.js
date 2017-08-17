@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../styles/search-sort.scss';
 
 class SortPanel extends React.Component {
     render() {
@@ -7,11 +8,11 @@ class SortPanel extends React.Component {
             <span>
                 <a href="#sort/price"
                    onClick={e => { e.preventDefault(); onChange('price') }}
-                   className={"trip-list__sort" + (sort === 'price' ? " trip-list__sort_active" : '') + (order === 'asc' ? " trip-list__sort_asc" : "")}
+                   className={"search-sort" + (sort === 'price' ? " search-sort_active" : '') + (order === 'asc' ? " search-sort_asc" : "")}
                 >Price</a>
                 <a href="#sort/start"
                    onClick={e => { e.preventDefault(); onChange('start_at') }}
-                   className={"trip-list__sort" + (sort === 'start_at' ? " trip-list__sort_active" : '') + (order === 'asc' ? " trip-list__sort_asc" : "")}
+                   className={"search-sort" + (sort === 'start_at' ? " search-sort_active" : '') + (order === 'asc' ? " search-sort_asc" : "")}
                 >Date</a>
             </span>
         );
