@@ -14,4 +14,4 @@
 Route::get('/{wildcard?}', function () {
     return view('index');
 })
-->where('wildcard', '^(?!api).+');
+->where('wildcard', '^(?!api|storage).+');
