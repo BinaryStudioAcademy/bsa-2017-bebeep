@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => env('MAILGUN_DOMAIN', 'stage.bebeep.io'),
+        'secret' => env('MAILGUN_SECRET', 'key-63e9aae0b4e1d80eb9c96dab64fc43b4'),
     ],
 
     'ses' => [
