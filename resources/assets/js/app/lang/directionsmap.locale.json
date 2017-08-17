@@ -1,0 +1,6 @@
+{
+  "start_point_address": ["Start point address", "Початкова адреса", "Начальный адрес"],
+  "end_point_address": ["End point address", "Кінцева адреса", "Конечный адрес"],
+  "distance": ["Distance", "Дистанція", "Дистанция"],
+  "duration": ["Duration", "Тривалість", "Длительность"]
+}

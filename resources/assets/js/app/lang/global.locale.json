@@ -1,0 +1,14 @@
+{
+  "login": ["Login", "Війти", "Войти"],
+  "register": ["Register", "Регістрація", "Регистрация"],
+  "my_vehicles": ["My vehicles", "Моє авто", "Мои машины"],
+  "create_new_trip": ["Create new trip", "Додати подорож", "Добавить поездку"],
+  "my_trips": ["My trips", "Мої подорожі", "Мои поездки"],
+  "dashboard": ["Dashboard", "Прилади", "Инструменты"],
+  "profile": ["Profile", "Профіль", "Профиль"],
+  "logout": ["Logout", "Вийти", "Выйти"],
+  "my_bookings": ["My bookings", "Мої замовлення", "Мои заказы"],
+  "this_is_a_demo_404_page": ["This is a demo 404 page!", "Це демо 404-ї сторінки!", "Это демо 404-й страницы!"],
+  "back_to_home_view": ["Back To Home View", "Назад на домашню сторінку", "Назад на домашнюю страницу"],
+  "home_page": ["Home page", "Домашня сторінка", "Домашняя страница"]
+}

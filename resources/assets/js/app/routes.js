@@ -21,43 +21,51 @@ import CreateTrip from '../features/trip/layouts/CreateTrip';
 import TripsList from '../features/trip-list/layouts/TripsList';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
+import { setLanguages, addTranslation } from 'react-localize-redux';
 
-export default (
-    <Route path="/" component={ App }>
-        <IndexRoute component={ SearchIndex } />
+export default (store) => {
 
-        <Route onEnter={ requireAuth }>
-            <Route path="/dashboard" component={ Dashboard } />
+    const languages = ['en', 'ua', 'ru'];
+    store.dispatch(setLanguages(languages, 'en'));
+    store.dispatch(addTranslation(require('./lang/global.locale.json')));
 
-            <Route path="vehicles">
-                <IndexRoute component={ Vehicles } />
-                <Route path="create" component={ Vehicles } />
-                <Route path=":id" component={ VehicleDetails } />
+    return (
+        <Route path="/" component={ App }>
+            <IndexRoute component={ SearchIndex } />
+
+            <Route onEnter={ requireAuth }>
+                <Route path="/dashboard" component={ Dashboard } />
+
+                <Route path="vehicles">
+                    <IndexRoute component={ Vehicles } />
+                    <Route path="create" component={ Vehicles } />
+                    <Route path=":id" component={ VehicleDetails } />
+                </Route>
+
+                <Redirect from='trips' to='/trips/upcoming'/>
+                <Route path="trips">
+                    <Route path="upcoming" component={ TripsList } />
+                    <Route path="past" component={ TripsList } />
+                </Route>
+
+                <Route path="trip">
+                    <Route path="create" component={ CreateTrip } />
+                    <Route path="edit/:id" component={ Vehicles /*TripEdit*/ } />
+                </Route>
+
+                <Route path="logout" component={ Logout } />
             </Route>
 
-            <Redirect from='trips' to='/trips/upcoming'/>
-            <Route path="trips">
-                <Route path="upcoming" component={ TripsList } />
-                <Route path="past" component={ TripsList } />
+            <Route onEnter={ requireGuest }>
+                <Route path="registration" component={ RegisterForm } />
+                <Route path="registration/success" component={ RegisterSuccess } />
+                <Route path="verification" component={ RegisterVerify } />
+
+                <Route path="login" component={ LoginForm } />
+                <Route path="password/reset" component={ PasswordReset } />
             </Route>
 
-            <Route path="trip">
-                <Route path="create" component={ CreateTrip } />
-                <Route path="edit/:id" component={ Vehicles /*TripEdit*/ } />
-            </Route>
-
-            <Route path="logout" component={ Logout } />
+            <Route path="*" component={ NotFound } />
         </Route>
-
-        <Route onEnter={ requireGuest }>
-            <Route path="registration" component={ RegisterForm } />
-            <Route path="registration/success" component={ RegisterSuccess } />
-            <Route path="verification" component={ RegisterVerify } />
-
-            <Route path="login" component={ LoginForm } />
-            <Route path="password/reset" component={ PasswordReset } />
-        </Route>
-
-        <Route path="*" component={ NotFound } />
-    </Route>
-);
+    );
+}

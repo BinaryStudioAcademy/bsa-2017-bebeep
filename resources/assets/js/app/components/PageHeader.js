@@ -3,15 +3,12 @@ import PropTypes from 'prop-types';
 
 class PageHeader extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            header: this.props.header
-        }
+    constructor() {
+        super();
     }
 
     render() {
-        const { header } = this.state;
+        const { header } = this.props;
 
         return (
             <header id="header">
