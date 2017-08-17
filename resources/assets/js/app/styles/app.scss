@@ -1,11 +1,37 @@
-body {
-    background: #efefef url('../images/cardboard.png')
+img {
+    max-width: 100%;
+    height: auto;
 }
 
-header {
-    padding: 15px
+.hide {
+    display: none !important;
 }
 
-h1 {
-    font-size: 24px
+.noselect,
+.form-check-label {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+    color: #444;
+    border-bottom: 1px solid #ddd;
+}
+
+.page-header .h1,
+.page-header .h2,
+.page-header .h3,
+.page-header .h4 {
+    margin: 0 .5rem .5rem;
+}
+
+.main-container {
+    background-color: #fff
+}
+
+.hover:hover {
+    cursor: pointer;
 }

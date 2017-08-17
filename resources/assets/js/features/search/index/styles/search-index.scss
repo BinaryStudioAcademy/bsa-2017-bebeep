@@ -1,0 +1,65 @@
+.autocomplete-container {
+  position: absolute;
+  font-size: 14px;
+  top: 30px;
+  background-color: white;
+  border: 1px solid #999;
+  z-index: 1000;
+}
+
+#PlacesAutocomplete__root {
+  margin-bottom: 0;
+}
+
+.search-input {
+  font-size: 14px;
+  padding: 10px 20px;
+  -webkit-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
+}
+
+.btn-search {
+  border-radius: 30px;
+  width: 100%;
+  background-color: #2a87d0;
+  border-color: rgba(29, 93, 144, 0.66);
+  -webkit-box-shadow: 0 5px 15px -6px rgba(0, 0, 0, 0.62);
+  -moz-box-shadow: 0 5px 15px -6px rgba(0, 0, 0, 0.62);
+  box-shadow: 0 5px 15px -6px rgba(0, 0, 0, 0.62);
+}
+
+.btn-search:hover {
+  cursor: pointer;
+}
+
+.suggestion-item {
+  padding: 5px;
+  font-size: 13px;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.suggestion-icon {
+  padding-right: 10px;
+  color: #3f84f5;
+}
+
+.form-control {
+  width: 100%;
+}
+
+.date-picker {
+  font-size: 14px;
+  padding: 10px 15px;
+  -webkit-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
+}
+
+.form-control-feedback {
+  font-size: 12px;
+}
+
+.picker-error {
+  border-color: #d9534f;
+}

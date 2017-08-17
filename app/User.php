@@ -5,16 +5,23 @@ namespace App;
 use App\Models\Trip;
 use App\Models\Booking;
 use App\Models\Vehicle;
+use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\HasMedia\{
+    HasMediaTrait,
+    Interfaces\HasMedia
+};
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use Notifiable;
+    use Notifiable, HasMediaTrait;
 
     const PASSENGER_PERMISSION = 1;
     const DRIVER_PERMISSION = 2;
     const ADMIN_PERMISSION = 4;
+
+    const MEDIA_AVATARS_COLLECTION = 'avatars';
 
     /**
      * Boot the model.
@@ -43,6 +50,7 @@ class User extends Authenticatable
         'permissions',
         'phone',
         'birth_date',
+        'about_me',
     ];
 
     /**
@@ -99,7 +107,7 @@ class User extends Authenticatable
     /**
      * @return bool
      */
-    public function isAdmin() : bool
+    public function isAdmin(): bool
     {
         return (bool) ($this->attributes['permissions'] & self::ADMIN_PERMISSION);
     }
@@ -107,7 +115,7 @@ class User extends Authenticatable
     /**
      * @return bool
      */
-    public function isPassenger() : bool
+    public function isPassenger(): bool
     {
         return (bool) ($this->attributes['permissions'] & self::PASSENGER_PERMISSION);
     }
@@ -115,7 +123,7 @@ class User extends Authenticatable
     /**
      * @return bool
      */
-    public function isDriver() : bool
+    public function isDriver(): bool
     {
         return (bool) ($this->attributes['permissions'] & self::DRIVER_PERMISSION);
     }
@@ -124,16 +132,83 @@ class User extends Authenticatable
      * @param int $role
      * @return bool
      */
-    public function hasRole(int $role) : bool
+    public function hasRole(int $role): bool
     {
         return (bool) ($this->attributes['permissions'] & $role);
     }
 
-    /*
+    /**
      * @return bool
      */
-    public function isVerified() : bool
+    public function isVerified(): bool
     {
         return (bool) ($this->attributes['is_verified']);
+    }
+
+    /**
+     * Check whether the passenger has at least one booking.
+     *
+     * @return bool
+     */
+    public function hasBooking(): bool
+    {
+        return $this->bookings()->first() !== null;
+    }
+
+    /**
+     * Check whether the driver has at least one trip.
+     *
+     * @return bool
+     */
+    public function hasTrip(): bool
+    {
+        return $this->trips()->first() !== null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
+    /**
+     * Get the user avatar media instance.
+     *
+     * @return \Spatie\MediaLibrary\Media|null
+     */
+    public function getAvatar(): ?Media
+    {
+        return $this->getFirstMedia(self::MEDIA_AVATARS_COLLECTION);
+    }
+
+    /**
+     * Get the full url of the user avatar.
+     *
+     * @param  bool $fullUrl
+     * @return string|null
+     */
+    public function getAvatarUrl(bool $fullUrl = false): ?string
+    {
+        $avatar = $this->getAvatar();
+
+        if ($avatar === null) {
+            return null;
+        }
+        if ($fullUrl) {
+            return $this->getAvatar()->getFullUrl();
+        }
+        return $this->getAvatar()->getUrl();
+    }
+
+    /**
+     * Delete the user avatar.
+     *
+     * @return $this
+     */
+    public function deleteAvatar(): self
+    {
+        return $this->clearMediaCollection(self::MEDIA_AVATARS_COLLECTION);
     }
 }

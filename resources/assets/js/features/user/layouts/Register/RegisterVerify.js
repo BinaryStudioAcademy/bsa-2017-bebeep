@@ -1,8 +1,9 @@
 import React from 'react';
-import PageHeader from '../../../app/components/PageHeader';
-import { browserHistory } from 'react-router';
 import validate from 'validate.js';
-import { makeRequest } from '../../../app/services/RequestService';
+import { browserHistory } from 'react-router';
+
+import PageHeader from '../../../../app/components/PageHeader';
+import { simpleRequest } from '../../../../app/services/RequestService';
 
 class RegisterVerify extends React.Component {
 
@@ -24,7 +25,7 @@ class RegisterVerify extends React.Component {
         if (result) {
             this.setState({errors: result});
         } else {
-            return makeRequest('post', '/api/user/verify', {
+            return simpleRequest.post('/api/user/verify', {
                 email: email,
                 token: token
             })

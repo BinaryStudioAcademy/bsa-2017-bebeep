@@ -4,13 +4,9 @@ namespace Tests\Feature\Auth;
 
 use App\User;
 use Tests\JwtTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RegisterUserTest extends JwtTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     protected $urlRegister;
     protected $urlVerify;
 

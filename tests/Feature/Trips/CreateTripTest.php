@@ -5,13 +5,9 @@ namespace Tests\Feature\Trips;
 use App\User;
 use Carbon\Carbon;
 use App\Models\Vehicle;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CreateTripTest extends BaseTripTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     protected $url;
     protected $method = 'POST';
 

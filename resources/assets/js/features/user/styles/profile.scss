@@ -1,0 +1,44 @@
+.menu-sidebar {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+    background-color: #fff;
+}
+
+.menu-sidebar__item {
+    margin-bottom: -1px;
+    border: 1px solid rgba(0,0,0,.125)
+}
+
+.menu-sidebar__header,
+.menu-sidebar__link {
+    padding: .5rem 1rem .5rem 1.25rem;
+}
+
+.menu-sidebar__header {
+    font-size: .95em;
+    font-weight: bold;
+    color: #31708f;
+    background-color: #d9edf7;
+    border-bottom: 1px solid rgba(49, 112, 143, .3)
+}
+.menu-sidebar__link {
+    display: block;
+    font-size: .9em;
+    text-decoration: none;
+}
+
+.menu-sidebar__link--active {
+    text-decoration: none;
+    color: #444;
+    background-color: #faf2cc;
+}
+
+.menu-sidebar__link:hover,
+.menu-sidebar__link:focus {
+    text-decoration: none;
+}
+
+.menu-sidebar__link:hover {
+    background-color: rgba(250, 242, 204, .4)
+}
