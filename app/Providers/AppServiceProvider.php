@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Auth;
-use Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Vehicle;
 use App\Services\{
     PasswordService,
@@ -67,9 +67,9 @@ class AppServiceProvider extends ServiceProvider
     private function extendValidator(): void
     {
         Validator::extend('max_seats_from_vehicle', function (
-            string $attribute,
-            int $value,
-            array $parameters,
+            $attribute,
+            $value,
+            $parameters,
             $validator
         ) {
             if (! $parameters || ! Auth::user() || ! $parameters[0]) {
@@ -86,9 +86,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('greater_than_date', function (
-            string $attribute,
-            int $value,
-            array $parameters,
+            $attribute,
+            $value,
+            $parameters,
             $validator
         ) {
             if (! $parameters || ! $parameters[0]) {
