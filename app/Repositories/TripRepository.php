@@ -48,13 +48,4 @@ class TripRepository extends BaseRepository
 
         return $trip;
     }
-
-    /**
-     * @param Trip $trip
-     * @return mixed
-     */
-    public function getTripById(Trip $trip)
-    {
-        return $this->find($trip->id);
-    }
 }
