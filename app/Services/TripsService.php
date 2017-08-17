@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Criteria\Trips\AllDriverTripsCriteria;
+use App\Criteria\Trips\DriverTripByIdCriteria;
 use App\Criteria\Trips\PastDriverTripsCriteria;
 use App\Criteria\Trips\UpcomingDriverTripsCriteria;
 use App\Models\Trip;
@@ -102,14 +103,15 @@ class TripsService
     }
 
     /**
-     * Get trip by id
+     * Get user trip by id
      *
      * @param Trip $trip
+     * @param User $user
      * @return mixed
      */
-    public function show(Trip $trip)
+    public function show(Trip $trip, User $user)
     {
-        return $this->tripRepository->getTripById($trip);
+        return $this->tripRepository->getByCriteria(new DriverTripByIdCriteria($trip, $user));
     }
 
     /**
