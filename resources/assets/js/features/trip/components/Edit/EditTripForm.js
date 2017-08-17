@@ -26,36 +26,10 @@ class EditTripForm extends React.Component {
                 place: null,
             }
         };
-    }
-
-    componentDidMount() {
-        EditTripService.getTrip(this.props.id)
-            .then(response => {
-                response = EditTripService.transformData(response);
-                this.setState({
-                    trip: response,
-                    startPoint: {
-                        geometry: {
-                            location: response.routes[0].from.geometry.location
-                        },
-                        address: response.routes[0].from.formatted_address,
-                        place_id: response.routes[0].from.place_id
-                    },
-                    endPoint: {
-                        geometry: {
-                            location: response.routes[0].to.geometry.location
-                        },
-                        address: response.routes[0].to.formatted_address,
-                        place_id: response.routes[0].from.place_id
-                    },
-                });
-                this.setStartPlaces();
-            })
-            .catch(error => {
-                this.setState({
-                    notFoundTrip: true,
-                });
-            });
+        this.onSelectStartPoint = this.onSelectStartPoint.bind(this);
+        this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
+        this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
+        this.onSelectEndPoint = this.onSelectEndPoint.bind(this);
     }
 
     setStartPlaces() {
@@ -64,9 +38,11 @@ class EditTripForm extends React.Component {
     }
 
     onChangeStartPoint(address) {
+        console.log(this.state.startPoint.address);
+        console.log(address);
         this.setState({
             startPoint: {address: address}
-        });
+         });
     }
 
     onChangeEndPoint(address) {
@@ -81,6 +57,37 @@ class EditTripForm extends React.Component {
 
     onSelectEndPoint(address) {
         this.selectGeoPoint('end', address);
+    }
+
+    componentDidMount() {
+        EditTripService.getTrip(this.props.id)
+            .then(response => {
+                response = EditTripService.transformData(response);
+                const routes = response.routes[0];
+                this.setState({
+                    trip: response,
+                    startPoint: {
+                        geometry: {
+                            location: routes.from.geometry.location
+                        },
+                        address: routes.from.formatted_address,
+                        place_id: routes.from.place_id
+                    },
+                    endPoint: {
+                        geometry: {
+                            location: routes.to.geometry.location
+                        },
+                        address: routes.to.formatted_address,
+                        place_id: routes.from.place_id
+                    },
+                });
+                this.setStartPlaces();
+            })
+            .catch(error => {
+                this.setState({
+                    notFoundTrip: true,
+                });
+            });
     }
 
     selectGeoPoint(type, address) {
@@ -173,6 +180,7 @@ class EditTripForm extends React.Component {
                                                 classNames={placesCssClasses}
                                                 onSelect={this.onSelectStartPoint}
                                                 onEnterKeyDown={this.onSelectStartPoint}
+                                                ref="startPoint"
                                                 key={moment()}
                             />
                             <div className="form-control-feedback">{this.props.errors.from}</div>
