@@ -1,13 +1,6 @@
 import * as actions from './actionTypes';
 import { securedRequest } from '../../app/services/RequestService';
 
-// const vehiclesData = [
-//     {id: 1, name: 'BMW 007', type: 'Car 1'},
-//     {id: 2, name: 'Ferrari 012', type: 'Car 2'},
-//     {id: 3, name: 'Mercedes Benz g63', type: 'Car 3'}
-// ];
-
-
 export function getVehicles() {
     return dispatch => {
         securedRequest.get('/api/v1/car')
@@ -15,11 +8,6 @@ export function getVehicles() {
             .catch(error => dispatch(getAllFailed(error.response)))
         ;
     };
-
-    // vehiclesData = securedRequest.get('/api/v1/car')
-    //     .then(response => dispatch(getAllSuccess(response.data)))
-    //     .catch(error => dispatch(getAllFailed(error.response.data)))
-    // ;
 };
 
 export function getVehicle(id) {
@@ -29,24 +17,7 @@ export function getVehicle(id) {
             .catch(error => dispatch(getVehicleFailed(error.response)))
         ;
     };
-    // id = parseInt(id, 10);
-
-    // return {
-    //     type: actions.VEHICLE_GET_SUCCESS,
-    //     vehicle: vehiclesData.filter((vehicle) => vehicle.id === id)[0],
-    // };
 };
-
-
-
-// export function getVehicle(id) {
-//     id = parseInt(id, 10);
-
-//     return {
-//         type: actions.VEHICLE_GET,
-//         vehicle: vehiclesData.filter((vehicle) => vehicle.id === id)[0],
-//     };
-// };
 
 export function addVehicle(vehicle) {
     return {
@@ -103,14 +74,15 @@ export const editFailed = data => ({
     data
 });
 
-export const doEdit = (data) => {
+export function doEdit(data) { //need to send put request to id route, how to transfer it?
     return dispatch => {
-        securedRequest.put('/api/v1/car', data)
+        securedRequest.put('/api/v1/car/', data)
             .then(response => dispatch(editSuccess(response.data)))
             .catch(error => dispatch(editFailed(error.response)))
         ;
     };
 };
+
 /*
 export function editVehicle(id) {
     // return type: actions.VEHICLE_EDIT_SUCCESS

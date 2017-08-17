@@ -152,7 +152,8 @@ class Form extends React.Component {
                             name="brand"
                             placeholder={ this.state.brand.placeholder }
                             value={ this.state.brand.selected ? this.state.brand.selected : this.state.brand.placeholder }
-                            valueKey="id_car_mark"
+                            // valueKey="id_car_mark"
+                            valueKey="name"
                             labelKey="name"
                             className="col-sm-8"
                             clearable={ false }
@@ -177,7 +178,8 @@ class Form extends React.Component {
                             name="model"
                             placeholder={ this.state.model.placeholder }
                             value={ this.state.model.selected ? this.state.model.selected : this.state.model.placeholder }
-                            valueKey="id_car_model"
+                            // valueKey="id_car_model"
+                            valueKey="name"
                             labelKey="name"
                             className="col-sm-8"
                             clearable={ false }
@@ -214,7 +216,8 @@ class Form extends React.Component {
                             name="color"
                             placeholder={ this.state.color.placeholder }
                             value={ this.state.color.selected ? this.state.color.selected : this.state.color.placeholder }
-                            valueKey="id"
+                            // valueKey="id"
+                            valueKey="color"
                             labelKey="color"
                             className="col-sm-8"
                             clearable={ false }
@@ -235,7 +238,8 @@ class Form extends React.Component {
                             name="body"
                             placeholder={ this.state.body.placeholder }
                             value={ this.state.body.selected ? this.state.body.selected : this.state.body.placeholder }
-                            valueKey="id"
+                            // valueKey="id"
+                            valueKey="body"
                             labelKey="body"
                             className="col-sm-8"
                             clearable={ false }

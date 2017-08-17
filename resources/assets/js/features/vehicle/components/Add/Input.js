@@ -13,7 +13,6 @@ class Input extends React.Component {
                            name={ this.props.name }
                            required={ this.props.required }
                            onChange={ this.props.onChange }
-                           value={ this.props.value || '' }
                     />
                     <div className="form-control-feedback">{ this.props.error }</div>
                 </div>

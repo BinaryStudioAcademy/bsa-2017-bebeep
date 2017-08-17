@@ -29,8 +29,13 @@ class ForAuthUser extends Component {
             <div className="d-flex w-100">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <Link to="/vehicles" className="nav-link" activeClassName="active">
+                    <Link to="/mycars" className="nav-link" activeClassName="active">
                         My vehicles
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/mycars/create" className="nav-link" activeClassName="active">
+                        Add new vehicle
                     </Link>
                   </li>
                   <li className="nav-item">

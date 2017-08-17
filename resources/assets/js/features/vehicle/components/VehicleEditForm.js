@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
-import { getVehicle } from '../actions';
+
+import { getVehicle, doEdit } from '../actions';
 
 import { connect } from 'react-redux';
 import { doCreate } from '../actions';
-import Input from './Add/Input';
+import Input from './Add/InputUpdate';
 import Select from 'react-select';
 import { VehicleValidate } from '../../../app/services/VehicleService';
 import { securedRequest } from '../../../app/services/RequestService';
@@ -18,10 +19,11 @@ class VehicleEditForm extends React.Component {
         super(props);
 
         this.props.getVehicle(this.props.id);
+        this.props.doEdit(this.props.id);
 
         this.onSubmit = this.onSubmit.bind(this);
-        this.onSave = this.onSave.bind(this);
         this.logChange = this.logChange.bind(this);
+
         this.state = {
             errors: {},
             brand: {
@@ -50,6 +52,12 @@ class VehicleEditForm extends React.Component {
         this.getModelOptions = this.getModelOptions.bind(this);
         this.getBodyOptions = this.getBodyOptions.bind(this);
         this.getColorOptions = this.getColorOptions.bind(this);
+
+        this.onChangeYear = this.onChangeYear.bind(this);
+    }
+
+    onChangeYear(e) {
+        this.setState({year: e.target.value});
     }
 
     onSubmit(event) {
@@ -71,14 +79,10 @@ class VehicleEditForm extends React.Component {
                 errors: val.errors
             });
         } else {
-            this.props.dispatch(doCreate(vehicleData));
+            this.props.doEdit(vehicleData);
         }
 
     };
-
-    onSave(event) {
-        this.props.actions.doLogin(this.state.credentials);
-    }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.successCreate) {
@@ -143,6 +147,28 @@ class VehicleEditForm extends React.Component {
         });
     }
 
+    componentWillMount() {
+        const { vehicle } = this.props.vehicleState;
+        this.setState({
+            errors: {},
+            brand: {
+                selected: vehicle.brand,
+            },
+            model: {
+                selected: vehicle.model,
+            },
+            year: vehicle.year,
+            color: {
+                selected: vehicle.color,
+            },
+            body: {
+                selected: vehicle.body,
+            },
+            seats: vehicle.seats,
+            photo: vehicle.photo,
+        });
+    }
+
     render() {
         const { errors } = this.state;
         const { vehicle } = this.props.vehicleState;
@@ -159,9 +185,11 @@ class VehicleEditForm extends React.Component {
                         <Select.Async
                             name="brand"
                             placeholder={ this.state.brand.placeholder }
+                            // value={ vehicle.brand ? vehicle.brand : this.state.brand.placeholder }
                             value={ this.state.brand.selected ? this.state.brand.selected : this.state.brand.placeholder }
                             valueKey="id_car_mark"
                             labelKey="name"
+                            matchProp={ vehicle.brand }
                             className="col-sm-8"
                             clearable={ false }
                             loadOptions={ this.getBrandOptions }
@@ -206,15 +234,10 @@ class VehicleEditForm extends React.Component {
                         type="year"
                         name="year"
                         id="year"
-                        value={ vehicle.year }
+                        defaultValue={ vehicle.year }
+                        value={ this.state.year }
                         error={ errors.year }
-                        onChange={ data => {
-                            this.setState({
-                                    year: data.year
-                                });
-                            }
-                        }
-
+                        onChange={ this.onChangeYear }
                     >Year</Input>
 
                     <div className="form-group row ">
@@ -286,7 +309,6 @@ class VehicleEditForm extends React.Component {
                         error={ errors.photo }
                     >Photo</Input>
                 </div>
-
                 <div className="card-footer">
                     <div className="text-center">
                         <button className="btn btn-primary">
@@ -301,6 +323,7 @@ class VehicleEditForm extends React.Component {
 
 VehicleEditForm.propTypes = {
     getVehicle: PropTypes.func,
+    doEdit: PropTypes.func,
 };
 
 const VehicleEditFormConnected = connect(
@@ -309,7 +332,7 @@ const VehicleEditFormConnected = connect(
             vehicleState: state.vehicle
         };
     },
-    (dispatch) => bindActionCreators({ getVehicle }, dispatch)
+    (dispatch) => bindActionCreators({ getVehicle, doEdit }, dispatch)
 
 )(VehicleEditForm);
 

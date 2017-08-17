@@ -26,12 +26,12 @@ class VehiclesList extends Component {
         const { vehicles } = this.props.vehicleState;
 
         const vehiclesView = (vehicles.length > 0)
-          ? vehicles.map(vehicle => {
-              return (
-                <VehicleItem key={ vehicle.id } vehicle={ vehicle } />
-              );
+            ? vehicles.map(vehicle => {
+                return (
+                    <VehicleItem key={ vehicle.id } vehicle={ vehicle } />
+                );
             })
-          : null;
+            : null;
 
         return (
             <ul className="vehicles-list list-group">
