@@ -5,7 +5,9 @@ import TripList from './TripList';
 import SortPanel from './SortPanel';
 import Pagination from './Pagination';
 import { connect } from 'react-redux';
-import { search } from '../../../../app/services/TripService';
+import { search, encodeCoord, getDataFromQuery, setUrl} from '../../services/SearchService';
+import { searchResult } from '../../actions';
+import { bindActionCreators } from 'redux';
 import { withRouter, browserHistory } from 'react-router';
 
 class Result extends React.Component {
@@ -17,7 +19,7 @@ class Result extends React.Component {
             meta: {
                 totalSize: 0
             },
-            preloader: false,
+            preloader: true,
             sort: props.location.query.sort || 'price',
             order: props.location.query.order || 'asc',
             page: +props.location.query.page || 1,
@@ -28,22 +30,30 @@ class Result extends React.Component {
         this.onChangeSort = this.onChangeSort.bind(this);
         this.onChangePage = this.onChangePage.bind(this);
 
-        this.getData(props, this.state);
+    }
+
+    componentWillMount() {
+        const newTripData = getDataFromQuery(this.props.location.query, this.props.tripData);
+        if (Object.keys(newTripData).length) {
+            this.props.searchResult(newTripData);
+        } else {
+            this.getData(this.props, this.state);
+        }
     }
 
     onChangePage(page) {
         this.setState({page});
-        this.setUrl({page})
+        setUrl({page})
     }
 
     onChangeSort(sort) {
         if (sort === this.state.sort) {
             const order = this.state.order === 'asc' ? 'desc' : 'asc';
             this.setState({order});
-            this.setUrl({order});
+            setUrl({order});
         } else {
             this.setState({sort});
-            this.setUrl({sort});
+            setUrl({sort});
         }
     }
 
@@ -60,16 +70,6 @@ class Result extends React.Component {
                 errors: error.response,
                 preloader: false
             }));
-    }
-
-    setUrl(param = {}) {
-        const {pathname, query} = this.props.location;
-        const params = Object.assign(query, param);
-        let newQuery = [];
-        for (let key in params) {
-            newQuery.push(`${key}=${params[key]}`);
-        }
-        browserHistory.replace(`${pathname}?${newQuery.join('&')}`);
     }
 
     getCurrentPage(page, limit, totalSize) {
@@ -91,6 +91,17 @@ class Result extends React.Component {
             ||
             nextProps.tripData != this.props.tripData
         ) {
+            setUrl({
+                'fn': nextProps.tripData.from.name,
+                'fc': encodeCoord(nextProps.tripData.from.coordinate),
+                'tn': nextProps.tripData.to.name,
+                'tc': encodeCoord(nextProps.tripData.to.coordinate),
+                'start_at': nextProps.tripData.start_at,
+                'sort': nextState.sort,
+                'order': nextState.order,
+                'page': nextState.page,
+            });
+
             nextState.preloader = true;
             this.getData(nextProps, nextState);
         }
@@ -154,6 +165,7 @@ class Result extends React.Component {
 const ResultConnected = connect(
     (state) => ({
         tripData: state.search
-    })
+    }),
+    (dispatch) => bindActionCreators({searchResult},dispatch)
 )(Result);
 export default withRouter(ResultConnected);

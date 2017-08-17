@@ -4,11 +4,11 @@ import { browserHistory } from 'react-router';
 const initialState = {
     from: {
         name: '',
-        coordinate: {lan: null, lng: null,}
+        coordinate: {lat: null, lng: null,}
     },
     to: {
         name: '',
-        coordinate: {lan: null, lng: null,}
+        coordinate: {lat: null, lng: null,}
     },
     start_at: null,
     filter: {
@@ -21,6 +21,7 @@ export default function (state = initialState, action) {
     switch(action.type) {
         case actions.SEARCH_INDEX_SUCCESS:
             browserHistory.push('/search');
+        case actions.SEARCH_RESULT_SUCCESS:
             return {
                 ...state,
                 from: {

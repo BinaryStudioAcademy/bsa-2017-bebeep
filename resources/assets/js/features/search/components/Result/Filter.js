@@ -11,7 +11,7 @@ class Filter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: props.startDate,
+            startDate: moment.unix(props.startDate),
             timeRange: props.filterData.time,
             priceRange: props.filterData.price,
         };
@@ -48,7 +48,7 @@ class Filter extends React.Component {
     }
 
     render() {
-        const { timeRange, priceRange } = this.state;
+        const { timeRange, priceRange, startDate } = this.state;
         return (
             <div className="filter">
                 <div className="filter__prop">
@@ -56,7 +56,7 @@ class Filter extends React.Component {
                     <div className="filter__prop-control">
                         <DatePicker
                             todayButton={"Today"}
-                            selected={this.state.startDate}
+                            selected={startDate}
                             onChange={this.dateChange}
                             placeholderText="mm/dd/yyyy"
                             minDate={moment()}

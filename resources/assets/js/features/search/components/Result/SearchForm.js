@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
 import {bindActionCreators} from 'redux';
-import {searchSuccess} from '../../actions';
+import {searchResult} from '../../actions';
 import Validator from '../../../../app/services/Validator';
 
 class SearchForm extends React.Component {
@@ -96,7 +96,7 @@ class SearchForm extends React.Component {
             this.setState({errors: validated.errors});
             return;
         }
-        this.props.searchSuccess(tripData);
+        this.props.searchResult(tripData);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -187,7 +187,7 @@ const SearchFormConnect = connect(
         tripData: state.search
     }),
     dispatch =>
-        bindActionCreators({searchSuccess}, dispatch)
+        bindActionCreators({searchResult}, dispatch)
 )(SearchForm);
 
 export default SearchFormConnect;
