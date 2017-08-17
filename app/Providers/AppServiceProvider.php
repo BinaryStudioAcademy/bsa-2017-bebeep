@@ -10,6 +10,7 @@ use App\Services\{
     UserProfileService
 };
 use App\Validators\{
+    UpdateTripValidator,
     DeleteTripValidator,
     RestoreTripValidator,
     CanUncheckRoleValidator,
@@ -19,8 +20,9 @@ use App\Services\Contracts\{
     PasswordService as PasswordServiceContract,
     UserProfileService as UserProfileServiceContract
 };
-use App\Rules\DeleteTrip\TripOwnerRule;
 use Illuminate\Support\ServiceProvider;
+use App\Rules\DeleteTrip\TripOwnerRule;
+use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -50,6 +52,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(RestoreTripValidator::class, function ($app) {
             return new RestoreTripValidator(new TripOwnerRule);
+        });
+
+        $this->app->bind(UpdateTripValidator::class, function ($app) {
+            return new UpdateTripValidator(new TripUpdateOwnerRule);
         });
     }
 
