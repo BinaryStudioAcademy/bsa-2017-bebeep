@@ -5,7 +5,7 @@ import { registerSuccess } from '../../actions';
 import Input from '../../../../app/components/Input';
 import { browserHistory } from 'react-router';
 import { RegisterValidate } from '../../../../app/services/UserService';
-import { makeRequest } from '../../../../app/services/RequestService';
+import { simpleRequest } from '../../../../app/services/RequestService';
 import '../../styles/user_register.scss';
 
 class Form extends React.Component {
@@ -38,7 +38,7 @@ class Form extends React.Component {
                 errors: validate.errors
             });
         } else {
-            makeRequest('post', '/api/user/register', registerData)
+            simpleRequest.post('/api/user/register', registerData)
                 .then(
                     response => {
                         registerSuccess();

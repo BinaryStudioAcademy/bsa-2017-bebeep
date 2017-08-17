@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Criteria\Trips\AllDriverTripsCriteria;
+use App\Criteria\Trips\DriverTripByIdCriteria;
 use App\Criteria\Trips\PastDriverTripsCriteria;
 use App\Criteria\Trips\UpcomingDriverTripsCriteria;
 use App\Models\Trip;
@@ -13,25 +14,41 @@ use App\Services\Requests\UpdateTripRequest;
 use App\Services\Requests\SearchTripRequest;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 use App\Rules\DeleteTrip\TripOwnerRule;
+use App\Exceptions\Trip\TripNotFoundException;
+use App\Exceptions\Trip\UserCantEditTripException;
+use App\Validators\UpdateTripValidator;
 use App\Services\Requests\CreateTripRequest;
 use App\User;
 use App\Validators\DeleteTripValidator;
+use App\Validators\RestoreTripValidator;
 use Prettus\Repository\Contracts\CriteriaInterface;
 
 class TripsService
 {
     private $tripRepository;
     private $deleteTripValidator;
+    private $restoreTripValidator;
+    private $updateTripValidator;
 
     /**
      * TripsService constructor.
+     *
      * @param TripRepository $tripRepository
      * @param DeleteTripValidator $deleteTripValidator
+     * @param RestoreTripValidator $restoreTripValidator
+     * @param UpdateTripValidator $updateTripValidator
      */
-    public function __construct(TripRepository $tripRepository, DeleteTripValidator $deleteTripValidator)
+    public function __construct(
+        TripRepository $tripRepository,
+        DeleteTripValidator $deleteTripValidator,
+        RestoreTripValidator $restoreTripValidator,
+        UpdateTripValidator $updateTripValidator
+    )
     {
         $this->tripRepository = $tripRepository;
         $this->deleteTripValidator = $deleteTripValidator;
+        $this->restoreTripValidator = $restoreTripValidator;
+        $this->updateTripValidator = $updateTripValidator;
     }
 
     /**
@@ -89,14 +106,46 @@ class TripsService
     }
 
     /**
+     * Get user trip by id
+     *
+     * @param Trip $trip
+     * @param User $user
+     * @return mixed
+     */
+    public function show(Trip $trip, User $user)
+    {
+        return $this->tripRepository->getByCriteria(new DriverTripByIdCriteria($trip, $user));
+    }
+
+    /**
+     * Update trip service
+     *
      * @param Trip $trip
      * @param UpdateTripRequest $request
      * @param $user
-     * @return Trip
+     * @return mixed
      */
-    public function update(Trip $trip, UpdateTripRequest $request, $user): Trip
+    public function update(Trip $trip, UpdateTripRequest $request, $user)
     {
-        return $trip;
+        $this->updateTripValidator->validate($trip, $user);
+
+        $tripAttributes = [
+            'price' => $request->getPrice(),
+            'seats' => $request->getSeats(),
+            'start_at' => $request->getStartAt(),
+            'end_at' => $request->getEndAt(),
+            'vehicle_id' => $request->getVehicleId(),
+        ];
+
+        $routeAttributes = [
+            'from' => $request->getFrom(),
+            'to' => $request->getTo(),
+        ];
+
+        $result = $this->tripRepository->update($tripAttributes, $trip->id); // don't use this way of storing models. Your repository shouldn't know about arrays
+        $result->routes()->update($routeAttributes);
+
+        return $result;
     }
 
     /**
@@ -129,17 +178,17 @@ class TripsService
             ]);
 
             $routes = [
-                'from' => ['point' => $faker->city, 'id' => $i.'1'],
-                'to' => ['point' => $faker->city, 'id' => $i.'2'],
+                'from' => ['point' => $faker->city, 'id' => $i . '1'],
+                'to' => ['point' => $faker->city, 'id' => $i . '2'],
                 'points' => []
             ];
             $routes['points'][] = $routes['from'];
             $routes['points'][] = $routes['to'];
             if (rand(1, 1000) > 500) {
-                array_unshift($routes['points'], ['point' => $faker->city, 'id' => $i.'3']);
+                array_unshift($routes['points'], ['point' => $faker->city, 'id' => $i . '3']);
             }
             if (rand(1, 1000) > 500) {
-                $routes['points'][] = ['point' => $faker->city, 'id' => $i.'4'];
+                $routes['points'][] = ['point' => $faker->city, 'id' => $i . '4'];
             }
 
             /** @var Carbon $start_at */
@@ -175,10 +224,10 @@ class TripsService
                 ],
             ];
         }
-        usort($data, function($a, $b) use ($request) {
+        usort($data, function ($a, $b) use ($request) {
             $first = $request->isAsc() ? 'a' : 'b';
             $second = $request->isAsc() ? 'b' : 'a';
-            switch($request->getSort()) {
+            switch ($request->getSort()) {
                 case 'price':
                     return $$first['price'] <=> $$second['price'];
                 case 'start_at':
@@ -195,8 +244,21 @@ class TripsService
                 : $pages[$countData - 1]),
             'meta' => [
                 'total' => $countAllData,
-                'price' => [ 'max' => 1000, 'min' => 0 ]
+                'price' => ['max' => 1000, 'min' => 0]
             ]
         ];
+    }
+
+    /*
+     * @param Trip $trip
+     * @param $user
+     * @return Trip
+     */
+    public function restore(Trip $trip, $user)
+    {
+        $this->restoreTripValidator->validate($trip, $user);
+        $this->tripRepository->restore($trip);
+
+        return $trip;
     }
 }

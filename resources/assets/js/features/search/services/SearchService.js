@@ -1,4 +1,4 @@
-import { makeRequest } from '../../../app/services/RequestService';
+import { simpleRequest } from '../../../app/services/RequestService';
 import { browserHistory } from 'react-router';
 
 export const search = (
@@ -10,7 +10,7 @@ export const search = (
     filter = {}
 ) => {
     const { from, to, start_at }= tripData;
-    return makeRequest('get', '/api/v1/trips/search', {
+    return simpleRequest.get('/api/v1/trips/search', {
         params: setFilter({
             fc: encodeCoord(from.coordinate),
             tc: encodeCoord(to.coordinate),
