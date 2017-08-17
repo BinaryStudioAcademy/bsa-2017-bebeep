@@ -6,6 +6,7 @@ import { createTripRules, getStartAndEndTime} from '../../../../app/services/Tri
 import Validator from '../../../../app/services/Validator';
 import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
 import EditTripService from '../../services/EditTripService';
+import { browserHistory } from 'react-router';
 
 class EditTripContainer extends React.Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class EditTripContainer extends React.Component {
             notFoundTrip: false,
             errors: {},
             startPlace: null,
-            endPlace: null
+            endPlace: null,
         };
     }
 
@@ -57,6 +58,13 @@ class EditTripContainer extends React.Component {
         }
 
         this.setState({errors: {}});
+
+        EditTripService.sendUpdatedTrip(this.props.id, data)
+            .then((response) => {
+                if (response.status === 200) {
+                    browserHistory.push('/trips');
+                }
+            });
 
         console.log(data);
     }

@@ -18,8 +18,8 @@ const EditTripService = {
         const tripUrl = 'api/v1/trips/' + id;
         return securedRequest.put(tripUrl, data)
             .then(
-                success => true
-            );
+                response => Promise.resolve(response.data)
+            )
     }
 };
 
