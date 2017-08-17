@@ -33,12 +33,12 @@ branches:
         - development
 
 deploy:
-    skip_cleanup: true
-  - provider: script
-    script: scripts/deploy-prod.sh
-    on:
-        branch: master
-  - provider: script
-    script: scripts/deploy-stage.sh
-    on:
-        branch: development
+    - provider: script
+      script: scripts/deploy-prod.sh
+      on:
+          branch: master
+
+    - provider: script
+      script: scripts/deploy-prod.sh
+      on:
+          branch: master
