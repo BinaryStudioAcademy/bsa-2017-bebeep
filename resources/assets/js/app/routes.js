@@ -20,6 +20,7 @@ import VehicleForm from '../features/vehicle/layouts/VehicleForm';
 import VehicleEditForm from '../features/vehicle/layouts/VehicleUpdate';
 
 import CreateTrip from '../features/trip/layouts/CreateTrip';
+import TripsList from '../features/trip-list/layouts/TripsList';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 
@@ -41,6 +42,12 @@ export default (
                 <IndexRoute component={ Vehicles } />
                 <Route path="create" component={ Vehicles } />
                 <Route path=":id" component={ VehicleDetails } />
+            </Route>
+
+            <Redirect from='trips' to='/trips/upcoming'/>
+            <Route path="trips">
+                <Route path="upcoming" component={ TripsList } />
+                <Route path="past" component={ TripsList } />
             </Route>
 
             <Route path="trip">

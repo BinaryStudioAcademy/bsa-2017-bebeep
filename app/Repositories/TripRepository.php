@@ -37,4 +37,15 @@ class TripRepository extends BaseRepository
 
         return $trip;
     }
+
+    /**
+     * @param Trip $trip
+     * @return Trip
+     */
+    public function restore(Trip $trip)
+    {
+        $trip->restore();
+
+        return $trip;
+    }
 }
