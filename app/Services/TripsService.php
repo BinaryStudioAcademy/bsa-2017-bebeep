@@ -8,6 +8,10 @@ use App\Criteria\Trips\UpcomingDriverTripsCriteria;
 use App\Models\Trip;
 use App\Repositories\TripRepository;
 use App\Rules\DeleteTrip\TripOwnerRule;
+use App\Exceptions\Trip\TripNotFoundException;
+use App\Exceptions\Trip\UserCantEditTripException;
+use App\Validators\UpdateTripValidator;
+use Illuminate\Support\Facades\Validator;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
 use App\User;
@@ -20,18 +24,27 @@ class TripsService
     private $tripRepository;
     private $deleteTripValidator;
     private $restoreTripValidator;
+    private $updateTripValidator;
 
     /**
      * TripsService constructor.
+     *
      * @param TripRepository $tripRepository
      * @param DeleteTripValidator $deleteTripValidator
      * @param RestoreTripValidator $restoreTripValidator
+     * @param UpdateTripValidator $updateTripValidator
      */
-    public function __construct(TripRepository $tripRepository, DeleteTripValidator $deleteTripValidator, RestoreTripValidator $restoreTripValidator)
+    public function __construct(
+        TripRepository $tripRepository,
+        DeleteTripValidator $deleteTripValidator,
+        RestoreTripValidator $restoreTripValidator,
+        UpdateTripValidator $updateTripValidator
+    )
     {
         $this->tripRepository = $tripRepository;
         $this->deleteTripValidator = $deleteTripValidator;
         $this->restoreTripValidator = $restoreTripValidator;
+        $this->updateTripValidator = $updateTripValidator;
     }
 
     /**
@@ -89,14 +102,45 @@ class TripsService
     }
 
     /**
+     * Get trip by id
+     *
+     * @param Trip $trip
+     * @return mixed
+     */
+    public function show(Trip $trip)
+    {
+        return $this->tripRepository->getTripById($trip);
+    }
+
+    /**
+     * Update trip service
+     *
      * @param Trip $trip
      * @param UpdateTripRequest $request
      * @param $user
-     * @return Trip
+     * @return mixed
      */
-    public function update(Trip $trip, UpdateTripRequest $request, $user): Trip
+    public function update(Trip $trip, UpdateTripRequest $request, $user)
     {
-        return $trip;
+        $this->updateTripValidator->validate($trip, $user);
+
+        $tripAttributes = [
+            'price' => $request->getPrice(),
+            'seats' => $request->getSeats(),
+            'start_at' => $request->getStartAt(),
+            'end_at' => $request->getEndAt(),
+            'vehicle_id' => $request->getVehicleId(),
+        ];
+
+        $routeAttributes = [
+            'from' => $request->getFrom(),
+            'to' => $request->getTo(),
+        ];
+
+        $result = $this->tripRepository->update($tripAttributes, $trip->id); // don't use this way of storing models. Your repository shouldn't know about arrays
+        $result->routes()->update($routeAttributes);
+
+        return $result;
     }
 
     /**
