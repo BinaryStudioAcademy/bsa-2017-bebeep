@@ -11,7 +11,7 @@ class Filter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: moment.unix(props.startDate),
+            startDate: (props.startDate ? moment.unix(props.startDate) : null),
             timeRange: props.filterData.time,
             priceRange: props.filterData.price,
         };
