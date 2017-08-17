@@ -18,7 +18,7 @@ class ProfileTest extends JwtTestCase
      */
     private $routes = [
         'get' => [ 'GET' ],
-        'update' => [ 'PATCH' ],
+        'update' => [ 'PUT' ],
     ];
 
     /**

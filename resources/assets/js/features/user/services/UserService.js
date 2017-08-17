@@ -19,7 +19,7 @@ const UserService = {
     },
 
     updateProfileGeneral(updatedData) {
-        return securedRequest.patch('/api/user/profile', updatedData)
+        return securedRequest.put('/api/user/profile', updatedData)
             .then(
                 response => Promise.resolve(response.data),
                 error => Promise.reject(error.response.data)
@@ -27,7 +27,7 @@ const UserService = {
     },
 
     updateProfileAvatar(updatedData) {
-        return securedRequest.patch('/api/user/profile/avatar', updatedData)
+        return securedRequest.put('/api/user/profile/avatar', updatedData)
             .then(
                 response => Promise.resolve(response.data),
                 error => Promise.reject(error.response.data)
@@ -35,7 +35,7 @@ const UserService = {
     },
 
     updateProfilePassword(updatedData) {
-        return securedRequest.patch('/api/user/profile/password', updatedData)
+        return securedRequest.put('/api/user/profile/password', updatedData)
             .then(
                 response => Promise.resolve(response.data),
                 error => Promise.reject(error.response.data)

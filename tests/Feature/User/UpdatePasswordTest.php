@@ -10,7 +10,7 @@ class UpdatePasswordTest extends JwtTestCase
     /**
      * @var array
      */
-    private $routeUpdate = ['PATCH'];
+    private $routeUpdate = ['PUT'];
 
     public function setUp()
     {

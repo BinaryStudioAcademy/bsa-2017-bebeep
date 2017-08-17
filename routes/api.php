@@ -46,13 +46,13 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             'uses' => 'User\ProfileController@show',
         ]);
 
-        Route::patch('/', [
+        Route::put('/', [
             'middleware' => 'jwt.auth',
             'as' => 'update',
             'uses' => 'User\ProfileController@update',
         ]);
 
-        Route::patch('password', [
+        Route::put('password', [
             'middleware' => 'jwt.auth',
             'as' => 'password.update',
             'uses' => 'User\UpdatePasswordController@update',
@@ -64,7 +64,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             'uses' => 'User\AvatarController@show',
         ]);
 
-        Route::patch('avatar', [
+        Route::put('avatar', [
             'middleware' => 'jwt.auth',
             'as' => 'avatar.update',
             'uses' => 'User\AvatarController@update',
