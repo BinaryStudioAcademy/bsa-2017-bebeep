@@ -10,8 +10,24 @@ const UserService = {
             );
     },
 
+    getProfileAvatar() {
+        return securedRequest.get('/api/user/profile/avatar')
+            .then(
+                response => Promise.resolve(response.data),
+                error => Promise.reject(error.response.data)
+            );
+    },
+
     updateProfileGeneral(updatedData) {
         return securedRequest.patch('/api/user/profile', updatedData)
+            .then(
+                response => Promise.resolve(response.data),
+                error => Promise.reject(error.response.data)
+            );
+    },
+
+    updateProfileAvatar(updatedData) {
+        return securedRequest.patch('/api/user/profile/avatar', updatedData)
             .then(
                 response => Promise.resolve(response.data),
                 error => Promise.reject(error.response.data)
@@ -26,8 +42,8 @@ const UserService = {
             );
     },
 
-    updateProfileAvatar(updatedData) {
-        return securedRequest.patch('/api/user/profile/avatar', updatedData)
+    deleteProfileAvatar() {
+        return securedRequest.delete('/api/user/profile/avatar')
             .then(
                 response => Promise.resolve(response.data),
                 error => Promise.reject(error.response.data)
