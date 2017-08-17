@@ -57,6 +57,8 @@ class AvatarUpload extends Component {
         return this.cropper.getCroppedCanvas({
             width: AVATAR_WIDTH,
             height: AVATAR_HEIGHT,
+            imageSmoothingEnabled: true,
+            imageSmoothingQuality: 'high',
         }).toDataURL(imageType);
     }
 
@@ -102,6 +104,9 @@ class AvatarUpload extends Component {
                         onDrop={ this.onImageDrop }
                         ref={ (dropzone) => { this.dropzone = dropzone; } }
                     >
+                        <p className="mb-4">
+                            <i className="fa fa-3x fa-user-circle-o" aria-hidden="true" />
+                        </p>
                         <p>Drop an image or click to select a file to upload.</p>
                     </Dropzone>
                 </div>

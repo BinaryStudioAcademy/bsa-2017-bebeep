@@ -5,6 +5,7 @@ namespace App;
 use App\Models\Trip;
 use App\Models\Booking;
 use App\Models\Vehicle;
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\HasMedia\{
     HasMediaTrait,
     Interfaces\HasMedia
@@ -19,6 +20,8 @@ class User extends Authenticatable implements HasMedia
     const PASSENGER_PERMISSION = 1;
     const DRIVER_PERMISSION = 2;
     const ADMIN_PERMISSION = 4;
+
+    const MEDIA_AVATARS_COLLECTION = 'avatars';
 
     /**
      * Boot the model.
@@ -147,7 +150,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @return bool
      */
-    public function hasBooking(): bool
+    public function hasBooking() : bool
     {
         return $this->bookings()->first() !== null;
     }
@@ -157,7 +160,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @return bool
      */
-    public function hasTrip(): bool
+    public function hasTrip() : bool
     {
         return $this->trips()->first() !== null;
     }
@@ -168,5 +171,39 @@ class User extends Authenticatable implements HasMedia
     public function getFullName() : string
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    /**
+     * Get the user avatar media instance.
+     *
+     * @return \Spatie\MediaLibrary\Media
+     */
+    public function getAvatar() : Media
+    {
+        return $this->getFirstMedia(self::MEDIA_AVATARS_COLLECTION);
+    }
+
+    /**
+     * Get the full url of the user avatar.
+     *
+     * @param  bool $fullUrl
+     * @return string
+     */
+    public function getAvatarUrl(bool $fullUrl = false) : string
+    {
+        if ($fullUrl) {
+            return $this->getAvatar()->getFullUrl();
+        }
+        return $this->getAvatar()->getUrl();
+    }
+
+    /**
+     * Delete the user avatar.
+     *
+     * @return $this
+     */
+    public function deleteAvatar() : self
+    {
+        return $this->clearMediaCollection(self::MEDIA_AVATARS_COLLECTION);
     }
 }

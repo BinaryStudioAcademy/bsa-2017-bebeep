@@ -13,8 +13,6 @@ use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 
 class UserProfileService implements UserProfileServiceContract
 {
-    const AVATAR_MEDIA_NAME = 'avatar';
-
     /**
      * @var \App\Repositories\UserRepository
      */
@@ -31,7 +29,7 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * @inheritdoc
      */
-    public function getGeneral(int $userId): array
+    public function getGeneral(int $userId) : array
     {
         return $this->userRepository
             ->setPresenter(UserProfilePresenter::class)
@@ -41,7 +39,7 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * @inheritdoc
      */
-    public function updateGeneral(int $userId, UpdateUserProfileRequest $request): array
+    public function updateGeneral(int $userId, UpdateUserProfileRequest $request) : array
     {
         $attributes = [
             'email' => $request->getEmail(),
@@ -61,18 +59,28 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * @inheritdoc
      */
-    public function updateAvatar(int $userId, UpdateUserAvatarRequest $request): string
+    public function updateAvatar(int $userId, UpdateUserAvatarRequest $request) : string
     {
         $user = $this->userRepository->find($userId);
 
         $fileName = str_random(20);
-        $mediaCollectionName = 'images';
+        $mimeTypes = 'image/*';
 
         return $user
-           ->addMediaFromBase64($request->getAvatar(), 'image/*')
-           ->usingName(self::AVATAR_MEDIA_NAME)
-           ->usingFileName($fileName)
-           ->toMediaCollection($mediaCollectionName)
-           ->getFullUrl();
+            ->deleteAvatar()
+            ->addMediaFromBase64($request->getAvatar(), $mimeTypes)
+            ->usingName($fileName)
+            ->usingFileName($fileName)
+            ->toMediaCollection(User::MEDIA_AVATARS_COLLECTION)
+            ->getUrl();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function deleteAvatar(int $userId) : void
+    {
+        $user = $this->userRepository->find($userId);
+        $user->deleteAvatar();
     }
 }

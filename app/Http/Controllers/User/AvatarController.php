@@ -43,4 +43,16 @@ class AvatarController extends Controller
 
         return response()->json($avatar);
     }
+
+    /**
+     * Delete the current user avatar.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(): JsonResponse
+    {
+        $this->userProfileService->deleteAvatar(Auth::user()->id);
+
+        return response()->json();
+    }
 }

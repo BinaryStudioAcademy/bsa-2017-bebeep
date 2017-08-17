@@ -25,7 +25,7 @@ class UserProfileTransformer extends TransformerAbstract
             'last_name' => $user->last_name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'birth_date' => $user->birth_date->format('Y-m-d'),
+            'birth_date' => $user->birth_date ? $user->birth_date->format('Y-m-d') : null,
             'about_me' => $user->about_me,
             'role_driver' => $user->isDriver(),
             'role_passenger' => $user->isPassenger(),
