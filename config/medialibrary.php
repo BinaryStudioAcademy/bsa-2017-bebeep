@@ -6,7 +6,7 @@ return [
      * The filesystems on which to store added files and derived images by default. Choose
      * one or more of the filesystems you configured in app/config/filesystems.php
      */
-    'defaultFilesystem' => 'media',
+    'defaultFilesystem' => 'media_local',
 
     /*
      * The maximum file size of an item in bytes. Adding a file
@@ -29,7 +29,7 @@ return [
      * The engine that will perform the image conversions.
      * Should be either `gd` or `imagick`
      */
-    'image_driver' => 'gd',
+    'image_driver' => 'imagick',
 
     /*
      * When urls to files get generated this class will be called. Leave empty
