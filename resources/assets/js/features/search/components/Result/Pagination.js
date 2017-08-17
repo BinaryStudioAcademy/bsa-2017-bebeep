@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Pagination extends React.Component {
 
@@ -105,5 +106,13 @@ class Pagination extends React.Component {
         );
     }
 }
+
+Pagination.PropTypes = {
+    isDisabled: PropTypes.bool,
+    size: PropTypes.number,
+    page: PropTypes.number,
+    limit: PropTypes.number,
+    onChangePage: PropTypes.func
+};
 
 export default Pagination;
