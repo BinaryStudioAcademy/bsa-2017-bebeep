@@ -41,6 +41,6 @@ deploy:
 
     - provider: script
       skip_cleanup: true
-      script: scripts/deploy-prod.sh
+      script: scripts/deploy-stage.sh
       on:
-          branch: master
+          branch: development
