@@ -39,6 +39,16 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * @inheritdoc
      */
+    public function getAvatar(int $userId): ?string
+    {
+        return $this->userRepository
+            ->find($userId)
+            ->getAvatarUrl();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function updateGeneral(int $userId, UpdateUserProfileRequest $request): array
     {
         $attributes = [

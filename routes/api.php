@@ -13,11 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 
     Route::post('register', [
@@ -61,6 +56,12 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             'middleware' => 'jwt.auth',
             'as' => 'password.update',
             'uses' => 'User\UpdatePasswordController@update',
+        ]);
+
+        Route::get('avatar', [
+            'middleware' => 'jwt.auth',
+            'as' => 'avatar.show',
+            'uses' => 'User\AvatarController@show',
         ]);
 
         Route::patch('avatar', [

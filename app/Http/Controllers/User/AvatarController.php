@@ -34,7 +34,7 @@ class AvatarController extends Controller
     {
         $avatar = $this->userProfileService->getAvatar(Auth::user()->id);
 
-        return response()->json($avatar);
+        return response()->json(['avatar' => $avatar]);
     }
 
     /**
@@ -53,7 +53,7 @@ class AvatarController extends Controller
             return response()->json(['error' => $e->getMessage()], 422);
         }
 
-        return response()->json($avatar);
+        return response()->json(['avatar' => $avatar]);
     }
 
     /**
