@@ -227,7 +227,7 @@ class GeneralForm extends Component {
                 </form>
 
                 <StatusModal modal={ modal } isOpen={ modal.isOpen }
-                    onClosed={ () => this.state.modal.isOpen = false }/>
+                    onClosed={ () => this.state.modal.isOpen = false } />
             </div>
         )
     }

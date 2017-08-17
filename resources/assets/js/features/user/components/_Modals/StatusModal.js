@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import validate from 'validate.js';
+import _ from 'lodash';
 
 import Modal from '../../../../app/components/Modal';
 
@@ -20,6 +21,22 @@ class StatusModal extends Component {
         }
     }
 
+    getMessage() {
+        let message = this.props.modal.msg;
+
+        if (typeof message !== 'object') {
+            return message;
+        }
+
+        message = _.values(message).map((msg, i) => {
+            return (
+                <li key={ i }>{ msg }</li>
+            );
+        });
+
+        return (<ul className="list-unstyled">{ message }</ul>);
+    }
+
     render() {
         const { modal } = this.props;
         const { modalIsOpen } = this.state;
@@ -30,8 +47,8 @@ class StatusModal extends Component {
         return (
             <div>
                 <Modal isOpen={ modalIsOpen } onClosed={() => { this.state.modalIsOpen = false; onClosed(); }}>
-                    <div className={ "modal-header alert-" + classStatus }>{ header }</div>
-                    <div className="modal-body">{ modal.msg }</div>
+                    <div className={ "modal-header alert-" + classStatus }>{ header }!</div>
+                    <div className="modal-body">{ this.getMessage() }</div>
                     <div className="modal-footer text-right">
                         <button className={ "btn btn-" + classStatus } role="button" onClick={(e) => {
                             this.setState({ modalIsOpen: false });
