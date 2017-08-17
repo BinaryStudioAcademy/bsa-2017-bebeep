@@ -153,57 +153,56 @@ class SearchForm extends Component {
         return (
             <form role="form" className="search-form" action="" method="POST">
                 <div className="row py-4 px-2 px-lg-4">
-                <div className="col-sm-6 col-lg-3">
-                    <div className={"form-group " + (this.state.errors.from ? 'has-danger' : '')}>
-                        <label htmlFor="startPoint" className="sr-only">Leaving from</label>
-                        <PlacesAutocomplete
-                            inputProps={startPointProps}
-                            classNames={placesCssClasses}
-                            onSelect={this.onSelectStartPoint.bind(this)}
-                            onEnterKeyDown={this.onSelectStartPoint.bind(this)}
-                            googleLogo={false}
-                            autocompleteItem={AutocompleteItem}
-                            highlightFirstSuggestion={true}
+                    <div className="col-sm-6 col-lg-3">
+                        <div className={"form-group " + (this.state.errors.from ? 'has-danger' : '')}>
+                            <label htmlFor="startPoint" className="sr-only">Leaving from</label>
+                            <PlacesAutocomplete
+                                inputProps={startPointProps}
+                                classNames={placesCssClasses}
+                                onSelect={this.onSelectStartPoint.bind(this)}
+                                onEnterKeyDown={this.onSelectStartPoint.bind(this)}
+                                googleLogo={false}
+                                autocompleteItem={AutocompleteItem}
+                                highlightFirstSuggestion={true}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-sm-6 col-lg-3">
+                        <div className={"form-group " +
+                                (this.state.errors.to ? 'has-danger' : '')}>
+
+                            <label htmlFor="endPoint" className="sr-only">Going to</label>
+                            <PlacesAutocomplete
+                                inputProps={endPointProps}
+                                classNames={placesCssClasses}
+                                onSelect={this.onSelectEndPoint.bind(this)}
+                                onEnterKeyDown={this.onSelectEndPoint.bind(this)}
+                                googleLogo={false}
+                                autocompleteItem={AutocompleteItem}
+                                highlightFirstSuggestion={true}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-sm-6 col-lg-3">
+                        <DatePicker
+                            todayButton={"Today"}
+                            selected={this.state.startDate}
+                            onChange={this.handleDateChange}
+                            placeholderText="Date"
+                            minDate={moment()}
+                            className={"form-control date-picker " +
+                                (this.state.errors.start_at ? 'picker-error' : '')}
+                            isClearable={true}
                         />
                     </div>
-                </div>
-                <div className="col-sm-6 col-lg-3">
-                    <div className={"form-group " +
-                            (this.state.errors.to ? 'has-danger' : '')}>
-
-                        <label htmlFor="endPoint" className="sr-only">Going to</label>
-                        <PlacesAutocomplete
-                            inputProps={endPointProps}
-                            classNames={placesCssClasses}
-                            onSelect={this.onSelectEndPoint.bind(this)}
-                            onEnterKeyDown={this.onSelectEndPoint.bind(this)}
-                            googleLogo={false}
-                            autocompleteItem={AutocompleteItem}
-                            highlightFirstSuggestion={true}
-                        />
+                    <div className="col-sm-6 col-lg-3">
+                        <button type="submit"
+                            className="btn btn-search btn-primary px-5"
+                            onClick={this.onClick.bind(this)}
+                        >
+                            Find a ride
+                        </button>
                     </div>
-                </div>
-                <div className="col-sm-6 col-lg-3">
-                    <DatePicker
-                        todayButton={"Today"}
-                        selected={this.state.startDate}
-                        onChange={this.handleDateChange}
-                        placeholderText="Date"
-                        minDate={moment()}
-                        className={"form-control date-picker " +
-                            (this.state.errors.start_at ? 'picker-error' : '')}
-                        isClearable={true}
-                    />
-                </div>
-                <div className="col-sm-6 col-lg-3">
-                    <button type="submit"
-                        className="btn btn-search btn-primary px-5"
-                        onClick={this.onClick.bind(this)}
-                    >
-                        Find a ride
-                    </button>
-                </div>
-
                 </div>
             </form>
         );
