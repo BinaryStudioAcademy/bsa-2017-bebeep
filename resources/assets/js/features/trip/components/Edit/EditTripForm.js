@@ -3,7 +3,6 @@ import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import EditTripService from '../../services/EditTripService';
 import moment from 'moment';
-import { securedRequest } from '../../../../app/services/RequestService';
 
 class EditTripForm extends React.Component {
     constructor(props) {
@@ -48,7 +47,6 @@ class EditTripForm extends React.Component {
                 this.setState({
                     trip: response,
                 });
-                console.log('time', response.start_at);
             })
             .catch(error => {
                 this.setState({

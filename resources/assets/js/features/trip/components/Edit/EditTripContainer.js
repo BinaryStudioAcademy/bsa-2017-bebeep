@@ -2,42 +2,42 @@ import React from 'react';
 import EditTripForm from './EditTripForm';
 import DirectionsMap from "../../../../app/components/DirectionsMap";
 import {geocodeByAddress} from 'react-places-autocomplete';
+import { getStartAndEndTime} from '../../../../app/services/TripService';
 import Validator from '../../../../app/services/Validator';
 import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
 import EditTripService from '../../services/EditTripService';
-import moment from 'moment';
 
 class EditTripContainer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            /*trip: {
+            trip: {
                 price: null,
                 seats: null,
                 start_at: null,
                 from: {
                     geometry: {
-                        location: {lat: 0, lng: 0}
+                        location: {lat: 50.449427, lng: 30.484366000000023}
                     },
                     formatted_address: "",
                 },
 
                 to: {
                     geometry: {
-                        location: {lat: 0, lng: 0}
+                        location: {lat: 46.472945, lng: 30.74872879999998}
                     },
                     formatted_address: "",
                 },
-            },*/
+            },
             notFoundTrip: false,
             errors: {},
             startPoint: {
-                address: 'Kyiv City, Kiev, Ukraine, 02000',
+                address: '',
                 place: null,
             },
             endPoint: {
-                address: 'Kharkiv, Kharkiv Oblast, Ukraine',
+                address: '',
                 place: null,
             }
         };
@@ -97,11 +97,21 @@ class EditTripContainer extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
+
+        let time = getStartAndEndTime(e.target['start_at'].value, this.endTime);
+        let data = {
+            vehicle_id: e.target['vehicle_id'].value,
+            start_at: time.start_at,
+            end_at: time.end_at,
+            price: e.target['price'].value,
+            seats: e.target['seats'].value,
+            //from: this.state.startPoint.place,
+            //to: this.state.endPoint.place,
+        };
+        console.log(data);
     }
 
     render() {
-        const { trip } = this.state;
-
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',
@@ -134,10 +144,10 @@ class EditTripContainer extends React.Component {
                 <div className="col-sm-6">
                     <DirectionsMap
                         title="Preview Trip"
-                        endTime={() => {}}
+                        endTime={this.setEndTime.bind(this)}
                         needDirection="1"
-                        from=''
-                        to=''
+                        from={this.state.trip.from.geometry.location}
+                        to={this.state.trip.to.geometry.location}
                     />
                 </div>
             </div>
