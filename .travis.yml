@@ -31,11 +31,14 @@ branches:
     only:
         - master
         - development
-        - feature/deploy
 
 deploy:
     skip_cleanup: true
-    provider: script
+  - provider: script
     script: scripts/deploy-prod.sh
     on:
-        branch: feature/deploy
+        branch: master
+  - provider: script
+    script: scripts/deploy-stage.sh
+    on:
+        branch: development
