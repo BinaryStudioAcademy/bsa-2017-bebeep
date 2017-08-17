@@ -3,7 +3,8 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DatePicker from 'react-datepicker';
-import { PlacesAutocomplete, geocodeByAddress } from 'react-places-autocomplete';
+import PlacesAutocomplete from 'react-places-autocomplete';
+import { geocodeByAddress } from 'react-places-autocomplete';
 
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 import { searchIndexRules } from 'app/services/SearchIndex';
