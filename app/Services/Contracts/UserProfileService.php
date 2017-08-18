@@ -25,9 +25,9 @@ interface UserProfileService
      * @param int $userId
      * @param \App\Services\Requests\UpdateUserProfileRequest $request
      *
-     * @return array
+     * @return \App\User
      */
-    public function updateGeneral(int $userId, UpdateUserProfileRequest $request): array;
+    public function updateGeneral(int $userId, UpdateUserProfileRequest $request): User;
 
     /**
      * Update the user profile avatar.

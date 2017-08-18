@@ -47,6 +47,6 @@ class ProfileController extends Controller
     {
         $user = $this->userProfileService->updateGeneral(Auth::user()->id, $request);
 
-        return response()->json($user);
+        return fractal($user, new ProfileTransformer())->respond();
     }
 }

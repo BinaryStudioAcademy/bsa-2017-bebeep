@@ -46,7 +46,7 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * @inheritdoc
      */
-    public function updateGeneral(int $userId, UpdateUserProfileRequest $request): array
+    public function updateGeneral(int $userId, UpdateUserProfileRequest $request): User
     {
         $attributes = [
             'email' => $request->getEmail(),
