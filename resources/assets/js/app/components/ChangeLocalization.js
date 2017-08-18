@@ -11,12 +11,12 @@ class ChangeLocalization extends React.Component {
 
     onSetLanguage(e) {
         const langCode = e.target.value;
-        setActiveLanguage(langCode);
+        this.props.setActiveLanguage(langCode);
     }
 
     render() {
 
-        const {languages, setActiveLanguage, currentLanguage} = this.props;
+        const {languages, currentLanguage} = this.props;
         return (
             <select className="form-control"
                 defaultValue={currentLanguage}
@@ -32,7 +32,7 @@ class ChangeLocalization extends React.Component {
 export default connect(
     state => ({
         languages: getLanguages(state.locale),
-        currentLanguage: getActiveLanguage(state.locale)
+        currentLanguage: getActiveLanguage(state.locale).code
     }),
     dispatch => bindActionCreators({setActiveLanguage }, dispatch)
 )(ChangeLocalization);
