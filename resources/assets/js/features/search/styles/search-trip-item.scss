@@ -1,0 +1,131 @@
+@import '~font-awesome/scss/_variables';
+
+.search-trip-item {
+  $borderColor: #bbb;
+  $bgColor: #fff;
+
+  display: block;
+  background-color: $bgColor;
+  border-top: 1px solid $borderColor;
+  padding: 10px 0;
+  color: #272727;
+
+  &:last-child {
+    border-bottom: 1px solid $borderColor;
+  }
+
+  &:hover {
+    background-color: darken($bgColor, 1%);
+    color: #272727;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  &__user-container {
+    border-right: 1px solid $borderColor;
+    @media screen and (max-width: 574px) {
+      border-right: none;
+    }
+  }
+
+  &__user-photo {
+    width: 72px;
+    height: 72px;
+    margin-right: 10px;
+    border-radius: 50%;
+    float: left;
+  }
+
+  &__user-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+  }
+
+  &__user-age {
+    font-size: .85rem;
+    color: #999;
+    margin-top: 6px;
+  }
+
+  &__description {
+    width: 65%;
+    float: left;
+  }
+  &__offer {
+    width: 35%;
+    float: left;
+    text-align: right;
+  }
+
+    &__start-date {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  &__price {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
+  &__price-currency {
+    font-size: .8rem;
+  }
+
+  &__price-sign {
+    font-size: .8rem;
+  }
+
+  &__free-seats {
+    margin-top: 5px;
+    color: #999;
+    font-size: .9rem;
+  }
+  &__free-seats-text {
+    color: #333;
+    font-size: 1.1rem;
+  }
+
+  &__to,
+  &__from {
+    font-size: .9rem;
+    color: #777;
+
+    &-ico {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  }
+  &__from-ico {
+    color: #2ab27b;
+  }
+
+  &__to-ico {
+    color: #c12e2a;
+  }
+  &__route {
+    margin-bottom: 10px;
+    word-break: break-word;
+
+    &-item {
+      color: #999;
+
+      &_from, &_from~* {
+        color: #232323;
+      }
+      &_to~* {
+        color: #999;
+      }
+    }
+
+    &-item:not(:last-child):after {
+      content: $fa-var-long-arrow-right;
+      font-family: FontAwesome;
+      vertical-align: middle;
+      color: #ADAFAF;
+      font-size: .9rem;
+      padding: 0 5px;
+    }
+  }
+}
