@@ -38,7 +38,7 @@ class Filter extends React.Component {
         this.setState(Object.assign({
             price: props.priceBounds,
             time: [0, 24],
-            date: props.start_at ? moment.unix(filter.date) : null
+            date: props.start_at ? moment.unix(props.start_at) : null
         }, filter));
     }
 
