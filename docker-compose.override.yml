@@ -1,0 +1,11 @@
+version: "2.1"
+
+services:
+    mysql:
+        ports:
+            - 127.0.0.1:3306:3306
+
+    web:
+        ports:
+            - "80:80"
+            - "443:443"
