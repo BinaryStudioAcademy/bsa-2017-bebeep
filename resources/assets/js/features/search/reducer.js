@@ -1,14 +1,13 @@
 import * as actions from './actionTypes';
-import { browserHistory } from 'react-router';
 
 const initialState = {
     from: {
         name: '',
-        coordinate: {lan: null, lng: null,}
+        coordinate: {lat: null, lng: null,}
     },
     to: {
         name: '',
-        coordinate: {lan: null, lng: null,}
+        coordinate: {lat: null, lng: null,}
     },
     start_at: null
 };
@@ -16,7 +15,6 @@ const initialState = {
 export default function (state = initialState, action) {
     switch(action.type) {
         case actions.SEARCH_INDEX_SUCCESS:
-            browserHistory.push('/search');
             return {
                 ...state,
                 from: {
