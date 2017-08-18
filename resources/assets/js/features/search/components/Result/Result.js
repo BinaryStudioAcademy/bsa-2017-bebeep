@@ -7,7 +7,14 @@ import SortPanel from './SortPanel';
 import Preloader from '../../../../app/components/Preloader';
 import { Pagination } from '../../../../app/components/Pagination';
 import { connect } from 'react-redux';
-import { search, encodeCoord, getDataFromQuery, setUrl, setFilter} from '../../services/SearchService';
+import {
+    search,
+    decodeCoord,
+    setUrl,
+    getFilter,
+    getCurrentPage,
+    getCountResult
+} from '../../services/SearchService';
 import { searchSuccess } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
@@ -15,8 +22,8 @@ import '../../styles/search-result.scss';
 
 class Result extends React.Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             collection: [],
             meta: {
@@ -24,9 +31,9 @@ class Result extends React.Component {
                 priceRange: [0,0]
             },
             preloader: true,
-            sort: props.location.query.sort || 'price',
-            order: props.location.query.order || 'asc',
-            page: +props.location.query.page || 1,
+            sort: 'price',
+            order: 'asc',
+            page: 1,
             limit: 10,
             filter: {},
             resetFilter: false,
@@ -35,37 +42,68 @@ class Result extends React.Component {
 
         this.onChangeSort = this.onChangeSort.bind(this);
         this.onChangePage = this.onChangePage.bind(this);
-        this.onChangeFilter = this.onChangeFilter.bind(this);
+        this.onSearch = this.onSearch.bind(this);
     }
 
     componentWillMount() {
-        const newTripData = getDataFromQuery(this.props.tripData);
-        if (Object.keys(newTripData).length) {
-            this.props.searchSuccess(newTripData);
-        } else {
-            this.getData(this.props, this.state);
-        }
+        this.updateState(this.props);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.updateState(nextProps);
+    }
+
+    updateState(props) {
+        const { location, tripData } = props,
+            { query } = location,
+            newState = {
+                sort: query.sort || 'price',
+                order: query.order || 'asc',
+                page: +query.page > 0 ? +query.page : 1,
+                limit: 10,
+                filter: getFilter()
+            },
+            newTripData = {
+                fc: decodeCoord(query.fc) || tripData.from.coordinate,
+                tc: decodeCoord(query.tc) || tripData.to.coordinate,
+                start_at: query.start_at || tripData.start_at
+            };
+
+        this.setState(newState);
+        this.getData(
+            newTripData.fc,
+            newTripData.tc,
+            newTripData.start_at,
+            newState
+        );
     }
 
     onChangePage(page) {
-        this.setState({page});
+        setUrl({page});
     }
 
     onChangeSort(sort) {
         if (sort === this.state.sort) {
             const order = this.state.order === 'asc' ? 'desc' : 'asc';
-            this.setState({order});
+            setUrl({order});
         } else {
-            this.setState({sort});
+            setUrl({sort});
         }
     }
 
-    onChangeFilter(filter) {
-        this.setState({filter});
+    onSearch() {
+        setUrl({
+            "filter[price][min]": null,
+            "filter[price][max]": null,
+            "filter[time][min]": null,
+            "filter[time][max]": null,
+            "filter[date]": null,
+        });
     }
 
-    getData({tripData}, {limit, page, sort, order}, filter) {
-        search(tripData, page, sort, order, limit, filter)
+    getData(fromCoord, toCoord, start_at, {limit, page, sort, order, filter}) {
+        this.setState({preloader: true});
+        search(fromCoord, toCoord, start_at, page, sort, order, limit, filter)
             .then(response => {
                 this.setState({
                     collection: response.data.collection,
@@ -85,62 +123,16 @@ class Result extends React.Component {
             }));
     }
 
-    getCurrentPage(page, limit, totalSize) {
-        const countPage = totalSize / limit || 1;
-        return page > countPage ? Math.ceil(countPage) : (page < 1 ? 1 : page);
-    }
-
-    countResult(currentPage, lengthData, limit) {
-        return (currentPage - 1) * limit + lengthData;
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (
-            nextState.page !== this.state.page
-            ||
-            nextState.sort !== this.state.sort
-            ||
-            nextState.order !== this.state.order
-            ||
-            nextState.filter !== this.state.filter
-            ||
-            nextProps.tripData != this.props.tripData
-        ) {
-            setUrl({
-                'fn': nextProps.tripData.from.name,
-                'fc': encodeCoord(nextProps.tripData.from.coordinate),
-                'tn': nextProps.tripData.to.name,
-                'tc': encodeCoord(nextProps.tripData.to.coordinate),
-                'start_at': nextProps.tripData.start_at,
-                'sort': nextState.sort,
-                'order': nextState.order,
-                'page': nextState.page,
-            });
-
-            nextState.preloader = true;
-            // reset filter if choosed new location
-            if (nextProps.tripData != this.props.tripData) {
-                nextState.filter = {};
-                nextState.resetFilter = true;
-                this.setState({resetFilter: false});
-            }
-            this.getData(nextProps, nextState, nextState.filter);
-        }
-        return true;
-    }
-
     render() {
-        const {sort, order, page, limit, meta, collection, preloader, resetFilter} = this.state,
-            currentPage = this.getCurrentPage(page, limit, meta.totalSize),
-            countResult = this.countResult(currentPage, collection.length, limit);
+        const {sort, order, page, limit, meta, collection, preloader} = this.state,
+            currentPage = getCurrentPage(page, limit, meta.totalSize),
+            countResult = getCountResult(currentPage, collection.length, limit);
         return (
             <div className="search-result">
-                <SearchForm />
+                <SearchForm onSearch={this.onSearch} />
                 <div className="row">
                     <div className="col-md-3">
                         <Filter
-                            resetFilter={resetFilter}
-                            onChange={this.onChangeFilter}
                             priceBounds={meta.priceRange}
                         />
                     </div>

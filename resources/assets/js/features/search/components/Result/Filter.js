@@ -4,73 +4,58 @@ import DatePicker from 'react-datepicker';
 import Slider, {Range} from 'rc-slider';
 import moment from 'moment';
 import {connect} from 'react-redux';
+import { setUrl, setFilter, getFilter} from '../../services/SearchService';
+import { withRouter } from 'react-router';
 import '../../styles/filter.scss';
 
 class Filter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: null,
-            timeRange: [0, 24],
-            priceRange: [0, 0],
+            date: null,
+            time: [0, 24],
+            price: [0, 0],
         };
         this.dateChange = this.dateChange.bind(this);
         this.timeChange = this.timeChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
     }
 
-    dateChange(startDate) {
-        this.setState({startDate});
+    componentWillMount() {
+        this.updateState(this.props);
     }
 
-    timeChange(timeRange) {
-        this.setState({timeRange});
+    componentWillReceiveProps(nextProps) {
+        this.updateState(nextProps);
     }
 
-    priceChange(priceRange) {
-        this.setState({priceRange});
+    updateState(props) {
+        const {query} = props.location;
+        let filter = getFilter();
+        if (filter.date) {
+            filter.date = moment.unix(filter.date);
+        }
+        this.setState(Object.assign({
+            price: props.priceBounds,
+            time: [0, 24],
+            date: props.start_at
+        }, filter));
     }
 
-    setFilter({startDate, timeRange, priceRange}) {
-        this.props.onChange({
-            date: startDate ? startDate.unix() : null,
-            time: timeRange,
-            price: priceRange,
-        });
+    dateChange(date) {
+        setUrl(setFilter({date: date ? date.unix() : null}));
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        // set low bound price to min if before was min
-        if (
-            nextProps.priceBounds[0] !== this.props.priceBounds[0]
-            &&
-            this.props.priceBounds[0] === this.state.priceRange[0]
-        ) {
-            nextState.priceRange[0] = nextProps.priceBounds[0];
-        }
-        // set high bound price to max if before was max
-        if (
-            nextProps.priceBounds[1] !== this.props.priceBounds[1]
-            &&
-            this.props.priceBounds[1] === this.state.priceRange[1]
-        ) {
-            nextState.priceRange[1] = nextProps.priceBounds[1];
-        }
+    timeChange(time) {
+        setUrl(setFilter({time: time}));
+    }
 
-        if (nextState.startDate !== this.state.startDate) {
-            this.setFilter(nextState);
-        }
-
-        if (nextProps.resetFilter) {
-            nextState.startDate = null;
-            nextState.timeRange = [0, 24];
-            nextState.priceRange = nextProps.priceBounds;
-        }
-        return true;
+    priceChange(price) {
+        setUrl(setFilter({price: price}));
     }
 
     render() {
-        const { timeRange, priceRange, startDate } = this.state;
+        const { time, price, date } = this.state;
         const { priceBounds } = this.props;
 
         return (
@@ -80,22 +65,22 @@ class Filter extends React.Component {
                     <div className="filter__prop-control">
                         <DatePicker
                             todayButton={"Today"}
-                            selected={startDate}
+                            selected={date}
                             onChange={this.dateChange}
                             placeholderText="mm/dd/yyyy"
                             minDate={moment()}
                             className="form-control"
                             isClearable={true}
                         />
-                        <div className="filter__prop-sign">Time: {timeRange[0]}h - {timeRange[1]}h</div>
+                        <div className="filter__prop-sign">Time: {time[0]}h - {time[1]}h</div>
                         <Range
                             min={0}
                             max={24}
                             allowCross={false}
-                            value={timeRange}
-                            onChange={this.timeChange}
+                            value={time}
+                            onChange={(time) => this.setState({time})}
+                            onAfterChange={this.timeChange}
                             pushable
-                            onAfterChange={() => this.setFilter(this.state)}
                         />
                     </div>
                 </div>
@@ -103,7 +88,7 @@ class Filter extends React.Component {
                     <div className="filter__prop-name">Price</div>
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
-                            From <span className="filter__currency">$</span>{priceRange[0]} to <span className="filter__currency">$</span>{priceRange[1]}
+                            From <span className="filter__currency">$</span>{price[0]} to <span className="filter__currency">$</span>{price[1]}
                         </div>
                         <Range
                             min={priceBounds[0]}
@@ -111,10 +96,10 @@ class Filter extends React.Component {
                             step={10}
                             allowCross={false}
                             defaultValue={[priceBounds[0], priceBounds[1]]}
-                            value={priceRange}
-                            onChange={this.priceChange}
+                            value={price}
+                            onChange={(price) => this.setState({price})}
+                            onAfterChange={this.priceChange}
                             pushable
-                            onAfterChange={() => this.setFilter(this.state)}
                         />
                     </div>
                 </div>
@@ -124,13 +109,11 @@ class Filter extends React.Component {
 }
 
 Filter.PropTypes = {
-    priceBounds: PropTypes.array,
-    onChange: PropTypes.func
+    priceBounds: PropTypes.array
 };
 
-export default connect(
+export default withRouter(connect(
     (state) => ({
-        filterData: state.search.filter,
-        startDate: state.search.start_at,
+        start_at: state.search.start_at,
     })
-)(Filter);
+)(Filter));

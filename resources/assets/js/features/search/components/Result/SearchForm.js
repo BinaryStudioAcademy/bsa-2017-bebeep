@@ -5,13 +5,16 @@ import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService
 import {bindActionCreators} from 'redux';
 import {searchSuccess} from '../../actions';
 import Validator from '../../../../app/services/Validator';
+import {setUrl, encodeCoord, decodeCoord} from '../../services/SearchService';
+import {withRouter} from "react-router";
+import PropTypes from "prop-types";
 
 class SearchForm extends React.Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
-            tripData: Object.assign({}, props.tripData),
+            tripData: {},
             errors: {}
         };
         this.swapFromTo = this.swapFromTo.bind(this);
@@ -20,6 +23,34 @@ class SearchForm extends React.Component {
         this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
         this.onSelectEndPoint = this.onSelectEndPoint.bind(this);
         this.onClickSearch = this.onClickSearch.bind(this);
+    }
+
+    componentWillMount() {
+        this.updateState(this.props);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.updateState(nextProps);
+    }
+
+    updateState(props) {
+        const {location, tripData} = props,
+            { query } = location,
+            newTripData = {
+                from: {
+                    name: query.fn || tripData.from.name,
+                    coordinate: decodeCoord(query.fc) || tripData.from.coordinate
+                },
+                to: {
+                    name: query.tn || tripData.to.name,
+                    coordinate: decodeCoord(query.tc) || tripData.to.coordinate
+                },
+                start_at: +query.start_at || tripData.start_at
+            };
+
+        this.setState({
+            tripData: newTripData
+        });
     }
 
     swapFromTo() {
@@ -83,6 +114,7 @@ class SearchForm extends React.Component {
             return;
         }
         const { tripData } = this.state,
+            { onSearch } = this.props,
             toBeValidated = {
                 from: tripData.from.coordinate,
                 to: tripData.to.coordinate,
@@ -96,15 +128,15 @@ class SearchForm extends React.Component {
             this.setState({errors: validated.errors});
             return;
         }
-        this.props.searchSuccess(tripData);
-    }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.tripData !== this.props.tripData) {
-            this.setState({tripData: nextProps.tripData});
-            return false;
-        }
-        return true;
+        setUrl({
+            fn: tripData.from.name,
+            fc: encodeCoord(tripData.from.coordinate),
+            tn: tripData.to.name,
+            tc: encodeCoord(tripData.to.coordinate),
+            start_at: tripData.start_at
+        });
+        onSearch ? onSearch() : null;
     }
 
     render() {
@@ -182,6 +214,10 @@ class SearchForm extends React.Component {
     }
 }
 
+SearchForm.PropTypes = {
+    onSearch: PropTypes.func
+};
+
 const SearchFormConnect = connect(
     state => ({
         tripData: state.search
@@ -190,4 +226,4 @@ const SearchFormConnect = connect(
         bindActionCreators({searchSuccess}, dispatch)
 )(SearchForm);
 
-export default SearchFormConnect;
+export default withRouter(SearchFormConnect);

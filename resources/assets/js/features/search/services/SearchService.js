@@ -2,28 +2,29 @@ import { simpleRequest } from '../../../app/services/RequestService';
 import { browserHistory } from 'react-router';
 
 export const search = (
-    tripData = {
-        from: { coordinate: { lng: null, lat: null } },
-        to: { coordinate: { lng: null, lat: null } },
-        start_at: null
-    }, page = 1, sort = 'price', order = 'asc', limit = 10,
-    filter = {}
+    fromCoord, toCoord, start_at = null, page = 1, sort = 'price', order = 'asc', limit = 10, filter = {}
 ) => {
-    const { from, to, start_at }= tripData;
     return simpleRequest.get('/api/v1/trips/search', {
-        params: setFilter({
-            fc: encodeCoord(from.coordinate),
-            tc: encodeCoord(to.coordinate),
+        params: setFilter(filter, {
+            fc: encodeCoord(fromCoord),
+            tc: encodeCoord(toCoord),
             start: start_at,
             sort,
             order,
             page,
             limit
-        }, filter)
+        })
     })
 };
 
-export const setFilter = (params = {}, filter) => {
+/**
+ * Add filter params to object
+ *
+ * @param filter
+ * @param params
+ * @returns {*}
+ */
+export const setFilter = (filter, params = {}) => {
     let newParams = {};
     for (let field in filter) {
         if (filter[field]) {
@@ -38,61 +39,73 @@ export const setFilter = (params = {}, filter) => {
     return Object.assign(params, newParams);
 };
 
+/**
+ * Return filter from query
+ * @returns {{}}
+ */
+export const getFilter = () => {
+    const {query} = browserHistory.getCurrentLocation();
+    let filter = {};
+    if (+query["filter[price][min]"] >= 0 && +query["filter[price][max]"] > 0) {
+        filter['price'] = [+query["filter[price][min]"], +query["filter[price][max]"]];
+    }
+    if (+query["filter[time][min]"] >= 0 && +query["filter[time][max]"] > 0) {
+        filter['time'] = [+query["filter[time][min]"], +query["filter[time][max]"]];
+    }
+    if (+query["filter[date"] > 0) {
+        filter['date'] = +query["filter[date"];
+    }
+    return filter;
+};
+
+/**
+ * Encode coords for query
+ */
 export const encodeCoord = (coord = {lng: null, lat: null}) =>
     (+coord.lng) + '|' + (+coord.lat);
 
+/**
+ * Decode coords from query
+ * @param coordinate
+ * @returns {lat, lng}|null
+ */
 export const decodeCoord = (coordinate = '') => {
+    if (!coordinate) {
+        return null;
+    }
     const coord = coordinate.split('|');
+    if (coord.length !== 2) {
+        return null;
+    }
+    if (isNaN(+coord[0]) || isNaN(+coord[1])) {
+        return null;
+    }
     return {lng: +coord[0], lat: +coord[1]}
 };
 
-export const getDataFromQuery = (oldTripData) => {
-    const { query } =  browserHistory.getCurrentLocation(),
-        { from, to, start_at } = oldTripData;
-    let newFrom = null,
-        newTo = null,
-        newStartAt = null;
-    if (
-        !from.coordinate.lat && !from.coordinate.lng
-        &&
-        query.fc && query.fn
-    )
-    {
-        newFrom = {
-            coordinate: decodeCoord(query.fc),
-            name: query.fn
+/**
+ * Add param to browser url, delete if key equal null
+ *
+ * @param param
+ */
+export const setUrl = (param = {}) => {
+    const location = browserHistory.getCurrentLocation();
+    let newLocation = Object.assign(location, {
+        query: Object.assign(location.query, param)
+    });
+    for (let key in newLocation.query) {
+        if (newLocation.query[key] === null) {
+            delete(newLocation.query[key]);
         }
     }
-    if (
-        !to.coordinate.lat && !to.coordinate.lng
-        &&
-        query.tc && query.tn
-    )
-    {
-        newTo = {
-            coordinate: decodeCoord(query.tc),
-            name: query.tn
-        }
-    }
-    if (!start_at && query.start_at) {
-        newStartAt = +query.start_at;
-    }
-    if (newFrom || newTo || newStartAt) {
-        return {
-            from: newFrom || from,
-            to: newTo || to,
-            start_at: newStartAt || start_at
-        };
-    }
-    return {};
+    browserHistory.replace(newLocation);
 };
 
-export const setUrl = (param = {}) => {
-    const {pathname, query} = browserHistory.getCurrentLocation();
-    const params = Object.assign(query, param);
-    let newQuery = [];
-    for (let key in params) {
-        newQuery.push(`${key}=${params[key]}`);
-    }
-    browserHistory.replace(`${pathname}?${newQuery.join('&')}`);
+export const getCurrentPage = (page, limit, totalSize) => {
+    const countPage = totalSize / limit || 1;
+    return page > countPage ? Math.ceil(countPage) : (page < 1 ? 1 : page);
+};
+
+export const getCountResult = (currentPage, lengthData, limit) => {
+    return (currentPage - 1) * limit + lengthData;
 };
