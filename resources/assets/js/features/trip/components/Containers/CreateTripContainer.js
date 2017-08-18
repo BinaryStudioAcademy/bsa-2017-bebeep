@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateTripForm from './CreateTripForm';
+import TripForm from '../Forms/TripForm';
 import DirectionsMap from "../../../../app/components/DirectionsMap";
 import {geocodeByAddress} from 'react-places-autocomplete';
 import Validator from '../../../../app/services/Validator';
@@ -10,7 +10,6 @@ import {tripCreateSuccess} from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
-
 import '../../styles/create_trip.scss';
 
 class CreateTripContainer extends React.Component {
@@ -186,7 +185,7 @@ class CreateTripContainer extends React.Component {
         return (
             <div className="row">
                 <div className="col-sm-6">
-                    <CreateTripForm
+                    <TripForm
                         errors={this.state.errors}
                         startPoint={startPointProps}
                         endPoint={endPointProps}

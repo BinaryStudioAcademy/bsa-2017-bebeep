@@ -1,5 +1,6 @@
 import React from "react";
 import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
+import moment from 'moment';
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap
@@ -105,6 +106,7 @@ export default class DirectionsMap extends React.Component {
                             }
                             center={this.props.from}
                             directions={this.state.directions}
+                            key={moment()}
                         />
                 </div>
                 {this.state.distance  ?
