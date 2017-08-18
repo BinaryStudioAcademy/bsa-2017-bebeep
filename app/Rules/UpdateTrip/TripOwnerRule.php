@@ -2,14 +2,14 @@
 
 namespace App\Rules\UpdateTrip;
 
-use App\Exceptions\Trip\UserCantEditTripException;
-use App\Models\Trip;
 use App\User;
+use App\Models\Trip;
+use App\Exceptions\Trip\UserCantEditTripException;
 
 class TripOwnerRule implements UpdateTripRule
 {
     /**
-     * Owner rule for update trip rule
+     * Owner rule for update trip rule.
      *
      * @param Trip $trip
      * @param User $user

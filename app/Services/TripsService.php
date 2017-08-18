@@ -2,21 +2,21 @@
 
 namespace App\Services;
 
+use App\User;
+use Carbon\Carbon;
+use App\Models\Trip;
+use App\Repositories\TripRepository;
+use App\Repositories\RouteRepository;
+use App\Validators\DeleteTripValidator;
+use App\Validators\UpdateTripValidator;
+use App\Validators\RestoreTripValidator;
+use App\Services\Requests\CreateTripRequest;
+use App\Services\Requests\SearchTripRequest;
+use App\Services\Requests\UpdateTripRequest;
 use App\Criteria\Trips\AllDriverTripsCriteria;
 use App\Criteria\Trips\DriverTripByIdCriteria;
 use App\Criteria\Trips\PastDriverTripsCriteria;
 use App\Criteria\Trips\UpcomingDriverTripsCriteria;
-use App\Models\Trip;
-use App\Repositories\TripRepository;
-use Carbon\Carbon;
-use App\Services\Requests\UpdateTripRequest;
-use App\Services\Requests\SearchTripRequest;
-use App\Repositories\RouteRepository;
-use App\Validators\UpdateTripValidator;
-use App\Services\Requests\CreateTripRequest;
-use App\User;
-use App\Validators\DeleteTripValidator;
-use App\Validators\RestoreTripValidator;
 
 class TripsService
 {
@@ -40,8 +40,7 @@ class TripsService
         DeleteTripValidator $deleteTripValidator,
         RestoreTripValidator $restoreTripValidator,
         UpdateTripValidator $updateTripValidator
-    )
-    {
+    ) {
         $this->tripRepository = $tripRepository;
         $this->routeRepository = $routeRepository;
         $this->deleteTripValidator = $deleteTripValidator;
@@ -104,7 +103,7 @@ class TripsService
     }
 
     /**
-     * Get user trip by id
+     * Get user trip by id.
      *
      * @param Trip $trip
      * @param User $user
@@ -118,7 +117,7 @@ class TripsService
     }
 
     /**
-     * Update trip service
+     * Update trip service.
      *
      * @param Trip $trip
      * @param UpdateTripRequest $request
@@ -176,34 +175,34 @@ class TripsService
             $user = factory(User::class)->make();
             $trip = factory(Trip::class)->make([
                 'id' => $i,
-                'start_at' => $faker->dateTimeInInterval('0 years', $interval = '+ 5 days')
+                'start_at' => $faker->dateTimeInInterval('0 years', $interval = '+ 5 days'),
             ]);
 
             $routes = [
-                'from' => ['point' => $faker->city, 'id' => $i . '1'],
-                'to' => ['point' => $faker->city, 'id' => $i . '2'],
-                'points' => []
+                'from' => ['point' => $faker->city, 'id' => $i.'1'],
+                'to' => ['point' => $faker->city, 'id' => $i.'2'],
+                'points' => [],
             ];
             $routes['points'][] = $routes['from'];
             $routes['points'][] = $routes['to'];
             if (rand(1, 1000) > 500) {
-                array_unshift($routes['points'], ['point' => $faker->city, 'id' => $i . '3']);
+                array_unshift($routes['points'], ['point' => $faker->city, 'id' => $i.'3']);
             }
             if (rand(1, 1000) > 500) {
-                $routes['points'][] = ['point' => $faker->city, 'id' => $i . '4'];
+                $routes['points'][] = ['point' => $faker->city, 'id' => $i.'4'];
             }
 
             /** @var Carbon $start_at */
             $start_at = $trip->start_at;
             if ($start_at->isToday()) {
-                $start = "Today";
-            } else if ($start_at->isTomorrow()) {
-                $start = "Tomorrow";
+                $start = 'Today';
+            } elseif ($start_at->isTomorrow()) {
+                $start = 'Tomorrow';
             } else {
                 $start = [
-                        'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
-                    ][$start_at->dayOfWeek] . '. ' . str_pad($start_at->day, 2, '0', STR_PAD_LEFT) . ' ' . [
-                        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                        'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
+                    ][$start_at->dayOfWeek].'. '.str_pad($start_at->day, 2, '0', STR_PAD_LEFT).' '.[
+                        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
                     ][$start_at->month - 1];
             }
             $hours = str_pad($start_at->hour, 2, '0', STR_PAD_LEFT);
@@ -217,12 +216,12 @@ class TripsService
                 'start_at' => $trip->start_at->timestamp,
                 'route' => $routes,
                 'user' => [
-                    'full_name' => $user->first_name . ' ' . $user->last_name,
+                    'full_name' => $user->first_name.' '.$user->last_name,
                     'age' => Carbon::now()->year - $user->birth_date->year,
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
                     'birth_date' => $user->birth_date->timestamp,
-                    'photo' => 'http://lorempixel.com/200/200/'
+                    'photo' => 'http://lorempixel.com/200/200/',
                 ],
             ];
         }
@@ -240,14 +239,15 @@ class TripsService
         });
         $pages = array_chunk($data, $request->getLimit());
         $countData = count($pages);
+
         return [
             'collection' => ($countData > $request->getPage()
                 ? $pages[$request->getPage() - 1]
                 : $pages[$countData - 1]),
             'meta' => [
                 'total' => $countAllData,
-                'price' => ['max' => 1000, 'min' => 0]
-            ]
+                'price' => ['max' => 1000, 'min' => 0],
+            ],
         ];
     }
 

@@ -6,16 +6,12 @@ use Mail;
 use Illuminate\Support\Str;
 use App\Mail\PasswordResetEmail;
 use App\Repositories\UserRepository;
+use App\Exceptions\User\VerifyException;
 use Illuminate\Support\Facades\Password;
-use App\Exceptions\{
-    User\VerifyException,
-    User\PasswordResetException
-};
-use App\Services\Requests\{
-    ResetPasswordRequest,
-    ForgotPasswordRequest,
-    UpdatePasswordRequest
-};
+use App\Exceptions\User\PasswordResetException;
+use App\Services\Requests\ResetPasswordRequest;
+use App\Services\Requests\ForgotPasswordRequest;
+use App\Services\Requests\UpdatePasswordRequest;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
 
 class PasswordService implements PasswordServiceContract
@@ -34,14 +30,14 @@ class PasswordService implements PasswordServiceContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @throws \App\Exceptions\User\VerifyException
      */
     public function forgot(ForgotPasswordRequest $request): void
     {
         $user = $this->userRepository->findByField('email', $request->getEmail())->first();
 
-        if (!$user->isVerified()) {
+        if (! $user->isVerified()) {
             throw new VerifyException('Please, verify your account');
         }
 
@@ -51,7 +47,7 @@ class PasswordService implements PasswordServiceContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @throws \App\Exceptions\User\PasswordResetException
      */
     public function reset(ResetPasswordRequest $request): void
@@ -71,7 +67,7 @@ class PasswordService implements PasswordServiceContract
         );
 
         if ($response !== Password::PASSWORD_RESET) {
-            switch($response) {
+            switch ($response) {
                 case Password::INVALID_PASSWORD:
                     throw new PasswordResetException(
                         'Password is invalid',
@@ -95,7 +91,7 @@ class PasswordService implements PasswordServiceContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function update(int $userId, UpdatePasswordRequest $request): void
     {

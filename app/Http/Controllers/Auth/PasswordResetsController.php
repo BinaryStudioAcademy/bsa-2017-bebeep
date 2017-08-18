@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\User\PasswordResetException;
-use App\Exceptions\User\VerifyException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ForgotPasswordRequest;
+use App\Exceptions\User\VerifyException;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Services\Contracts\PasswordService;
-use Validator;
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Exceptions\User\PasswordResetException;
 
 class PasswordResetsController extends Controller
 {
@@ -26,6 +25,7 @@ class PasswordResetsController extends Controller
         } catch (VerifyException $e) {
             return response()->json(['email' => [$e->getMessage()]], 422);
         }
+
         return response()->json();
     }
 
@@ -36,6 +36,7 @@ class PasswordResetsController extends Controller
         } catch (PasswordResetException $e) {
             return response()->json([$e->getField() => [$e->getMessage()]], 422);
         }
+
         return response()->json();
     }
 }

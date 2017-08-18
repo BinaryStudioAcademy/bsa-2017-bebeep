@@ -18,7 +18,7 @@ class JwtRole extends BaseMiddleware
      */
     public function handle($request, Closure $next, $roles)
     {
-        if (!Auth::user()) {
+        if (! Auth::user()) {
             return response()->json(['message' => 'You are not logged in!'], 422);
         }
 
@@ -27,7 +27,7 @@ class JwtRole extends BaseMiddleware
             : explode('|', $roles);
 
         foreach ($roles as $role) {
-            if (!Auth::user()->hasRole($role)) {
+            if (! Auth::user()->hasRole($role)) {
                 return response()->json(['message' => 'You have not permissions!'], 403);
             }
         }

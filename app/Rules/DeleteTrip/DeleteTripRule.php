@@ -2,8 +2,8 @@
 
 namespace App\Rules\DeleteTrip;
 
-use App\Models\Trip;
 use App\User;
+use App\Models\Trip;
 
 interface DeleteTripRule
 {

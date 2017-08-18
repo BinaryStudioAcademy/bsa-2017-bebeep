@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PageHeader from 'app/components/PageHeader';
-import CreateTripContainer from '../components/Create/CreateTripContainer';
+import CreateTripContainer from '../components/Containers/CreateTripContainer';
 
 import '../styles/create_trip.scss';
 
