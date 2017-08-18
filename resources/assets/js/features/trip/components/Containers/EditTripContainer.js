@@ -1,22 +1,26 @@
 import React from 'react';
-import CreateTripForm from './CreateTripForm';
-import DirectionsMap from "../../../../app/components/DirectionsMap";
-import {geocodeByAddress} from 'react-places-autocomplete';
-import Validator from '../../../../app/services/Validator';
-import {securedRequest} from '../../../../app/services/RequestService';
-import {createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
-import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
-import {tripCreateSuccess} from '../../actions';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
-import '../../styles/create_trip.scss';
+import { geocodeByAddress } from 'react-places-autocomplete';
+import TripForm from '../Forms/TripForm';
+import DirectionsMap from "../../../../app/components/DirectionsMap";
+import Validator from '../../../../app/services/Validator';
+import EditTripService from '../../services/EditTripService';
+import { createTripRules, getStartAndEndTime } from '../../../../app/services/TripService';
+import { getCoordinatesFromPlace } from '../../../../app/services/GoogleMapService';
 
-class CreateTripContainer extends React.Component {
+class EditTripContainer extends React.Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
+            trip: {
+                id: null,
+                price: null,
+                seats: null,
+                start_at: null
+            },
+            notFoundTrip: false,
             errors: {},
             startPoint: {
                 address: '',
@@ -27,6 +31,38 @@ class CreateTripContainer extends React.Component {
                 place: null,
             }
         };
+    }
+
+    componentDidMount() {
+        EditTripService.getTrip(this.props.id)
+            .then(response => {
+                response = EditTripService.transformData(response);
+                const routes = response.routes[0];
+                this.setState({
+                    trip: response,
+                    startPoint: {
+                        geometry: {
+                            location: routes.from.geometry.location
+                        },
+                        address: routes.from.formatted_address,
+                        place_id: routes.from.place_id
+                    },
+                    endPoint: {
+                        geometry: {
+                            location: routes.to.geometry.location
+                        },
+                        address: routes.to.formatted_address,
+                        place_id: routes.to.place_id
+                    },
+                });
+                this.onSelectStartPoint(this.state.startPoint.address);
+                this.onSelectEndPoint(this.state.endPoint.address);
+            })
+            .catch(error => {
+                this.setState({
+                    notFoundTrip: true,
+                });
+            });
     }
 
     onChangeStartPoint(address) {
@@ -103,29 +139,13 @@ class CreateTripContainer extends React.Component {
 
         this.setState({errors: {}});
 
-        console.log(data);
-        /*securedRequest.post('/api/v1/trips', data).then((response) => {
-            this.props.tripCreateSuccess(response.data);
-            this.setState({errors: {}});
-
-            if (response.status === 200) {
+        EditTripService.sendUpdatedTrip(this.props.id, data)
+            .then((response) => {
                 browserHistory.push('/trips');
-            }
-        }).catch((error) => {
-            this.setState({
-                errors: error.response.data
-            })
-        });*/
-
+            });
     }
 
     render() {
-        const placesCssClasses = {
-            root: 'form-group',
-            input: 'form-control',
-            autocompleteContainer: 'autocomplete-container'
-        };
-
         const startPointProps = {
             value: this.state.startPoint.address,
             onChange: this.onChangeStartPoint.bind(this),
@@ -136,16 +156,24 @@ class CreateTripContainer extends React.Component {
             onChange: this.onChangeEndPoint.bind(this),
         };
 
+        if (this.state.notFoundTrip) {
+            return (
+                <div className="alert alert-danger" role="alert">
+                    Can't load this trip. Please try later
+                </div>
+            );
+        }
         return (
             <div className="row">
                 <div className="col-sm-6">
-                    <CreateTripForm
+                    <TripForm
+                        id={this.props.id}
+                        trip={this.state.trip}
                         errors={this.state.errors}
                         startPoint={startPointProps}
                         endPoint={endPointProps}
                         onSelectEndPoint={this.onSelectEndPoint.bind(this)}
                         onSelectStartPoint={this.onSelectStartPoint.bind(this)}
-                        placesCssClasses={placesCssClasses}
                         onSubmit={this.onSubmit.bind(this)}
                     />
                 </div>
@@ -160,10 +188,4 @@ class CreateTripContainer extends React.Component {
         );
     }
 }
-
-const CreateTripContainerConnected = connect(
-    null,
-    (dispatch) => bindActionCreators({tripCreateSuccess}, dispatch)
-)(CreateTripContainer);
-
-export default CreateTripContainerConnected;
+export default EditTripContainer;

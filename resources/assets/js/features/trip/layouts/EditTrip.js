@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PageHeader from '../../../app/components/PageHeader';
-import EditTripContainer from "../components/Edit/EditTripContainer";
+import EditTripContainer from "../components/Containers/EditTripContainer";
 
 import '../styles/edit_trip.scss';
 

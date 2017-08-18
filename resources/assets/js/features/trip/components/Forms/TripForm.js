@@ -1,11 +1,9 @@
 import React from 'react';
-import moment from 'moment';
-import PlacesAutocomplete from 'react-places-autocomplete';
-
 import Input from '../../../../app/components/Input';
+import PlacesAutocomplete from 'react-places-autocomplete';
+import moment from 'moment';
 
-class EditTripForm extends React.Component {
-
+class TripForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,14 +18,17 @@ class EditTripForm extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.trip.id !== this.props.trip.id ||
-            nextProps.startPoint.value !== this.props.startPoint.value ||
-            nextProps.endPoint.value !== this.props.endPoint.value;
+        if (this.props.trip) {
+            return nextProps.trip.id !== this.props.trip.id ||
+                nextProps.startPoint.value !== this.props.startPoint.value ||
+                nextProps.endPoint.value !== this.props.endPoint.value;
+        }
+        return true;
     }
 
     render() {
+        const { errors } = this.props;
         const { momentKey } = this.state;
-        const { trip, errors } = this.props;
 
         const placesCssClasses = {
             root: 'form-group',
@@ -39,7 +40,7 @@ class EditTripForm extends React.Component {
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
                   onSubmit={ this.props.onSubmit } key={ momentKey }>
                 <div className="card-header">
-                    Edit Trip #{this.props.id}
+                    Edit Trip
                 </div>
                 <div className="card-block">
                     <div className={"form-group row " + (errors.vehicle_id ? 'has-danger' : '')}>
@@ -57,7 +58,7 @@ class EditTripForm extends React.Component {
                         type="number"
                         name="price"
                         id="price"
-                        defaultValue={ trip.price }
+                        defaultValue={this.props.trip ? this.props.trip.price : ''}
                         required={false}
                         error={errors.price}>Price
                     </Input>
@@ -65,7 +66,7 @@ class EditTripForm extends React.Component {
                         type="number"
                         name="seats"
                         id="seats"
-                        defaultValue={ trip.seats }
+                        defaultValue={this.props.trip ? this.props.trip.seats : ''}
                         required={false}
                         error={errors.seats}>Available seats
                     </Input>
@@ -97,13 +98,13 @@ class EditTripForm extends React.Component {
                         type="datetime-local"
                         name="start_at"
                         id="start_at"
-                        defaultValue={trip.start_at}
+                        defaultValue={this.props.trip ? this.props.trip.start_at : ''}
                         required={false}
                         error={errors.start_at}>Trip start time
                     </Input>
                     <div className="form-group">
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">Edit trip</button>
+                            <button type="submit" className="btn btn-primary">{this.props.trip ? 'Edit trip' : 'Create trip'}</button>
                         </div>
                     </div>
                 </div>
@@ -112,4 +113,4 @@ class EditTripForm extends React.Component {
     }
 }
 
-export default EditTripForm;
+export default TripForm;

@@ -8,8 +8,8 @@ const EditTripService = {
                 // В TripService.php нужно изменить метод show,
                 // тогда будет возвращаться один элемент
                 // и можно будет написать response.data и error.response.data
-                response => Promise.resolve(response.data[0]),
-                error => Promise.reject(error.response.data[0])
+                response => Promise.resolve(response.data[id-1]),
+                error => Promise.reject(error.response.data[id-1])
             );
     },
     transformData(response) {
