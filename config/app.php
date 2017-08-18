@@ -175,6 +175,8 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Themsaid\MailPreview\MailPreviewServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
+        Spatie\Fractal\FractalServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -237,6 +239,7 @@ return [
 
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'Fractal' => Spatie\Fractal\FractalFacade::class,
     ],
 
 ];

@@ -2,15 +2,16 @@
 
 namespace App\Services;
 
-use App\Exceptions\Auth\CreateTokenException;
-use App\Exceptions\Auth\InvalidCredentialsException;
-use App\Exceptions\Auth\UserNotFoundException;
-use App\Exceptions\Auth\UserNotVerifiedException;
+use JWTAuth;
+use App\User;
 use App\Http\Requests\LoginRequest;
 use App\Repositories\UserRepository;
 use App\Services\Requests\TokenRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use JWTAuth;
+use App\Exceptions\Auth\CreateTokenException;
+use App\Exceptions\Auth\UserNotFoundException;
+use App\Exceptions\Auth\UserNotVerifiedException;
+use App\Exceptions\Auth\InvalidCredentialsException;
 
 class AuthUserService
 {
@@ -18,6 +19,11 @@ class AuthUserService
      * @var UserRepository
      */
     private $userRepository;
+
+    /**
+     * @var array
+     */
+    private $customClaims = [];
 
     /**
      * AuthUserService constructor.
@@ -30,7 +36,7 @@ class AuthUserService
     }
 
     /**
-     * Auth service
+     * Auth service.
      *
      * @param LoginRequest $request
      * @return mixed
@@ -48,19 +54,21 @@ class AuthUserService
 
         $user = $this->userRepository->getUserByEmail($request->getEmail());
 
-        if(is_null($user)) {
+        if (is_null($user)) {
             throw new UserNotFoundException('User not register');
         }
 
-        if(!$user->isVerified()) {
+        if (! $user->isVerified()) {
             throw new UserNotVerifiedException('User not verified');
         }
 
-        try {
-            $token = JWTAuth::attempt($credentials);
+        $this->setCustomClaims($user);
 
-            if(!$token) {
-                throw new InvalidCredentialsException("Invalid credentials");
+        try {
+            $token = JWTAuth::attempt($credentials, $this->getCustomClaims());
+
+            if (! $token) {
+                throw new InvalidCredentialsException('Invalid credentials');
             }
         } catch (JWTException $e) {
             throw new CreateTokenException('Could not create token');
@@ -70,7 +78,7 @@ class AuthUserService
     }
 
     /**
-     * Logout service method
+     * Logout service method.
      *
      * @param TokenRequest $tokenRequest
      * @param \Tymon\JWTAuth\JWTAuth $JWTAuth
@@ -80,5 +88,31 @@ class AuthUserService
         $token = $tokenRequest->getToken();
 
         $JWTAuth->setToken($token)->invalidate();
+    }
+
+    /**
+     * Get custom claims for JWT Token payload data.
+     *
+     * @return array
+     */
+    private function getCustomClaims(): array
+    {
+        return $this->customClaims;
+    }
+
+    /**
+     * Set custom claims for JWT Token payload data.
+     *
+     * @param \App\User $user
+     *
+     * @return $this
+     */
+    private function setCustomClaims(User $user): self
+    {
+        $this->customClaims = [
+            'username' => $user->getFullName(),
+        ];
+
+        return $this;
     }
 }

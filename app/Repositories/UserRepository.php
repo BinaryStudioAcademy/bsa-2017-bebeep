@@ -19,7 +19,7 @@ class UserRepository extends BaseRepository
      * @param User $user
      * @return User
      */
-    public function save(User $user) : User
+    public function save(User $user): User
     {
         $user->save();
 
@@ -27,7 +27,7 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Get user by email
+     * Get user by email.
      *
      * @param string $email
      * @return User

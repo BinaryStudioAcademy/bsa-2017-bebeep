@@ -11,11 +11,15 @@ class VerifyEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * @var \App\User
+     */
     public $user;
 
     /**
      * Create a new message instance.
-     * @param User $user
+     *
+     * @param \App\User $user
      */
     public function __construct(User $user)
     {
@@ -29,6 +33,7 @@ class VerifyEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.verify-email')->subject('Please, verify your E-mail');
+        return $this->markdown('emails.verify-email')
+            ->subject('Please, verify your E-mail');
     }
 }

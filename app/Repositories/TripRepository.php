@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Trip;
-use App\Models\Route;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class TripRepository extends BaseRepository
@@ -23,6 +22,28 @@ class TripRepository extends BaseRepository
     public function save(Trip $trip)
     {
         $trip->push();
+
+        return $trip;
+    }
+
+    /**
+     * @param Trip $trip
+     * @return Trip
+     */
+    public function softDelete(Trip $trip)
+    {
+        $trip->delete();
+
+        return $trip;
+    }
+
+    /**
+     * @param Trip $trip
+     * @return Trip
+     */
+    public function restore(Trip $trip)
+    {
+        $trip->restore();
 
         return $trip;
     }

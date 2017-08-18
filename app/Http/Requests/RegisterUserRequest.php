@@ -30,6 +30,7 @@ class RegisterUserRequest extends FormRequest implements RegisterUserRequestInte
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|digits_between:1,15',
+            'birth_date' => 'nullable|date',
             'password' => 'required|confirmed|min:6',
             'role_driver' => 'required_without:role_passenger',
             'role_passenger' => 'required_without:role_driver',
@@ -66,6 +67,14 @@ class RegisterUserRequest extends FormRequest implements RegisterUserRequestInte
     public function getPhone(): string
     {
         return $this->get('phone');
+    }
+
+    /**
+     * @return string
+     */
+    public function getBirthDate(): ?string
+    {
+        return $this->get('birth_date');
     }
 
     /**

@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => env('MAILGUN_DOMAIN', 'stage.bebeep.io'),
+        'secret' => env('MAILGUN_SECRET', 'key-63e9aae0b4e1d80eb9c96dab64fc43b4'),
     ],
 
     'ses' => [
@@ -33,6 +33,10 @@ return [
         'model' => App\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+    ],
+
+    'google' => [
+        'maps_api_key' => env('GOOGLE_MAPS_API_KEY', 'AIzaSyAXi2uW5u5h-7-2PGD-p06sSFvcS0uc9IA'),
     ],
 
 ];
