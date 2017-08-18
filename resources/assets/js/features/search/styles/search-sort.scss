@@ -20,7 +20,7 @@
     margin-left: 3px;
     font-size: .8rem;
   }
-  &_active.trip-list__sort_asc:after {
+  &_active.search-sort_asc:after {
     content: $fa-var-long-arrow-down;
   }
 }

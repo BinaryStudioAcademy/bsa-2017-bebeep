@@ -4,8 +4,6 @@ import DatePicker from 'react-datepicker';
 import Slider, {Range} from 'rc-slider';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {filter} from '../../actions';
 import '../../styles/filter.scss';
 
 class Filter extends React.Component {
@@ -134,6 +132,5 @@ export default connect(
     (state) => ({
         filterData: state.search.filter,
         startDate: state.search.start_at,
-    }),
-    (dispatch) => bindActionCreators({filter}, dispatch)
+    })
 )(Filter);

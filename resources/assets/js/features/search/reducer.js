@@ -1,5 +1,4 @@
 import * as actions from './actionTypes';
-import { browserHistory } from 'react-router';
 
 const initialState = {
     from: {
@@ -10,18 +9,12 @@ const initialState = {
         name: '',
         coordinate: {lat: null, lng: null,}
     },
-    start_at: null,
-    filter: {
-        time: [0, 24],
-        price: [0, 0]
-    }
+    start_at: null
 };
 
 export default function (state = initialState, action) {
     switch(action.type) {
         case actions.SEARCH_INDEX_SUCCESS:
-            browserHistory.push('/search');
-        case actions.SEARCH_RESULT_SUCCESS:
             return {
                 ...state,
                 from: {
@@ -34,16 +27,6 @@ export default function (state = initialState, action) {
                 },
                 start_at: action.data.start_at,
 
-            };
-        case actions.SEARCH_FILTER:
-            return {
-                ...state,
-                start_at: action.data.date,
-                filter: {
-                    ...state.filter,
-                    time: action.data.time,
-                    price: action.data.price
-                }
             };
         default:
             return state;

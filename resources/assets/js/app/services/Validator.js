@@ -50,7 +50,7 @@ export default class Validator
             if (validate.isEmpty(coord.lat) || validate.isEmpty(coord.lng)) {
                 return errorMessage;
             }
-            return false;
+            return null;
         }
     }
 }

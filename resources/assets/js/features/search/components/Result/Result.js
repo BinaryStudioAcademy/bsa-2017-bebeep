@@ -2,13 +2,15 @@ import React from 'react';
 import Filter from './Filter';
 import SearchForm from './SearchForm';
 import TripList from './TripList';
+import Placeholder from './Placeholder';
 import SortPanel from './SortPanel';
-import Pagination from './Pagination';
+import Preloader from '../../../../app/components/Preloader';
+import { Pagination } from '../../../../app/components/Pagination';
 import { connect } from 'react-redux';
 import { search, encodeCoord, getDataFromQuery, setUrl, setFilter} from '../../services/SearchService';
-import { searchResult } from '../../actions';
+import { searchSuccess } from '../../actions';
 import { bindActionCreators } from 'redux';
-import { withRouter, browserHistory } from 'react-router';
+import { withRouter } from 'react-router';
 import '../../styles/search-result.scss';
 
 class Result extends React.Component {
@@ -39,7 +41,7 @@ class Result extends React.Component {
     componentWillMount() {
         const newTripData = getDataFromQuery(this.props.tripData);
         if (Object.keys(newTripData).length) {
-            this.props.searchResult(newTripData);
+            this.props.searchSuccess(newTripData);
         } else {
             this.getData(this.props, this.state);
         }
@@ -157,10 +159,14 @@ class Result extends React.Component {
                                 </div>
                             </div>
                             <div className="search-result__item-container">
-                                <TripList
-                                    collection={collection}
-                                    preloader={preloader}
-                                />
+                                <Preloader enable={preloader}/>
+                                {
+                                    preloader
+                                        ? <Placeholder show={true}>Loading ...</Placeholder>
+                                        : <TripList
+                                                collection={collection}
+                                            />
+                                }
                             </div>
                             <div className="row search-result__pagination">
                                 <div className="col-sm-6 align-self-center">
@@ -188,6 +194,6 @@ const ResultConnected = connect(
     (state) => ({
         tripData: state.search
     }),
-    (dispatch) => bindActionCreators({searchResult},dispatch)
+    (dispatch) => bindActionCreators({searchSuccess},dispatch)
 )(Result);
 export default withRouter(ResultConnected);

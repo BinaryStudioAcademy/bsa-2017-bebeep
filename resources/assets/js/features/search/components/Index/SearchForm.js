@@ -10,6 +10,7 @@ import Validator from '../../../../app/services/Validator';
 import {searchIndexRules} from '../../../../app/services/SearchIndex';
 import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
 
+import {browserHistory} from 'react-router';
 import {searchSuccess} from '../../actions';
 
 import '../../styles/react-datepicker.scss';
@@ -65,6 +66,7 @@ class SearchForm extends Component {
             start_at: this.state.startDate ? this.state.startDate.unix() : null
         };
         this.props.searchSuccess(data);
+        browserHistory.push('/search');
     }
 
     onChangeStartPoint(address) {
