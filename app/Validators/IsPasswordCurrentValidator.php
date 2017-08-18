@@ -29,6 +29,7 @@ class IsPasswordCurrentValidator
         if (! Auth::user()) {
             return false;
         }
+
         return Hash::check($value, Auth::user()->password);
     }
 }

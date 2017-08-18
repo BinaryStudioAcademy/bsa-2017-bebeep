@@ -3,10 +3,8 @@
 namespace App\Services\Contracts;
 
 use App\User;
-use App\Services\Requests\{
-    UpdateUserAvatarRequest,
-    UpdateUserProfileRequest
-};
+use App\Services\Requests\UpdateUserAvatarRequest;
+use App\Services\Requests\UpdateUserProfileRequest;
 
 interface UserProfileService
 {

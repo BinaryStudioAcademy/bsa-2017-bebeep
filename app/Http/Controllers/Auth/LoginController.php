@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\Auth\CreateTokenException;
-use App\Exceptions\Auth\InvalidCredentialsException;
-use App\Exceptions\Auth\UserNotFoundException;
-use App\Exceptions\Auth\UserNotVerifiedException;
-use App\Http\Controllers\Controller;
+use Tymon\JWTAuth\JWTAuth;
+use App\Services\AuthUserService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\TokenRequest;
-use App\Services\AuthUserService;
+use App\Http\Controllers\Controller;
+use App\Exceptions\Auth\CreateTokenException;
+use App\Exceptions\Auth\UserNotFoundException;
+use App\Exceptions\Auth\UserNotVerifiedException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-use Tymon\JWTAuth\JWTAuth;
+use App\Exceptions\Auth\InvalidCredentialsException;
 
 class LoginController extends Controller
 {
@@ -31,7 +31,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Authenticate user by JWT
+     * Authenticate user by JWT.
      *
      * @param LoginRequest $request
      * @return \Illuminate\Http\JsonResponse
@@ -42,23 +42,19 @@ class LoginController extends Controller
             $token = $this->authUserService->auth($request);
 
             return response()->json(['token' => $token], 200);
-        }
-        catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], 404);
-        }
-        catch (UserNotVerifiedException $e) {
+        } catch (UserNotVerifiedException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
-        }
-        catch (InvalidCredentialsException $e) {
+        } catch (InvalidCredentialsException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
-        }
-        catch (CreateTokenException $e) {
+        } catch (CreateTokenException $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
     }
 
     /**
-     * Logout
+     * Logout.
      *
      * @param TokenRequest $request
      * @param JWTAuth $JWTAuth
@@ -71,13 +67,12 @@ class LoginController extends Controller
 
             return response()->json([
                 'status' => 'ok',
-                'message' => 'token was turned down'
+                'message' => 'token was turned down',
             ]);
-
         } catch (TokenInvalidException $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-                'code' => $e->getStatusCode()
+                'code' => $e->getStatusCode(),
             ], $e->getStatusCode());
         }
     }

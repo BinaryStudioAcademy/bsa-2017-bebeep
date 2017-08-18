@@ -6,11 +6,9 @@ use App\Models\Trip;
 use App\Models\Booking;
 use App\Models\Vehicle;
 use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\HasMedia\{
-    HasMediaTrait,
-    Interfaces\HasMedia
-};
 use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements HasMedia
@@ -199,6 +197,7 @@ class User extends Authenticatable implements HasMedia
         if ($fullUrl) {
             return $this->getAvatar()->getFullUrl();
         }
+
         return $this->getAvatar()->getUrl();
     }
 

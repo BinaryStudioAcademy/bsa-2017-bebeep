@@ -3,11 +3,9 @@
 namespace App\Services;
 
 use App\User;
-use App\Services\Requests\{
-    UpdateUserAvatarRequest,
-    UpdateUserProfileRequest
-};
 use App\Repositories\UserRepository;
+use App\Services\Requests\UpdateUserAvatarRequest;
+use App\Services\Requests\UpdateUserProfileRequest;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 
 class UserProfileService implements UserProfileServiceContract
@@ -26,7 +24,7 @@ class UserProfileService implements UserProfileServiceContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getGeneral(int $userId): User
     {
@@ -34,7 +32,7 @@ class UserProfileService implements UserProfileServiceContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAvatar(int $userId): ?string
     {
@@ -44,7 +42,7 @@ class UserProfileService implements UserProfileServiceContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function updateGeneral(int $userId, UpdateUserProfileRequest $request): User
     {
@@ -64,7 +62,7 @@ class UserProfileService implements UserProfileServiceContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function updateAvatar(int $userId, UpdateUserAvatarRequest $request): string
     {
@@ -83,7 +81,7 @@ class UserProfileService implements UserProfileServiceContract
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function deleteAvatar(int $userId): void
     {
