@@ -35,6 +35,7 @@ export default (store) => {
     const languages = ['en', 'ua', 'ru'];
     store.dispatch(setLanguages(languages, 'en'));
     store.dispatch(addTranslation(require('./lang/global.locale.json')));
+    store.dispatch(addTranslation(require('./lang/validate.locale.json')));
 
     return (
         <Route path="/" component={ App }>
