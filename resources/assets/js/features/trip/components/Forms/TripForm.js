@@ -40,7 +40,7 @@ class TripForm extends React.Component {
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
                   onSubmit={ this.props.onSubmit } key={ momentKey }>
                 <div className="card-header">
-                    Edit Trip
+                    {this.props.trip ? 'Edit trip' : 'Create trip'}
                 </div>
                 <div className="card-block">
                     <div className={"form-group row " + (errors.vehicle_id ? 'has-danger' : '')}>
