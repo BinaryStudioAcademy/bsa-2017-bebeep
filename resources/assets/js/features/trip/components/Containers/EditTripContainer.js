@@ -178,10 +178,11 @@ class EditTripContainer extends React.Component {
                     />
                 </div>
                 <div className="col-sm-6">
-                    <DirectionsMap title="Preview Trip"
-                                   from={getCoordinatesFromPlace(this.state.startPoint.place)}
-                                   to={getCoordinatesFromPlace(this.state.endPoint.place)}
-                                   endTime={this.setEndTime.bind(this)}
+                    <DirectionsMap
+                        title="Preview Trip"
+                        from={getCoordinatesFromPlace(this.state.startPoint.place)}
+                        to={getCoordinatesFromPlace(this.state.endPoint.place)}
+                        endTime={this.setEndTime.bind(this)}
                     />
                 </div>
             </div>
