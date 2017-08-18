@@ -8,6 +8,7 @@ use App\Criteria\Trips\PastDriverTripsCriteria;
 use App\Criteria\Trips\UpcomingDriverTripsCriteria;
 use App\Models\Trip;
 use App\Repositories\TripRepository;
+use App\Repositories\RouteRepository;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Exceptions\Trip\TripNotFoundException;
 use App\Exceptions\Trip\UserCantEditTripException;
@@ -31,18 +32,21 @@ class TripsService
      * TripsService constructor.
      *
      * @param TripRepository $tripRepository
+     * @param RouteRepository $routeRepository
      * @param DeleteTripValidator $deleteTripValidator
      * @param RestoreTripValidator $restoreTripValidator
      * @param UpdateTripValidator $updateTripValidator
      */
     public function __construct(
         TripRepository $tripRepository,
+        RouteRepository $routeRepository,
         DeleteTripValidator $deleteTripValidator,
         RestoreTripValidator $restoreTripValidator,
         UpdateTripValidator $updateTripValidator
     )
     {
         $this->tripRepository = $tripRepository;
+        $this->routeRepository = $routeRepository;
         $this->deleteTripValidator = $deleteTripValidator;
         $this->restoreTripValidator = $restoreTripValidator;
         $this->updateTripValidator = $updateTripValidator;
@@ -111,7 +115,9 @@ class TripsService
      */
     public function show(Trip $trip, User $user)
     {
-        return $this->tripRepository->getByCriteria(new DriverTripByIdCriteria($trip, $user));
+        return $this->tripRepository
+            ->getByCriteria(new DriverTripByIdCriteria($trip, $user))
+            ->first();
     }
 
     /**
@@ -140,7 +146,9 @@ class TripsService
         ];
 
         $result = $this->tripRepository->update($tripAttributes, $trip->id); // don't use this way of storing models. Your repository shouldn't know about arrays
-        $result->routes()->update($routeAttributes);
+
+        $route = $this->routeRepository->findWhere(['trip_id' => $trip->id])->first();
+        $this->routeRepository->update($routeAttributes, $route->id);
 
         return $result;
     }
