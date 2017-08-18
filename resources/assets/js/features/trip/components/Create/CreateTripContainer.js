@@ -103,7 +103,8 @@ class CreateTripContainer extends React.Component {
 
         this.setState({errors: {}});
 
-        securedRequest.post('/api/v1/trips', data).then((response) => {
+        console.log(data);
+        /*securedRequest.post('/api/v1/trips', data).then((response) => {
             this.props.tripCreateSuccess(response.data);
             this.setState({errors: {}});
 
@@ -114,7 +115,7 @@ class CreateTripContainer extends React.Component {
             this.setState({
                 errors: error.response.data
             })
-        });
+        });*/
 
     }
 

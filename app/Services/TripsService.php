@@ -140,7 +140,10 @@ class TripsService
         ];
 
         $result = $this->tripRepository->update($tripAttributes, $trip->id); // don't use this way of storing models. Your repository shouldn't know about arrays
+
+        // PROBLEM :: $result->routes() return null
         $result->routes()->update($routeAttributes);
+        // Error response 500 - array to string conversion
 
         return $result;
     }

@@ -1,147 +1,54 @@
 import React from 'react';
-import Input from '../../../../app/components/Input';
-import PlacesAutocomplete from 'react-places-autocomplete';
-import EditTripService from '../../services/EditTripService';
 import moment from 'moment';
+import { browserHistory } from 'react-router';
+import PlacesAutocomplete from 'react-places-autocomplete';
 import {geocodeByAddress} from 'react-places-autocomplete';
 
+import Input from '../../../../app/components/Input';
+
+import Validator from '../../../../app/services/Validator';
+import EditTripService from '../../services/EditTripService';
+import { createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
+
 class EditTripForm extends React.Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            trip: {
-                price: null,
-                seats: null,
-                start_at: null
-            },
-            notFoundTrip: false,
-            errors: {},
-            startPoint: {},
-            endPoint: {}
+    onSubmit(e) {
+        e.preventDefault();
+
+        let time = getStartAndEndTime(e.target['start_at'].value, this.props.endTime);
+        let data = {
+            vehicle_id: e.target['vehicle_id'].value,
+            start_at: time.start_at,
+            end_at: time.end_at,
+            price: e.target['price'].value,
+            seats: e.target['seats'].value,
+            from: this.state.startPoint,
+            to: this.state.endPoint,
         };
-        this.onSelectStartPoint = this.onSelectStartPoint.bind(this);
-        this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
-        this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
-        this.onSelectEndPoint = this.onSelectEndPoint.bind(this);
-    }
 
-    setStartPlaces() {
-        const { startPoint , endPoint } = this.state;
-        this.props.startPlaces(startPoint, endPoint);
-    }
+        const validated = Validator.validate(createTripRules, data);
 
-    setNewAddress(type, address) {
-        this.setState({
-            [type + 'Point']: {
-                address: address,
-                place: null
-            }
-        });
-    }
+        if (!validated.valid) {
+            this.setState({errors: validated.errors});
+            return;
+        }
 
-    onChangeStartPoint(address) {
-        /*this.setState({
-            startPoint: {address: address}
-         });*/
-        this.setNewAddress('start', address);
-    }
+        this.setState({errors: {}});
 
-    onChangeEndPoint(address) {
-        /*this.setState({
-            endPoint: {address: address}
-        });*/
-        this.setNewAddress('end', address);
-    }
-
-    onSelectStartPoint(address) {
-        this.selectGeoPoint('start', address);
-    }
-
-    onSelectEndPoint(address) {
-        this.selectGeoPoint('end', address);
-    }
-
-    componentDidMount() {
-        EditTripService.getTrip(this.props.id)
-            .then(response => {
-                response = EditTripService.transformData(response);
-                const routes = response.routes[0];
-                this.setState({
-                    trip: response,
-                    startPoint: {
-                        geometry: {
-                            location: routes.from.geometry.location
-                        },
-                        address: routes.from.formatted_address,
-                        place_id: routes.from.place_id
-                    },
-                    endPoint: {
-                        geometry: {
-                            location: routes.to.geometry.location
-                        },
-                        address: routes.to.formatted_address,
-                        place_id: routes.from.place_id
-                    },
-                });
-                this.setStartPlaces();
-            })
-            .catch(error => {
-                this.setState({
-                    notFoundTrip: true,
-                });
-            });
-    }
-
-    selectGeoPoint(type, address) {
-        this.setNewAddress(type, address);
-
-        geocodeByAddress(address)
-            .then(results => {
-                this.setState({
-                    [type + 'Point']: {
-                        place: results[0],
-                        address: address,
-                    }
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    [type + 'Point']: {
-                        place: null,
-                        address: address,
-                    }
-                })
+        EditTripService.sendUpdatedTrip(this.props.id, data)
+            .then((response) => {
+                console.log(response);
+                if (response.status === 200) {
+                    //browserHistory.push('/trips');
+                }
             });
     }
 
     render() {
-        const { errors } = this.props;
-        const { trip, notFoundTrip } = this.state;
-
-        const startPointProps = {
-            value: this.state.startPoint.address ? this.state.startPoint.address : '',
-            onChange: this.onChangeStartPoint.bind(this),
-        };
-
-        const endPointProps = {
-            value: this.state.endPoint.address ? this.state.endPoint.address : '',
-            onChange: this.onChangeEndPoint.bind(this),
-        };
-
-
-        const placesCssClasses = {
-            root: 'form-group',
-            input: 'form-control',
-            autocompleteContainer: 'autocomplete-container'
-        };
-        console.log(this.state.startPoint);
-        if (notFoundTrip) {
-            <div className="alert alert-danger" role="alert">Can`t load this trip. Please try later</div>
-        }
+        const { errors, momentKey } = this.props;
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method=""
-                  onSubmit={this.props.onSubmit} key={moment()}>
+                  onSubmit={this.onSubmit.bind(this)} key={ momentKey }>
                 <div className="card-header">
                     Edit Trip #{this.props.id}
                 </div>
@@ -160,7 +67,7 @@ class EditTripForm extends React.Component {
                         type="number"
                         name="price"
                         id="price"
-                        defaultValue={ trip.price }
+                        defaultValue={ this.props.trip.price }
                         required={false}
                         error={errors.price}>Price
                     </Input>
@@ -168,19 +75,18 @@ class EditTripForm extends React.Component {
                         type="number"
                         name="seats"
                         id="seats"
-                        defaultValue={ trip.seats }
+                        defaultValue={ this.props.trip.seats }
                         required={false}
                         error={errors.seats}>Available seats
                     </Input>
                     <div className={"form-group row " + (this.props.errors.from ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4">Start Point</label>
                         <div className="col-sm-8">
-                            <PlacesAutocomplete inputProps={startPointProps}
-                                                classNames={placesCssClasses}
-                                                onSelect={this.onSelectStartPoint}
-                                                onEnterKeyDown={this.onSelectStartPoint}
-                                                ref="startPoint"
-                                                key={moment()}
+                            <PlacesAutocomplete inputProps={this.props.startPoint}
+                                                classNames={this.props.placesCssClasses}
+                                                onSelect={this.props.onSelectStartPoint}
+                                                onEnterKeyDown={this.props.onSelectStartPoint}
+                                                key={ momentKey }
                             />
                             <div className="form-control-feedback">{this.props.errors.from}</div>
                         </div>
@@ -188,11 +94,11 @@ class EditTripForm extends React.Component {
                     <div className={"form-group row " + (this.props.errors.to ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4">End Point</label>
                         <div className="col-sm-8">
-                            <PlacesAutocomplete inputProps={endPointProps}
-                                                classNames={placesCssClasses}
-                                                onSelect={this.onSelectEndPoint}
-                                                onEnterKeyDown={this.onSelectEndPoint}
-                                                key={moment()}
+                            <PlacesAutocomplete inputProps={this.props.endPoint}
+                                                classNames={this.props.placesCssClasses}
+                                                onSelect={this.props.onSelectEndPoint}
+                                                onEnterKeyDown={this.props.onSelectEndPoint}
+                                                key={ momentKey }
                             />
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>
@@ -201,7 +107,7 @@ class EditTripForm extends React.Component {
                         type="datetime-local"
                         name="start_at"
                         id="start_at"
-                        defaultValue={trip.start_at}
+                        defaultValue={ this.props.trip.start_at }
                         required={false}
                         error={errors.start_at}>Trip start time
                     </Input>
@@ -215,5 +121,4 @@ class EditTripForm extends React.Component {
         )
     }
 }
-
 export default EditTripForm;

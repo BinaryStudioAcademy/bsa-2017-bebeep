@@ -1,93 +1,188 @@
 import React from 'react';
+import {geocodeByAddress} from 'react-places-autocomplete';
+import EditTripService from '../../services/EditTripService';
+import moment from 'moment';
 import EditTripForm from './EditTripForm';
 import DirectionsMap from "../../../../app/components/DirectionsMap";
-import {geocodeByAddress} from 'react-places-autocomplete';
-import { createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
-import Validator from '../../../../app/services/Validator';
 import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
-import EditTripService from '../../services/EditTripService';
-import { browserHistory } from 'react-router';
+
 
 class EditTripContainer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            momentKey: null,
             trip: {
                 price: null,
                 seats: null,
                 start_at: null
             },
+            endTime: null,
             notFoundTrip: false,
             errors: {},
-            startPlace: null,
-            endPlace: null,
+            startPoint: {
+                geometry: {
+                    location: {
+                        lat: 0,
+                        lng: 0
+                    }
+                },
+                address: '',
+                place: ''
+            },
+            endPoint: {
+                geometry: {
+                    location: {
+                        lat: 0,
+                        lng: 0
+                    }
+                },
+                address: '',
+                place: ''
+            }
         };
     }
 
+    componentDidMount() {
+        EditTripService.getTrip(this.props.id)
+            .then(response => {
+                console.log(response);
+                response = EditTripService.transformData(response);
+                const routes = response.routes[0];
+                this.setState({
+                    momentKey: moment(),
+                    trip: response,
+                    startPoint: {
+                        geometry: {
+                            location: routes.from.geometry.location
+                        },
+                        address: routes.from.formatted_address,
+                        place: this.getStartPointPlace(routes.from.formatted_address)
+                    },
+                    endPoint: {
+                        geometry: {
+                            location: routes.to.geometry.location
+                        },
+                        address: routes.to.formatted_address,
+                        place: this.getStartPointPlace(routes.to.formatted_address)
+                    },
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    notFoundTrip: true,
+                });
+            });
 
-    setEndTime(time) {
-        this.endTime = time;
     }
 
-    setStartPlaces(startPoint, endPoint) {
+    getStartPointPlace(startAddress) {
+        let result = geocodeByAddress(startAddress);
+        return result[0];
+    }
+
+    getStartPointPlace(endAddress) {
+        let result = geocodeByAddress(endAddress);
+        return result[0];
+    }
+
+    onChangeStartPoint(address) {
         this.setState({
-            startPlace: startPoint,
-            endPlace: endPoint
+            startPoint: {address: address}
+        })
+    }
+
+    onChangeEndPoint(address) {
+        this.setState({
+            endPoint: {address: address}
         });
     }
 
-    onSubmit(e) {
-        e.preventDefault();
+    onSelectStartPoint(address) {
+        this.selectGeoPoint('start', address);
+    }
 
-        let time = getStartAndEndTime(e.target['start_at'].value, this.endTime);
-        let data = {
-            vehicle_id: e.target['vehicle_id'].value,
-            start_at: time.start_at,
-            end_at: time.end_at,
-            price: e.target['price'].value,
-            seats: e.target['seats'].value,
-            from: this.state.startPlace,
-            to: this.state.endPlace,
-        };
-        const validated = Validator.validate(createTripRules, data);
+    onSelectEndPoint(address) {
+        this.selectGeoPoint('end', address);
+    }
 
-        if (!validated.valid) {
-            this.setState({errors: validated.errors});
-            return;
-        }
+    selectGeoPoint(type, address) {
+        this.setState({
+            [type + 'Point']: {
+                address: address,
+                place: null
+            }
+        });
 
-        this.setState({errors: {}});
-
-        EditTripService.sendUpdatedTrip(this.props.id, data)
-            .then((response) => {
-                if (response.status === 200) {
-                    browserHistory.push('/trips');
-                }
+        geocodeByAddress(address)
+            .then(results => {
+                this.setState({
+                    [type + 'Point']: {
+                        place: results[0],
+                        address: address,
+                    }
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    [type + 'Point']: {
+                        place: null,
+                        address: address,
+                    }
+                })
             });
+    }
 
-        console.log(data);
+    setEndTime(time) {
+        this.setState({
+            endTime: time
+        });
     }
 
     render() {
+        const placesCssClasses = {
+            root: 'form-group',
+            input: 'form-control',
+            autocompleteContainer: 'autocomplete-container'
+        };
+
+        const startPointProps = {
+            value: this.state.startPoint.address,
+            onChange: this.onChangeStartPoint.bind(this),
+        };
+
+        const endPointProps = {
+            value: this.state.endPoint.address,
+            onChange: this.onChangeEndPoint.bind(this),
+        };
+        console.log(this.state.startPoint.place);
         return (
             <div className="row">
                 <div className="col-sm-6">
-                    <EditTripForm
-                        id={this.props.id}
-                        errors={this.state.errors}
-                        onSubmit={this.onSubmit.bind(this)}
-                        startPlaces={this.setStartPlaces.bind(this)}
-                    />
+                    {this.state.trip ? (
+                        <EditTripForm
+                            id={this.props.id}
+                            errors={this.state.errors}
+                            endTime={this.state.endTime}
+                            startPoint={startPointProps}
+                            endPoint={endPointProps}
+                            onSelectEndPoint={this.onSelectEndPoint.bind(this)}
+                            onSelectStartPoint={this.onSelectStartPoint.bind(this)}
+                            placesCssClasses={placesCssClasses}
+                            trip={this.state.trip}
+                            momentKey={this.state.momentKey}
+                        />
+                        ) : (<div className="map-loading"></div>)}
                 </div>
                 <div className="col-sm-6">
-                    {this.state.startPlace ? (
+                    {this.state.startPoint ? (
                         <DirectionsMap
                             title="Preview Trip"
                             endTime={this.setEndTime.bind(this)}
                             needDirection="1"
-                            from={this.state.startPlace.geometry.location}
-                            to={this.state.endPlace.geometry.location}
+                            from=''/*{getCoordinatesFromPlace(this.state.startPoint)}*/
+                            to=''/*{getCoordinatesFromPlace(this.state.endPoint)}*/
                         />
                     ) : (<div className="map-loading"></div>)}
                 </div>
