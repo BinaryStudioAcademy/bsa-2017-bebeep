@@ -29,6 +29,7 @@ class TripForm extends React.Component {
     render() {
         const { errors } = this.props;
         const { momentKey } = this.state;
+        let waypointsView = <div>&nbsp;</div>;
 
         const placesCssClasses = {
             root: 'form-group',
@@ -36,18 +37,20 @@ class TripForm extends React.Component {
             autocompleteContainer: 'autocomplete-container'
         };
 
-        let waypointsView = this.props.waypoints.map((point, index) =>
-            <div className="row justify-content-end stopover-row" key={index}>
-                <div className="col-sm-8 text-right">
-                    <PlacesAutocomplete inputProps={{value: point.value, onChange(address) {point.onChange(address, index)}}}
-                                        classNames={this.props.placesCssClasses}
-                                        onSelect={(address) => {point.onSelect(address, index);}}
-                                        onEnterKeyDown={(address) => {point.onSelect(address, index);}}
-                    />
-                    <a href="#" onClick={(e) => { e.preventDefault(); this.props.onWaypointDelete(index); }}>Delete</a>
+        if (this.props.waypoints) {
+            waypointsView = this.props.waypoints.map((point, index) =>
+                <div className="row justify-content-end stopover-row" key={index}>
+                    <div className="col-sm-8 text-right">
+                        <PlacesAutocomplete inputProps={{value: point.value, onChange(address) {point.onChange(address, index)}}}
+                                            classNames={this.props.placesCssClasses}
+                                            onSelect={(address) => {point.onSelect(address, index);}}
+                                            onEnterKeyDown={(address) => {point.onSelect(address, index);}}
+                        />
+                        <a href="#" onClick={(e) => { e.preventDefault(); this.props.onWaypointDelete(index); }}>Delete</a>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
 
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
