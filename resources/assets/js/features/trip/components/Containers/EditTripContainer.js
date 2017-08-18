@@ -36,24 +36,15 @@ class EditTripContainer extends React.Component {
     componentDidMount() {
         EditTripService.getTrip(this.props.id)
             .then(response => {
-                console.log(response);
                 response = EditTripService.transformData(response);
                 const routes = response.routes[0];
                 this.setState({
                     trip: response,
                     startPoint: {
-                        geometry: {
-                            location: routes.from.geometry.location
-                        },
-                        address: routes.from.formatted_address,
-                        place_id: routes.from.place_id
+                        address: routes.from.formatted_address
                     },
                     endPoint: {
-                        geometry: {
-                            location: routes.to.geometry.location
-                        },
-                        address: routes.to.formatted_address,
-                        place_id: routes.to.place_id
+                        address: routes.to.formatted_address
                     },
                 });
                 this.onSelectStartPoint(this.state.startPoint.address);
@@ -147,6 +138,7 @@ class EditTripContainer extends React.Component {
     }
 
     render() {
+        const { trip,  errors } = this.state;
         const startPointProps = {
             value: this.state.startPoint.address,
             onChange: this.onChangeStartPoint.bind(this),
@@ -169,8 +161,8 @@ class EditTripContainer extends React.Component {
                 <div className="col-sm-6">
                     <TripForm
                         id={this.props.id}
-                        trip={this.state.trip}
-                        errors={this.state.errors}
+                        trip={trip}
+                        errors={errors}
                         startPoint={startPointProps}
                         endPoint={endPointProps}
                         onSelectEndPoint={this.onSelectEndPoint.bind(this)}
