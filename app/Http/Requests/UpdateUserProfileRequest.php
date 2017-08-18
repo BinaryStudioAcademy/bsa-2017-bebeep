@@ -36,7 +36,7 @@ class UpdateUserProfileRequest extends FormRequest implements UpdateUserProfileR
                 Rule::unique('users')->ignore(Auth::user()->id),
             ],
             'phone' => 'required|digits_between:1,15',
-            'birth_date' => 'date',
+            'birth_date' => 'nullable|date',
             'about_me' => 'max:500',
             'role_driver' => 'required_without:role_passenger|role_can_uncheck:driver',
             'role_passenger' => 'required_without:role_driver|role_can_uncheck:passenger',
@@ -78,7 +78,7 @@ class UpdateUserProfileRequest extends FormRequest implements UpdateUserProfileR
     /**
      * @return string
      */
-    public function getBirthDate(): string
+    public function getBirthDate(): ?string
     {
         return $this->get('birth_date');
     }

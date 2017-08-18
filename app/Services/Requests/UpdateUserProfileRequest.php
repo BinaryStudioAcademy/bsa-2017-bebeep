@@ -12,7 +12,7 @@ interface UpdateUserProfileRequest
 
     public function getPhone(): string;
 
-    public function getBirthDate(): string;
+    public function getBirthDate(): ?string;
 
     public function getAboutMe(): ?string;
 
