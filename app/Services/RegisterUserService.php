@@ -6,22 +6,28 @@ use App\User;
 use App\Events\UserRegistered;
 use App\Repositories\UserRepository;
 use App\Exceptions\User\VerifyException;
-use App\Services\Requests\VerifyUserRequest;
 use App\Criteria\User\NotVerifiedUserCriteria;
-use App\Services\Requests\RegisterUserRequest;
+use App\Services\Requests\{RegisterUserRequest, VerifyUserRequest};
 
 class RegisterUserService
 {
+    /**
+     * @var \App\Repositories\UserRepository
+     */
     private $userRepository;
 
+    /**
+     * @param \App\Repositories\UserRepository $userRepository
+     */
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }
 
     /**
-     * @param RegisterUserRequest $request
-     * @return User
+     * @param \App\Services\Requests\RegisterUserRequest $request
+     *
+     * @return \App\User
      */
     public function register(RegisterUserRequest $request): User
     {
@@ -31,6 +37,7 @@ class RegisterUserService
             'last_name' => $request->getLastName(),
             'password' => bcrypt($request->getPass()),
             'phone' => $request->getPhone(),
+            'birth_date' => $request->getBirthDate(),
             'permissions' => $request->getPermissions(),
         ];
 
@@ -42,13 +49,17 @@ class RegisterUserService
     }
 
     /**
-     * @param VerifyUserRequest $request
+     * @param \App\Services\Requests\VerifyUserRequest $request
+     *
      * @return string
-     * @throws VerifyException
+     * @throws \App\Exceptions\User\VerifyException
      */
-    public function verify(VerifyUserRequest $request) : string
+    public function verify(VerifyUserRequest $request): string
     {
-        $this->userRepository->pushCriteria(new NotVerifiedUserCriteria($request->getEmail(), $request->getToken()));
+        $this->userRepository->pushCriteria(new NotVerifiedUserCriteria(
+            $request->getEmail(),
+            $request->getToken()
+        ));
 
         $user = $this->userRepository->first();
 

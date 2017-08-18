@@ -1,11 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { registerSuccess } from '../../actions';
-import Input from '../../../../app/components/Input';
 import { browserHistory } from 'react-router';
+
+import { registerSuccess } from '../../actions';
+
+import Input from '../../../../app/components/Input';
+
 import { RegisterValidate } from '../../../../app/services/UserService';
 import { simpleRequest } from '../../../../app/services/RequestService';
+
 import '../../styles/user_register.scss';
 
 class Form extends React.Component {
