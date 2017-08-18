@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Transformers;
+namespace App\Transformers\User;
 
 use App\User;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Class UserProfileTransformer
- * @package namespace App\Transformers;
+ * Class ProfileTransformer
+ * @package namespace App\Transformers\User
  */
-class UserProfileTransformer extends TransformerAbstract
+class ProfileTransformer extends TransformerAbstract
 {
     /**
      * Transform the user profile general data.

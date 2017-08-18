@@ -8,7 +8,6 @@ use App\Services\Requests\{
     UpdateUserProfileRequest
 };
 use App\Repositories\UserRepository;
-use App\Presenters\UserProfilePresenter;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 
 class UserProfileService implements UserProfileServiceContract
@@ -29,11 +28,9 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * @inheritdoc
      */
-    public function getGeneral(int $userId): array
+    public function getGeneral(int $userId): User
     {
-        return $this->userRepository
-            ->setPresenter(UserProfilePresenter::class)
-            ->find($userId);
+        return $this->userRepository->find($userId);
     }
 
     /**
