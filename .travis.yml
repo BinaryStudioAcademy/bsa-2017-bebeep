@@ -8,9 +8,11 @@ env:
 
 cache:
     directories:
-        - .composer
+        - .composer/
 
 before_install:
+    - openssl aes-256-cbc -K $encrypted_31fd2d3149ec_key -iv $encrypted_31fd2d3149ec_iv -in .travis/id_rsa.enc -out .travis/id_rsa -d
+    - sudo chmod 600 .travis/id_rsa
     - sudo service mysql stop
     - sudo rm /usr/local/bin/docker-compose
     - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -31,7 +33,14 @@ branches:
         - development
 
 deploy:
-    provider: script
-    script: scripts/deploy-prod.sh
-    on:
-        branch: master
+    - provider: script
+      skip_cleanup: true
+      script: scripts/deploy-prod.sh
+      on:
+          branch: master
+
+    - provider: script
+      skip_cleanup: true
+      script: scripts/deploy-stage.sh
+      on:
+          branch: development
