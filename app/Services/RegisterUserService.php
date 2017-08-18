@@ -37,6 +37,7 @@ class RegisterUserService
             'last_name' => $request->getLastName(),
             'password' => bcrypt($request->getPass()),
             'phone' => $request->getPhone(),
+            'birth_date' => $request->getBirthDate(),
             'permissions' => $request->getPermissions(),
         ];
 
