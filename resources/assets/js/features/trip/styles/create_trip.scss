@@ -7,7 +7,6 @@
     z-index: 1000;
 }
 .trip-create-from {
-    max-height: 600px;
     font-size: 14px;
 }
 .trip-create-from .card-footer {
@@ -22,4 +21,8 @@
 
 #PlacesAutocomplete__root {
     margin-bottom: 0;
+}
+
+.stopover-row {
+    margin-bottom: 20px;
 }

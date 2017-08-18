@@ -7,12 +7,15 @@ class CreateTripForm extends React.Component {
         const {errors} = this.props;
 
         let waypointsView = this.props.waypoints.map((point, index) =>
-            <div className="col-sm-8" key={index}>
-                <PlacesAutocomplete inputProps={{value: point.value, onChange(address) {point.onChange(address, index)}}}
-                                    classNames={this.props.placesCssClasses}
-                                    onSelect={point.onSelect}
-                                    onEnterKeyDown={point.onSelect}
-                />
+            <div className="row justify-content-end stopover-row" key={index}>
+                <div className="col-sm-8 text-right">
+                    <PlacesAutocomplete inputProps={{value: point.value, onChange(address) {point.onChange(address, index)}}}
+                                        classNames={this.props.placesCssClasses}
+                                        onSelect={(address) => {point.onSelect(address, index);}}
+                                        onEnterKeyDown={(address) => {point.onSelect(address, index);}}
+                    />
+                    <a href="#" onClick={(e) => { e.preventDefault(); this.props.onWaypointDelete(index); }}>Delete</a>
+                </div>
             </div>
         );
 

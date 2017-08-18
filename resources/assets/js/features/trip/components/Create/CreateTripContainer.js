@@ -39,20 +39,44 @@ class CreateTripContainer extends React.Component {
                 ...this.state.waypoints,
                 {
                     value: '',
+                    place: null,
                     onChange: this.onWaypointChange.bind(this),
                     onSelect: this.onWaypointSelect.bind(this)
                 }
             ]
         });
-        console.log('Add');
     }
 
     onWaypointChange(address, index) {
-        console.log(address, 'change', index);
+        let waypoints = this.state.waypoints;
+        waypoints[index].value = address;
+
+        this.setState({
+            waypoints
+        });
     }
 
-    onWaypointSelect(address) {
-        console.log(address, 'select');
+    onWaypointSelect(address, index) {
+        let waypoints = this.state.waypoints;
+        waypoints[index].value = address;
+        waypoints[index].place = null;
+
+        geocodeByAddress(address).then(results => {
+            waypoints[index].place = results[0];
+        });
+
+        this.setState({
+            waypoints
+        });
+    }
+
+    onWaypointDelete(index) {
+        let waypoints = this.state.waypoints;
+        waypoints.splice(index, 1);
+
+        this.setState({
+            waypoints
+        });
     }
 
     onChangeStartPoint(address) {
@@ -147,7 +171,7 @@ class CreateTripContainer extends React.Component {
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',
-            autocompleteContainer: 'autocomplete-container'
+            autocompleteContainer: 'autocomplete-container text-left'
         };
 
         const startPointProps = {
@@ -173,6 +197,7 @@ class CreateTripContainer extends React.Component {
                         onSubmit={this.onSubmit.bind(this)}
                         waypoints={this.state.waypoints}
                         onWaypointAdd={this.onWaypointAdd.bind(this)}
+                        onWaypointDelete={this.onWaypointDelete.bind(this)}
                     />
                 </div>
                 <div className="col-sm-6">
