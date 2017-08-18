@@ -36,6 +36,7 @@ class EditTripContainer extends React.Component {
     componentDidMount() {
         EditTripService.getTrip(this.props.id)
             .then(response => {
+                console.log(response);
                 response = EditTripService.transformData(response);
                 const routes = response.routes[0];
                 this.setState({
