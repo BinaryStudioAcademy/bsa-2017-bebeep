@@ -17,14 +17,8 @@ class EditTripForm extends React.Component {
             },
             notFoundTrip: false,
             errors: {},
-            startPoint: {
-                address: '',
-                place: null,
-            },
-            endPoint: {
-                address: '',
-                place: null,
-            }
+            startPoint: {},
+            endPoint: {}
         };
         this.onSelectStartPoint = this.onSelectStartPoint.bind(this);
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
@@ -37,18 +31,27 @@ class EditTripForm extends React.Component {
         this.props.startPlaces(startPoint, endPoint);
     }
 
-    onChangeStartPoint(address) {
-        console.log(this.state.startPoint.address);
-        console.log(address);
+    setNewAddress(type, address) {
         this.setState({
+            [type + 'Point']: {
+                address: address,
+                place: null
+            }
+        });
+    }
+
+    onChangeStartPoint(address) {
+        /*this.setState({
             startPoint: {address: address}
-         });
+         });*/
+        this.setNewAddress('start', address);
     }
 
     onChangeEndPoint(address) {
-        this.setState({
+        /*this.setState({
             endPoint: {address: address}
-        });
+        });*/
+        this.setNewAddress('end', address);
     }
 
     onSelectStartPoint(address) {
@@ -91,12 +94,7 @@ class EditTripForm extends React.Component {
     }
 
     selectGeoPoint(type, address) {
-        this.setState({
-            [type + 'Point']: {
-                address: address,
-                place: null
-            }
-        });
+        this.setNewAddress(type, address);
 
         geocodeByAddress(address)
             .then(results => {
@@ -122,21 +120,22 @@ class EditTripForm extends React.Component {
         const { trip, notFoundTrip } = this.state;
 
         const startPointProps = {
-            value: this.state.startPoint.address,
+            value: this.state.startPoint.address ? this.state.startPoint.address : '',
             onChange: this.onChangeStartPoint.bind(this),
         };
 
         const endPointProps = {
-            value: this.state.endPoint.address,
+            value: this.state.endPoint.address ? this.state.endPoint.address : '',
             onChange: this.onChangeEndPoint.bind(this),
         };
+
 
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',
             autocompleteContainer: 'autocomplete-container'
         };
-
+        console.log(this.state.startPoint);
         if (notFoundTrip) {
             <div className="alert alert-danger" role="alert">Can`t load this trip. Please try later</div>
         }
