@@ -4,13 +4,14 @@ import { IndexRoute, Route, Redirect } from 'react-router';
 import App from './App';
 import NotFound from './layouts/NotFound';
 
-import SearchIndex from '../features/search/index/layouts/SearchIndex';
+import SearchIndex from '../features/search/layouts/SearchIndex';
 
 import { LoginForm, Logout } from '../features/user/layouts/Login';
 import PasswordReset from '../features/user/layouts/PasswordReset';
 import { RegisterForm, RegisterSuccess, RegisterVerify } from '../features/user/layouts/Register';
 
 import Dashboard from '../features/user/layouts/Dashboard';
+
 import {
     ProfileBase,
     ProfileGeneral,
@@ -23,6 +24,8 @@ import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 
 import CreateTrip from '../features/trip/layouts/CreateTrip';
 import TripsList from '../features/trip-list/layouts/TripsList';
+
+import SearchResult from '../features/search/layouts/SearchResult';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 
@@ -85,6 +88,8 @@ export default (
             <Route path="login" component={ LoginForm } />
             <Route path="password/reset" component={ PasswordReset } />
         </Route>
+
+        <Route path="search" component={ SearchResult } />
 
         {/* Page not found */}
         <Route path="*" component={ NotFound } />
