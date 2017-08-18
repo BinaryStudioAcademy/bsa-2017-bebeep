@@ -1,1 +1,27 @@
-{}
+{
+  "email": ["E-mail", "Ел. адреса", "Эл. адрес"],
+  "password": ["Password", "Пароль", "Пароль"],
+  "forgot_password": ["Forgot password?", "Забули пароль?", "Забыли пароль?"],
+  "login": ["Login", "Війти", "Войти"],
+  "enter_your_credentials": ["Enter your credentials", "Введіть свої дані", "Введите свои данные"],
+  "err_your_email_is_not_activated_yet": [
+    "Your e-mail was not activated yet. <a href='/verification'>Click to proceed with verification</a>",
+    "Ваша ел. адреса ще не активована. <a href='/verification'>Натисніть, щоб продовжити перевірку</a>",
+    "Ваш эл. адрес еще не активирован. <a href='/verification'>Нажмите, чтобы продолжить проверку</a>"
+  ],
+  "err_user_wasnt_registered_yet": [
+    "User with such e-mail wasn't registered yet. <a href='/registration'> Goto to registration page </a>",
+    "Користувач з такою ел. адресою ще не зареєстрований. <a href='/registration'> Перейти на сторінку реєстрації </a>",
+    "Пользователь с таким эл. адресом еще не зарегестрирован. <a href='/registration'> Перейти на страницу регистрации </a>"
+  ],
+  "err_email_password_not_corresponding": [
+    "E-mail and password are not corressponding each other",
+    "Ел. адреса та пароль не відповідають один одному",
+    "Эл. адрес и пароль не соответсвуют друг другу"
+  ],
+  "err_some_problems_appeared": [
+    "Some problems appeared. Try once more in a moment",
+    "Сталася помилка. Спробуйте, будь-ласка, пізніше",
+    "СЛучилась ошибка. Попробуйте, пожалуйста, позже"
+  ]
+}

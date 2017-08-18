@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as actions from '../../actions';
+import {getTranslate} from 'react-localize-redux';
 
 import TextInput from './TextInput';
 import PasswordForgotModal from '../_Modals/PasswordForgotModal';
@@ -20,15 +21,16 @@ class Form extends React.Component {
     }
 
     pickErrorMessage(code) {
+        const {translate} = this.props;
         switch(code) {
             case 401:
-                return (<div>Your e-mail was not activated yet. <a href="/verification">Click to proceed with verification</a></div>)
+                return (<div>{translate('err_your_email_is_not_activated_yet')}</div>)
             case 404:
-                return (<div>User with such e-mail wasn't registered yet. <a href="/registration"> Goto to registration page </a></div>)
+                return (<div>{translate('err_user_wasnt_registered_yet')}</div>)
             case 422:
-                return (<div>E-mail and password are not corressponding each other</div>)
+                return (<div>{translate('err_email_password_not_corresponding')}</div>)
             default:
-                return (<div>Some problems appeared. Try once more in a moment</div>)
+                return (<div>{translate('err_some_problems_appeared')}</div>)
         }
     }
 
@@ -47,25 +49,25 @@ class Form extends React.Component {
 
     render() {
 
-        const { errors, errorMessage } = this.props;
+        const { errors, translate } = this.props;
 
         return (
             <div>
                 <form role="form" className="card login-form" action="/api/user/authorization" method="POST">
                     <div className={ "card-header " + (this.props.httpCode ? 'alert-danger' : '')}>
-                        {(this.props.httpCode ? this.pickErrorMessage(this.props.httpCode) : "Enter your credentials" )}
+                        {(this.props.httpCode ? this.pickErrorMessage(this.props.httpCode) : translate("enter_your_credentials") )}
                     </div>
                     <div className="card-block">
                         <TextInput
                             name="email"
-                            label="Email"
+                            label={translate('email')}
                             value={ this.state.credentials.email }
                             error={ errors.email }
                             onChange={ this.onChange }/>
 
                         <TextInput
                             name="password"
-                            label="Password"
+                            label={translate('password')}
                             type="password"
                             value={ this.state.credentials.password }
                             error={ errors.password }
@@ -78,14 +80,14 @@ class Form extends React.Component {
                                 <button
                                     className="btn btn-primary"
                                     onClick={ this.onSave }>
-                                    Login
+                                    {translate('login')}
                                 </button>
                             </div>
                             <div className="col-6 text-right">
                                 <a href="#" onClick={(e) => {
                                     e.preventDefault();
                                     this.setState({forgotModalIsOpen: true});
-                                }}>Forgot password ?</a>
+                                }}>{translate('forgot_password')}</a>
                             </div>
                         </div>
                     </div>
@@ -105,5 +107,6 @@ function mapDispatchToProps(dispatch) {
 
 export default connect((state) => ({
     errors: state.user.login.errors,
-    httpCode: state.user.login.httpStatus
+    httpCode: state.user.login.httpStatus,
+    translate: getTranslate(state.locale)
 }), mapDispatchToProps)(Form);
