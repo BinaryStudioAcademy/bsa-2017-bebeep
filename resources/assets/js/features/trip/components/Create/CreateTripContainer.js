@@ -5,7 +5,7 @@ import {geocodeByAddress} from 'react-places-autocomplete';
 import Validator from '../../../../app/services/Validator';
 import {securedRequest} from '../../../../app/services/RequestService';
 import {createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
-import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
+import {getCoordinatesFromPlace, convertWaypointsToGoogleWaypoints} from '../../../../app/services/GoogleMapService';
 import {tripCreateSuccess} from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -61,12 +61,11 @@ class CreateTripContainer extends React.Component {
         waypoints[index].value = address;
         waypoints[index].place = null;
 
-        geocodeByAddress(address).then(results => {
+        geocodeByAddress(address).then((results) => {
             waypoints[index].place = results[0];
-        });
-
-        this.setState({
-            waypoints
+            this.setState({
+                waypoints
+            });
         });
     }
 
@@ -202,6 +201,7 @@ class CreateTripContainer extends React.Component {
                 </div>
                 <div className="col-sm-6">
                     <DirectionsMap title="Preview Trip"
+                                   waypoints={convertWaypointsToGoogleWaypoints(this.state.waypoints)}
                                    from={getCoordinatesFromPlace(this.state.startPoint.place)}
                                    to={getCoordinatesFromPlace(this.state.endPoint.place)}
                                    endTime={this.setEndTime.bind(this)}

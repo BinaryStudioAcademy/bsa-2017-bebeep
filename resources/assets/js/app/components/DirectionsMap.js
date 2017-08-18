@@ -37,6 +37,7 @@ export default class DirectionsMap extends React.Component {
             this.props.to.lng === nextProps.to.lng &&
             this.props.from.lat === nextProps.from.lat &&
             this.props.to.lng === nextProps.to.lng
+            && !this.isWaypointsChanged(nextProps.waypoints)
         ) {
             return;
         }
@@ -44,21 +45,43 @@ export default class DirectionsMap extends React.Component {
         this.renderDirection(nextProps);
     }
 
+    isWaypointsChanged(waypoints) {
+        let result = false;
+
+        if (waypoints.length !== this.props.waypoints.length) {
+            return true;
+        }
+
+        this.props.waypoints.forEach((waypoint, index) => {
+            if (
+                waypoint.lat !== waypoints[index].lat ||
+                waypoint.lng !== waypoints[index].lng
+            ) {
+                result = true;
+            }
+        });
+
+        return result;
+    }
+
     renderDirection(props) {
         this.DirectionsService.route({
             origin: props.from,
             destination: props.to,
+            waypoints: props.waypoints || [],
             travelMode: google.maps.TravelMode.DRIVING,
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
-                let response = result.routes[0].legs[0];
+                let response = result.routes[0].legs[0]; // TEMPORARY, NEED CALCULATE ALL LEGS
+                let start = result.routes[0].legs[0];
+                let end = result.routes[0].legs[result.routes[0].legs.length - 1];
 
                 this.setState({
                     directions: result,
                     distance: response.distance.text,
                     duration: response.duration.text,
-                    start_address: response.start_address,
-                    end_address: response.end_address
+                    start_address: start.start_address,
+                    end_address: end.end_address
                 });
 
                 this.props.endTime(response.duration.value);
