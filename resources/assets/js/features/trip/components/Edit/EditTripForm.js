@@ -1,15 +1,21 @@
 import React from 'react';
-import Input from '../../../../app/components/Input';
-import PlacesAutocomplete from 'react-places-autocomplete';
-import EditTripService from '../../services/EditTripService';
 import moment from 'moment';
+import { browserHistory } from 'react-router';
+import PlacesAutocomplete from 'react-places-autocomplete';
 import {geocodeByAddress} from 'react-places-autocomplete';
+
+import Input from '../../../../app/components/Input';
+
+import Validator from '../../../../app/services/Validator';
+import EditTripService from '../../services/EditTripService';
+import { createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
 
 class EditTripForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            momentKey: null,
             trip: {
                 price: null,
                 seats: null,
@@ -26,6 +32,8 @@ class EditTripForm extends React.Component {
                 place: null,
             }
         };
+
+        //this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -33,6 +41,7 @@ class EditTripForm extends React.Component {
             .then(response => {
                 response = EditTripService.transformData(response);
                 this.setState({
+                    momentKey: moment(),
                     trip: response,
                     startPoint: {
                         geometry: {
@@ -110,9 +119,41 @@ class EditTripForm extends React.Component {
             });
     }
 
+    onSubmit(e) {
+        e.preventDefault();
+
+        let time = getStartAndEndTime(e.target['start_at'].value, this.props.endTime);
+        let data = {
+            vehicle_id: e.target['vehicle_id'].value,
+            start_at: time.start_at,
+            end_at: time.end_at,
+            price: e.target['price'].value,
+            seats: e.target['seats'].value,
+            from: this.state.startPoint,
+            to: this.state.endPoint,
+        };
+
+        const validated = Validator.validate(createTripRules, data);
+
+        if (!validated.valid) {
+            this.setState({errors: validated.errors});
+            return;
+        }
+
+        this.setState({errors: {}});
+
+        EditTripService.sendUpdatedTrip(this.props.id, data)
+            .then((response) => {
+                console.log(response);
+                if (response.status === 200) {
+                    //browserHistory.push('/trips');
+                }
+            });
+    }
+
     render() {
         const { errors } = this.props;
-        const { trip, notFoundTrip } = this.state;
+        const { trip, notFoundTrip, momentKey } = this.state;
 
         const startPointProps = {
             value: this.state.startPoint.address,
@@ -131,11 +172,14 @@ class EditTripForm extends React.Component {
         };
 
         if (notFoundTrip) {
-            <div className="alert alert-danger" role="alert">Can`t load this trip. Please try later</div>
+            return (
+                <div className="alert alert-danger" role="alert">Can`t load this trip. Please try later</div>
+            );
         }
+
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method=""
-                  onSubmit={this.props.onSubmit} key={moment()}>
+                  onSubmit={this.onSubmit.bind(this)} key={ momentKey }>
                 <div className="card-header">
                     Edit Trip #{this.props.id}
                 </div>
@@ -171,9 +215,9 @@ class EditTripForm extends React.Component {
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={startPointProps}
                                                 classNames={placesCssClasses}
-                                                onSelect={this.onSelectStartPoint}
-                                                onEnterKeyDown={this.onSelectStartPoint}
-                                                key={moment()}
+                                                onSelect={this.onSelectStartPoint.bind(this)}
+                                                onEnterKeyDown={this.onSelectStartPoint.bind(this)}
+                                                key={ momentKey }
                             />
                             <div className="form-control-feedback">{this.props.errors.from}</div>
                         </div>
@@ -183,9 +227,9 @@ class EditTripForm extends React.Component {
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={endPointProps}
                                                 classNames={placesCssClasses}
-                                                onSelect={this.onSelectEndPoint}
-                                                onEnterKeyDown={this.onSelectEndPoint}
-                                                key={moment()}
+                                                onSelect={this.onSelectEndPoint.bind(this)}
+                                                onEnterKeyDown={this.onSelectEndPoint.bind(this)}
+                                                key={ momentKey }
                             />
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>

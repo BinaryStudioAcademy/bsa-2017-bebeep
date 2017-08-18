@@ -1,7 +1,9 @@
 import React from 'react';
+
 import PageHeader from '../../../app/components/PageHeader';
-import '../styles/edit_trip.scss';
 import EditTripContainer from "../components/Edit/EditTripContainer";
+
+import '../styles/edit_trip.scss';
 
 export default class EditTrip extends React.Component {
     render() {

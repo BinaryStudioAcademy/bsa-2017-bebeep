@@ -15,7 +15,7 @@ const EditTripService = {
         return response;
     },
     sendUpdatedTrip(id, data) {
-        const tripUrl = 'api/v1/trips/' + id;
+        const tripUrl = '/api/v1/trips/' + id;
         return securedRequest.put(tripUrl, data)
             .then(
                 response => Promise.resolve(response.data)

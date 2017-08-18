@@ -1,12 +1,9 @@
 import React from 'react';
+import {geocodeByAddress} from 'react-places-autocomplete';
+
 import EditTripForm from './EditTripForm';
 import DirectionsMap from "../../../../app/components/DirectionsMap";
-import {geocodeByAddress} from 'react-places-autocomplete';
-import { createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
-import Validator from '../../../../app/services/Validator';
 import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
-import EditTripService from '../../services/EditTripService';
-import { browserHistory } from 'react-router';
 
 class EditTripContainer extends React.Component {
     constructor(props) {
@@ -18,6 +15,7 @@ class EditTripContainer extends React.Component {
                 seats: null,
                 start_at: null
             },
+            endTime: null,
             notFoundTrip: false,
             errors: {},
             startPlace: null,
@@ -27,7 +25,9 @@ class EditTripContainer extends React.Component {
 
 
     setEndTime(time) {
-        this.endTime = time;
+        this.setState({
+            endTime: time
+        });
     }
 
     setStartPlaces(startPoint, endPoint) {
@@ -37,38 +37,6 @@ class EditTripContainer extends React.Component {
         });
     }
 
-    onSubmit(e) {
-        e.preventDefault();
-
-        let time = getStartAndEndTime(e.target['start_at'].value, this.endTime);
-        let data = {
-            vehicle_id: e.target['vehicle_id'].value,
-            start_at: time.start_at,
-            end_at: time.end_at,
-            price: e.target['price'].value,
-            seats: e.target['seats'].value,
-            from: this.state.startPlace,
-            to: this.state.endPlace,
-        };
-        const validated = Validator.validate(createTripRules, data);
-
-        if (!validated.valid) {
-            this.setState({errors: validated.errors});
-            return;
-        }
-
-        this.setState({errors: {}});
-
-        EditTripService.sendUpdatedTrip(this.props.id, data)
-            .then((response) => {
-                if (response.status === 200) {
-                    browserHistory.push('/trips');
-                }
-            });
-
-        console.log(data);
-    }
-
     render() {
         return (
             <div className="row">
@@ -76,7 +44,7 @@ class EditTripContainer extends React.Component {
                     <EditTripForm
                         id={this.props.id}
                         errors={this.state.errors}
-                        onSubmit={this.onSubmit.bind(this)}
+                        endTime={this.state.endTime}
                         startPlaces={this.setStartPlaces.bind(this)}
                     />
                 </div>
