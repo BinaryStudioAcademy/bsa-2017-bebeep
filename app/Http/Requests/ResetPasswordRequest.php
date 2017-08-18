@@ -3,11 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use \App\Services\Requests\ResetPasswordRequest as ResetPasswordRequestInterface;
+use App\Services\Requests\ResetPasswordRequest as ResetPasswordRequestInterface;
 
 class ResetPasswordRequest extends FormRequest implements ResetPasswordRequestInterface
 {
-
     public function authorize()
     {
         return true;
@@ -32,7 +31,6 @@ class ResetPasswordRequest extends FormRequest implements ResetPasswordRequestIn
     {
         return $this->get('password');
     }
-
 
     public function getPasswordConfirmation()
     {

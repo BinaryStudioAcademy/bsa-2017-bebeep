@@ -25,8 +25,8 @@ class LoginRequest extends FormRequest implements LoginRequestContract
     public function rules()
     {
         return [
-            'email' => "required|email",
-            'password' => "required|min:6",
+            'email' => 'required|email',
+            'password' => 'required|min:6',
         ];
     }
 

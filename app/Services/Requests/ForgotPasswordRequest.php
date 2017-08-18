@@ -2,6 +2,7 @@
 
 namespace App\Services\Requests;
 
-interface ForgotPasswordRequest {
+interface ForgotPasswordRequest
+{
     public function getEmail();
 }

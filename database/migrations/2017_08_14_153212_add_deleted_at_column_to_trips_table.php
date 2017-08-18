@@ -13,7 +13,7 @@ class AddDeletedAtColumnToTripsTable extends Migration
      */
     public function up()
     {
-        Schema::table('trips', function(Blueprint $table) {
+        Schema::table('trips', function (Blueprint $table) {
             $table->softDeletes();
         });
     }
@@ -25,7 +25,7 @@ class AddDeletedAtColumnToTripsTable extends Migration
      */
     public function down()
     {
-        Schema::table('trips', function(Blueprint $table) {
+        Schema::table('trips', function (Blueprint $table) {
             $table->dropColumn('deleted_at');
         });
     }
