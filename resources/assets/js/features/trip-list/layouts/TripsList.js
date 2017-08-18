@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,7 +9,7 @@ import TripsListContainer from "../components/TripsListContainer";
 import { securedRequest } from 'app/services/RequestService';
 import { tripsFilterChanged, tripsLoadSuccess } from '../actions';
 
-class TripsList extends Component {
+class TripsList extends React.Component {
 
     componentDidMount() {
         this.changeFilter();

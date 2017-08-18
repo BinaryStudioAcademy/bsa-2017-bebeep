@@ -6,7 +6,7 @@ ssh -t $SSH_USER@$SSH_HOST -o StrictHostKeyChecking=no -i .travis/id_rsa -tt <<-
 cd /srv/production &&
 git pull &&
 docker-compose pull &&
-docker-compose migrate &&
+docker-compose exec web php artisan migrate &&
 docker-compose down &&
 docker-compose run --rm composer install &&
 docker-compose run --rm node npm install -q &&

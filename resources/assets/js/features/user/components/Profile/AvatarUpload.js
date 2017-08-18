@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 
@@ -23,7 +23,7 @@ const MODAL_MSG = {
     success: 'User profile avatar successfully updated!',
 };
 
-class AvatarUpload extends Component {
+class AvatarUpload extends React.Component {
 
     constructor(props) {
         super(props);

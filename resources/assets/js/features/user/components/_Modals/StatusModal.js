@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import validate from 'validate.js';
 import _ from 'lodash';
 
 import Modal from 'app/components/Modal';
 
-class StatusModal extends Component {
+class StatusModal extends React.Component {
 
     constructor() {
         super();

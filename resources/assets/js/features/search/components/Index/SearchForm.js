@@ -1,20 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DatePicker from 'react-datepicker';
+import { browserHistory } from 'react-router';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { geocodeByAddress } from 'react-places-autocomplete';
 
-import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
-import { searchIndexRules } from 'app/services/SearchIndex';
 import Validator from 'app/services/Validator';
-import { searchSuccess } from '../actions';
+import { searchIndexRules } from 'app/services/SearchIndex';
+import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 
-import '../styles/react-datepicker.scss';
-import '../styles/search-index.scss';
+import { searchSuccess } from 'features/search/actions';
 
-class SearchForm extends Component {
+import 'features/search/styles/react-datepicker.scss';
+import 'features/search/styles/search-index.scss';
+
+class SearchForm extends React.Component {
 
     constructor() {
         super();
@@ -64,6 +66,7 @@ class SearchForm extends Component {
             start_at: this.state.startDate ? this.state.startDate.unix() : null
         };
         this.props.searchSuccess(data);
+        browserHistory.push('/search');
     }
 
     onChangeStartPoint(address) {

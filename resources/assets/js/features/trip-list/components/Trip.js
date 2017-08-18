@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
 
@@ -7,7 +7,7 @@ import { securedRequest } from 'app/services/RequestService';
 
 import '../styles/trip-card.scss';
 
-class Trip extends Component {
+class Trip extends React.Component {
 
     constructor(props) {
         super(props);

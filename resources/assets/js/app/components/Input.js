@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Input extends Component {
+class Input extends React.Component {
     render() {
         return (
             <div className={"form-group row " + (this.props.error ? 'has-danger' : '')} >

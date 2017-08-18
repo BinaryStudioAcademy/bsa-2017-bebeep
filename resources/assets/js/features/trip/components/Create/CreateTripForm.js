@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
 import Input from 'app/components/Input';
 
-class CreateTripForm extends Component {
+class CreateTripForm extends React.Component {
 
     render() {
         const { errors } = this.props;

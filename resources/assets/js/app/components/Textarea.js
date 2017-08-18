@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Textarea extends Component {
+class Textarea extends React.Component {
     render() {
         return (
             <div className={"form-group row " + (this.props.error ? 'has-danger' : '')} >

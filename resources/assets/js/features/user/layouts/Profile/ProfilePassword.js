@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import PageHeader from 'app/components/PageHeader';
 import PasswordForm from 'features/user/components/Profile/PasswordForm';
 
-class ProfilePassword extends Component {
+class ProfilePassword extends React.Component {
 
     render() {
         return (

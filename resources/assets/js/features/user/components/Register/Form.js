@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
@@ -11,7 +11,7 @@ import { RegisterValidate } from 'app/services/UserService';
 
 import 'features/user/styles/user_register.scss';
 
-class Form extends Component {
+class Form extends React.Component {
 
     constructor() {
         super();

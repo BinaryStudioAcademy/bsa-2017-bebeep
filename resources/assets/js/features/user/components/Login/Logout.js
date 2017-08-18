@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
@@ -7,7 +7,7 @@ import * as actions from 'features/user/actions';
 
 import 'features/user/styles/user.scss';
 
-class Form extends Component {
+class Form extends React.Component {
 
     constructor(props) {
         super();

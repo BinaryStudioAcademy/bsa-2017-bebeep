@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 
 import PageHeader from 'app/components/PageHeader';
 
-class NotFound extends Component {
+class NotFound extends React.Component {
 
     render() {
         return (

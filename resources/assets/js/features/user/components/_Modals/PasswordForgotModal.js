@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import validate from 'validate.js';
 
 import Input from 'app/components/Input';
@@ -8,7 +8,7 @@ import { simpleRequest } from 'app/services/RequestService';
 import 'features/user/styles/password_forgot.scss';
 
 
-class PasswordForgotModal extends Component {
+class PasswordForgotModal extends React.Component {
     constructor() {
         super();
         this.state = {

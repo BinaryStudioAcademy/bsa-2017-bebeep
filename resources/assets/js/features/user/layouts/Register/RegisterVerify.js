@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import validate from 'validate.js';
 import { browserHistory } from 'react-router';
 
 import PageHeader from 'app/components/PageHeader';
 import { simpleRequest } from 'app/services/RequestService';
 
-class RegisterVerify extends Component {
+class RegisterVerify extends React.Component {
 
     constructor() {
         super();

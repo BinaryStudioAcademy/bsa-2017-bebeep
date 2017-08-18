@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
 import PageHeader from 'app/components/PageHeader';
 
-class RegisterSuccess extends Component {
+class RegisterSuccess extends React.Component {
 
     componentWillMount() {
         if (!this.props.successRegister) {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
@@ -17,7 +17,7 @@ const MODAL_MSG = {
     error: 'Failed to update the user profile general data! Check the validation!',
 };
 
-class GeneralForm extends Component {
+class GeneralForm extends React.Component {
 
     constructor(props) {
         super(props);

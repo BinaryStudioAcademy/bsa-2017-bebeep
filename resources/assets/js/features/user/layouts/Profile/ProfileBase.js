@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 
 import 'features/user/styles/profile.scss';
 
-class ProfileBase extends Component {
+class ProfileBase extends React.Component {
 
     render() {
         return (

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import PageHeader from 'app/components/PageHeader';
-import SearchForm from '../components/SearchForm';
+import SearchForm from '../components/Index/SearchForm';
 
-export default class SearchIndex extends Component {
+export default class SearchIndex extends React.Component {
     render() {
         return (
             <div>

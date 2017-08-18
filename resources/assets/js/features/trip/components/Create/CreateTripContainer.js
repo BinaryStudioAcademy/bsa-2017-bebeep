@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
@@ -15,7 +15,7 @@ import { tripCreateSuccess } from 'features/trip/actions';
 
 import 'features/trip/styles/create_trip.scss';
 
-class CreateTripContainer extends Component {
+class CreateTripContainer extends React.Component {
 
     constructor(props) {
         super(props);

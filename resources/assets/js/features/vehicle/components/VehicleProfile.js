@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { getVehicle } from '../actions';
 
-class VehicleProfile extends Component {
+class VehicleProfile extends React.Component {
 
     constructor(props) {
         super(props);

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Trip from './Trip';
 import { tripsLoadSuccess } from '../actions';
 
-class TripsListContainer extends Component {
+class TripsListContainer extends React.Component {
 
     render() {
         const tripsView = (this.props.trips.length > 0)

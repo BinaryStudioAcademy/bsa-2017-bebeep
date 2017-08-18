@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import PageHeader from 'app/components/PageHeader';
 import AvatarUpload from 'features/user/components/Profile/AvatarUpload';
 
-class ProfileAvatar extends Component {
+class ProfileAvatar extends React.Component {
 
     render() {
         return (

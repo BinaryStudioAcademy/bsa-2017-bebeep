@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -13,7 +13,7 @@ const MODAL_MSG = {
     error: 'Failed to update the user profile password! Check the validation!',
 };
 
-class PasswordForm extends Component {
+class PasswordForm extends React.Component {
 
     constructor(props) {
         super(props);
