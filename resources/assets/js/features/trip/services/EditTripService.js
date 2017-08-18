@@ -5,8 +5,11 @@ const EditTripService = {
     getTrip(id) {
         return securedRequest.get('/api/v1/trips/show/' + id)
             .then(
-                response => Promise.resolve(response.data[id-1]),
-                error => Promise.reject(error.response.data[id-1])
+                // В TripService.php нужно изменить метод show,
+                // тогда будет возвращаться один элемент
+                // и можно будет написать response.data и error.response.data
+                response => Promise.resolve(response.data[0]),
+                error => Promise.reject(error.response.data[0])
             );
     },
     transformData(response) {
