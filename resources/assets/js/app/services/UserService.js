@@ -73,6 +73,13 @@ export const UserValidator = {
         };
     },
     birth_date: (data) => {
+        if (data.trim() === '') {
+            return {
+                valid: true,
+                error: ''
+            };
+        }
+
         const result = validate.single(data, { datetime: { dateOnly: true }});
         let error = result ? result.join(", ") : "";
         return {

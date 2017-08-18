@@ -43,11 +43,11 @@ class ForAuthUser extends Component {
                         Create new trip
                     </Link>
                   </li>
-                    <li className="nav-item">
-                        <Link to="/trips" className="nav-link" activeClassName="active">
-                            My trips
-                        </Link>
-                    </li>
+                  <li className="nav-item">
+                      <Link to="/trips" className="nav-link" activeClassName="active">
+                          My trips
+                      </Link>
+                  </li>
                 </ul>
 
                 <div className={"nav-item dropdown " + dropdownClass}>
@@ -61,8 +61,6 @@ class ForAuthUser extends Component {
                   <div className="dropdown-menu dropdown-menu-right">
 
                     <Link to="/dashboard" className="dropdown-item">Dashboard</Link>
-                    <Link to="#" className="dropdown-item">My trips</Link>
-                    <Link to="#" className="dropdown-item">My bookings</Link>
                     <Link to="/dashboard/profile" className="dropdown-item">Profile</Link>
 
                     <div className="dropdown-divider"></div>

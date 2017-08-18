@@ -6,8 +6,6 @@ services:
         volumes:
             - $PWD/.mysql-data/db:/var/lib/mysql
         restart: "on-failure"
-        ports:
-            - 127.0.0.1:3306:3306
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
             MYSQL_DATABASE: $DB_DATABASE
@@ -22,9 +20,6 @@ services:
     web:
         image: sergeyb/dev
         build: ./.docker/images/web/
-        ports:
-            - "80:80"
-            - "443:443"
         volumes:
             - $PWD:/var/www
         working_dir: /var/www

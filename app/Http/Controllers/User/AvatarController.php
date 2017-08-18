@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use Auth;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserAvatarRequest;
@@ -48,7 +47,6 @@ class AvatarController extends Controller
     {
         try {
             $avatar = $this->userProfileService->updateAvatar(Auth::user()->id, $request);
-
         } catch (FileCannotBeAdded $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }

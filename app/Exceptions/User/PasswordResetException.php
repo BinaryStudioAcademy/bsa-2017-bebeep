@@ -12,7 +12,7 @@ class PasswordResetException extends \Exception
 
     protected $field;
 
-    public function __construct($message = "", $code = 0, Exception $previous = null)
+    public function __construct($message = '', $code = 0, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
         $this->setField($code);
@@ -31,8 +31,8 @@ class PasswordResetException extends \Exception
                 $this->field = 'password';
                 break;
             default:
-                $this->field = "reset_password";
-        };
+                $this->field = 'reset_password';
+        }
     }
 
     public function getField()

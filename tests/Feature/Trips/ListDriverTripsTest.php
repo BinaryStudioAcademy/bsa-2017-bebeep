@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\Trip;
-use App\Models\Vehicle;
 use App\User;
 use Carbon\Carbon;
+use App\Models\Trip;
+use App\Models\Vehicle;
 
 class ListDriverTripsTest extends BaseTripTestCase
 {

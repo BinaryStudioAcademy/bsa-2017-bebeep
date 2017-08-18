@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Transformers;
+namespace App\Transformers\User;
 
 use App\User;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Class UserProfileTransformer
- * @package namespace App\Transformers;
+ * Class ProfileTransformer.
  */
-class UserProfileTransformer extends TransformerAbstract
+class ProfileTransformer extends TransformerAbstract
 {
     /**
      * Transform the user profile general data.
@@ -29,8 +28,8 @@ class UserProfileTransformer extends TransformerAbstract
             'about_me' => $user->about_me,
             'role_driver' => $user->isDriver(),
             'role_passenger' => $user->isPassenger(),
-            'can_uncheck_role_driver' => !$user->hasTrip(),
-            'can_uncheck_role_passenger' => !$user->hasBooking(),
+            'can_uncheck_role_driver' => ! $user->hasTrip(),
+            'can_uncheck_role_passenger' => ! $user->hasBooking(),
         ];
     }
 }

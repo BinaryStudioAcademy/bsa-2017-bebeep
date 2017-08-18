@@ -4,13 +4,14 @@ import { IndexRoute, Route, Redirect } from 'react-router';
 import App from './App';
 import NotFound from './layouts/NotFound';
 
-import SearchIndex from '../features/search/index/layouts/SearchIndex';
+import SearchIndex from '../features/search/layouts/SearchIndex';
 
 import { LoginForm, Logout } from '../features/user/layouts/Login';
 import PasswordReset from '../features/user/layouts/PasswordReset';
 import { RegisterForm, RegisterSuccess, RegisterVerify } from '../features/user/layouts/Register';
 
 import Dashboard from '../features/user/layouts/Dashboard';
+
 import {
     ProfileBase,
     ProfileGeneral,
@@ -24,7 +25,11 @@ import VehicleForm from '../features/vehicle/layouts/VehicleForm';
 import VehicleEditForm from '../features/vehicle/layouts/VehicleUpdate';
 
 import CreateTrip from '../features/trip/layouts/CreateTrip';
+
+import EditTrip from '../features/trip/layouts/EditTrip';
 import TripsList from '../features/trip-list/layouts/TripsList';
+
+import SearchResult from '../features/search/layouts/SearchResult';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 
@@ -60,7 +65,7 @@ export default (
             {/* Trip creating and editing */}
             <Route path="trip">
                 <Route path="create" component={ CreateTrip } />
-                <Route path="edit/:id" component={ Vehicles /*TripEdit*/ } />
+                <Route path="edit/:id" component={ EditTrip } />
             </Route>
 
             {/* User dashboard */}
@@ -94,6 +99,8 @@ export default (
             <Route path="login" component={ LoginForm } />
             <Route path="password/reset" component={ PasswordReset } />
         </Route>
+
+        <Route path="search" component={ SearchResult } />
 
         {/* Page not found */}
         <Route path="*" component={ NotFound } />

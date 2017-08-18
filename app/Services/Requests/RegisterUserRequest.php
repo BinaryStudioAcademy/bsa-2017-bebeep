@@ -12,6 +12,8 @@ interface RegisterUserRequest
 
     public function getPhone(): string;
 
+    public function getBirthDate(): ?string;
+
     public function getPass(): string;
 
     public function getPermissions(): int;

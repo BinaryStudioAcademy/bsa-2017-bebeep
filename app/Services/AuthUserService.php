@@ -36,7 +36,7 @@ class AuthUserService
     }
 
     /**
-     * Auth service
+     * Auth service.
      *
      * @param LoginRequest $request
      * @return mixed
@@ -58,7 +58,7 @@ class AuthUserService
             throw new UserNotFoundException('User not register');
         }
 
-        if (!$user->isVerified()) {
+        if (! $user->isVerified()) {
             throw new UserNotVerifiedException('User not verified');
         }
 
@@ -67,8 +67,8 @@ class AuthUserService
         try {
             $token = JWTAuth::attempt($credentials, $this->getCustomClaims());
 
-            if (!$token) {
-                throw new InvalidCredentialsException("Invalid credentials");
+            if (! $token) {
+                throw new InvalidCredentialsException('Invalid credentials');
             }
         } catch (JWTException $e) {
             throw new CreateTokenException('Could not create token');
@@ -78,7 +78,7 @@ class AuthUserService
     }
 
     /**
-     * Logout service method
+     * Logout service method.
      *
      * @param TokenRequest $tokenRequest
      * @param \Tymon\JWTAuth\JWTAuth $JWTAuth
@@ -112,6 +112,7 @@ class AuthUserService
         $this->customClaims = [
             'username' => $user->getFullName(),
         ];
+
         return $this;
     }
 }
