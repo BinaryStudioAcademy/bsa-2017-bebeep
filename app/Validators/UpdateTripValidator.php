@@ -2,9 +2,9 @@
 
 namespace App\Validators;
 
-use App\Rules\UpdateTrip\UpdateTripRule;
-use App\Models\Trip;
 use App\User;
+use App\Models\Trip;
+use App\Rules\UpdateTrip\UpdateTripRule;
 
 class UpdateTripValidator
 {
@@ -24,7 +24,7 @@ class UpdateTripValidator
     }
 
     /**
-     * Validation method
+     * Validation method.
      *
      * @param Trip $trip
      * @param User $user

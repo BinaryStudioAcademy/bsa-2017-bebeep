@@ -6,8 +6,7 @@ use App\User;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Class ProfileTransformer
- * @package namespace App\Transformers\User
+ * Class ProfileTransformer.
  */
 class ProfileTransformer extends TransformerAbstract
 {
@@ -29,8 +28,8 @@ class ProfileTransformer extends TransformerAbstract
             'about_me' => $user->about_me,
             'role_driver' => $user->isDriver(),
             'role_passenger' => $user->isPassenger(),
-            'can_uncheck_role_driver' => !$user->hasTrip(),
-            'can_uncheck_role_passenger' => !$user->hasBooking(),
+            'can_uncheck_role_driver' => ! $user->hasTrip(),
+            'can_uncheck_role_passenger' => ! $user->hasBooking(),
         ];
     }
 }

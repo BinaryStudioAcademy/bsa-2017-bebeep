@@ -2,9 +2,9 @@
 
 namespace App\Rules\DeleteTrip;
 
-use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
-use App\Models\Trip;
 use App\User;
+use App\Models\Trip;
+use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
 class TripOwnerRule implements DeleteTripRule
 {

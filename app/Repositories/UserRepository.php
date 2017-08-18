@@ -27,7 +27,7 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Get user by email
+     * Get user by email.
      *
      * @param string $email
      * @return User

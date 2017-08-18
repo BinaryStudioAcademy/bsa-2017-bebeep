@@ -6,8 +6,9 @@ use App\User;
 use App\Events\UserRegistered;
 use App\Repositories\UserRepository;
 use App\Exceptions\User\VerifyException;
+use App\Services\Requests\VerifyUserRequest;
 use App\Criteria\User\NotVerifiedUserCriteria;
-use App\Services\Requests\{RegisterUserRequest, VerifyUserRequest};
+use App\Services\Requests\RegisterUserRequest;
 
 class RegisterUserService
 {
