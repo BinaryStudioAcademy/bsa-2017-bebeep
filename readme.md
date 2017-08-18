@@ -1,3 +1,5 @@
+[![StyleCI](https://styleci.io/repos/99309628/shield?branch=development)](https://styleci.io/repos/99309628)
+
 ## Getting started
 
 Install the following packages prior to standing up your development environment:
