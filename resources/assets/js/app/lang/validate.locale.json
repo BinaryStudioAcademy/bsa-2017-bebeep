@@ -5,7 +5,7 @@
     "phone_is_required_and_must_contain_numbers": [
       "Phone is required, and must contain digits not more 15",
       "Телефон обов'язкове поле, та має містити не більше 15 цифр",
-      "Телефон обязательное поле, и должно содержать не более 15 цифр"
+      "Телефон обязательное поле, и должен содержать не более 15 цифр"
     ],
     "not_valid_email": ["Email is incorrect", "Ел. адреса ведена некоректно", "Эл. адрес введен некорректно"],
     "choose_role": ["Choose your role", "Виберіть роль", "Выберите роль"],
