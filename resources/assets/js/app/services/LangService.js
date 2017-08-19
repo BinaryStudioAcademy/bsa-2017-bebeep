@@ -34,6 +34,15 @@ const LangService = (() => {
         },
         get translate() {
             return Loc.getTranslate(_store.getState().locale);
+        },
+        getNumberForm(n) {
+            if (n % 10 > 1 && n % 10 < 5 && (n < 10 || n > 20)) {
+                return '2';
+            } else if (n % 10 === 1 && n % 100 !== 11) {
+                return '1';
+            } else {
+                return '3';
+            }
         }
     };
 })();

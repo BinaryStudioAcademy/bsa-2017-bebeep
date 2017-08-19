@@ -18,6 +18,7 @@ import {
 import { searchSuccess } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
+import {getTranslate} from 'react-localize-redux';
 import '../../styles/search-result.scss';
 
 class Result extends React.Component {
@@ -125,6 +126,7 @@ class Result extends React.Component {
 
     render() {
         const {sort, order, page, limit, meta, collection, preloader} = this.state,
+            {translate} = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
         return (
@@ -140,7 +142,7 @@ class Result extends React.Component {
                         <div className="container">
                             <div className="row search-result__header">
                                 <div className="col-8 align-self-center">
-                                    Found trips: {meta.totalSize}
+                                    {translate('found_trips', {size: meta.totalSize})}
                                 </div>
                                 <div className="search-result__sort-container col-4">
                                     <SortPanel
@@ -154,7 +156,7 @@ class Result extends React.Component {
                                 <Preloader enable={preloader}/>
                                 {
                                     preloader
-                                        ? <Placeholder show={true}>Loading ...</Placeholder>
+                                        ? <Placeholder show={true}>{translate('loading')}</Placeholder>
                                         : <TripList
                                                 collection={collection}
                                             />
@@ -162,7 +164,7 @@ class Result extends React.Component {
                             </div>
                             <div className="row search-result__pagination">
                                 <div className="col-sm-6 align-self-center">
-                                    Showing {countResult} of {meta.totalSize}
+                                    {translate('showing_of', {count: countResult, size: meta.totalSize})}
                                 </div>
                                 <div className="col-sm-6">
                                     <Pagination
@@ -184,7 +186,8 @@ class Result extends React.Component {
 
 const ResultConnected = connect(
     (state) => ({
-        tripData: state.search
+        tripData: state.search,
+        translate: getTranslate(state.locale)
     }),
     (dispatch) => bindActionCreators({searchSuccess},dispatch)
 )(Result);

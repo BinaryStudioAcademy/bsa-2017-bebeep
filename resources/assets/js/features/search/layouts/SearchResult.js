@@ -1,21 +1,25 @@
 import React from 'react';
 import PageHeader from '../../../app/components/PageHeader';
 import Result from '../components/Result/Result';
+import LangService from '../../../app/services/LangService';
+import {localize} from 'react-localize-redux';
+import * as lang from '../lang/SearchResult.locale.json';
 
 class SearchResult extends React.Component {
-    constructor() {
-        super();
 
+    componentWillMount() {
+        LangService.addTranslation(lang);
     }
 
     render() {
+        const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={'Search trips'}/>
+                <PageHeader header={translate('search_trips')}/>
                 <Result />
             </div>
         )
     }
 }
 
-export default SearchResult;
+export default localize(SearchResult, 'locale');

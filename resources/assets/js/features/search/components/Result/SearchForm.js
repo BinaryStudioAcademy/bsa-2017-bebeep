@@ -7,6 +7,7 @@ import {searchSuccess} from '../../actions';
 import Validator from '../../../../app/services/Validator';
 import {setUrl, encodeCoord, decodeCoord} from '../../services/SearchService';
 import {withRouter} from "react-router";
+import {getTranslate} from 'react-localize-redux';
 import PropTypes from "prop-types";
 
 class SearchForm extends React.Component {
@@ -114,18 +115,21 @@ class SearchForm extends React.Component {
             return;
         }
         const { tripData } = this.state,
-            { onSearch } = this.props,
+            { onSearch, translate } = this.props,
             toBeValidated = {
                 from: tripData.from.coordinate,
                 to: tripData.to.coordinate,
             },
             resultValidate = {
-                from: Validator.coordinate('Incorrect leaving from point'),
-                to: Validator.coordinate('Incorrect going to point')
+                from: Validator.coordinate('validate.incorrect_leaving_from_point'),
+                to: Validator.coordinate('validate.incorrect_going_to_point')
             },
             validated = Validator.validate(resultValidate, toBeValidated);
         if (!validated.valid) {
-            this.setState({errors: validated.errors});
+            this.setState({errors: {
+                from: validated.errors.from && translate(validated.errors.from),
+                to: validated.errors.to && translate(validated.errors.to)
+            }});
             return;
         }
 
@@ -141,6 +145,7 @@ class SearchForm extends React.Component {
 
     render() {
         const {tripData, errors} = this.state,
+            {translate} = this.props,
             placesCssClasses = {
                 root: 'form-group',
                 input: 'form-control search-input',
@@ -150,14 +155,14 @@ class SearchForm extends React.Component {
                 value: tripData.from.name,
                 onChange: this.onChangeStartPoint,
                 type: 'search',
-                placeholder: 'Leaving from...',
+                placeholder: translate('leaving_from'),
                 autoFocus: true
             },
             endPointProps = {
                 value: tripData.to.name,
                 onChange: this.onChangeEndPoint,
                 type: 'search',
-                placeholder: 'Going to...',
+                placeholder: translate('going_to'),
                 autoFocus: false
             },
             AutocompleteItem = ({ formattedSuggestion }) => (
@@ -207,7 +212,7 @@ class SearchForm extends React.Component {
                     </div>
                 </div>
                 <div className="col-sm-2">
-                    <button role="button" className="btn btn-primary" onClick={this.onClickSearch}>Search</button>
+                    <button role="button" className="btn btn-primary" onClick={this.onClickSearch}>{translate('search')}</button>
                 </div>
             </div>
         )
@@ -220,7 +225,8 @@ SearchForm.PropTypes = {
 
 const SearchFormConnect = connect(
     state => ({
-        tripData: state.search
+        tripData: state.search,
+        translate: getTranslate(state.locale)
     }),
     dispatch =>
         bindActionCreators({searchSuccess}, dispatch)

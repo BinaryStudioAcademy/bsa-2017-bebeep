@@ -47,6 +47,16 @@
       "Please select ride date",
       "Будь-ласка, оберіть дату подорожі",
       "Пожалуйста, выберите дату поездки"
+    ],
+    "incorrect_leaving_from_point": [
+      "Incorrect leaving from point",
+      "Некоректна адреса відправлення",
+      "Некорректный адрес отправления"
+    ],
+    "incorrect_going_to_point": [
+      "Incorrect going to point",
+      "Некоректна адреса прибуття",
+      "Некорректный адрес прибытия"
     ]
   }
 }
