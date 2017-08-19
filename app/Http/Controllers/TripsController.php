@@ -113,7 +113,7 @@ class TripsController extends Controller
 
         return response()->json($trip);
     }
-    
+
     /**
      * @param SearchTripRequest $request
      * @return array
