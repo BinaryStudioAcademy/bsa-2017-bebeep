@@ -12,9 +12,11 @@ import { updateProfileSuccess } from '../../actions';
 import UserService from '../../services/UserService';
 import { ProfileValidate } from '../../../../app/services/UserService';
 
+import {getTranslate} from 'react-localize-redux';
+
 const MODAL_MSG = {
-    success: 'User profile general data successfully updated!',
-    error: 'Failed to update the user profile general data! Check the validation!',
+    success: 'user_profile_general_success',
+    error: 'failed_update_user_profile_general_data',
 };
 
 class GeneralForm extends Component {
@@ -64,7 +66,7 @@ class GeneralForm extends Component {
         e.preventDefault();
 
         const form = e.target;
-        const { updateProfileSuccess } = this.props;
+        const { updateProfileSuccess, translate } = this.props;
 
         const profileData = {
             first_name: form.first_name.value,
@@ -80,7 +82,10 @@ class GeneralForm extends Component {
         const validate = ProfileValidate(profileData);
         if (!validate.valid) {
             this.setState({
-                errors: validate.errors
+                errors: _.reduce(validate.errors, (acc, err, key) => {
+                    acc[key] = err && translate(err);
+                    return acc;
+                }, {})
             });
             return;
         }
@@ -95,7 +100,7 @@ class GeneralForm extends Component {
                     modal: {
                         isOpen: true,
                         status: 'success',
-                        msg: MODAL_MSG.success,
+                        msg: translate(MODAL_MSG.success),
                     }
                 });
                 // TODO :: updateProfileSuccess method will change the user name
@@ -108,18 +113,19 @@ class GeneralForm extends Component {
                     modal: {
                         isOpen: true,
                         status: 'error',
-                        msg: MODAL_MSG.error,
+                        msg: translate(MODAL_MSG.error),
                     }
                 });
             });
     }
 
     render() {
-        const { profile, errors, profileNotFound, modal } = this.state;
+        const { profile, errors, profileNotFound, modal } = this.state,
+            {translate} = this.props;
 
         if (profileNotFound) {
             return (
-                <div className="alert alert-danger" role="alert">Profile data not found!</div>
+                <div className="alert alert-danger" role="alert">{translate('profile_data_not_found')}</div>
             );
         }
         if (_.isEmpty(profile)) {
@@ -141,7 +147,7 @@ class GeneralForm extends Component {
                             defaultValue={ profile.first_name }
                             required={ false }
                             error={ errors.first_name }
-                        >First name</Input>
+                        >{translate('first_name')}</Input>
                         <Input
                             type="text"
                             name="last_name"
@@ -149,7 +155,7 @@ class GeneralForm extends Component {
                             defaultValue={ profile.last_name }
                             required={ false }
                             error={ errors.last_name }
-                        >Last name</Input>
+                        >{translate('last_name')}</Input>
                         <Input
                             type="email"
                             name="email"
@@ -157,7 +163,7 @@ class GeneralForm extends Component {
                             defaultValue={ profile.email }
                             required={ false }
                             error={ errors.email }
-                        >E-mail</Input>
+                        >{translate('email')}</Input>
                         <Input
                             type="tel"
                             name="phone"
@@ -165,7 +171,7 @@ class GeneralForm extends Component {
                             defaultValue={ profile.phone }
                             required={ false }
                             error={ errors.phone }
-                        >Phone number</Input>
+                        >{translate('phone')}</Input>
                         <Input
                             type="date"
                             name="birth_date"
@@ -173,11 +179,11 @@ class GeneralForm extends Component {
                             defaultValue={ profile.birth_date }
                             required={ false }
                             error={ errors.birth_date }
-                        >Birth date</Input>
+                        >{translate('birth_date')}</Input>
 
                         <div className={ "form-group row " + (errors.role ? 'has-danger' : '') }>
                             <div className="col-sm-4">
-                                Role
+                                {translate('role')}
                             </div>
                             <div className="form-check col-sm-4">
                                 <label className="form-check-label">
@@ -188,7 +194,7 @@ class GeneralForm extends Component {
                                            value="1"
                                            defaultChecked={ profile.role_driver }
                                            onChange={ this.handleRoleChange }
-                                    /> driver
+                                    /> {translate('driver')}
                                 </label>
                             </div>
                             <div className="form-check col-sm-4">
@@ -200,7 +206,7 @@ class GeneralForm extends Component {
                                            value="1"
                                            defaultChecked={ profile.role_passenger }
                                            onChange={ this.handleRoleChange }
-                                    /> passenger
+                                    /> {translate('passenger')}
                                 </label>
                             </div>
                             <div className="offset-sm-4 col-sm-8">
@@ -214,13 +220,13 @@ class GeneralForm extends Component {
                             defaultValue={ profile.about_me || '' }
                             required={ false }
                             error={ errors.about_me }
-                        >About me</Textarea>
+                        >{translate('about_me')}</Textarea>
                     </div>
 
                     <div className="card-footer">
                         <div className="text-center">
                             <button className="btn btn-primary">
-                                Save
+                                {translate('save')}
                             </button>
                         </div>
                     </div>
@@ -234,7 +240,9 @@ class GeneralForm extends Component {
 }
 
 const GeneralFormConnected = connect(
-    null,
+    state => ({
+        translate: getTranslate(state.locale)
+    }),
     (dispatch) =>
         bindActionCreators({ updateProfileSuccess }, dispatch)
 )(GeneralForm);
