@@ -23,7 +23,7 @@ class ChangeLocalization extends React.Component {
                 defaultValue={currentLanguage}
                 onChange={this.onSetLanguage}>
                 {languages.map((lang) =>
-                    <option key={lang} value={lang}>{lang}</option>
+                    <option key={lang} value={lang}>{LangService.getName(lang)}</option>
                 )}
             </select>
         );

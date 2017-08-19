@@ -1,23 +1,33 @@
 import * as Loc from 'react-localize-redux';
+import moment from 'moment';
 
 const LangService = (() => {
     let _store = null;
     let storage =  localStorage;
-    const languages = ['en', 'ua', 'ru'];
+    const languages = ['en', 'uk_UA', 'ru'];
     return {
         init(store) {
             _store = store;
-            _store.dispatch(Loc.setLanguages(this.languages, this.getActiveLanguage() || 'en'));
+            moment.locale(this.getActiveLanguage());
+            _store.dispatch(Loc.setLanguages(this.languages, this.getActiveLanguage()));
         },
         get languages() {
             return languages;
         },
+        getName(code) {
+            return {
+                'en': 'en',
+                'uk_UA': 'ua',
+                'ru': 'ru'
+            }[code];
+        },
         setActiveLanguage(code) {
             storage.setItem('locale', code);
+            moment.locale(code);
             _store.dispatch(Loc.setActiveLanguage(code))
         },
         getActiveLanguage() {
-            return storage['locale'];
+            return (languages.indexOf(storage['locale']) >=0 && storage['locale']) || 'en';
         },
         addTranslation(localeData) {
             _store.dispatch(Loc.addTranslation(localeData))

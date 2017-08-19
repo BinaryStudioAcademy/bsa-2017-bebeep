@@ -32,6 +32,21 @@
       "Вы уже имеете такой пароль, введите другой."
     ],
     "email_invalid": ["Email is invalid", "Ел. адреса не вірна", "Эл. адрес не верный"],
-    "token_invalid": ["Token is invalid", "Токен не вірний", "Токен не верен"]
+    "token_invalid": ["Token is invalid", "Токен не вірний", "Токен не верен"],
+    "please_select_leaving_from_point": [
+      "Please select leaving from point",
+      "Будь-ласка, оберіть адресу відправлення",
+      "Пожалуйста, выберите адрес отправления"
+    ],
+    "please_select_going_to_point": [
+      "Please select going to point",
+      "Будь-ласка, оберіть адресу прибуття",
+      "Пожалуйста, выберите адрес прибытия"
+    ],
+    "please_select_ride_date": [
+      "Please select ride date",
+      "Будь-ласка, оберіть дату подорожі",
+      "Пожалуйста, выберите дату поездки"
+    ]
   }
 }
