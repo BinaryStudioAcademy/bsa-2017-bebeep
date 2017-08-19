@@ -4,6 +4,7 @@ import moment from 'moment';
 import DirectionsMap from "../../../app/components/DirectionsMap";
 import {Link} from 'react-router';
 import {securedRequest} from '../../../app/services/RequestService';
+import {getWaypointsFromRoutes} from "../../../app/services/GoogleMapService";
 
 class Trip extends React.Component {
     constructor(props) {
@@ -69,6 +70,7 @@ class Trip extends React.Component {
                                    endTime={() => {}}
                                    from={startPlace.geometry.location}
                                    to={endPlace.geometry.location}
+                                   waypoints={getWaypointsFromRoutes(this.props.trip.routes)}
                     >
                         <div className="card-block">
                             <div className="card-text">

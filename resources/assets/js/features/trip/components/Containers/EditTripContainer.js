@@ -52,6 +52,10 @@ class EditTripContainer extends React.Component {
 
                 this.onSelectStartPoint(this.state.startPoint.address);
                 this.onSelectEndPoint(this.state.endPoint.address);
+
+                setTimeout(() => {
+                    this.props.addWaypointsFromRoutes(this.state.trip.routes.data);
+                }, 10);
             })
             .catch(error => {
                 this.setState({
@@ -123,6 +127,7 @@ class EditTripContainer extends React.Component {
             seats: e.target['seats'].value,
             from: this.state.startPoint.place,
             to: this.state.endPoint.place,
+            waypoints: this.props.getPlacesFromWaypoints()
         };
 
         const validated = Validator.validate(createTripRules, data);
@@ -141,6 +146,7 @@ class EditTripContainer extends React.Component {
     }
 
     render() {
+        console.log(this.state);
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',

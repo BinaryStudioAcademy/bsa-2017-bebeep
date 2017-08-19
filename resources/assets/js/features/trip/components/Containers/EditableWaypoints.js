@@ -1,5 +1,6 @@
 import React from 'react';
 import {geocodeByAddress} from 'react-places-autocomplete';
+import {getWaypointsFromRoutes} from "../../../../app/services/GoogleMapService";
 
 export const EditableWaypoints = ComposedComponent => class extends React.Component {
     constructor(props) {
@@ -11,7 +12,42 @@ export const EditableWaypoints = ComposedComponent => class extends React.Compon
             onWaypointChange: this.onWaypointChange.bind(this),
             onWaypointSelect: this.onWaypointSelect.bind(this),
             onWaypointDelete: this.onWaypointDelete.bind(this),
+            getPlacesFromWaypoints: this.getPlacesFromWaypoints.bind(this),
+            addWaypointsFromRoutes: this.addWaypointsFromRoutes.bind(this)
         };
+    }
+
+    getPlacesFromWaypoints() {
+        let result = [];
+
+        this.state.waypoints.forEach((waypoint) => {
+            if (!waypoint.place) {
+                return;
+            }
+
+            result.push(waypoint.place);
+        });
+
+        return result;
+    }
+
+    addWaypointsFromRoutes(routes) {
+        if (routes.length <= 1) {
+            return;
+        }
+
+        let waypoints = [];
+
+        getWaypointsFromRoutes(routes, false).forEach((waypoint) => {
+            waypoints.push({
+                value: waypoint.formatted_address,
+                place: waypoint,
+                onChange: this.state.onWaypointChange,
+                onSelect: this.state.onWaypointSelect
+            });
+        });
+
+        this.setState({waypoints});
     }
 
     onWaypointAdd(e) {

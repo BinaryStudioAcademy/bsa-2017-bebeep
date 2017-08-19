@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Trips;
 
+use App\Models\Trip;
 use App\User;
 use Carbon\Carbon;
 use App\Models\Vehicle;
@@ -150,6 +151,31 @@ class CreateTripTest extends BaseTripTestCase
                 'trip_id' => json_decode($response->getContent())->id,
             ]
         );
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_create_trip_with_multiple_routes()
+    {
+        $user = $this->getDriverUser();
+        $vehicle = factory(Vehicle::class)->create([
+            'seats' => 4,
+            'user_id' => $user->id,
+        ]);
+
+        $trip = array_merge($this->getValidTripData($vehicle->id), [
+            'waypoints' => [
+                ['a'],
+                ['b'],
+            ],
+        ]);
+
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);
+        $response->assertStatus(200);
+
+        $trip = Trip::whereId(json_decode($response->getContent())->id)->with('routes')->first();
+        $this->assertCount(3, $trip->routes);
     }
 
     /**

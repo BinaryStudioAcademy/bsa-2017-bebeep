@@ -17,6 +17,8 @@ class AllDriverTripsCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->whereUserId($this->user->id)->with(['routes', 'vehicle'])->latest('id');
+        return $model->whereUserId($this->user->id)->with(['routes' => function($query) {
+            return $query->oldest('id');
+        }, 'vehicle'])->latest('id');
     }
 }

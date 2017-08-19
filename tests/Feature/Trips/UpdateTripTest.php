@@ -150,6 +150,14 @@ class UpdateTripTest extends BaseTripTestCase
     }
 
     /**
+     * @test
+     */
+    public function user_can_update_trip_with_multiple_routes()
+    {
+
+    }
+
+    /**
      * Get url from trips.update route.
      *
      * @param $id

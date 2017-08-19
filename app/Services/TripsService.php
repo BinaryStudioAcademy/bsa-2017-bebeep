@@ -20,6 +20,7 @@ use App\Criteria\Trips\UpcomingDriverTripsCriteria;
 
 class TripsService
 {
+    protected $routeRepository;
     private $tripRepository;
     private $deleteTripValidator;
     private $restoreTripValidator;
@@ -46,6 +47,31 @@ class TripsService
         $this->deleteTripValidator = $deleteTripValidator;
         $this->restoreTripValidator = $restoreTripValidator;
         $this->updateTripValidator = $updateTripValidator;
+    }
+
+    public static function getRoutesFromWaypoints($startPoint, $endPoint, $waypoints)
+    {
+        $tripWaypoints = collect([$startPoint]);
+        $routes = collect([]);
+
+        if (!empty($waypoints)) {
+            foreach ($waypoints as $tripWaypoint) {
+                $tripWaypoints->push($tripWaypoint);
+            }
+        }
+
+        $tripWaypoints->push($endPoint);
+
+        foreach (range(0, $tripWaypoints->count() - 2) as $iteration) {
+            $chunk = $tripWaypoints->slice($iteration, 2)->values();
+
+            $routes->push([
+                'from' => $chunk[0],
+                'to' => $chunk[1],
+            ]);
+        }
+
+        return $routes;
     }
 
     /**
@@ -91,13 +117,12 @@ class TripsService
             'user_id' => $user->id,
         ];
 
-        $routeAttributes = [
-            'from' => $request->getFrom(),
-            'to' => $request->getTo(),
-        ];
-
         $trip = $this->tripRepository->save(new Trip($tripAttributes));
-        $trip->routes()->create($routeAttributes);
+
+        $routes = self::getRoutesFromWaypoints($request->getFrom(), $request->getTo(), $request->getWaypoints());
+        foreach ($routes as $route) {
+            $trip->routes()->create($route);
+        }
 
         return $trip;
     }
