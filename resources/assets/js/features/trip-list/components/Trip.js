@@ -61,6 +61,7 @@ class Trip extends React.Component {
         const startPlace = this.getStartPlace();
         const endPlace = this.getEndPlace();
         const startDate = this.getStartDate();
+        const waypoints = getWaypointsFromRoutes(this.props.trip.routes);
 
         return (
             <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
@@ -70,7 +71,7 @@ class Trip extends React.Component {
                                    endTime={() => {}}
                                    from={startPlace.geometry.location}
                                    to={endPlace.geometry.location}
-                                   waypoints={getWaypointsFromRoutes(this.props.trip.routes)}
+                                   waypoints={waypoints}
                     >
                         <div className="card-block">
                             <div className="card-text">

@@ -59,8 +59,8 @@ export default class DirectionsMap extends React.Component {
 
         this.props.waypoints.forEach((waypoint, index) => {
             if (
-                waypoint.lat !== waypoints[index].lat ||
-                waypoint.lng !== waypoints[index].lng
+                waypoint.location.lat !== waypoints[index].location.lat ||
+                waypoint.location.lng !== waypoints[index].location.lng
             ) {
                 result = true;
             }

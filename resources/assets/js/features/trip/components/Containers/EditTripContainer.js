@@ -146,7 +146,6 @@ class EditTripContainer extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',

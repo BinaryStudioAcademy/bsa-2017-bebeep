@@ -161,15 +161,14 @@ class TripsService
             'vehicle_id' => $request->getVehicleId(),
         ];
 
-        $routeAttributes = [
-            'from' => $request->getFrom(),
-            'to' => $request->getTo(),
-        ];
-
         $result = $this->tripRepository->update($tripAttributes, $trip->id); // don't use this way of storing models. Your repository shouldn't know about arrays
 
-        $route = $this->routeRepository->findWhere(['trip_id' => $trip->id])->first();
-        $this->routeRepository->update($routeAttributes, $route->id);
+        $trip->routes()->delete();
+
+        $routes = self::getRoutesFromWaypoints($request->getFrom(), $request->getTo(), $request->getWaypoints());
+        foreach ($routes as $route) {
+            $trip->routes()->create($route);
+        }
 
         return $result;
     }
