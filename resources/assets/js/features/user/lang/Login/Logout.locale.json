@@ -1,4 +1,5 @@
 {
+  "header_logout": ["Logot", "Вихід", "Выход"],
   "failed_logout": ["Logout is failed due to error", "Помилка виходу", "Ошибка выхода"],
   "successfully_logout": ["You were successfully logout!", "Ви успішно вийшли!", "Вы успешно вышли!"]
 }

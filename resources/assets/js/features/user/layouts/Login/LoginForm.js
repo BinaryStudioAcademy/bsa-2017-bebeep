@@ -3,30 +3,27 @@ import React, { Component } from 'react';
 import PageHeader from '../../../../app/components/PageHeader';
 import Form from '../../components/Login/Form';
 
-import {addTranslation} from 'react-localize-redux';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import LangService from '../../../../app/services/LangService';
 import * as lang from '../../lang/Login/LoginForm.locale.json';
+import {localize} from 'react-localize-redux';
 
 import '../../styles/user.scss';
 
 class LoginForm extends Component {
 
     componentWillMount() {
-        this.props.addTranslation(lang);
+        LangService.addTranslation(lang);
     }
 
     render() {
+        const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={ 'Login' } />
+                <PageHeader header={ translate('header_login') } />
                 <Form />
             </div>
         )
     }
 }
 
-export default connect(
-    null,
-    dispatch => bindActionCreators({addTranslation}, dispatch)
-)(LoginForm);
+export default localize(LoginForm, 'locale');

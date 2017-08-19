@@ -28,14 +28,15 @@ import TripsList from '../features/trip-list/layouts/TripsList';
 import SearchResult from '../features/search/layouts/SearchResult';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
-import { setLanguages, addTranslation } from 'react-localize-redux';
+
+import LangeService from './services/LangService';
 
 export default (store) => {
 
-    const languages = ['en', 'ua', 'ru'];
-    store.dispatch(setLanguages(languages, localStorage['locale'] || 'en'));
-    store.dispatch(addTranslation(require('./lang/global.locale.json')));
-    store.dispatch(addTranslation(require('./lang/validate.locale.json')));
+    LangeService.init(store);
+
+    LangeService.addTranslation(require('./lang/global.locale.json'));
+    LangeService.addTranslation(require('./lang/validate.locale.json'));
 
     return (
         <Route path="/" component={ App }>

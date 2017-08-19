@@ -1,7 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {setActiveLanguage, getActiveLanguage, getLanguages} from 'react-localize-redux';
+import LangService from '../services/LangService';
 
 class ChangeLocalization extends React.Component {
     constructor() {
@@ -11,29 +9,25 @@ class ChangeLocalization extends React.Component {
 
     onSetLanguage(e) {
         const langCode = e.target.value;
-        localStorage.setItem('locale', langCode);
-        this.props.setActiveLanguage(langCode);
+        LangService.setActiveLanguage(langCode);
     }
 
     render() {
 
-        const {languages, currentLanguage} = this.props;
+        const
+            currentLanguage = LangService.getActiveLanguage(),
+            languages = LangService.languages;
+
         return (
             <select className="form-control"
                 defaultValue={currentLanguage}
                 onChange={this.onSetLanguage}>
                 {languages.map((lang) =>
-                    <option key={lang.code} value={lang.code}>{lang.code}</option>
+                    <option key={lang} value={lang}>{lang}</option>
                 )}
             </select>
         );
     }
 }
 
-export default connect(
-    state => ({
-        languages: getLanguages(state.locale),
-        currentLanguage: getActiveLanguage(state.locale).code
-    }),
-    dispatch => bindActionCreators({setActiveLanguage }, dispatch)
-)(ChangeLocalization);
+export default ChangeLocalization;

@@ -1,8 +1,8 @@
 import React from "react";
 import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
-import {addTranslation, getTranslate} from "react-localize-redux";
+import {getTranslate} from "react-localize-redux";
 import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import LangeService from '../services/LangService';
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap
@@ -27,7 +27,7 @@ class DirectionsMap extends React.Component {
 
         this.DirectionsService = new google.maps.DirectionsService();
 
-        props.addTranslation(require('../lang/directionsmap.locale.json'));
+        LangeService.addTranslation(require('../lang/directionsmap.locale.json'));
     }
 
     componentWillMount() {
@@ -92,7 +92,7 @@ class DirectionsMap extends React.Component {
                 {this.state.distance  ?
                     (
                         <div className="card-footer">
-                            <h6>Trip info</h6>
+                            <h6>{translate('trip_info')}</h6>
                             <span className="text-muted">{translate('start_point_address')}: </span>{this.state.start_address}<br/>
                             <span className="text-muted">{translate('end_point_address')}: </span>{this.state.end_address}<br/>
                             <span className="text-muted">{translate('distance')}: </span>{this.state.distance}<br/>
@@ -111,6 +111,5 @@ class DirectionsMap extends React.Component {
 export default connect(
     state => ({
         translate: getTranslate(state.locale)
-    }),
-    dispatch => bindActionCreators({addTranslation}, dispatch)
+    })
 )(DirectionsMap);

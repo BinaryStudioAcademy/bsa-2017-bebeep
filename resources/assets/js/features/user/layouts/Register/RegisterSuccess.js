@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
-import {addTranslation, getTranslate} from 'react-localize-redux';
-import {bindActionCreators} from 'redux';
+import LangService from '../../../../app/services/LangService';
+import {getTranslate} from 'react-localize-redux';
 import * as lang from '../../lang/Register/RegisterSuccess.locale.json';
 
 import PageHeader from '../../../../app/components/PageHeader';
@@ -14,7 +14,7 @@ class RegisterSuccess extends Component {
         if (!this.props.successRegister) {
             browserHistory.push('/registration');
         }
-        this.props.addTranslation(lang);
+        LangService.addTranslation(lang);
     }
 
     render() {
@@ -22,7 +22,7 @@ class RegisterSuccess extends Component {
 
         return (
             <div>
-                <PageHeader header={ 'Register' } />
+                <PageHeader header={ translate('header_register') } />
                 <div className="card" >
                     <div className="card-block">
                         <div className="alert alert-success" role="alert">
@@ -39,8 +39,7 @@ const RegisterSuccessConnected = connect(
     (state) => ({
         successRegister: state.user.register.success,
         translate: getTranslate(state.locale)
-    }),
-    dispatch => bindActionCreators({addTranslation}, dispatch)
+    })
 )(RegisterSuccess);
 
 export default RegisterSuccessConnected;

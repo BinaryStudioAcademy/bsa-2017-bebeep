@@ -1,4 +1,5 @@
 {
+  "header_register": ["Register", "Реєстрація", "Регистрация"],
   "enter_your_credentials": ["Enter your credentials", "Введіть свої дані", "Введите свои данные"],
   "first_name": ["First name", "Ім'я", "Имя"],
   "last_name": ["Last name", "Прізвище", "Фамилия"],
@@ -10,5 +11,5 @@
   "passenger": ["passenger", "пасажир", "пассажир"],
   "password": ["Password", "Пароль", "Пароль"],
   "repeat_password": ["Repeat password", "Повторіть пароль", "Повторите пароль"],
-  "register": ["Register", "Регистрація", "Регистрация"]
+  "register": ["Register", "Зарееструватися", "Зарегистрироваться"]
 }

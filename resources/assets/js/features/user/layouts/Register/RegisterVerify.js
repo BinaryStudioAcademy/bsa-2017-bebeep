@@ -2,9 +2,9 @@ import React from 'react';
 import validate from 'validate.js';
 import { browserHistory } from 'react-router';
 
-import {addTranslation, getTranslate} from 'react-localize-redux';
+import {getTranslate} from 'react-localize-redux';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import LangService from '../../../../app/services/LangService';
 import * as lang from '../../lang/Register/RegisterVerify.locale.json';
 
 import PageHeader from '../../../../app/components/PageHeader';
@@ -20,7 +20,7 @@ class RegisterVerify extends React.Component {
     }
 
     componentWillMount() {
-        this.props.addTranslation(lang);
+        LangService.addTranslation(lang);
         const {email, token} = this.props.location.query,
             result = validate({
                 email, token
@@ -50,7 +50,7 @@ class RegisterVerify extends React.Component {
             { translate } = this.props;
         return (
             <div>
-                <PageHeader header={ 'Verify account' } />
+                <PageHeader header={ translate('verify_account') } />
                 <div className="card" >
                     <div className="card-block">
                         <div className={"alert " + (errors.token || errors.email ? 'alert-danger' : '')} role="alert">
@@ -66,6 +66,5 @@ class RegisterVerify extends React.Component {
 export default connect(
     state => ({
         translate: getTranslate(state.locale)
-    }),
-    dispatch => bindActionCreators({addTranslation}, dispatch)
+    })
 )(RegisterVerify);

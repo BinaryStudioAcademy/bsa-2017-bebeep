@@ -1,4 +1,5 @@
 {
+  "header_login": ["Login", "Вхід", "Вход"],
   "email": ["E-mail", "Ел. адреса", "Эл. адрес"],
   "password": ["Password", "Пароль", "Пароль"],
   "forgot_password": ["Forgot password?", "Забули пароль?", "Забыли пароль?"],

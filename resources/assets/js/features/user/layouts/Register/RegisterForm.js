@@ -3,28 +3,25 @@ import React, { Component } from 'react';
 import Form from '../../components/Register/Form';
 import PageHeader from '../../../../app/components/PageHeader';
 
-import {addTranslation} from 'react-localize-redux';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import LangService from '../../../../app/services/LangService';
 import * as lang from '../../lang/Register/RegisterForm.locale.json';
+import {localize} from 'react-localize-redux';
 
 class RegisterForm extends Component {
 
     componentWillMount() {
-        this.props.addTranslation(lang);
+        LangService.addTranslation(lang);
     }
 
     render() {
+        const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={ 'Register' } />
+                <PageHeader header={ translate('header_register') } />
                 <Form id={ this.props.params.id } />
             </div>
         )
     }
 }
 
-export default connect(
-    null,
-    dispatch => bindActionCreators({addTranslation}, dispatch)
-)(RegisterForm);
+export default localize(RegisterForm, 'locale');
