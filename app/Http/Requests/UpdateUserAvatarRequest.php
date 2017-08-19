@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Auth;
 use App\User;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Services\Requests\UpdateUserAvatarRequest as UpdateUserAvatarRequestInterface;
 

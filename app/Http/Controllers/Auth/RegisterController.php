@@ -6,7 +6,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\RegisterUserService;
 use App\Exceptions\User\VerifyException;
-use App\Http\Requests\{RegisterUserRequest, VerifyUserRequest};
+use App\Http\Requests\VerifyUserRequest;
+use App\Http\Requests\RegisterUserRequest;
 
 class RegisterController extends Controller
 {

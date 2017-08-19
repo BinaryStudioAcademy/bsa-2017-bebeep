@@ -8,7 +8,7 @@ use Tests\JwtTestCase;
 class LoginUserTest extends JwtTestCase
 {
     protected $urlAuthorization;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -64,7 +64,7 @@ class LoginUserTest extends JwtTestCase
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'email' => $user->email,
-            'password' => $user->password
+            'password' => $user->password,
         ]);
     }
 

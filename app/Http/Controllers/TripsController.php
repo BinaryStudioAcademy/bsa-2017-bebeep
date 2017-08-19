@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SearchTripRequest;
-use App\Exceptions\Trip\UserCantEditTripException;
 use App\Models\Trip;
 use App\Services\TripsService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateTripRequest;
+use App\Http\Requests\SearchTripRequest;
 use App\Http\Requests\UpdateTripRequest;
+use App\Exceptions\Trip\UserCantEditTripException;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
 class TripsController extends Controller
@@ -69,7 +69,7 @@ class TripsController extends Controller
     }
 
     /**
-     * Show trip
+     * Show trip.
      *
      * @param Trip $trip
      * @return \Illuminate\Http\JsonResponse
@@ -82,7 +82,7 @@ class TripsController extends Controller
     }
 
     /**
-     * Update trip
+     * Update trip.
      *
      * @param $trip
      * @param UpdateTripRequest $request
@@ -90,8 +90,9 @@ class TripsController extends Controller
      */
     public function update(Trip $trip, UpdateTripRequest $request)
     {
-        try{
+        try {
             $result = $this->tripsService->update($trip, $request, Auth::user());
+
             return response()->json($result, 200);
         } catch (UserCantEditTripException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
@@ -112,7 +113,7 @@ class TripsController extends Controller
 
         return response()->json($trip);
     }
-
+    
     /**
      * @param SearchTripRequest $request
      * @return array

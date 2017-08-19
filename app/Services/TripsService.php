@@ -2,25 +2,23 @@
 
 namespace App\Services;
 
+use App\User;
+use Carbon\Carbon;
+use App\Models\Trip;
+use App\Repositories\TripRepository;
+use App\Repositories\RouteRepository;
+use App\Validators\DeleteTripValidator;
+use App\Validators\UpdateTripValidator;
+use App\Validators\RestoreTripValidator;
+use App\Services\Requests\CreateTripRequest;
+use App\Services\Requests\SearchTripRequest;
+use App\Services\Requests\UpdateTripRequest;
+use Prettus\Repository\Contracts\CriteriaInterface;
 use App\Criteria\Trips\AllDriverTripsCriteria;
 use App\Criteria\Trips\DriverTripByIdCriteria;
 use App\Criteria\Trips\PastDriverTripsCriteria;
 use App\Criteria\Trips\UpcomingDriverTripsCriteria;
-use App\Models\Trip;
-use App\Repositories\TripRepository;
-use App\Rules\DeleteTrip\TripOwnerRule;
-use App\Exceptions\Trip\TripNotFoundException;
-use App\Exceptions\Trip\UserCantEditTripException;
-use App\Validators\UpdateTripValidator;
-use Illuminate\Support\Facades\Validator;
-use App\Services\Requests\CreateTripRequest;
-use App\Services\Requests\UpdateTripRequest;
-use App\User;
-use App\Validators\DeleteTripValidator;
-use App\Validators\RestoreTripValidator;
-use Prettus\Repository\Contracts\CriteriaInterface;
-use Carbon\Carbon;
-use App\Services\Requests\SearchTripRequest;
+
 
 class TripsService
 {
@@ -33,18 +31,20 @@ class TripsService
      * TripsService constructor.
      *
      * @param TripRepository $tripRepository
+     * @param RouteRepository $routeRepository
      * @param DeleteTripValidator $deleteTripValidator
      * @param RestoreTripValidator $restoreTripValidator
      * @param UpdateTripValidator $updateTripValidator
      */
     public function __construct(
         TripRepository $tripRepository,
+        RouteRepository $routeRepository,
         DeleteTripValidator $deleteTripValidator,
         RestoreTripValidator $restoreTripValidator,
         UpdateTripValidator $updateTripValidator
-    )
-    {
+    ) {
         $this->tripRepository = $tripRepository;
+        $this->routeRepository = $routeRepository;
         $this->deleteTripValidator = $deleteTripValidator;
         $this->restoreTripValidator = $restoreTripValidator;
         $this->updateTripValidator = $updateTripValidator;
@@ -105,7 +105,7 @@ class TripsService
     }
 
     /**
-     * Get user trip by id
+     * Get user trip by id.
      *
      * @param Trip $trip
      * @param User $user
@@ -113,11 +113,13 @@ class TripsService
      */
     public function show(Trip $trip, User $user)
     {
-        return $this->tripRepository->getByCriteria(new DriverTripByIdCriteria($trip, $user));
+        return $this->tripRepository
+            ->getByCriteria(new DriverTripByIdCriteria($trip, $user))
+            ->first();
     }
 
     /**
-     * Update trip service
+     * Update trip service.
      *
      * @param Trip $trip
      * @param UpdateTripRequest $request
@@ -142,7 +144,9 @@ class TripsService
         ];
 
         $result = $this->tripRepository->update($tripAttributes, $trip->id); // don't use this way of storing models. Your repository shouldn't know about arrays
-        $result->routes()->update($routeAttributes);
+
+        $route = $this->routeRepository->findWhere(['trip_id' => $trip->id])->first();
+        $this->routeRepository->update($routeAttributes, $route->id);
 
         return $result;
     }
@@ -242,7 +246,7 @@ class TripsService
         ];
     }
 
-    /**
+    /*
      * @param Trip $trip
      * @param $user
      * @return Trip

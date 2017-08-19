@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Services\Requests\SearchTripRequest as SearchTripRequestInterface;
-use Illuminate\Support\Str;
 
 class SearchTripRequest extends FormRequest implements SearchTripRequestInterface
 {
@@ -38,6 +39,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     public function getFromLng(): string
     {
         $lng = explode('|', $this->get('fc'))[0];
+
         return $this->get($lng);
     }
 
@@ -47,6 +49,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     public function getFromLat(): string
     {
         $lat = explode('|', $this->get('fc'))[1];
+
         return $this->get($lat);
     }
 
@@ -56,6 +59,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     public function getToLng()
     {
         $lng = explode('|', $this->get('tc'))[0];
+
         return $this->get($lng);
     }
 
@@ -65,6 +69,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     public function getToLat()
     {
         $lat = explode('|', $this->get('tc'))[1];
+
         return $this->get($lat);
     }
 
@@ -90,6 +95,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     public function getPage(): int
     {
         $page = (int) $this->get('page');
+
         return  $page > 0 ? $page : 1;
     }
 
@@ -107,7 +113,8 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     public function getOrder() : string
     {
         $order = Str::lower($this->get('order'));
-        return ($order === 'asc' || $order === 'desc' ? $order : self::DEFAULT_SORT_ORDER);
+
+        return $order === 'asc' || $order === 'desc' ? $order : self::DEFAULT_SORT_ORDER;
     }
 
     /**
@@ -133,5 +140,4 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     {
         return $this->get('filter');
     }
-
 }

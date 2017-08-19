@@ -3,12 +3,10 @@
 namespace Tests\Feature\User;
 
 use App\User;
-use App\Models\{
-    Trip,
-    Vehicle,
-    Booking
-};
+use App\Models\Trip;
 use Tests\JwtTestCase;
+use App\Models\Booking;
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\Artisan;
 
 class ProfileTest extends JwtTestCase
@@ -17,8 +15,8 @@ class ProfileTest extends JwtTestCase
      * @var array
      */
     private $routes = [
-        'get' => [ 'GET' ],
-        'update' => [ 'PUT' ],
+        'get' => ['GET'],
+        'update' => ['PUT'],
     ];
 
     /**
@@ -47,7 +45,7 @@ class ProfileTest extends JwtTestCase
     public function setUp()
     {
         parent::setUp();
-        Artisan::call("migrate:refresh");
+        Artisan::call('migrate:refresh');
 
         $this->routes['get'][] = route('user.profile.show');
         $this->routes['update'][] = route('user.profile.update');

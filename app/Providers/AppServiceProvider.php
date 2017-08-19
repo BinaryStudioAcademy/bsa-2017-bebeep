@@ -2,27 +2,21 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Vehicle;
-use App\Services\{
-    PasswordService,
-    UserProfileService
-};
-use App\Validators\{
-    UpdateTripValidator,
-    DeleteTripValidator,
-    RestoreTripValidator,
-    CanUncheckRoleValidator,
-    IsPasswordCurrentValidator
-};
-use App\Services\Contracts\{
-    PasswordService as PasswordServiceContract,
-    UserProfileService as UserProfileServiceContract
-};
-use Illuminate\Support\ServiceProvider;
+use App\Services\PasswordService;
+use App\Services\UserProfileService;
+use Illuminate\Support\Facades\Auth;
 use App\Rules\DeleteTrip\TripOwnerRule;
+use App\Validators\DeleteTripValidator;
+use App\Validators\UpdateTripValidator;
+use Illuminate\Support\ServiceProvider;
+use App\Validators\RestoreTripValidator;
+use Illuminate\Support\Facades\Validator;
+use App\Validators\CanUncheckRoleValidator;
+use App\Validators\IsPasswordCurrentValidator;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
+use App\Services\Contracts\PasswordService as PasswordServiceContract;
+use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 
 class AppServiceProvider extends ServiceProvider
 {
