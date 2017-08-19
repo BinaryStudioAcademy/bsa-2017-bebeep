@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GetDriverTripRequest;
 use App\Models\Trip;
 use App\Services\TripsService;
-use App\Transformers\TripTransformer;
 use Illuminate\Support\Facades\Auth;
+use App\Transformers\TripTransformer;
 use App\Http\Requests\CreateTripRequest;
 use App\Http\Requests\SearchTripRequest;
 use App\Http\Requests\UpdateTripRequest;
+use App\Http\Requests\GetDriverTripRequest;
 use App\Exceptions\Trip\UserCantEditTripException;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
