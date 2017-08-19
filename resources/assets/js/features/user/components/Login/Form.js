@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
 
 import * as actions from '../../actions';
 import {getTranslate} from 'react-localize-redux';
@@ -18,6 +19,12 @@ class Form extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.onSave = this.onSave.bind(this);
         this.pickErrorMessage = this.pickErrorMessage.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.success) {
+            browserHistory.push('/dashboard')
+        }
     }
 
     pickErrorMessage(code) {
@@ -48,14 +55,12 @@ class Form extends React.Component {
     }
 
     render() {
-
         const { errors, translate } = this.props;
-
         return (
             <div>
                 <form role="form" className="card login-form" action="/api/user/authorization" method="POST">
-                    <div className={ "card-header " + (this.props.httpCode ? 'alert-danger' : '')}>
-                        {(this.props.httpCode ? this.pickErrorMessage(this.props.httpCode) : translate("enter_your_credentials") )}
+                    <div className={ "card-header " + (this.props.httpCode !== 200 ? 'alert-danger' : '')}>
+                        {(this.props.httpCode !== 200 ? this.pickErrorMessage(this.props.httpCode) : translate("enter_your_credentials") )}
                     </div>
                     <div className="card-block">
                         <TextInput
@@ -108,5 +113,6 @@ function mapDispatchToProps(dispatch) {
 export default connect((state) => ({
     errors: state.user.login.errors,
     httpCode: state.user.login.httpStatus,
+    success: state.user.login.success,
     translate: getTranslate(state.locale)
 }), mapDispatchToProps)(Form);

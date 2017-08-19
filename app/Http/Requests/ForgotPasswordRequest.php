@@ -3,12 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use \App\Services\Requests\ForgotPasswordRequest as ForgotPasswordRequestInterface;
-use Illuminate\Http\Request;
+use App\Services\Requests\ForgotPasswordRequest as ForgotPasswordRequestInterface;
 
 class ForgotPasswordRequest extends FormRequest implements ForgotPasswordRequestInterface
 {
-
     public function authorize()
     {
         return true;
@@ -17,7 +15,7 @@ class ForgotPasswordRequest extends FormRequest implements ForgotPasswordRequest
     public function rules()
     {
         return [
-            'email' => "required|email|exists:users,email",
+            'email' => 'required|email|exists:users,email',
         ];
     }
 

@@ -71,8 +71,12 @@ export const doLogin = (credentials) => dispatch => {
             dispatch(loginSuccess(response.data))
         })
         .catch(error => {
-            destroySession();
-            dispatch(processFailedLoginResponse(error.response))
+            if (error.response) {
+                destroySession();
+                dispatch(processFailedLoginResponse(error.response))
+            } else {
+                console.error(error);
+            }
         });
 
 };

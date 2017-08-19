@@ -3,6 +3,7 @@ import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
 import {getTranslate} from "react-localize-redux";
 import {connect} from "react-redux";
 import LangeService from '../services/LangService';
+import moment from 'moment';
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap
@@ -87,6 +88,7 @@ class DirectionsMap extends React.Component {
                             }
                             center={this.props.from}
                             directions={this.state.directions}
+                            key={moment()}
                         />
                 </div>
                 {this.state.distance  ?

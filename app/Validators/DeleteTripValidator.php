@@ -2,9 +2,9 @@
 
 namespace App\Validators;
 
+use App\User;
 use App\Models\Trip;
 use App\Rules\DeleteTrip\DeleteTripRule;
-use App\User;
 
 class DeleteTripValidator
 {

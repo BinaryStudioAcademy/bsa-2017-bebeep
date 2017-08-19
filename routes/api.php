@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +13,6 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
-
     Route::post('register', [
         'middleware' => 'jwt.guest',
         'as' => 'register',
@@ -30,16 +28,15 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('authorization', [
         'middleware' => 'jwt.guest',
         'as' => 'authorization',
-        'uses' => 'Auth\LoginController@authorization'
+        'uses' => 'Auth\LoginController@authorization',
     ]);
 
     Route::post('logout', [
         'as' => 'logout',
-        'uses' => 'Auth\LoginController@logout'
+        'uses' => 'Auth\LoginController@logout',
     ]);
 
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
-
         Route::get('/', [
             'middleware' => 'jwt.auth',
             'as' => 'show',
@@ -75,14 +72,13 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             'as' => 'avatar.delete',
             'uses' => 'User\AvatarController@destroy',
         ]);
-
     });
 });
 
 Route::group([
     'prefix' => 'v1/trips',
     'as' => 'trips.',
-    'middleware' => ['jwt.auth', 'jwt.role:' . \App\User::DRIVER_PERMISSION],
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
 ], function () {
     Route::get('/', ['as' => 'all', 'uses' => 'TripsController@getAll']);
     Route::get('/upcoming', ['as' => 'upcoming', 'uses' => 'TripsController@getUpcoming']);

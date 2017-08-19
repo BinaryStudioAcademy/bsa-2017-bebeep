@@ -23,6 +23,8 @@ import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 
 import CreateTrip from '../features/trip/layouts/CreateTrip';
+
+import EditTrip from '../features/trip/layouts/EditTrip';
 import TripsList from '../features/trip-list/layouts/TripsList';
 
 import SearchResult from '../features/search/layouts/SearchResult';
@@ -42,6 +44,12 @@ export default (store) => {
         <Route path="/" component={ App }>
             {/* Index page */}
             <IndexRoute component={ SearchIndex }/>
+
+            {/* Trip creating and editing */}
+            <Route path="trip">
+                <Route path="create" component={ CreateTrip } />
+                <Route path="edit/:id" component={ EditTrip } />
+            </Route>
 
             {/* Routes only for auth users */}
             <Route onEnter={ requireAuth }>
