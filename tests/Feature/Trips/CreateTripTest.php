@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\Trip;
 use App\User;
 use Carbon\Carbon;
+use App\Models\Trip;
 use App\Models\Vehicle;
 
 class CreateTripTest extends BaseTripTestCase

@@ -54,7 +54,7 @@ class TripsService
         $tripWaypoints = collect([$startPoint]);
         $routes = collect([]);
 
-        if (!empty($waypoints)) {
+        if (! empty($waypoints)) {
             foreach ($waypoints as $tripWaypoint) {
                 $tripWaypoints->push($tripWaypoint);
             }
