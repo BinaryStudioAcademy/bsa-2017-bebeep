@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import validate from 'validate.js';
 import _ from 'lodash';
+import {localize} from 'react-localize-redux';
+import * as lang from '../../lang/_Modals/StatusModal.locale.json';
 
 import Modal from '../../../../app/components/Modal';
+import LangService from '../../../../app/services/LangService';
 
 class StatusModal extends Component {
 
@@ -11,6 +14,10 @@ class StatusModal extends Component {
         this.state = {
             modalIsOpen: false,
         };
+    }
+
+    componentWillMount() {
+        LangService.addTranslation(lang);
     }
 
     componentWillReceiveProps(newProps) {
@@ -38,10 +45,12 @@ class StatusModal extends Component {
     }
 
     render() {
-        const { modal } = this.props;
+        const { modal, translate } = this.props;
         const { modalIsOpen } = this.state;
         const onClosed = this.props.onClosed || (() => {});
-        const header = modal.status === 'success' ? 'Success' : 'Error';
+        const header = modal.status === 'success'
+            ? translate('status_modal.success')
+            : translate('status_modal.error');
         const classStatus = modal.status === 'success' ? 'success' : 'danger';
 
         return (
@@ -52,7 +61,7 @@ class StatusModal extends Component {
                     <div className="modal-footer text-right">
                         <button className={ "btn btn-" + classStatus } role="button" onClick={(e) => {
                             this.setState({ modalIsOpen: false });
-                        }}>Ok</button>
+                        }}>{translate('status_modal.ok')}</button>
                     </div>
                 </Modal>
             </div>
@@ -60,4 +69,4 @@ class StatusModal extends Component {
     }
 }
 
-export default StatusModal;
+export default localize(StatusModal, 'locale');
