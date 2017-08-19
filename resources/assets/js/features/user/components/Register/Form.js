@@ -41,10 +41,7 @@ class Form extends React.Component {
         const validate = RegisterValidate(registerData);
         if (!validate.valid) {
             this.setState({
-                errors: _.reduce(validate.errors, (acc, err, key) => {
-                    acc[key] = err && translate(err);
-                    return acc;
-                }, {})
+                errors: validate.errors
             });
         } else {
             simpleRequest.post('/api/user/register', registerData)

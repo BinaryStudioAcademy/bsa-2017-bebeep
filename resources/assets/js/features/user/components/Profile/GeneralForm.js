@@ -82,10 +82,7 @@ class GeneralForm extends Component {
         const validate = ProfileValidate(profileData);
         if (!validate.valid) {
             this.setState({
-                errors: _.reduce(validate.errors, (acc, err, key) => {
-                    acc[key] = err && translate(err);
-                    return acc;
-                }, {})
+                errors: validate.errors
             });
             return;
         }

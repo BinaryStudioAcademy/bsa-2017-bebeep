@@ -62,7 +62,7 @@ class Form extends React.Component {
                             name="email"
                             label={translate('email')}
                             value={ this.state.credentials.email }
-                            error={ errors.email && translate(errors.email) }
+                            error={ errors.email }
                             onChange={ this.onChange }/>
 
                         <TextInput
@@ -70,7 +70,7 @@ class Form extends React.Component {
                             label={translate('password')}
                             type="password"
                             value={ this.state.credentials.password }
-                            error={ errors.password && translate(errors.password) }
+                            error={ errors.password }
                             onChange={ this.onChange }/>
                     </div>
 
