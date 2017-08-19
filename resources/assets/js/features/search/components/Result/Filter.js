@@ -6,6 +6,7 @@ import moment from 'moment';
 import {connect} from 'react-redux';
 import { setUrl, setFilter, getFilter} from '../../services/SearchService';
 import { withRouter } from 'react-router';
+import {getTranslate} from 'react-localize-redux';
 import '../../styles/filter.scss';
 
 class Filter extends React.Component {
@@ -56,23 +57,23 @@ class Filter extends React.Component {
 
     render() {
         const { time, price, date } = this.state;
-        const { priceBounds } = this.props;
+        const { priceBounds, translate } = this.props;
 
         return (
             <div className="filter">
                 <div className="filter__prop">
-                    <div className="filter__prop-name">Date</div>
+                    <div className="filter__prop-name">{translate('filter.date')}</div>
                     <div className="filter__prop-control">
                         <DatePicker
                             todayButton={"Today"}
                             selected={date}
                             onChange={this.dateChange}
-                            placeholderText="mm/dd/yyyy"
+                            placeholderText={translate('filter.date_placeholder')}
                             minDate={moment()}
                             className="form-control"
                             isClearable={true}
                         />
-                        <div className="filter__prop-sign">Time: {time[0]}h - {time[1]}h</div>
+                        <div className="filter__prop-sign">{translate('filter.time', {start: time[0], end: time[1]})}</div>
                         <Range
                             min={0}
                             max={24}
@@ -85,10 +86,10 @@ class Filter extends React.Component {
                     </div>
                 </div>
                 <div className="filter__prop">
-                    <div className="filter__prop-name">Price</div>
+                    <div className="filter__prop-name">{translate('filter.price')}</div>
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
-                            From <span className="filter__currency">$</span>{price[0]} to <span className="filter__currency">$</span>{price[1]}
+                            {translate('filter.price_range', {start: price[0],end: price[1]})}
                         </div>
                         <Range
                             min={priceBounds[0]}
@@ -115,5 +116,6 @@ Filter.PropTypes = {
 export default withRouter(connect(
     (state) => ({
         start_at: state.search.start_at,
+        translate: getTranslate(state.locale)
     })
 )(Filter));

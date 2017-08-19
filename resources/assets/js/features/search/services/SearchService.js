@@ -27,13 +27,11 @@ export const search = (
 export const setFilter = (filter, params = {}) => {
     let newParams = {};
     for (let field in filter) {
-        if (filter[field]) {
-            if (filter[field] instanceof Array) {
-                newParams[`filter[${field}][min]`] = filter[field][0];
-                newParams[`filter[${field}][max]`] = filter[field][1];
-            } else {
-                newParams[`filter[${field}]`] = filter[field];
-            }
+        if (filter[field] instanceof Array) {
+            newParams[`filter[${field}][min]`] = filter[field][0];
+            newParams[`filter[${field}][max]`] = filter[field][1];
+        } else {
+            newParams[`filter[${field}]`] = filter[field];
         }
     }
     return Object.assign(params, newParams);

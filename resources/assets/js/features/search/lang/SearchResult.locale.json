@@ -12,5 +12,20 @@
   "free_seats2": ["free seat(s)", "вільних місця", "свободных места"],
   "free_seats3": ["free seat(s)", "вільних місць", "свободных мест"],
   "per_passenger": ["per passenger", "з пасажира", "с пассажира"],
-  "years": ["${age} yrs.", "${age} р.", "${age} л."]
+  "years1": ["${age} yrs.", "${age} р.", "${age} г."],
+  "years2": ["${age} yrs.", "${age} р.", "${age} г."],
+  "years3": ["${age} yrs.", "${age} р.", "${age} л."],
+  "today": ["Today", "Сьгодні", "Сегодня"],
+  "tomorrow": ["Tomorrow", "Завтра", "Завтра"],
+  "filter": {
+    "date": ["Date", "Дата", "Дата"],
+    "date_placeholder": ["mm/dd/yyyy", "дд.мм.рррр", "дд.мм.гггг"],
+    "time": ["Time: ${start}h - ${end}h", "Час: ${start}ч - ${end}ч", "Время: ${start}ч - ${end}ч"],
+    "price": ["Price", "Ціна", "Цена"],
+    "price_range": [
+      "From <span className='filter__currency'>$</span>${start} to <span className='filter__currency'>$</span>${end}",
+      "Від <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}",
+      "От <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}"
+    ]
+  }
 }
