@@ -31,9 +31,9 @@ class PasswordReset extends React.Component {
                 password_confirmation: e.target['password_confirmation'].value,
                 token: e.target['token'].value,
             },
-            emailCheck = UserValidator.email(data.email);
-            tokenCheck = VerifyValidator.token(data.token);
-            passwordCheck = UserValidator.password(data.password);
+            emailCheck = UserValidator.email(data.email),
+            tokenCheck = VerifyValidator.token(data.token),
+            passwordCheck = UserValidator.password(data.password),
             confirmPasswordCheck = UserValidator.password_confirmation(data.password_confirmation, data.password);
 
         if (
