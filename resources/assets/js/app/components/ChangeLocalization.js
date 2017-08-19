@@ -11,6 +11,7 @@ class ChangeLocalization extends React.Component {
 
     onSetLanguage(e) {
         const langCode = e.target.value;
+        localStorage.setItem('locale', langCode);
         this.props.setActiveLanguage(langCode);
     }
 

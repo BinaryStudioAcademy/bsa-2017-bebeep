@@ -30,6 +30,8 @@
       "You already have this password, enter another one.",
       "Ви вже маєте такий пароль, введіть інший.",
       "Вы уже имеете такой пароль, введите другой."
-    ]
+    ],
+    "email_invalid": ["Email is invalid", "Ел. адреса не вірна", "Эл. адрес не верный"],
+    "token_invalid": ["Token is invalid", "Токен не вірний", "Токен не верен"]
   }
 }

@@ -33,7 +33,7 @@ import { setLanguages, addTranslation } from 'react-localize-redux';
 export default (store) => {
 
     const languages = ['en', 'ua', 'ru'];
-    store.dispatch(setLanguages(languages, 'en'));
+    store.dispatch(setLanguages(languages, localStorage['locale'] || 'en'));
     store.dispatch(addTranslation(require('./lang/global.locale.json')));
     store.dispatch(addTranslation(require('./lang/validate.locale.json')));
 
