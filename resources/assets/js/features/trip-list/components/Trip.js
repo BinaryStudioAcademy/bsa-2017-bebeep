@@ -10,9 +10,6 @@ class Trip extends React.Component {
         super(props);
 
         this.state = {
-            startDate: this.getStartDate(),
-            startPlace: this.getStartPlace(),
-            endPlace: this.getEndPlace(),
             deletable: this.props.deletable,
             editable: this.props.editable,
             isDeleted: false
@@ -60,14 +57,18 @@ class Trip extends React.Component {
     }
 
     render() {
+        const startPlace = this.getStartPlace();
+        const endPlace = this.getEndPlace();
+        const startDate = this.getStartDate();
+
         return (
             <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
-                {this.state.startPlace ? (
-                    <DirectionsMap title={this.state.startDate}
+                {startPlace ? (
+                    <DirectionsMap title={startDate}
                                    needDirection="1"
                                    endTime={() => {}}
-                                   from={this.state.startPlace.geometry.location}
-                                   to={this.state.endPlace.geometry.location}
+                                   from={startPlace.geometry.location}
+                                   to={endPlace.geometry.location}
                     >
                         <div className="card-block">
                             <div className="card-text">
