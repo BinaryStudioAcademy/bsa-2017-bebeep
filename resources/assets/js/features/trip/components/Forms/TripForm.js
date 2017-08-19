@@ -2,6 +2,9 @@ import React from 'react';
 import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import moment from 'moment';
+import {localize} from 'react-localize-redux';
+import LangService from '../../../../app/services/LangService';
+import * as lang from '../../lang/TripForm.locale.json';
 
 class TripForm extends React.Component {
     constructor(props) {
@@ -9,6 +12,10 @@ class TripForm extends React.Component {
         this.state = {
             momentKey: null,
         };
+    }
+
+    componentWillMount() {
+        LangService.addTranslation(lang);
     }
 
     componentDidMount() {
@@ -27,7 +34,7 @@ class TripForm extends React.Component {
     }
 
     render() {
-        const { errors } = this.props;
+        const { errors, translate } = this.props;
         const { momentKey } = this.state;
 
         const placesCssClasses = {
@@ -40,12 +47,12 @@ class TripForm extends React.Component {
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
                   onSubmit={ this.props.onSubmit } key={ momentKey }>
                 <div className="card-header">
-                    {this.props.trip ? 'Edit trip' : 'Create trip'}
+                    {this.props.trip ? translate('edit_trip') : translate('create_trip')}
                 </div>
                 <div className="card-block">
                     <div className={"form-group row " + (errors.vehicle_id ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="vehicle_id">
-                            Select car
+                            {translate('select_car')}
                         </label>
                         <div className="col-sm-8">
                             <select name="vehicle_id" className="form-control" id="vehicle_id">
@@ -60,7 +67,7 @@ class TripForm extends React.Component {
                         id="price"
                         defaultValue={this.props.trip ? this.props.trip.price : ''}
                         required={false}
-                        error={errors.price}>Price
+                        error={errors.price}>{translate('price')}
                     </Input>
                     <Input
                         type="number"
@@ -68,10 +75,10 @@ class TripForm extends React.Component {
                         id="seats"
                         defaultValue={this.props.trip ? this.props.trip.seats : ''}
                         required={false}
-                        error={errors.seats}>Available seats
+                        error={errors.seats}>{translate('available_seats')}
                     </Input>
                     <div className={"form-group row " + (this.props.errors.from ? 'has-danger' : '')}>
-                        <label className="form-control-label text-muted col-sm-4">Start Point</label>
+                        <label className="form-control-label text-muted col-sm-4">{translate('start_point')}</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={this.props.startPoint}
                                                 classNames={placesCssClasses}
@@ -83,7 +90,7 @@ class TripForm extends React.Component {
                         </div>
                     </div>
                     <div className={"form-group row " + (this.props.errors.to ? 'has-danger' : '')}>
-                        <label className="form-control-label text-muted col-sm-4">End Point</label>
+                        <label className="form-control-label text-muted col-sm-4">{translate('end_point')}</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={this.props.endPoint}
                                                 classNames={placesCssClasses}
@@ -100,11 +107,11 @@ class TripForm extends React.Component {
                         id="start_at"
                         defaultValue={this.props.trip ? this.props.trip.start_at : ''}
                         required={false}
-                        error={errors.start_at}>Trip start time
+                        error={errors.start_at}>{translate('end_point')}
                     </Input>
                     <div className="form-group">
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">{this.props.trip ? 'Edit trip' : 'Create trip'}</button>
+                            <button type="submit" className="btn btn-primary">{this.props.trip ? translate('edit_trip_btn') : translate('create_trip_btn')}</button>
                         </div>
                     </div>
                 </div>
@@ -113,4 +120,4 @@ class TripForm extends React.Component {
     }
 }
 
-export default TripForm;
+export default localize(TripForm, 'locale');

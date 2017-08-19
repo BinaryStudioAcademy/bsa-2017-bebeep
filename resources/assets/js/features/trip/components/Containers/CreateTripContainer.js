@@ -10,6 +10,7 @@ import {tripCreateSuccess} from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
+import {getTranslate} from 'react-localize-redux';
 import '../../styles/create_trip.scss';
 
 class CreateTripContainer extends React.Component {
@@ -94,7 +95,7 @@ class CreateTripContainer extends React.Component {
             to: this.state.endPoint.place,
         };
 
-        const validated = Validator.validate(createTripRules, data);
+        const validated = Validator.validate(createTripRules(), data);
 
         if (!validated.valid) {
             this.setState({errors: validated.errors});
@@ -119,6 +120,7 @@ class CreateTripContainer extends React.Component {
     }
 
     render() {
+        const {translate} = this.props;
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',
@@ -149,7 +151,7 @@ class CreateTripContainer extends React.Component {
                     />
                 </div>
                 <div className="col-sm-6">
-                    <DirectionsMap title="Preview Trip"
+                    <DirectionsMap title={translate("preview_trip")}
                                    from={getCoordinatesFromPlace(this.state.startPoint.place)}
                                    to={getCoordinatesFromPlace(this.state.endPoint.place)}
                                    endTime={this.setEndTime.bind(this)}
@@ -161,7 +163,9 @@ class CreateTripContainer extends React.Component {
 }
 
 const CreateTripContainerConnected = connect(
-    null,
+    state => ({
+        translate: getTranslate(state.locale)
+    }),
     (dispatch) => bindActionCreators({tripCreateSuccess}, dispatch)
 )(CreateTripContainer);
 

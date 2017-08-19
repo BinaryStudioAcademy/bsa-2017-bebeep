@@ -7,6 +7,7 @@ import Validator from '../../../../app/services/Validator';
 import EditTripService from '../../services/EditTripService';
 import { createTripRules, getStartAndEndTime } from '../../../../app/services/TripService';
 import { getCoordinatesFromPlace } from '../../../../app/services/GoogleMapService';
+import {localize} from 'react-localize-redux';
 
 class EditTripContainer extends React.Component {
 
@@ -122,7 +123,7 @@ class EditTripContainer extends React.Component {
             to: this.state.endPoint.place,
         };
 
-        const validated = Validator.validate(createTripRules, data);
+        const validated = Validator.validate(createTripRules(), data);
 
         if (!validated.valid) {
             this.setState({errors: validated.errors});
@@ -139,6 +140,7 @@ class EditTripContainer extends React.Component {
 
     render() {
         const { trip,  errors } = this.state;
+        const { translate } = this.props;
         const startPointProps = {
             value: this.state.startPoint.address,
             onChange: this.onChangeStartPoint.bind(this),
@@ -172,7 +174,7 @@ class EditTripContainer extends React.Component {
                 </div>
                 <div className="col-sm-6">
                     <DirectionsMap
-                        title="Preview Trip"
+                        title={translate("preview_trip")}
                         from={getCoordinatesFromPlace(this.state.startPoint.place)}
                         to={getCoordinatesFromPlace(this.state.endPoint.place)}
                         endTime={this.setEndTime.bind(this)}
@@ -182,4 +184,4 @@ class EditTripContainer extends React.Component {
         );
     }
 }
-export default EditTripContainer;
+export default localize(EditTripContainer, 'locale');
