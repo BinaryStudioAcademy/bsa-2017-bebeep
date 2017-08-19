@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetDriverTripRequest;
 use App\Models\Trip;
 use App\Services\TripsService;
+use App\Transformers\TripTransformer;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateTripRequest;
 use App\Http\Requests\SearchTripRequest;
@@ -72,13 +74,12 @@ class TripsController extends Controller
      * Show trip.
      *
      * @param Trip $trip
+     * @param GetDriverTripRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Trip $trip)
+    public function show(Trip $trip, GetDriverTripRequest $request)
     {
-        $result = $this->tripsService->show($trip, Auth::user());
-
-        return response()->json($result, 200);
+        return fractal()->item($trip, new TripTransformer())->parseIncludes(['vehicle', 'routes'])->respond();
     }
 
     /**

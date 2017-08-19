@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import '../../styles/create_trip.scss';
+import {EditableWaypoints} from "./EditableWaypoints";
 
 class CreateTripContainer extends React.Component {
     constructor(props) {
@@ -25,56 +26,8 @@ class CreateTripContainer extends React.Component {
             endPoint: {
                 address: '',
                 place: null,
-            },
-            waypoints: []
+            }
         };
-    }
-
-    onWaypointAdd(e) {
-        e.preventDefault();
-
-        this.setState({
-            waypoints: [
-                ...this.state.waypoints,
-                {
-                    value: '',
-                    place: null,
-                    onChange: this.onWaypointChange.bind(this),
-                    onSelect: this.onWaypointSelect.bind(this)
-                }
-            ]
-        });
-    }
-
-    onWaypointChange(address, index) {
-        let waypoints = this.state.waypoints;
-        waypoints[index].value = address;
-
-        this.setState({
-            waypoints
-        });
-    }
-
-    onWaypointSelect(address, index) {
-        let waypoints = this.state.waypoints;
-        waypoints[index].value = address;
-        waypoints[index].place = null;
-
-        geocodeByAddress(address).then((results) => {
-            waypoints[index].place = results[0];
-            this.setState({
-                waypoints
-            });
-        });
-    }
-
-    onWaypointDelete(index) {
-        let waypoints = this.state.waypoints;
-        waypoints.splice(index, 1);
-
-        this.setState({
-            waypoints
-        });
     }
 
     onChangeStartPoint(address) {
@@ -193,14 +146,14 @@ class CreateTripContainer extends React.Component {
                         onSelectStartPoint={this.onSelectStartPoint.bind(this)}
                         placesCssClasses={placesCssClasses}
                         onSubmit={this.onSubmit.bind(this)}
-                        waypoints={this.state.waypoints}
-                        onWaypointAdd={this.onWaypointAdd.bind(this)}
-                        onWaypointDelete={this.onWaypointDelete.bind(this)}
+                        waypoints={this.props.waypoints}
+                        onWaypointAdd={this.props.onWaypointAdd}
+                        onWaypointDelete={this.props.onWaypointDelete}
                     />
                 </div>
                 <div className="col-sm-6">
                     <DirectionsMap title="Preview Trip"
-                                   waypoints={convertWaypointsToGoogleWaypoints(this.state.waypoints)}
+                                   waypoints={convertWaypointsToGoogleWaypoints(this.props.waypoints)}
                                    from={getCoordinatesFromPlace(this.state.startPoint.place)}
                                    to={getCoordinatesFromPlace(this.state.endPoint.place)}
                                    endTime={this.setEndTime.bind(this)}
@@ -214,6 +167,6 @@ class CreateTripContainer extends React.Component {
 const CreateTripContainerConnected = connect(
     null,
     (dispatch) => bindActionCreators({tripCreateSuccess}, dispatch)
-)(CreateTripContainer);
+)(EditableWaypoints(CreateTripContainer));
 
 export default CreateTripContainerConnected;

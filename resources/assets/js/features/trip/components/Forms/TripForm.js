@@ -1,45 +1,16 @@
 import React from 'react';
 import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import moment from 'moment';
 
 class TripForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            momentKey: null,
-        };
-    }
-
-    componentDidMount() {
-        this.setState({
-            momentKey: moment(),
-        });
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.trip) {
-            return nextProps.trip.id !== this.props.trip.id ||
-                nextProps.startPoint.value !== this.props.startPoint.value ||
-                nextProps.endPoint.value !== this.props.endPoint.value;
-        }
-        return true;
-    }
-
     render() {
         const { errors } = this.props;
-        const { momentKey } = this.state;
-        let waypointsView = <div>&nbsp;</div>;
-
-        const placesCssClasses = {
-            root: 'form-group',
-            input: 'form-control',
-            autocompleteContainer: 'autocomplete-container'
-        };
+        let waypointsView = '';
 
         if (this.props.waypoints) {
             waypointsView = this.props.waypoints.map((point, index) =>
                 <div className="row justify-content-end stopover-row" key={index}>
+                    <label className="form-control-label text-muted col-sm-4">Stopover {index + 1}</label>
                     <div className="col-sm-8 text-right">
                         <PlacesAutocomplete inputProps={{value: point.value, onChange(address) {point.onChange(address, index)}}}
                                             classNames={this.props.placesCssClasses}
@@ -54,7 +25,7 @@ class TripForm extends React.Component {
 
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
-                  onSubmit={ this.props.onSubmit } key={ momentKey }>
+                  onSubmit={ this.props.onSubmit }>
                 <div className="card-header">
                     {this.props.trip ? 'Edit trip' : 'Create trip'}
                 </div>
@@ -90,10 +61,9 @@ class TripForm extends React.Component {
                         <label className="form-control-label text-muted col-sm-4">Start Point</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={this.props.startPoint}
-                                                classNames={placesCssClasses}
+                                                classNames={this.props.placesCssClasses}
                                                 onSelect={this.props.onSelectStartPoint}
                                                 onEnterKeyDown={this.props.onSelectStartPoint}
-                                                key={ momentKey }
                             />
                             <div className="form-control-feedback">{this.props.errors.from}</div>
                         </div>
@@ -102,10 +72,9 @@ class TripForm extends React.Component {
                         <label className="form-control-label text-muted col-sm-4">End Point</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={this.props.endPoint}
-                                                classNames={placesCssClasses}
+                                                classNames={this.props.placesCssClasses}
                                                 onSelect={this.props.onSelectEndPoint}
                                                 onEnterKeyDown={this.props.onSelectEndPoint}
-                                                key={ momentKey }
                             />
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>
@@ -126,7 +95,7 @@ class TripForm extends React.Component {
 
                     <div className="form-group">
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">{this.props.trip ? 'Edit trip' : 'Create trip'}</button>
+                            <button type="submit" className="btn btn-primary">{this.props.trip ? 'Save trip' : 'Create trip'}</button>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import * as moment from 'moment';
 import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
 
 const GoogleMapContainer = withGoogleMap(props => (
@@ -76,19 +77,26 @@ export default class DirectionsMap extends React.Component {
             travelMode: google.maps.TravelMode.DRIVING,
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
-                let response = result.routes[0].legs[0]; // TEMPORARY, NEED CALCULATE ALL LEGS
-                let start = result.routes[0].legs[0];
-                let end = result.routes[0].legs[result.routes[0].legs.length - 1];
+                let route = result.routes[0];
+                let start = route.legs[0];
+                let end = route.legs[route.legs.length - 1];
+                let distance = 0;
+                let duration = 0;
+
+                route.legs.forEach((leg) => {
+                    distance += leg.distance.value;
+                    duration += leg.duration.value;
+                });
 
                 this.setState({
                     directions: result,
-                    distance: response.distance.text,
-                    duration: response.duration.text,
+                    distance: (distance / 1000).toFixed(1) + " km",
+                    duration: moment.duration(duration, 'seconds').humanize(),
                     start_address: start.start_address,
                     end_address: end.end_address
                 });
 
-                this.props.endTime(response.duration.value);
+                this.props.endTime(duration);
             }
         });
     }
