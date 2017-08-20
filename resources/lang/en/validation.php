@@ -87,6 +87,10 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
+    "max_seats_from_vehicle" => 'Vehicle seats is exceeded',
+    "greater_than_date" => 'The selected date greater than :attribute',
+    "role_can_uncheck" => 'The :attribute cannot be unchecked.',
+    "is_password_current" => 'This password is not the current one.',
 
     /*
     |--------------------------------------------------------------------------

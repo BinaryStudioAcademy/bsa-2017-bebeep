@@ -8,7 +8,7 @@
       "Телефон - обязательное поле, и должен содержать не более 15 цифр"
     ],
     "not_valid_email": ["Email is incorrect", "Ел. адреса введена некоректно", "Эл. адрес введен некорректно"],
-    "choose_role": ["Choose your role", "Виберіть роль", "Выберите роль"],
+    "choose_role": ["Choose your role", "Оберіть роль", "Выберите роль"],
     "password_must_be_more_six_symbols": [
       "Password must be more or equal 6 characters",
       "Пароль має бути не менше 6 символів",

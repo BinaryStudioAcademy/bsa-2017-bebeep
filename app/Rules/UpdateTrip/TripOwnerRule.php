@@ -19,7 +19,7 @@ class TripOwnerRule implements UpdateTripRule
     public function validate(Trip $trip, User $user): bool
     {
         if ($trip->user_id != $user->id) {
-            throw new UserCantEditTripException("User can't edit this trip");
+            throw new UserCantEditTripException(__("Rules/UpdateTrip/TripOwnerRule.user_cant_edit__trip"));
         }
 
         return true;
