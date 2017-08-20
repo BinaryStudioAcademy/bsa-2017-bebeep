@@ -114,7 +114,11 @@ class TripsController extends Controller
         return response()->json($trip);
     }
 
-
+    /**
+     * @param SearchTripRequest $request
+     *
+     * @return mixed
+     */
     public function search(SearchTripRequest $request)
     {
         $data = $this->tripsService->search($request);
