@@ -8,7 +8,6 @@ use App\Models\Trip;
 use Carbon\Carbon;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\SearchTripRequest;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class TripRepository extends BaseRepository
@@ -63,17 +62,17 @@ class TripRepository extends BaseRepository
 
         $sql_start_point = $this->haversinusSql("from_lat",
                                                 "from_lng",
-                                                $request->from_lat,
-                                                $request->from_lng,
+                                                $request->getFromLat(),
+                                                $request->getFromLng(),
                                                 "distance_from");
 
         $sql_end_point = $this->haversinusSql(  "to_lat",
                                                 "to_lng",
-                                                $request->to_lat,
-                                                $request->to_lng,
+                                                $request->getToLat(),
+                                                $request->getToLng(),
                                                 "distance_to");
 
-        $time = Carbon::createFromTimestampUTC($request->start_at);
+        $time = Carbon::createFromTimestampUTC($request->getStartAt());
 
         $sql = "SELECT *, $sql_start_point, $sql_end_point 
                 FROM trips
