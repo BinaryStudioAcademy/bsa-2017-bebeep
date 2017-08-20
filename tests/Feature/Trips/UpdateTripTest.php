@@ -150,6 +150,43 @@ class UpdateTripTest extends BaseTripTestCase
     }
 
     /**
+     * @test
+     */
+    public function user_can_update_trip_with_multiple_routes()
+    {
+        $user = $this->getDriverUser();
+        $vehicle = factory(Vehicle::class)->create(['seats' => 3, 'user_id' => $user->id]);
+
+        $trip = factory(Trip::class)->create([
+            'user_id' => $user->id,
+            'vehicle_id' => $vehicle->id,
+            'seats' => 3,
+            'price' => 200,
+        ]);
+        factory(Route::class)->create(['trip_id' => $trip->id]);
+
+        $startAt = Carbon::now()->addSeconds(Trip::MIN_DELAY_TO_START_DATE + 60)->timestamp;
+        $endAt = Carbon::now()->addSeconds(Trip::MIN_DELAY_TO_START_DATE)->addHour(1)->timestamp;
+
+        $updatedData = array_merge($trip->toArray(), [
+            'price' => 500.00,
+            'start_at' => $startAt,
+            'end_at' => $endAt,
+            'from' => ['place' => 'Kiev'],
+            'to' => ['place' => 'Lviv'],
+            'waypoints' => [['a'], ['b']],
+        ]);
+
+        $this->url = $this->getUrl($trip->id);
+
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $updatedData);
+        $response->assertStatus(200);
+
+        $trip = Trip::whereId($trip->id)->with('routes')->first();
+        $this->assertCount(3, $trip->routes);
+    }
+
+    /**
      * Get url from trips.update route.
      *
      * @param $id
