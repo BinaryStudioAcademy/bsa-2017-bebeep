@@ -71,7 +71,7 @@ class TripRepository extends BaseRepository
         $sql = "SELECT *, $sql_start_point, $sql_end_point 
                 FROM trips
                 JOIN routes on trips.id = routes.trip_id
-                HAVING start_at >=  \"$time\" AND distance_from < 10 AND distance_to> 10";
+                HAVING start_at >=  \"$time\" AND distance_from < 10 AND distance_to < 10";
 
         return DB::select($sql);
     }
