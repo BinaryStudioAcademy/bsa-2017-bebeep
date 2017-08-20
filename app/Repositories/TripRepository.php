@@ -3,10 +3,7 @@
 namespace App\Repositories;
 
 
-use App\Services\Requests\SearchTripRequest;
 use App\Models\Trip;
-use Carbon\Carbon;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -55,29 +52,36 @@ class TripRepository extends BaseRepository
 
 
     /**
-     * @param SearchTripRequest $request
+     * @param array $attributes
      * @return mixed
      */
-    public function search(SearchTripRequest $request){
+    public function search(array $attributes)
+    {
+
+        [
+            'start_at' => $startAt,
+            'from_lat' => $fromLat,
+            'from_lng' => $fromLng,
+            'to_lat' => $toLat,
+            'to_lng' => $toLng,
+        ] = $attributes;
 
         $sql_start_point = $this->haversinusSql("from_lat",
-                                                "from_lng",
-                                                $request->getFromLat(),
-                                                $request->getFromLng(),
-                                                "distance_from");
+            "from_lng",
+            $fromLat,
+            $fromLng,
+            "distance_from");
 
-        $sql_end_point = $this->haversinusSql(  "to_lat",
-                                                "to_lng",
-                                                $request->getToLat(),
-                                                $request->getToLng(),
-                                                "distance_to");
-
-        $time = Carbon::createFromTimestampUTC($request->getStartAt());
+        $sql_end_point = $this->haversinusSql("to_lat",
+            "to_lng",
+            $toLat,
+            $toLng,
+            "distance_to");
 
         $sql = "SELECT *, $sql_start_point, $sql_end_point 
                 FROM trips
                 JOIN routes on trips.id = routes.trip_id
-                HAVING start_at >=  \"$time\" AND distance_from < 10 AND distance_to < 10";
+                HAVING start_at >=  \"$startAt\" AND distance_from < 10 AND distance_to < 10";
 
         return DB::select($sql);
     }

@@ -215,14 +215,21 @@ class TripsService
     public function search(SearchTripRequest $request)
     {
 
-        return $this->tripRepository->search($request);
+        $tripAttributes = [
+            'start_at' => $request->getStartAt(),
+            'from_lat' => $request->getFromLat(),
+            'from_lng' => $request->getFromLng(),
+            'to_lat' => $request->getToLat(),
+            'to_lng' => $request->getToLng(),
+        ];
+
+        return $this->tripRepository->search($tripAttributes);
     }
 
     /**
      * @param  Trip $trip
      * @param  User $user
      *
->>>>>>> c31a4d3c1f936e7740ed067d380aa13c4ee59605
      * @return Trip
      */
     public function restore(Trip $trip, User $user) : Trip
