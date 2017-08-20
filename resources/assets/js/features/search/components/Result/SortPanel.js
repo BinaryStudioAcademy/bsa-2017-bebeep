@@ -1,6 +1,6 @@
 import React from 'react';
 import {localize} from 'react-localize-redux';
-import '../../styles/search-sort.scss';
+import 'features/search/styles/search-sort.scss';
 
 class SortPanel extends React.Component {
     render() {

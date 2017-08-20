@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import {localize} from 'react-localize-redux';
 
 import StatusModal from '../_Modals/StatusModal';
-import UserService from '../../services/UserService';
+import UserService from 'features/user/services/UserService';
 
-import '../../../../app/styles/react-cropper.scss';
-import '../../../../app/styles/image-cropper.scss';
+import 'app/styles/react-cropper.scss';
+import 'app/styles/image-cropper.scss';
 
 const AVATAR_WIDTH = 100;
 const AVATAR_HEIGHT = 100;
@@ -24,7 +24,7 @@ const MODAL_MSG = {
     success: 'user_profile_avatar_successfully_updated',
 };
 
-class AvatarUpload extends Component {
+class AvatarUpload extends React.Component {
 
     constructor(props) {
         super(props);

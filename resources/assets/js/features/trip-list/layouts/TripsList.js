@@ -1,12 +1,13 @@
 import React from 'react';
-import PageHeader from '../../../app/components/PageHeader';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import PageHeader from 'app/components/PageHeader';
 import TripsListContainer from "../components/TripsListContainer";
-import {tripsFilterChanged, tripsLoadSuccess} from '../actions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Link} from 'react-router';
-import {securedRequest} from '../../../app/services/RequestService';
-import LangService from '../../../app/services/LangService';
+import { securedRequest } from 'app/services/RequestService';
+import { tripsFilterChanged, tripsLoadSuccess } from '../actions';
+import LangService from 'app/services/LangService';
 import {getTranslate} from 'react-localize-redux';
 import * as lang from '../lang/TripList.locale.json';
 

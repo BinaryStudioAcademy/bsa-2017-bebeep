@@ -1,6 +1,5 @@
 import * as actions from './actionTypes';
-
-import { isAuthorized } from '../../app/services/AuthService';
+import { isAuthorized } from 'app/services/AuthService';
 
 const initialState = {
     register: {

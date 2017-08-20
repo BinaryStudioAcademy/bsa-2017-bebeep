@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { bindActionCreators } from 'redux';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
-import {getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
-import {bindActionCreators} from 'redux';
-import {searchSuccess} from '../../actions';
-import Validator from '../../../../app/services/Validator';
-import {setUrl, encodeCoord, decodeCoord} from '../../services/SearchService';
-import {withRouter} from "react-router";
+import Validator from 'app/services/Validator';
+import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
+
+import { searchSuccess } from 'features/search/actions';
+import { setUrl, encodeCoord, decodeCoord } from 'features/search/services/SearchService';
 import {getTranslate} from 'react-localize-redux';
-import PropTypes from "prop-types";
 
 class SearchForm extends React.Component {
 

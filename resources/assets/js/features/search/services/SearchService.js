@@ -1,5 +1,5 @@
-import { simpleRequest } from '../../../app/services/RequestService';
 import { browserHistory } from 'react-router';
+import { simpleRequest } from 'app/services/RequestService';
 
 export const search = (
     fromCoord, toCoord, start_at = null, page = 1, sort = 'price', order = 'asc', limit = 10, filter = {}

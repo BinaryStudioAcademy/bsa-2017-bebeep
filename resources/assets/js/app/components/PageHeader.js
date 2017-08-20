@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class PageHeader extends Component {
+class PageHeader extends React.Component {
 
     constructor() {
         super();

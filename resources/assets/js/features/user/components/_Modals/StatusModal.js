@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import validate from 'validate.js';
 import _ from 'lodash';
 import {localize} from 'react-localize-redux';
 import * as lang from '../../lang/_Modals/StatusModal.locale.json';
 
-import Modal from '../../../../app/components/Modal';
-import LangService from '../../../../app/services/LangService';
+import LangService from 'app/services/LangService';
+import Modal from 'app/components/Modal';
 
-class StatusModal extends Component {
+class StatusModal extends React.Component {
 
     constructor() {
         super();

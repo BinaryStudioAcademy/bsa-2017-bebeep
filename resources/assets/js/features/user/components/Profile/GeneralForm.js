@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 
-import Input from '../../../../app/components/Input';
-import Textarea from '../../../../app/components/Textarea';
+import Input from 'app/components/Input';
+import Textarea from 'app/components/Textarea';
 import StatusModal from '../_Modals/StatusModal';
 
-import { updateProfileSuccess } from '../../actions';
+import { updateProfileSuccess } from 'features/user/actions';
 
-import UserService from '../../services/UserService';
-import { ProfileValidate } from '../../../../app/services/UserService';
+import UserService from 'features/user/services/UserService';
+import { ProfileValidate } from 'app/services/UserService';
 
 import {getTranslate} from 'react-localize-redux';
 
@@ -19,7 +19,7 @@ const MODAL_MSG = {
     error: 'failed_update_user_profile_general_data',
 };
 
-class GeneralForm extends Component {
+class GeneralForm extends React.Component {
 
     constructor(props) {
         super(props);

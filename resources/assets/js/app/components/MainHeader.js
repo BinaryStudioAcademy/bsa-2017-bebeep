@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import MainNavigation from './MainNavigation';
 
-class MainHeader extends Component {
+class MainHeader extends React.Component {
 
     render() {
         return (

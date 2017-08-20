@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link, IndexLink } from 'react-router';
 import ChangeLocalization from '../ChangeLocalization';
 import {localize} from 'react-localize-redux';
 
-class ForGuestUser extends Component {
+class ForGuestUser extends React.Component {
 
     render() {
         const {translate} = this.props;

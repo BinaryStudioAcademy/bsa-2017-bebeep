@@ -1,10 +1,10 @@
 import React from 'react';
 
-import PageHeader from '../../../app/components/PageHeader';
-import EditTripContainer from "../components/Containers/EditTripContainer";
-import LangService from '../../../app/services/LangService';
+import LangService from 'app/services/LangService';
 import * as lang from '../lang/EditTrip.locale.json';
 import {localize} from 'react-localize-redux';
+import PageHeader from 'app/components/PageHeader';
+import EditTripContainer from '../components/Containers/EditTripContainer';
 
 import '../styles/edit_trip.scss';
 

@@ -1,14 +1,12 @@
 import React from 'react';
 import validate from 'validate.js';
 import { browserHistory } from 'react-router';
-
 import {getTranslate} from 'react-localize-redux';
 import {connect} from 'react-redux';
-import LangService from '../../../../app/services/LangService';
-import * as lang from '../../lang/Register/RegisterVerify.locale.json';
-
-import PageHeader from '../../../../app/components/PageHeader';
-import { simpleRequest } from '../../../../app/services/RequestService';
+import LangService from 'app/services/LangService';
+import * as lang from 'features/user/lang/Register/RegisterVerify.locale.json';
+import PageHeader from 'app/components/PageHeader';
+import { simpleRequest } from 'app/services/RequestService';
 
 class RegisterVerify extends React.Component {
 

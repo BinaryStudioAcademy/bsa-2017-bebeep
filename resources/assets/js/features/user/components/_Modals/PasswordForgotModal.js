@@ -1,15 +1,16 @@
 import React from 'react';
 import {localize} from 'react-localize-redux';
 
-import Input from '../../../../app/components/Input';
-import Modal from '../../../../app/components/Modal';
-import LangService from '../../../../app/services/LangService';
-import {UserValidator} from '../../../../app/services/UserService';
+import LangService from 'app/services/LangService';
+import {UserValidator} from 'app/services/UserService';
 
-import { simpleRequest } from '../../../../app/services/RequestService';
-import * as lang from '../../lang/_Modals/PasswordForgotModal.locale.json';
+import * as lang from 'features/user/lang/_Modals/PasswordForgotModal.locale.json';
+import Input from 'app/components/Input';
+import Modal from 'app/components/Modal';
+import { simpleRequest } from 'app/services/RequestService';
 
-import '../../styles/password_forgot.scss';
+import 'features/user/styles/password_forgot.scss';
+
 
 class PasswordForgotModal extends React.Component {
     constructor() {

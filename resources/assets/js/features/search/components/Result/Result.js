@@ -4,8 +4,8 @@ import SearchForm from './SearchForm';
 import TripList from './TripList';
 import Placeholder from './Placeholder';
 import SortPanel from './SortPanel';
-import Preloader from '../../../../app/components/Preloader';
-import { Pagination } from '../../../../app/components/Pagination';
+import Preloader from 'app/components/Preloader';
+import { Pagination } from 'app/components/Pagination';
 import { connect } from 'react-redux';
 import {
     search,
@@ -14,12 +14,12 @@ import {
     getFilter,
     getCurrentPage,
     getCountResult
-} from '../../services/SearchService';
-import { searchSuccess } from '../../actions';
+} from 'features/search/services/SearchService';
+import { searchSuccess } from 'features/search/actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import {getTranslate} from 'react-localize-redux';
-import '../../styles/search-result.scss';
+import 'features/search/styles/search-result.scss';
 
 class Result extends React.Component {
 

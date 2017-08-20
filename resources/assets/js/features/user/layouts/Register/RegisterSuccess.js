@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-
-import LangService from '../../../../app/services/LangService';
+import LangService from 'app/services/LangService';
 import {getTranslate} from 'react-localize-redux';
-import * as lang from '../../lang/Register/RegisterSuccess.locale.json';
+import * as lang from 'features/user/lang/Register/RegisterSuccess.locale.json';
+import PageHeader from 'app/components/PageHeader';
 
-import PageHeader from '../../../../app/components/PageHeader';
-
-class RegisterSuccess extends Component {
+class RegisterSuccess extends React.Component {
 
     componentWillMount() {
         if (!this.props.successRegister) {

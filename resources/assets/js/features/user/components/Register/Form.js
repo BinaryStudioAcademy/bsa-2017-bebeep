@@ -3,16 +3,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 
-import { registerSuccess } from '../../actions';
+import Input from 'app/components/Input';
 
-import Input from '../../../../app/components/Input';
-
-import { RegisterValidate } from '../../../../app/services/UserService';
-import { simpleRequest } from '../../../../app/services/RequestService';
+import { registerSuccess } from 'features/user/actions';
+import { simpleRequest } from 'app/services/RequestService';
+import { RegisterValidate } from 'app/services/UserService';
 
 import {getTranslate} from 'react-localize-redux';
 
-import '../../styles/user_register.scss';
+import 'features/user/styles/user_register.scss';
 
 class Form extends React.Component {
 

@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import LangService from '../../../../app/services/LangService';
 import * as lang from '../../lang/Profile/ProfileBase.locale.json';
 import {localize} from 'react-localize-redux';
 
-import '../../styles/profile.scss';
+import 'features/user/styles/profile.scss';
 
-class ProfileBase extends Component {
+class ProfileBase extends React.Component {
 
     componentWillMount() {
         LangService.addTranslation(lang);

@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 
-import * as actions from '../../actions';
 import {getTranslate} from 'react-localize-redux';
 
 import TextInput from './TextInput';
 import PasswordForgotModal from '../_Modals/PasswordForgotModal';
 
-import '../../styles/user.scss';
+import * as actions from 'features/user/actions';
+
+import 'features/user/styles/user.scss';
 
 class Form extends React.Component {
 

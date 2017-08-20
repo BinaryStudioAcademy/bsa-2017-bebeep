@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import {localize} from 'react-localize-redux';
 import LangService from '../../../../app/services/LangService';
 import moment from 'moment';
-import '../../styles/search-trip-item.scss';
+import 'features/search/styles/search-trip-item.scss';
 
 class TripItem extends React.Component {
 

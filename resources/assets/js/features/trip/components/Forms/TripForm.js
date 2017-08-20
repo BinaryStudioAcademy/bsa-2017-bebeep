@@ -1,51 +1,23 @@
 import React from 'react';
-import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import moment from 'moment';
 import {localize} from 'react-localize-redux';
-import LangService from '../../../../app/services/LangService';
+import LangService from 'app/services/LangService';
 import * as lang from '../../lang/TripForm.locale.json';
+import Waypoints from "./Waypoints";
+import Input from 'app/components/Input';
 
 class TripForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            momentKey: null,
-        };
-    }
 
     componentWillMount() {
         LangService.addTranslation(lang);
     }
 
-    componentDidMount() {
-        this.setState({
-            momentKey: moment(),
-        });
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.trip) {
-            return nextProps.trip.id !== this.props.trip.id ||
-                nextProps.startPoint.value !== this.props.startPoint.value ||
-                nextProps.endPoint.value !== this.props.endPoint.value;
-        }
-        return true;
-    }
-
     render() {
         const { errors, translate } = this.props;
-        const { momentKey } = this.state;
-
-        const placesCssClasses = {
-            root: 'form-group',
-            input: 'form-control',
-            autocompleteContainer: 'autocomplete-container'
-        };
 
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
-                  onSubmit={ this.props.onSubmit } key={ momentKey }>
+                  onSubmit={ this.props.onSubmit }>
                 <div className="card-header">
                     {this.props.trip ? translate('edit_trip') : translate('create_trip')}
                 </div>
@@ -81,10 +53,9 @@ class TripForm extends React.Component {
                         <label className="form-control-label text-muted col-sm-4">{translate('start_point')}</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={this.props.startPoint}
-                                                classNames={placesCssClasses}
+                                                classNames={this.props.placesCssClasses}
                                                 onSelect={this.props.onSelectStartPoint}
                                                 onEnterKeyDown={this.props.onSelectStartPoint}
-                                                key={ momentKey }
                             />
                             <div className="form-control-feedback">{this.props.errors.from}</div>
                         </div>
@@ -93,10 +64,9 @@ class TripForm extends React.Component {
                         <label className="form-control-label text-muted col-sm-4">{translate('end_point')}</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={this.props.endPoint}
-                                                classNames={placesCssClasses}
+                                                classNames={this.props.placesCssClasses}
                                                 onSelect={this.props.onSelectEndPoint}
                                                 onEnterKeyDown={this.props.onSelectEndPoint}
-                                                key={ momentKey }
                             />
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>
@@ -109,6 +79,13 @@ class TripForm extends React.Component {
                         required={false}
                         error={errors.start_at}>{translate('end_point')}
                     </Input>
+
+                    <Waypoints waypoints={this.props.waypoints}
+                               placesCssClasses={this.props.placesCssClasses}
+                               onWaypointDelete={this.props.onWaypointDelete}
+                               onWaypointAdd={this.props.onWaypointAdd}
+                    />
+
                     <div className="form-group">
                         <div className="text-center">
                             <button type="submit" className="btn btn-primary">{this.props.trip ? translate('edit_trip_btn') : translate('create_trip_btn')}</button>

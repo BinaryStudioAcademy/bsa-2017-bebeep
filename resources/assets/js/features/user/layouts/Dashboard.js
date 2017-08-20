@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import LangService from '../../../app/services/LangService';
 import * as lang from '../lang/Dashboard.locale.json';
 import {localize} from 'react-localize-redux';
 
-import PageHeader from '../../../app/components/PageHeader';
-import { getAuthUser } from '../../../app/services/AuthService';
+import PageHeader from 'app/components/PageHeader';
+import { getAuthUser } from 'app/services/AuthService';
 
-class Dashboard extends Component {
+class Dashboard extends React.Component {
 
     componentWillMount() {
         LangService.addTranslation(lang);

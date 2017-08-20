@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {PageGenerator} from '../../services/PageGenerator';
+
+import {PageGenerator} from 'app/services/PageGenerator';
 import { PageItem } from './';
 
 class Pagination extends React.Component {

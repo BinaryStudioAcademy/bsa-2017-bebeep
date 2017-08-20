@@ -1,7 +1,8 @@
 import React from 'react';
-import PageHeader from '../../../app/components/PageHeader';
+
+import PageHeader from 'app/components/PageHeader';
 import Result from '../components/Result/Result';
-import LangService from '../../../app/services/LangService';
+import LangService from 'app/services/LangService';
 import {localize} from 'react-localize-redux';
 import * as lang from '../lang/SearchResult.locale.json';
 

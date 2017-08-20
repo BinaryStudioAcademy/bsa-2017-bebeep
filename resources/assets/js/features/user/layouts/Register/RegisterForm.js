@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import Form from '../../components/Register/Form';
-import PageHeader from '../../../../app/components/PageHeader';
+import PageHeader from 'app/components/PageHeader';
+import Form from 'features/user/components/Register/Form';
 
-import LangService from '../../../../app/services/LangService';
-import * as lang from '../../lang/Register/RegisterForm.locale.json';
+import LangService from 'app/services/LangService';
+import * as lang from 'features/user/lang/Register/RegisterForm.locale.json';
 import {localize} from 'react-localize-redux';
 
-class RegisterForm extends Component {
+class RegisterForm extends React.Component {
 
     componentWillMount() {
         LangService.addTranslation(lang);

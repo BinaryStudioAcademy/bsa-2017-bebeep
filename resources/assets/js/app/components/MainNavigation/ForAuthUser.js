@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link, IndexLink } from 'react-router';
 import ChangeLocalization from '../ChangeLocalization';
 import {localize} from 'react-localize-redux';
 
-import { getAuthUser } from '../../services/AuthService';
+import { getAuthUser } from 'app/services/AuthService';
 
-class ForAuthUser extends Component {
+class ForAuthUser extends React.Component {
 
     constructor(props) {
         super(props);

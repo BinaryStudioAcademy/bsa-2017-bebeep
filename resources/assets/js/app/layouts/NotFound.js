@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import {localize} from 'react-localize-redux';
-import PageHeader from '../components/PageHeader';
+import PageHeader from 'app/components/PageHeader';
 
-class NotFound extends Component {
+class NotFound extends React.Component {
     render() {
         const {translate} = this.props;
         return (
