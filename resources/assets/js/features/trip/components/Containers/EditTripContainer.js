@@ -154,7 +154,7 @@ class EditTripContainer extends React.Component {
         if (this.state.notFoundTrip) {
             return (
                 <div className="alert alert-danger" role="alert">
-                    Can't load this trip. Please try later
+                    {translate('cant_load_this_trip')}
                 </div>
             );
         }
