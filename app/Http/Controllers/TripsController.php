@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Trip;
 use App\Services\TripsService;
 use Illuminate\Support\Facades\Auth;
+use App\Transformers\TripTransformer;
 use App\Http\Requests\CreateTripRequest;
 use App\Http\Requests\SearchTripRequest;
 use App\Http\Requests\UpdateTripRequest;
+use App\Http\Requests\GetDriverTripRequest;
 use App\Exceptions\Trip\UserCantEditTripException;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
@@ -72,13 +74,12 @@ class TripsController extends Controller
      * Show trip.
      *
      * @param Trip $trip
+     * @param GetDriverTripRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Trip $trip)
+    public function show(Trip $trip, GetDriverTripRequest $request)
     {
-        $result = $this->tripsService->show($trip, Auth::user());
-
-        return response()->json($result, 200);
+        return fractal()->item($trip, new TripTransformer())->parseIncludes(['vehicle', 'routes'])->respond();
     }
 
     /**

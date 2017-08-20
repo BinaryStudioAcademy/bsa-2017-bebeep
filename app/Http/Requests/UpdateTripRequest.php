@@ -91,4 +91,12 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     {
         return (array) $this->get('to');
     }
+
+    /**
+     * @return array
+     */
+    public function getWaypoints(): array
+    {
+        return (array) $this->get('waypoints');
+    }
 }

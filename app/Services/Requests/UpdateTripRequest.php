@@ -19,4 +19,6 @@ interface UpdateTripRequest
     public function getFrom(): array;
 
     public function getTo(): array;
+
+    public function getWaypoints(): array;
 }
