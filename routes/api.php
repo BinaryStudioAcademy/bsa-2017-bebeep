@@ -92,7 +92,7 @@ Route::group([
 });
 
 
-Route::post('v1/trips/search', ['as' => 'search', 'uses' => 'TripsController@search']);
+Route::get('v1/trips/search', ['as' => 'search', 'uses' => 'TripsController@search']);
 
 
 Route::post('v1/password-resets', [
