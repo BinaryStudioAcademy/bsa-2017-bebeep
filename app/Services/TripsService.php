@@ -69,7 +69,11 @@ class TripsService
 
             $routes->push([
                 'from' => $chunk[0],
+                'from_lat' => $chunk[0]['geometry']['location']['lat'],
+                'from_lng' => $chunk[0]['geometry']['location']['lng'],
                 'to' => $chunk[1],
+                'to_lat' => $chunk[1]['geometry']['location']['lat'],
+                'to_lng' => $chunk[1]['geometry']['location']['lng'],
             ]);
         }
 
