@@ -1,12 +1,16 @@
 import React from 'react';
-import PageHeader from '../../../app/components/PageHeader';
-import Input from '../../../app/components/Input';
-import UserService from '../services/UserService';
-import { browserHistory } from 'react-router';
 import validate from 'validate.js';
+import { browserHistory } from 'react-router';
+
+import PageHeader from 'app/components/PageHeader';
+import Input from 'app/components/Input';
+
+import UserService from '../services/UserService';
+
 import '../styles/password_forgot.scss';
 
 class PasswordReset extends React.Component {
+
     constructor() {
         super();
         this.state = {

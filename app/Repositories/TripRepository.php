@@ -2,11 +2,14 @@
 
 namespace App\Repositories;
 
+
 use App\Services\Requests\SearchTripRequest;
 use App\Models\Trip;
-use Prettus\Repository\Eloquent\BaseRepository;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\SearchTripRequest;
+use Prettus\Repository\Eloquent\BaseRepository;
 
 class TripRepository extends BaseRepository
 {
@@ -51,6 +54,7 @@ class TripRepository extends BaseRepository
         return $trip;
     }
 
+
     /**
      * @param SearchTripRequest $request
      * @return mixed
@@ -87,7 +91,8 @@ class TripRepository extends BaseRepository
      * @param $column_name
      * @return string
      */
-    private function haversinusSql($start_lat, $start_lng, $end_lat, $end_lng, $column_name){
+    private function haversinusSql($start_lat, $start_lng, $end_lat, $end_lng, $column_name)
+    {
         $sql = "round(6371 * 2 * ASIN(SQRT(POWER(SIN((`$start_lat` - $end_lat ) *
                 pi()/180 / 2), 2) + COS(`$start_lat` * pi()/180) * COS($end_lat * pi() / 180) *
                 POWER(SIN((`$start_lng` - ($end_lng)) * pi()/180 / 2), 2))),1)  
@@ -95,4 +100,5 @@ class TripRepository extends BaseRepository
 
         return $sql;
     }
+
 }

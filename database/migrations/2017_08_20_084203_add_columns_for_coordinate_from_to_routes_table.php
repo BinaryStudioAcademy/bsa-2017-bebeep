@@ -14,11 +14,10 @@ class AddColumnsForCoordinateFromToRoutesTable extends Migration
     public function up()
     {
         Schema::table('routes', function (Blueprint $table) {
-            $table->string('from_lat')->after('from');
-            $table->string('from_lng')->after('from_lat');
-            $table->string('to_lat')->after('to');
-            $table->string('to_lng')->after('to_lat');
-
+            $table->decimal('from_lat', 10, 8)->after('from');
+            $table->decimal('from_lng', 11, 8)->after('from_lat');
+            $table->decimal('to_lat', 10, 8)->after('to');
+            $table->decimal('to_lng', 11, 8)->after('to_lat');
         });
     }
 

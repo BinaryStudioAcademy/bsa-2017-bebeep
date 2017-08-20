@@ -1,4 +1,4 @@
-import { simpleRequest, securedRequest } from '../../../app/services/RequestService';
+import { simpleRequest, securedRequest } from 'app/services/RequestService';
 
 const UserService = {
 

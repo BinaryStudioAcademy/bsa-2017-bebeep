@@ -2,44 +2,44 @@
 
 namespace App\Services\Requests;
 
+use Carbon\Carbon;
 
-interface SearchTripRequest {
-
-    /**
-     * Longitude 'From' point
-
-     *
-     * @return mixed
-     */
-    public function getFromLng():string;
-
+interface SearchTripRequest
+{
     /**
      * Latitude 'From' point.
      *
      * @return mixed
      */
-    public function getFromLat():string;
+    public function getFromLat() : float;
 
     /**
-     * Longitude 'To' point.
+     * Longitude 'From' point
      *
      * @return mixed
      */
-    public function getToLng();
+    public function getFromLng() : float;
 
     /**
      * Latitude 'To' point.
      *
      * @return mixed
      */
-    public function getToLat();
+    public function getToLat() : float;
+
+    /**
+     * Longitude 'To' point.
+     *
+     * @return mixed
+     */
+    public function getToLng() : float;
 
     /**
      * Timestamp of start trip.
      *
      * @return int
      */
-    public function getTime() : int;
+    public function getStartAt() : Carbon;
 
     /**
      * Limit items of page.

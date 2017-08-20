@@ -1,12 +1,12 @@
 import React from 'react';
 import validate from 'validate.js';
 
-import Input from '../../../../app/components/Input';
-import Modal from '../../../../app/components/Modal';
+import Input from 'app/components/Input';
+import Modal from 'app/components/Modal';
+import { simpleRequest } from 'app/services/RequestService';
 
-import { simpleRequest } from '../../../../app/services/RequestService';
+import 'features/user/styles/password_forgot.scss';
 
-import '../../styles/password_forgot.scss';
 
 class PasswordForgotModal extends React.Component {
     constructor() {
