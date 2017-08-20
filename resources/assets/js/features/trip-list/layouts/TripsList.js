@@ -39,9 +39,7 @@ class TripsList extends React.Component {
 
     loadTrips(filter) {
         securedRequest.get('/api/v1/trips/' + filter).then((response) => {
-            setTimeout(() => {
-                this.props.tripsLoadSuccess(response.data);
-            }, 100);
+            this.props.tripsLoadSuccess(response.data);
         });
     }
 

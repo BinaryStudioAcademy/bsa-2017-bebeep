@@ -1,27 +1,11 @@
 import React from 'react';
 import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
+import Waypoints from "./Waypoints";
 
 class TripForm extends React.Component {
     render() {
         const { errors } = this.props;
-        let waypointsView = '';
-
-        if (this.props.waypoints) {
-            waypointsView = this.props.waypoints.map((point, index) =>
-                <div className="row justify-content-end stopover-row" key={index}>
-                    <label className="form-control-label text-muted col-sm-4">Stopover {index + 1}</label>
-                    <div className="col-sm-8 text-right">
-                        <PlacesAutocomplete inputProps={{value: point.value, onChange(address) {point.onChange(address, index)}}}
-                                            classNames={this.props.placesCssClasses}
-                                            onSelect={(address) => {point.onSelect(address, index);}}
-                                            onEnterKeyDown={(address) => {point.onSelect(address, index);}}
-                        />
-                        <a href="#" onClick={(e) => { e.preventDefault(); this.props.onWaypointDelete(index); }}>Delete</a>
-                    </div>
-                </div>
-            );
-        }
 
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
@@ -88,10 +72,11 @@ class TripForm extends React.Component {
                         error={errors.start_at}>Trip start time
                     </Input>
 
-                    {waypointsView}
-                    <div className="form-group text-right">
-                        <a href="#" onClick={this.props.onWaypointAdd}>Add stopover</a>
-                    </div>
+                    <Waypoints waypoints={this.props.waypoints}
+                               placesCssClasses={this.props.placesCssClasses}
+                               onWaypointDelete={this.props.onWaypointDelete}
+                               onWaypointAdd={this.props.onWaypointAdd}
+                    />
 
                     <div className="form-group">
                         <div className="text-center">

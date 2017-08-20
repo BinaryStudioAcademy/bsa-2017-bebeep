@@ -1,6 +1,6 @@
 import React from "react";
-import * as moment from 'moment';
 import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
+import TripRoute from "../helpers/TripRoute";
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap
@@ -17,7 +17,9 @@ export default class DirectionsMap extends React.Component {
         duration: null,
         start_address: null,
         end_address: null,
-        requestId: null
+        requestId: null,
+        directionRenderQueue: [],
+        directionRenderQueueIsProcessing: false
     };
 
     constructor() {
@@ -43,7 +45,16 @@ export default class DirectionsMap extends React.Component {
             return;
         }
 
-        this.renderDirection(nextProps);
+        this.state.directionRenderQueue.push(nextProps);
+        this.processDirectionRenderQueue();
+    }
+
+    processDirectionRenderQueue() {
+        if (this.state.directionRenderQueue.length <= 0 || this.state.directionRenderQueueIsProcessing) {
+            return;
+        }
+
+        this.renderDirection(this.state.directionRenderQueue.shift());
     }
 
     isWaypointsChanged(waypoints) {
@@ -70,6 +81,8 @@ export default class DirectionsMap extends React.Component {
     }
 
     renderDirection(props) {
+        this.setState({directionRenderQueueIsProcessing: true});
+
         this.DirectionsService.route({
             origin: props.from,
             destination: props.to,
@@ -77,27 +90,21 @@ export default class DirectionsMap extends React.Component {
             travelMode: google.maps.TravelMode.DRIVING,
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
-                let route = result.routes[0];
-                let start = route.legs[0];
-                let end = route.legs[route.legs.length - 1];
-                let distance = 0;
-                let duration = 0;
-
-                route.legs.forEach((leg) => {
-                    distance += leg.distance.value;
-                    duration += leg.duration.value;
-                });
+                let route = new TripRoute(result.routes[0]);
 
                 this.setState({
                     directions: result,
-                    distance: (distance / 1000).toFixed(1) + " km",
-                    duration: moment.duration(duration, 'seconds').humanize(),
-                    start_address: start.start_address,
-                    end_address: end.end_address
+                    distance: route.getDistance(),
+                    duration: route.getDuration(),
+                    start_address: route.getStartPoint().start_address,
+                    end_address: route.getEndPoint().end_address
                 });
 
-                this.props.endTime(duration);
+                this.props.endTime(route.getDurationRaw());
             }
+
+            this.setState({directionRenderQueueIsProcessing: false});
+            this.processDirectionRenderQueue();
         });
     }
 

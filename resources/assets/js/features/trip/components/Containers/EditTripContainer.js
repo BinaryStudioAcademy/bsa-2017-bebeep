@@ -53,9 +53,7 @@ class EditTripContainer extends React.Component {
                 this.onSelectStartPoint(this.state.startPoint.address);
                 this.onSelectEndPoint(this.state.endPoint.address);
 
-                setTimeout(() => {
-                    this.props.addWaypointsFromRoutes(this.state.trip.routes.data);
-                }, 10);
+                this.props.addWaypointsFromRoutes(this.state.trip.routes.data);
             })
             .catch(error => {
                 this.setState({
