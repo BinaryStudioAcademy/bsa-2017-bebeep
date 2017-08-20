@@ -1,6 +1,6 @@
 import React from "react";
 import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
-import moment from 'moment';
+import TripRoute from "../helpers/TripRoute";
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap
@@ -17,7 +17,9 @@ export default class DirectionsMap extends React.Component {
         duration: null,
         start_address: null,
         end_address: null,
-        requestId: null
+        requestId: null,
+        directionRenderQueue: [],
+        directionRenderQueueIsProcessing: false
     };
 
     constructor() {
@@ -38,32 +40,71 @@ export default class DirectionsMap extends React.Component {
             this.props.to.lng === nextProps.to.lng &&
             this.props.from.lat === nextProps.from.lat &&
             this.props.to.lng === nextProps.to.lng
+            && !this.isWaypointsChanged(nextProps.waypoints)
         ) {
             return;
         }
 
-        this.renderDirection(nextProps);
+        this.state.directionRenderQueue.push(nextProps);
+        this.processDirectionRenderQueue();
+    }
+
+    processDirectionRenderQueue() {
+        if (this.state.directionRenderQueue.length <= 0 || this.state.directionRenderQueueIsProcessing) {
+            return;
+        }
+
+        this.renderDirection(this.state.directionRenderQueue.shift());
+    }
+
+    isWaypointsChanged(waypoints) {
+        let result = false;
+
+        if (!waypoints) {
+            return result;
+        }
+
+        if (waypoints.length !== this.props.waypoints.length) {
+            return true;
+        }
+
+        this.props.waypoints.forEach((waypoint, index) => {
+            if (
+                waypoint.location.lat !== waypoints[index].location.lat ||
+                waypoint.location.lng !== waypoints[index].location.lng
+            ) {
+                result = true;
+            }
+        });
+
+        return result;
     }
 
     renderDirection(props) {
+        this.setState({directionRenderQueueIsProcessing: true});
+
         this.DirectionsService.route({
             origin: props.from,
             destination: props.to,
+            waypoints: props.waypoints || [],
             travelMode: google.maps.TravelMode.DRIVING,
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
-                let response = result.routes[0].legs[0];
+                let route = new TripRoute(result.routes[0]);
 
                 this.setState({
                     directions: result,
-                    distance: response.distance.text,
-                    duration: response.duration.text,
-                    start_address: response.start_address,
-                    end_address: response.end_address
+                    distance: route.getDistance(),
+                    duration: route.getDuration(),
+                    start_address: route.getStartPoint().start_address,
+                    end_address: route.getEndPoint().end_address
                 });
 
-                this.props.endTime(response.duration.value);
+                this.props.endTime(route.getDurationRaw());
             }
+
+            this.setState({directionRenderQueueIsProcessing: false});
+            this.processDirectionRenderQueue();
         });
     }
 
@@ -83,7 +124,6 @@ export default class DirectionsMap extends React.Component {
                             }
                             center={this.props.from}
                             directions={this.state.directions}
-                            key={moment()}
                         />
                 </div>
                 {this.state.distance  ?
