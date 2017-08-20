@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
-use \Closure;
+use Closure;
 use Illuminate\Support\Facades\App;
 
 class SetLanguage
@@ -18,8 +18,7 @@ class SetLanguage
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->header('user-language'))
-        {
+        if ($request->header('user-language')) {
             App::setLocale($request->header('user-language'));
         }
 
