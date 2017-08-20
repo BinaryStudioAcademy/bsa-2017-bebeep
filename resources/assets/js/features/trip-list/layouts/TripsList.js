@@ -6,8 +6,16 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router';
 import {securedRequest} from '../../../app/services/RequestService';
+import LangService from '../../../app/services/LangService';
+import {getTranslate} from 'react-localize-redux';
+import * as lang from '../lang/TripList.locale.json';
 
 class TripsList extends React.Component {
+
+    componentWillMount() {
+        LangService.addTranslation(lang);
+    }
+
     componentDidMount() {
         this.changeFilter();
         this.loadTrips(TripsList.getFilterName(this.props));
@@ -44,19 +52,21 @@ class TripsList extends React.Component {
     }
 
     render() {
+        const {translate} = this.props;
+
         return (
             <div>
-                <PageHeader header={'My Trips'}/>
+                <PageHeader header={translate('my_trips_header')}/>
 
                 <ul className="nav nav-pills">
                     <li className="nav-item">
                         <Link to="/trips/upcoming" className="nav-link" activeClassName="active">
-                            Upcoming
+                            {translate('upcoming')}
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/trips/past" className="nav-link" activeClassName="active">
-                            Past
+                            {translate('past')}
                         </Link>
                     </li>
                 </ul>
@@ -72,7 +82,8 @@ class TripsList extends React.Component {
 const TripsListConnected = connect(
     (state) => ({
         filter: state.tripList.filter,
-        trips: state.tripList.trips
+        trips: state.tripList.trips,
+        translate: getTranslate(state.locale)
     }),
     (dispatch) => bindActionCreators({tripsLoadSuccess, tripsFilterChanged}, dispatch)
 )(TripsList);
