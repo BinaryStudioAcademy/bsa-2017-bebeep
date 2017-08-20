@@ -19,7 +19,6 @@ use App\Criteria\Trips\DriverTripByIdCriteria;
 use App\Criteria\Trips\PastDriverTripsCriteria;
 use App\Criteria\Trips\UpcomingDriverTripsCriteria;
 
-
 class TripsService
 {
     protected $routeRepository;
@@ -82,6 +81,7 @@ class TripsService
 
     /**
      * @param User $user
+     *
      * @return mixed
      */
     public function getAll(User $user)
@@ -91,6 +91,7 @@ class TripsService
 
     /**
      * @param User $user
+     *
      * @return mixed
      */
     public function getUpcoming(User $user)
@@ -100,6 +101,7 @@ class TripsService
 
     /**
      * @param User $user
+     *
      * @return mixed
      */
     public function getPast(User $user)
@@ -110,9 +112,10 @@ class TripsService
     /**
      * @param CreateTripRequest $request
      * @param $user
+     *
      * @return Trip
      */
-    public function create(CreateTripRequest $request, $user): Trip
+    public function create(CreateTripRequest $request, $user) : Trip
     {
         $tripAttributes = [
             'price' => $request->getPrice(),
@@ -125,7 +128,12 @@ class TripsService
 
         $trip = $this->tripRepository->save(new Trip($tripAttributes));
 
-        $routes = self::getRoutesFromWaypoints($request->getFrom(), $request->getTo(), $request->getWaypoints());
+        $routes = self::getRoutesFromWaypoints(
+            $request->getFrom(),
+            $request->getTo(),
+            $request->getWaypoints()
+        );
+
         foreach ($routes as $route) {
             $trip->routes()->create($route);
         }
@@ -136,6 +144,7 @@ class TripsService
     /**
      * @param Trip $trip
      * @param User $user
+     *
      * @return mixed
      */
     public function show(Trip $trip, User $user)
@@ -151,6 +160,7 @@ class TripsService
      * @param Trip $trip
      * @param UpdateTripRequest $request
      * @param $user
+     *
      * @return mixed
      */
     public function update(Trip $trip, UpdateTripRequest $request, $user)
@@ -165,11 +175,17 @@ class TripsService
             'vehicle_id' => $request->getVehicleId(),
         ];
 
-        $result = $this->tripRepository->update($tripAttributes, $trip->id); // don't use this way of storing models. Your repository shouldn't know about arrays
+        $result = $this->tripRepository->update($tripAttributes, $trip->id);
+        // don't use this way of storing models. Your repository shouldn't know about arrays
 
         $trip->routes()->delete();
 
-        $routes = self::getRoutesFromWaypoints($request->getFrom(), $request->getTo(), $request->getWaypoints());
+        $routes = self::getRoutesFromWaypoints(
+            $request->getFrom(),
+            $request->getTo(),
+            $request->getWaypoints()
+        );
+
         foreach ($routes as $route) {
             $trip->routes()->create($route);
         }
@@ -180,6 +196,7 @@ class TripsService
     /**
      * @param Trip $trip
      * @param $user
+     *
      * @return Trip
      */
     public function delete(Trip $trip, $user)
@@ -190,9 +207,22 @@ class TripsService
         return $trip;
     }
 
+    /**
+     * @param  SearchTripRequest $request
+     *
+     * @return mixed
+     */
     public function search(SearchTripRequest $request)
     {
-        return $this->tripRepository->search($request);
+        $tripAttributes = [
+            'start_at' => $request->getStartAt(),
+            'from_lat' => $request->getFromLat(),
+            'from_lng' => $request->getFromLng(),
+            'to_lat' => $request->getToLat(),
+            'to_lng' => $request->getToLng(),
+        ];
+
+        return $this->tripRepository->search($tripAttributes);
 //        $data = [];
 //        $faker = \Faker\Factory::create();
 //        $countAllData = $request->getLimit() * 4.2;
@@ -273,12 +303,13 @@ class TripsService
 //        ];
     }
 
-    /*
-     * @param Trip $trip
-     * @param $user
+    /**
+     * @param  Trip $trip
+     * @param  User $user
+     *
      * @return Trip
      */
-    public function restore(Trip $trip, $user)
+    public function restore(Trip $trip, User $user) : Trip
     {
         $this->restoreTripValidator->validate($trip, $user);
         $this->tripRepository->restore($trip);
