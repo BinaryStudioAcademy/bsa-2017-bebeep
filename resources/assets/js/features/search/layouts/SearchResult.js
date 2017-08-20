@@ -1,11 +1,12 @@
 import React from 'react';
-import PageHeader from '../../../app/components/PageHeader';
+
+import PageHeader from 'app/components/PageHeader';
 import Result from '../components/Result/Result';
 
 class SearchResult extends React.Component {
+
     constructor() {
         super();
-
     }
 
     render() {

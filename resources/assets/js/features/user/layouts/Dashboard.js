@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import PageHeader from '../../../app/components/PageHeader';
-import { getAuthUser } from '../../../app/services/AuthService';
+import PageHeader from 'app/components/PageHeader';
+import { getAuthUser } from 'app/services/AuthService';
 
-class Dashboard extends Component {
+class Dashboard extends React.Component {
 
     render() {
         const authUser = getAuthUser();

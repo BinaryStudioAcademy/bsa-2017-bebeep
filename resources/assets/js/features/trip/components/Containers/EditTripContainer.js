@@ -1,13 +1,19 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import { geocodeByAddress } from 'react-places-autocomplete';
+
 import TripForm from '../Forms/TripForm';
-import DirectionsMap from "../../../../app/components/DirectionsMap";
-import Validator from '../../../../app/services/Validator';
-import EditTripService from '../../services/EditTripService';
-import { createTripRules, getStartAndEndTime } from '../../../../app/services/TripService';
-import {convertWaypointsToGoogleWaypoints, getCoordinatesFromPlace} from '../../../../app/services/GoogleMapService';
-import {EditableWaypoints} from "./EditableWaypoints";
+import { EditableWaypoints } from './EditableWaypoints';
+import DirectionsMap from 'app/components/DirectionsMap';
+
+import Validator from 'app/services/Validator';
+import EditTripService from 'features/trip/services/EditTripService';
+import { createTripRules, getStartAndEndTime } from 'app/services/TripService';
+import {
+    convertWaypointsToGoogleWaypoints,
+    getCoordinatesFromPlace
+} from 'app/services/GoogleMapService';
+
 
 class EditTripContainer extends React.Component {
     constructor(props) {

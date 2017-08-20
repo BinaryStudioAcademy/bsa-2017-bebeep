@@ -1,9 +1,9 @@
 import axios from 'axios';
 import * as actions from './actionTypes';
 
-import { UserValidator } from '../../app/services/UserService';
-import { simpleRequest, securedRequest } from '../../app/services/RequestService';
-import { getAuthToken, initSession, destroySession } from '../../app/services/AuthService';
+import { UserValidator } from 'app/services/UserService';
+import { simpleRequest, securedRequest } from 'app/services/RequestService';
+import { getAuthToken, initSession, destroySession } from 'app/services/AuthService';
 
 
 export const registerSuccess = data => ({

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import PageHeader from '../../../../app/components/PageHeader';
-import GeneralForm from '../../components/Profile/GeneralForm';
+import PageHeader from 'app/components/PageHeader';
+import GeneralForm from 'features/user/components/Profile/GeneralForm';
 
-class ProfileGeneral extends Component {
+class ProfileGeneral extends React.Component {
 
     render() {
         return (

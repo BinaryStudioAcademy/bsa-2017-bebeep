@@ -1,7 +1,8 @@
 import React from 'react';
-import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import Waypoints from "./Waypoints";
+
+import Input from 'app/components/Input';
 
 class TripForm extends React.Component {
     render() {

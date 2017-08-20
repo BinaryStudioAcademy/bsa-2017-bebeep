@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import MainHeader from './components/MainHeader';
 
@@ -6,7 +6,7 @@ import './bootstrap/bootstrap.scss';
 import './bootstrap/font-awesome.scss';
 import './styles/app.scss';
 
-class App extends Component {
+class App extends React.Component {
 
     render() {
         return (
