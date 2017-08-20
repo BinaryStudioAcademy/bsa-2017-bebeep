@@ -2,17 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Http\Requests\SearchTripRequest;
+use Carbon\Carbon;
 use App\Models\Trip;
 use Illuminate\Routing\Route;
-use Prettus\Repository\Eloquent\BaseRepository;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use App\Http\Requests\SearchTripRequest;
+use Prettus\Repository\Eloquent\BaseRepository;
 
 class TripRepository extends BaseRepository
 {
-    public $from_lat;
-    public $from_lng;
     /**
      * @return string
      */
@@ -54,23 +52,43 @@ class TripRepository extends BaseRepository
         return $trip;
     }
 
-    public function search(SearchTripRequest $request){
+    public function search(array $attributes)
+    {
+        [
+            'start_at' => $startAt,
+            'from_lat' => $fromLat,
+            'from_lng' => $fromLng,
+            'to_lat' => $toLat,
+            'to_lng' => $toLng,
+        ] = $attributes;
 
-        $this->from_lat = $request->lat;
-        $this->from_lng = $request->lng;
+        /*print_r($attributes);
+        exit;*/
+
+        $haverSinus = $this->haverSinus($fromLat, $fromLng, $toLat, $toLng);
 
         $trips = DB::table('trips')
-            ->where('start_at',Carbon::createFromTimestampUTC($request->start_at))
+            ->where('start_at', '>=', $startAt)
             ->join('routes', 'trips.id', '=', 'routes.trip_id')
-            ->whereExists(function ($query) {
-                $query->select(DB::raw("round(6371 * 2 * ASIN(SQRT(POWER(SIN((`from_lat` - $this->from_lat ) *
-                                        pi()/180 / 2), 2) + COS(`from_lat` * pi()/180) * COS($this->from_lat * pi() / 180) *
-                                        POWER(SIN((`from_lng` - ($this->from_lng)) * pi()/180 / 2), 2))),1)  
-                                        as distance from routes"))
-                      ->having('distance','>',' 10');
+            ->whereExists(function ($query) use ($haverSinus) {
+                $query->select(DB::raw( $haverSinus ));
             })
             ->get();
 
-        return $trips ;
+        return $trips;
+    }
+
+    private function haverSinus(float $fromLat, float $fromLng, float $toLat, float $toLng)
+    {
+        $tableName = 'routes';
+        $earthRadius = 6371;
+        $distanceMax = 10;
+
+        return "
+CEIL(2 * $earthRadius * ASIN(SQRT(
+    POW(SIN((RADIANS($toLat - $fromLat)) / 2), 2) +
+    COS(RADIANS($fromLat)) * COS(RADIANS($toLat)) *
+    POW(SIN((RADIANS($toLng - $fromLng)) / 2), 2)
+))) as 'distance' FROM $tableName HAVING 'distance' < $distanceMax";
     }
 }
