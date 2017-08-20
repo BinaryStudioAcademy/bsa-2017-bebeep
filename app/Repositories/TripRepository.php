@@ -11,8 +11,6 @@ use Carbon\Carbon;
 
 class TripRepository extends BaseRepository
 {
-    public $from_lat;
-    public $from_lng;
     /**
      * @return string
      */
@@ -56,21 +54,34 @@ class TripRepository extends BaseRepository
 
     public function search(SearchTripRequest $request){
 
-        $this->from_lat = $request->lat;
-        $this->from_lng = $request->lng;
+        $sql_start_point = $this->haversinusSql("from_lat",
+                                                "from_lng",
+                                                $request->from_lat,
+                                                $request->from_lng,
+                                                "distance_from");
 
-        $trips = DB::table('trips')
-            ->where('start_at',Carbon::createFromTimestampUTC($request->start_at))
-            ->join('routes', 'trips.id', '=', 'routes.trip_id')
-            ->whereExists(function ($query) {
-                $query->select(DB::raw("round(6371 * 2 * ASIN(SQRT(POWER(SIN((`from_lat` - $this->from_lat ) *
-                                        pi()/180 / 2), 2) + COS(`from_lat` * pi()/180) * COS($this->from_lat * pi() / 180) *
-                                        POWER(SIN((`from_lng` - ($this->from_lng)) * pi()/180 / 2), 2))),1)  
-                                        as distance from routes"))
-                      ->having('distance','>',' 10');
-            })
-            ->get();
+        $sql_end_point = $this->haversinusSql(  "to_lat",
+                                                "to_lng",
+                                                $request->to_lat,
+                                                $request->to_lng,
+                                                "distance_to");
 
-        return $trips ;
+        $time = Carbon::createFromTimestampUTC($request->start_at);
+
+        $sql = "SELECT *, $sql_start_point, $sql_end_point 
+                FROM trips
+                JOIN routes on trips.id = routes.trip_id
+                HAVING start_at >=  \"$time\" AND distance_from < 10 AND distance_to> 10";
+
+        return DB::select($sql);
+    }
+
+    private function haversinusSql($start_lat, $start_lng, $end_lat, $end_lng, $column_name){
+        $sql = "round(6371 * 2 * ASIN(SQRT(POWER(SIN((`$start_lat` - $end_lat ) *
+                pi()/180 / 2), 2) + COS(`$start_lat` * pi()/180) * COS($end_lat * pi() / 180) *
+                POWER(SIN((`$start_lng` - ($end_lng)) * pi()/180 / 2), 2))),1)  
+                as $column_name";
+
+        return $sql;
     }
 }
