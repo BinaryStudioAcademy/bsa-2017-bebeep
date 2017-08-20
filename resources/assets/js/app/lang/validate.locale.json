@@ -1,17 +1,17 @@
 {
   "validate": {
-    "last_name_is_required": ["Last name is required", "Прізвище обов'язкове поле", "Фамилия обязятаельное поле"],
-    "first_name_is_required": ["First name is required", "Ім'я обов'язкове поле", "Имя обязательное поле"],
+    "last_name_is_required": ["Last name is required", "Прізвище - обов'язкове поле", "Фамилия - обязательное поле"],
+    "first_name_is_required": ["First name is required", "Ім'я - обов'язкове поле", "Имя - обязательное поле"],
     "phone_is_required_and_must_contain_numbers": [
       "Phone is required, and must contain digits not more 15",
-      "Телефон обов'язкове поле, та має містити не більше 15 цифр",
-      "Телефон обязательное поле, и должен содержать не более 15 цифр"
+      "Телефон - обов'язкове поле, та має містити не більше 15 цифр",
+      "Телефон - обязательное поле, и должен содержать не более 15 цифр"
     ],
-    "not_valid_email": ["Email is incorrect", "Ел. адреса ведена некоректно", "Эл. адрес введен некорректно"],
+    "not_valid_email": ["Email is incorrect", "Ел. адреса введена некоректно", "Эл. адрес введен некорректно"],
     "choose_role": ["Choose your role", "Виберіть роль", "Выберите роль"],
     "password_must_be_more_six_symbols": [
       "Password must be more or equal 6 characters",
-      "Пароль має бути не меньше 6 символів",
+      "Пароль має бути не менше 6 символів",
       "Пароль должен быть не менее 6 символов"
     ],
     "password_not_confirm": [
@@ -21,18 +21,18 @@
     ],
     "birth_date_is_invalid": ["Birth date is invalid date", "Дата народження введена некоректно", "Дата рождения введена некорректно"],
     "about_must_be_less_500_characters": [
-      "About us must be less or equal 500 characters",
-      "Поле \"Про себе\" повинно містити не більш 500 символів",
-      "Поле \"Обо мне\" должно содержать не более 500 символов"
+      "About me must be less or equal 500 characters",
+      "Поле \"Про себе\" повинно містити не більше 500 символів",
+      "Поле \"О себе\" должно содержать не более 500 символов"
     ],
-    "token_is_empty": ["Token is empty", "Токен пустий", "Токен пустой"],
+    "token_is_empty": ["Token is empty", "Токен порожній", "Токен пустой"],
     "already_have_password": [
       "You already have this password, enter another one.",
       "Ви вже маєте такий пароль, введіть інший.",
       "Вы уже имеете такой пароль, введите другой."
     ],
     "email_invalid": ["Email is invalid", "Ел. адреса не вірна", "Эл. адрес не верный"],
-    "token_invalid": ["Token is invalid", "Токен не вірний", "Токен не верен"],
+    "token_invalid": ["Token is invalid", "Токен недійсний", "Недопустимый токен"],
     "please_select_leaving_from_point": [
       "Please select leaving from point",
       "Будь ласка, оберіть адресу відправлення",

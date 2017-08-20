@@ -8,9 +8,9 @@ class NotFound extends Component {
         const {translate} = this.props;
         return (
             <div className="container text-center">
-                <PageHeader header={translate('this_is_a_demo_404_page')} />
+                <PageHeader header={translate('page_not_found')} />
                 <hr />
-                <Link to="/">{translate('back_to_home_view')}</Link>
+                <Link to="/">{translate('go_to_home_page')}</Link>
             </div>
         )
     }
