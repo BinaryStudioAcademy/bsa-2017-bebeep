@@ -4,7 +4,7 @@ import moment from 'moment';
 const LangService = (() => {
     let _store = null;
     let storage =  localStorage;
-    const languages = ['en', 'uk_UA', 'ru'];
+    const languages = ['en', 'uk', 'ru'];
     return {
         init(store) {
             _store = store;
@@ -17,7 +17,7 @@ const LangService = (() => {
         getName(code) {
             return {
                 'en': 'en',
-                'uk_UA': 'ua',
+                'uk': 'ua',
                 'ru': 'ru'
             }[code];
         },
@@ -27,7 +27,17 @@ const LangService = (() => {
             _store.dispatch(Loc.setActiveLanguage(code))
         },
         getActiveLanguage() {
-            return (languages.indexOf(storage['locale']) >=0 && storage['locale']) || 'en';
+            return (languages.indexOf(storage['locale']) >=0 && storage['locale'])
+                || this.getNavigatorLanguage()
+                || 'en';
+        },
+        getNavigatorLanguage() {
+            const userLang = ((navigator.languages && navigator.languages.length && navigator.languages[0])
+                || navigator.userLanguage
+                || navigator.language
+                || '').toLowerCase().substr(0, 2);
+
+            return (languages.indexOf(userLang) >=0 && userLang) || '';
         },
         addTranslation(localeData) {
             _store.dispatch(Loc.addTranslation(localeData))
