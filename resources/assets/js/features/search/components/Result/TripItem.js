@@ -1,8 +1,10 @@
 import React from 'react';
-import {Link} from 'react-router';
-import '../../styles/search-trip-item.scss';
+import { Link } from 'react-router';
+
+import 'features/search/styles/search-trip-item.scss';
 
 class TripItem extends React.Component {
+
     render() {
         const {trip} = this.props;
         return (

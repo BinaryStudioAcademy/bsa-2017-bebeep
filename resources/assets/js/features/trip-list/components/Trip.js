@@ -1,18 +1,19 @@
 import React from 'react';
-import '../styles/trip-card.scss';
 import moment from 'moment';
-import DirectionsMap from "../../../app/components/DirectionsMap";
-import {Link} from 'react-router';
-import {securedRequest} from '../../../app/services/RequestService';
+import { Link } from 'react-router';
+
+import DirectionsMap from "app/components/DirectionsMap";
+import { securedRequest } from 'app/services/RequestService';
+import { getWaypointsFromRoutes } from 'app/services/GoogleMapService';
+
+import '../styles/trip-card.scss';
 
 class Trip extends React.Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
-            startDate: this.getStartDate(),
-            startPlace: this.getStartPlace(),
-            endPlace: this.getEndPlace(),
             deletable: this.props.deletable,
             editable: this.props.editable,
             isDeleted: false
@@ -60,14 +61,20 @@ class Trip extends React.Component {
     }
 
     render() {
+        const startPlace = this.getStartPlace();
+        const endPlace = this.getEndPlace();
+        const startDate = this.getStartDate();
+        const waypoints = getWaypointsFromRoutes(this.props.trip.routes);
+
         return (
             <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
-                {this.state.startPlace ? (
-                    <DirectionsMap title={this.state.startDate}
+                {startPlace ? (
+                    <DirectionsMap title={startDate}
                                    needDirection="1"
                                    endTime={() => {}}
-                                   from={this.state.startPlace.geometry.location}
-                                   to={this.state.endPlace.geometry.location}
+                                   from={startPlace.geometry.location}
+                                   to={endPlace.geometry.location}
+                                   waypoints={waypoints}
                     >
                         <div className="card-block">
                             <div className="card-text">

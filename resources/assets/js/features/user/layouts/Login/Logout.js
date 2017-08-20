@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import PageHeader from '../../../../app/components/PageHeader';
-import Logout from '../../components/Login/Logout';
+import PageHeader from 'app/components/PageHeader';
+import Logout from 'features/user/components/Login/Logout';
 
-import '../../styles/user.scss';
+import 'features/user/styles/user.scss';
 
-class LogoutLayout extends Component {
+class LogoutLayout extends React.Component {
 
     render() {
         return (

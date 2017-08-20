@@ -1,7 +1,9 @@
 import React from 'react';
-import '../../styles/search-sort.scss';
+
+import 'features/search/styles/search-sort.scss';
 
 class SortPanel extends React.Component {
+
     render() {
         const { sort, order, onChange } = this.props;
         return (

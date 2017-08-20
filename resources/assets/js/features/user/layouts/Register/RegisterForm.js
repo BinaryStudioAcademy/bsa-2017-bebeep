@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import Form from '../../components/Register/Form';
-import PageHeader from '../../../../app/components/PageHeader';
+import PageHeader from 'app/components/PageHeader';
+import Form from 'features/user/components/Register/Form';
 
-class RegisterForm extends Component {
+class RegisterForm extends React.Component {
 
     render() {
         return (

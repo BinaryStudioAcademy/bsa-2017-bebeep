@@ -1,14 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import DatePicker from 'react-datepicker';
-import Slider, {Range} from 'rc-slider';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { setUrl, setFilter, getFilter} from '../../services/SearchService';
 import { withRouter } from 'react-router';
-import '../../styles/filter.scss';
+import DatePicker from 'react-datepicker';
+import Slider, { Range } from 'rc-slider';
+
+import { setUrl, setFilter, getFilter} from 'features/search/services/SearchService';
+
+import 'features/search/styles/filter.scss';
 
 class Filter extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {

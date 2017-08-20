@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link, IndexLink } from 'react-router';
 
-class ForGuestUser extends Component {
+class ForGuestUser extends React.Component {
 
     render() {
         return (

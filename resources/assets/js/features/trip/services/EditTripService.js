@@ -1,5 +1,6 @@
-import { securedRequest } from '../../../app/services/RequestService';
 import moment from 'moment';
+
+import { securedRequest } from 'app/services/RequestService';
 
 const EditTripService = {
     getTrip(id) {
@@ -10,7 +11,10 @@ const EditTripService = {
             );
     },
     transformData(response) {
-        response.start_at = moment.utc(response.start_at +`0000`, "YYYY-MM-DD HH:mm:ss Z").local().format("YYYY-MM-DDThh:mm");
+        response.start_at = moment.utc(
+            response.start_at +`0000`, "YYYY-MM-DD HH:mm:ss Z"
+        ).local().format("YYYY-MM-DDThh:mm");
+
         response.price = parseInt(response.price);
         return response;
     },

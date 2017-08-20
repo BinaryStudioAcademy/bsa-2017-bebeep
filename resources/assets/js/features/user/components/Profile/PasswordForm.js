@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Input from '../../../../app/components/Input';
+import Input from 'app/components/Input';
 import StatusModal from '../_Modals/StatusModal';
 
-import UserService from '../../services/UserService';
-import { PasswordUpdateValidate } from '../../../../app/services/UserService';
+import UserService from 'features/user/services/UserService';
+import { PasswordUpdateValidate } from 'app/services/UserService';
 
 const MODAL_MSG = {
     success: 'User profile password successfully updated!',
     error: 'Failed to update the user profile password! Check the validation!',
 };
 
-class PasswordForm extends Component {
+class PasswordForm extends React.Component {
 
     constructor(props) {
         super(props);

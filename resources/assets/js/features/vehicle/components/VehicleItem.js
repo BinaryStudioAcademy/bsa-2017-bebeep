@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-class VehicleItem extends Component {
+class VehicleItem extends React.Component {
 
     render() {
         const vehicle = this.props.vehicle;

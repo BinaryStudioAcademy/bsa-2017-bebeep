@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link, IndexLink } from 'react-router';
 
-import { isAuthorized } from '../../services/AuthService';
+import { isAuthorized } from 'app/services/AuthService';
 
 import ForAuthUser from './ForAuthUser';
 import ForGuestUser from './ForGuestUser';
 
-class MainNavigation extends Component {
+class MainNavigation extends React.Component {
 
     constructor(props) {
         super(props);
