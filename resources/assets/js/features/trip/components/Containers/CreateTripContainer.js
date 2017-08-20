@@ -1,19 +1,28 @@
 import React from 'react';
-import TripForm from '../Forms/TripForm';
-import DirectionsMap from "../../../../app/components/DirectionsMap";
-import {geocodeByAddress} from 'react-places-autocomplete';
-import Validator from '../../../../app/services/Validator';
-import {securedRequest} from '../../../../app/services/RequestService';
-import {createTripRules, getStartAndEndTime} from '../../../../app/services/TripService';
-import {getCoordinatesFromPlace, convertWaypointsToGoogleWaypoints} from '../../../../app/services/GoogleMapService';
-import {tripCreateSuccess} from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
-import '../../styles/create_trip.scss';
-import {EditableWaypoints} from "./EditableWaypoints";
+import { geocodeByAddress } from 'react-places-autocomplete';
+
+import TripForm from '../Forms/TripForm';
+import { EditableWaypoints } from './EditableWaypoints';
+import DirectionsMap from 'app/components/DirectionsMap';
+
+import Validator from 'app/services/Validator';
+import { securedRequest } from 'app/services/RequestService';
+import { createTripRules, getStartAndEndTime } from 'app/services/TripService';
+import {
+    getCoordinatesFromPlace,
+    convertWaypointsToGoogleWaypoints
+} from 'app/services/GoogleMapService';
+
+import { tripCreateSuccess } from 'features/trip/actions';
+
+import 'features/trip/styles/create_trip.scss';
+
 
 class CreateTripContainer extends React.Component {
+
     constructor(props) {
         super(props);
 

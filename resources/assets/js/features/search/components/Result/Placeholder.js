@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../styles/search-placeholder.scss';
+
+import 'features/search/styles/search-placeholder.scss';
 
 class Placeholder extends React.Component {
 
@@ -14,7 +15,7 @@ class Placeholder extends React.Component {
         );
     }
 }
- 
+
 Placeholder.PropTypes = {
     show: PropTypes.bool.isRequired
 };

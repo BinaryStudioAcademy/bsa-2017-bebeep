@@ -1,6 +1,8 @@
-import React from "react";
-import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
-import TripRoute from "../helpers/TripRoute";
+import React from 'react';
+import { withGoogleMap, GoogleMap, DirectionsRenderer } from 'react-google-maps';
+
+import TripRoute from '../helpers/TripRoute';
+
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap

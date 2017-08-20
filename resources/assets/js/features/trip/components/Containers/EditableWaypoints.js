@@ -1,6 +1,7 @@
 import React from 'react';
-import {geocodeByAddress} from 'react-places-autocomplete';
-import {getWaypointsFromRoutes} from "../../../../app/services/GoogleMapService";
+import { geocodeByAddress } from 'react-places-autocomplete';
+
+import { getWaypointsFromRoutes } from 'app/services/GoogleMapService';
 
 export const EditableWaypoints = ComposedComponent => class extends React.Component {
     constructor(props) {
