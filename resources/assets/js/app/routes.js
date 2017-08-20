@@ -19,10 +19,12 @@ import {
     ProfilePassword
 } from '../features/user/layouts/Profile';
 
-import Vehicles from '../features/vehicle/layouts/Vehicles';
+/*import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import VehicleForm from '../features/vehicle/layouts/VehicleForm';
-import VehicleEditForm from '../features/vehicle/layouts/VehicleUpdate';
+import VehicleEditForm from '../features/vehicle/layouts/VehicleUpdate';*/
+
+import CreateVehicle from '../features/car/layouts/CreateVehicle';
 
 import CreateTrip from '../features/trip/layouts/CreateTrip';
 
@@ -42,17 +44,17 @@ export default (
         <Route onEnter={ requireAuth }>
 
             {/* Vehicle creating and show details */}
-            <Route path="mycars">
+            {/*<Route path="mycars">
                 <IndexRoute component={ Vehicles } />
                 <Route path="create" component={ VehicleForm } />
                 <Route path="vehicle/:id" component={ VehicleDetails } />
                 <Route path="vehicle/:id/edit" component={ VehicleEditForm } />
-            </Route>
+            </Route>*/}
 
             <Route path="vehicles">
-                <IndexRoute component={ Vehicles } />
-                <Route path="create" component={ Vehicles } />
-                <Route path=":id" component={ VehicleDetails } />
+                {/*<IndexRoute component={ Vehicles } />*/}
+                <Route path="create" component={ CreateVehicle } />
+                {/*<Route path=":id" component={ VehicleDetails } />*/}
             </Route>
 
             {/* Trips - upcoming and past */}
