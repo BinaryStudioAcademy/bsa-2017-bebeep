@@ -31,12 +31,13 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
      */
     public function rules()
     {
-        $minStartAt = Carbon::now()->addSeconds(Trip::MIN_DELAY_TO_START_DATE)->timestamp;
+        //$minStartAt = Carbon::now()->timestamp;
 
         return [
             'fc' => 'required|string',
             'tc' => 'required|string',
-            'start_at' => 'required|integer|greater_than_date:' . $minStartAt,
+            //'start_at' => 'required|integer|greater_than_date:' . $minStartAt,
+            'start_at' => 'required|integer',
         ];
     }
 
@@ -83,9 +84,12 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     /**
      * {@inheritdoc}
      */
-    public function getStartAt() : Carbon
+    public function getStartAt() : string
     {
-        return Carbon::createFromTimestampUTC($this->get('start_at'));
+        $startAt = $this->get('start_at');
+        // For testing
+        //$startAt = Carbon::createFromFormat('Y-m-d', '2017-08-23')->toDateString();
+        return Carbon::createFromTimestampUTC($startAt)->toDateString();
     }
 
     /**

@@ -2,8 +2,6 @@
 
 namespace App\Services\Requests;
 
-use Carbon\Carbon;
-
 interface SearchTripRequest
 {
     /**
@@ -35,11 +33,11 @@ interface SearchTripRequest
     public function getToLng() : float;
 
     /**
-     * Timestamp of start trip.
+     * Date of start trip.
      *
-     * @return int
+     * @return Carbon
      */
-    public function getStartAt() : Carbon;
+    public function getStartAt() : string;
 
     /**
      * Limit items of page.
