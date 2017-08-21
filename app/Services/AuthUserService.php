@@ -55,11 +55,11 @@ class AuthUserService
         $user = $this->userRepository->getUserByEmail($request->getEmail());
 
         if (is_null($user)) {
-            throw new UserNotFoundException('User not register');
+            throw new UserNotFoundException(__('Services/AuthUserService.user_not_register'));
         }
 
         if (! $user->isVerified()) {
-            throw new UserNotVerifiedException('User not verified');
+            throw new UserNotVerifiedException(__('Services/AuthUserService.user_not_verified'));
         }
 
         $this->setCustomClaims($user);
@@ -68,10 +68,10 @@ class AuthUserService
             $token = JWTAuth::attempt($credentials, $this->getCustomClaims());
 
             if (! $token) {
-                throw new InvalidCredentialsException('Invalid credentials');
+                throw new InvalidCredentialsException(__('Services/AuthUserService.invalid_credentials'));
             }
         } catch (JWTException $e) {
-            throw new CreateTokenException('Could not create token');
+            throw new CreateTokenException(__('Services/AuthUserService.could_not_create_token'));
         }
 
         return $token;

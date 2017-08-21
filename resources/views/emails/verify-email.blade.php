@@ -1,12 +1,11 @@
 @component('mail::message')
-# Hi
+# {{ __("email/verify.hi")  }}
 
-Please, verify your E-mail:
+{{ __("email/verify.please_verify_email")  }}:
 
 @component('mail::button', ['url' => url('/verification?email=' . $user->email . '&token=' . $user->verification_token)])
-    Verify
+    {{ __("email/verify.verify")  }}
 @endcomponent
 
-Thanks,<br>
-{{ config('app.name') }}
+{!! __("email/verify.thanks", ["name" => config('app.name')]) !!}
 @endcomponent

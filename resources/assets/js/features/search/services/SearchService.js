@@ -27,13 +27,11 @@ export const search = (
 export const setFilter = (filter, params = {}) => {
     let newParams = {};
     for (let field in filter) {
-        if (filter[field]) {
-            if (filter[field] instanceof Array) {
-                newParams[`filter[${field}][min]`] = filter[field][0];
-                newParams[`filter[${field}][max]`] = filter[field][1];
-            } else {
-                newParams[`filter[${field}]`] = filter[field];
-            }
+        if (filter[field] instanceof Array) {
+            newParams[`filter[${field}][min]`] = filter[field][0];
+            newParams[`filter[${field}][max]`] = filter[field][1];
+        } else {
+            newParams[`filter[${field}]`] = filter[field];
         }
     }
     return Object.assign(params, newParams);
@@ -52,8 +50,8 @@ export const getFilter = () => {
     if (+query["filter[time][min]"] >= 0 && +query["filter[time][max]"] > 0) {
         filter['time'] = [+query["filter[time][min]"], +query["filter[time][max]"]];
     }
-    if (+query["filter[date"] > 0) {
-        filter['date'] = +query["filter[date"];
+    if (+query["filter[date]"] > 0) {
+        filter['date'] = +query["filter[date]"];
     }
     return filter;
 };

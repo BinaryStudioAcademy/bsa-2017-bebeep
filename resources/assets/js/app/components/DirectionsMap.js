@@ -1,6 +1,9 @@
-import React from 'react';
-import { withGoogleMap, GoogleMap, DirectionsRenderer } from 'react-google-maps';
-
+import React from "react";
+import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
+import {getTranslate} from "react-localize-redux";
+import {connect} from "react-redux";
+import LangeService from '../services/LangService';
+import moment from 'moment';
 import TripRoute from '../helpers/TripRoute';
 
 
@@ -12,7 +15,7 @@ const GoogleMapContainer = withGoogleMap(props => (
     </GoogleMap>
 ));
 
-export default class DirectionsMap extends React.Component {
+class DirectionsMap extends React.Component {
     state = {
         directions: null,
         distance: null,
@@ -24,10 +27,12 @@ export default class DirectionsMap extends React.Component {
         directionRenderQueueIsProcessing: false
     };
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.DirectionsService = new google.maps.DirectionsService();
+
+        LangeService.addTranslation(require('../lang/directionsmap.locale.json'));
     }
 
     componentWillMount() {
@@ -111,6 +116,7 @@ export default class DirectionsMap extends React.Component {
     }
 
     render() {
+        const {translate} = this.props;
         return (
             <div className="card">
                 <div className="card-header">
@@ -134,11 +140,11 @@ export default class DirectionsMap extends React.Component {
                 {this.state.distance  ?
                     (
                         <div className="card-footer">
-                            <h6>Trip info</h6>
-                            <span className="text-muted">Start point address: </span>{this.state.start_address}<br/>
-                            <span className="text-muted">End point address: </span>{this.state.end_address}<br/>
-                            <span className="text-muted">Distance: </span>{this.state.distance}<br/>
-                            <span className="text-muted">Duration: </span>{this.state.duration}
+                            <h6>{translate('directionsmap.trip_info')}</h6>
+                            <span className="text-muted">{translate('directionsmap.start_point_address')}: </span>{this.state.start_address}<br/>
+                            <span className="text-muted">{translate('directionsmap.end_point_address')}: </span>{this.state.end_address}<br/>
+                            <span className="text-muted">{translate('directionsmap.distance')}: </span>{this.state.distance}<br/>
+                            <span className="text-muted">{translate('directionsmap.duration')}: </span>{this.state.duration}
                         </div>
                     ) : (
                             <div>&nbsp;</div>
@@ -149,3 +155,9 @@ export default class DirectionsMap extends React.Component {
         );
     }
 }
+
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale)
+    })
+)(DirectionsMap);
