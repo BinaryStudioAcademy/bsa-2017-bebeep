@@ -94,6 +94,7 @@ Route::group([
 });
 
 Route::get('v1/trips/search', ['as' => 'search', 'uses' => 'TripsController@search']);
+Route::get('v1/trips/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
 
 Route::post('v1/password-resets', [
     'middleware' => 'jwt.guest',
@@ -106,5 +107,3 @@ Route::put('v1/password-resets', [
     'as' => 'password.reset',
     'uses' => 'Auth\PasswordResetsController@reset',
 ]);
-
-Route::get('v1/trips/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
