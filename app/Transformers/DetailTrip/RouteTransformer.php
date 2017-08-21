@@ -2,26 +2,18 @@
 
 namespace App\Transformers\DetailTrip;
 
-use App\Models\Route;
+use App\Services\Result\RouteDetail;
 use League\Fractal\TransformerAbstract;
-use App\Services\Contracts\RouteService;
 
 class RouteTransformer extends TransformerAbstract
 {
-    protected $routeService;
-
-    public function __construct(RouteService $routeService)
-    {
-        $this->routeService = $routeService;
-    }
-
     /**
      * A Fractal transformer.
      *
-     * @param Route $route
+     * @param RouteDetail $route
      * @return array
      */
-    public function transform(Route $route)
+    public function transform(RouteDetail $route)
     {
         return [
             'id' => $route->id,
@@ -37,7 +29,7 @@ class RouteTransformer extends TransformerAbstract
                 'short_address' => $route->to['address_components'][0]['short_name'],
                 'address' => $route->to['formatted_address'],
             ],
-            'busy_seats' => $this->routeService->countBusySeats($route),
+            'busy_seats' => $route->busySeats,
         ];
     }
 }

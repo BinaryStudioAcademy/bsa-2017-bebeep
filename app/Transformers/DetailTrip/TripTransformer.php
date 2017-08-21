@@ -3,6 +3,7 @@
 namespace App\Transformers\DetailTrip;
 
 use App\Models\Trip;
+use App\Services\Result\TripDetail;
 use League\Fractal\TransformerAbstract;
 
 class TripTransformer extends TransformerAbstract
@@ -19,7 +20,7 @@ class TripTransformer extends TransformerAbstract
      * @param Trip $trip
      * @return array
      */
-    public function transform(Trip $trip): array
+    public function transform(TripDetail $trip): array
     {
         return [
             'trip' => [
@@ -32,17 +33,17 @@ class TripTransformer extends TransformerAbstract
         ];
     }
 
-    public function includeRoutes(Trip $trip)
+    public function includeRoutes(TripDetail $trip)
     {
-        return $this->collection($trip->routes, app()->make(RouteTransformer::class));
+        return $this->collection($trip->routes, new RouteTransformer());
     }
 
-    public function includeDriver(Trip $trip)
+    public function includeDriver(TripDetail $trip)
     {
         return $this->item($trip->user, new UserTransformer());
     }
 
-    public function includeVehicle(Trip $trip)
+    public function includeVehicle(TripDetail $trip)
     {
         return $this->item($trip->vehicle, new VehicleTransformer());
     }
