@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trip;
+use App\Http\Requests\{
+    CreateTripRequest,
+    UpdateTripRequest,
+    SearchTripRequest,
+    GetDriverTripRequest
+};
 use App\Services\TripsService;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Transformers\TripTransformer;
-use App\Http\Requests\CreateTripRequest;
-use App\Http\Requests\SearchTripRequest;
-use App\Http\Requests\UpdateTripRequest;
-use App\Http\Requests\GetDriverTripRequest;
 use App\Exceptions\Trip\UserCantEditTripException;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
@@ -23,6 +24,7 @@ class TripsController extends Controller
 
     /**
      * TripsController constructor.
+     *
      * @param TripsService $tripsService
      */
     public function __construct(TripsService $tripsService)
@@ -62,6 +64,7 @@ class TripsController extends Controller
 
     /**
      * @param CreateTripRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(CreateTripRequest $request)
@@ -76,11 +79,14 @@ class TripsController extends Controller
      *
      * @param Trip $trip
      * @param GetDriverTripRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Trip $trip, GetDriverTripRequest $request)
     {
-        return fractal()->item($trip, new TripTransformer())->parseIncludes(['vehicle', 'routes'])->respond();
+        return fractal()->item($trip, new TripTransformer())
+            ->parseIncludes(['vehicle', 'routes'])
+            ->respond();
     }
 
     /**
@@ -88,6 +94,7 @@ class TripsController extends Controller
      *
      * @param $trip
      * @param UpdateTripRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Trip $trip, UpdateTripRequest $request)
@@ -103,6 +110,7 @@ class TripsController extends Controller
 
     /**
      * @param Trip $trip
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(Trip $trip)
@@ -117,9 +125,11 @@ class TripsController extends Controller
     }
 
     /**
+     * Search trips.
+     *
      * @param SearchTripRequest $request
      *
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function search(SearchTripRequest $request)
     {
@@ -130,6 +140,7 @@ class TripsController extends Controller
 
     /**
      * @param $tripId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function restore($tripId)
