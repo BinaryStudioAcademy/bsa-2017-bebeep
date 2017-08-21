@@ -1,10 +1,14 @@
 import * as Loc from 'react-localize-redux';
 import moment from 'moment';
 
+export const LANG_UA = 'uk';
+export const LANG_EN = 'en';
+export const LANG_RU = 'ru';
+
 const LangService = (() => {
     let _store = null;
     let storage =  localStorage;
-    const languages = ['en', 'uk', 'ru'];
+    const languages = [LANG_EN, LANG_UA, LANG_RU];
     return {
         init(store) {
             _store = store;
@@ -16,9 +20,9 @@ const LangService = (() => {
         },
         getName(code) {
             return {
-                'en': 'en',
-                'uk': 'ua',
-                'ru': 'ru'
+                [LANG_EN]: 'en',
+                [LANG_UA]: 'ua',
+                [LANG_RU]: 'ru'
             }[code];
         },
         setActiveLanguage(code) {
@@ -29,7 +33,7 @@ const LangService = (() => {
         getActiveLanguage() {
             return (languages.indexOf(storage['locale']) >=0 && storage['locale'])
                 || this.getNavigatorLanguage()
-                || 'en';
+                || LANG_EN;
         },
         getNavigatorLanguage() {
             const userLang = ((navigator.languages && navigator.languages.length && navigator.languages[0])
