@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import NumericInput from 'react-numeric-input';
 import {VehicleService} from '../../services/VehicleService';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,6 +9,7 @@ export default class CreateVehicleContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            errors: {},
             brand: {
                 id_car_mark: null,
                 name: null
@@ -25,7 +27,8 @@ export default class CreateVehicleContainer extends React.Component {
             body: {
                 id: null,
                 body: null
-            }
+            },
+            seats: null
         };
 
         this.getBrandOptions = VehicleService.getBrandOptions;
@@ -36,6 +39,7 @@ export default class CreateVehicleContainer extends React.Component {
         this.handleModelChange = this.handleModelChange.bind(this);
         this.handleColorChange = this.handleColorChange.bind(this);
         this.handleBodyChange = this.handleBodyChange.bind(this);
+        this.handleSeatsChange = this.handleSeatsChange.bind(this);
     }
 
     handleBrandChange(data) {
@@ -83,6 +87,14 @@ export default class CreateVehicleContainer extends React.Component {
                 id: (data) ? data.id : null,
                 body: (data) ? data.body : null
             }
+        });
+    }
+
+    handleSeatsChange(data) {
+        console.log(data);
+
+        this.setState({
+            seats: data
         });
     }
 
@@ -160,6 +172,16 @@ export default class CreateVehicleContainer extends React.Component {
 
                     <div className="form-group row ">
                         <label className="form-control-label text-muted col-sm-4" htmlFor="seats">Seats</label>
+                        <div className="col-sm-8">
+                            <NumericInput className="form-control"
+                                          name="seats"
+                                          placeholder="Select Seats Count"
+                                          min={1}
+                                          max={8}
+                                          value={this.state.seats}
+                                          onChange={this.handleSeatsChange}
+                            />
+                        </div>
                     </div>
                 </div>
 
