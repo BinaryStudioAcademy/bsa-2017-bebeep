@@ -21,15 +21,21 @@ export default class CreateVehicleContainer extends React.Component {
             color: {
                 id: null,
                 color: null
+            },
+            body: {
+                id: null,
+                body: null
             }
         };
 
         this.getBrandOptions = VehicleService.getBrandOptions;
         this.getModelOptions = VehicleService.getModelOptions;
         this.getColorOptions = VehicleService.getColorOptions;
+        this.getBodyOptions = VehicleService.getBodyOptions;
         this.handleBrandChange = this.handleBrandChange.bind(this);
         this.handleModelChange = this.handleModelChange.bind(this);
         this.handleColorChange = this.handleColorChange.bind(this);
+        this.handleBodyChange = this.handleBodyChange.bind(this);
     }
 
     handleBrandChange(data) {
@@ -65,6 +71,17 @@ export default class CreateVehicleContainer extends React.Component {
             color: {
                 id: (data) ? data.id : null,
                 color: (data) ? data.color : null
+            }
+        });
+    }
+
+    handleBodyChange(data) {
+        console.log(data);
+
+        this.setState({
+            body: {
+                id: (data) ? data.id : null,
+                body: (data) ? data.body : null
             }
         });
     }
@@ -128,6 +145,17 @@ export default class CreateVehicleContainer extends React.Component {
 
                     <div className="form-group row ">
                         <label className="form-control-label text-muted col-sm-4" htmlFor="body">Body</label>
+                        <Select.Async
+                            name="body"
+                            placeholder="Select Car Body Type"
+                            value={this.state.body.body}
+                            valueKey="body"
+                            labelKey="body"
+                            className="col-sm-8"
+                            loadOptions={ this.getBodyOptions }
+                            onChange={this.handleBodyChange}
+                            clerable={true}
+                        />
                     </div>
 
                     <div className="form-group row ">

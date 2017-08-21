@@ -34,5 +34,14 @@ export const VehicleService = {
             }).then((json) => {
                 return { options: json };
             });
+    },
+
+    getBodyOptions() {
+        return securedRequest.get(`/api/v1/car-body`)
+            .then((response) => {
+                return response.data;
+            }).then((json) => {
+                return { options: json };
+            });
     }
 };
