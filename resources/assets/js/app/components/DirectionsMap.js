@@ -114,7 +114,10 @@ export default class DirectionsMap extends React.Component {
         return (
             <div className="card">
                 <div className="card-header">
-                    {this.props.title}
+                    <span>{this.props.title}</span>
+                    {this.props.bookingCount  ? (
+                        <button type="button" className="btn bookings btn-sm btn-primary hover">Bookings <span className="badge badge-red">{this.props.bookingCount}</span></button>
+                    ) : ( <span>&nbsp;</span>) }
                 </div>
                 <div className="card-block google-map">
                         <GoogleMapContainer

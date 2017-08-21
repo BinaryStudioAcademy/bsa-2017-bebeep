@@ -5,6 +5,8 @@ import { Link } from 'react-router';
 import DirectionsMap from "app/components/DirectionsMap";
 import { securedRequest } from 'app/services/RequestService';
 import { getWaypointsFromRoutes } from 'app/services/GoogleMapService';
+import BookingService from 'app/services/BookingService';
+
 
 import '../styles/trip-card.scss';
 
@@ -16,7 +18,8 @@ class Trip extends React.Component {
         this.state = {
             deletable: this.props.deletable,
             editable: this.props.editable,
-            isDeleted: false
+            isDeleted: false,
+            bookings: true
         };
     }
 
@@ -60,16 +63,25 @@ class Trip extends React.Component {
         });
     }
 
+    getBookingsCount() {
+        let response = BookingService.getBookings(this.props.id);
+        let count = BookingService.getBookingsCount(response);
+        console.log(count);
+        return count;
+    }
+
     render() {
         const startPlace = this.getStartPlace();
         const endPlace = this.getEndPlace();
         const startDate = this.getStartDate();
         const waypoints = getWaypointsFromRoutes(this.props.trip.routes);
+        const bookingCount = this.getBookingsCount();
 
         return (
             <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
                 {startPlace ? (
                     <DirectionsMap title={startDate}
+                                   bookingCount={bookingCount}
                                    needDirection="1"
                                    endTime={() => {}}
                                    from={startPlace.geometry.location}
