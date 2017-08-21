@@ -11,15 +11,32 @@ export default class CreateVehicleContainer extends React.Component {
             brand: {
                 id_car_mark: null,
                 name: null
+            },
+            model: {
+                id_car_model: null,
+                id_car_mark: null,
+                name: null,
+                disabled: true
             }
         };
 
         this.getBrandOptions = this.getBrandOptions.bind(this);
-        this.handleBrandChange = this.handleBrandChange.bind(this)
+        this.getModelOptions = this.getModelOptions.bind(this);
+        this.handleBrandChange = this.handleBrandChange.bind(this);
+        this.handleModelChange = this.handleModelChange.bind(this);
     }
 
-    getBrandOptions = () => {
+    getBrandOptions() {
         return securedRequest.get(`/api/v1/car-brand`)
+            .then((response) => {
+                return response.data;
+            }).then((json) => {
+                return { options: json };
+            });
+    }
+
+    getModelOptions() {
+        return securedRequest.get(`/api/v1/car-brand/1/models`)
             .then((response) => {
                 return response.data;
             }).then((json) => {
@@ -34,8 +51,15 @@ export default class CreateVehicleContainer extends React.Component {
             brand: {
                 id_car_mark: (data !== null) ? data.id_car_mark : null,
                 name: (data !== null) ? data.name : null
+            },
+            model: {
+                disabled: (data !== null) ? false : true
             }
         });
+    }
+
+    handleModelChange(data) {
+        console.log(data);
     }
 
     render() {
@@ -62,6 +86,17 @@ export default class CreateVehicleContainer extends React.Component {
 
                     <div className="form-group row ">
                         <label className="form-control-label text-muted col-sm-4" htmlFor="model">Car Model</label>
+                        <Select.Async
+                            name="model"
+                            placeholder="Select Car Model"
+                            valueKey="name"
+                            labelKey="name"
+                            className="col-sm-8"
+                            disabled={this.state.model.disabled}
+                            loadOptions={ this.getModelOptions }
+                            onChange={this.handleModelChange}
+                            clearable={true}
+                        />
                     </div>
 
                     <div className="form-group row ">
