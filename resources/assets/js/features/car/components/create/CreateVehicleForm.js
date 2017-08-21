@@ -7,16 +7,15 @@ import { bindActionCreators } from 'redux';
 export default class CreateVehicleContainer extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             brand: {
                 id_car_mark: null,
-                name: ''
+                name: null
             }
         };
 
         this.getBrandOptions = this.getBrandOptions.bind(this);
-        this.onChange = this.onChange.bind(this)
+        this.handleBrandChange = this.handleBrandChange.bind(this)
     }
 
     getBrandOptions = () => {
@@ -28,15 +27,15 @@ export default class CreateVehicleContainer extends React.Component {
             });
     }
 
-    onChange(data) {
+    handleBrandChange(data) {
+        console.log(data);
+
         this.setState({
             brand: {
-                id_car_mark: data.id_car_mark,
-                name: data.name
+                id_car_mark: (data !== null) ? data.id_car_mark : null,
+                name: (data !== null) ? data.name : null
             }
         });
-
-        console.log(data);
     }
 
     render() {
@@ -56,7 +55,8 @@ export default class CreateVehicleContainer extends React.Component {
                             labelKey="name"
                             className="col-sm-8"
                             loadOptions={ this.getBrandOptions }
-                            onChange={this.onChange}
+                            onChange={this.handleBrandChange}
+                            clearable={true}
                         />
                     </div>
 
