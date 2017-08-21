@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-
 use App\Models\Trip;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -51,9 +50,11 @@ class TripRepository extends BaseRepository
         return $trip;
     }
 
-
     /**
+     * Search trips.
+     *
      * @param array $attributes
+     *
      * @return mixed
      */
     public function search(array $attributes)
@@ -66,20 +67,29 @@ class TripRepository extends BaseRepository
             'to_lng' => $toLng,
         ] = $attributes;
 
-        $andSearchDay = clone $startAt;
-        $andSearchDay = $andSearchDay->endOfDay();
 
-        $sql_start_point = $this->haversineSql("from_lat",
+//        $endSearchDay = clone $startAt;
+        $endSearchDay = Carbon::createFromFormat('Y-m-d', $startAt);
+
+//        $endSearchDay = $endSearchDay->endOfDay();
+        $endSearchDay = $endSearchDay->addDay();
+
+        $sql_start_point = $this->haversineSql(
+            "from_lat",
             "from_lng",
             $fromLat,
             $fromLng,
-            "distance_from");
+            'distance_from'
+        );
 
-        $sql_end_point = $this->haversineSql("to_lat",
+
+        $sql_end_point = $this->haversineSql(
+            "to_lat",
             "to_lng",
             $toLat,
             $toLng,
-            "distance_to");
+            "distance_to"
+        );
 
         $sql = "SELECT *, trips.id as trips_id,
                     $sql_start_point, 
@@ -88,7 +98,7 @@ class TripRepository extends BaseRepository
                 JOIN routes on trips.id = routes.trip_id
                 JOIN users on trips.user_id = users.id
                 HAVING start_at >=  \"$startAt\" 
-                  AND start_at < \"$andSearchDay\"
+                  AND start_at < \"$endSearchDay\"
                   AND distance_from < 10 
                   AND distance_to < 10
                 ORDER BY distance_from";
@@ -97,6 +107,8 @@ class TripRepository extends BaseRepository
     }
 
     /**
+     * * Calculate the distance between two points.
+     *
      * @param $start_lat
      * @param $start_lng
      * @param $end_lat
@@ -113,5 +125,4 @@ class TripRepository extends BaseRepository
 
         return $sql;
     }
-
 }

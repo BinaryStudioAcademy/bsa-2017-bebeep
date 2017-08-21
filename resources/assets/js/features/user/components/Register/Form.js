@@ -9,6 +9,8 @@ import { registerSuccess } from 'features/user/actions';
 import { simpleRequest } from 'app/services/RequestService';
 import { RegisterValidate } from 'app/services/UserService';
 
+import {getTranslate} from 'react-localize-redux';
+
 import 'features/user/styles/user_register.scss';
 
 class Form extends React.Component {
@@ -55,13 +57,14 @@ class Form extends React.Component {
     }
 
     render() {
-        const {errors} = this.state;
+        const {errors} = this.state,
+            {translate} = this.props;
 
         return (
             <form role="form" className="card register-form" action="/api/user/register" method="POST"
                   onSubmit={this.onSubmit}>
                 <div className="card-header">
-                    Enter your credentials
+                    {translate('register_form.enter_your_credentials')}
                 </div>
                 <div className="card-block">
                     <Input
@@ -70,38 +73,38 @@ class Form extends React.Component {
                         id="first_name"
                         required={false}
                         error={errors.first_name}
-                    >First name</Input>
+                    >{translate('register_form.first_name')}</Input>
                     <Input
                         type="text"
                         name="last_name"
                         id="last_name"
                         required={false}
                         error={errors.last_name}
-                    >Last name</Input>
+                    >{translate('register_form.last_name')}</Input>
                     <Input
                         type="email"
                         name="email"
                         id="email"
                         required={false}
                         error={errors.email}
-                    >E-mail</Input>
+                    >{translate('register_form.email')}</Input>
                     <Input
                         type="tel"
                         name="phone"
                         id="phone"
                         required={false}
                         error={errors.phone}
-                    >Phone number</Input>
+                    >{translate('register_form.phone')}</Input>
                     <Input
                         type="date"
                         name="birth_date"
                         id="birth_date"
                         required={false}
                         error={errors.birth_date}
-                    >Birth date</Input>
+                    >{translate('register_form.birth_date')}</Input>
                     <div className={"form-group row " + (errors.role ? 'has-danger' : '')}>
                         <div className="col-sm-4">
-                            Role
+                            {translate('register_form.role')}
                         </div>
                         <div className="form-check col-sm-4">
                             <label className="form-check-label">
@@ -110,7 +113,7 @@ class Form extends React.Component {
                                        id="role_driver"
                                        name="role_driver"
                                        value="1"
-                                /> driver
+                                /> {translate('register_form.driver')}
                             </label>
                         </div>
                         <div className="form-check col-sm-4">
@@ -120,7 +123,7 @@ class Form extends React.Component {
                                        id="role_passenger"
                                        name="role_passenger"
                                        value="1"
-                                /> passenger
+                                /> {translate('register_form.passenger')}
                             </label>
                         </div>
                         <div className="offset-sm-4 col-sm-8">
@@ -133,20 +136,20 @@ class Form extends React.Component {
                         id="password"
                         required={false}
                         error={errors.password}
-                    >Password</Input>
+                    >{translate('register_form.password')}</Input>
                     <Input
                         type="password"
                         name="password_confirmation"
                         id="password_confirmation"
                         required={false}
                         error={errors.password_confirmation}
-                    >Repeat password</Input>
+                    >{translate('register_form.repeat_password')}</Input>
                 </div>
 
                 <div className="card-footer">
                     <div className="text-center">
                         <button className="btn btn-primary">
-                            Register
+                            {translate('register_form.register')}
                         </button>
                     </div>
                 </div>
@@ -156,7 +159,9 @@ class Form extends React.Component {
 }
 
 const FormConnected = connect(
-    null,
+    state => ({
+        translate: getTranslate(state.locale)
+    }),
     (dispatch) =>
         bindActionCreators({registerSuccess}, dispatch)
 )(Form);

@@ -1,3 +1,4 @@
+import {localize} from 'react-localize-redux';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,8 +10,8 @@ import UserService from 'features/user/services/UserService';
 import { PasswordUpdateValidate } from 'app/services/UserService';
 
 const MODAL_MSG = {
-    success: 'User profile password successfully updated!',
-    error: 'Failed to update the user profile password! Check the validation!',
+    success: 'profile_password.user_profile_password_success_updated',
+    error: 'profile_password.failed_update_user_profile_password',
 };
 
 class PasswordForm extends React.Component {
@@ -34,7 +35,7 @@ class PasswordForm extends React.Component {
         e.preventDefault();
 
         const form = e.target;
-        const { updateProfilePassword } = this.props;
+        const { updateProfilePassword, translate } = this.props;
 
         const updatedData = {
             current_password: form.current_password.value,
@@ -61,7 +62,7 @@ class PasswordForm extends React.Component {
                     modal: {
                         isOpen: true,
                         status: 'success',
-                        msg: MODAL_MSG.success,
+                        msg: translate(MODAL_MSG.success),
                     }
                 });
             })
@@ -72,14 +73,15 @@ class PasswordForm extends React.Component {
                     modal: {
                         isOpen: true,
                         status: 'error',
-                        msg: MODAL_MSG.error,
+                        msg: translate(MODAL_MSG.error),
                     }
                 });
             });
     }
 
     render() {
-        const { errors, modal } = this.state;
+        const { errors, modal } = this.state,
+            {translate} = this.props;
 
         return (
             <div>
@@ -93,7 +95,7 @@ class PasswordForm extends React.Component {
                             id="current_password"
                             required={false}
                             error={errors.current_password}
-                        >Current password</Input>
+                        >{translate('profile_password.current_password')}</Input>
 
                         <Input
                             type="password"
@@ -101,7 +103,7 @@ class PasswordForm extends React.Component {
                             id="password"
                             required={false}
                             error={errors.password}
-                        >New password</Input>
+                        >{translate('profile_password.new_password')}</Input>
 
                         <Input
                             type="password"
@@ -109,13 +111,13 @@ class PasswordForm extends React.Component {
                             id="password_confirmation"
                             required={false}
                             error={errors.password_confirmation}
-                        >Repeat password</Input>
+                        >{translate('profile_password.repeat_password')}</Input>
                     </div>
 
                     <div className="card-footer">
                         <div className="text-center">
                             <button className="btn btn-primary">
-                                Save
+                                {translate('profile_password.save_password')}
                             </button>
                         </div>
                     </div>
@@ -128,4 +130,4 @@ class PasswordForm extends React.Component {
     }
 }
 
-export default PasswordForm;
+export default localize(PasswordForm, 'locale');

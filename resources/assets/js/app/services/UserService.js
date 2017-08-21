@@ -1,5 +1,6 @@
 import validate from 'validate.js';
 import moment from 'moment';
+import LangService from './LangService';
 
 validate.extend(validate.validators.datetime, {
     // The value is guaranteed not to be null or undefined but otherwise it
@@ -17,7 +18,7 @@ validate.extend(validate.validators.datetime, {
 export const UserValidator = {
     last_name: (data) => {
         const valid = data.trim() !== "";
-        let error = valid ? "" : "Last name is required";
+        let error = valid ? "" : LangService.translate("validate.last_name_is_required");
         return {
             valid,
             error
@@ -25,7 +26,7 @@ export const UserValidator = {
     },
     first_name: (data) => {
         const valid = data.trim() !== "";
-        let error = valid ? "" : "First name is required";
+        let error = valid ? "" : LangService.translate("validate.first_name_is_required");
         return {
             valid,
             error
@@ -33,23 +34,26 @@ export const UserValidator = {
     },
     phone: (data) => {
         const valid = !!data.match(/^[0-9]{1,15}$/);
-        let error = valid ? "" : "Phone is required, and must contain digits not more 15";
+        let error = valid ? "" : LangService.translate("validate.phone_is_required_and_must_contain_numbers");
         return {
             valid,
             error
         };
     },
     email: (data) => {
-        const result = validate.single(data, { presence: true, email: true });
-        let error = result ? result.join(", ") : "";
+        const result = validate.single(data, {
+            presence: {message: LangService.translate("validate.not_valid_email")},
+            email: {message: LangService.translate("validate.not_valid_email")},
+        });
+
         return {
             valid: !result,
-            error
+            error: result && result[0]
         };
     },
     role: (role_driver, role_passenger) => {
         const valid = role_driver || role_passenger;
-        let error = valid ? "" : "Choose your role";
+        let error = valid ? "" : LangService.translate("validate.choose_role");
 
         return {
             valid,
@@ -58,7 +62,7 @@ export const UserValidator = {
     },
     password: (data) => {
         const valid = data.length > 5;
-        let error = valid ? "" : "Password must be more or equal 6 characters";
+        let error = valid ? "" : LangService.translate("validate.password_must_be_more_six_symbols");
         return {
             valid,
             error
@@ -66,7 +70,7 @@ export const UserValidator = {
     },
     password_confirmation: (password_confirmation, password) => {
         const valid = password === password_confirmation;
-        let error = valid ? "" : "Repeated password does not match";
+        let error = valid ? "" : LangService.translate("validate.password_not_confirm");
         return {
             valid,
             error
@@ -80,16 +84,15 @@ export const UserValidator = {
             };
         }
 
-        const result = validate.single(data, { datetime: { dateOnly: true }});
-        let error = result ? result.join(", ") : "";
+        const result = validate.single(data, { datetime: { dateOnly: true, message: LangService.translate("validate.birth_date_is_invalid") }});
         return {
             valid: !result,
-            error
+            error: result && result[0]
         };
     },
     about_me: (data) => {
         const valid = data.length <= 500;
-        let error = valid ? "" : "About us must be less or equal 500 characters";
+        let error = valid ? "" : LangService.translate("validate.about_must_be_less_500_characters");
         return {
             valid,
             error
@@ -141,7 +144,7 @@ export const RegisterValidate = (data = {
 export const VerifyValidator = {
     token(data) {
         const valid = data.trim() !== "";
-        let error = valid ? "" : "Token is empty";
+        let error = valid ? "" : LangService.translate("validate.token_is_empty");
         return {
             valid,
             error
@@ -157,7 +160,7 @@ export const PasswordChangeValidator = {
         }
 
         const valid = current_password !== new_password;
-        let error = valid ? "" : "You already have this password, enter another one.";
+        let error = valid ? "" : LangService.translate("validate.already_have_password");
 
         return { valid, error };
     },

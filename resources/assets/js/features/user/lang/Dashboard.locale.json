@@ -1,0 +1,6 @@
+{
+  "dashboard": {
+    "header": ["Dashboard", "Панель користувача", "Панель пользователя"],
+    "hello": ["Hello, ${ username }! :-)", "Привіт, ${ username }! :-)", "Привет, ${ username }! :-)"]
+  }
+}

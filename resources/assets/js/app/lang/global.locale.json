@@ -1,0 +1,13 @@
+{
+  "login": ["Login", "Увійти", "Войти"],
+  "register": ["Register", "Реєстрація", "Регистрация"],
+  "my_vehicles": ["My vehicles", "Мої авто", "Мои машины"],
+  "create_new_trip": ["Create new trip", "Додати подорож", "Добавить поездку"],
+  "my_trips": ["My trips", "Мої подорожі", "Мои поездки"],
+  "dashboard": ["Dashboard", "Панель користувача", "Панель пользователя"],
+  "profile": ["Profile", "Профіль", "Профиль"],
+  "logout": ["Logout", "Вийти", "Выйти"],
+  "my_bookings": ["My bookings", "Мої замовлення", "Мои заказы"],
+  "page_not_found": ["Page not found!", "Сторінку не знайдено!", "Страница не найдена!"],
+  "go_to_home_page": ["Go to Home page", "Перейти на домашню сторінку", "Перейти на главную страницу"]
+}
