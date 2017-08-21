@@ -8,6 +8,8 @@ import { bindActionCreators } from 'redux';
 export default class CreateVehicleContainer extends React.Component {
     constructor(props) {
         super(props);
+        this.currentYear = (new Date()).getFullYear();
+
         this.state = {
             errors: {},
             brand: {
@@ -28,7 +30,8 @@ export default class CreateVehicleContainer extends React.Component {
                 id: null,
                 body: null
             },
-            seats: null
+            seats: null,
+            year: this.currentYear
         };
 
         this.getBrandOptions = VehicleService.getBrandOptions;
@@ -39,6 +42,7 @@ export default class CreateVehicleContainer extends React.Component {
         this.handleModelChange = this.handleModelChange.bind(this);
         this.handleColorChange = this.handleColorChange.bind(this);
         this.handleBodyChange = this.handleBodyChange.bind(this);
+        this.handleYearChange = this.handleYearChange.bind(this);
         this.handleSeatsChange = this.handleSeatsChange.bind(this);
     }
 
@@ -87,6 +91,14 @@ export default class CreateVehicleContainer extends React.Component {
                 id: (data) ? data.id : null,
                 body: (data) ? data.body : null
             }
+        });
+    }
+
+    handleYearChange(data) {
+        console.log(data);
+
+        this.setState({
+            year: data
         });
     }
 
@@ -152,10 +164,6 @@ export default class CreateVehicleContainer extends React.Component {
                     </div>
 
                     <div className="form-group row ">
-                        <label className="form-control-label text-muted col-sm-4" htmlFor="year">Year</label>
-                    </div>
-
-                    <div className="form-group row ">
                         <label className="form-control-label text-muted col-sm-4" htmlFor="body">Body</label>
                         <Select.Async
                             name="body"
@@ -168,6 +176,20 @@ export default class CreateVehicleContainer extends React.Component {
                             onChange={this.handleBodyChange}
                             clerable={true}
                         />
+                    </div>
+
+                    <div className="form-group row ">
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="year">Year</label>
+                        <div className="col-sm-8">
+                            <NumericInput className="form-control"
+                                          name="seats"
+                                          placeholder="Select Car Year"
+                                          min={1980}
+                                          max={this.currentYear}
+                                          value={this.state.year}
+                                          onChange={this.handleYearChange}
+                            />
+                        </div>
                     </div>
 
                     <div className="form-group row ">
