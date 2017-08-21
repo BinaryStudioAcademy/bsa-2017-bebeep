@@ -40,4 +40,23 @@ class Route extends Model
     {
         return $this->belongsToMany(Booking::class);
     }
+
+    public function getAvailableSeatsAttribute()
+    {
+        $seats = 0;
+
+        if ($this->bookings->count() <= 0) {
+            return $seats;
+        }
+
+        foreach ($this->bookings as $booking) {
+            if ($booking->status !== Booking::STATUS_APPROVED) {
+                continue;
+            }
+
+            $seats += $booking->seats;
+        }
+
+        return $this->trip->seats - $seats;
+    }
 }

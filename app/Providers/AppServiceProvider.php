@@ -3,9 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
+use App\Rules\Booking\TripDateRule;
+use App\Rules\Booking\TripRoutesHasSeatsRule;
 use App\Services\RouteService;
 use App\Services\PasswordService;
 use App\Services\UserProfileService;
+use App\Validators\CreateBookingValidator;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
@@ -41,6 +44,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(PasswordServiceContract::class, PasswordService::class);
         $this->app->bind(UserProfileServiceContract::class, UserProfileService::class);
+
+        $this->app->bind(CreateBookingValidator::class, function ($app) {
+            return new CreateBookingValidator(new TripDateRule, new TripRoutesHasSeatsRule);
+        });
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);
@@ -81,7 +88,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            return $vehicle->seats > (int)$value;
+            return $vehicle->seats >= (int)$value;
         });
 
         Validator::extend('greater_than_date', function (
@@ -95,6 +102,23 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return (int)$parameters[0] < (int)$value;
+        });
+
+        Validator::extend('no_array_diff', function (
+            $attribute,
+            $value,
+            $parameters,
+            $validator
+        ) {
+            if (empty($parameters) || empty($value)) {
+                return false;
+            }
+
+            $parameters = collect($parameters);
+            $value = collect($value);
+            $diff = $parameters->diff($value);
+
+            return $diff->count() <= 0;
         });
 
         Validator::extend(

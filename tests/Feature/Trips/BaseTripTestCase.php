@@ -24,6 +24,11 @@ class BaseTripTestCase extends JwtTestCase
         return factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
     }
 
+    protected function getPassengerUser()
+    {
+        return factory(User::class)->create(['permissions' => User::PASSENGER_PERMISSION]);
+    }
+
     /**
      * Return basic trip data for testing with extraData.
      *

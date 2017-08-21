@@ -19,6 +19,7 @@ class Booking extends Model
         'status',
         'trip_id',
         'user_id',
+        'seats',
     ];
 
     /**
