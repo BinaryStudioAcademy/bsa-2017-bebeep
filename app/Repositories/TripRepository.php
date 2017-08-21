@@ -109,20 +109,21 @@ class TripRepository extends BaseRepository
     /**
      * * Calculate the distance between two points.
      *
-     * @param $start_lat
-     * @param $start_lng
-     * @param $end_lat
-     * @param $end_lng
+     * @param $startLat
+     * @param $startLng
+     * @param $endLat
+     * @param $endLng
      * @param $column_name
      * @return string
      */
-    private function haversineSql($start_lat, $start_lng, $end_lat, $end_lng, $column_name)
+    private function haversineSql($startLat, $startLng, $endLat, $endLng, $column_name): string
     {
-        $sql = "round(6371 * 2 * ASIN(SQRT(POWER(SIN((`$start_lat` - $end_lat ) *
-                pi()/180 / 2), 2) + COS(`$start_lat` * pi()/180) * COS($end_lat * pi() / 180) *
-                POWER(SIN((`$start_lng` - ($end_lng)) * pi()/180 / 2), 2))),1)  
-                as $column_name";
+        $earthRadius = 6371;
 
-        return $sql;
+        return "ROUND(2 * $earthRadius * ASIN(SQRT(
+                POWER(SIN(RADIANS(routes.`$startLat` - $endLat) / 2), 2) +
+                COS(RADIANS(routes.`$startLat`)) * COS(RADIANS($endLat)) *
+                POWER(SIN(RADIANS(routes.`$startLng` - $endLng) / 2), 2)
+                )), 1) as $column_name";
     }
 }
