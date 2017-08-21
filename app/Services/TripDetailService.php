@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-
 use App\Models\Trip;
 use App\Services\Result\TripDetail;
 use App\Services\Result\RouteDetail;
@@ -27,6 +26,7 @@ class TripDetailService implements Contracts\TripDetailService
                     )
             );
         });
+
         return $tripDetail;
     }
 }

@@ -16,8 +16,12 @@ use App\Validators\UpdateTripValidator;
 use Illuminate\Support\ServiceProvider;
 use App\Validators\RestoreTripValidator;
 use Illuminate\Support\Facades\Validator;
+use App\Rules\BookingConfirm\OwnerConfirm;
 use App\Validators\CanUncheckRoleValidator;
+use App\Validators\ConfirmBookingValidator;
 use App\Validators\IsPasswordCurrentValidator;
+use App\Rules\BookingConfirm\FutureTripConfirm;
+use App\Rules\BookingConfirm\BookingTripConfirm;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 use App\Services\Contracts\RouteService as RouteServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
@@ -61,8 +65,19 @@ class AppServiceProvider extends ServiceProvider
             return new UpdateTripValidator(new TripUpdateOwnerRule);
         });
 
+        $this->app->bind(\App\Services\Contracts\BookingService::class, \App\Services\BookingService::class);
+
+        $this->app->bind(\App\Repositories\Contracts\BookingRepository::class, \App\Repositories\BookingRepository::class);
         $this->app->bind(RouteServiceContract::class, RouteService::class);
         $this->app->bind(\App\Services\Contracts\TripDetailService::class, \App\Services\TripDetailService::class);
+
+        $this->app->bind(ConfirmBookingValidator::class, function ($app) {
+            return new ConfirmBookingValidator(
+                new OwnerConfirm,
+                new BookingTripConfirm,
+                new FutureTripConfirm
+            );
+        });
     }
 
     /**
@@ -78,13 +93,13 @@ class AppServiceProvider extends ServiceProvider
             $parameters,
             $validator
         ) {
-            if (!$parameters || !Auth::user() || !$parameters[0]) {
+            if (! $parameters || ! Auth::user() || ! $parameters[0]) {
                 return false;
             }
 
             $vehicle = Vehicle::whereId($parameters[0])->first();
 
-            if (!$vehicle) {
+            if (! $vehicle) {
                 return false;
             }
 
@@ -97,11 +112,11 @@ class AppServiceProvider extends ServiceProvider
             $parameters,
             $validator
         ) {
-            if (!$parameters || !$parameters[0]) {
+            if (! $parameters || ! $parameters[0]) {
                 return false;
             }
 
-            return (int)$parameters[0] < (int)$value;
+            return (int) $parameters[0] < (int) $value;
         });
 
         Validator::extend('no_array_diff', function (

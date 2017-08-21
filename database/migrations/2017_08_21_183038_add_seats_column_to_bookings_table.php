@@ -14,7 +14,7 @@ class AddSeatsColumnToBookingsTable extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->unsignedInteger('seats');
+            $table->unsignedInteger('seats')->default(0);
         });
     }
 
