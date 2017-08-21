@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
+use App\Services\BookingService;
 use App\Services\PasswordService;
 use App\Services\UserProfileService;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\BookingRepository;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
 use App\Validators\UpdateTripValidator;
@@ -51,6 +53,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UpdateTripValidator::class, function ($app) {
             return new UpdateTripValidator(new TripUpdateOwnerRule);
         });
+
+        $this->app->bind(\App\Services\Contracts\BookingService::class, \App\Services\BookingService::class);
+
+        $this->app->bind(\App\Repositories\Contracts\BookingRepository::class, \App\Repositories\BookingRepository::class);
     }
 
     /**
