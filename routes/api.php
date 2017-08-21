@@ -1,6 +1,5 @@
 <?php
 
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -91,9 +90,7 @@ Route::group([
     Route::delete('trash/{tripId}', ['as' => 'restore', 'uses' => 'TripsController@restore']);
 });
 
-
 Route::get('v1/trips/search', ['as' => 'search', 'uses' => 'TripsController@search']);
-
 
 Route::post('v1/password-resets', [
     'middleware' => 'jwt.guest',
