@@ -14,5 +14,4 @@ class RouteService implements Contracts\RouteService
     {
         return (int) $route->bookings->where('status', Booking::STATUS_APPROVED)->count();
     }
-
 }
