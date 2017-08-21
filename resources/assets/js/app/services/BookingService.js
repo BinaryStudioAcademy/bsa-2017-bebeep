@@ -32,9 +32,9 @@ const BookingService = {
         if (!data) return null;
         return data.length;
     },
-    updateBookingStatus(trip_id, booking_id, status) {
+    updateBookingStatus(trip_id, booking_id, data) {
         const url = '/api/v1/trips/' + trip_id + '/bookings/' + booking_id + '/status';
-        return securedRequest.put(url, status)
+        return securedRequest.put(url, data)
             .then(
                 response => Promise.resolve(response.data)
             )

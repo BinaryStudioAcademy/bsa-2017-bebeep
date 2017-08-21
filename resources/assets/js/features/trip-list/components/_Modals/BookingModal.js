@@ -1,6 +1,7 @@
 import React from 'react';
 import BookingInfo from '../BookingInfo';
 import Modal from 'app/components/Modal';
+import BookingService from 'app/services/BookingService';
 
 class BookingModal extends React.Component {
     constructor() {
@@ -18,36 +19,36 @@ class BookingModal extends React.Component {
         }
     }
 
-    onApproveClick(tripId, bookingId) {
-        const status = 'approved';
-        console.log('Trip id:', tripId);
-        console.log('Booking id:', bookingId);
-        console.log('Status:', status);
+    onActionClick(tripId, bookingId, status) {
+        const data = {
+            status
+        };
+
+        BookingService.updateBookingStatus(tripId, bookingId, data);
+        this.setState({
+            modalIsOpen: false
+        });
     }
 
-    onDeclineClick(tripId, bookingId) {
-        const status = 'declined';
-        console.log('Trip id:', tripId);
-        console.log('Booking id:', bookingId);
-        console.log('Status:', status);
-    }
 
     render() {
         const { modalIsOpen } = this.state;
         const { bookings, tripId, count } = this.props;
         const onClosed = this.props.onClosed || (() => {});
+        const approved = 'approved';
+        const declined = 'declined';
 
         return (
             <div>
                 <Modal isOpen={ modalIsOpen } onClosed={() => { this.state.modalIsOpen = false; onClosed(); }}>
-                    <div className={ "modal-header alert-warning" }>{count} bookings in pending</div>
+                    <div className={ "modal-header alert-warning" }><span><strong>{count}</strong> bookings in pending</span></div>
                     <div className="modal-body">
-                        {bookings.map(booking =>
+                        {bookings.map((booking, i) =>
                             <BookingInfo
-                                keys={ booking.booking_id }
+                                key={ i }
                                 booking={ booking }
-                                onApprove={() => this.onApproveClick(tripId, booking.booking_id)}
-                                onDecline={() => this.onDeclineClick(tripId, booking.booking_id)}
+                                onApprove={() => this.onActionClick(tripId, booking.booking_id, approved)}
+                                onDecline={() => this.onActionClick(tripId, booking.booking_id, declined)}
                             />
                         )}
                         </div>

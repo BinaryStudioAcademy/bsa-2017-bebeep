@@ -3,10 +3,10 @@ import '../styles/booking-info.scss';
 
 export default class BookingInfo extends React.Component {
     render() {
-        const { keys, booking, onApprove, onDecline} = this.props;
+        const { booking, onApprove, onDecline } = this.props;
         return (
             <ul className="list-unstyled">
-                <li key={ keys } className="li-bookings">
+                <li className="li-bookings">
                     <div className="row">
                         <div className="col-md-2"><img src={booking.img} className="img-circle img-booking-user img-responsive" /></div>
                         <div className="col-md-4"><span>{booking.first_name} {booking.last_name}</span></div>
