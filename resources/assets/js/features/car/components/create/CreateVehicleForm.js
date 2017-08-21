@@ -17,13 +17,19 @@ export default class CreateVehicleContainer extends React.Component {
                 id_car_mark: null,
                 name: null,
                 disabled: true
+            },
+            color: {
+                id: null,
+                color: null
             }
         };
 
         this.getBrandOptions = VehicleService.getBrandOptions;
         this.getModelOptions = VehicleService.getModelOptions;
+        this.getColorOptions = VehicleService.getColorOptions;
         this.handleBrandChange = this.handleBrandChange.bind(this);
         this.handleModelChange = this.handleModelChange.bind(this);
+        this.handleColorChange = this.handleColorChange.bind(this);
     }
 
     handleBrandChange(data) {
@@ -48,6 +54,17 @@ export default class CreateVehicleContainer extends React.Component {
             model: {
                 id_car_model: (data !== null) ? data.id_car_model : null,
                 name: (data !== null) ? data.name : null
+            }
+        });
+    }
+
+    handleColorChange(data) {
+        console.log(data);
+
+        this.setState({
+            color: {
+                id: (data) ? data.id : null,
+                color: (data) ? data.color : null
             }
         });
     }
@@ -92,6 +109,17 @@ export default class CreateVehicleContainer extends React.Component {
 
                     <div className="form-group row ">
                         <label className="form-control-label text-muted col-sm-4" htmlFor="color">Color</label>
+                        <Select.Async
+                            name="color"
+                            placeholder="Select Car Color"
+                            value={this.state.color.color}
+                            valueKey="color"
+                            labelKey="color"
+                            className="col-sm-8"
+                            loadOptions={ this.getColorOptions }
+                            onChange={this.handleColorChange}
+                            clerable={true}
+                        />
                     </div>
 
                     <div className="form-group row ">

@@ -25,5 +25,14 @@ export const VehicleService = {
             }).then((json) => {
                 return { options: json };
             });
+    },
+
+    getColorOptions() {
+        return securedRequest.get(`/api/v1/car-color`)
+            .then((response) => {
+                return response.data;
+            }).then((json) => {
+                return { options: json };
+            });
     }
 };
