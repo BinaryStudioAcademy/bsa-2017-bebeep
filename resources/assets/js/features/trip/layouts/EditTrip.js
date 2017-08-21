@@ -18,7 +18,7 @@ export default localize(class EditTrip extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={translate('edit_trip_header')}/>
+                <PageHeader header={translate('edit_trip.edit_trip_header')}/>
                 <EditTripContainer id={ this.props.params.id }/>
             </div>
         );

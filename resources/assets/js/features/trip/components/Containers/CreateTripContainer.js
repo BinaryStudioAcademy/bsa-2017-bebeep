@@ -165,7 +165,7 @@ class CreateTripContainer extends React.Component {
                     />
                 </div>
                 <div className="col-sm-6">
-                    <DirectionsMap title={translate("preview_trip")}
+                    <DirectionsMap title={translate("create_trip.preview_trip")}
                                    waypoints={convertWaypointsToGoogleWaypoints(this.props.waypoints)}
                                    from={getCoordinatesFromPlace(this.state.startPoint.place)}
                                    to={getCoordinatesFromPlace(this.state.endPoint.place)}

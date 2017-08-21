@@ -18,7 +18,7 @@ export default localize(class CreateTrip extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={translate('create_new_trip_header')}/>
+                <PageHeader header={translate('create_trip.create_new_trip_header')}/>
                 <CreateTripContainer />
             </div>
         );

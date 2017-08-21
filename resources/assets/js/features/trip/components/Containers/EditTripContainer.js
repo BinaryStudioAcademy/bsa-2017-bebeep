@@ -172,7 +172,7 @@ class EditTripContainer extends React.Component {
         if (this.state.notFoundTrip) {
             return (
                 <div className="alert alert-danger" role="alert">
-                    {translate('cant_load_this_trip')}
+                    {translate('edit_trip.cant_load_this_trip')}
                 </div>
             );
         }
@@ -180,7 +180,7 @@ class EditTripContainer extends React.Component {
         if (!this.state.trip.id) {
             return (
                 <div className="alert">
-                    Loading...
+                    {translate('edit_trip.loading')}
                 </div>
             );
         }
@@ -205,7 +205,7 @@ class EditTripContainer extends React.Component {
                 </div>
                 <div className="col-sm-6">
                     <DirectionsMap
-                        title={translate("preview_trip")}
+                        title={translate("edit_trip.preview_trip")}
                         waypoints={convertWaypointsToGoogleWaypoints(this.props.waypoints)}
                         from={getCoordinatesFromPlace(this.state.startPoint.place)}
                         to={getCoordinatesFromPlace(this.state.endPoint.place)}
