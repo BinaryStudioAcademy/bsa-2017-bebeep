@@ -2,9 +2,9 @@
 
 namespace App\Rules\BookingConfirm\Contracts;
 
-use App\Models\Booking;
-use App\Models\Trip;
 use App\User;
+use App\Models\Trip;
+use App\Models\Booking;
 
 interface ConfirmRule
 {

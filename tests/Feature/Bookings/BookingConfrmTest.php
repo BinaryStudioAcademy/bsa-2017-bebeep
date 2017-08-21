@@ -41,13 +41,13 @@ class BookingConfrmTest extends JwtTestCase
         $booking = factory(Booking::class)->create(['user_id' => $passanger->id, 'trip_id' => $trip->id]);
 
         $response = $this->jsonRequestAsUser($driver, 'PUT', route('trips.booking.status', ['trip' => $trip, 'booking' => $booking]), [
-            'status' => Booking::STATUS_APPROVED
+            'status' => Booking::STATUS_APPROVED,
         ]);
         $response->assertStatus(200);
         $this->assertDatabaseHas(
             'bookings',
             [
-                'status' => Booking::STATUS_APPROVED
+                'status' => Booking::STATUS_APPROVED,
             ]
         );
     }
@@ -63,13 +63,13 @@ class BookingConfrmTest extends JwtTestCase
         $booking = factory(Booking::class)->create(['user_id' => $passanger->id, 'trip_id' => $trip->id]);
 
         $response = $this->jsonRequestAsUser($driver, 'PUT', route('trips.booking.status', ['trip' => $trip, 'booking' => $booking]), [
-            'status' => Booking::STATUS_DECLINED
+            'status' => Booking::STATUS_DECLINED,
         ]);
         $response->assertStatus(200);
         $this->assertDatabaseHas(
             'bookings',
             [
-                'status' => Booking::STATUS_DECLINED
+                'status' => Booking::STATUS_DECLINED,
             ]
         );
     }
@@ -86,7 +86,7 @@ class BookingConfrmTest extends JwtTestCase
         $booking = factory(Booking::class)->create(['user_id' => $passanger->id, 'trip_id' => $trip->id]);
 
         $response = $this->jsonRequestAsUser($driver2, 'PUT', route('trips.booking.status', ['trip' => $trip, 'booking' => $booking]), [
-            'status' => Booking::STATUS_APPROVED
+            'status' => Booking::STATUS_APPROVED,
         ]);
         $response->assertStatus(422);
     }
@@ -99,12 +99,12 @@ class BookingConfrmTest extends JwtTestCase
         $driver = $this->getDriver();
         $passanger = $this->getPassanger();
         $trip = $this->getTrip($driver, [
-            'start_at' => Carbon::now()->subDay()
+            'start_at' => Carbon::now()->subDay(),
         ]);
         $booking = factory(Booking::class)->create(['user_id' => $passanger->id, 'trip_id' => $trip->id]);
 
         $response = $this->jsonRequestAsUser($driver, 'PUT', route('trips.booking.status', ['trip' => $trip, 'booking' => $booking]), [
-            'status' => Booking::STATUS_APPROVED
+            'status' => Booking::STATUS_APPROVED,
         ]);
         $response->assertStatus(422);
     }
@@ -121,7 +121,7 @@ class BookingConfrmTest extends JwtTestCase
         $booking = factory(Booking::class)->create(['user_id' => $passanger->id, 'trip_id' => $trip1->id]);
 
         $response = $this->jsonRequestAsUser($driver, 'PUT', route('trips.booking.status', ['trip' => $trip2, 'booking' => $booking]), [
-            'status' => Booking::STATUS_APPROVED
+            'status' => Booking::STATUS_APPROVED,
         ]);
         $response->assertStatus(422);
     }

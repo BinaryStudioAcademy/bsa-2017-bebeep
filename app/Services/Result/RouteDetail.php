@@ -18,6 +18,7 @@ class RouteDetail
     public function setBusySeats(int $busySeats) : RouteDetail
     {
         $this->busySeats = $busySeats;
+
         return $this;
     }
 
