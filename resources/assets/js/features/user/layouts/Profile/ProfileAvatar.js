@@ -16,7 +16,7 @@ class ProfileAvatar extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={ translate('change_profile_avatar') } />
+                <PageHeader header={ translate('profile_avatar.change_profile_avatar') } />
                 <AvatarUpload />
             </div>
         )

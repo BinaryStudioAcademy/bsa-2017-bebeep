@@ -48,11 +48,11 @@ class RegisterVerify extends React.Component {
             { translate } = this.props;
         return (
             <div>
-                <PageHeader header={ translate('verify_account') } />
+                <PageHeader header={ translate('register_verify.verify_account') } />
                 <div className="card" >
                     <div className="card-block">
                         <div className={"alert " + (errors.token || errors.email ? 'alert-danger' : '')} role="alert">
-                            { errors.token || errors.email || translate('verifying') }
+                            { errors.token || errors.email || translate('register_verify.verifying') }
                         </div>
                     </div>
                 </div>

@@ -19,7 +19,7 @@ class LoginForm extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={ translate('header_login') } />
+                <PageHeader header={ translate('login_form.header_login') } />
                 <Form />
             </div>
         )

@@ -25,7 +25,7 @@ class Form extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const {registerSuccess, translate} = this.props,
+        const {registerSuccess} = this.props,
             registerData = {
                 first_name: e.target['first_name'].value,
                 last_name: e.target['last_name'].value,
@@ -64,7 +64,7 @@ class Form extends React.Component {
             <form role="form" className="card register-form" action="/api/user/register" method="POST"
                   onSubmit={this.onSubmit}>
                 <div className="card-header">
-                    {translate('enter_your_credentials')}
+                    {translate('register_form.enter_your_credentials')}
                 </div>
                 <div className="card-block">
                     <Input
@@ -73,38 +73,38 @@ class Form extends React.Component {
                         id="first_name"
                         required={false}
                         error={errors.first_name}
-                    >{translate('first_name')}</Input>
+                    >{translate('register_form.first_name')}</Input>
                     <Input
                         type="text"
                         name="last_name"
                         id="last_name"
                         required={false}
                         error={errors.last_name}
-                    >{translate('last_name')}</Input>
+                    >{translate('register_form.last_name')}</Input>
                     <Input
                         type="email"
                         name="email"
                         id="email"
                         required={false}
                         error={errors.email}
-                    >{translate('email')}</Input>
+                    >{translate('register_form.email')}</Input>
                     <Input
                         type="tel"
                         name="phone"
                         id="phone"
                         required={false}
                         error={errors.phone}
-                    >{translate('phone')}</Input>
+                    >{translate('register_form.phone')}</Input>
                     <Input
                         type="date"
                         name="birth_date"
                         id="birth_date"
                         required={false}
                         error={errors.birth_date}
-                    >{translate('birth_date')}</Input>
+                    >{translate('register_form.birth_date')}</Input>
                     <div className={"form-group row " + (errors.role ? 'has-danger' : '')}>
                         <div className="col-sm-4">
-                            {translate('role')}
+                            {translate('register_form.role')}
                         </div>
                         <div className="form-check col-sm-4">
                             <label className="form-check-label">
@@ -113,7 +113,7 @@ class Form extends React.Component {
                                        id="role_driver"
                                        name="role_driver"
                                        value="1"
-                                /> {translate('driver')}
+                                /> {translate('register_form.driver')}
                             </label>
                         </div>
                         <div className="form-check col-sm-4">
@@ -123,7 +123,7 @@ class Form extends React.Component {
                                        id="role_passenger"
                                        name="role_passenger"
                                        value="1"
-                                /> {translate('passenger')}
+                                /> {translate('register_form.passenger')}
                             </label>
                         </div>
                         <div className="offset-sm-4 col-sm-8">
@@ -136,20 +136,20 @@ class Form extends React.Component {
                         id="password"
                         required={false}
                         error={errors.password}
-                    >{translate('password')}</Input>
+                    >{translate('register_form.password')}</Input>
                     <Input
                         type="password"
                         name="password_confirmation"
                         id="password_confirmation"
                         required={false}
                         error={errors.password_confirmation}
-                    >{translate('repeat_password')}</Input>
+                    >{translate('register_form.repeat_password')}</Input>
                 </div>
 
                 <div className="card-footer">
                     <div className="text-center">
                         <button className="btn btn-primary">
-                            {translate('register')}
+                            {translate('register_form.register')}
                         </button>
                     </div>
                 </div>

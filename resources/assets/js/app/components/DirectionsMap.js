@@ -137,11 +137,11 @@ class DirectionsMap extends React.Component {
                 {this.state.distance  ?
                     (
                         <div className="card-footer">
-                            <h6>{translate('trip_info')}</h6>
-                            <span className="text-muted">{translate('start_point_address')}: </span>{this.state.start_address}<br/>
-                            <span className="text-muted">{translate('end_point_address')}: </span>{this.state.end_address}<br/>
-                            <span className="text-muted">{translate('distance')}: </span>{this.state.distance}<br/>
-                            <span className="text-muted">{translate('duration')}: </span>{this.state.duration}
+                            <h6>{translate('directionsmap.trip_info')}</h6>
+                            <span className="text-muted">{translate('directionsmap.start_point_address')}: </span>{this.state.start_address}<br/>
+                            <span className="text-muted">{translate('directionsmap.end_point_address')}: </span>{this.state.end_address}<br/>
+                            <span className="text-muted">{translate('directionsmap.distance')}: </span>{this.state.distance}<br/>
+                            <span className="text-muted">{translate('directionsmap.duration')}: </span>{this.state.duration}
                         </div>
                     ) : (
                             <div>&nbsp;</div>

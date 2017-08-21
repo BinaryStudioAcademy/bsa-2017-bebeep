@@ -1,8 +1,10 @@
 {
-  "header_register": ["Register", "Реєстрація", "Регистрация"],
-  "register_success": [
-    "<strong>Register successful!</strong> The verification link has been sent to your email",
-    "<strong>Реєстрація пройшла успішно!</strong> Посилання для веріфікації акаунту відіслано на вказану електронну адресу",
-    "<strong>Регистрация прошла успешно!</strong> Ссылка для верификации аккаунта отправлена на указанный электронный адрес"
-  ]
+  "register_success": {
+    "header_register": ["Register", "Реєстрація", "Регистрация"],
+    "register_success": [
+      "<strong>Register successful!</strong> The verification link has been sent to your email",
+      "<strong>Реєстрація пройшла успішно!</strong> Посилання для веріфікації акаунту відіслано на вказану електронну адресу",
+      "<strong>Регистрация прошла успешно!</strong> Ссылка для верификации аккаунта отправлена на указанный электронный адрес"
+    ]
+  }
 }

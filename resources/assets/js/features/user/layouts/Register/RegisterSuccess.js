@@ -20,11 +20,11 @@ class RegisterSuccess extends React.Component {
 
         return (
             <div>
-                <PageHeader header={ translate('header_register') } />
+                <PageHeader header={ translate('register_success.header_register') } />
                 <div className="card" >
                     <div className="card-block">
                         <div className="alert alert-success" role="alert">
-                            {translate('register_success')}
+                            {translate('register_success.register_success')}
                         </div>
                     </div>
                 </div>

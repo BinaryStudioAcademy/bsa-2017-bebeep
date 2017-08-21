@@ -16,7 +16,7 @@ class ProfilePassword extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={ translate('change_password') } />
+                <PageHeader header={ translate('profile_password.change_password') } />
                 <PasswordForm />
             </div>
         )

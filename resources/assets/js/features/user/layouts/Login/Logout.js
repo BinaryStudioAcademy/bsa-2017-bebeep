@@ -18,7 +18,7 @@ class LogoutLayout extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={ translate('header_logout') } />
+                <PageHeader header={ translate('logout.header_logout') } />
                 <Logout />
             </div>
         )

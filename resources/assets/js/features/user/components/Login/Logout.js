@@ -26,9 +26,9 @@ class Form extends React.Component {
     pickMessage(code) {
         const {translate} = this.props;
         if (code != 200) {
-            return (<div>{translate('failed_logout')}</div>);
+            return (<div>{translate('logout.failed_logout')}</div>);
         } else {
-            return (<div>{translate('successfully_logout')}</div>);
+            return (<div>{translate('logout.successfully_logout')}</div>);
         }
     }
 

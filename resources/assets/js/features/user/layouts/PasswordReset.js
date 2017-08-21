@@ -66,9 +66,9 @@ class PasswordReset extends React.Component {
             {translate} = this.props;
         return (
             <div>
-                <PageHeader header={ translate('recover_password') } />
+                <PageHeader header={ translate('password_reset.recover_password') } />
                 <form method="post" action="/api/password/forgot" className="card password-form" onSubmit={this.onSubmit}>
-                    <div className="card-header">{translate('reset_password_header')}</div>
+                    <div className="card-header">{translate('password_reset.reset_password_header')}</div>
                     <div className="card-block">
                         <div className={"alert alert-danger " + (errors.token ? '' : 'alert_hide')}>
                             {errors.token}
@@ -78,24 +78,24 @@ class PasswordReset extends React.Component {
                             type="email"
                             id="email"
                             error={errors.email}
-                        >{translate('email')}</Input>
+                        >{translate('password_reset.email')}</Input>
                         <Input
                             name="password"
                             type="password"
                             id="password"
                             error={errors.password}
-                        >{translate('password')}</Input>
+                        >{translate('password_reset.password')}</Input>
                         <Input
                             name="password_confirmation"
                             type="password"
                             id="password_confirmation"
                             error={errors.password_confirmation}
-                        >{translate('repeat_password')}</Input>
+                        >{translate('password_reset.repeat_password')}</Input>
                         <input type="hidden" name="token" value={this.props.location.query.token} />
                     </div>
                     <div className="card-footer">
                         <div className="col-sm-8 offset-sm-4">
-                            <button className="btn btn-primary" role="button">{translate('reset_password')}</button>
+                            <button className="btn btn-primary" role="button">{translate('password_reset.reset_password')}</button>
                         </div>
                     </div>
                 </form>

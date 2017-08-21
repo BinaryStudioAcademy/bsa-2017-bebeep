@@ -32,13 +32,13 @@ class Form extends React.Component {
         const {translate} = this.props;
         switch(code) {
             case 401:
-                return (<div>{translate('err_your_email_is_not_activated_yet')}</div>)
+                return (<div>{translate('login_form.err_your_email_is_not_activated_yet')}</div>)
             case 404:
-                return (<div>{translate('err_user_wasnt_registered_yet')}</div>)
+                return (<div>{translate('login_form.err_user_wasnt_registered_yet')}</div>)
             case 422:
-                return (<div>{translate('err_email_password_not_corresponding')}</div>)
+                return (<div>{translate('login_form.err_email_password_not_corresponding')}</div>)
             default:
-                return (<div>{translate('err_some_problems_appeared')}</div>)
+                return (<div>{translate('login_form.err_some_problems_appeared')}</div>)
         }
     }
 
@@ -61,19 +61,19 @@ class Form extends React.Component {
             <div>
                 <form role="form" className="card login-form" action="/api/user/authorization" method="POST">
                     <div className={ "card-header " + (this.props.httpCode !== 200 ? 'alert-danger' : '')}>
-                        {(this.props.httpCode !== 200 ? this.pickErrorMessage(this.props.httpCode) : translate("enter_your_credentials") )}
+                        {(this.props.httpCode !== 200 ? this.pickErrorMessage(this.props.httpCode) : translate("login_form.enter_your_credentials") )}
                     </div>
                     <div className="card-block">
                         <TextInput
                             name="email"
-                            label={translate('email')}
+                            label={translate('login_form.email')}
                             value={ this.state.credentials.email }
                             error={ errors.email }
                             onChange={ this.onChange }/>
 
                         <TextInput
                             name="password"
-                            label={translate('password')}
+                            label={translate('login_form.password')}
                             type="password"
                             value={ this.state.credentials.password }
                             error={ errors.password }
@@ -86,14 +86,14 @@ class Form extends React.Component {
                                 <button
                                     className="btn btn-primary"
                                     onClick={ this.onSave }>
-                                    {translate('login')}
+                                    {translate('login_form.login')}
                                 </button>
                             </div>
                             <div className="col-6 text-right">
                                 <a href="#" onClick={(e) => {
                                     e.preventDefault();
                                     this.setState({forgotModalIsOpen: true});
-                                }}>{translate('forgot_password')}</a>
+                                }}>{translate('login_form.forgot_password')}</a>
                             </div>
                         </div>
                     </div>

@@ -17,7 +17,7 @@ class RegisterForm extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={ translate('header_register') } />
+                <PageHeader header={ translate('register_form.header_register') } />
                 <Form id={ this.props.params.id } />
             </div>
         )

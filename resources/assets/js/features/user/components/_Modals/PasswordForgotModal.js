@@ -65,21 +65,21 @@ class PasswordForgotModal extends React.Component {
             <div>
                 <Modal isOpen={formIsOpen} onClosed={() => { this.state.formIsOpen = false; onClosed(); }}>
                     <form method="post" action="/api/password/forgot" className="password-form" onSubmit={this.onSubmit} autoComplete="false">
-                        <div className="modal-header">{translate('enter_your_email_and_we_will_send_link')}</div>
+                        <div className="modal-header">{translate('password_forgot_modal.enter_your_email_and_we_will_send_link')}</div>
                         <div className="modal-body">
                             <Input
                                 name="forgotten_email"
                                 type="email"
                                 id="email"
                                 error={errors.email}
-                            >{translate('email')}</Input>
+                            >{translate('password_forgot_modal.email')}</Input>
                         </div>
                         <div className="modal-footer text-right">
                             <button className="btn" onClick={(e) => {
                                 e.preventDefault();
                                 this.setState({formIsOpen: false});
-                            }}>{translate('cancel')}</button>
-                            <button className="btn btn-primary" role="button">{translate('send_password_reset_email')}</button>
+                            }}>{translate('password_forgot_modal.cancel')}</button>
+                            <button className="btn btn-primary" role="button">{translate('password_forgot_modal.send_password_reset_email')}</button>
                         </div>
                     </form>
                 </Modal>
@@ -91,7 +91,7 @@ class PasswordForgotModal extends React.Component {
                         }}>
                             <span>&times;</span>
                         </button>
-                        {translate('link_to_reset_password_send_to_your_email')}
+                        {translate('password_forgot_modal.link_to_reset_password_send_to_your_email')}
                     </div>
                 </Modal>
             </div>

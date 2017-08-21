@@ -19,30 +19,30 @@ class ProfileBase extends React.Component {
                 <div className="col-3">
                     <aside>
                       <ul className="menu-sidebar">
-                        <li className="menu-sidebar__header">{translate('profile')}</li>
+                        <li className="menu-sidebar__header">{translate('profile_base.profile')}</li>
                         <li className="menu-sidebar__item">
                             <Link to="/dashboard/profile/general"
                                 className="menu-sidebar__link"
                                 activeClassName="menu-sidebar__link--active"
-                            >{translate('personal_info')}</Link>
+                            >{translate('profile_base.personal_info')}</Link>
                         </li>
                         <li className="menu-sidebar__item">
                             <Link to="/dashboard/profile/avatar"
                                 className="menu-sidebar__link"
                                 activeClassName="menu-sidebar__link--active"
-                            >{translate('avatar')}</Link>
+                            >{translate('profile_base.avatar')}</Link>
                         </li>
                       </ul>
                     </aside>
 
                     <aside>
                       <ul className="menu-sidebar">
-                        <li className="menu-sidebar__header">{translate('account')}</li>
+                        <li className="menu-sidebar__header">{translate('profile_base.account')}</li>
                         <li className="menu-sidebar__item">
                             <Link to="/dashboard/profile/password"
                                 className="menu-sidebar__link"
                                 activeClassName="menu-sidebar__link--active"
-                            >{translate('change_password')}</Link>
+                            >{translate('profile_base.change_password')}</Link>
                         </li>
                       </ul>
                     </aside>

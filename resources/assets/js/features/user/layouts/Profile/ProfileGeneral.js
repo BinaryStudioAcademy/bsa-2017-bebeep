@@ -16,7 +16,7 @@ class ProfileGeneral extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={ translate('personal_information') } />
+                <PageHeader header={ translate('profile_general.personal_information') } />
                 <GeneralForm />
             </div>
         )

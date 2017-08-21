@@ -10,8 +10,8 @@ import UserService from 'features/user/services/UserService';
 import { PasswordUpdateValidate } from 'app/services/UserService';
 
 const MODAL_MSG = {
-    success: 'user_profile_password_success_updated',
-    error: 'failed_update_user_profile_password',
+    success: 'profile_password.user_profile_password_success_updated',
+    error: 'profile_password.failed_update_user_profile_password',
 };
 
 class PasswordForm extends React.Component {
@@ -95,7 +95,7 @@ class PasswordForm extends React.Component {
                             id="current_password"
                             required={false}
                             error={errors.current_password}
-                        >{translate('current_password')}</Input>
+                        >{translate('profile_password.current_password')}</Input>
 
                         <Input
                             type="password"
@@ -103,7 +103,7 @@ class PasswordForm extends React.Component {
                             id="password"
                             required={false}
                             error={errors.password}
-                        >{translate('new_password')}</Input>
+                        >{translate('profile_password.new_password')}</Input>
 
                         <Input
                             type="password"
@@ -111,13 +111,13 @@ class PasswordForm extends React.Component {
                             id="password_confirmation"
                             required={false}
                             error={errors.password_confirmation}
-                        >{translate('repeat_password')}</Input>
+                        >{translate('profile_password.repeat_password')}</Input>
                     </div>
 
                     <div className="card-footer">
                         <div className="text-center">
                             <button className="btn btn-primary">
-                                {translate('save_password')}
+                                {translate('profile_password.save_password')}
                             </button>
                         </div>
                     </div>

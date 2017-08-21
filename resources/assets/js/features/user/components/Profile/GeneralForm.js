@@ -15,8 +15,8 @@ import { ProfileValidate } from 'app/services/UserService';
 import {getTranslate} from 'react-localize-redux';
 
 const MODAL_MSG = {
-    success: 'user_profile_general_success',
-    error: 'failed_update_user_profile_general_data',
+    success: 'profile_general.user_profile_general_success',
+    error: 'profile_general.failed_update_user_profile_general_data',
 };
 
 class GeneralForm extends React.Component {
@@ -122,7 +122,7 @@ class GeneralForm extends React.Component {
 
         if (profileNotFound) {
             return (
-                <div className="alert alert-danger" role="alert">{translate('profile_data_not_found')}</div>
+                <div className="alert alert-danger" role="alert">{translate('profile_general.profile_data_not_found')}</div>
             );
         }
         if (_.isEmpty(profile)) {
@@ -144,7 +144,7 @@ class GeneralForm extends React.Component {
                             defaultValue={ profile.first_name }
                             required={ false }
                             error={ errors.first_name }
-                        >{translate('first_name')}</Input>
+                        >{translate('profile_general.first_name')}</Input>
                         <Input
                             type="text"
                             name="last_name"
@@ -152,7 +152,7 @@ class GeneralForm extends React.Component {
                             defaultValue={ profile.last_name }
                             required={ false }
                             error={ errors.last_name }
-                        >{translate('last_name')}</Input>
+                        >{translate('profile_general.last_name')}</Input>
                         <Input
                             type="email"
                             name="email"
@@ -160,7 +160,7 @@ class GeneralForm extends React.Component {
                             defaultValue={ profile.email }
                             required={ false }
                             error={ errors.email }
-                        >{translate('email')}</Input>
+                        >{translate('profile_general.email')}</Input>
                         <Input
                             type="tel"
                             name="phone"
@@ -168,7 +168,7 @@ class GeneralForm extends React.Component {
                             defaultValue={ profile.phone }
                             required={ false }
                             error={ errors.phone }
-                        >{translate('phone')}</Input>
+                        >{translate('profile_general.phone')}</Input>
                         <Input
                             type="date"
                             name="birth_date"
@@ -176,11 +176,11 @@ class GeneralForm extends React.Component {
                             defaultValue={ profile.birth_date }
                             required={ false }
                             error={ errors.birth_date }
-                        >{translate('birth_date')}</Input>
+                        >{translate('profile_general.birth_date')}</Input>
 
                         <div className={ "form-group row " + (errors.role ? 'has-danger' : '') }>
                             <div className="col-sm-4">
-                                {translate('role')}
+                                {translate('profile_general.role')}
                             </div>
                             <div className="form-check col-sm-4">
                                 <label className="form-check-label">
@@ -191,7 +191,7 @@ class GeneralForm extends React.Component {
                                            value="1"
                                            defaultChecked={ profile.role_driver }
                                            onChange={ this.handleRoleChange }
-                                    /> {translate('driver')}
+                                    /> {translate('profile_general.driver')}
                                 </label>
                             </div>
                             <div className="form-check col-sm-4">
@@ -203,7 +203,7 @@ class GeneralForm extends React.Component {
                                            value="1"
                                            defaultChecked={ profile.role_passenger }
                                            onChange={ this.handleRoleChange }
-                                    /> {translate('passenger')}
+                                    /> {translate('profile_general.passenger')}
                                 </label>
                             </div>
                             <div className="offset-sm-4 col-sm-8">
@@ -217,13 +217,13 @@ class GeneralForm extends React.Component {
                             defaultValue={ profile.about_me || '' }
                             required={ false }
                             error={ errors.about_me }
-                        >{translate('about_me')}</Textarea>
+                        >{translate('profile_general.about_me')}</Textarea>
                     </div>
 
                     <div className="card-footer">
                         <div className="text-center">
                             <button className="btn btn-primary">
-                                {translate('save')}
+                                {translate('profile_general.save')}
                             </button>
                         </div>
                     </div>

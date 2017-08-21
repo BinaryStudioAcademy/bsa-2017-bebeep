@@ -1,7 +1,9 @@
 {
-  "profile": ["Profile", "Профіль", "Профиль"],
-  "personal_info": ["Personal info", "Особиста інформація", "Личная информация"],
-  "avatar": ["Avatar", "Аватар", "Аватар"],
-  "account": ["Account", "Аккаунт", "Аккаунт"],
-  "change_password": ["Change password", "Змінити пароль", "Сменить пароль"]
+  "profile_base": {
+    "profile": ["Profile", "Профіль", "Профиль"],
+    "personal_info": ["Personal info", "Особиста інформація", "Личная информация"],
+    "avatar": ["Avatar", "Аватар", "Аватар"],
+    "account": ["Account", "Аккаунт", "Аккаунт"],
+    "change_password": ["Change password", "Змінити пароль", "Сменить пароль"]
+  }
 }
