@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trip;
-use App\Services\TripDetailService;
 use App\Services\TripsService;
 use App\Transformers\DetailTrip;
+use App\Services\TripDetailService;
 use Illuminate\Support\Facades\Auth;
 use App\Transformers\TripTransformer;
 use App\Http\Requests\CreateTripRequest;

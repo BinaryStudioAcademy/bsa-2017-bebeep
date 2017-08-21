@@ -21,9 +21,10 @@ class BookingController extends Controller
     {
         try {
             $this->bookingService->changeStatus($request, $trip, $booking);
-        } catch(BookingConfirmException $e) {
+        } catch (BookingConfirmException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
+
         return response()->json();
     }
 }

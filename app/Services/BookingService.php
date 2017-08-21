@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Booking;
 use App\Models\Trip;
+use App\Models\Booking;
+use Illuminate\Support\Facades\Auth;
 use App\Validators\ConfirmBookingValidator;
 use App\Services\Requests\BookingStatusRequest;
 use App\Repositories\Contracts\BookingRepository;
-use Illuminate\Support\Facades\Auth;
 
 class BookingService implements Contracts\BookingService
 {
@@ -54,5 +54,4 @@ class BookingService implements Contracts\BookingService
         $booking->status = Booking::STATUS_DECLINED;
         $this->bookingRepository->save($booking);
     }
-
 }

@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Services\Requests\BookingStatusRequest as BookingStatusRequestContract;
-use Illuminate\Support\Str;
 
 class BookingStatusRequest extends FormRequest implements BookingStatusRequestContract
 {
@@ -27,7 +26,7 @@ class BookingStatusRequest extends FormRequest implements BookingStatusRequestCo
     public function rules()
     {
         return [
-            'status' => 'required'
+            'status' => 'required',
         ];
     }
 

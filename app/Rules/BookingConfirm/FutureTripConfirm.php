@@ -13,8 +13,9 @@ class FutureTripConfirm implements Contracts\ConfirmRule
     public function validate(Trip $trip, Booking $booking, User $user): bool
     {
         if ($trip->start_at->timestamp < Carbon::now()->timestamp) {
-            throw new BookingConfirmException(__("Rules/BookingConfirm/Confirm.trip_has_passed"));
+            throw new BookingConfirmException(__('Rules/BookingConfirm/Confirm.trip_has_passed'));
         }
+
         return true;
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Validators;
 
-use App\Models\Booking;
-use App\Models\Trip;
-use App\Rules\BookingConfirm\Contracts\ConfirmRule;
 use App\User;
+use App\Models\Trip;
+use App\Models\Booking;
+use App\Rules\BookingConfirm\Contracts\ConfirmRule;
 
 class ConfirmBookingValidator
 {

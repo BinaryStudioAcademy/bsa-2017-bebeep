@@ -19,13 +19,14 @@ class TripDetail
         return $this->routes[] = $route;
     }
 
-    function __get($name)
+    public function __get($name)
     {
         if ($name === 'routes') {
             return $this->routes;
-        } else if (isset($this->trip, $name)) {
+        } elseif (isset($this->trip, $name)) {
             return $this->trip[$name];
         }
+
         return null;
     }
 }
