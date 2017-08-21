@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-
 use App\Models\Trip;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -50,14 +49,15 @@ class TripRepository extends BaseRepository
         return $trip;
     }
 
-
     /**
+     * Search trips.
+     *
      * @param array $attributes
+     *
      * @return mixed
      */
     public function search(array $attributes)
     {
-
         [
             'start_at' => $startAt,
             'from_lat' => $fromLat,
@@ -66,42 +66,67 @@ class TripRepository extends BaseRepository
             'to_lng' => $toLng,
         ] = $attributes;
 
-        $sql_start_point = $this->haversinusSql("from_lat",
-            "from_lng",
+        $startPoint = $this->haversinusSql(
+            'from_lat',
+            'from_lng',
             $fromLat,
             $fromLng,
-            "distance_from");
+            'distance_from'
+        );
 
-        $sql_end_point = $this->haversinusSql("to_lat",
-            "to_lng",
+        $endPoint = $this->haversinusSql(
+            'to_lat',
+            'to_lng',
             $toLat,
             $toLng,
-            "distance_to");
+            'distance_to'
+        );
 
-        $sql = "SELECT *, $sql_start_point, $sql_end_point 
-                FROM trips
-                JOIN routes on trips.id = routes.trip_id
-                HAVING start_at >=  \"$startAt\" AND distance_from < 10 AND distance_to < 10";
+        $sql = "SELECT * FROM trips
+                INNER JOIN routes on trips.id = routes.trip_id
+                WHERE start_at >= '$startAt'
+                AND $startPoint < 10 AND $endPoint < 10";
 
-        return DB::select($sql);
+        //return DB::select($sql);
+
+        return DB::table('trips')
+            ->join('routes', 'trips.id', '=', 'routes.trip_id')
+            ->select('*')
+            ->where([
+                ['start_at', '>=', $startAt],
+                [DB::raw($startPoint), '<', 10],
+                [DB::raw($endPoint), '<', 10],
+            ])
+            ->get();
     }
 
     /**
-     * @param $start_lat
-     * @param $start_lng
-     * @param $end_lat
-     * @param $end_lng
-     * @param $column_name
+     * Calculate the distance between two points.
+     *
+     * Calculate the distance between two points,
+     * given their longitude and latitude, using the Haversin formula.
+     *
+     * @param string $startLat
+     * @param string $startLng
+     * @param float $endLat
+     * @param float $endLng
+     * @param string $columnName
+     *
      * @return string
      */
-    private function haversinusSql($start_lat, $start_lng, $end_lat, $end_lng, $column_name)
-    {
-        $sql = "round(6371 * 2 * ASIN(SQRT(POWER(SIN((`$start_lat` - $end_lat ) *
-                pi()/180 / 2), 2) + COS(`$start_lat` * pi()/180) * COS($end_lat * pi() / 180) *
-                POWER(SIN((`$start_lng` - ($end_lng)) * pi()/180 / 2), 2))),1)  
-                as $column_name";
+    private function haversinusSql(
+        string $startLat,
+        string $startLng,
+        float $endLat,
+        float $endLng
+    ) : string {
 
-        return $sql;
+        $earthRadius = 6371;
+
+        return "ROUND(2 * $earthRadius * ASIN(SQRT(
+            POWER(SIN(RADIANS(routes.`$startLat` - $endLat) / 2), 2) +
+            COS(RADIANS(routes.`$startLat`)) * COS(RADIANS($endLat)) *
+            POWER(SIN(RADIANS(routes.`$startLng` - $endLng) / 2), 2)
+        )), 1)";
     }
-
 }
