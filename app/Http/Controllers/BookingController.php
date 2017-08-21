@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BookingStatusRequest;
-use App\Models\Booking;
 use App\Models\Trip;
+use App\Models\Booking;
 use App\Services\Contracts\BookingService;
-use Illuminate\Http\Request;
+use App\Http\Requests\BookingStatusRequest;
+use App\Exceptions\Booking\BookingConfirmException;
 
 class BookingController extends Controller
 {
@@ -19,7 +19,11 @@ class BookingController extends Controller
 
     public function status(BookingStatusRequest $request, Trip $trip, Booking $booking)
     {
-        $this->bookingService->changeStatus($request, $booking);
+        try {
+            $this->bookingService->changeStatus($request, $trip, $booking);
+        } catch(BookingConfirmException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
         return response()->json();
     }
 }

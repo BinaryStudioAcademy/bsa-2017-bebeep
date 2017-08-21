@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Rules\Booking\Contracts;
+namespace App\Rules\BookingConfirm\Contracts;
 
 use App\Models\Booking;
 use App\Models\Trip;
 use App\User;
 
-interface Confirm
+interface ConfirmRule
 {
     public function validate(Trip $trip, Booking $booking, User $user) : bool;
 }

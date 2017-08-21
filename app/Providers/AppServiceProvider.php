@@ -3,10 +3,14 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
+use App\Rules\BookingConfirm\BookingTripConfirm;
+use App\Rules\BookingConfirm\FutureTripConfirm;
+use App\Rules\BookingConfirm\OwnerConfirm;
 use App\Services\BookingService;
 use App\Services\RouteService;
 use App\Services\PasswordService;
 use App\Services\UserProfileService;
+use App\Validators\ConfirmBookingValidator;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\BookingRepository;
 use App\Rules\DeleteTrip\TripOwnerRule;
@@ -61,6 +65,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\Contracts\BookingRepository::class, \App\Repositories\BookingRepository::class);
         $this->app->bind(RouteServiceContract::class, RouteService::class);
         $this->app->bind(\App\Services\Contracts\TripDetailService::class, \App\Services\TripDetailService::class);
+
+        $this->app->bind(ConfirmBookingValidator::class, function ($app) {
+            return new ConfirmBookingValidator(
+                new OwnerConfirm,
+                new BookingTripConfirm,
+                new FutureTripConfirm
+            );
+        });
     }
 
     /**
@@ -76,13 +88,13 @@ class AppServiceProvider extends ServiceProvider
             $parameters,
             $validator
         ) {
-            if (!$parameters || !Auth::user() || !$parameters[0]) {
+            if (! $parameters || ! Auth::user() || ! $parameters[0]) {
                 return false;
             }
 
             $vehicle = Vehicle::whereId($parameters[0])->first();
 
-            if (!$vehicle) {
+            if (! $vehicle) {
                 return false;
             }
 
@@ -95,11 +107,11 @@ class AppServiceProvider extends ServiceProvider
             $parameters,
             $validator
         ) {
-            if (!$parameters || !$parameters[0]) {
+            if (! $parameters || ! $parameters[0]) {
                 return false;
             }
 
-            return (int)$parameters[0] < (int)$value;
+            return (int)$parameters[0] < (int) $value;
         });
 
         Validator::extend(

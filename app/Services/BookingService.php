@@ -3,23 +3,30 @@
 namespace App\Services;
 
 use App\Models\Booking;
-use App\Repositories\Contracts\BookingRepository;
+use App\Models\Trip;
+use App\Validators\ConfirmBookingValidator;
 use App\Services\Requests\BookingStatusRequest;
+use App\Repositories\Contracts\BookingRepository;
+use Illuminate\Support\Facades\Auth;
 
 class BookingService implements Contracts\BookingService
 {
     protected $bookingRepository;
+    protected $confirmBookingValidator;
 
-    public function __construct(BookingRepository $bookingRepository)
+    public function __construct(BookingRepository $bookingRepository, ConfirmBookingValidator $confirmBookingValidator)
     {
         $this->bookingRepository = $bookingRepository;
+        $this->confirmBookingValidator = $confirmBookingValidator;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function changeStatus(BookingStatusRequest $requestStatus, Booking $booking): void
+    public function changeStatus(BookingStatusRequest $requestStatus, Trip $trip, Booking $booking): void
     {
+        $this->confirmBookingValidator->validate($trip, $booking, Auth::user());
+
         switch ($requestStatus->getStatus()) {
             case Booking::STATUS_APPROVED:
                 $this->approve($booking);
@@ -33,7 +40,7 @@ class BookingService implements Contracts\BookingService
     /**
      * {@inheritdoc}
      */
-    public function approve(Booking $booking): void
+    protected function approve(Booking $booking): void
     {
         $booking->status = Booking::STATUS_APPROVED;
         $this->bookingRepository->save($booking);
@@ -42,7 +49,7 @@ class BookingService implements Contracts\BookingService
     /**
      * {@inheritdoc}
      */
-    public function decline(Booking $booking): void
+    protected function decline(Booking $booking): void
     {
         $booking->status = Booking::STATUS_DECLINED;
         $this->bookingRepository->save($booking);

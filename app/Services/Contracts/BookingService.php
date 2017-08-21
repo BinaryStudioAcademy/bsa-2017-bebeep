@@ -2,28 +2,18 @@
 
 namespace App\Services\Contracts;
 
+use App\Models\Trip;
 use App\Models\Booking;
 use App\Services\Requests\BookingStatusRequest;
+use App\Exceptions\Booking\BookingConfirmException;
 
 interface BookingService
 {
     /**
      * @param BookingStatusRequest $requestStatus
-     * @return mixed
-     */
-    public function changeStatus(BookingStatusRequest $requestStatus, Booking $booking) : void;
-
-    /**
-     * Approve booking
-     *
+     * @param Trip $trip
      * @param Booking $booking
+     * @throws BookingConfirmException
      */
-    public function approve(Booking $booking): void;
-
-    /**
-     * Decline booking
-     *
-     * @param Booking $booking
-     */
-    public function decline(Booking $booking): void;
+    public function changeStatus(BookingStatusRequest $requestStatus, Trip $trip, Booking $booking) : void;
 }
