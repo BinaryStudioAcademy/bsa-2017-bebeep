@@ -5,20 +5,20 @@ const BookingService = {
         let response;
         return response = [
             {
-                id: 1,
+                booking_id: 1,
                 first_name: 'Misha',
                 last_name: 'Markelov',
-                phone: '123456789'
+                img: 'http://findicons.com/files/icons/1072/face_avatars/300/a02.png'
             },{
-                id: 2,
-                first_name: 'Caeqb',
-                last_name: 'Dqwejzo',
-                phone: '987653122'
+                booking_id: 2,
+                first_name: 'Dany',
+                last_name: 'Stone',
+                img: 'http://findicons.com/files/icons/1072/face_avatars/300/a03.png'
             },{
-                id: 3,
-                first_name: 'Dashq',
-                last_name: 'Qeadqw',
-                phone: '416564121'
+                booking_id: 3,
+                first_name: 'Angela',
+                last_name: 'Minoy',
+                img: 'http://findicons.com/files/icons/1072/face_avatars/300/fh02.png'
             },
         ];
         /*return securedRequest.get('/api/v1/trips/' + id + '/bookings)

@@ -21,7 +21,7 @@ class Trip extends React.Component {
             deletable: this.props.deletable,
             editable: this.props.editable,
             isDeleted: false,
-            bookings: {},
+            bookings: [],
             bookingsCount: 0,
             modalIsOpen: false,
         };
@@ -40,9 +40,6 @@ class Trip extends React.Component {
         this.setState({
             modalIsOpen: true
         });
-        console.log('Trip id:', this.props.trip.id);
-        console.log('Bookings count:', this.state.bookingsCount);
-        console.log('Bookings:', this.state.bookings);
     }
 
     getStartDate() {
@@ -127,7 +124,8 @@ class Trip extends React.Component {
                         </div>
                     </DirectionsMap>
                 ) : (<span>&nbsp;</span>)}
-                <BookingModal bookings={ bookings } count={bookingCount} isOpen={ modalIsOpen }
+
+                <BookingModal bookings={ bookings } count={ bookingCount } tripId={ this.props.trip.id } isOpen={ modalIsOpen }
                              onClosed={ () => this.state.modalIsOpen = false } />
             </div>
         )
