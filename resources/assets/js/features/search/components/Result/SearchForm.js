@@ -122,15 +122,12 @@ class SearchForm extends React.Component {
                 to: tripData.to.coordinate,
             },
             resultValidate = {
-                from: Validator.coordinate('validate.incorrect_leaving_from_point'),
-                to: Validator.coordinate('validate.incorrect_going_to_point')
+                from: Validator.coordinate(translate('validate.incorrect_leaving_from_point')),
+                to: Validator.coordinate(translate('validate.incorrect_going_to_point'))
             },
             validated = Validator.validate(resultValidate, toBeValidated);
         if (!validated.valid) {
-            this.setState({errors: {
-                from: validated.errors.from && translate(validated.errors.from),
-                to: validated.errors.to && translate(validated.errors.to)
-            }});
+            this.setState({errors: validated.errors});
             return;
         }
 
@@ -156,14 +153,14 @@ class SearchForm extends React.Component {
                 value: tripData.from.name,
                 onChange: this.onChangeStartPoint,
                 type: 'search',
-                placeholder: translate('leaving_from'),
+                placeholder: translate('search_result.leaving_from'),
                 autoFocus: true
             },
             endPointProps = {
                 value: tripData.to.name,
                 onChange: this.onChangeEndPoint,
                 type: 'search',
-                placeholder: translate('going_to'),
+                placeholder: translate('search_result.going_to'),
                 autoFocus: false
             },
             AutocompleteItem = ({ formattedSuggestion }) => (
@@ -213,7 +210,7 @@ class SearchForm extends React.Component {
                     </div>
                 </div>
                 <div className="col-sm-2">
-                    <button role="button" className="btn btn-primary" onClick={this.onClickSearch}>{translate('search')}</button>
+                    <button role="button" className="btn btn-primary" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
                 </div>
             </div>
         )

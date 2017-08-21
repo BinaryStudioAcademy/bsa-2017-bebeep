@@ -65,18 +65,18 @@ class Filter extends React.Component {
         return (
             <div className="filter">
                 <div className="filter__prop">
-                    <div className="filter__prop-name">{translate('filter.date')}</div>
+                    <div className="filter__prop-name">{translate('search_result.filter.date')}</div>
                     <div className="filter__prop-control">
                         <DatePicker
                             todayButton={"Today"}
                             selected={date}
                             onChange={this.dateChange}
-                            placeholderText={translate('filter.date_placeholder')}
+                            placeholderText={translate('search_result.filter.date_placeholder')}
                             minDate={moment()}
                             className="form-control"
                             isClearable={true}
                         />
-                        <div className="filter__prop-sign">{translate('filter.time', {start: time[0], end: time[1]})}</div>
+                        <div className="filter__prop-sign">{translate('search_result.filter.time', {start: time[0], end: time[1]})}</div>
                         <Range
                             min={0}
                             max={24}
@@ -89,10 +89,10 @@ class Filter extends React.Component {
                     </div>
                 </div>
                 <div className="filter__prop">
-                    <div className="filter__prop-name">{translate('filter.price')}</div>
+                    <div className="filter__prop-name">{translate('search_result.filter.price')}</div>
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
-                            {translate('filter.price_range', {start: price[0],end: price[1]})}
+                            {translate('search_result.filter.price_range', {start: price[0],end: price[1]})}
                         </div>
                         <Range
                             min={priceBounds[0]}

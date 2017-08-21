@@ -20,9 +20,9 @@ class TripItem extends React.Component {
             now = moment(),
             time = `- ${hour}:${minute}`;
         if (now.isSame(date, 'day')) {
-            return `${translate('today')} ${time}`
+            return `${translate('search_result.today')} ${time}`
         } else if (now.isSame(date.subtract(1, 'day'), 'day')) {
-            return `${translate('tomorrow')} ${time}`
+            return `${translate('search_result.tomorrow')} ${time}`
         }
         return `${weekday}. ${day} ${month} ${time}`;
     }
@@ -39,7 +39,7 @@ class TripItem extends React.Component {
                         <div className="search-trip-item__user-name"
                              title={ trip.user.full_name }
                         >{ trip.user.full_name }</div>
-                        <div className="search-trip-item__user-age">{ translate('years' + LangService.getNumberForm(trip.user.age), { age: trip.user.age }) }</div>
+                        <div className="search-trip-item__user-age">{ translate('search_result.years' + LangService.getNumberForm(trip.user.age), { age: trip.user.age }) }</div>
                     </div>
                     <div className="search-trip-item__trip-container col-sm-8 clearfix">
                         <div className="search-trip-item__description">
@@ -63,11 +63,11 @@ class TripItem extends React.Component {
                         </div>
                         <div className="search-trip-item__offer">
                             <div className="search-trip-item__price"><span className="search-trip-item__price-currency">$</span>{trip.price}</div>
-                            <div className="search-trip-item__price-sign">{translate('per_passenger')}</div>
+                            <div className="search-trip-item__price-sign">{translate('search_result.per_passenger')}</div>
                             <div className="search-trip-item__free-seats">
                                 <span className="search-trip-item__free-seats-text">
                                     {trip.seats}
-                                </span> {translate('free_seats' + LangService.getNumberForm(trip.seats))}</div>
+                                </span> {translate('search_result.free_seats' + LangService.getNumberForm(trip.seats))}</div>
                         </div>
                     </div>
                 </div>

@@ -1,31 +1,33 @@
 {
-  "search_trips": ["Search trips", "Пошук подоржей", "Поиск поездок"],
-  "found_trips": ["Found trips: ${size}", "Знайдено подорожей: ${size}", "Найдено поездок: ${size}"],
-  "loading": ["Loading ...", "Завантаження ...", "Загрузка ..."],
-  "showing_of": ["Showing ${count} of ${size}", "Показано ${count} з ${size}", "Показано ${count} из ${size}"],
-  "leaving_from": ["Leaving from...", "Відправлення від...", "Отправление от..."],
-  "going_to": ["Going to...", "Прибуття до...", "Прибытие в..."],
-  "search": ["Search", "Пошук", "Поиск"],
-  "price": ["Price", "Ціна", "Цена"],
-  "date": ["Date", "Дата", "Дата"],
-  "free_seats1": ["free seat(s)", "вільне місце", "свободное место"],
-  "free_seats2": ["free seat(s)", "вільних місця", "свободных места"],
-  "free_seats3": ["free seat(s)", "вільних місць", "свободных мест"],
-  "per_passenger": ["per passenger", "з пасажира", "с пассажира"],
-  "years1": ["${age} yrs.", "${age} р.", "${age} г."],
-  "years2": ["${age} yrs.", "${age} р.", "${age} г."],
-  "years3": ["${age} yrs.", "${age} р.", "${age} л."],
-  "today": ["Today", "Сьгодні", "Сегодня"],
-  "tomorrow": ["Tomorrow", "Завтра", "Завтра"],
-  "filter": {
-    "date": ["Date", "Дата", "Дата"],
-    "date_placeholder": ["mm/dd/yyyy", "дд.мм.рррр", "дд.мм.гггг"],
-    "time": ["Time: ${start}h - ${end}h", "Час: ${start}ч - ${end}ч", "Время: ${start}ч - ${end}ч"],
+  "search_result": {
+    "search_trips": ["Search trips", "Пошук подоржей", "Поиск поездок"],
+    "found_trips": ["Found trips: ${size}", "Знайдено подорожей: ${size}", "Найдено поездок: ${size}"],
+    "loading": ["Loading ...", "Завантаження ...", "Загрузка ..."],
+    "showing_of": ["Showing ${count} of ${size}", "Показано ${count} з ${size}", "Показано ${count} из ${size}"],
+    "leaving_from": ["Leaving from...", "Відправлення від...", "Отправление от..."],
+    "going_to": ["Going to...", "Прибуття до...", "Прибытие в..."],
+    "search": ["Search", "Пошук", "Поиск"],
     "price": ["Price", "Ціна", "Цена"],
-    "price_range": [
-      "From <span className='filter__currency'>$</span>${start} to <span className='filter__currency'>$</span>${end}",
-      "Від <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}",
-      "От <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}"
-    ]
+    "date": ["Date", "Дата", "Дата"],
+    "free_seats1": ["free seat(s)", "вільне місце", "свободное место"],
+    "free_seats2": ["free seat(s)", "вільних місця", "свободных места"],
+    "free_seats3": ["free seat(s)", "вільних місць", "свободных мест"],
+    "per_passenger": ["per passenger", "з пасажира", "с пассажира"],
+    "years1": ["${age} yrs.", "${age} р.", "${age} г."],
+    "years2": ["${age} yrs.", "${age} р.", "${age} г."],
+    "years3": ["${age} yrs.", "${age} р.", "${age} л."],
+    "today": ["Today", "Сьогодні", "Сегодня"],
+    "tomorrow": ["Tomorrow", "Завтра", "Завтра"],
+    "filter": {
+      "date": ["Date", "Дата", "Дата"],
+      "date_placeholder": ["mm/dd/yyyy", "дд.мм.рррр", "дд.мм.гггг"],
+      "time": ["Time: ${start}h - ${end}h", "Час: ${start}ч - ${end}ч", "Время: ${start}ч - ${end}ч"],
+      "price": ["Price", "Ціна", "Цена"],
+      "price_range": [
+        "From <span className='filter__currency'>$</span>${start} to <span className='filter__currency'>$</span>${end}",
+        "Від <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}",
+        "От <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}"
+      ]
+    }
   }
 }

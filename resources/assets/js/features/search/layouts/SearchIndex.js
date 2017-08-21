@@ -16,7 +16,7 @@ export default localize(class SearchIndex extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={translate('find_a_ride_header')}/>
+                <PageHeader header={translate('search_index.find_a_ride_header')}/>
                 <SearchForm />
             </div>
         );

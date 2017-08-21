@@ -135,7 +135,7 @@ class SearchForm extends React.Component {
             value: this.state.startPoint.address,
             onChange: this.onChangeStartPoint.bind(this),
             type: 'search',
-            placeholder: translate('leaving_from'),
+            placeholder: translate('search_index.leaving_from'),
             autoFocus: true
         };
 
@@ -143,7 +143,7 @@ class SearchForm extends React.Component {
             value: this.state.endPoint.address,
             onChange: this.onChangeEndPoint.bind(this),
             type: 'search',
-            placeholder: translate('going_to'),
+            placeholder: translate('search_index.going_to'),
             autoFocus: false
         };
 
@@ -159,7 +159,7 @@ class SearchForm extends React.Component {
                 <div className="row py-4 px-2 px-lg-4">
                     <div className="col-sm-6 col-lg-3">
                         <div className={"form-group " + (this.state.errors.from ? 'has-danger' : '')}>
-                            <label htmlFor="startPoint" className="sr-only">{translate('leaving_from_label')}</label>
+                            <label htmlFor="startPoint" className="sr-only">{translate('search_index.leaving_from_label')}</label>
                             <PlacesAutocomplete
                                 inputProps={startPointProps}
                                 classNames={placesCssClasses}
@@ -175,7 +175,7 @@ class SearchForm extends React.Component {
                         <div className={"form-group " +
                                 (this.state.errors.to ? 'has-danger' : '')}>
 
-                            <label htmlFor="endPoint" className="sr-only">{translate('going_to_label')}</label>
+                            <label htmlFor="endPoint" className="sr-only">{translate('search_index.going_to_label')}</label>
                             <PlacesAutocomplete
                                 inputProps={endPointProps}
                                 classNames={placesCssClasses}
@@ -192,7 +192,7 @@ class SearchForm extends React.Component {
                             todayButton={"Today"}
                             selected={this.state.startDate}
                             onChange={this.handleDateChange}
-                            placeholderText={translate('date')}
+                            placeholderText={translate('search_index.date')}
                             minDate={moment()}
                             className={"form-control date-picker " +
                                 (this.state.errors.start_at ? 'picker-error' : '')}
@@ -204,7 +204,7 @@ class SearchForm extends React.Component {
                             className="btn btn-search btn-primary px-5"
                             onClick={this.onClick.bind(this)}
                         >
-                            {translate('find_a_ride')}
+                            {translate('search_index.find_a_ride')}
                         </button>
                     </div>
                 </div>

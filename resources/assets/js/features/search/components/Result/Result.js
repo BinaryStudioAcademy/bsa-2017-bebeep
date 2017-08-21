@@ -142,7 +142,7 @@ class Result extends React.Component {
                         <div className="container">
                             <div className="row search-result__header">
                                 <div className="col-8 align-self-center">
-                                    {translate('found_trips', {size: meta.totalSize})}
+                                    {translate('search_result.found_trips', {size: meta.totalSize})}
                                 </div>
                                 <div className="search-result__sort-container col-4">
                                     <SortPanel
@@ -156,7 +156,7 @@ class Result extends React.Component {
                                 <Preloader enable={preloader}/>
                                 {
                                     preloader
-                                        ? <Placeholder show={true}>{translate('loading')}</Placeholder>
+                                        ? <Placeholder show={true}>{translate('search_result.loading')}</Placeholder>
                                         : <TripList
                                                 collection={collection}
                                             />
@@ -164,7 +164,7 @@ class Result extends React.Component {
                             </div>
                             <div className="row search-result__pagination">
                                 <div className="col-sm-6 align-self-center">
-                                    {translate('showing_of', {count: countResult, size: meta.totalSize})}
+                                    {translate('search_result.showing_of', {count: countResult, size: meta.totalSize})}
                                 </div>
                                 <div className="col-sm-6">
                                     <Pagination

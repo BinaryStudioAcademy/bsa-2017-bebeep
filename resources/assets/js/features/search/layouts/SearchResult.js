@@ -16,7 +16,7 @@ class SearchResult extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={translate('search_trips')}/>
+                <PageHeader header={translate('search_result.search_trips')}/>
                 <Result />
             </div>
         )
