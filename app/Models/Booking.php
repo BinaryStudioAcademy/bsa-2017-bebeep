@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
+    const STATUS_DECLINED = 'declined';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_PENDING = 'pending';
+
     /**
      * The attributes that are mass assignable.
      *
