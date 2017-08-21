@@ -77,7 +77,7 @@ class TripForm extends React.Component {
                         id="start_at"
                         defaultValue={this.props.trip ? this.props.trip.start_at : ''}
                         required={false}
-                        error={errors.start_at}>{translate('trip_form.end_point')}
+                        error={errors.start_at}>{translate('trip_form.trip_start_time')}
                     </Input>
 
                     <Waypoints waypoints={this.props.waypoints}
