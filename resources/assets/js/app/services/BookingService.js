@@ -21,7 +21,7 @@ const BookingService = {
                 img: 'https://pickaface.net/assets/images/slides/slide1.png'
             }
         ];
-        /*return securedRequest.get('/api/v1/trips/' + id + '/bookings)
+        /*return securedRequest.get('/api/v1/trips/' + id + '/bookings')
             .then(
                 response => Promise.resolve(response.data),
                 error => Promise.reject(error.response.data)
