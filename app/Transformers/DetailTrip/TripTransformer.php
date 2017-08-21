@@ -10,7 +10,7 @@ class TripTransformer extends TransformerAbstract
     protected $availableIncludes = [
         'driver',
         'routes',
-        'vehicle'
+        'vehicle',
     ];
 
     /**
@@ -26,7 +26,7 @@ class TripTransformer extends TransformerAbstract
                 'id' => $trip->id,
                 'price' => $trip->price,
                 'seats' => $trip->seats,
-                'start_at' => (string)$trip->start_at,
+                'start_at' => (string) $trip->start_at,
                 'start_at_x' => $trip->start_at->timestamp,
             ],
         ];
