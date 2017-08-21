@@ -122,7 +122,7 @@ class DirectionsMap extends React.Component {
                 <div className="card-header">
                     <span>{this.props.title}</span>
                     {this.props.bookingCount  ? (
-                        <button type="button" className="btn bookings btn-sm btn-primary hover" onClick={this.props.onClickBooking}>Bookings <span className="badge badge-red">{this.props.bookingCount}</span></button>
+                        <button type="button" className="btn bookings btn-sm btn-primary hover" onClick={this.props.onClickBooking}>{translate('booking.bookings_button')} <span className="badge badge-red">{this.props.bookingCount}</span></button>
                     ) : ( <span>&nbsp;</span>) }
                 </div>
                 <div className="card-block google-map">

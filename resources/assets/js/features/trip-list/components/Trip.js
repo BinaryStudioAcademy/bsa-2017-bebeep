@@ -23,7 +23,7 @@ class Trip extends React.Component {
             isDeleted: false,
             bookings: [],
             bookingsCount: 0,
-            modalIsOpen: false,
+            modalIsOpen: false
         };
     }
 

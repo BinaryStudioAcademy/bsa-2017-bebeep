@@ -1,7 +1,10 @@
 import React from 'react';
 import BookingInfo from '../BookingInfo';
+import { localize } from 'react-localize-redux';
 import Modal from 'app/components/Modal';
 import BookingService from 'app/services/BookingService';
+
+import '../../styles/booking-info.scss';
 
 class BookingModal extends React.Component {
     constructor() {
@@ -33,7 +36,7 @@ class BookingModal extends React.Component {
 
     render() {
         const { modalIsOpen } = this.state;
-        const { bookings, tripId, count } = this.props;
+        const { translate, bookings, tripId, count } = this.props;
         const onClosed = this.props.onClosed || (() => {});
         const approved = 'approved';
         const declined = 'declined';
@@ -41,21 +44,23 @@ class BookingModal extends React.Component {
         return (
             <div>
                 <Modal isOpen={ modalIsOpen } onClosed={() => { this.state.modalIsOpen = false; onClosed(); }}>
-                    <div className={ "modal-header alert-warning" }><span><strong>{count}</strong> bookings in pending</span></div>
+                    <div className={ "modal-header booking-back" }><span><strong>{count}</strong> {translate('booking.bookings_in_pending')}</span></div>
                     <div className="modal-body">
-                        {bookings.map((booking, i) =>
-                            <BookingInfo
-                                key={ i }
-                                booking={ booking }
-                                onApprove={() => this.onActionClick(tripId, booking.booking_id, approved)}
-                                onDecline={() => this.onActionClick(tripId, booking.booking_id, declined)}
-                            />
-                        )}
-                        </div>
+                        <ul className="list-unstyled">
+                            {bookings.map((booking, i) =>
+                                <BookingInfo
+                                    key={ i }
+                                    booking={ booking }
+                                    onApprove={() => this.onActionClick(tripId, booking.booking_id, approved)}
+                                    onDecline={() => this.onActionClick(tripId, booking.booking_id, declined)}
+                                />
+                            )}
+                        </ul>
+                    </div>
                     <div className="modal-footer text-right">
-                        <button className={ "btn btn-default" } role="button" onClick={(e) => {
+                        <button className="btn btn-sm btn-booking" role="button" onClick={(e) => {
                             this.setState({ modalIsOpen: false });
-                        }}>Close</button>
+                        }}>{translate('booking.close_button')}</button>
                     </div>
                 </Modal>
             </div>
@@ -63,4 +68,4 @@ class BookingModal extends React.Component {
     }
 }
 
-export default BookingModal;
+export default localize(BookingModal, 'locale');
