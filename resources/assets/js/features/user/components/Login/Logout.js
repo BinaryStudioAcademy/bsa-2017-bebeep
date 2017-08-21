@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
-
+import {getTranslate} from 'react-localize-redux';
 import * as actions from 'features/user/actions';
-
 import 'features/user/styles/user.scss';
 
 class Form extends React.Component {
 
-    constructor(props) {
+    constructor() {
         super();
         this.pickMessage = this.pickMessage.bind(this);
     }
@@ -25,10 +24,11 @@ class Form extends React.Component {
     }
 
     pickMessage(code) {
+        const {translate} = this.props;
         if (code != 200) {
-            return (<div>Logout is failed due to error</div>);
+            return (<div>{translate('logout.failed_logout')}</div>);
         } else {
-            return (<div>You were successfully logout!</div>);
+            return (<div>{translate('logout.successfully_logout')}</div>);
         }
     }
 
@@ -47,5 +47,6 @@ function mapDispatchToProps(dispatch) {
 
 export default connect((state) => ({
     errors: state.user.login.errors,
-    httpCode: state.user.login.httpStatus
+    httpCode: state.user.login.httpStatus,
+    translate: getTranslate(state.locale)
 }), mapDispatchToProps)(Form);

@@ -9,7 +9,7 @@ import routes from 'app/routes';
 render(
     (<Provider store={ Store }>
         <Router history={ browserHistory }>
-            { routes }
+            { routes(Store) }
         </Router>
     </Provider>)
     , document.getElementById('bebeep-app')
