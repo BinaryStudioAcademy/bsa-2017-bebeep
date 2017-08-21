@@ -10,6 +10,7 @@ class TripTransformer extends TransformerAbstract
     protected $availableIncludes = [
         'driver',
         'routes',
+        'vehicle'
     ];
 
     /**
@@ -33,11 +34,16 @@ class TripTransformer extends TransformerAbstract
 
     public function includeRoutes(Trip $trip)
     {
-        return $this->collection($trip->routes, new RouteTransformer());
+        return $this->collection($trip->routes, app()->make(RouteTransformer::class));
     }
 
     public function includeDriver(Trip $trip)
     {
         return $this->item($trip->user, new UserTransformer());
+    }
+
+    public function includeVehicle(Trip $trip)
+    {
+        return $this->item($trip->vehicle, new VehicleTransformer());
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
+use App\Services\RouteService;
 use App\Services\PasswordService;
 use App\Services\UserProfileService;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Validators\CanUncheckRoleValidator;
 use App\Validators\IsPasswordCurrentValidator;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
+use App\Services\Contracts\RouteService as RouteServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 
@@ -51,6 +53,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UpdateTripValidator::class, function ($app) {
             return new UpdateTripValidator(new TripUpdateOwnerRule);
         });
+
+        $this->app->bind(RouteServiceContract::class, RouteService::class);
     }
 
     /**
