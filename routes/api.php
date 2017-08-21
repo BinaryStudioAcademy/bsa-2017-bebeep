@@ -109,6 +109,6 @@ Route::put('v1/password-resets', [
 
 Route::get('v1/trips/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
 
-Route::group(['prefix' => 'v1/booking', 'as' => 'booking.', 'middleware' => 'jwt.auth',], function () {
+Route::group(['prefix' => 'v1/booking', 'as' => 'booking.', 'middleware' => 'jwt.auth'], function () {
     Route::post('{trip}', ['as' => 'create', 'uses' => 'BookingsController@create']);
 });

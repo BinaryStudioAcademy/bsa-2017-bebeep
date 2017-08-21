@@ -2,10 +2,10 @@
 
 namespace App\Validators;
 
-use App\Services\Requests\CreateBookingRequest;
 use App\User;
 use App\Models\Trip;
 use App\Rules\Booking\CreateBookingRule;
+use App\Services\Requests\CreateBookingRequest;
 
 class CreateBookingValidator
 {

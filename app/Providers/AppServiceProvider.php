@@ -3,12 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
-use App\Rules\Booking\TripDateRule;
-use App\Rules\Booking\TripRoutesHasSeatsRule;
 use App\Services\RouteService;
 use App\Services\PasswordService;
+use App\Rules\Booking\TripDateRule;
 use App\Services\UserProfileService;
-use App\Validators\CreateBookingValidator;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
@@ -17,8 +15,10 @@ use Illuminate\Support\ServiceProvider;
 use App\Validators\RestoreTripValidator;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\BookingConfirm\OwnerConfirm;
+use App\Validators\CreateBookingValidator;
 use App\Validators\CanUncheckRoleValidator;
 use App\Validators\ConfirmBookingValidator;
+use App\Rules\Booking\TripRoutesHasSeatsRule;
 use App\Validators\IsPasswordCurrentValidator;
 use App\Rules\BookingConfirm\FutureTripConfirm;
 use App\Rules\BookingConfirm\BookingTripConfirm;
@@ -103,7 +103,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            return $vehicle->seats >= (int)$value;
+            return $vehicle->seats >= (int) $value;
         });
 
         Validator::extend('greater_than_date', function (

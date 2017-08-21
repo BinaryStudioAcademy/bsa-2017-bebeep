@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\Models\Trip;
-use App\Services\Contracts\BookingService as BookingServiceContract;
-use App\Services\Requests\CreateBookingRequest;
 use App\User;
-use App\Validators\CreateBookingValidator;
+use App\Models\Trip;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
+use App\Validators\CreateBookingValidator;
 use App\Validators\ConfirmBookingValidator;
 use App\Services\Requests\BookingStatusRequest;
+use App\Services\Requests\CreateBookingRequest;
 use App\Repositories\Contracts\BookingRepository;
+use App\Services\Contracts\BookingService as BookingServiceContract;
 
 class BookingService implements BookingServiceContract
 {

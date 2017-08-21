@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\Booking;
-use App\Models\Route;
-use App\Models\Trip;
-use App\Models\Vehicle;
 use App\User;
 use Carbon\Carbon;
+use App\Models\Trip;
+use App\Models\Route;
+use App\Models\Booking;
+use App\Models\Vehicle;
 
 class CreateBookingTest extends BaseTripTestCase
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Services\Requests\CreateBookingRequest as CreateBookingRequestContract;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Services\Requests\CreateBookingRequest as CreateBookingRequestContract;
 
 class CreateBookingRequest extends FormRequest implements CreateBookingRequestContract
 {
