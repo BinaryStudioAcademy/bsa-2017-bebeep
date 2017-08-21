@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trip;
-use App\Services\TripDetailService;
 use App\Services\TripsService;
 use App\Transformers\DetailTrip;
+use App\Services\TripDetailService;
 use Illuminate\Support\Facades\Auth;
 use App\Transformers\TripTransformer;
 use App\Http\Requests\CreateTripRequest;
@@ -155,6 +155,7 @@ class TripsController extends Controller
     public function detail(Trip $trip)
     {
         $tripDetail = $this->tripDetailService->getDetail($trip);
+
         return fractal()
             ->item($tripDetail, new DetailTrip\TripTransformer())
             ->parseIncludes(['driver', 'routes', 'vehicle'])

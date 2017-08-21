@@ -89,6 +89,8 @@ Route::group([
     Route::delete('{trip}', ['as' => 'delete', 'uses' => 'TripsController@delete']);
 
     Route::delete('trash/{tripId}', ['as' => 'restore', 'uses' => 'TripsController@restore']);
+
+    Route::put('{trip}/bookings/{booking}/status', ['as' => 'booking.status', 'uses' => 'BookingController@status']);
 });
 
 Route::get('v1/trips/search', ['as' => 'search', 'uses' => 'TripsController@search']);
