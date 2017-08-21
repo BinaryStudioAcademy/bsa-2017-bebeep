@@ -7,6 +7,7 @@ import DirectionsMap from "app/components/DirectionsMap";
 import { securedRequest } from 'app/services/RequestService';
 import { getWaypointsFromRoutes } from 'app/services/GoogleMapService';
 import BookingService from 'app/services/BookingService';
+import BookingModal from './_Modals/BookingModal';
 
 
 import '../styles/trip-card.scss';
@@ -21,7 +22,8 @@ class Trip extends React.Component {
             editable: this.props.editable,
             isDeleted: false,
             bookings: {},
-            bookingsCount: 0
+            bookingsCount: 0,
+            modalIsOpen: false,
         };
     }
 
@@ -35,8 +37,10 @@ class Trip extends React.Component {
     }
 
     onClick() {
+        this.setState({
+            modalIsOpen: true
+        });
         console.log('Trip id:', this.props.trip.id);
-        console.log('Booking id:', this.state.bookings.id);
         console.log('Bookings count:', this.state.bookingsCount);
         console.log('Bookings:', this.state.bookings);
     }
@@ -89,6 +93,7 @@ class Trip extends React.Component {
         const startDate = this.getStartDate();
         const waypoints = getWaypointsFromRoutes(this.props.trip.routes);
         const bookingCount = this.state.bookingsCount;
+        const { bookings, modalIsOpen } = this.state;
 
         return (
             <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
@@ -122,6 +127,8 @@ class Trip extends React.Component {
                         </div>
                     </DirectionsMap>
                 ) : (<span>&nbsp;</span>)}
+                <BookingModal bookings={ bookings } count={bookingCount} isOpen={ modalIsOpen }
+                             onClosed={ () => this.state.modalIsOpen = false } />
             </div>
         )
     }
