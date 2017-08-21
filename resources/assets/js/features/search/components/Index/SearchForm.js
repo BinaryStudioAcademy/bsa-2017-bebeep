@@ -11,6 +11,7 @@ import Validator from 'app/services/Validator';
 import { searchIndexRules } from 'app/services/SearchIndex';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 
+import {getTranslate} from 'react-localize-redux';
 import { searchSuccess } from 'features/search/actions';
 
 import 'features/search/styles/react-datepicker.scss';
@@ -45,7 +46,7 @@ class SearchForm extends React.Component {
             start_at: this.state.startDate,
         };
 
-        const validated = Validator.validate(searchIndexRules, toBeValidated);
+        const validated = Validator.validate(searchIndexRules(), toBeValidated);
 
         if (!validated.valid) {
             this.setState({errors: validated.errors});
@@ -123,6 +124,7 @@ class SearchForm extends React.Component {
     }
 
     render() {
+        const {translate} = this.props;
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control search-input',
@@ -133,7 +135,7 @@ class SearchForm extends React.Component {
             value: this.state.startPoint.address,
             onChange: this.onChangeStartPoint.bind(this),
             type: 'search',
-            placeholder: 'Leaving from...',
+            placeholder: translate('search_index.leaving_from'),
             autoFocus: true
         };
 
@@ -141,7 +143,7 @@ class SearchForm extends React.Component {
             value: this.state.endPoint.address,
             onChange: this.onChangeEndPoint.bind(this),
             type: 'search',
-            placeholder: 'Going to...',
+            placeholder: translate('search_index.going_to'),
             autoFocus: false
         };
 
@@ -157,7 +159,7 @@ class SearchForm extends React.Component {
                 <div className="row py-4 px-2 px-lg-4">
                     <div className="col-sm-6 col-lg-3">
                         <div className={"form-group " + (this.state.errors.from ? 'has-danger' : '')}>
-                            <label htmlFor="startPoint" className="sr-only">Leaving from</label>
+                            <label htmlFor="startPoint" className="sr-only">{translate('search_index.leaving_from_label')}</label>
                             <PlacesAutocomplete
                                 inputProps={startPointProps}
                                 classNames={placesCssClasses}
@@ -173,7 +175,7 @@ class SearchForm extends React.Component {
                         <div className={"form-group " +
                                 (this.state.errors.to ? 'has-danger' : '')}>
 
-                            <label htmlFor="endPoint" className="sr-only">Going to</label>
+                            <label htmlFor="endPoint" className="sr-only">{translate('search_index.going_to_label')}</label>
                             <PlacesAutocomplete
                                 inputProps={endPointProps}
                                 classNames={placesCssClasses}
@@ -190,7 +192,7 @@ class SearchForm extends React.Component {
                             todayButton={"Today"}
                             selected={this.state.startDate}
                             onChange={this.handleDateChange}
-                            placeholderText="Date"
+                            placeholderText={translate('search_index.date')}
                             minDate={moment()}
                             className={"form-control date-picker " +
                                 (this.state.errors.start_at ? 'picker-error' : '')}
@@ -202,7 +204,7 @@ class SearchForm extends React.Component {
                             className="btn btn-search btn-primary px-5"
                             onClick={this.onClick.bind(this)}
                         >
-                            Find a ride
+                            {translate('search_index.find_a_ride')}
                         </button>
                     </div>
                 </div>
@@ -212,7 +214,9 @@ class SearchForm extends React.Component {
 }
 
 export default connect(
-    null,
+    state => ({
+        translate: getTranslate(state.locale)
+    }),
     (dispatch) => bindActionCreators({searchSuccess}, dispatch)
 )(SearchForm);
 

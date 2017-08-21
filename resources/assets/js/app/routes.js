@@ -31,27 +31,19 @@ import SearchResult from '../features/search/layouts/SearchResult';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 
-export default (
-    <Route path="/" component={ App }>
-        {/* Index page */}
-        <IndexRoute component={ SearchIndex } />
+import LangeService from './services/LangService';
 
-        {/* Routes only for auth users */}
-        <Route onEnter={ requireAuth }>
+export default (store) => {
 
-            {/* Vehicle creating and show details */}
-            <Route path="vehicles">
-                <IndexRoute component={ Vehicles } />
-                <Route path="create" component={ Vehicles } />
-                <Route path=":id" component={ VehicleDetails } />
-            </Route>
+    LangeService.init(store);
 
-            {/* Trips - upcoming and past */}
-            <Redirect from='trips' to='/trips/upcoming'/>
-            <Route path="trips">
-                <Route path="upcoming" component={ TripsList } />
-                <Route path="past" component={ TripsList } />
-            </Route>
+    LangeService.addTranslation(require('./lang/global.locale.json'));
+    LangeService.addTranslation(require('./lang/validate.locale.json'));
+
+    return (
+        <Route path="/" component={ App }>
+            {/* Index page */}
+            <IndexRoute component={ SearchIndex }/>
 
             {/* Trip creating and editing */}
             <Route path="trip">
@@ -59,41 +51,66 @@ export default (
                 <Route path="edit/:id" component={ EditTrip } />
             </Route>
 
-            {/* User dashboard */}
-            <Route path="dashboard">
-                <IndexRoute component={ Dashboard } />
+            {/* Routes only for auth users */}
+            <Route onEnter={ requireAuth }>
 
-                {/* User profile */}
-                <Redirect from='profile' to='profile/general' />
-                <Route path="profile" component={ ProfileBase }>
-                    {/* User profile general */}
-                    <Route path="general" component={ ProfileGeneral } />
-                    {/* User profile avatar */}
-                    <Route path="avatar" component={ ProfileAvatar } />
-                    {/* User profile password */}
-                    <Route path="password" component={ ProfilePassword } />
+                {/* Vehicle creating and show details */}
+                <Route path="vehicles">
+                    <IndexRoute component={ Vehicles }/>
+                    <Route path="create" component={ Vehicles }/>
+                    <Route path=":id" component={ VehicleDetails }/>
                 </Route>
+
+                {/* Trips - upcoming and past */}
+                <Redirect from='trips' to='/trips/upcoming'/>
+                <Route path="trips">
+                    <Route path="upcoming" component={ TripsList }/>
+                    <Route path="past" component={ TripsList }/>
+                </Route>
+
+                {/* Trip creating and editing */}
+                <Route path="trip">
+                    <Route path="create" component={ CreateTrip }/>
+                    <Route path="edit/:id" component={ Vehicles /*TripEdit*/ }/>
+                </Route>
+
+                {/* User dashboard */}
+                <Route path="dashboard">
+                    <IndexRoute component={ Dashboard }/>
+
+                    {/* User profile */}
+                    <Redirect from='profile' to='profile/general'/>
+                    <Route path="profile" component={ ProfileBase }>
+                        {/* User profile general */}
+                        <Route path="general" component={ ProfileGeneral }/>
+                        {/* User profile avatar */}
+                        <Route path="avatar" component={ ProfileAvatar }/>
+                        {/* User profile password */}
+                        <Route path="password" component={ ProfilePassword }/>
+                    </Route>
+                </Route>
+
+                {/* User logout */}
+                <Route path="logout" component={ Logout }/>
             </Route>
 
-            {/* User logout */}
-            <Route path="logout" component={ Logout } />
+            {/* Routes only for guest users */}
+            <Route onEnter={ requireGuest }>
+                {/* User registration and email verification */}
+                <Route path="registration" component={ RegisterForm }/>
+                <Route path="registration/success" component={ RegisterSuccess }/>
+                <Route path="verification" component={ RegisterVerify }/>
+
+                {/* User login and password reset */}
+                <Route path="login" component={ LoginForm }/>
+                <Route path="password/reset" component={ PasswordReset }/>
+            </Route>
+
+            {/* Page not found */}
+            <Route path="search" component={ SearchResult }/>
+
+            {/* Page not found */}
+            <Route path="*" component={ NotFound }/>
         </Route>
-
-        {/* Routes only for guest users */}
-        <Route onEnter={ requireGuest }>
-            {/* User registration and email verification */}
-            <Route path="registration" component={ RegisterForm } />
-            <Route path="registration/success" component={ RegisterSuccess } />
-            <Route path="verification" component={ RegisterVerify } />
-
-            {/* User login and password reset */}
-            <Route path="login" component={ LoginForm } />
-            <Route path="password/reset" component={ PasswordReset } />
-        </Route>
-
-        <Route path="search" component={ SearchResult } />
-
-        {/* Page not found */}
-        <Route path="*" component={ NotFound } />
-    </Route>
-);
+    );
+};

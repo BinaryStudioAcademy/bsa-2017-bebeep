@@ -65,7 +65,7 @@ class RegisterUserService
         $user = $this->userRepository->first();
 
         if (! $user) {
-            throw new VerifyException('User cannot be verified');
+            throw new VerifyException(__('Services/RegisterUserService.user_cant_verified'));
         }
 
         $user->is_verified = true;

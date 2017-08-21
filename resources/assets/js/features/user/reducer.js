@@ -1,5 +1,3 @@
-import { browserHistory } from 'react-router';
-
 import * as actions from './actionTypes';
 import { isAuthorized } from 'app/services/AuthService';
 
@@ -10,6 +8,7 @@ const initialState = {
     login: {
         success: isAuthorized(),
         errors: {},
+        httpStatus: 200
     }
 };
 
@@ -23,17 +22,19 @@ export default function (state = initialState, action) {
                 }
             };
         case actions.LOGIN_SUCCESS:
-            browserHistory.push('/dashboard')
             return {
                 ...state,
                 login: {
-                    success: isAuthorized()
+                    ...state.login,
+                    success: isAuthorized(),
+                    httpStatus: 200
                 }
             };
         case actions.LOGIN_VERIFY_FAILED:
             return {
                 ...state,
                 login: {
+                    ...state.login,
                     success: false,
                     errors: action.data,
                 }
@@ -45,6 +46,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 login: {
+                    ...state.login,
                     success: false,
                     errors: action.response.data,
                     httpStatus: action.response.status,
@@ -56,6 +58,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 login: {
+                    ...state.login,
                     success: isAuthorized(),
                     errors: action.response.data,
                     httpStatus: action.response.status,

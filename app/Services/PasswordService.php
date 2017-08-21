@@ -38,7 +38,7 @@ class PasswordService implements PasswordServiceContract
         $user = $this->userRepository->findByField('email', $request->getEmail())->first();
 
         if (! $user->isVerified()) {
-            throw new VerifyException('Please, verify your account');
+            throw new VerifyException(__('Services/PasswordService.verify_account'));
         }
 
         $token = $this->broker()->createToken($user);
@@ -70,19 +70,19 @@ class PasswordService implements PasswordServiceContract
             switch ($response) {
                 case Password::INVALID_PASSWORD:
                     throw new PasswordResetException(
-                        'Password is invalid',
+                        __('Services/PasswordService.password_invalid'),
                         PasswordResetException::INVALID_PASSWORD
                     );
                     break;
                 case Password::INVALID_TOKEN:
                     throw new PasswordResetException(
-                        'Token is invalid',
+                        __('Services/PasswordService.token_invalid'),
                         PasswordResetException::INVALID_TOKEN
                     );
                     break;
                 case Password::INVALID_USER:
                     throw new PasswordResetException(
-                        'Email is invalid',
+                        __('Services/PasswordService.email_invalid'),
                         PasswordResetException::INVALID_USER
                     );
                     break;
