@@ -19,8 +19,25 @@ class Trip extends React.Component {
             deletable: this.props.deletable,
             editable: this.props.editable,
             isDeleted: false,
-            bookings: true
+            bookings: {},
+            bookingsCount: 0
         };
+    }
+
+    componentDidMount() {
+        const bookings = BookingService.getBookings(this.props.trip.id);
+        const count = BookingService.getBookingsCount(bookings);
+        this.setState({
+            bookings: bookings,
+            bookingsCount: count
+        });
+    }
+
+    onClick() {
+        console.log('Trip id:', this.props.trip.id);
+        console.log('Booking id:', this.state.bookings.id);
+        console.log('Bookings count:', this.state.bookingsCount);
+        console.log('Bookings:', this.state.bookings);
     }
 
     getStartDate() {
@@ -63,25 +80,20 @@ class Trip extends React.Component {
         });
     }
 
-    getBookingsCount() {
-        let response = BookingService.getBookings(this.props.id);
-        let count = BookingService.getBookingsCount(response);
-        console.log(count);
-        return count;
-    }
 
     render() {
         const startPlace = this.getStartPlace();
         const endPlace = this.getEndPlace();
         const startDate = this.getStartDate();
         const waypoints = getWaypointsFromRoutes(this.props.trip.routes);
-        const bookingCount = this.getBookingsCount();
+        const bookingCount = this.state.bookingsCount;
 
         return (
             <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
                 {startPlace ? (
                     <DirectionsMap title={startDate}
                                    bookingCount={bookingCount}
+                                   onClickBooking={this.onClick.bind(this)}
                                    needDirection="1"
                                    endTime={() => {}}
                                    from={startPlace.geometry.location}
