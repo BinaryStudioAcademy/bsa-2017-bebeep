@@ -11,6 +11,8 @@ use App\Http\Requests\CreateTripRequest;
 use App\Http\Requests\SearchTripRequest;
 use App\Http\Requests\UpdateTripRequest;
 use App\Http\Requests\GetDriverTripRequest;
+use App\Transformers\SearchRideTransformer;
+use Illuminate\Support\Collection;
 use App\Exceptions\Trip\UserCantEditTripException;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
@@ -123,9 +125,9 @@ class TripsController extends Controller
      */
     public function search(SearchTripRequest $request)
     {
-        $data = $this->tripsService->search($request);
+        $trips = $this->tripsService->search($request);
 
-        return response()->json($data);
+        return fractal(Collection::make($trips), new SearchRideTransformer())->respond();
     }
 
     /**

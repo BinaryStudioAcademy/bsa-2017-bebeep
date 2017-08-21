@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 
 use App\Models\Trip;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -57,7 +58,6 @@ class TripRepository extends BaseRepository
      */
     public function search(array $attributes)
     {
-
         [
             'start_at' => $startAt,
             'from_lat' => $fromLat,
@@ -66,22 +66,32 @@ class TripRepository extends BaseRepository
             'to_lng' => $toLng,
         ] = $attributes;
 
-        $sql_start_point = $this->haversinusSql("from_lat",
+        $andSearchDay = clone $startAt;
+        $andSearchDay = $andSearchDay->endOfDay();
+
+        $sql_start_point = $this->haversineSql("from_lat",
             "from_lng",
             $fromLat,
             $fromLng,
             "distance_from");
 
-        $sql_end_point = $this->haversinusSql("to_lat",
+        $sql_end_point = $this->haversineSql("to_lat",
             "to_lng",
             $toLat,
             $toLng,
             "distance_to");
 
-        $sql = "SELECT *, $sql_start_point, $sql_end_point 
+        $sql = "SELECT *, trips.id as trips_id,
+                    $sql_start_point, 
+                    $sql_end_point 
                 FROM trips
                 JOIN routes on trips.id = routes.trip_id
-                HAVING start_at >=  \"$startAt\" AND distance_from < 10 AND distance_to < 10";
+                JOIN users on trips.user_id = users.id
+                HAVING start_at >=  \"$startAt\" 
+                  AND start_at < \"$andSearchDay\"
+                  AND distance_from < 10 
+                  AND distance_to < 10
+                ORDER BY distance_from";
 
         return DB::select($sql);
     }
@@ -94,7 +104,7 @@ class TripRepository extends BaseRepository
      * @param $column_name
      * @return string
      */
-    private function haversinusSql($start_lat, $start_lng, $end_lat, $end_lng, $column_name)
+    private function haversineSql($start_lat, $start_lng, $end_lat, $end_lng, $column_name)
     {
         $sql = "round(6371 * 2 * ASIN(SQRT(POWER(SIN((`$start_lat` - $end_lat ) *
                 pi()/180 / 2), 2) + COS(`$start_lat` * pi()/180) * COS($end_lat * pi() / 180) *

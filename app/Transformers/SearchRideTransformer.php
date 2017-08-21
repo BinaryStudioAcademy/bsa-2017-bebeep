@@ -12,40 +12,38 @@ use Carbon\Carbon;
 class SearchRideTransformer extends TransformerAbstract
 {
     /**
-     * @param Trip $trip
-     * @param Route $route
-     * @param User $user
+     * @param $trip
      * @return array
      */
-    public function transform(Trip $trip, Route $route, User $user): array
+    public function transform($trip): array
     {
         return [
-            'collection' => [
-                [
-                    'id' => $trip->id,
+//            'collection' => [
+//                [
+                    'id' => $trip->trips_id,
                     'price' => $trip->price,
-                    'seats' => 'free seats',
-                    'start_date' => 'date',
-                    'start_at' => $trip->start_at->timestamp,
+                    'seats' => $trip->seats,
+                    'start_date' => $trip->start_at,
+                    'start_at' => $trip->start_at,
                     'route' => [
-                        'from' => ['point' => $route->name, 'id' => $route->id], // старт искомой поездки
-                        'to' => ['point' => $route->name, 'id' => $route->name], // конец искомой поездки
+                        'from' => ['point' => $trip->from, 'id' => 'id'],
+                        'to' => ['point' => $trip->to, 'id' => 'route_id'],
                         'points' => []
                     ],
                     'user' => [
-                        'full_name' => $user->first_name . ' ' . $user->last_name,
-                        'age' => Carbon::now()->year - $user->birth_date->year,
-                        'first_name' => $user->first_name,
-                        'last_name' => $user->last_name,
-                        'birth_date' => $user->birth_date->timestamp,
+                        'full_name' => $trip->first_name . ' ' . $trip->last_name,
+                        'age' => Carbon::now()->year - Carbon::createFromFormat('Y-m-d', $trip->birth_date)->year,
+                        'last_name' => $trip->last_name,
+                        'birth_date' => $trip->birth_date,
                         'photo' => 'http://lorempixel.com/200/200/'
                     ]
-                ]
-            ],
-            'meta' => [
-                'total' => 'count data',
-                'price' => [ 'max' => 'max price', 'min' => 'min price' ]
-            ]
+//                ]
+//            ],
+//            'meta' => [
+//                'total' => count($trip),
+//                'price' => [ 'max' => 'max price', 'min' => 'min price' ],
+//                'trip'  => $trip
+//            ]
         ];
     }
 
