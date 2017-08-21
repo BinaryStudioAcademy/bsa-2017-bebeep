@@ -80,20 +80,20 @@ class Trip extends React.Component {
                     >
                         <div className="card-block">
                             <div className="card-text">
-                                <span className="text-muted"><strong>{translate('car')}:</strong> {this.props.trip.vehicle.brand}</span><br/>
-                                <span className="text-muted"><strong>{translate('price')}:</strong> ${this.props.trip.price}</span><br/>
-                                <span className="text-muted"><strong>{translate('seats')}:</strong> {this.props.trip.seats}</span><br/>
+                                <span className="text-muted"><strong>{translate('trip_list.car')}:</strong> {this.props.trip.vehicle.brand}</span><br/>
+                                <span className="text-muted"><strong>{translate('trip_list.price')}:</strong> ${this.props.trip.price}</span><br/>
+                                <span className="text-muted"><strong>{translate('trip_list.seats')}:</strong> {this.props.trip.seats}</span><br/>
                             </div>
                         </div>
                         <div className="card-block trip-actions">
                             {this.state.editable ? (
-                                <Link to={'/trip/edit/' + this.props.trip.id} className="btn btn-primary">{translate('edit')}</Link>
+                                <Link to={'/trip/edit/' + this.props.trip.id} className="btn btn-primary">{translate('trip_list.edit')}</Link>
                             ) : (<span>&nbsp;</span>)}
                             {this.state.deletable ? (
-                                <button onClick={this.deleteSelf.bind(this)} className="btn btn-danger hover">{translate('delete')}</button>
+                                <button onClick={this.deleteSelf.bind(this)} className="btn btn-danger hover">{translate('trip_list.delete')}</button>
                             ) : (<span>&nbsp;</span>)}
                             {this.state.isDeleted ? (
-                                <span>{translate('deleted_successfully')} &nbsp;<button onClick={this.restoreSelf.bind(this)} className="btn btn-default hover">{translate('restore')}</button></span>
+                                <span>{translate('trip_list.deleted_successfully')} &nbsp;<button onClick={this.restoreSelf.bind(this)} className="btn btn-default hover">{translate('trip_list.restore')}</button></span>
                             ) : (<span>&nbsp;</span>)}
                         </div>
                     </DirectionsMap>

@@ -57,17 +57,17 @@ class TripsList extends React.Component {
 
         return (
             <div>
-                <PageHeader header={translate('my_trips_header')}/>
+                <PageHeader header={translate('trip_list.my_trips_header')}/>
 
                 <ul className="nav nav-pills">
                     <li className="nav-item">
                         <Link to="/trips/upcoming" className="nav-link" activeClassName="active">
-                            {translate('upcoming')}
+                            {translate('trip_list.upcoming')}
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/trips/past" className="nav-link" activeClassName="active">
-                            {translate('past')}
+                            {translate('trip_list.past')}
                         </Link>
                     </li>
                 </ul>
