@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trip;
+use App\Services\{
+    TripsService,
+    TripDetailService
+};
+use App\Transformers\{
+    DetailTrip,
+    TripTransformer
+};
 use App\Http\Requests\{
     CreateTripRequest,
     UpdateTripRequest,
     SearchTripRequest,
     GetDriverTripRequest
 };
-use App\Services\TripsService;
 use Illuminate\Support\Facades\Auth;
-use App\Transformers\TripTransformer;
 use App\Exceptions\Trip\UserCantEditTripException;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
@@ -23,13 +29,20 @@ class TripsController extends Controller
     private $tripsService;
 
     /**
+     * @var TripDetailService
+     */
+    private $tripDetailService;
+
+    /**
      * TripsController constructor.
      *
      * @param TripsService $tripsService
+     * @param TripDetailService $tripDetailService
      */
-    public function __construct(TripsService $tripsService)
+    public function __construct(TripsService $tripsService, TripDetailService $tripDetailService)
     {
         $this->tripsService = $tripsService;
+        $this->tripDetailService = $tripDetailService;
     }
 
     /**
@@ -154,5 +167,19 @@ class TripsController extends Controller
         }
 
         return response()->json($trip);
+    }
+
+    /**
+     * @param Trip $trip
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function detail(Trip $trip)
+    {
+        $tripDetail = $this->tripDetailService->getDetail($trip);
+        return fractal()
+            ->item($tripDetail, new DetailTrip\TripTransformer())
+            ->parseIncludes(['driver', 'routes', 'vehicle'])
+            ->respond();
     }
 }
