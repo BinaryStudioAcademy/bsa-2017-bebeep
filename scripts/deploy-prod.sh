@@ -4,6 +4,7 @@ echo "deploy on production"
 
 ssh -t $SSH_USER@$SSH_HOST -o StrictHostKeyChecking=no -i .travis/id_rsa -tt <<-EOF
 cd /srv/production &&
+git stash &&
 git pull &&
 docker-compose pull &&
 docker-compose run --rm composer install &&
