@@ -155,6 +155,7 @@ class TripsController extends Controller
     public function detail(Trip $trip)
     {
         $tripDetail = $this->tripDetailService->getDetail($trip);
+
         return fractal()
             ->item($tripDetail, new DetailTrip\TripTransformer())
             ->parseIncludes(['driver', 'routes', 'vehicle'])

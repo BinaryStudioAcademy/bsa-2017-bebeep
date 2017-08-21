@@ -24,6 +24,7 @@ class BookingConfrmTest extends JwtTestCase
     public function getTrip(User $user, array $data = [])
     {
         $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
+
         return factory(Trip::class)->create(array_merge([
             'user_id' => $user->id,
             'vehicle_id' => $vehicle->id,
