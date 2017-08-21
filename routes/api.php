@@ -106,3 +106,5 @@ Route::put('v1/password-resets', [
     'as' => 'password.reset',
     'uses' => 'Auth\PasswordResetsController@reset',
 ]);
+
+Route::get('v1/trips/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
