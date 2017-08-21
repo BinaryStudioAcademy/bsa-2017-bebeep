@@ -11,5 +11,12 @@
     "restore": ["Restore", "Відновити", "Восстановить"],
     "deleted_successfully": ["Deleted successfully", "Успішно видалено", "Успешно удалено"],
     "trips_not_found": ["Trips not found", "Подорожей не знайдено", "Поездок не найдено"]
+  },
+  "booking": {
+    "bookings_button": ["Bookings", "Бронювання", "Бронирование"],
+    "bookings_in_pending": ["bookings in pending", "замовлень в очікуванні", "бронирования в ожидании"],
+    "accept_button": ["Accept", "Підтвердити", "Подтвердить"],
+    "reject_button": ["Reject", "Відмовити", "Отказать"],
+    "close_button": ["Close", "Закрити", "Закрыть"]
   }
 }
