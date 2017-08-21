@@ -53,6 +53,7 @@ export default class CreateVehicleContainer extends React.Component {
                 name: (data !== null) ? data.name : null
             },
             model: {
+                id_car_mark: (data !== null) ? data.id_car_mark : null,
                 disabled: (data !== null) ? false : true
             }
         });
@@ -60,6 +61,13 @@ export default class CreateVehicleContainer extends React.Component {
 
     handleModelChange(data) {
         console.log(data);
+
+        this.setState({
+            model: {
+                id_car_model: (data !== null) ? data.id_car_model : null,
+                name: (data !== null) ? data.name : null
+            }
+        });
     }
 
     render() {
@@ -89,6 +97,7 @@ export default class CreateVehicleContainer extends React.Component {
                         <Select.Async
                             name="model"
                             placeholder="Select Car Model"
+                            value={this.state.model.name}
                             valueKey="name"
                             labelKey="name"
                             className="col-sm-8"
