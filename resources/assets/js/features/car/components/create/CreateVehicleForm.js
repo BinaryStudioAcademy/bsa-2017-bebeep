@@ -7,6 +7,14 @@ import { bindActionCreators } from 'redux';
 export default class CreateVehicleContainer extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            brand: {
+                id_car_mark: null,
+                name: ''
+            }
+        };
+
         this.getBrandOptions = this.getBrandOptions.bind(this);
         this.onChange = this.onChange.bind(this)
     }
@@ -20,8 +28,15 @@ export default class CreateVehicleContainer extends React.Component {
             });
     }
 
-    onChange(value) {
-        return console.log('Boolean Select value changed to', this.state.brand.name);
+    onChange(data) {
+        this.setState({
+            brand: {
+                id_car_mark: data.id_car_mark,
+                name: data.name
+            }
+        });
+
+        console.log(data);
     }
 
     render() {
@@ -35,7 +50,9 @@ export default class CreateVehicleContainer extends React.Component {
                         <label className="form-control-label text-muted col-sm-4" htmlFor="brand">Car Brand</label>
                         <Select.Async
                             name="brand"
+                            placeholder="Select Car Brand"
                             value={this.state.brand.name}
+                            valueKey="name"
                             labelKey="name"
                             className="col-sm-8"
                             loadOptions={ this.getBrandOptions }
