@@ -36,4 +36,18 @@ class Booking extends Model
     {
         return $this->belongsToMany(Route::class);
     }
+
+    /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($booking) {
+            $booking->status = self::STATUS_PENDING;
+        });
+    }
 }

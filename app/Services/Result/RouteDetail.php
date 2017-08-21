@@ -18,16 +18,18 @@ class RouteDetail
     public function setBusySeats(int $busySeats) : RouteDetail
     {
         $this->busySeats = $busySeats;
+
         return $this;
     }
 
     public function __get($name)
     {
-        if ($name === "busySeats") {
+        if ($name === 'busySeats') {
             return $this->busySeats;
-        } else if (isset($this->route[$name])) {
+        } elseif (isset($this->route[$name])) {
             return $this->route[$name];
         }
+
         return null;
     }
 }
