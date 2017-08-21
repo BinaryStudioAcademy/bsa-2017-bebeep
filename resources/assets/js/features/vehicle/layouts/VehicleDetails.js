@@ -18,7 +18,7 @@ class VehicleDetails extends React.Component {
         const {translate} = this.props;
         return (
             <div>
-                <PageHeader header={ translate('vehicle_profile_header') } />
+                <PageHeader header={ translate('vehicle_detail.vehicle_profile_header') } />
                 <VehicleProfile id={ this.props.params.id } />
             </div>
         )

@@ -20,7 +20,7 @@ class Vehicles extends React.Component {
 
         return (
             <div>
-                <PageHeader header={ translate('vehicles_list_header') } />
+                <PageHeader header={ translate('vehicles.vehicles_list_header') } />
                 <VehiclesList />
             </div>
         )
