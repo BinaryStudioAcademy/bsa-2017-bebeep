@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import { securedRequest } from '../../../../app/services/RequestService';
+import {VehicleService} from '../../services/VehicleService';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -20,28 +20,10 @@ export default class CreateVehicleContainer extends React.Component {
             }
         };
 
-        this.getBrandOptions = this.getBrandOptions.bind(this);
-        this.getModelOptions = this.getModelOptions.bind(this);
+        this.getBrandOptions = VehicleService.getBrandOptions;
+        this.getModelOptions = VehicleService.getModelOptions;
         this.handleBrandChange = this.handleBrandChange.bind(this);
         this.handleModelChange = this.handleModelChange.bind(this);
-    }
-
-    getBrandOptions() {
-        return securedRequest.get(`/api/v1/car-brand`)
-            .then((response) => {
-                return response.data;
-            }).then((json) => {
-                return { options: json };
-            });
-    }
-
-    getModelOptions() {
-        return securedRequest.get(`/api/v1/car-brand/1/models`)
-            .then((response) => {
-                return response.data;
-            }).then((json) => {
-                return { options: json };
-            });
     }
 
     handleBrandChange(data) {
