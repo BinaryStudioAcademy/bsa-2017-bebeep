@@ -37,12 +37,12 @@ export default class CreateVehicleContainer extends React.Component {
 
         this.setState({
             brand: {
-                id_car_mark: (data !== null) ? data.id_car_mark : null,
-                name: (data !== null) ? data.name : null
+                id_car_mark: (data) ? data.id_car_mark : null,
+                name: (data) ? data.name : null
             },
             model: {
-                id_car_mark: (data !== null) ? data.id_car_mark : null,
-                disabled: (data !== null) ? false : true
+                id_car_mark: (data) ? data.id_car_mark : null,
+                disabled: (data) ? false : true
             }
         });
     }
@@ -52,8 +52,8 @@ export default class CreateVehicleContainer extends React.Component {
 
         this.setState({
             model: {
-                id_car_model: (data !== null) ? data.id_car_model : null,
-                name: (data !== null) ? data.name : null
+                id_car_model: (data) ? data.id_car_model : null,
+                name: (data) ? data.name : null
             }
         });
     }
