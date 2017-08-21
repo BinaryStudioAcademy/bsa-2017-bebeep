@@ -4,14 +4,13 @@ import { IndexRoute, Route, Redirect } from 'react-router';
 import App from './App';
 import NotFound from './layouts/NotFound';
 
-import SearchIndex from '../features/search/layouts/SearchIndex';
+import { SearchIndex, SearchResult } from '../features/search/layouts';
 
 import { LoginForm, Logout } from '../features/user/layouts/Login';
 import PasswordReset from '../features/user/layouts/PasswordReset';
 import { RegisterForm, RegisterSuccess, RegisterVerify } from '../features/user/layouts/Register';
 
 import Dashboard from '../features/user/layouts/Dashboard';
-
 import {
     ProfileBase,
     ProfileGeneral,
@@ -22,15 +21,10 @@ import {
 import Vehicles from '../features/vehicle/layouts/Vehicles';
 import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 
-import CreateTrip from '../features/trip/layouts/CreateTrip';
-
-import EditTrip from '../features/trip/layouts/EditTrip';
+import { CreateTrip, EditTrip, TripDetails } from '../features/trip/layouts';
 import TripsList from '../features/trip-list/layouts/TripsList';
 
-import SearchResult from '../features/search/layouts/SearchResult';
-
 import { requireAuth, requireGuest } from '../app/services/AuthService';
-
 import LangeService from './services/LangService';
 
 export default (store) => {
@@ -44,12 +38,11 @@ export default (store) => {
         <Route path="/" component={ App }>
             {/* Index page */}
             <IndexRoute component={ SearchIndex }/>
+            {/* Search page */}
+            <Route path="search" component={ SearchResult }/>
 
-            {/* Trip creating and editing */}
-            <Route path="trip">
-                <Route path="create" component={ CreateTrip } />
-                <Route path="edit/:id" component={ EditTrip } />
-            </Route>
+            {/* Trip creating */}
+            <Route path="trip/create" component={ CreateTrip } />
 
             {/* Routes only for auth users */}
             <Route onEnter={ requireAuth }>
@@ -68,10 +61,10 @@ export default (store) => {
                     <Route path="past" component={ TripsList }/>
                 </Route>
 
-                {/* Trip creating and editing */}
+                {/* Trip details and editing */}
                 <Route path="trip">
-                    <Route path="create" component={ CreateTrip }/>
-                    <Route path="edit/:id" component={ Vehicles /*TripEdit*/ }/>
+                    <Route path=":id" component={ TripDetails } />
+                    <Route path="edit/:id" component={ EditTrip } />
                 </Route>
 
                 {/* User dashboard */}
@@ -105,9 +98,6 @@ export default (store) => {
                 <Route path="login" component={ LoginForm }/>
                 <Route path="password/reset" component={ PasswordReset }/>
             </Route>
-
-            {/* Page not found */}
-            <Route path="search" component={ SearchResult }/>
 
             {/* Page not found */}
             <Route path="*" component={ NotFound }/>
