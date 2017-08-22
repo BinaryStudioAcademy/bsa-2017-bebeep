@@ -10,9 +10,19 @@ class BookingModal extends React.Component {
     constructor() {
         super();
         this.state = {
-            isOpenModal: false
+            isOpenModal: false,
+            startPoint: 0,
+            endPoint: 0,
+            seats: 1
         };
         this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
+        this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
+        this.onChangeSeats = this.onChangeSeats.bind(this);
+    }
+
+    componentWillMount() {
+        this.changeSeats(this.state.startPoint, this.state.endPoint);
     }
 
     onSubmit(e) {
@@ -27,6 +37,52 @@ class BookingModal extends React.Component {
         const onClosed = this.props.onClosed || (() => {});
         this.setState({isOpenModal: false});
         onClosed();
+    }
+
+    getRouteById(id) {
+        return _.findIndex(this.props.waypoints, {id});
+    }
+
+    onChangeStartPoint(e) {
+        const routeId = +e.target.value,
+            startPoint = this.getRouteById(routeId);
+        this.setState({startPoint});
+        this.changeSeats(startPoint, this.state.endPoint);
+    }
+
+    onChangeEndPoint(e) {
+        const routeId = +e.target.value,
+            endPoint = this.getRouteById(routeId);
+        this.setState({endPoint});
+        this.changeSeats(this.state.startPoint, endPoint);
+    }
+
+    changeSeats(startPoint, endPoint) {
+        const {waypoints} = this.props;
+
+        this.setState({
+            seats: _.reduce(
+                _.slice(waypoints, startPoint, endPoint + 1),
+                (acc, p) => acc + p.busy_seats,
+                0)
+        });
+    }
+
+    getEndPoints() {
+        let busySeats = 0;
+        const {waypoints, maxSeats} = this.props,
+            edge = _.findIndex(waypoints, (p, i) => {
+                if (i >= this.state.startPoint) {
+                    busySeats += p.busy_seats;
+                }
+                return busySeats >= maxSeats;
+            });
+        return waypoints.slice(this.state.startPoint, edge > 0 ? edge : waypoints.length);
+    }
+
+    onChangeSeats(e) {
+        const currentSeats = +e.target.value;
+        console.log(this.state);
     }
 
     componentWillReceiveProps(newProps) {
@@ -56,8 +112,9 @@ class BookingModal extends React.Component {
     }
 
     render() {
-        const {isOpenModal} = this.state,
-            {translate, waypoints, price, start_at, seats} = this.props;
+        const {isOpenModal, startPoint, endPoint, seats} = this.state,
+            {translate, waypoints, price, start_at, maxSeats} = this.props,
+            endPoints = this.getEndPoints();
 
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
@@ -83,32 +140,39 @@ class BookingModal extends React.Component {
                                 <div className="text-muted" style={{fontSize: '.8rem'}}>
                                     {translate('detail_trip.booking.start_point')}
                                 </div>
-                                <select name="start_point" className="form-control"
-                                        ref={input => this.startPoint = input}
+                                <select
+                                    name="start_point"
+                                    className="form-control"
+                                    onChange={this.onChangeStartPoint}
                                 >
-                                    {waypoints.map((p => (
-                                        <SelectItem
-                                            key={'from_' + p.id}
-                                            value={p.id}
-                                            disabled={p.busy_seats >= seats}
-                                        >{p.from.short_address}</SelectItem>
-                                    )))}
+                                    {waypoints.map(p => (
+                                            <SelectItem
+                                                key={'from_' + p.id}
+                                                value={p.id}
+                                                disabled={p.busy_seats >= maxSeats}
+                                            >{p.from.short_address}</SelectItem>
+                                        )
+                                    )}
                                 </select>
                             </div>
                             <div className="col-sm-4">
                                 <div className="text-muted" style={{fontSize: '.8rem'}}>
                                     {translate('detail_trip.booking.end_point')}
                                 </div>
-                                <select name="end_point" className="form-control"
-                                        ref={input => this.endPoint = input}
+                                <select
+                                    name="end_point"
+                                    className="form-control"
+                                    onChange={this.onChangeEndPoint}
                                 >
-                                    {waypoints.map((p => (
-                                        <SelectItem
-                                            key={'to_' + p.id}
-                                            value={p.id}
-                                            disabled={p.busy_seats >= seats}
-                                        >{p.to.short_address}</SelectItem>
-                                    )))}
+                                    {endPoints.map(((p) => {
+                                        return (
+                                            <SelectItem
+                                                key={'to_' + p.id}
+                                                value={p.id}
+                                                disabled={p.busy_seats >= maxSeats}
+                                            >{p.to.short_address}</SelectItem>
+                                        )
+                                    }))}
                                 </select>
                             </div>
                             <div className="col-sm-4">
@@ -121,7 +185,9 @@ class BookingModal extends React.Component {
                                     name="seats"
                                     defaultValue="1"
                                     min="1"
-                                    max={seats}
+                                    max={maxSeats - seats < 1 ? 1 : maxSeats - seats}
+                                    disabled={seats >= maxSeats}
+                                    onChange={this.onChangeSeats}
                                 />
                             </div>
                         </div>
@@ -142,7 +208,7 @@ BookingModal.PropTypes = {
     waypoints: PropTypes.array.required,
     price: PropTypes.number.required,
     start_at: PropTypes.number.required,
-    seats: PropTypes.number.required,
+    maxSeats: PropTypes.number.required,
     tripId: PropTypes.number.required,
     isOpen: PropTypes.bool.required,
     onClosed: PropTypes.func,

@@ -31,7 +31,7 @@ class DetailTrip extends React.Component {
             <div>
                 <BookingModal
                     tripId={id}
-                    seats={2}
+                    maxSeats={3}
                     waypoints={[
                         {
                             "id": 9,
@@ -47,7 +47,7 @@ class DetailTrip extends React.Component {
                                 "short_address": "Житомир",
                                 "address": "Житомир, Житомирская область, Украина, 10001"
                             },
-                            "busy_seats": 0
+                            "busy_seats": 1
                         },
                         {
                             "id": 10,
@@ -79,7 +79,7 @@ class DetailTrip extends React.Component {
                                 "short_address": "Тернополь",
                                 "address": "Тернополь, Тернопольская область, Украина, 46003"
                             },
-                            "busy_seats": 2
+                            "busy_seats": 3
                         },
                         {
                             "id": 12,
