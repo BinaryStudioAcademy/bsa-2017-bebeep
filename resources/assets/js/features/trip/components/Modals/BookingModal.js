@@ -1,6 +1,7 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 import PropTypes from 'prop-types';
+import BookingService from 'app/services/BookingService';
 import Modal from 'app/components/Modal';
 import SelectItem from './SelectItem';
 import moment from 'moment';
@@ -11,9 +12,11 @@ class BookingModal extends React.Component {
         super();
         this.state = {
             isOpenModal: false,
-            startPoint: 0,
-            endPoint: 0,
-            seats: 1
+            start: 0,
+            end: 0,
+            seats: 1,
+            possibleSeats: 1,
+            errors: {}
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
@@ -22,15 +25,14 @@ class BookingModal extends React.Component {
     }
 
     componentWillMount() {
-        this.changeSeats(this.state.startPoint, this.state.endPoint);
+        const { start, end, seats } = this.state;
+        this.validate(start, end, seats);
     }
 
-    onSubmit(e) {
-        e.preventDefault();
-        const {onSuccess} = this.props;
-
-        onSuccess();
-        this.closeModal();
+    componentWillReceiveProps(newProps) {
+        if (this.state.isOpenModal !== newProps.isOpen) {
+            this.setState({isOpenModal: newProps.isOpen});
+        }
     }
 
     closeModal() {
@@ -41,54 +43,6 @@ class BookingModal extends React.Component {
 
     getRouteById(id) {
         return _.findIndex(this.props.waypoints, {id});
-    }
-
-    onChangeStartPoint(e) {
-        const routeId = +e.target.value,
-            startPoint = this.getRouteById(routeId);
-        this.setState({startPoint});
-        this.changeSeats(startPoint, this.state.endPoint);
-    }
-
-    onChangeEndPoint(e) {
-        const routeId = +e.target.value,
-            endPoint = this.getRouteById(routeId);
-        this.setState({endPoint});
-        this.changeSeats(this.state.startPoint, endPoint);
-    }
-
-    changeSeats(startPoint, endPoint) {
-        const {waypoints} = this.props;
-
-        this.setState({
-            seats: _.reduce(
-                _.slice(waypoints, startPoint, endPoint + 1),
-                (acc, p) => acc + p.busy_seats,
-                0)
-        });
-    }
-
-    getEndPoints() {
-        let busySeats = 0;
-        const {waypoints, maxSeats} = this.props,
-            edge = _.findIndex(waypoints, (p, i) => {
-                if (i >= this.state.startPoint) {
-                    busySeats += p.busy_seats;
-                }
-                return busySeats >= maxSeats;
-            });
-        return waypoints.slice(this.state.startPoint, edge > 0 ? edge : waypoints.length);
-    }
-
-    onChangeSeats(e) {
-        const currentSeats = +e.target.value;
-        console.log(this.state);
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (this.state.isOpenModal !== newProps.isOpen) {
-            this.setState({isOpenModal: newProps.isOpen});
-        }
     }
 
     dateFormat(timestamp) {
@@ -111,10 +65,56 @@ class BookingModal extends React.Component {
         return `${weekday}. ${day} ${month} ${time}`;
     }
 
+    validate(iStart, iEnd, seats) {
+        const errors = BookingService.validateBooking(iStart, iEnd, seats, this.getPossibleSeats(iStart, iEnd));
+        this.setState({errors});
+    }
+
+    getPossibleSeats(start, end) {
+        const {waypoints, maxSeats} = this.props,
+            interval = waypoints.slice(start, end + 1),
+            seats = maxSeats - _.reduce(interval, (acc, p) => acc + p.busy_seats, 0),
+            possibleSeats  = seats < 0 ? 0 : seats;
+        this.setState({possibleSeats});
+        return possibleSeats;
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+        const {onSuccess, waypoints} = this.props,
+            { start, end, seats, errors } = this.state;
+        if (_.isEmpty(errors)) {
+            console.log({
+                start: waypoints[start].id,
+                end: waypoints[end].id,
+                seats: seats
+            });
+            onSuccess();
+            this.closeModal();
+        }
+    }
+
+    onChangeStartPoint(e) {
+        const start = this.getRouteById(+e.target.value);
+        this.validate(start, this.state.end, this.state.seats);
+        this.setState({start});
+    }
+
+    onChangeEndPoint(e) {
+        const end = this.getRouteById(+e.target.value);
+        this.validate(this.state.start, end, this.state.seats);
+        this.setState({end});
+    }
+
+    onChangeSeats(e) {
+        const seats = +e.target.value;
+        this.validate(this.state.start, this.state.end, seats);
+        this.setState({seats});
+    }
+
     render() {
-        const {isOpenModal, startPoint, endPoint, seats} = this.state,
-            {translate, waypoints, price, start_at, maxSeats} = this.props,
-            endPoints = this.getEndPoints();
+        const {isOpenModal, errors, possibleSeats} = this.state,
+            {translate, waypoints, price, start_at, maxSeats} = this.props;
 
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
@@ -137,58 +137,64 @@ class BookingModal extends React.Component {
                         </div>
                         <div className="row">
                             <div className="col-sm-4">
-                                <div className="text-muted" style={{fontSize: '.8rem'}}>
-                                    {translate('detail_trip.booking.start_point')}
-                                </div>
-                                <select
-                                    name="start_point"
-                                    className="form-control"
-                                    onChange={this.onChangeStartPoint}
-                                >
-                                    {waypoints.map(p => (
+                                <div className={"form-group" + (!!errors.start ? ' has-danger' : '')}>
+                                    <label className="form-control-label" style={{fontSize: '.8rem'}}>
+                                        {translate('detail_trip.booking.start_point')}
+                                    </label>
+                                    <select
+                                        name="start_point"
+                                        className={"form-control" + (!!errors.start ? ' has-danger' : '')}
+                                        onChange={this.onChangeStartPoint}
+                                    >
+                                        {waypoints.map(p => (
                                             <SelectItem
                                                 key={'from_' + p.id}
                                                 value={p.id}
                                                 disabled={p.busy_seats >= maxSeats}
                                             >{p.from.short_address}</SelectItem>
-                                        )
-                                    )}
-                                </select>
+                                        ))}
+                                    </select>
+                                    <small className="form-control-feedback">{errors.start}</small>
+                                </div>
                             </div>
                             <div className="col-sm-4">
-                                <div className="text-muted" style={{fontSize: '.8rem'}}>
-                                    {translate('detail_trip.booking.end_point')}
-                                </div>
-                                <select
-                                    name="end_point"
-                                    className="form-control"
-                                    onChange={this.onChangeEndPoint}
-                                >
-                                    {endPoints.map(((p) => {
-                                        return (
+                                <div className={"form-group" + (!!errors.end ? ' has-danger' : '')}>
+                                    <label className="form-control-label" style={{fontSize: '.8rem'}}>
+                                        {translate('detail_trip.booking.end_point')}
+                                    </label>
+                                    <select
+                                        name="end_point"
+                                        className={"form-control" + (!!errors.end ? ' has-danger' : '')}
+                                        onChange={this.onChangeEndPoint}
+                                    >
+                                        {waypoints.map(((p) => (
                                             <SelectItem
                                                 key={'to_' + p.id}
                                                 value={p.id}
                                                 disabled={p.busy_seats >= maxSeats}
                                             >{p.to.short_address}</SelectItem>
-                                        )
-                                    }))}
-                                </select>
+                                        )))}
+                                    </select>
+                                    <small className="form-control-feedback">{errors.end}</small>
+                                </div>
                             </div>
                             <div className="col-sm-4">
-                                <div className="text-muted" style={{fontSize: '.8rem'}}>
-                                    {translate('detail_trip.booking.seats')}
+                                <div className={"form-group" + (!!errors.seats ? ' has-danger' : '')}>
+                                    <label className="form-control-label" style={{fontSize: '.8rem'}}>
+                                        {translate('detail_trip.booking.seats')}
+                                    </label>
+                                    <input
+                                        type="number"
+                                        className={"form-control" + (!!errors.seats ? ' has-danger' : '')}
+                                        name="seats"
+                                        defaultValue="1"
+                                        min="1"
+                                        max={maxSeats}
+                                        onChange={this.onChangeSeats}
+                                    />
+                                    <small className="form-text text-muted">Free seats: {possibleSeats}</small>
+                                    <small className="form-control-feedback">{errors.seats}</small>
                                 </div>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    name="seats"
-                                    defaultValue="1"
-                                    min="1"
-                                    max={maxSeats - seats < 1 ? 1 : maxSeats - seats}
-                                    disabled={seats >= maxSeats}
-                                    onChange={this.onChangeSeats}
-                                />
                             </div>
                         </div>
                     </div>

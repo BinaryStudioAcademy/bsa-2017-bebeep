@@ -37,6 +37,22 @@ const BookingService = {
             .then(
                 response => Promise.resolve(response.data)
             )
+    },
+    validateBooking(iStart, iEnd, seats, possibleSeats) {
+        let errors = {};
+
+        if (iStart < 0) {
+            errors.start = 'Start point not found';
+        }
+        if (iEnd < 0) {
+            errors.end = 'End point not found';
+        }
+        if (iStart > iEnd) {
+            errors.end = "Incorrect end point"
+        }
+        if (possibleSeats < seats) {
+            errors.seats = `You can book ${possibleSeats} seats`;
+        }
     }
 };
 
