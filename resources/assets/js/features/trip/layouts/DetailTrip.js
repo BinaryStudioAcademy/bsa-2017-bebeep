@@ -25,12 +25,12 @@ class DetailTrip extends React.Component {
 
     render() {
         const {isOpenBookingModal, disableBookingBtn} = this.state,
-            {translate, id} = this.props;
+            {translate, params} = this.props;
 
         return (
             <div>
                 <BookingModal
-                    tripId={id}
+                    tripId={params.id}
                     maxSeats={3}
                     waypoints={[
                         {

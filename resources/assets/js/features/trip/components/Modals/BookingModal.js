@@ -82,16 +82,21 @@ class BookingModal extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const {onSuccess, waypoints} = this.props,
+        const {onSuccess, waypoints, tripId} = this.props,
             { start, end, seats, errors } = this.state;
+
         if (_.isEmpty(errors)) {
-            console.log({
-                start: waypoints[start].id,
-                end: waypoints[end].id,
-                seats: seats
-            });
-            onSuccess();
-            this.closeModal();
+            BookingService.createBooking(tripId, {
+                    routes: [
+                        waypoints[start].id,
+                        waypoints[end].id
+                    ],
+                    seats
+                }).then((data) => {
+                    onSuccess()
+                    this.closeModal();
+                })
+                .catch((error) => this.setState({errors: error.response.data}));
         }
     }
 

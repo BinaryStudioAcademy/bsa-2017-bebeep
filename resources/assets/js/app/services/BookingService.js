@@ -39,6 +39,12 @@ const BookingService = {
                 response => Promise.resolve(response.data)
             )
     },
+    createBooking(tripId, data) {
+        return securedRequest.post('/api/v1/booking/' + tripId, data)
+            .then(
+                response => Promise.resolve(response.data)
+            )
+    },
     validateBooking(iStart, iEnd, seats, possibleSeats) {
         let errors = {};
 
