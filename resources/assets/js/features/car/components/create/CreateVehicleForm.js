@@ -4,8 +4,9 @@ import NumericInput from 'react-numeric-input';
 import {VehicleService} from '../../services/VehicleService';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { vehicleCreateSuccess } from '../../actions';
 
-export default class CreateVehicleContainer extends React.Component {
+class CreateVehicleContainer extends React.Component {
     constructor(props) {
         super(props);
         this.currentYear = (new Date()).getFullYear();
@@ -224,3 +225,8 @@ export default class CreateVehicleContainer extends React.Component {
         );
     }
 }
+
+export default connect(
+    null,
+    (dispatch) => bindActionCreators({ vehicleCreateSuccess }, dispatch)
+)(CreateVehicleContainer);

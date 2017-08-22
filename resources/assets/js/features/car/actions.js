@@ -1,6 +1,6 @@
 import * as actions from './actionTypes';
 
-export const selectCarSuccess = data => ({
-    type: actions.GET_MODEL_BRAND_SUCCESS,
+export const vehicleCreateSuccess = data => ({
+    type: actions.VEHICLE_CREATE_SUCCESS,
     data
 });

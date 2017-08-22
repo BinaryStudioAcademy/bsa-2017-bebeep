@@ -3,6 +3,3 @@ export const VEHICLE_GET_SUCCESS = 'VEHICLE_GET_SUCCESS';
 export const VEHICLE_CREATE_SUCCESS = 'VEHICLE_CREATE_SUCCESS';
 export const VEHICLE_EDIT_SUCCESS = 'VEHICLE_EDIT_SUCCESS';
 export const VEHICLE_DELETE_SUCCESS = 'VEHICLE_DELETE_SUCCESS';
-
-//----------new-------------------------------------
-export const GET_MODEL_BRAND_SUCCESS = 'GET_MODEL_BRAND_SUCCESS';
