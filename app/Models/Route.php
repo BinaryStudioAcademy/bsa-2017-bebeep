@@ -46,19 +46,15 @@ class Route extends Model
      */
     public function getAvailableSeatsAttribute()
     {
-        $seatsReserved = 0;
-
         if ($this->bookings->count() <= 0) {
             return $this->trip->seats;
         }
 
-        foreach ($this->bookings as $booking) {
-            if ($booking->status !== Booking::STATUS_APPROVED) {
-                continue;
-            }
-
-            $seatsReserved += $booking->seats;
-        }
+        $seatsReserved = $this->bookings->reject(function($booking) {
+            return $booking->status !== Booking::STATUS_APPROVED;
+        })->reduce(function ($carry, $booking) {
+            return $carry + $booking->seats;
+        }, 0);
 
         return $this->trip->seats - $seatsReserved;
     }

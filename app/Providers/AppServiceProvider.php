@@ -51,14 +51,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PasswordServiceContract::class, PasswordService::class);
         $this->app->bind(UserProfileServiceContract::class, UserProfileService::class);
 
-        $this->app->bind(CreateBookingValidator::class, function ($app) {
-            return new CreateBookingValidator(
-                new TripDateRule,
-                new TripRoutesHasSeatsRule,
-                new UserHasNotActiveBookingsForTrip
-            );
-        });
-
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);
         });
@@ -82,6 +74,14 @@ class AppServiceProvider extends ServiceProvider
                 new OwnerConfirm,
                 new BookingTripConfirm,
                 new FutureTripConfirm
+            );
+        });
+
+        $this->app->bind(CreateBookingValidator::class, function ($app) {
+            return new CreateBookingValidator(
+                new TripDateRule,
+                new TripRoutesHasSeatsRule,
+                new UserHasNotActiveBookingsForTrip($app->make(\App\Repositories\Contracts\BookingRepository::class))
             );
         });
     }
