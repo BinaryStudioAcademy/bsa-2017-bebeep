@@ -5,6 +5,7 @@ import {VehicleService} from '../../services/VehicleService';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { vehicleCreateSuccess } from '../../actions';
+import { securedRequest } from 'app/services/RequestService';
 
 class CreateVehicleContainer extends React.Component {
     constructor(props) {
@@ -45,6 +46,7 @@ class CreateVehicleContainer extends React.Component {
         this.handleBodyChange = this.handleBodyChange.bind(this);
         this.handleYearChange = this.handleYearChange.bind(this);
         this.handleSeatsChange = this.handleSeatsChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     handleBrandChange(data) {
@@ -115,9 +117,38 @@ class CreateVehicleContainer extends React.Component {
         return this.getModelOptions(this.state.brand.id_car_mark);
     }
 
+    onSubmit(e) {
+        e.preventDefault();
+
+        let data = {
+            brand: e.target['brand'].value,
+            model: e.target['model'].value,
+            color: e.target['color'].value,
+            body: e.target['body'].value,
+            year: e.target['year'].value,
+            seats: e.target['seats'].value,
+            photo: null
+        };
+
+        securedRequest.post('/api/v1/car', data).then((response) => {
+            this.props.vehicleCreateSuccess(response.data);
+            this.setState({errors: {}});
+
+            /*if (response.status === 200) {
+                browserHistory.push('/vehicles');
+            }*/
+        }).catch((error) => {
+            this.setState({
+                errors: error.response.data
+            })
+        });
+
+        console.log(this.state.errors);
+    }
+
     render() {
         return (
-            <form role="form" className="card vehicle-form" action="/api/v1/car" method="POST">
+            <form role="form" className="card vehicle-form" action="/api/v1/car" method="POST" onSubmit={ this.onSubmit }>
                 <div className="card-header">
                     Enter vehicle details
                 </div>
@@ -189,7 +220,7 @@ class CreateVehicleContainer extends React.Component {
                         <label className="form-control-label text-muted col-sm-4" htmlFor="year">Year</label>
                         <div className="col-sm-8">
                             <NumericInput className="form-control"
-                                          name="seats"
+                                          name="year"
                                           placeholder="Select Car Year"
                                           min={1980}
                                           max={this.currentYear}
