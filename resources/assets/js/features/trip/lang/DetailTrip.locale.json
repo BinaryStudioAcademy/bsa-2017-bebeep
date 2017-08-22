@@ -2,7 +2,12 @@
   "detail_trip": {
     "booking_btn": ["Book it", "Забронювати", "Забронировать"],
     "booking": {
-      "header": ["Booking", "Бронювання", "Бронирование"],
+      "header": ["Booking trip", "Бронювання подорожі", "Бронирование поездки"],
+      "start_trip": ["Begin", "Початок", "Начало"],
+      "price_of_trip": ["Price", "Ціна", "Цена"],
+      "start_point": ["Start point", "Відправлення", "Отправление"],
+      "end_point": ["End point", "Прибуття", "Прибытие"],
+      "seats": ["Seats", "Місць", "Мест"],
       "apply": ["Apply", "Застосувати", "Применить"],
       "cancel": ["Cancel", "Відмінити", "Отменить"]
     }

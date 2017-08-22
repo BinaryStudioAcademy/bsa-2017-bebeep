@@ -31,6 +31,7 @@ class DetailTrip extends React.Component {
             <div>
                 <BookingModal
                     tripId={id}
+                    seats={2}
                     waypoints={[
                         {
                             "id": 9,
@@ -114,7 +115,7 @@ class DetailTrip extends React.Component {
                         }
                     ]}
                     price={12.00}
-                    start_at={1503774120}
+                    start_at={1503774120 * 1000}
                     isOpen={isOpenBookingModal}
                     onClosed={this.state.isOpenBookingModal = false}
                     onSuccess={this.onBookingSuccess}
