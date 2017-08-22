@@ -7,7 +7,6 @@ use App\Services\Requests\SaveCarRequestInterface as CreateCarRequestInterface;
 use Illuminate\Http\Request;
 
 class SaveCarRequest extends FormRequest implements CreateCarRequestInterface
-
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,7 +32,6 @@ class SaveCarRequest extends FormRequest implements CreateCarRequestInterface
             'body' => "required",
             'seats' => "required",
             'year' => "required",
-            'photo' => "required",
         ];
     }
 
@@ -67,7 +65,7 @@ class SaveCarRequest extends FormRequest implements CreateCarRequestInterface
         return $this->get('year');
     }
 
-    public function getPhoto(): string
+    public function getPhoto()
     {
         return $this->get('photo');
     }

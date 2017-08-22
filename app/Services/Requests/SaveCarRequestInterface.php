@@ -11,6 +11,6 @@ interface SaveCarRequestInterface
     public function getBody() : string;
     public function getSeats() : int;
     public function getYear() : int ;
-    public function getPhoto() : string ;
+    public function getPhoto();
     public function getUserId() : int ;
 }
