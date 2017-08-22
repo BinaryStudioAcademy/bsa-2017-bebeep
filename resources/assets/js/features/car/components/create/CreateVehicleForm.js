@@ -110,7 +110,7 @@ export default class CreateVehicleContainer extends React.Component {
         });
     }
 
-    getOptions() {
+    getModelLoadOptions() {
         return this.getModelOptions(this.state.brand.id_car_mark);
     }
 
@@ -140,13 +140,13 @@ export default class CreateVehicleContainer extends React.Component {
                         <label className="form-control-label text-muted col-sm-4" htmlFor="model">Car Model</label>
                         <Select.Async
                             name="model"
-                            placeholder="Select Car Model"
+                            placeholder="Please Type Car-model..."
                             value={this.state.model.name}
                             valueKey="name"
                             labelKey="name"
                             className="col-sm-8"
                             disabled={this.state.model.disabled}
-                            loadOptions={ this.getOptions.bind(this) }
+                            loadOptions={ this.getModelLoadOptions.bind(this) }
                             onChange={this.handleModelChange}
                             cache={false}
                             autoload={false}
