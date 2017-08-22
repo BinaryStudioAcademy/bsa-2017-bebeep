@@ -11,11 +11,10 @@ class TripRoutesHasSeatsRule implements CreateBookingRule
     public function validate(Trip $trip, User $user, CreateBookingRequest $request): bool
     {
         foreach ($trip->routes as $route) {
-            if ($route->available_seats <= 0) {
+            if ($route->available_seats < $request->getSeats()) {
                 throw new \Exception(__('Rules/Booking/Rules.not_enough_seats'));
             }
         }
-        dd($trip->routes->first()->available_seats);
 
         return true;
     }

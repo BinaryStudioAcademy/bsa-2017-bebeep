@@ -41,12 +41,15 @@ class Route extends Model
         return $this->belongsToMany(Booking::class);
     }
 
+    /**
+     * @return int
+     */
     public function getAvailableSeatsAttribute()
     {
-        $seats = 0;
+        $seatsReserved = 0;
 
         if ($this->bookings->count() <= 0) {
-            return $seats;
+            return $this->trip->seats;
         }
 
         foreach ($this->bookings as $booking) {
@@ -54,9 +57,9 @@ class Route extends Model
                 continue;
             }
 
-            $seats += $booking->seats;
+            $seatsReserved += $booking->seats;
         }
 
-        return $this->trip->seats - $seats;
+        return $this->trip->seats - $seatsReserved;
     }
 }

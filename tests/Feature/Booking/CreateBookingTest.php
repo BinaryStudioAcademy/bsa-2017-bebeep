@@ -8,8 +8,9 @@ use App\Models\Trip;
 use App\Models\Route;
 use App\Models\Booking;
 use App\Models\Vehicle;
+use Tests\JwtTestCase;
 
-class CreateBookingTest extends BaseTripTestCase
+class CreateBookingTest extends JwtTestCase
 {
     protected $method = 'POST';
     protected $url;
@@ -40,13 +41,13 @@ class CreateBookingTest extends BaseTripTestCase
 
         $user = $this->getPassengerUser();
 
-        $response = $this->jsonAsUser($user, []);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, []);
         $response->assertStatus(422);
 
-        $response = $this->jsonAsUser($user, ['seats' => null, 'routes' => [1, 2]]);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['seats' => null, 'routes' => [1, 2]]);
         $response->assertStatus(422)->assertJsonStructure(['seats' => []]);
 
-        $response = $this->jsonAsUser($user, ['routes' => null, 'seats' => 1]);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => null, 'seats' => 1]);
         $response->assertStatus(422)->assertJsonStructure(['routes' => []]);
     }
 
@@ -58,7 +59,7 @@ class CreateBookingTest extends BaseTripTestCase
         $data = $this->createTripWithDriver();
         $this->url = $this->getUrl($data['trip']->id);
 
-        $response = $this->jsonAsUser($data['user'], ['routes' => [1, 2], 'seats' => 3]);
+        $response = $this->jsonRequestAsUser($data['user'], $this->method, $this->url, ['routes' => [1, 2], 'seats' => 3]);
         $response->assertStatus(403);
     }
 
@@ -72,7 +73,7 @@ class CreateBookingTest extends BaseTripTestCase
 
         $user = $this->getPassengerUser();
 
-        $response = $this->jsonAsUser($user, ['routes' => [3, 2], 'seats' => 3]);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [3, 2], 'seats' => 3]);
         $response->assertStatus(422);
     }
 
@@ -87,7 +88,7 @@ class CreateBookingTest extends BaseTripTestCase
 
         $user = $this->getPassengerUser();
 
-        $response = $this->jsonAsUser($user, ['routes' => [1, 2], 'seats' => 3]);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [1, 2], 'seats' => 3]);
         $response->assertStatus(422);
     }
 
@@ -101,7 +102,7 @@ class CreateBookingTest extends BaseTripTestCase
 
         $user = $this->getPassengerUser();
 
-        $response = $this->jsonAsUser($user, ['routes' => [1, 2], 'seats' => 20]);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [1, 2], 'seats' => 20]);
         $response->assertStatus(422);
     }
 
@@ -118,14 +119,65 @@ class CreateBookingTest extends BaseTripTestCase
             'trip_id' => $data['trip']->id,
             'user_id' => $someUser->id,
             'seats' => 1,
-            'status' => Booking::STATUS_APPROVED,
         ]);
+        $booking->update(['status' => Booking::STATUS_APPROVED]);
         $booking->routes()->sync([1]);
 
         $user = $this->getPassengerUser();
 
-        $response = $this->jsonAsUser($user, ['routes' => [1, 2], 'seats' => 2]);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [1, 2], 'seats' => 2]);
         $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
+    public function user_cant_book_trip_if_he_is_already_booked_for_this_trip()
+    {
+        $data = $this->createTripWithDriver();
+        $this->url = $this->getUrl($data['trip']->id);
+
+        $user = $this->getPassengerUser();
+
+        $booking = factory(Booking::class)->create([
+            'trip_id' => $data['trip']->id,
+            'user_id' => $user->id,
+            'seats' => 1,
+        ]);
+        $booking->routes()->sync([1]);
+
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [1], 'seats' => 1]);
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_book_trip()
+    {
+        $data = $this->createTripWithDriver();
+        $this->url = $this->getUrl($data['trip']->id);
+
+        $user = $this->getPassengerUser();
+
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [1, 2], 'seats' => 1]);
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('booking_route', [
+            'route_id' => 1,
+            'booking_id' => $response->json()['id']
+        ]);
+        $this->assertDatabaseHas('booking_route', [
+            'route_id' => 2,
+            'booking_id' => $response->json()['id']
+        ]);
+
+        $this->assertDatabaseHas('bookings', [
+            'trip_id' => $data['trip']->id,
+            'user_id' => $user->id,
+            'status' => Booking::STATUS_PENDING,
+            'seats' => 1,
+        ]);
     }
 
     /**
@@ -135,9 +187,19 @@ class CreateBookingTest extends BaseTripTestCase
     {
         $user = $this->getDriverUser();
         $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id, 'seats' => 2]);
-        $trip = factory(Trip::class)->create(['user_id' => $user->id, 'vehicle_id' => $vehicle->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id, 'vehicle_id' => $vehicle->id, 'seats' => 2]);
         $routes = factory(Route::class, 2)->create(['trip_id' => $trip->id]);
 
         return compact('user', 'vehicle', 'trip', 'routes');
+    }
+
+    protected function getPassengerUser()
+    {
+        return factory(User::class)->create(['permissions' => User::PASSENGER_PERMISSION]);
+    }
+
+    protected function getDriverUser()
+    {
+        return factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
     }
 }

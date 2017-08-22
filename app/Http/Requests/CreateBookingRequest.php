@@ -32,13 +32,12 @@ class CreateBookingRequest extends FormRequest implements CreateBookingRequestCo
     public function rules()
     {
         $trip = $this->route()->parameter('trip');
-        $routes = $trip->routes;
 
         return [
             'routes' => [
                 'required',
                 'array',
-                'no_array_diff:'.$routes->implode('id', ','),
+                'routes_exists_for_trip:'.$trip->routes->implode('id', ','),
             ],
             'seats' => 'required|integer|min:0|max_seats_from_vehicle:'.$trip->vehicle->id,
         ];

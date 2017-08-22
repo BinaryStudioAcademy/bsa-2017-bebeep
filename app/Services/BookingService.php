@@ -19,16 +19,35 @@ class BookingService implements BookingServiceContract
     protected $confirmBookingValidator;
     protected $createBookingValidator;
 
-    public function __construct(BookingRepository $bookingRepository, ConfirmBookingValidator $confirmBookingValidator, CreateBookingValidator $createBookingValidator)
-    {
+    public function __construct(
+        BookingRepository $bookingRepository,
+        ConfirmBookingValidator $confirmBookingValidator,
+        CreateBookingValidator $createBookingValidator
+    ) {
         $this->createBookingValidator = $createBookingValidator;
         $this->bookingRepository = $bookingRepository;
         $this->confirmBookingValidator = $confirmBookingValidator;
     }
 
+    /**
+     * @param Trip $trip
+     * @param CreateBookingRequest $request
+     * @param User $user
+     * @return Booking
+     */
     public function create(Trip $trip, CreateBookingRequest $request, User $user)
     {
         $this->createBookingValidator->validate($trip, $user, $request);
+
+        $booking = $this->bookingRepository->save(new Booking([
+            'trip_id' => $trip->id,
+            'user_id' => $user->id,
+            'seats' => $request->getSeats(),
+        ]));
+
+        $booking->routes()->sync($request->getRoutes());
+
+        return $booking;
     }
 
     /**
