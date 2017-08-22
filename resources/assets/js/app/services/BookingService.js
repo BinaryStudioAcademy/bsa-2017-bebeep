@@ -1,4 +1,5 @@
 import { securedRequest } from 'app/services/RequestService';
+import LangService from './LangService';
 
 const BookingService = {
     getBookings(id) {
@@ -42,16 +43,16 @@ const BookingService = {
         let errors = {};
 
         if (iStart < 0) {
-            errors.start = 'Start point not found';
+            errors.start = LangService.translate('validate.booking.start_point_not_found');
         }
         if (iEnd < 0) {
-            errors.end = 'End point not found';
+            errors.end = LangService.translate('validate.booking.end_point_not_found');
         }
         if (iStart > iEnd) {
-            errors.end = "Incorrect end point"
+            errors.end = LangService.translate('validate.booking.end_point_incorrect');
         }
         if (possibleSeats < seats) {
-            errors.seats = `You can book ${possibleSeats} seats`;
+            errors.seats = LangService.translate('validate.booking.you_can_book_seats' + LangService.getNumberForm(possibleSeats), {seats: possibleSeats})
         }
         return errors;
     }

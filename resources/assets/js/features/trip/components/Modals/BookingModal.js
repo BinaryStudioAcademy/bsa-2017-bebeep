@@ -193,7 +193,7 @@ class BookingModal extends React.Component {
                                         max={maxSeats}
                                         onChange={this.onChangeSeats}
                                     />
-                                    <small className="form-text text-muted">Free seats: {possibleSeats}</small>
+                                    <small className="form-text text-muted">{translate('detail_trip.booking.free_seats', {seats: possibleSeats})}</small>
                                     <small className="form-control-feedback">{errors.seats}</small>
                                 </div>
                             </div>

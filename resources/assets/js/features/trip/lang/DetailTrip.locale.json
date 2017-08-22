@@ -8,6 +8,7 @@
       "start_point": ["Start point", "Відправлення", "Отправление"],
       "end_point": ["End point", "Прибуття", "Прибытие"],
       "seats": ["Seats", "Місць", "Мест"],
+      "free_seats": ["Free seats: ${seats}", "Вільних місць: ${seats}", "Свободных мест: ${seats}"],
       "apply": ["Apply", "Застосувати", "Применить"],
       "cancel": ["Cancel", "Відмінити", "Отменить"]
     }
