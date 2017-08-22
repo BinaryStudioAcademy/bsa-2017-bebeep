@@ -6,6 +6,9 @@ import { Link } from 'react-router';
 import DirectionsMap from "app/components/DirectionsMap";
 import { securedRequest } from 'app/services/RequestService';
 import { getWaypointsFromRoutes } from 'app/services/GoogleMapService';
+import BookingService from 'app/services/BookingService';
+import BookingModal from './_Modals/BookingModal';
+
 
 import '../styles/trip-card.scss';
 
@@ -17,8 +20,26 @@ class Trip extends React.Component {
         this.state = {
             deletable: this.props.deletable,
             editable: this.props.editable,
-            isDeleted: false
+            isDeleted: false,
+            bookings: [],
+            bookingsCount: 0,
+            modalIsOpen: false
         };
+    }
+
+    componentDidMount() {
+        const bookings = BookingService.getBookings(this.props.trip.id);
+        const count = BookingService.getBookingsCount(bookings);
+        this.setState({
+            bookings: bookings,
+            bookingsCount: count
+        });
+    }
+
+    onClick() {
+        this.setState({
+            modalIsOpen: true
+        });
     }
 
     getStartDate() {
@@ -61,17 +82,22 @@ class Trip extends React.Component {
         });
     }
 
+
     render() {
         const {translate} = this.props;
         const startPlace = this.getStartPlace();
         const endPlace = this.getEndPlace();
         const startDate = this.getStartDate();
         const waypoints = getWaypointsFromRoutes(this.props.trip.routes);
+        const bookingCount = this.state.bookingsCount;
+        const { bookings, modalIsOpen } = this.state;
 
         return (
             <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
                 {startPlace ? (
                     <DirectionsMap title={startDate}
+                                   bookingCount={bookingCount}
+                                   onClickBooking={this.onClick.bind(this)}
                                    needDirection="1"
                                    endTime={() => {}}
                                    from={startPlace.geometry.location}
@@ -98,6 +124,9 @@ class Trip extends React.Component {
                         </div>
                     </DirectionsMap>
                 ) : (<span>&nbsp;</span>)}
+
+                <BookingModal bookings={ bookings } count={ bookingCount } tripId={ this.props.trip.id } isOpen={ modalIsOpen }
+                             onClosed={ () => this.state.modalIsOpen = false } />
             </div>
         )
     }

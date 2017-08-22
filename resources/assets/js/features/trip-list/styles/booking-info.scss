@@ -1,0 +1,15 @@
+.li-bookings img{margin-top: -10px;}
+.li-bookings {
+  margin-top: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.19);
+}
+.li-bookings:last-child {padding-bottom: 0; border-bottom: none;}
+.li-bookings:first-child {margin-top: 0;}
+.booking-back, .btn-booking{background-color: rgba(2, 117, 216, 0.89); color: #ffffff; border-color: rgb(0, 111, 203);}
+.btn-booking:hover{background-color: rgb(0, 104, 193);}
+.modal-body{padding-bottom: 0;}
+.img-booking-user {
+  width: 50px;
+  height: 50px;
+}
