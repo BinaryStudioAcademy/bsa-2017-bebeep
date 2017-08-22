@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {localize} from 'react-localize-redux';
-import LangService from '../../../../app/services/LangService';
+import LangService from 'app/services/LangService';
 import moment from 'moment';
 import 'features/search/styles/search-trip-item.scss';
 
