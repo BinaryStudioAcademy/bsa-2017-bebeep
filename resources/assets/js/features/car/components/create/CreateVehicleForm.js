@@ -110,6 +110,10 @@ export default class CreateVehicleContainer extends React.Component {
         });
     }
 
+    getOptions() {
+        return this.getModelOptions(this.state.brand.id_car_mark);
+    }
+
     render() {
         return (
             <form role="form" className="card vehicle-form" action="/api/v1/car" method="POST">
@@ -142,8 +146,10 @@ export default class CreateVehicleContainer extends React.Component {
                             labelKey="name"
                             className="col-sm-8"
                             disabled={this.state.model.disabled}
-                            loadOptions={ this.getModelOptions }
+                            loadOptions={ this.getOptions.bind(this) }
                             onChange={this.handleModelChange}
+                            cache={false}
+                            autoload={false}
                             clearable={true}
                         />
                     </div>

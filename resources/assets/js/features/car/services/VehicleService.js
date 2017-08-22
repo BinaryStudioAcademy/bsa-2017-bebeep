@@ -18,8 +18,8 @@ export const VehicleService = {
             });
     },
 
-    getModelOptions() {
-        return securedRequest.get(`/api/v1/car-brand/1/models`)
+    getModelOptions(id) {
+        return securedRequest.get(`/api/v1/car-brand/${id}/models`)
             .then((response) => {
                 return response.data;
             }).then((json) => {
