@@ -53,6 +53,7 @@ const BookingService = {
         if (possibleSeats < seats) {
             errors.seats = `You can book ${possibleSeats} seats`;
         }
+        return errors;
     }
 };
 

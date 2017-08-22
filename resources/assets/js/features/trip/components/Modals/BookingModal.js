@@ -5,6 +5,7 @@ import BookingService from 'app/services/BookingService';
 import Modal from 'app/components/Modal';
 import SelectItem from './SelectItem';
 import moment from 'moment';
+import '../../styles/booking_modal.scss';
 
 class BookingModal extends React.Component {
 
@@ -41,10 +42,6 @@ class BookingModal extends React.Component {
         onClosed();
     }
 
-    getRouteById(id) {
-        return _.findIndex(this.props.waypoints, {id});
-    }
-
     dateFormat(timestamp) {
         const {translate} = this.props,
             date = moment(timestamp * 1000),
@@ -63,6 +60,10 @@ class BookingModal extends React.Component {
             return `${translate('search_result.tomorrow')} ${time}`
         }
         return `${weekday}. ${day} ${month} ${time}`;
+    }
+
+    getRouteById(id) {
+        return _.findIndex(this.props.waypoints, {id});
     }
 
     validate(iStart, iEnd, seats) {
@@ -118,18 +119,18 @@ class BookingModal extends React.Component {
 
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
-                <form onSubmit={this.onSubmit}>
+                <form onSubmit={this.onSubmit} className="booking-modal">
                     <div className="modal-header">{translate('detail_trip.booking.header')}</div>
                     <div className="modal-body">
                         <div className="row">
                             <div className="col-sm-6">
-                                <div className="text-muted" style={{fontSize: '.8rem'}}>
+                                <div className="text-muted booking-modal__text">
                                     {translate('detail_trip.booking.start_trip')}
                                 </div>
                                 <b>{this.dateFormat(start_at)}</b>
                             </div>
                             <div className="col-sm-6">
-                                <div className="text-muted" style={{fontSize: '.8rem'}}>
+                                <div className="text-muted booking-modal__text">
                                     {translate('detail_trip.booking.price_of_trip')}
                                 </div>
                                 <b>$</b>{price}
@@ -138,7 +139,7 @@ class BookingModal extends React.Component {
                         <div className="row">
                             <div className="col-sm-4">
                                 <div className={"form-group" + (!!errors.start ? ' has-danger' : '')}>
-                                    <label className="form-control-label" style={{fontSize: '.8rem'}}>
+                                    <label className="form-control-label booking-modal__text">
                                         {translate('detail_trip.booking.start_point')}
                                     </label>
                                     <select
@@ -159,7 +160,7 @@ class BookingModal extends React.Component {
                             </div>
                             <div className="col-sm-4">
                                 <div className={"form-group" + (!!errors.end ? ' has-danger' : '')}>
-                                    <label className="form-control-label" style={{fontSize: '.8rem'}}>
+                                    <label className="form-control-label booking-modal__text">
                                         {translate('detail_trip.booking.end_point')}
                                     </label>
                                     <select
@@ -180,7 +181,7 @@ class BookingModal extends React.Component {
                             </div>
                             <div className="col-sm-4">
                                 <div className={"form-group" + (!!errors.seats ? ' has-danger' : '')}>
-                                    <label className="form-control-label" style={{fontSize: '.8rem'}}>
+                                    <label className="form-control-label booking-modal__text">
                                         {translate('detail_trip.booking.seats')}
                                     </label>
                                     <input
