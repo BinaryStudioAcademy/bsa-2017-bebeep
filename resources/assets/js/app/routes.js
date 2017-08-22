@@ -26,6 +26,7 @@ import CreateTrip from '../features/trip/layouts/CreateTrip';
 
 import EditTrip from '../features/trip/layouts/EditTrip';
 import TripsList from '../features/trip-list/layouts/TripsList';
+import DetailTrip from '../features/trip/layouts/DetailTrip';
 
 import SearchResult from '../features/search/layouts/SearchResult';
 
@@ -49,6 +50,7 @@ export default (store) => {
             <Route path="trip">
                 <Route path="create" component={ CreateTrip } />
                 <Route path="edit/:id" component={ EditTrip } />
+                <Route path=":id" component={DetailTrip}/>
             </Route>
 
             {/* Routes only for auth users */}

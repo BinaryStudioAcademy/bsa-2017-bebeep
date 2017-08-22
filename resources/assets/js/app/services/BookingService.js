@@ -1,4 +1,5 @@
 import { securedRequest } from 'app/services/RequestService';
+import LangService from './LangService';
 
 const BookingService = {
     getBookings(id) {
@@ -37,6 +38,29 @@ const BookingService = {
             .then(
                 response => Promise.resolve(response.data)
             )
+    },
+    createBooking(tripId, data) {
+        return securedRequest.post('/api/v1/booking/' + tripId, data)
+            .then(
+                response => Promise.resolve(response.data)
+            )
+    },
+    validateBooking(iStart, iEnd, seats, possibleSeats) {
+        let errors = {};
+
+        if (iStart < 0) {
+            errors.start = LangService.translate('validate.booking.start_point_not_found');
+        }
+        if (iEnd < 0) {
+            errors.end = LangService.translate('validate.booking.end_point_not_found');
+        }
+        if (iStart > iEnd) {
+            errors.end = LangService.translate('validate.booking.end_point_incorrect');
+        }
+        if (possibleSeats < seats) {
+            errors.seats = LangService.translate('validate.booking.you_can_book_seats' + LangService.getNumberForm(possibleSeats), {seats: possibleSeats})
+        }
+        return errors;
     }
 };
 
