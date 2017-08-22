@@ -6,9 +6,9 @@ use App\User;
 use Carbon\Carbon;
 use App\Models\Trip;
 use App\Models\Route;
+use Tests\JwtTestCase;
 use App\Models\Booking;
 use App\Models\Vehicle;
-use Tests\JwtTestCase;
 
 class CreateBookingTest extends JwtTestCase
 {
@@ -165,11 +165,11 @@ class CreateBookingTest extends JwtTestCase
 
         $this->assertDatabaseHas('booking_route', [
             'route_id' => 1,
-            'booking_id' => $response->json()['id']
+            'booking_id' => $response->json()['id'],
         ]);
         $this->assertDatabaseHas('booking_route', [
             'route_id' => 2,
-            'booking_id' => $response->json()['id']
+            'booking_id' => $response->json()['id'],
         ]);
 
         $this->assertDatabaseHas('bookings', [

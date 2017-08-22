@@ -3,12 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
-use App\Rules\Booking\UserHasNotActiveBookingsForTrip;
 use App\Services\RouteService;
 use App\Services\PasswordService;
 use App\Rules\Booking\TripDateRule;
 use App\Services\UserProfileService;
-use App\Validators\RoutesExistsForTripValidator;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
@@ -24,6 +22,8 @@ use App\Rules\Booking\TripRoutesHasSeatsRule;
 use App\Validators\IsPasswordCurrentValidator;
 use App\Rules\BookingConfirm\FutureTripConfirm;
 use App\Rules\BookingConfirm\BookingTripConfirm;
+use App\Validators\RoutesExistsForTripValidator;
+use App\Rules\Booking\UserHasNotActiveBookingsForTrip;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 use App\Services\Contracts\RouteService as RouteServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;

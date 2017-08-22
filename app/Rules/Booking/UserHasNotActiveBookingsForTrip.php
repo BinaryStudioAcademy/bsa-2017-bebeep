@@ -2,9 +2,9 @@
 
 namespace App\Rules\Booking;
 
-use App\Models\Booking;
 use App\User;
 use App\Models\Trip;
+use App\Models\Booking;
 use App\Services\Requests\CreateBookingRequest;
 
 class UserHasNotActiveBookingsForTrip implements CreateBookingRule

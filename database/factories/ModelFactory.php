@@ -62,6 +62,6 @@ $factory->define(App\Models\Booking::class, function (Faker\Generator $faker) {
         'status' => App\Models\Booking::STATUS_PENDING,
         'trip_id' => 1,
         'user_id' => 1,
-        'seats' => 1
+        'seats' => 1,
     ];
 });
