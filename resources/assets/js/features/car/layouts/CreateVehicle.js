@@ -8,7 +8,7 @@ export default class CreateVehicle extends React.Component {
     render() {
         return (
             <div>
-                <PageHeader header={'Create new vehicle'}/>
+                <PageHeader header={'Add new vehicle'}/>
                 <CreateVehicleForm/>
             </div>
         );
