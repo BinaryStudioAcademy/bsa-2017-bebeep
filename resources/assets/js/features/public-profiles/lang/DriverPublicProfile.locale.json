@@ -10,6 +10,7 @@
     "driver_experienced": ["Experienced", "Досвідчений", "Опытный"],
     "driver_about_me": ["About me:", "Про мене:", "Обо мне:"],
     "driver_comments": ["Comments:", "Коментарі:", "Комментарии:"],
-    "driver_like_music": ["I like music", "Люблю слухати музику", "Люблю слушать музыку"]
+    "driver_like_music": ["I like music", "Люблю слухати музику", "Люблю слушать музыку"],
+    "driver_comment_info": ["commented ${days} days ago", "прокоментував(ла) ${days} днів назад", "прокомментировал(а) ${days} дней назад"]
   }
 }
