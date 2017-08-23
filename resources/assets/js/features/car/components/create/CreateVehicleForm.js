@@ -122,12 +122,12 @@ class CreateVehicleContainer extends React.Component {
         e.preventDefault();
 
         const data = {
-            brand: e.target['brand'].value,
-            model: e.target['model'].value,
-            color: e.target['color'].value,
-            body: e.target['body'].value,
-            year: e.target['year'].value,
-            seats: e.target['seats'].value,
+            brand: (e.target['brand']) ? e.target['brand'].value : '',
+            model: (e.target['model']) ? e.target['model'].value : '',
+            color: (e.target['color']) ? e.target['color'].value : '',
+            body: (e.target['body']) ? e.target['body'].value : '',
+            year: (e.target['year']) ? e.target['year'].value : '',
+            seats: (e.target['seats']) ? e.target['seats'].value : '',
             photo: null
         };
 
@@ -137,6 +137,7 @@ class CreateVehicleContainer extends React.Component {
             this.setState({
                 errors: validate.errors
             });
+            console.log(this.state.errors);
         } else {
             securedRequest.post('/api/v1/car', data).then((response) => {
                 this.props.vehicleCreateSuccess(response.data);
@@ -151,8 +152,6 @@ class CreateVehicleContainer extends React.Component {
                 })
             });
         }
-
-        console.log(this.state.errors);
     }
 
     render() {
@@ -164,7 +163,7 @@ class CreateVehicleContainer extends React.Component {
                     Enter vehicle details
                 </div>
                 <div className="card-block">
-                    <div className="form-group row ">
+                    <div className={ "form-group row " + (errors.brand ? 'has-danger' : '') }>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="brand">Car Brand</label>
                         <Select.Async
                             name="brand"
@@ -172,14 +171,17 @@ class CreateVehicleContainer extends React.Component {
                             value={this.state.brand.name}
                             valueKey="name"
                             labelKey="name"
-                            className="col-sm-8"
+                            className={ "col-sm-8 " + (errors.brand ? 'form-control-danger' : '')}
                             loadOptions={ this.getBrandOptions }
                             onChange={this.handleBrandChange}
                             clearable={true}
                         />
+                        <div className="offset-sm-4 col-sm-8">
+                            <div className="form-control-feedback">{ errors.brand }</div>
+                        </div>
                     </div>
 
-                    <div className="form-group row ">
+                    <div className={ "form-group row " + (errors.model ? 'has-danger' : '') }>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="model">Car Model</label>
                         <Select.Async
                             name="model"
@@ -187,7 +189,7 @@ class CreateVehicleContainer extends React.Component {
                             value={this.state.model.name}
                             valueKey="name"
                             labelKey="name"
-                            className="col-sm-8"
+                            className={ "col-sm-8 " + (errors.model ? 'form-control-danger' : '')}
                             disabled={this.state.model.disabled}
                             loadOptions={ this.getModelLoadOptions.bind(this) }
                             onChange={this.handleModelChange}
@@ -195,9 +197,12 @@ class CreateVehicleContainer extends React.Component {
                             autoload={false}
                             clearable={true}
                         />
+                        <div className="offset-sm-4 col-sm-8">
+                            <div className="form-control-feedback">{ errors.model }</div>
+                        </div>
                     </div>
 
-                    <div className="form-group row ">
+                    <div className={ "form-group row " + (errors.color ? 'has-danger' : '') }>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="color">Color</label>
                         <Select.Async
                             name="color"
@@ -205,14 +210,17 @@ class CreateVehicleContainer extends React.Component {
                             value={this.state.color.color}
                             valueKey="color"
                             labelKey="color"
-                            className="col-sm-8"
+                            className={ "col-sm-8 " + (errors.color ? 'form-control-danger' : '')}
                             loadOptions={ this.getColorOptions }
                             onChange={this.handleColorChange}
                             clerable={true}
                         />
+                        <div className="offset-sm-4 col-sm-8">
+                            <div className="form-control-feedback">{ errors.color }</div>
+                        </div>
                     </div>
 
-                    <div className="form-group row ">
+                    <div className={ "form-group row " + (errors.body ? 'has-danger' : '') }>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="body">Body</label>
                         <Select.Async
                             name="body"
@@ -220,14 +228,17 @@ class CreateVehicleContainer extends React.Component {
                             value={this.state.body.body}
                             valueKey="body"
                             labelKey="body"
-                            className="col-sm-8"
+                            className={ "col-sm-8 " + (errors.body ? 'form-control-danger' : '')}
                             loadOptions={ this.getBodyOptions }
                             onChange={this.handleBodyChange}
                             clerable={true}
                         />
+                        <div className="offset-sm-4 col-sm-8">
+                            <div className="form-control-feedback">{ errors.body }</div>
+                        </div>
                     </div>
 
-                    <div className="form-group row ">
+                    <div className={ "form-group row " + (errors.year ? 'has-danger' : '') }>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="year">Year</label>
                         <div className="col-sm-8">
                             <NumericInput className="form-control"
@@ -238,10 +249,13 @@ class CreateVehicleContainer extends React.Component {
                                           value={this.state.year}
                                           onChange={this.handleYearChange}
                             />
+                            <div className="offset-sm-4 col-sm-8">
+                                <div className="form-control-feedback">{ errors.year }</div>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="form-group row ">
+                    <div className={ "form-group row " + (errors.seats ? 'has-danger' : '') }>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="seats">Seats</label>
                         <div className="col-sm-8">
                             <NumericInput className="form-control"
@@ -252,6 +266,9 @@ class CreateVehicleContainer extends React.Component {
                                           value={this.state.seats}
                                           onChange={this.handleSeatsChange}
                             />
+                        </div>
+                        <div className="offset-sm-4 col-sm-8">
+                            <div className="form-control-feedback">{ errors.seats }</div>
                         </div>
                     </div>
                 </div>
