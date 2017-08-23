@@ -1,15 +1,10 @@
 <?php
 
-
 namespace App\Transformers\Search;
 
-use App\User;
-use App\Models\Trip;
-use App\Models\Route;
-use App\Services\Result\SearchTrip;
 use Illuminate\Support\Collection;
+use App\Services\Result\SearchTrip;
 use League\Fractal\TransformerAbstract;
-use Carbon\Carbon;
 
 class SearchTripTransformer extends TransformerAbstract
 {

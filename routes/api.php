@@ -88,6 +88,8 @@ Route::group([
     Route::delete('{trip}', ['as' => 'delete', 'uses' => 'TripsController@delete']);
 
     Route::delete('trash/{tripId}', ['as' => 'restore', 'uses' => 'TripsController@restore']);
+
+    Route::put('{trip}/bookings/{booking}/status', ['as' => 'booking.status', 'uses' => 'BookingsController@status']);
 });
 
 Route::group([
@@ -108,3 +110,6 @@ Route::put('v1/password-resets', [
     'as' => 'password.reset',
     'uses' => 'Auth\PasswordResetsController@reset',
 ]);
+
+Route::get('v1/trips/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
+Route::post('v1/trips/{trip}/bookings', ['as' => 'booking.create', 'uses' => 'BookingsController@create', 'middleware' => 'jwt.auth']);

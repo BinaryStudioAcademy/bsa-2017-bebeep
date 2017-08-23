@@ -3,10 +3,10 @@
 namespace App\Repositories\Helpers;
 
 use Carbon\Carbon;
+use InvalidArgumentException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
-use InvalidArgumentException;
 
 class SearchFilter
 {
@@ -52,8 +52,8 @@ class SearchFilter
         $this->query
             ->join('routes as routes_from', 'trips.id', '=', 'routes_from.trip_id')
             ->join('routes as routes_to', 'trips.id', '=', 'routes_to.trip_id')
-            ->whereRaw($this->haversine('routes_from.from_lat', 'routes_from.from_lng', $fromLat, $fromLng) . ' < ' . self::DISTANCE_FROM)
-            ->whereRaw($this->haversine('routes_to.to_lat', 'routes_to.to_lng', $toLat, $toLng) . ' < ' . self::DISTANCE_TO);
+            ->whereRaw($this->haversine('routes_from.from_lat', 'routes_from.from_lng', $fromLat, $fromLng).' < '.self::DISTANCE_FROM)
+            ->whereRaw($this->haversine('routes_to.to_lat', 'routes_to.to_lng', $toLat, $toLng).' < '.self::DISTANCE_TO);
 
         return $this;
     }
@@ -72,8 +72,8 @@ class SearchFilter
         $dayEnd = clone $date;
         $dayEnd->hour += $maxHourOffset < 25 && $minHourOffset < $maxHourOffset ? $maxHourOffset : 24;
 
-        $this->query->where("trips.start_at", '>=', $dayStart)
-            ->where("trips.start_at", '<=', $dayEnd);
+        $this->query->where('trips.start_at', '>=', $dayStart)
+            ->where('trips.start_at', '<=', $dayEnd);
 
         return $this;
     }
@@ -174,10 +174,10 @@ class SearchFilter
      */
     private function haversine(string $startLat, string $startLng, float $endLat, float $endLng): string
     {
-        return "ROUND(2 * ".self::EARTH_RADIUS_KM." * ASIN(SQRT( ".
+        return 'ROUND(2 * '.self::EARTH_RADIUS_KM.' * ASIN(SQRT( '.
             "POWER(SIN(RADIANS({$startLat} - {$endLat}) / 2), 2) + ".
             "COS(RADIANS({$startLat})) * COS(RADIANS($endLat)) * ".
             "POWER(SIN(RADIANS({$startLng} - $endLng) / 2), 2) ".
-            ")), 1)";
+            ')), 1)';
     }
 }

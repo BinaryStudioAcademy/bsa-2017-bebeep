@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Carbon\Carbon;
-use App\Models\Trip;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Services\Requests\SearchTripRequest as SearchTripRequestInterface;
@@ -31,12 +30,9 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
      */
     public function rules()
     {
-        //$minStartAt = Carbon::now()->timestamp;
-
         return [
             'fc' => 'required|string',
             'tc' => 'required|string',
-            //'start_at' => 'required|integer|greater_than_date:' . $minStartAt,
             'start_at' => 'integer',
         ];
     }

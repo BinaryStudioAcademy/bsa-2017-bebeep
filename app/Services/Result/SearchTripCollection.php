@@ -23,7 +23,7 @@ class SearchTripCollection extends Collection
     {
         return [
             'total' => $this->meta['count'],
-            'price' => ['min' => $this->meta['min'], 'max' => $this->meta['max']]
+            'price' => ['min' => $this->meta['min'], 'max' => $this->meta['max']],
         ];
     }
 }

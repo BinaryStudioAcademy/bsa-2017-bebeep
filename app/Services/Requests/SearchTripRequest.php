@@ -14,7 +14,7 @@ interface SearchTripRequest
     public function getFromLat() : float;
 
     /**
-     * Longitude 'From' point
+     * Longitude 'From' point.
      *
      * @return mixed
      */
@@ -75,8 +75,6 @@ interface SearchTripRequest
      * @return bool
      */
     public function isAsc() : bool;
-
-
 
     /**
      * Sort order descending.

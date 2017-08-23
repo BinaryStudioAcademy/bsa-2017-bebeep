@@ -2,11 +2,9 @@
 
 namespace App\Services;
 
-use App\Services\Result\SearchTrip;
-use App\Services\Result\SearchTripCollection;
 use App\User;
-use Carbon\Carbon;
 use App\Models\Trip;
+use App\Services\Result\SearchTrip;
 use App\Repositories\TripRepository;
 use App\Repositories\RouteRepository;
 use App\Validators\DeleteTripValidator;
@@ -15,7 +13,7 @@ use App\Validators\RestoreTripValidator;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\SearchTripRequest;
 use App\Services\Requests\UpdateTripRequest;
-use Prettus\Repository\Contracts\CriteriaInterface;
+use App\Services\Result\SearchTripCollection;
 use App\Criteria\Trips\AllDriverTripsCriteria;
 use App\Criteria\Trips\DriverTripByIdCriteria;
 use App\Criteria\Trips\PastDriverTripsCriteria;

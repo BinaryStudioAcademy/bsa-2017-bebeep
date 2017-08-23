@@ -8,15 +8,9 @@
     border-color: #d9534f;
 }
 
-.trip-item .google-map {
-    flex: 1;
-}
-
-.trip-actions.card-footer {
-    background-color: transparent;
-    border-top: none;
-}
-
-.trip-actions .btn {
-    margin-right: 10px;
+.badge-red {
+    background-color: rgba(255, 0, 0, 0.86);
+    border-radius: 0.4rem;
+    padding: 0.2em 0.4em;
+    font-size: 78%;
 }
