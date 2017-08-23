@@ -4,6 +4,7 @@ namespace App\Services\Result;
 
 use App\Models\Trip;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 
 class SearchTrip
 {
@@ -14,7 +15,7 @@ class SearchTrip
 
     public function __construct($rawTrip)
     {
-        $this->trip = $rawTrip;
+        $this->rawTrip = $rawTrip;
     }
 
     public function setModel(Trip $trip)
@@ -29,39 +30,39 @@ class SearchTrip
 
     public function routes() : array
     {
-        $first = $this->modelTrip->routes->first();
-        $last = $this->modelTrip->routes->last();
-        $routes = [];
+        /** @var Collection $routes */
+        $routes = $this->modelTrip->routes;
+        $first = $routes->first();
+        $from = $routes->where('id', '=', (int) $this->rawTrip->from_id)->first();
+        $to = $routes->where('id', '=', (int) $this->rawTrip->to_id)->first();
+        $last = $routes->last();
+        $result = [];
 
-        if ($first->id !== $this->getFromRoute()['id']) {
-            $routes[] = $first;
+        if ($first->id !== $from->id) {
+            $result[] = [
+                'id' => $first->id,
+                'location' => $first->from,
+                'wanted' => false,
+            ];
         }
-
-        $routes[] = $this->getFromRoute();
-
-        if ($last->id !== $this->getToRoute()['id']) {
-            $routes[] = $last;
+        $result[] = [
+            'id' => $from->id,
+            'location' => $from->from,
+            'wanted' => true,
+        ];
+        $result[] = [
+            'id' => $to->id,
+            'location' => $to->to,
+            'wanted' => true,
+        ];
+        if ($last->id !== $to->id) {
+            $result[] = [
+                'id' => $last->id,
+                'location' => $last->to,
+                'wanted' => false,
+            ];
         }
-
-        $routes[] = $this->getToRoute();
-
-        return $routes;
-    }
-
-    public function getFromRoute() : array
-    {
-        return [
-            'id' => $this->rawTrip->from_id,
-            'location' => $this->rawTrip->from,
-        ];
-    }
-
-    public function getToRoute() : array
-    {
-        return [
-            'id' => $this->rawTrip->to_id,
-            'location' => $this->rawTrip->to,
-        ];
+        return $result;
     }
 
     public function __get($name)

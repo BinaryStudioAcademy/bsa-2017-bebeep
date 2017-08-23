@@ -8,9 +8,7 @@ use App\Services\{
     TripDetailService
 };
 use App\Transformers\{
-    DetailTrip,
-    TripTransformer,
-    SearchRideTransformer
+    DetailTrip, Search\SearchTripTransformer, TripTransformer
 };
 use App\Http\Requests\{
     CreateTripRequest,
@@ -22,7 +20,6 @@ use App\Exceptions\{
     Trip\UserCantEditTripException,
     User\UserHasNotPermissionsToDeleteTripException
 };
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class TripsController extends Controller
@@ -150,7 +147,11 @@ class TripsController extends Controller
     {
         $trips = $this->tripsService->search($request);
 
-        return fractal(Collection::make($trips), new SearchRideTransformer())->respond();
+        return fractal()
+            ->collection($trips, new SearchTripTransformer())
+            ->parseIncludes(['driver', 'routes'])
+            ->addMeta($trips->getMeta())
+            ->respond();
     }
 
     /**
