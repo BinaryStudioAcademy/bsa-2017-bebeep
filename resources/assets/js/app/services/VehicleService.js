@@ -2,21 +2,19 @@ import validate from 'validate.js';
 
 export const VehicleConstraints = {
     brand: {
-        presence: true,
-        numericality: {
-            strict: true,
-            onlyInteger: true,
-            greaterThan: 0,
-        },
+        presence: true
     },
 
     model: {
-        presence: true,
-        numericality: {
-            strict: true,
-            onlyInteger: true,
-            greaterThan: 0,
-        },
+        presence: true
+    },
+
+    color: {
+        presence: true
+    },
+
+    body: {
+        presence: true
     },
 
     year: {
@@ -26,24 +24,6 @@ export const VehicleConstraints = {
             onlyInteger: true,
             greaterThanOrEqualTo: 1980,
             lessThanOrEqualTo: new Date().getFullYear(),
-        },
-    },
-
-    color: {
-        presence: true,
-        numericality: {
-            strict: true,
-            onlyInteger: true,
-            greaterThan: 0,
-        },
-    },
-
-    body: {
-        presence: true,
-        numericality: {
-            strict: true,
-            onlyInteger: true,
-            greaterThan: 0,
         },
     },
 
@@ -57,8 +37,8 @@ export const VehicleConstraints = {
     },
 
     photo: {
-        presence: true,
-        url: true,
+        /*presence: true
+        url: true,*/
     }
 };
 
@@ -81,15 +61,6 @@ export const VehicleValidator = {
         };
     },
 
-    year: (data) => {
-        const result = validate.single(data, VehicleConstraints.year);
-        let error = result ? result.join(", ") : "";
-        return {
-            valid: !result,
-            error
-        };
-    },
-
     color: (data) => {
         const result = validate.single(data, VehicleConstraints.color);
         let error = result ? result.join(", ") : "";
@@ -101,6 +72,15 @@ export const VehicleValidator = {
 
     body: (data) => {
         const result = validate.single(data, VehicleConstraints.body);
+        let error = result ? result.join(", ") : "";
+        return {
+            valid: !result,
+            error
+        };
+    },
+
+    year: (data) => {
+        const result = validate.single(data, VehicleConstraints.year);
         let error = result ? result.join(", ") : "";
         return {
             valid: !result,
@@ -130,9 +110,9 @@ export const VehicleValidator = {
 export const VehicleValidate = (data = {
     brand: "",
     model: "",
-    year: "",
     color: "",
     body: "",
+    year: "",
     seats: "",
     photo: "",
 }) => {

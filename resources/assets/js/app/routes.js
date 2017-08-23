@@ -70,7 +70,7 @@ export default (store) => {
 
             <Route path="vehicles">
                 {/*<IndexRoute component={ Vehicles } />*/}
-                <Route path="create" component={ CreateVehicle } />
+                <Route path="create" component={ CreateVehicle }/>
                 {/*<Route path=":id" component={ VehicleDetails } />*/}
             </Route>
 
@@ -84,7 +84,7 @@ export default (store) => {
                 {/* Trip creating and editing */}
                 <Route path="trip">
                     <Route path="create" component={ CreateTrip }/>
-                    <Route path="edit/:id" component={ Vehicles /*TripEdit*/ }/>
+                    {/*<Route path="edit/:id" component={ Vehicles TripEdit }/>*/}
                 </Route>
 
                 {/* User dashboard */}

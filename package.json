@@ -34,7 +34,7 @@
     "react-dom": "^15.6.1",
     "react-dropzone": "^4.0.1",
     "react-fa": "^4.2.0",
-    "react-localize-redux": "^2.5.1",
+    "react-localize-redux": "^2.5.2",
     "react-numeric-input": "^2.2.0",
     "react-places-autocomplete": "^5.4.2",
     "react-redux": "^5.0.5",

@@ -1,11 +1,12 @@
 import React from 'react';
 import Select from 'react-select';
 import NumericInput from 'react-numeric-input';
-import {VehicleService} from '../../services/VehicleService';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { vehicleCreateSuccess } from '../../actions';
+import { VehicleValidate } from 'app/services/VehicleService';
 import { securedRequest } from 'app/services/RequestService';
+import { VehicleService } from '../../services/VehicleService';
+import { vehicleCreateSuccess } from '../../actions';
 
 class CreateVehicleContainer extends React.Component {
     constructor(props) {
@@ -120,7 +121,7 @@ class CreateVehicleContainer extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        let data = {
+        const data = {
             brand: e.target['brand'].value,
             model: e.target['model'].value,
             color: e.target['color'].value,
@@ -130,23 +131,33 @@ class CreateVehicleContainer extends React.Component {
             photo: null
         };
 
-        securedRequest.post('/api/v1/car', data).then((response) => {
-            this.props.vehicleCreateSuccess(response.data);
-            this.setState({errors: {}});
+        let validate = VehicleValidate(data);
 
-            /*if (response.status === 200) {
-                browserHistory.push('/vehicles');
-            }*/
-        }).catch((error) => {
+        if(!validate.valid) {
             this.setState({
-                errors: error.response.data
-            })
-        });
+                errors: validate.errors
+            });
+        } else {
+            securedRequest.post('/api/v1/car', data).then((response) => {
+                this.props.vehicleCreateSuccess(response.data);
+                this.setState({errors: {}});
+
+                /*if (response.status === 200) {
+                 browserHistory.push('/vehicles');
+                 }*/
+            }).catch((error) => {
+                this.setState({
+                    errors: error.response.data
+                })
+            });
+        }
 
         console.log(this.state.errors);
     }
 
     render() {
+        const { errors } = this.state;
+
         return (
             <form role="form" className="card vehicle-form" action="/api/v1/car" method="POST" onSubmit={ this.onSubmit }>
                 <div className="card-header">
