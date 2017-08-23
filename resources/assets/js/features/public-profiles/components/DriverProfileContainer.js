@@ -26,7 +26,7 @@ class DriverProfileContainer extends React.Component {
     }
 
     render() {
-        const { id, translate } = this.props;
+        const { translate } = this.props;
         const { profile, preloader } = this.state;
 
         if (preloader) {

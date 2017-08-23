@@ -40,13 +40,20 @@
   color: rgba(241, 199, 31, 0.88) !important;
   padding-right: 5px;
 }
-.fa-circle {
+.preference-green {
   color: #5cb85c !important;
+  margin-right: 5px;
+}
+
+.preference-red {
+  color: rgba(199, 44, 21, 0.93) !important;
+  margin-right: 5px;
 }
 
 .rating-info {
   margin: 25px 0;
 }
+
 .driver-about-me {
   border-radius: 5px;
   background-color: rgba(136, 200, 255, 0.27);
@@ -69,12 +76,14 @@
   border-style:solid solid outset;
   pointer-events:none;
 }
+
 .card>.card-header:after{
   border-width:7px;
   border-right-color:#f7f7f7;
   margin-top:1px;
   margin-left:2px;
 }
+
 .card>.card-header:before{
   border-right-color:#ddd;
   border-width:8px;
