@@ -67,6 +67,11 @@ class BookingService implements BookingServiceContract
         }
     }
 
+    public function cancel(Booking $booking, User $user)
+    {
+        $this->cancelBookingValidator->validate($booking, $user);
+    }
+
     /**
      * {@inheritdoc}
      */
