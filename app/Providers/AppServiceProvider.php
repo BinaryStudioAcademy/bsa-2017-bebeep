@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
+use App\Rules\Booking\BookingTripNotExpiredRule;
 use App\Services\RouteService;
 use App\Services\PasswordService;
 use App\Rules\Booking\TripDateRule;
 use App\Services\UserProfileService;
+use App\Validators\CancelBookingValidator;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
@@ -74,6 +76,12 @@ class AppServiceProvider extends ServiceProvider
                 new OwnerConfirm,
                 new BookingTripConfirm,
                 new FutureTripConfirm
+            );
+        });
+
+        $this->app->bind(CancelBookingValidator::class, function ($app) {
+            return new CancelBookingValidator(
+                new BookingTripNotExpiredRule
             );
         });
 

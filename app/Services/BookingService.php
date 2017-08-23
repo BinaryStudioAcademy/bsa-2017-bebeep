@@ -6,7 +6,9 @@ use App\User;
 use App\Models\Trip;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
+use App\Events\ApprovedBookingCanceled;
 use App\Validators\CreateBookingValidator;
+use App\Validators\CancelBookingValidator;
 use App\Validators\ConfirmBookingValidator;
 use App\Services\Requests\BookingStatusRequest;
 use App\Services\Requests\CreateBookingRequest;
@@ -18,15 +20,18 @@ class BookingService implements BookingServiceContract
     protected $bookingRepository;
     protected $confirmBookingValidator;
     protected $createBookingValidator;
+    private $cancelBookingValidator;
 
     public function __construct(
         BookingRepository $bookingRepository,
         ConfirmBookingValidator $confirmBookingValidator,
-        CreateBookingValidator $createBookingValidator
+        CreateBookingValidator $createBookingValidator,
+        CancelBookingValidator $cancelBookingValidator
     ) {
         $this->createBookingValidator = $createBookingValidator;
         $this->bookingRepository = $bookingRepository;
         $this->confirmBookingValidator = $confirmBookingValidator;
+        $this->cancelBookingValidator = $cancelBookingValidator;
     }
 
     /**
@@ -67,9 +72,23 @@ class BookingService implements BookingServiceContract
         }
     }
 
+    /**
+     * @param Booking $booking
+     * @param User $user
+     * @return Booking
+     */
     public function cancel(Booking $booking, User $user)
     {
         $this->cancelBookingValidator->validate($booking, $user);
+
+        if ($booking->status === Booking::STATUS_APPROVED) {
+            event(new ApprovedBookingCanceled($booking));
+        }
+
+        $booking->status = Booking::STATUS_CANCELED;
+        $this->bookingRepository->save($booking);
+
+        return $booking;
     }
 
     /**
