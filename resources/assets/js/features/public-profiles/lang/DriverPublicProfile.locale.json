@@ -11,6 +11,17 @@
     "driver_about_me": ["About me:", "Про мене:", "Обо мне:"],
     "driver_comments": ["Comments:", "Коментарі:", "Комментарии:"],
     "driver_like_music": ["I like music", "Люблю слухати музику", "Люблю слушать музыку"],
-    "driver_comment_info": ["commented ${days} days ago", "прокоментував(ла) ${days} днів назад", "прокомментировал(а) ${days} дней назад"]
+    "driver_comment_info": ["commented ${days} days ago", "прокоментував(ла) ${days} днів назад", "прокомментировал(а) ${days} дней назад"],
+    "driver_car_header": ["My car", "Моє авто", "Мой автомобиль"],
+    "driver_car_model": ["Model: ", "Модель: ", "Модель: "],
+    "driver_car_color": ["Color: ", "Колір: ", "Цвет: "],
+    "driver_verifications": ["Verification", "Підтвердження даних", "Подтверждение данных"],
+    "driver_verifications_phone_number": ["Phone number verified", "Номер телефону підтверджено", "Номер телефона подтвержден"],
+    "driver_verifications_email": ["Email address verified", "Email підтверджено", "Email подтвержден"],
+    "driver_verifications_agreement": ["Agreement accepted", "Правила прийняті", "Правила приняти"],
+    "driver_activity": ["Member activity", "Активність користувача", "Активность пользователя"],
+    "driver_activity_rides": ["Rides: ", "Поїздок: ", "Поездок: "],
+    "driver_activity_online": ["Last online: ", "Востаннє онлайн: ", "Последний онлайн: "],
+    "driver_activity_member_since": ["Member since: ", "Користувач з: ", "Пользователь с: "]
   }
 }

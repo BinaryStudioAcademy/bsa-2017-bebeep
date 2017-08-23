@@ -16,6 +16,14 @@
   padding-top: 100px;
 }
 
+.driver-profile {
+  padding-right: 10px;
+}
+
+.driver-profile-border {
+  border-left: 1px solid rgba(128, 128, 128, 0.2);
+}
+
 .driver-avatar {
   margin-bottom: 20px;
 }
@@ -33,7 +41,7 @@
   padding-right: 5px;
 }
 .fa-circle {
-  color: rgba(0, 110, 255, 0.84) !important;
+  color: #5cb85c !important;
 }
 
 .rating-info {
@@ -74,6 +82,8 @@
 
 .user-photo {
   border-radius: 20%;
+  max-height: 80px;
+  max-width: 80px;
 }
 
 .comment {
@@ -82,4 +92,29 @@
 
 .driver-name {
   margin-bottom: 20px;
+}
+
+.driver-additional-info {
+  padding-left: 15px;
+}
+
+.driver-car-block {
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.27);
+}
+
+.driver-car {
+  border: 1px solid rgba(128, 128, 128, 0.19);
+  width: 230px;
+  height: 140px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.driver-verifications{
+  color: #5cb85c !important;
+}
+
+.driver-verifications i {
+  padding-right: 10px;
 }

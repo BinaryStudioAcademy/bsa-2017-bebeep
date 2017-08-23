@@ -2,6 +2,7 @@ import React from 'react';
 import {localize} from 'react-localize-redux';
 import Preloader from 'app/components/Preloader';
 import DriverProfile from './DriverProfile';
+import DriverAdditionalInfo from './DriverAdditionalInfo';
 import DriverProfileService from '../services/DriverProfileService';
 
 import "../styles/driver-profile.scss";
@@ -22,7 +23,6 @@ class DriverProfileContainer extends React.Component {
             profile: profile,
             preloader: false
         });
-        console.log(profile);
     }
 
     render() {
@@ -45,7 +45,9 @@ class DriverProfileContainer extends React.Component {
                 <div className="col-md-8">
                     <DriverProfile profile={profile}/>
                 </div>
-                <div className="col-md-4">Data</div>
+                <div className="col-md-4 driver-profile-border">
+                    <DriverAdditionalInfo />
+                </div>
             </div>
         );
     }

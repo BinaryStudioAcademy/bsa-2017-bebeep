@@ -15,7 +15,7 @@ class DriverProfile extends React.Component {
     }
 
     render() {
-        const { profile } = this.props;
+        const { translate, profile } = this.props;
 
         return (
             <div className="driver-profile">

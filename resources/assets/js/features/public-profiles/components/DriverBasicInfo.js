@@ -15,8 +15,8 @@ class DriverBasicInfo extends React.Component {
                 <strong>{translate('driver_public_profile.driver_experience')} </strong> {translate('driver_public_profile.driver_experienced')} <br/>
                 <strong>{translate('driver_public_profile.driver_preferences')} </strong>
                 <span className="fa-stack fa-md">
-                      <i className="fa fa-circle fa-stack-2x" data-toggle="tooltip" data-placement="top" title={translate('driver_public_profile.driver_like_music')}></i>
-                      <i className="fa fa-music fa-stack-1x fa-inverse"></i>
+                      <i className="fa fa-circle fa-stack-2x"></i>
+                      <i className="fa fa-music fa-stack-1x fa-inverse" data-toggle="tooltip" data-placement="top" title={translate('driver_public_profile.driver_like_music')}></i>
                     </span>
                 <br/>
             </div>

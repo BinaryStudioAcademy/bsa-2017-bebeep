@@ -1,9 +1,14 @@
 import React from 'react';
 import {localize} from 'react-localize-redux';
+import DriverProfileService from '../services/DriverProfileService';
 
 import "../styles/driver-profile.scss";
 
 class DriverComment extends React.Component {
+    getDaysFromComment() {
+        return DriverProfileService.getTimeFromDate(this.props.comment.date, 'days');
+    }
+
     getStars() {
         let stars = [];
         for (let i = 0; i < this.props.comment.rating; i++) {
@@ -23,7 +28,8 @@ class DriverComment extends React.Component {
                     <div className="col-sm-10">
                         <div className="card">
                             <div className="card-header">
-                                <strong>{comment.user}</strong> <span className="text-muted">{translate('driver_public_profile.driver_comment_info', {days: 5})}</span>
+                                <strong>{comment.user}</strong>&nbsp;
+                                <span className="text-muted">{translate('driver_public_profile.driver_comment_info', {days: this.getDaysFromComment()})}</span>
                                 <span className="pull-right">
                                     {this.getStars()}
                                 </span>

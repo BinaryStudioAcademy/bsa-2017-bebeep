@@ -21,7 +21,7 @@ const DriverProfileService = {
                     },
                     {
                         id: 2,
-                        date: '2017-08-19',
+                        date: '2017-08-22',
                         user: 'Kevin Prince',
                         user_img: 'http://static4.businessinsider.com/image/55b0ead86da811bc52309d7f-100-100/ben-gilbert.jpg',
                         text: 'Nice and safety, thanks!',
