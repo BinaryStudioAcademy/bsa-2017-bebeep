@@ -168,9 +168,9 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     public function getMaxTime(): int
     {
         if (isset($this->getFilter()['time'])) {
-            return (int) $this->getFilter()['time']['max'] ?? 1;
+            return (int) $this->getFilter()['time']['max'] ?? 24;
         } else {
-            return 1;
+            return 24;
         }
     }
 

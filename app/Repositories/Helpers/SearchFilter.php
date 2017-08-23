@@ -67,7 +67,7 @@ class SearchFilter
     public function addDate(Carbon $date, $minHourOffset = 1, $maxHourOffset = 1) : SearchFilter
     {
         $dayStart = clone $date;
-        $dayStart->hour = $minHourOffset > 0 && $minHourOffset < $maxHourOffset ? $minHourOffset - 1 : $dayStart->hour;
+        $dayStart->hour += $minHourOffset > 0 && $minHourOffset < $maxHourOffset ? $minHourOffset - 1 : 0;
 
         $dayEnd = clone $date;
         $dayEnd->hour += $maxHourOffset < 25 && $minHourOffset < $maxHourOffset ? $maxHourOffset : 24;
