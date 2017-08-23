@@ -91,4 +91,29 @@ interface SearchTripRequest
      * @return array
      */
     public function getFilter() : array;
+
+    /**
+     * @return int
+     */
+    public function getMinTime() : int;
+
+    /**
+     * @return int
+     */
+    public function getMaxTime() : int;
+
+    /**
+     * @return Carbon|null
+     */
+    public function getFilterDate() : ?Carbon;
+
+    /**
+     * @return int
+     */
+    public function getMinPrice() : int;
+
+    /**
+     * @return int
+     */
+    public function getMaxPrice() : int;
 }

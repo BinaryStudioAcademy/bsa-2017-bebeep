@@ -37,7 +37,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
             'fc' => 'required|string',
             'tc' => 'required|string',
             //'start_at' => 'required|integer|greater_than_date:' . $minStartAt,
-            'start_at' => 'required|integer',
+            'start_at' => 'integer',
         ];
     }
 
@@ -87,12 +87,15 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     public function getStartAt() : Carbon
     {
         $startAt = $this->get('start_at');
-        // For testing
-        //$startAt = Carbon::createFromFormat('Y-m-d', '2017-08-23')->toDateString();
-        return Carbon::createFromTimestampUTC($startAt)
-            ->hour(0)
-            ->minute(0)
-            ->second(0);
+        if ($startAt) {
+            return Carbon::createFromTimestampUTC($startAt)
+                ->hour(0)
+                ->minute(0)
+                ->second(0);
+        } else {
+            return Carbon::today();
+        }
+
     }
 
     /**
@@ -152,6 +155,69 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
      */
     public function getFilter() : array
     {
-        return $this->get('filter');
+        return $this->get('filter') ?? [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinTime(): int
+    {
+        if (isset($this->getFilter()['time'])) {
+            return (int) $this->getFilter()['time']['min'] ?? 1;
+        } else {
+            return 1;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMaxTime(): int
+    {
+        if (isset($this->getFilter()['time'])) {
+            return (int) $this->getFilter()['time']['max'] ?? 1;
+        } else {
+            return 1;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilterDate(): ?Carbon
+    {
+        if (isset($this->getFilter()['date']) && (int) $this->getFilter()['date']) {
+            return Carbon::createFromTimestampUTC((int) $this->getFilter()['date'])
+                ->hour(0)
+                ->minute(0)
+                ->second(0);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinPrice(): int
+    {
+        if (isset($this->getFilter()['price'])) {
+            return (int) $this->getFilter()['price']['min'] ?? 1;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMaxPrice(): int
+    {
+        if (isset($this->getFilter()['price'])) {
+            return (int) $this->getFilter()['price']['max'] ?? 1;
+        } else {
+            return 0;
+        }
     }
 }

@@ -141,7 +141,7 @@ class SearchFilter
                 ->where('trips.price', '<=', $this->maxPrice);
         }
 
-        $query->limit($this->limit)->offset($this->offset);
+        $query->limit($this->limit)->offset($this->offset * $this->limit);
 
         return $query->get();
     }

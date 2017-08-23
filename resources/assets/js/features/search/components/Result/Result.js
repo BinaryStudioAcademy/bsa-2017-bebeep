@@ -119,11 +119,12 @@ class Result extends React.Component {
                 });
             })
             .catch(error => {
-                console.log(error);
-                this.setState({
-                    errors: error.response,
-                    preloader: false
-                })
+                if (error.response) {
+                    this.setState({
+                        errors: error.response,
+                        preloader: false
+                    })
+                }
             });
     }
 

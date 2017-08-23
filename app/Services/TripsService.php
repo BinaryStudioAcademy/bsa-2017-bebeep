@@ -223,7 +223,12 @@ class TripsService
                 $request->getToLat(),
                 $request->getToLng()
             )
-            ->addDate($request->getStartAt())
+            ->addDate(
+                $request->getFilterDate() ?? $request->getStartAt(),
+                $request->getMinTime(),
+                $request->getMaxTime()
+            )
+            ->setPrice($request->getMinPrice(), $request->getMaxPrice())
             ->setOrder($request->getSort(), $request->getOrder())
             ->paginate($request->getLimit(), $request->getPage() - 1);
 
