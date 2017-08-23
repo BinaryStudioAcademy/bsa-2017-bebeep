@@ -1,0 +1,6 @@
+{
+  "driver_public_profile": {
+    "header": ["Driver profile", "Профіль водія", "Профиль водителя"],
+    "loading": ["Profile is loading...", "Профіль завантажується...", "Профиль загружается..."]
+  }
+}
