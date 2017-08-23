@@ -12,7 +12,7 @@ class DriverBasicInfo extends React.Component {
             <div className="text-center">
                 <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
                      width="150" height="150" className="rounded-circle driver-avatar" />
-                <h4 className="m-y-2">Andrey Tondrev, <span className="driver-years text-muted">41 {translate('driver_public_profile.driver_years')}</span></h4>
+                <h4 className="m-y-2 driver-name">Andrey Tondrev, <span className="driver-years text-muted">41 {translate('driver_public_profile.driver_years')}</span></h4>
                 <strong>{translate('driver_public_profile.driver_experience')} </strong> {translate('driver_public_profile.driver_experienced')} <br/>
                 <strong>{translate('driver_public_profile.driver_preferences')} </strong>
                 <span className="fa-stack fa-md">

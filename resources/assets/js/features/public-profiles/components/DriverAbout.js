@@ -12,7 +12,7 @@ class DriverAbout extends React.Component {
             <div className="driver-about">
                 <p className="text-left"><strong>{translate('driver_public_profile.driver_about_me')} </strong></p>
                 <div className="driver-about-me">
-                    Creative guy. Work in film and TV. From Manchester and now based between there and London, and often driving between the two. Any requests, just ask!.
+                    Creative guy. Work in film and TV. From Manchester and now based between there and London, and often driving between the two. Any requests, just ask!
                 </div><br/>
             </div>
         );

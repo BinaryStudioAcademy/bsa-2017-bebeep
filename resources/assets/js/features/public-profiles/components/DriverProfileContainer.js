@@ -2,6 +2,7 @@ import React from 'react';
 import {localize} from 'react-localize-redux';
 import Preloader from 'app/components/Preloader';
 import DriverProfile from './DriverProfile';
+import DriverProfileService from '../services/DriverProfileService';
 
 import "../styles/driver-profile.scss";
 
@@ -16,8 +17,12 @@ class DriverProfileContainer extends React.Component {
     }
 
     componentDidMount() {
-        console.log('mounted');
-        this.setState({preloader: false});
+        const profile = DriverProfileService.getDriverProfile(this.props.id);
+        this.setState({
+            profile: profile,
+            preloader: false
+        });
+        console.log(profile);
     }
 
     render() {
