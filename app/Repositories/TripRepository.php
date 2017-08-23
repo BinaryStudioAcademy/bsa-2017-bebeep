@@ -2,18 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Helpers\SearchResult;
-use Carbon\Carbon;
 use App\Models\Trip;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\Helpers\SearchFilter;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class TripRepository extends BaseRepository
 {
-    const DISTANCE_TO = 10;
-    const DISTANCE_FROM = 10;
-    const EARTH_RADIUS_KM = 6371;
-
     /**
      * @return string
      */
@@ -56,10 +50,10 @@ class TripRepository extends BaseRepository
     }
 
     /**
-     * @return SearchResult
+     * @return SearchFilter
      */
-    public function search() : SearchResult
+    public function search() : SearchFilter
     {
-        return new SearchResult();
+        return new SearchFilter();
     }
 }

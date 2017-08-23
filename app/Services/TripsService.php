@@ -312,8 +312,19 @@ class TripsService
             ->setOrder($request->getSort(), $request->getOrder())
             ->paginate($request->getLimit(), $request->getPage() - 1);
 
+        $result = $search->getResult();
+
+        $arTripId = [];
+        $result->each(function ($trip) use ($arTripId) {
+            $arTripId[] = $trip->id;
+        });
+
+        $trips = $this->tripRepository->findWhereIn('id', $arTripId);
+
+
+
         $result = [
-            'data' => $search->getResult()->toArray(),
+            'data' => $result->toArray(),
             "meta" => $search->getMetaData()
         ];
         dd($result);

@@ -3,10 +3,12 @@
 namespace App\Repositories\Helpers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
+use InvalidArgumentException;
 
-class SearchResult
+class SearchFilter
 {
     const DISTANCE_TO = 10;
     const DISTANCE_FROM = 10;
@@ -14,15 +16,6 @@ class SearchResult
 
     /** @var Builder $query */
     protected $query;
-
-    /** @var Carbon $dayFrom */
-    protected $day;
-
-    /** @var int $minHour */
-    protected $minHour;
-
-    /** @var int $maxHour */
-    protected $maxHour;
 
     /** @var int $minPrice */
     protected $minPrice;
@@ -39,10 +32,6 @@ class SearchResult
     public function __construct()
     {
         $this->query = DB::table('trips');
-        $this->day = Carbon::today();
-
-        $this->minHour = 1;
-        $this->maxHour = 24;
 
         $this->minPrice = 0;
         $this->maxPrice = 0;
@@ -56,9 +45,9 @@ class SearchResult
      * @param float $fromLng
      * @param float $toLat
      * @param float $toLng
-     * @return SearchResult
+     * @return SearchFilter
      */
-    public function addLocation(float $fromLat, float $fromLng, float $toLat, float $toLng) : SearchResult
+    public function addLocation(float $fromLat, float $fromLng, float $toLat, float $toLng) : SearchFilter
     {
         $this->query
             ->join('routes as routes_from', 'trips.id', '=', 'routes_from.trip_id')
@@ -71,11 +60,20 @@ class SearchResult
 
     /**
      * @param Carbon $date
-     * @return SearchResult
+     * @param int $minHourOffset
+     * @param int $maxHourOffset
+     * @return SearchFilter
      */
-    public function addDate(Carbon $date) : SearchResult
+    public function addDate(Carbon $date, $minHourOffset = 1, $maxHourOffset = 1) : SearchFilter
     {
-        $this->day = clone $date;
+        $dayStart = clone $date;
+        $dayStart->hour = $minHourOffset > 0 && $minHourOffset < $maxHourOffset ? $minHourOffset - 1 : 0;
+
+        $dayEnd = clone $date;
+        $dayEnd->hour = $maxHourOffset < 25 && $minHourOffset < $maxHourOffset ? $maxHourOffset : 24;
+
+        $this->query->where("trips.start_at", '>=', $dayStart)
+            ->where("trips.start_at", '<', $dayEnd);
 
         return $this;
     }
@@ -83,33 +81,12 @@ class SearchResult
     /**
      * @param int $min
      * @param int $max
-     * @return SearchResult
+     * @return SearchFilter
      */
-    public function setHoursRange(int $min, int $max) : SearchResult
+    public function setPrice(int $min, int $max) : SearchFilter
     {
-        if ($min < 1) {
-            throw new \InvalidArgumentException("Min hours can\'t be less than 1");
-        }
-
-        if ($max > 24) {
-            throw new \InvalidArgumentException("Max hours can\'t be great than 24");
-        }
-
-        $this->minHour = $min;
-        $this->maxHour = $max;
-
-        return $this;
-    }
-
-    /**
-     * @param int $min
-     * @param int $max
-     * @return SearchResult
-     */
-    public function setPrice(int $min, int $max) : SearchResult
-    {
-        $this->maxHour = $max;
-        $this->minHour = $min;
+        $this->maxPrice = $max;
+        $this->minPrice = $min;
 
         return $this;
     }
@@ -117,9 +94,9 @@ class SearchResult
     /**
      * @param string $order
      * @param string $direction
-     * @return SearchResult
+     * @return SearchFilter
      */
-    public function setOrder(string $order, string $direction = 'asc') : SearchResult
+    public function setOrder(string $order, string $direction = 'asc') : SearchFilter
     {
         $this->query->orderBy("trips.{$order}", $direction);
 
@@ -129,10 +106,18 @@ class SearchResult
     /**
      * @param int $limit
      * @param int $offset
-     * @return SearchResult
+     * @return SearchFilter
+     * @throws InvalidArgumentException
      */
-    public function paginate(int $limit, int $offset) : SearchResult
+    public function paginate(int $limit, int $offset) : SearchFilter
     {
+        if ($limit < 0) {
+            throw new InvalidArgumentException("Limit can't be a negative");
+        }
+        if ($offset < 0) {
+            throw new InvalidArgumentException("Offset can't be a negative");
+        }
+
         $this->limit = $limit;
         $this->offset = $offset;
 
@@ -140,11 +125,11 @@ class SearchResult
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getResult()
+    public function getResult() : Collection
     {
-        $query = $this->makeResult()
+        $query = (clone $this->query)
             ->addSelect('trips.*')
             ->addSelect('routes_from.from as from')
             ->addSelect('routes_to.to as to');
@@ -154,9 +139,7 @@ class SearchResult
                 ->where('trips.price', '<=', $this->maxPrice);
         }
 
-        if ($this->limit !== 0) {
-            $query->limit($this->limit)->offset($this->offset);
-        }
+        $query->limit($this->limit)->offset($this->offset);
 
         return $query->get();
     }
@@ -166,42 +149,16 @@ class SearchResult
      */
     public function getMetaData() : array
     {
-        $saveHours = [$this->minHour, $this->maxHour];
-
-        $this->minHour = 1;
-        $this->maxHour = 24;
-
-        $query = $this->makeResult();
-
-        $this->minHour = $saveHours[0];
-        $this->maxHour = $saveHours[1];
+        $query = clone $this->query;
 
         $result = $query->addSelect(DB::raw('MAX(trips.price) as max_price, MIN(trips.price) as min_price, COUNT(trips.id) as count'))
             ->first();
+
         if ($result === null) {
-            return null;
+            return ['min' => 0, 'max' => 0, 'count' => 0];
         } else {
             return ['min' => $result->min_price, 'max' => $result->max_price, 'count' => $result->count];
         }
-    }
-
-    /**
-     * @return Builder
-     */
-    private function makeResult() : Builder
-    {
-        $fromDate = clone $this->day;
-        $fromDate->hour = $this->minHour - 1;
-
-        $toDate = clone $this->day;
-        $toDate->hour = $this->maxHour;
-
-        $query = clone $this->query;
-
-        $query->where('trips.start_at', '>=', $fromDate)
-            ->where('trips.start_at', '<', $toDate);
-
-        return $query;
     }
 
     /**
