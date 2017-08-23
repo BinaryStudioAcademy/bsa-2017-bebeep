@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Services\Result\SearchTrip;
+use App\Services\Result\SearchTripCollection;
 use App\User;
 use Carbon\Carbon;
 use App\Models\Trip;
@@ -212,7 +214,7 @@ class TripsService
      *
      * @return mixed
      */
-    public function search(SearchTripRequest $request)
+    public function search(SearchTripRequest $request) : SearchTripCollection
     {
         /*$data = [];
         $faker = \Faker\Factory::create();
@@ -293,14 +295,6 @@ class TripsService
             ],
         ];*/
 
-        $tripAttributes = [
-            'start_at' => $request->getStartAt(),
-            'from_lat' => $request->getFromLat(),
-            'from_lng' => $request->getFromLng(),
-            'to_lat' => $request->getToLat(),
-            'to_lng' => $request->getToLng(),
-        ];
-
         $search = $this->tripRepository->search()
             ->addLocation(
                 $request->getFromLat(),
@@ -314,21 +308,21 @@ class TripsService
 
         $result = $search->getResult();
 
-        $arTripId = [];
-        $result->each(function ($trip) use ($arTripId) {
-            $arTripId[] = $trip->id;
+        $tripCollection = new SearchTripCollection();
+
+        $result->each(function ($trip) use ($tripCollection) {
+            $tripCollection->put($trip->id, new SearchTrip($trip));
         });
 
-        $trips = $this->tripRepository->findWhereIn('id', $arTripId);
+        $trips = $this->tripRepository->findWhereIn('id', $tripCollection->keys()->toArray());
 
+        $trips->each(function ($trip) use ($tripCollection) {
+            $tripCollection[$trip->id]->setModel($trip);
+        });
 
+        $tripCollection->setMeta($search->getMetaData());
 
-        $result = [
-            'data' => $result->toArray(),
-            "meta" => $search->getMetaData()
-        ];
-        dd($result);
-        return null;
+        return $tripCollection;
     }
 
     /**

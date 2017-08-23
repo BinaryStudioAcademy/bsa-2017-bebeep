@@ -131,7 +131,9 @@ class SearchFilter
     {
         $query = (clone $this->query)
             ->addSelect('trips.*')
+            ->addSelect('routes_from.id as from_id')
             ->addSelect('routes_from.from as from')
+            ->addSelect('routes_to.id as to_id')
             ->addSelect('routes_to.to as to');
 
         if ($this->minPrice !== 0 && $this->maxPrice !== 0) {
