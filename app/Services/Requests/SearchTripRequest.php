@@ -103,11 +103,6 @@ interface SearchTripRequest
     public function getMaxTime() : int;
 
     /**
-     * @return Carbon|null
-     */
-    public function getFilterDate() : ?Carbon;
-
-    /**
      * @return int
      */
     public function getMinPrice() : int;

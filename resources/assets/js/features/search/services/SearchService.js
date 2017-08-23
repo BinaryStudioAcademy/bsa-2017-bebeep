@@ -50,8 +50,8 @@ export const getFilter = () => {
     if (+query["filter[time][min]"] >= 0 && +query["filter[time][max]"] > 0) {
         filter['time'] = [+query["filter[time][min]"], +query["filter[time][max]"]];
     }
-    if (+query["filter[date]"] > 0) {
-        filter['date'] = +query["filter[date]"];
+    if (+query["start_at"] > 0) {
+        filter['date'] = +query["start_at"];
     }
     return filter;
 };

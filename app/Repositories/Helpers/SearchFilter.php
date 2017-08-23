@@ -67,13 +67,13 @@ class SearchFilter
     public function addDate(Carbon $date, $minHourOffset = 1, $maxHourOffset = 1) : SearchFilter
     {
         $dayStart = clone $date;
-        $dayStart->hour = $minHourOffset > 0 && $minHourOffset < $maxHourOffset ? $minHourOffset - 1 : 0;
+        $dayStart->hour = $minHourOffset > 0 && $minHourOffset < $maxHourOffset ? $minHourOffset - 1 : $dayStart->hour;
 
         $dayEnd = clone $date;
-        $dayEnd->hour = $maxHourOffset < 25 && $minHourOffset < $maxHourOffset ? $maxHourOffset : 24;
+        $dayEnd->hour += $maxHourOffset < 25 && $minHourOffset < $maxHourOffset ? $maxHourOffset : 24;
 
         $this->query->where("trips.start_at", '>=', $dayStart)
-            ->where("trips.start_at", '<', $dayEnd);
+            ->where("trips.start_at", '<=', $dayEnd);
 
         return $this;
     }

@@ -88,10 +88,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     {
         $startAt = $this->get('start_at');
         if ($startAt) {
-            return Carbon::createFromTimestampUTC($startAt)
-                ->hour(0)
-                ->minute(0)
-                ->second(0);
+            return Carbon::createFromTimestampUTC($startAt);
         } else {
             return Carbon::today();
         }
@@ -179,21 +176,6 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
             return (int) $this->getFilter()['time']['max'] ?? 1;
         } else {
             return 1;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilterDate(): ?Carbon
-    {
-        if (isset($this->getFilter()['date']) && (int) $this->getFilter()['date']) {
-            return Carbon::createFromTimestampUTC((int) $this->getFilter()['date'])
-                ->hour(0)
-                ->minute(0)
-                ->second(0);
-        } else {
-            return null;
         }
     }
 

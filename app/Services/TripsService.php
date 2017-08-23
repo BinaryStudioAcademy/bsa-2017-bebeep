@@ -224,7 +224,7 @@ class TripsService
                 $request->getToLng()
             )
             ->addDate(
-                $request->getFilterDate() ?? $request->getStartAt(),
+                $request->getStartAt(),
                 $request->getMinTime(),
                 $request->getMaxTime()
             )
