@@ -301,15 +301,23 @@ class TripsService
             'to_lng' => $request->getToLng(),
         ];
 
-        $trips = $this->tripRepository->findByCoordinate(
-            $request->getFromLat(),
-            $request->getFromLng(),
-            $request->getToLat(),
-            $request->getToLng(),
-            $request->getStartAt()
-        );
-        dd($trips);
-        return $trips;
+        $search = $this->tripRepository->search()
+            ->addLocation(
+                $request->getFromLat(),
+                $request->getFromLng(),
+                $request->getToLat(),
+                $request->getToLng()
+            )
+            ->addDate($request->getStartAt())
+            ->setOrder($request->getSort(), $request->getOrder())
+            ->paginate($request->getLimit(), $request->getPage() - 1);
+
+        $result = [
+            'data' => $search->getResult()->toArray(),
+            "meta" => $search->getMetaData()
+        ];
+        dd($result);
+        return null;
     }
 
     /**
