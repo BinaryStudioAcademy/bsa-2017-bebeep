@@ -11,7 +11,7 @@ class DriverProfileContainer extends React.Component {
         super(props);
 
         this.state = {
-            profile: [],
+            profile: {},
             preloader: true,
         }
     }
@@ -27,7 +27,7 @@ class DriverProfileContainer extends React.Component {
 
     render() {
         const { id, translate } = this.props;
-        const { preloader } = this.state;
+        const { profile, preloader } = this.state;
 
         if (preloader) {
             return (
@@ -43,7 +43,7 @@ class DriverProfileContainer extends React.Component {
         return (
             <div className="row">
                 <div className="col-md-8">
-                    <DriverProfile />
+                    <DriverProfile profile={profile}/>
                 </div>
                 <div className="col-md-4">Data</div>
             </div>
