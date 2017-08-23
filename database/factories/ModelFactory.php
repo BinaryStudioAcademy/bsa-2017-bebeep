@@ -54,6 +54,10 @@ $factory->define(App\Models\Route::class, function (Faker\Generator $faker) {
         'from' => ['a'],
         'to' => ['b'],
         'trip_id' => 1,
+        'from_lat' => $faker->numberBetween(100, 5000) / 100.0,
+        'from_lng' => $faker->numberBetween(100, 5000) / 100.0,
+        'to_lat' => $faker->numberBetween(100, 5000) / 100.0,
+        'to_lng' => $faker->numberBetween(100, 5000) / 100.0,
     ];
 });
 
