@@ -40,7 +40,7 @@ const BookingService = {
             )
     },
     createBooking(tripId, data) {
-        return securedRequest.post('/api/v1/booking/' + tripId, data)
+        return securedRequest.post('/api/v1/trips/' + tripId + '/bookings', data)
             .then(
                 response => Promise.resolve(response.data)
             )

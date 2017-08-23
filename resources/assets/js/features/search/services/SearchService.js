@@ -30,6 +30,8 @@ export const setFilter = (filter, params = {}) => {
         if (filter[field] instanceof Array) {
             newParams[`filter[${field}][min]`] = filter[field][0];
             newParams[`filter[${field}][max]`] = filter[field][1];
+        } else if (field === 'date') {
+            newParams[`start_at`] = filter[field];
         } else {
             newParams[`filter[${field}]`] = filter[field];
         }
