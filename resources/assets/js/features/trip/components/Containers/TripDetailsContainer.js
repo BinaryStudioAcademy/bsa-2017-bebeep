@@ -1,13 +1,18 @@
 import React from 'react';
 import _ from 'lodash';
 import { browserHistory } from 'react-router';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
+
+import LangService from 'app/services/LangService';
+import * as lang from 'features/trip/lang/details/TripBooking.locale.json';
 
 import TripDetailsService from 'features/trip/services/TripDetailsService';
 
 import TripDriver from '../Details/TripDriver';
 import TripVehicle from '../Details/TripVehicle';
+import BookingModal from '../Modals/BookingModal';
 
+//import '../styles/edit_trip.scss';
 
 class TripDetailsContainer extends React.Component {
 
@@ -19,7 +24,13 @@ class TripDetailsContainer extends React.Component {
             routes: null,
             driver: null,
             vehicle: null,
+            isOpenBookingModal: false,
+            disableBookingBtn: false
         };
+
+        this.onBookingBtnClick = this.onBookingBtnClick.bind(this);
+        this.onBookingSuccess = this.onBookingSuccess.bind(this);
+        this.onBookingClosed = this.onBookingClosed.bind(this);
     }
 
     componentDidMount() {
@@ -27,6 +38,8 @@ class TripDetailsContainer extends React.Component {
             .then(response => {
                 response = TripDetailsService.transformData(response.data);
                 console.log(response);
+
+                response.vehicle.data.photo = null;
 
                 this.setState({
                     trip: response.trip,
@@ -45,16 +58,42 @@ class TripDetailsContainer extends React.Component {
             });
     }
 
+    componentWillMount() {
+        LangService.addTranslation(lang);
+    }
+
+    onBookingBtnClick() {
+        if (!this.state.disableBookingBtn) {
+            this.setState({ isOpenBookingModal: true });
+        }
+    }
+
+    onBookingSuccess() {
+        this.setState({ disableBookingBtn: true });
+    }
+
+    onBookingClosed() {
+        this.setState({ isOpenBookingModal: false });
+    }
+
     render() {
-        const { trip, routes, driver, vehicle } = this.state;
-        //const { translate } = this.props;
-        //translate('edit_trip.cant_load_this_trip')
+        const {
+                trip,
+                routes,
+                driver,
+                vehicle,
+                isOpenBookingModal,
+                disableBookingBtn
+            } = this.state,
+            { translate, id } = this.props;
 
         if (!trip) {
             return (
                 <div />
             );
         }
+
+        console.log( _.sumBy(routes, 'busy_seats') );
 
         const startPoint = routes[0].from;
         const endPoint = _.last(routes).to;
@@ -149,7 +188,7 @@ class TripDetailsContainer extends React.Component {
                 <div className="col-md-4">
                     <div className="d-flex">
                         <div className="trip-price">
-                            <p className="trip-price-value">265 &#8372;</p>
+                            <p className="trip-price-value">{ trip.price } &#8372;</p>
                             <p>з пасажира</p>
                         </div>
                         <div className="trip-places-free">
@@ -172,10 +211,31 @@ class TripDetailsContainer extends React.Component {
                             </li>
                         </ul>
                     </div>
+
+                    <div>
+                        <button
+                            role="button"
+                            className={"btn btn-primary" + (disableBookingBtn ? " disabled" : "")}
+                            onClick={ this.onBookingBtnClick }
+                        >
+                            { translate('trip_booking.booking_btn') }
+                        </button>
+
+                        <BookingModal
+                            tripId={ id }
+                            maxSeats={ trip.seats }
+                            waypoints={ routes }
+                            price={ trip.price }
+                            start_at={ 1503774120 * 1000 }
+                            isOpen={ isOpenBookingModal }
+                            onClosed={ this.onBookingClosed }
+                            onSuccess={ this.onBookingSuccess }
+                        />
+                    </div>
                 </div>
             </div>
         );
     }
 }
 
-export default TripDetailsContainer;
+export default localize(TripDetailsContainer, 'locale');

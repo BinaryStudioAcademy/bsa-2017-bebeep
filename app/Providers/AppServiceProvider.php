@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Vehicle;
 use App\Services\RouteService;
 use App\Services\PasswordService;
+use App\Rules\Booking\TripDateRule;
 use App\Services\UserProfileService;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\DeleteTrip\TripOwnerRule;
@@ -14,11 +15,15 @@ use Illuminate\Support\ServiceProvider;
 use App\Validators\RestoreTripValidator;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\BookingConfirm\OwnerConfirm;
+use App\Validators\CreateBookingValidator;
 use App\Validators\CanUncheckRoleValidator;
 use App\Validators\ConfirmBookingValidator;
+use App\Rules\Booking\TripRoutesHasSeatsRule;
 use App\Validators\IsPasswordCurrentValidator;
 use App\Rules\BookingConfirm\FutureTripConfirm;
 use App\Rules\BookingConfirm\BookingTripConfirm;
+use App\Validators\RoutesExistsForTripValidator;
+use App\Rules\Booking\UserHasNotActiveBookingsForTrip;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 use App\Services\Contracts\RouteService as RouteServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
@@ -71,6 +76,14 @@ class AppServiceProvider extends ServiceProvider
                 new FutureTripConfirm
             );
         });
+
+        $this->app->bind(CreateBookingValidator::class, function ($app) {
+            return new CreateBookingValidator(
+                new TripDateRule,
+                new TripRoutesHasSeatsRule,
+                new UserHasNotActiveBookingsForTrip($app->make(\App\Repositories\Contracts\BookingRepository::class))
+            );
+        });
     }
 
     /**
@@ -96,7 +109,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            return $vehicle->seats > (int) $value;
+            return $vehicle->seats >= (int) $value;
         });
 
         Validator::extend('greater_than_date', function (
@@ -111,6 +124,12 @@ class AppServiceProvider extends ServiceProvider
 
             return (int) $parameters[0] < (int) $value;
         });
+
+        Validator::extend(
+            'routes_exists_for_trip',
+            RoutesExistsForTripValidator::class,
+            RoutesExistsForTripValidator::ERROR_MSG
+        );
 
         Validator::extend(
             'role_can_uncheck',

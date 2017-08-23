@@ -1,7 +1,8 @@
 import React from 'react';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
+
 import LangService from 'app/services/LangService';
-import * as lang from '../../lang/details/TripDriver.locale.json';
+import * as lang from 'features/trip/lang/details/TripDriver.locale.json';
 
 class TripDriver extends React.Component {
 

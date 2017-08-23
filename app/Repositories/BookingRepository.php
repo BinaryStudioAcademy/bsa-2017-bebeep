@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\User;
+use App\Models\Trip;
 use App\Models\Booking;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -31,5 +33,13 @@ class BookingRepository extends BaseRepository implements Contracts\BookingRepos
         $booking->save();
 
         return $booking;
+    }
+
+    public function getTripNotDeclinedBookingsCountForUser(Trip $trip, User $user): int
+    {
+        return $this->model->where([
+            'user_id' => $user->id,
+            'trip_id' => $trip->id,
+        ])->where('status', '!=', Booking::STATUS_DECLINED)->count();
     }
 }
