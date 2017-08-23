@@ -59,8 +59,9 @@ $factory->define(App\Models\Route::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Booking::class, function (Faker\Generator $faker) {
     return [
-        'status' => 'active',
+        'status' => App\Models\Booking::STATUS_PENDING,
         'trip_id' => 1,
         'user_id' => 1,
+        'seats' => 1,
     ];
 });
