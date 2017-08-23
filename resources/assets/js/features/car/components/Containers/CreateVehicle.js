@@ -114,8 +114,6 @@ class CreateVehicle extends React.Component {
         } else {
             securedRequest.post('/api/v1/car', data).then((response) => {
                 this.props.vehicleCreateSuccess(response.data);
-                this.setState({errors: {}});
-
                 /*if (response.status === 200) {
                  browserHistory.push('/vehicles');
                  }*/

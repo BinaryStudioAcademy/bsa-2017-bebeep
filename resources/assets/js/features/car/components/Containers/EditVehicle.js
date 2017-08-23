@@ -1,10 +1,7 @@
 import React from 'react';
-/*import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';*/
 import { VehicleValidate } from 'app/services/VehicleService';
 import { securedRequest } from 'app/services/RequestService';
 import { VehicleService } from '../../services/VehicleService';
-/*import { vehicleCreateSuccess } from '../../actions';*/
 import VehicleForm from '../Forms/VehicleForm';
 import EditVehicleService from '../../services/EditVehicleService';
 
@@ -145,20 +142,15 @@ export default class EditVehicle extends React.Component {
                 errors: validate.errors
             });
         } else {
-            /*securedRequest.post('/api/v1/car', data).then((response) => {
-                this.props.vehicleCreateSuccess(response.data);
-                this.setState({errors: {}});
-
-                /!*if (response.status === 200) {
-                 browserHistory.push('/vehicles');
-                 }*!/
+            EditVehicleService.sendUpdatedVehicle(this.props.id, data).then((response) => {
+                /*if (response.status === 200) {
+                    browserHistory.push('/vehicles');
+                }*/
             }).catch((error) => {
                 this.setState({
                     errors: error.response.data
                 })
-            });*/
-
-            EditVehicleService.sendUpdatedVehicle(this.props.id, data);
+            });
         }
 
         console.log(this.state.errors);
