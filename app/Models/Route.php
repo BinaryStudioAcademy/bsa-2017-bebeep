@@ -50,7 +50,7 @@ class Route extends Model
             return $this->trip->seats;
         }
 
-        $seatsReserved = $this->bookings->reject(function($booking) {
+        $seatsReserved = $this->bookings->reject(function ($booking) {
             return $booking->status !== Booking::STATUS_APPROVED;
         })->reduce(function ($carry, $booking) {
             return $carry + $booking->seats;
