@@ -301,7 +301,15 @@ class TripsService
             'to_lng' => $request->getToLng(),
         ];
 
-        return $this->tripRepository->search($tripAttributes);
+        $trips = $this->tripRepository->findByCoordinate(
+            $request->getFromLat(),
+            $request->getFromLng(),
+            $request->getToLat(),
+            $request->getToLng(),
+            $request->getStartAt()
+        );
+        dd($trips);
+        return $trips;
     }
 
     /**

@@ -84,12 +84,15 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     /**
      * {@inheritdoc}
      */
-    public function getStartAt() : string
+    public function getStartAt() : Carbon
     {
         $startAt = $this->get('start_at');
         // For testing
         //$startAt = Carbon::createFromFormat('Y-m-d', '2017-08-23')->toDateString();
-        return Carbon::createFromTimestampUTC($startAt)->toDateString();
+        return Carbon::createFromTimestampUTC($startAt)
+            ->hour(0)
+            ->minute(0)
+            ->second(0);
     }
 
     /**

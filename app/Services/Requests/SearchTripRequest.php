@@ -2,6 +2,8 @@
 
 namespace App\Services\Requests;
 
+use Carbon\Carbon;
+
 interface SearchTripRequest
 {
     /**
@@ -37,7 +39,7 @@ interface SearchTripRequest
      *
      * @return Carbon
      */
-    public function getStartAt() : string;
+    public function getStartAt() : Carbon;
 
     /**
      * Limit items of page.
