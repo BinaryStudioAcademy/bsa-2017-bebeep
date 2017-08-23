@@ -1,6 +1,7 @@
 import React from 'react';
 import {localize} from 'react-localize-redux';
 import Preloader from 'app/components/Preloader';
+import DriverProfile from './DriverProfile';
 
 import "../styles/driver-profile.scss";
 
@@ -36,7 +37,9 @@ class DriverProfileContainer extends React.Component {
 
         return (
             <div className="row">
-                <div className="col-md-8">Profile</div>
+                <div className="col-md-8">
+                    <DriverProfile />
+                </div>
                 <div className="col-md-4">Data</div>
             </div>
         );
