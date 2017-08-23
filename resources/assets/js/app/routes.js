@@ -25,6 +25,7 @@ import VehicleForm from '../features/vehicle/layouts/VehicleForm';
 import VehicleEditForm from '../features/vehicle/layouts/VehicleUpdate';*/
 
 import CreateVehicle from '../features/car/layouts/CreateVehicle';
+import EditVehicle from '../features/car/layouts/EditVehicle';
 
 import CreateTrip from '../features/trip/layouts/CreateTrip';
 
@@ -71,6 +72,7 @@ export default (store) => {
             <Route path="vehicles">
                 {/*<IndexRoute component={ Vehicles } />*/}
                 <Route path="create" component={ CreateVehicle }/>
+                <Route path="edit/:id" component={ EditVehicle }/>
                 {/*<Route path=":id" component={ VehicleDetails } />*/}
             </Route>
 
