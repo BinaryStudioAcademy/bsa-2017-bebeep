@@ -2,9 +2,9 @@
 
 namespace App\Rules\Booking;
 
-use App\Models\Booking;
 use App\User;
 use Carbon\Carbon;
+use App\Models\Booking;
 
 class BookingTripNotExpiredRule implements CancelBookingRule
 {

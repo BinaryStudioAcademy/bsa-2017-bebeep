@@ -19,4 +19,3 @@ class SendBookingCanceledEmailToDriver implements ShouldQueue
         Mail::to($driver)->send(new BookingCanceledEmail($event->booking, $event->booking->trip));
     }
 }
-

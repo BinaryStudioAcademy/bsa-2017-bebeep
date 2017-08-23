@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CancelBookingRequest;
 use App\Models\Trip;
 use App\Models\Booking;
 use App\Services\BookingService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\BookingStatusRequest;
+use App\Http\Requests\CancelBookingRequest;
 use App\Http\Requests\CreateBookingRequest;
 use App\Exceptions\Booking\BookingConfirmException;
 

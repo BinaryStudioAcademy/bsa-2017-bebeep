@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Events\ApprovedBookingCanceled;
 use App\User;
+use Carbon\Carbon;
 use App\Models\Trip;
 use App\Models\Route;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Event;
 use Tests\JwtTestCase;
 use App\Models\Booking;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\Event;
+use App\Events\ApprovedBookingCanceled;
 
 class CancelBookingTest extends JwtTestCase
 {
@@ -65,7 +65,7 @@ class CancelBookingTest extends JwtTestCase
     public function passenger_cant_cancel_booking_for_past_trip()
     {
         $data = $this->createTripWithDriverAndBooking([
-            'end_at' => Carbon::now()->subHour(1)->toDateTimeString()
+            'end_at' => Carbon::now()->subHour(1)->toDateTimeString(),
         ]);
         $this->url = $this->getUrl($data['trip']->id);
 
@@ -79,7 +79,7 @@ class CancelBookingTest extends JwtTestCase
     public function passenger_cant_cancel_booking_for_started_trip()
     {
         $data = $this->createTripWithDriverAndBooking([
-            'start_at' => Carbon::now()->subHour(1)->toDateTimeString()
+            'start_at' => Carbon::now()->subHour(1)->toDateTimeString(),
         ]);
         $this->url = $this->getUrl($data['trip']->id);
 
