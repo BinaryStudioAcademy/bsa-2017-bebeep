@@ -88,7 +88,6 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
         } else {
             return Carbon::today();
         }
-
     }
 
     /**

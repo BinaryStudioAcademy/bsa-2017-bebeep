@@ -2,9 +2,8 @@
 
 namespace App\Services\Result;
 
-use App\Models\Route;
-use App\Models\Trip;
 use App\User;
+use App\Models\Trip;
 use Illuminate\Database\Eloquent\Collection;
 
 class SearchTrip
@@ -94,6 +93,7 @@ class SearchTrip
                 return $this->modelTrip[$name];
             }
         }
+
         return null;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Services\Result;
 
-use \InvalidArgumentException;
 use Illuminate\Support\Collection;
 
 class SearchTripCollection extends Collection
