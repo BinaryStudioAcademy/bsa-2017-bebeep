@@ -8,8 +8,13 @@ const DriverProfileService = {
                 first_name: 'Andrey',
                 last_name: 'Tondrev',
                 birth_date: '1995-11-12',
-                about_me: 'Creative guy. Work in film and TV. From Manchester and now based between there and London, and often driving between the two. Any requests, just ask!',
+                about_me: 'Creative guy. Work in film and TV. From Manchester and now based between there and London, and often driving between the two',
                 img: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R',
+                car: {
+                    img: 'https://cdn4.iconfinder.com/data/icons/car-silhouettes/1000/sedan-512.png',
+                    model: 'BMW X5',
+                    color: 'blue'
+                },
                 comments: [
                     {
                         id: 1,

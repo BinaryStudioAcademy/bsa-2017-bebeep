@@ -11,7 +11,7 @@ class DriverAbout extends React.Component {
         return (
             <div className="driver-about">
                 <p className="text-left"><strong>{translate('driver_public_profile.driver_about_me')} </strong></p>
-                <div className="driver-about-me">{about}</div><br/>
+                <div className="driver-about-me">{about ? (about) : (translate('driver_public_profile.driver_without_about'))}</div><br/>
             </div>
         );
     }

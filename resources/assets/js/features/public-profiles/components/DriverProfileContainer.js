@@ -46,7 +46,7 @@ class DriverProfileContainer extends React.Component {
                     <DriverProfile profile={profile}/>
                 </div>
                 <div className="col-md-4 driver-profile-border">
-                    <DriverAdditionalInfo />
+                    <DriverAdditionalInfo car={profile.car}/>
                 </div>
             </div>
         );
