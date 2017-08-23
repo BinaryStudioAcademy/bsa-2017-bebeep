@@ -9,23 +9,34 @@ class TripDriver extends React.Component {
         LangService.addTranslation(lang);
     }
 
+    renderAvatar() {
+        const driver = this.props.driver;
+
+        if (driver.photo === null) {
+            return (<i className="fa fa-3x fa-user-circle-o" aria-hidden="true" />);
+        }
+        return (<img src={ driver.photo } alt={ driver.full_name } />);
+    }
+
     render() {
         const { driver, translate } = this.props;
 
         return (
             <section>
                 <header>
-                    <h3>{translate('trip_driver.header')}</h3>
+                    <h3 className="h5">{translate('trip_driver.header')}</h3>
                 </header>
 
                 <div className="d-flex">
-                    <figure className="driver-image">
-                        <img src="/" alt={ driver.full_name } />
+                    <figure className="driver-image mr-4">
+                        { this.renderAvatar() }
                     </figure>
 
                     <div className="driver-info">
-                        <h4>{ driver.full_name }</h4>
-                        <p className="driver-age">25 {translate('trip_driver.age')}</p>
+                        <p><strong>{ driver.full_name }</strong></p>
+                        <p className="driver-age">
+                            { translate('trip_driver.age') }: { driver.age }
+                        </p>
                     </div>
                 </div>
             </section>
