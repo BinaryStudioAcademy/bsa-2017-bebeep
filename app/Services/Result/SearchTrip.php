@@ -2,6 +2,7 @@
 
 namespace App\Services\Result;
 
+use App\Models\Route;
 use App\Models\Trip;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -28,40 +29,57 @@ class SearchTrip
         return $this->modelTrip->user;
     }
 
+    public function getFromPoint()
+    {
+        $route = $this->modelTrip->routes->where('id', '=', (int) $this->rawTrip->from_id)->first();
+
+        return [
+            'id' => $route->id,
+            'location' => $route->from,
+            'wanted' => true,
+        ];
+    }
+
+    public function getToPoint()
+    {
+        $route = $this->modelTrip->routes->where('id', '=', (int) $this->rawTrip->to_id)->first();
+
+        return [
+            'id' => $route->id,
+            'location' => $route->to,
+            'wanted' => true,
+        ];
+    }
+
     public function routes() : array
     {
         /** @var Collection $routes */
         $routes = $this->modelTrip->routes;
         $first = $routes->first();
-        $from = $routes->where('id', '=', (int) $this->rawTrip->from_id)->first();
-        $to = $routes->where('id', '=', (int) $this->rawTrip->to_id)->first();
+        $from = $this->getFromPoint();
+        $to = $this->getToPoint();
         $last = $routes->last();
         $result = [];
 
-        if ($first->id !== $from->id) {
+        if ($first->id !== $from['id']) {
             $result[] = [
                 'id' => $first->id,
                 'location' => $first->from,
                 'wanted' => false,
             ];
         }
-        $result[] = [
-            'id' => $from->id,
-            'location' => $from->from,
-            'wanted' => true,
-        ];
-        $result[] = [
-            'id' => $to->id,
-            'location' => $to->to,
-            'wanted' => true,
-        ];
-        if ($last->id !== $to->id) {
+
+        $result[] = $from;
+        $result[] = $to;
+
+        if ($last->id !== $to['id']) {
             $result[] = [
                 'id' => $last->id,
                 'location' => $last->to,
                 'wanted' => false,
             ];
         }
+
         return $result;
     }
 

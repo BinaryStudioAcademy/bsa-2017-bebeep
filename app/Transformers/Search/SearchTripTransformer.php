@@ -29,7 +29,9 @@ class SearchTripTransformer extends TransformerAbstract
             'price' => $trip->price,
             'seats' => $trip->seats,
             'start_date' => (string) $trip->start_at,
-            'start_at' => $trip->start_at->timestamp
+            'start_at' => $trip->start_at->timestamp,
+            'from' => fractal()->item($trip->getFromPoint(), new RouteTransformer())->toArray(),
+            'to' => fractal()->item($trip->getToPoint(), new RouteTransformer())->toArray(),
         ];
     }
 

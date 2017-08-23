@@ -10,8 +10,8 @@ use InvalidArgumentException;
 
 class SearchFilter
 {
-    const DISTANCE_TO = 10;
-    const DISTANCE_FROM = 10;
+    const DISTANCE_TO = 20;
+    const DISTANCE_FROM = 20;
     const EARTH_RADIUS_KM = 6371;
 
     /** @var Builder $query */
