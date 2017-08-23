@@ -108,4 +108,6 @@ Route::put('v1/password-resets', [
 ]);
 
 Route::get('v1/trips/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
-Route::post('v1/trips/{trip}/bookings', ['as' => 'booking.create', 'uses' => 'BookingsController@create', 'middleware' => 'jwt.auth']);
+
+Route::post('v1/trips/{trip}/bookings', ['as' => 'booking.create', 'uses' => 'BookingsController@create', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
+Route::delete('v1/bookings/{booking}', ['as' => 'booking.cancel', 'uses' => 'BookingsController@cancel', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);

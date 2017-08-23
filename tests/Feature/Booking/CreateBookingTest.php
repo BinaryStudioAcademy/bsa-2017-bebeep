@@ -34,6 +34,19 @@ class CreateBookingTest extends JwtTestCase
     /**
      * @test
      */
+    public function driver_cant_create_booking()
+    {
+        $data = $this->createTripWithDriver();
+        $this->url = $this->getUrl($data['trip']->id);
+        $user = $this->getDriverUser();
+
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, []);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * @test
+     */
     public function user_can_not_create_trip_if_not_all_fields_is_filled()
     {
         $data = $this->createTripWithDriver();
