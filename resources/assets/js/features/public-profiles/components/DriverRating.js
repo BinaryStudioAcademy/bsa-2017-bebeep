@@ -11,7 +11,7 @@ class DriverRating extends React.Component {
         return (
             <div className="rating-info">
                 <div className="row">
-                    <div className="col-sm-6">
+                    <div className="col-sm-6 text-center">
                         <div className="rating-block">
                             <h5>{translate('driver_public_profile.driver_rating')}</h5>
                             <h2 className="bold padding-bottom-7"><i className="fa fa-star" aria-hidden="true"></i>4.3 <span className="small-text">/ 5</span></h2>

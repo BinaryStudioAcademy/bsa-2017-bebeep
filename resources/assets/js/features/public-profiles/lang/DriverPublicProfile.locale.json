@@ -4,7 +4,7 @@
     "loading": ["Profile is loading...", "Профіль завантажується...", "Профиль загружается..."],
     "driver_rating": ["Average rating", "Середній рейтинг водія", "Средний рейтинг водителя"],
     "driver_rating_breakdown": ["Rating breakdown", "Детальний рейтинг", "Подробный рейтинг"],
-    "driver_years": ["years old", "років", "лет"],
+    "driver_years": ["years old", "р", "л"],
     "driver_experience": ["Experience:", "Досвід:", "Опыт:"],
     "driver_preferences": ["My preferences:", "Мої вподобання:", "Мои предпочтения:"],
     "driver_experienced": ["Experienced", "Досвідчений", "Опытный"],

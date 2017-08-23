@@ -37,5 +37,45 @@
 }
 
 .rating-info {
-  margin: 15px 0;
+  margin: 25px 0;
+}
+.driver-about-me {
+  border-radius: 5px;
+  background-color: rgba(136, 200, 255, 0.27);
+  padding: 15px 10px;
+}
+
+.card {
+  position:relative;
+}
+.card>.card-header:after,.card>.card-header:before{
+  position:absolute;
+  top:14px;
+  left:-16px;
+  right:100%;
+  width:0;
+  height:0;
+  display:block;
+  content:" ";
+  border-color:transparent;
+  border-style:solid solid outset;
+  pointer-events:none;
+}
+.card>.card-header:after{
+  border-width:7px;
+  border-right-color:#f7f7f7;
+  margin-top:1px;
+  margin-left:2px;
+}
+.card>.card-header:before{
+  border-right-color:#ddd;
+  border-width:8px;
+}
+
+.user-photo {
+  border-radius: 20%;
+}
+
+.comment {
+  margin-bottom: 15px;
 }
