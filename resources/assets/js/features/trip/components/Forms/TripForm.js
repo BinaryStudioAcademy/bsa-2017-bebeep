@@ -1,23 +1,30 @@
 import React from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
+import {localize} from 'react-localize-redux';
+import LangService from 'app/services/LangService';
+import * as lang from '../../lang/TripForm.locale.json';
 import Waypoints from "./Waypoints";
-
 import Input from 'app/components/Input';
 
 class TripForm extends React.Component {
+
+    componentWillMount() {
+        LangService.addTranslation(lang);
+    }
+
     render() {
-        const { errors } = this.props;
+        const { errors, translate } = this.props;
 
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
                   onSubmit={ this.props.onSubmit }>
                 <div className="card-header">
-                    {this.props.trip ? 'Edit trip' : 'Create trip'}
+                    {this.props.trip ? translate('trip_form.edit_trip') : translate('trip_form.create_trip')}
                 </div>
                 <div className="card-block">
                     <div className={"form-group row " + (errors.vehicle_id ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="vehicle_id">
-                            Select car
+                            {translate('trip_form.select_car')}
                         </label>
                         <div className="col-sm-8">
                             <select name="vehicle_id" className="form-control" id="vehicle_id">
@@ -32,7 +39,7 @@ class TripForm extends React.Component {
                         id="price"
                         defaultValue={this.props.trip ? this.props.trip.price : ''}
                         required={false}
-                        error={errors.price}>Price
+                        error={errors.price}>{translate('trip_form.price')}
                     </Input>
                     <Input
                         type="number"
@@ -40,10 +47,10 @@ class TripForm extends React.Component {
                         id="seats"
                         defaultValue={this.props.trip ? this.props.trip.seats : ''}
                         required={false}
-                        error={errors.seats}>Available seats
+                        error={errors.seats}>{translate('trip_form.available_seats')}
                     </Input>
                     <div className={"form-group row " + (this.props.errors.from ? 'has-danger' : '')}>
-                        <label className="form-control-label text-muted col-sm-4">Start Point</label>
+                        <label className="form-control-label text-muted col-sm-4">{translate('trip_form.start_point')}</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={this.props.startPoint}
                                                 classNames={this.props.placesCssClasses}
@@ -54,7 +61,7 @@ class TripForm extends React.Component {
                         </div>
                     </div>
                     <div className={"form-group row " + (this.props.errors.to ? 'has-danger' : '')}>
-                        <label className="form-control-label text-muted col-sm-4">End Point</label>
+                        <label className="form-control-label text-muted col-sm-4">{translate('trip_form.end_point')}</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={this.props.endPoint}
                                                 classNames={this.props.placesCssClasses}
@@ -70,7 +77,7 @@ class TripForm extends React.Component {
                         id="start_at"
                         defaultValue={this.props.trip ? this.props.trip.start_at : ''}
                         required={false}
-                        error={errors.start_at}>Trip start time
+                        error={errors.start_at}>{translate('trip_form.trip_start_time')}
                     </Input>
 
                     <Waypoints waypoints={this.props.waypoints}
@@ -81,7 +88,7 @@ class TripForm extends React.Component {
 
                     <div className="form-group">
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">{this.props.trip ? 'Save trip' : 'Create trip'}</button>
+                            <button type="submit" className="btn btn-primary">{this.props.trip ? translate('trip_form.edit_trip_btn') : translate('trip_form.create_trip_btn')}</button>
                         </div>
                     </div>
                 </div>
@@ -90,4 +97,4 @@ class TripForm extends React.Component {
     }
 }
 
-export default TripForm;
+export default localize(TripForm, 'locale');

@@ -87,6 +87,10 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
+    'max_seats_from_vehicle' => 'Vehicle seats is exceeded',
+    'greater_than_date' => 'The selected date greater than :attribute',
+    'role_can_uncheck' => 'The :attribute cannot be unchecked.',
+    'is_password_current' => 'This password is not the current one.',
 
     /*
     |--------------------------------------------------------------------------
@@ -94,7 +98,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
+    | convention 'attribute.rule' to name the lines. This makes it quick to
     | specify a specific custom language line for a given attribute rule.
     |
     */
@@ -112,7 +116,7 @@ return [
     |
     | The following language lines are used to swap attribute place-holders
     | with something more reader friendly such as E-Mail Address instead
-    | of "email". This simply helps us make messages a little cleaner.
+    | of 'email'. This simply helps us make messages a little cleaner.
     |
     */
 

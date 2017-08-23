@@ -1,12 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router';
-
+import {Link} from 'react-router';
+import {localize} from 'react-localize-redux';
+import LangService from 'app/services/LangService';
+import moment from 'moment';
 import 'features/search/styles/search-trip-item.scss';
 
 class TripItem extends React.Component {
 
+    dateFormat(timestamp) {
+        const {translate} = this.props,
+            date = moment(timestamp * 1000),
+            locale = moment().locale(),
+            localeData = moment().locale(locale).localeData(),
+            day = _.padStart(date.date(), 2, '0'),
+            weekday = _.capitalize(localeData.weekdaysShort(date)),
+            month = _.capitalize(localeData.monthsShort(date)),
+            minute = _.padStart(date.minute(), 2, '0'),
+            hour = _.padStart(date.hour(), 2, '0'),
+            now = moment(),
+            time = `- ${hour}:${minute}`;
+        if (now.isSame(date, 'day')) {
+            return `${translate('search_result.today')} ${time}`
+        } else if (now.isSame(date.subtract(1, 'day'), 'day')) {
+            return `${translate('search_result.tomorrow')} ${time}`
+        }
+        return `${weekday}. ${day} ${month} ${time}`;
+    }
+
     render() {
-        const {trip} = this.props;
+        const {trip, translate} = this.props;
         return (
             <Link to={`/trip/${trip.id}`} className="search-trip-item">
                 <div className="row">
@@ -17,11 +39,11 @@ class TripItem extends React.Component {
                         <div className="search-trip-item__user-name"
                              title={ trip.user.full_name }
                         >{ trip.user.full_name }</div>
-                        <div className="search-trip-item__user-age">{ trip.user.age } yrs.</div>
+                        <div className="search-trip-item__user-age">{ translate('search_result.years' + LangService.getNumberForm(trip.user.age), { age: trip.user.age }) }</div>
                     </div>
                     <div className="search-trip-item__trip-container col-sm-8 clearfix">
                         <div className="search-trip-item__description">
-                            <div className="search-trip-item__start-date">{ trip.start_date }</div>
+                            <div className="search-trip-item__start-date">{ this.dateFormat(trip.start_at) }</div>
                             <div className="search-trip-item__route">
                                 {trip.route.points.map((route) =>
                                     <span className={"search-trip-item__route-item" +
@@ -41,11 +63,11 @@ class TripItem extends React.Component {
                         </div>
                         <div className="search-trip-item__offer">
                             <div className="search-trip-item__price"><span className="search-trip-item__price-currency">$</span>{trip.price}</div>
-                            <div className="search-trip-item__price-sign">per passanger</div>
+                            <div className="search-trip-item__price-sign">{translate('search_result.per_passenger')}</div>
                             <div className="search-trip-item__free-seats">
                                 <span className="search-trip-item__free-seats-text">
                                     {trip.seats}
-                                </span> free seat(s)</div>
+                                </span> {translate('search_result.free_seats' + LangService.getNumberForm(trip.seats))}</div>
                         </div>
                     </div>
                 </div>
@@ -54,4 +76,4 @@ class TripItem extends React.Component {
     }
 }
 
-export default TripItem;
+export default localize(TripItem, 'locale');

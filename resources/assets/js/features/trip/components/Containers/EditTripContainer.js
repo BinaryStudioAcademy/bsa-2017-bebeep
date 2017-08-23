@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import { geocodeByAddress } from 'react-places-autocomplete';
 
 import TripForm from '../Forms/TripForm';
+import {localize} from 'react-localize-redux';
 import { EditableWaypoints } from './EditableWaypoints';
 import DirectionsMap from 'app/components/DirectionsMap';
 
@@ -134,7 +135,7 @@ class EditTripContainer extends React.Component {
             waypoints: this.props.getPlacesFromWaypoints()
         };
 
-        const validated = Validator.validate(createTripRules, data);
+        const validated = Validator.validate(createTripRules(), data);
 
         if (!validated.valid) {
             this.setState({errors: validated.errors});
@@ -157,6 +158,7 @@ class EditTripContainer extends React.Component {
         };
 
         const { trip,  errors } = this.state;
+        const { translate } = this.props;
         const startPointProps = {
             value: this.state.startPoint.address,
             onChange: this.onChangeStartPoint.bind(this),
@@ -170,7 +172,7 @@ class EditTripContainer extends React.Component {
         if (this.state.notFoundTrip) {
             return (
                 <div className="alert alert-danger" role="alert">
-                    Can't load this trip. Please try later
+                    {translate('edit_trip.cant_load_this_trip')}
                 </div>
             );
         }
@@ -178,7 +180,7 @@ class EditTripContainer extends React.Component {
         if (!this.state.trip.id) {
             return (
                 <div className="alert">
-                    Loading...
+                    {translate('edit_trip.loading')}
                 </div>
             );
         }
@@ -203,7 +205,7 @@ class EditTripContainer extends React.Component {
                 </div>
                 <div className="col-sm-6">
                     <DirectionsMap
-                        title="Preview Trip"
+                        title={translate("edit_trip.preview_trip")}
                         waypoints={convertWaypointsToGoogleWaypoints(this.props.waypoints)}
                         from={getCoordinatesFromPlace(this.state.startPoint.place)}
                         to={getCoordinatesFromPlace(this.state.endPoint.place)}
@@ -217,4 +219,4 @@ class EditTripContainer extends React.Component {
 
 const EditTripContainerWithWaypoints = EditableWaypoints(EditTripContainer);
 
-export default EditTripContainerWithWaypoints;
+export default localize(EditTripContainerWithWaypoints, 'locale');

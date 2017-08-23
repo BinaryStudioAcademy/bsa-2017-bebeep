@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Trip;
 use App\Services\TripsService;
+use App\Transformers\DetailTrip;
+use App\Services\TripDetailService;
 use Illuminate\Support\Facades\Auth;
 use App\Transformers\TripTransformer;
 use App\Http\Requests\CreateTripRequest;
@@ -21,12 +23,19 @@ class TripsController extends Controller
     private $tripsService;
 
     /**
+     * @var TripDetailService
+     */
+    private $tripDetailService;
+
+    /**
      * TripsController constructor.
      * @param TripsService $tripsService
+     * @param TripDetailService $tripDetailService
      */
-    public function __construct(TripsService $tripsService)
+    public function __construct(TripsService $tripsService, TripDetailService $tripDetailService)
     {
         $this->tripsService = $tripsService;
+        $this->tripDetailService = $tripDetailService;
     }
 
     /**
@@ -137,5 +146,19 @@ class TripsController extends Controller
         }
 
         return response()->json($trip);
+    }
+
+    /**
+     * @param Trip $trip
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function detail(Trip $trip)
+    {
+        $tripDetail = $this->tripDetailService->getDetail($trip);
+
+        return fractal()
+            ->item($tripDetail, new DetailTrip\TripTransformer())
+            ->parseIncludes(['driver', 'routes', 'vehicle'])
+            ->respond();
     }
 }

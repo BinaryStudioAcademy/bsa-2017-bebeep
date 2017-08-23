@@ -1,0 +1,11 @@
+{
+  "search_index": {
+    "find_a_ride_header": ["Find a ride", "Пошук подорожей", "Поиск поездок"],
+    "leaving_from": ["Leaving from...", "Відправлення від...", "Отправление от..."],
+    "going_to": ["Going to...", "Прибуття до...", "Прибытие в..."],
+    "leaving_from_label": ["Leaving from", "Відправлення від", "Отправление от"],
+    "going_to_label": ["Going to", "Прибуття до", "Прибытие в"],
+    "date": ["Date", "Дата", "Дата"],
+    "find_a_ride": ["Find a ride", "Знайти подорож", "Найти поездку"]
+  }
+}

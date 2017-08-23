@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
+import ChangeLocalization from '../ChangeLocalization';
+import {localize} from 'react-localize-redux';
 
 import { getAuthUser } from 'app/services/AuthService';
 
@@ -22,6 +24,7 @@ class ForAuthUser extends React.Component {
     }
 
     render() {
+        const {translate} = this.props;
         const dropdownClass = this.state.isDropdownOpen ? 'show' : '';
         const authUser = getAuthUser();
 
@@ -29,8 +32,8 @@ class ForAuthUser extends React.Component {
             <div className="d-flex w-100">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <Link to="/mycars" className="nav-link" activeClassName="active">
-                        My vehicles
+                    <Link to="/vehicles" className="nav-link" activeClassName="active">
+                        {translate('my_vehicles')}
                     </Link>
                   </li>
                   <li className="nav-item">
@@ -40,13 +43,13 @@ class ForAuthUser extends React.Component {
                   </li>
                   <li className="nav-item">
                     <Link to="/trip/create" className="nav-link" activeClassName="active">
-                        Create new trip
+                        {translate('create_new_trip')}
                     </Link>
                   </li>
                   <li className="nav-item">
-                      <Link to="/trips" className="nav-link" activeClassName="active">
-                          My trips
-                      </Link>
+                    <Link to="/trips" className="nav-link" activeClassName="active">
+                        {translate('my_trips')}
+                    </Link>
                   </li>
                 </ul>
 
@@ -60,17 +63,20 @@ class ForAuthUser extends React.Component {
 
                   <div className="dropdown-menu dropdown-menu-right">
 
-                    <Link to="/dashboard" className="dropdown-item">Dashboard</Link>
-                    <Link to="/dashboard/profile" className="dropdown-item">Profile</Link>
+                    <Link to="/dashboard" className="dropdown-item">{translate('dashboard')}</Link>
+                    <Link to="/dashboard/profile" className="dropdown-item">{translate('profile')}</Link>
 
                     <div className="dropdown-divider"></div>
 
-                    <Link to="/logout" className="dropdown-item">Logout</Link>
+                    <Link to="/logout" className="dropdown-item">{translate('logout')}</Link>
                   </div>
+                </div>
+                <div className="nav-item">
+                    <ChangeLocalization />
                 </div>
             </div>
         );
     }
 }
 
-export default ForAuthUser;
+export default localize(ForAuthUser, 'locale');

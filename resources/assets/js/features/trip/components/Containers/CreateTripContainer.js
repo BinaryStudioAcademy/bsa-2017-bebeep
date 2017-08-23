@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
+import {getTranslate} from 'react-localize-redux';
+
 import { geocodeByAddress } from 'react-places-autocomplete';
 
 import TripForm from '../Forms/TripForm';
@@ -105,7 +107,7 @@ class CreateTripContainer extends React.Component {
             waypoints: this.props.getPlacesFromWaypoints()
         };
 
-        const validated = Validator.validate(createTripRules, data);
+        const validated = Validator.validate(createTripRules(), data);
 
         if (!validated.valid) {
             this.setState({errors: validated.errors});
@@ -129,6 +131,7 @@ class CreateTripContainer extends React.Component {
     }
 
     render() {
+        const {translate} = this.props;
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',
@@ -162,7 +165,7 @@ class CreateTripContainer extends React.Component {
                     />
                 </div>
                 <div className="col-sm-6">
-                    <DirectionsMap title="Preview Trip"
+                    <DirectionsMap title={translate("create_trip.preview_trip")}
                                    waypoints={convertWaypointsToGoogleWaypoints(this.props.waypoints)}
                                    from={getCoordinatesFromPlace(this.state.startPoint.place)}
                                    to={getCoordinatesFromPlace(this.state.endPoint.place)}
@@ -175,7 +178,9 @@ class CreateTripContainer extends React.Component {
 }
 
 const CreateTripContainerConnected = connect(
-    null,
+    state => ({
+        translate: getTranslate(state.locale)
+    }),
     (dispatch) => bindActionCreators({tripCreateSuccess}, dispatch)
 )(EditableWaypoints(CreateTripContainer));
 
