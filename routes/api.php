@@ -1,6 +1,5 @@
 <?php
 
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -93,7 +92,12 @@ Route::group([
     Route::put('{trip}/bookings/{booking}/status', ['as' => 'booking.status', 'uses' => 'BookingsController@status']);
 });
 
-Route::get('v1/trips/search', ['as' => 'search', 'uses' => 'TripsController@search']);
+Route::group([
+    'prefix' => 'v1/trips',
+], function () {
+    Route::get('/search', ['as' => 'trips.search', 'uses' => 'TripsController@search']);
+    Route::get('/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
+});
 
 Route::post('v1/password-resets', [
     'middleware' => 'jwt.guest',

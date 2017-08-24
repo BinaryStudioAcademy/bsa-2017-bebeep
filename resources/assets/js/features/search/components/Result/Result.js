@@ -107,21 +107,25 @@ class Result extends React.Component {
         search(fromCoord, toCoord, start_at, page, sort, order, limit, filter)
             .then(response => {
                 this.setState({
-                    collection: response.data.collection,
+                    collection: response.data.data,
                     meta: {
-                        totalSize: response.data.meta.total,
+                        totalSize: +response.data.meta.total,
                         priceRange: [
-                            response.data.meta.price.min,
-                            response.data.meta.price.max
+                            +response.data.meta.price.min,
+                            +response.data.meta.price.max
                         ]
                     },
                     preloader: false
                 });
             })
-            .catch(error => this.setState({
-                errors: error.response,
-                preloader: false
-            }));
+            .catch(error => {
+                if (error.response) {
+                    this.setState({
+                        errors: error.response,
+                        preloader: false
+                    })
+                }
+            });
     }
 
     render() {
