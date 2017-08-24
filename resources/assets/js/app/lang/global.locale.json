@@ -11,5 +11,6 @@
   "page_not_found": ["Page not found!", "Сторінку не знайдено!", "Страница не найдена!"],
   "go_to_home_page": ["Go to Home page", "Перейти на домашню сторінку", "Перейти на главную страницу"],
   "tomorrow": ["Tomorrow - ${time}", "Завтра - ${time}", "Завтра - ${time}"],
-  "today": ["Today - ${time}", "Сьогодні - ${time}", "Сегодня - ${time}"]
+  "today": ["Today - ${time}", "Сьогодні - ${time}", "Сегодня - ${time}"],
+  "bookings": ["Bookings", "Замовлення", "Заказы"]
 }
