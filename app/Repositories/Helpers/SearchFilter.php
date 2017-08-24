@@ -153,13 +153,19 @@ class SearchFilter
     {
         $query = clone $this->query;
 
-        $result = $query->addSelect(DB::raw('MAX(trips.price) as max_price, MIN(trips.price) as min_price, COUNT(trips.id) as count'))
+        $result = $query->addSelect(DB::raw('MAX(trips.price) as max_price, MIN(trips.price) as min_price'))
             ->first();
+
+        if ($this->minPrice !== 0 && $this->maxPrice !== 0) {
+            $query->where('trips.price', '>=', $this->minPrice)
+                ->where('trips.price', '<=', $this->maxPrice);
+        }
+        $count = $query->count();
 
         if ($result === null) {
             return ['min' => 0, 'max' => 0, 'count' => 0];
         } else {
-            return ['min' => $result->min_price, 'max' => $result->max_price, 'count' => $result->count];
+            return ['min' => $result->min_price, 'max' => $result->max_price, 'count' => $count];
         }
     }
 
