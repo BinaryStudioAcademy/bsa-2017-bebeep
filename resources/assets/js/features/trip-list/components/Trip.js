@@ -111,7 +111,7 @@ class Trip extends React.Component {
                                 <span className="text-muted"><strong>{translate('trip_list.seats')}:</strong> {this.props.trip.seats}</span><br/>
                             </div>
                         </div>
-                        <div className="card-block trip-actions">
+                        <div className="card-footer trip-actions">
                             {this.state.editable ? (
                                 <Link to={'/trip/edit/' + this.props.trip.id} className="btn btn-primary">{translate('trip_list.edit')}</Link>
                             ) : (<span>&nbsp;</span>)}

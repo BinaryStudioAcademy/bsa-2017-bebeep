@@ -24,6 +24,9 @@ import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
 import { CreateTrip, EditTrip, TripDetails } from '../features/trip/layouts';
 import TripsList from '../features/trip-list/layouts/TripsList';
 
+import BookingsList from '../features/bookings/layouts/BookingsList';
+import DriverPublicProfile from '../features/public-profiles/layouts/DriverPublicProfile';
+
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 import LangeService from './services/LangService';
 
@@ -67,6 +70,10 @@ export default (store) => {
                     <Route path="edit/:id" component={ EditTrip } />
                 </Route>
 
+                {/* Bookings - upcomming and pasts */}
+                <Route path="bookings" component={ BookingsList } />
+                <Route path='bookings/past' component={ BookingsList } />
+
                 {/* User dashboard */}
                 <Route path="dashboard">
                     <IndexRoute component={ Dashboard }/>
@@ -98,6 +105,9 @@ export default (store) => {
                 <Route path="login" component={ LoginForm }/>
                 <Route path="password/reset" component={ PasswordReset }/>
             </Route>
+
+            {/*Driver public profile*/}
+            <Route path="driver/:id" component={ DriverPublicProfile }/>
 
             {/* Page not found */}
             <Route path="*" component={ NotFound }/>

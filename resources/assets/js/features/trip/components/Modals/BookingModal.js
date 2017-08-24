@@ -1,11 +1,15 @@
 import React from 'react';
-import { localize } from 'react-localize-redux';
 import PropTypes from 'prop-types';
-import BookingService from 'app/services/BookingService';
+import { localize } from 'react-localize-redux';
+
 import Modal from 'app/components/Modal';
 import SelectItem from './SelectItem';
-import moment from 'moment';
+
+import BookingService from 'app/services/BookingService';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
+
 import 'features/trip/styles/booking_modal.scss';
+
 
 class BookingModal extends React.Component {
 
@@ -42,28 +46,6 @@ class BookingModal extends React.Component {
         onClosed();
     }
 
-    dateFormat(timestamp) {
-        const {translate} = this.props,
-            date = moment(timestamp * 1000),
-            locale = moment().locale(),
-            localeData = moment().locale(locale).localeData(),
-            day = _.padStart(date.date(), 2, '0'),
-            weekday = _.capitalize(localeData.weekdaysShort(date)),
-            month = _.capitalize(localeData.monthsShort(date)),
-            minute = _.padStart(date.minute(), 2, '0'),
-            hour = _.padStart(date.hour(), 2, '0'),
-            now = moment(),
-            time = `- ${hour}:${minute}`;
-
-        if (now.isSame(date, 'day')) {
-            return `${translate('search_result.today')} ${time}`
-        }
-        if (now.isSame(date.subtract(1, 'day'), 'day')) {
-            return `${translate('search_result.tomorrow')} ${time}`
-        }
-        return `${weekday}. ${day} ${month} ${time}`;
-    }
-
     getRouteById(id) {
         return _.findIndex(this.props.waypoints, {id});
     }
@@ -95,7 +77,7 @@ class BookingModal extends React.Component {
                     ],
                     seats
                 }).then((data) => {
-                    onSuccess()
+                    onSuccess();
                     this.closeModal();
                 })
                 .catch((error) => this.setState({errors: error.response.data}));
@@ -122,7 +104,8 @@ class BookingModal extends React.Component {
 
     render() {
         const {isOpenModal, errors, possibleSeats} = this.state,
-            {translate, waypoints, price, start_at, maxSeats} = this.props;
+            {translate, waypoints, price, start_at, maxSeats} = this.props,
+            date = DateTimeHelper.dateFormat(start_at);
 
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
@@ -134,7 +117,13 @@ class BookingModal extends React.Component {
                                 <div className="text-muted booking-modal__text">
                                     {translate('trip_details.booking.start_trip')}
                                 </div>
-                                <b>{this.dateFormat(start_at)}</b>
+                                <b>{
+                                    date.date === 'today'
+                                        ? translate('today', {time: date.time})
+                                        : date.date === 'tomorrow'
+                                            ? translate('tomorrow', {time: date.time})
+                                            : `${date.date} - ${date.time}`
+                                }</b>
                             </div>
                             <div className="col-sm-6">
                                 <div className="text-muted booking-modal__text">

@@ -1,0 +1,11 @@
+{
+  "bookings_list": {
+    "my_bookings_header": ["My bookings", "Мої замовлення", "Мои заказы"],
+    "upcoming": ["Upcoming", "Поточні", "Текущие"],
+    "past": ["Past", "Минулі", "Прошлые"],
+    "pending": ["pending", "очікує", "ожидает"],
+    "approved": ["approved", "схвалено", "одобрен"],
+    "declined": ["declined", "відсунуто", "отклонен"],
+    "canceled": ["canceled", "відмінено", "отменен"]
+  }
+}

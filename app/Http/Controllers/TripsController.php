@@ -13,6 +13,7 @@ use App\Http\Requests\SearchTripRequest;
 use App\Http\Requests\UpdateTripRequest;
 use App\Http\Requests\GetDriverTripRequest;
 use App\Exceptions\Trip\UserCantEditTripException;
+use App\Transformers\Search\SearchTripTransformer;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
 class TripsController extends Controller
@@ -29,6 +30,7 @@ class TripsController extends Controller
 
     /**
      * TripsController constructor.
+     *
      * @param TripsService $tripsService
      * @param TripDetailService $tripDetailService
      */
@@ -70,6 +72,7 @@ class TripsController extends Controller
 
     /**
      * @param CreateTripRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(CreateTripRequest $request)
@@ -84,11 +87,14 @@ class TripsController extends Controller
      *
      * @param Trip $trip
      * @param GetDriverTripRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Trip $trip, GetDriverTripRequest $request)
     {
-        return fractal()->item($trip, new TripTransformer())->parseIncludes(['vehicle', 'routes'])->respond();
+        return fractal()->item($trip, new TripTransformer())
+            ->parseIncludes(['vehicle', 'routes'])
+            ->respond();
     }
 
     /**
@@ -96,6 +102,7 @@ class TripsController extends Controller
      *
      * @param $trip
      * @param UpdateTripRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Trip $trip, UpdateTripRequest $request)
@@ -111,6 +118,7 @@ class TripsController extends Controller
 
     /**
      * @param Trip $trip
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(Trip $trip)
@@ -124,15 +132,25 @@ class TripsController extends Controller
         return response()->json($trip);
     }
 
+    /**
+     * @param SearchTripRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function search(SearchTripRequest $request)
     {
-        $data = $this->tripsService->search($request);
+        $trips = $this->tripsService->search($request);
 
-        return response()->json($data);
+        return fractal()
+            ->collection($trips, new SearchTripTransformer())
+            ->parseIncludes(['driver', 'routes'])
+            ->addMeta($trips->getMeta())
+            ->respond();
     }
 
     /**
      * @param $tripId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function restore($tripId)
@@ -150,6 +168,7 @@ class TripsController extends Controller
 
     /**
      * @param Trip $trip
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function detail(Trip $trip)

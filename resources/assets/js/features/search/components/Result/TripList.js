@@ -2,6 +2,7 @@ import React from 'react';
 import TripItem from './TripItem';
 import Placeholder from './Placeholder';
 import PropTypes from 'prop-types';
+import {localize} from 'react-localize-redux';
 
 class TripList extends React.Component {
 
@@ -10,11 +11,11 @@ class TripList extends React.Component {
     }
 
     render() {
-        const { collection } = this.props;
+        const { collection, translate } = this.props;
 
         return (
             <div className="trip-list">
-                <Placeholder show={collection.length === 0}>Trips not found</Placeholder>
+                <Placeholder show={collection.length === 0}>{translate('search_result.trip_not_found')}</Placeholder>
                 {collection.map((trip) =>
                     <TripItem key={trip.id} trip={trip} />
                 )}
@@ -27,4 +28,4 @@ TripList.PropTypes = {
     collection: PropTypes.array,
 };
 
-export default TripList;
+export default localize(TripList, 'locale');

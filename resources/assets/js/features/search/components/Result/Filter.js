@@ -47,7 +47,7 @@ class Filter extends React.Component {
     }
 
     dateChange(date) {
-        setUrl(setFilter({date: date ? date.unix() : null}));
+        setUrl({start_at: date ? date.unix() : null});
     }
 
     timeChange(time) {

@@ -15,12 +15,14 @@ use Illuminate\Support\ServiceProvider;
 use App\Validators\RestoreTripValidator;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\BookingConfirm\OwnerConfirm;
+use App\Validators\CancelBookingValidator;
 use App\Validators\CreateBookingValidator;
 use App\Validators\CanUncheckRoleValidator;
 use App\Validators\ConfirmBookingValidator;
 use App\Rules\Booking\TripRoutesHasSeatsRule;
 use App\Validators\IsPasswordCurrentValidator;
 use App\Rules\BookingConfirm\FutureTripConfirm;
+use App\Rules\Booking\BookingTripNotExpiredRule;
 use App\Rules\BookingConfirm\BookingTripConfirm;
 use App\Validators\RoutesExistsForTripValidator;
 use App\Rules\Booking\UserHasNotActiveBookingsForTrip;
@@ -74,6 +76,12 @@ class AppServiceProvider extends ServiceProvider
                 new OwnerConfirm,
                 new BookingTripConfirm,
                 new FutureTripConfirm
+            );
+        });
+
+        $this->app->bind(CancelBookingValidator::class, function ($app) {
+            return new CancelBookingValidator(
+                new BookingTripNotExpiredRule
             );
         });
 
