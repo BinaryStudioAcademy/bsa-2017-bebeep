@@ -80,11 +80,8 @@ export default (store) => {
                 </Route>
 
                 {/* Bookings - upcomming and pasts */}
-                <Redirect from='bookings' to='/bookings/upcoming'/>
-                <Route path="bookings">
-                    <Route path='upcoming' component={ BookingsList } />
-                    <Route path='past' component={ BookingsList } />
-                </Route>
+                <Route path="bookings" component={ BookingsList } />
+                <Route path='bookings/past' component={ BookingsList } />
 
                 {/* User dashboard */}
                 <Route path="dashboard">
