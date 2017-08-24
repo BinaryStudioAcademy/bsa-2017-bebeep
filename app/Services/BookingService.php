@@ -2,23 +2,22 @@
 
 namespace App\Services;
 
-use App\Services\Requests\BookingListRequest;
 use App\User;
 use App\Models\Trip;
 use App\Models\Booking;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Events\ApprovedBookingCanceled;
 use App\Validators\CancelBookingValidator;
 use App\Validators\CreateBookingValidator;
 use App\Validators\ConfirmBookingValidator;
+use App\Services\Requests\BookingListRequest;
 use App\Criteria\Bookings\PastBookingCriteria;
 use App\Services\Requests\BookingStatusRequest;
 use App\Services\Requests\CreateBookingRequest;
 use App\Repositories\Contracts\BookingRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use App\Criteria\Bookings\UpcommingBookingCriteria;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Services\Contracts\BookingService as BookingServiceContract;
 
 class BookingService implements BookingServiceContract

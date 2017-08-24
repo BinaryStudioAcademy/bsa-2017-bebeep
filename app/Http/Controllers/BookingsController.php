@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BookingListRequest;
 use App\Models\Trip;
 use App\Models\Booking;
-use App\Services\Contracts\BookingService;
-use App\Transformers\Bookings\BookingTransformer;
-use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\BookingListRequest;
+use App\Services\Contracts\BookingService;
 use App\Http\Requests\BookingStatusRequest;
 use App\Http\Requests\CancelBookingRequest;
 use App\Http\Requests\CreateBookingRequest;
+use App\Transformers\Bookings\BookingTransformer;
 use App\Exceptions\Booking\BookingConfirmException;
 
 class BookingsController extends Controller
@@ -84,7 +83,7 @@ class BookingsController extends Controller
             ->collection($bookings, new BookingTransformer())
             ->addMeta([
                 'total' => $bookings->total(),
-                'page' => $bookings->currentPage()
+                'page' => $bookings->currentPage(),
             ])
             ->respond();
     }
@@ -101,7 +100,7 @@ class BookingsController extends Controller
             ->collection($bookings, new BookingTransformer())
             ->addMeta([
                 'total' => $bookings->total(),
-                'page' => $bookings->currentPage()
+                'page' => $bookings->currentPage(),
             ])
             ->respond();
     }

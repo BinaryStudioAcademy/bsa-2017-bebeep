@@ -24,7 +24,7 @@ class BookingTransformer extends TransformerAbstract
             'start_at' => (string) $booking->trip->start_at,
             'start_at_x' => (string) $booking->trip->start_at->timestamp,
             'from' => $from && isset($from->from['address_components'])
-                ?  isset($from->from['address_components'][0])
+                ? isset($from->from['address_components'][0])
                     ? $from->from['address_components'][0]['short_name']
                     : $from->from['formatted_address']
                 : null,

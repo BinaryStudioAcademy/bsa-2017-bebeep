@@ -5,7 +5,6 @@ namespace App\Criteria\Bookings;
 use App\User;
 use Carbon\Carbon;
 use App\Models\Booking;
-use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
