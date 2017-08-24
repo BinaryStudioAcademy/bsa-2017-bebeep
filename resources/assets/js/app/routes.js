@@ -31,6 +31,7 @@ import DetailTrip from '../features/trip/layouts/DetailTrip';
 import SearchResult from '../features/search/layouts/SearchResult';
 
 import BookingsList from '../features/bookings/layouts/BookingsList';
+import DriverPublicProfile from '../features/public-profiles/layouts/DriverPublicProfile';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 
@@ -116,6 +117,9 @@ export default (store) => {
                 <Route path="login" component={ LoginForm }/>
                 <Route path="password/reset" component={ PasswordReset }/>
             </Route>
+
+            {/*Driver public profile*/}
+            <Route path="driver/:id" component={ DriverPublicProfile }/>
 
             {/* Page not found */}
             <Route path="search" component={ SearchResult }/>
