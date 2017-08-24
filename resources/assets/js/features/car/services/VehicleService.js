@@ -1,14 +1,6 @@
-import { simpleRequest, securedRequest } from '../../../app/services/RequestService';
+import { securedRequest } from '../../../app/services/RequestService';
 
 export const VehicleService = {
-    getVehicles() {
-        return securedRequest.get('/api/v1/car')
-            .then(
-                response => Promise.resolve(response.data),
-                error => Promise.reject(error.response.data)
-            );
-    },
-
     getBrandOptions() {
         return securedRequest.get(`/api/v1/car-brand`)
             .then((response) => {

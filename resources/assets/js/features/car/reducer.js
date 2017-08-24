@@ -1,6 +1,7 @@
 import * as actions from './actionTypes';
 
 const initialState = {
+    vehicles: [],
     brand: {
         id_car_mark: null,
         name: null
@@ -25,6 +26,13 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch(action.type) {
+        case actions.VEHICLE_GET_ALL_SUCCESS: {
+            return {
+                ...state,
+                vehicles: action.vehicles
+            };
+        }
+
         case actions.VEHICLE_CREATE_SUCCESS: {
             return {
                 ...state,
