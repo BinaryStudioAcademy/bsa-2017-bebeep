@@ -38,7 +38,7 @@ class ForAuthUser extends React.Component {
                   </li>
                   <li className="nav-item">
                     <Link to="/vehicles/create" className="nav-link" activeClassName="active">
-                        Add new vehicle
+                        {translate('add_vehicle')}
                     </Link>
                   </li>
                   <li className="nav-item">

@@ -1,7 +1,8 @@
 {
   "login": ["Login", "Увійти", "Войти"],
   "register": ["Register", "Реєстрація", "Регистрация"],
-  "my_vehicles": ["My vehicles", "Мої авто", "Мои машины"],
+  "my_vehicles": ["My vehicles", "Мої автобілі", "Мои автомобили"],
+  "add_vehicle": ["Add vehicle", "Додати автомобіль", "Добавить автомобиль"],
   "create_new_trip": ["Create new trip", "Додати подорож", "Добавить поездку"],
   "my_trips": ["My trips", "Мої подорожі", "Мои поездки"],
   "dashboard": ["Dashboard", "Панель користувача", "Панель пользователя"],
