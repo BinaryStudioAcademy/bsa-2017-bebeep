@@ -2,33 +2,14 @@ import React from 'react';
 import {Link} from 'react-router';
 import {localize} from 'react-localize-redux';
 import LangService from 'app/services/LangService';
-import moment from 'moment';
+import DateService from 'app/services/DateService';
 import 'features/search/styles/search-trip-item.scss';
 
 class TripItem extends React.Component {
 
-    dateFormat(timestamp) {
-        const {translate} = this.props,
-            date = moment(timestamp * 1000),
-            locale = moment().locale(),
-            localeData = moment().locale(locale).localeData(),
-            day = _.padStart(date.date(), 2, '0'),
-            weekday = _.capitalize(localeData.weekdaysShort(date)),
-            month = _.capitalize(localeData.monthsShort(date)),
-            minute = _.padStart(date.minute(), 2, '0'),
-            hour = _.padStart(date.hour(), 2, '0'),
-            now = moment(),
-            time = `- ${hour}:${minute}`;
-        if (now.isSame(date, 'day')) {
-            return `${translate('search_result.today')} ${time}`
-        } else if (now.isSame(date.subtract(1, 'day'), 'day')) {
-            return `${translate('search_result.tomorrow')} ${time}`
-        }
-        return `${weekday}. ${day} ${month} ${time}`;
-    }
-
     render() {
-        const {trip, translate} = this.props;
+        const {trip, translate} = this.props,
+            date = DateService.dateFormat(trip.start_at);
 
         return (
             <Link to={`/trip/${trip.id}`} className="search-trip-item">
@@ -44,7 +25,13 @@ class TripItem extends React.Component {
                     </div>
                     <div className="search-trip-item__trip-container col-sm-8 clearfix">
                         <div className="search-trip-item__description">
-                            <div className="search-trip-item__start-date">{ this.dateFormat(trip.start_at) }</div>
+                            <div className="search-trip-item__start-date">{
+                                date.date === 'today'
+                                    ? translate('today', {time: date.time})
+                                    : date.date === 'tomorrow'
+                                        ? translate('tomorrow', {time: date.time})
+                                        : `${date.date} - ${date.time}`
+                            }</div>
                             <div className="search-trip-item__route">
                                 {trip.routes.data.map((route) =>
                                     <span className={"search-trip-item__route-item" +

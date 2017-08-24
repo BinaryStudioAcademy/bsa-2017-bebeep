@@ -1,38 +1,23 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {localize} from 'react-localize-redux';
+import DateService from 'app/services/DateService';
 import '../styles/booking-item.scss';
-import moment from 'moment';
 
 class BookingItem extends React.Component {
-
-    dateFormat(timestamp) {
-        const {translate} = this.props,
-            date = moment(timestamp * 1000),
-            locale = moment().locale(),
-            localeData = moment().locale(locale).localeData(),
-            day = _.padStart(date.date(), 2, '0'),
-            weekday = _.capitalize(localeData.weekdaysShort(date)),
-            month = _.capitalize(localeData.monthsShort(date)),
-            minute = _.padStart(date.minute(), 2, '0'),
-            hour = _.padStart(date.hour(), 2, '0'),
-            now = moment(),
-            time = `- ${hour}:${minute}`;
-        if (now.isSame(date, 'day')) {
-            return `${translate('bookings_list.today')} ${time}`
-        } else if (now.isSame(date.subtract(1, 'day'), 'day')) {
-            return `${translate('bookings_list.tomorrow')} ${time}`
-        }
-        return `${weekday}. ${day} ${month} ${time}`;
-    }
-
     render() {
-        const {booking, translate} = this.props;
+        const {booking, translate} = this.props,
+            date = DateService.dateFormat(booking.start_at_x);
 
         return (
             <Link to={"/trip/" + booking.trip_id} className="booking-item row">
                 <div className="booking-item__date col-sm-3">
-                    {this.dateFormat(booking.start_at_x)}
+                    {date.date === 'today'
+                        ? translate('today', {time: date.time})
+                        : date.date === 'tomorrow'
+                            ? translate('tomorrow', {time: date.time})
+                            : `${date.date} - ${date.time}`
+                    }
                 </div>
                 <div className="booking-item__route col-sm-7">
                     <span className="booking-item__route-item">{booking.from}</span>
