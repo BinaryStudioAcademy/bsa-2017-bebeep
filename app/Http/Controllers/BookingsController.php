@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookingListRequest;
 use App\Models\Trip;
 use App\Models\Booking;
 use App\Services\Contracts\BookingService;
@@ -71,9 +72,13 @@ class BookingsController extends Controller
         return response()->json($booking);
     }
 
-    public function upcoming()
+    /**
+     * @param BookingListRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function upcoming(BookingListRequest $request)
     {
-        $bookings = $this->bookingService->getUpcoming(Auth::user());
+        $bookings = $this->bookingService->getUpcoming($request, Auth::user());
 
         return fractal()
             ->collection($bookings, new BookingTransformer())
@@ -84,10 +89,20 @@ class BookingsController extends Controller
             ->respond();
     }
 
-    public function past()
+    /**
+     * @param BookingListRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function past(BookingListRequest $request)
     {
-        $bookings = $this->bookingService->getPast(Auth::user());
+        $bookings = $this->bookingService->getPast($request, Auth::user());
 
-        return fractal()->collection($bookings, new BookingTransformer())->respond();
+        return fractal()
+            ->collection($bookings, new BookingTransformer())
+            ->addMeta([
+                'total' => $bookings->total(),
+                'page' => $bookings->currentPage()
+            ])
+            ->respond();
     }
 }

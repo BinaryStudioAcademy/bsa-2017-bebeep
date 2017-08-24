@@ -5,10 +5,10 @@ namespace App\Services\Contracts;
 use App\User;
 use App\Models\Trip;
 use App\Models\Booking;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
+use App\Services\Requests\BookingListRequest;
 use App\Services\Requests\BookingStatusRequest;
 use App\Exceptions\Booking\BookingConfirmException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface BookingService
 {
@@ -28,14 +28,16 @@ interface BookingService
     public function cancel(Booking $booking, User $user) : Booking;
 
     /**
+     * @param BookingListRequest $request
      * @param User $user
      * @return LengthAwarePaginator
      */
-    public function getPast(User $user) : LengthAwarePaginator;
+    public function getPast(BookingListRequest $request, User $user) : LengthAwarePaginator;
 
     /**
+     * @param BookingListRequest $request
      * @param User $user
      * @return LengthAwarePaginator
      */
-    public function getUpcoming(User $user) : LengthAwarePaginator;
+    public function getUpcoming(BookingListRequest $request, User $user) : LengthAwarePaginator;
 }

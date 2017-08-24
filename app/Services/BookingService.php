@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Services\Requests\BookingListRequest;
 use App\User;
 use App\Models\Trip;
 use App\Models\Booking;
@@ -119,17 +120,17 @@ class BookingService implements BookingServiceContract
     /**
      * {@inheritdoc}
      */
-    public function getPast(User $user) : LengthAwarePaginator
+    public function getPast(BookingListRequest $request, User $user) : LengthAwarePaginator
     {
-        return $this->getList(new PastBookingCriteria($user), 10);
+        return $this->getList(new PastBookingCriteria($user), $request->getLimit());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getUpcoming(User $user) : LengthAwarePaginator
+    public function getUpcoming(BookingListRequest $request, User $user) : LengthAwarePaginator
     {
-        return $this->getList(new UpcommingBookingCriteria($user), 10);
+        return $this->getList(new UpcommingBookingCriteria($user), $request->getLimit());
     }
 
     /**
