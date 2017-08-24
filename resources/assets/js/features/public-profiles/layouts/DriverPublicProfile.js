@@ -15,10 +15,7 @@ export default localize(class DriverPublicProfile extends React.Component {
     render() {
         const {translate} = this.props;
         return (
-            <div>
-                <PageHeader header={translate('driver_public_profile.header')}/>
-                <DriverProfileContainer id={ this.props.params.id }/>
-            </div>
+            <DriverProfileContainer id={ this.props.params.id }/>
         );
     }
 }, 'locale');
