@@ -15,8 +15,8 @@ use App\Criteria\Bookings\PastBookingCriteria;
 use App\Services\Requests\BookingStatusRequest;
 use App\Services\Requests\CreateBookingRequest;
 use App\Repositories\Contracts\BookingRepository;
-use Prettus\Repository\Contracts\CriteriaInterface;
 use App\Criteria\Bookings\UpcommingBookingCriteria;
+use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Services\Contracts\BookingService as BookingServiceContract;
 
