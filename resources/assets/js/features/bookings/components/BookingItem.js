@@ -1,13 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {localize} from 'react-localize-redux';
-import DateService from 'app/services/DateService';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import '../styles/booking-item.scss';
 
 class BookingItem extends React.Component {
     render() {
         const {booking, translate} = this.props,
-            date = DateService.dateFormat(booking.start_at_x);
+            date = DateTimeHelper.dateFormat(booking.start_at_x);
 
         return (
             <Link to={"/trip/" + booking.trip_id} className="booking-item row">
