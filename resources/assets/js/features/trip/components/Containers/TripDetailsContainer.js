@@ -42,8 +42,6 @@ class TripDetailsContainer extends React.Component {
             .then(response => {
                 response = TripDetailsService.transformData(response.data);
 
-                response.vehicle.data.photo = null;
-
                 response.routes.data[0].busy_seats = 2;
                 response.routes.data[1].busy_seats = 1;
 
