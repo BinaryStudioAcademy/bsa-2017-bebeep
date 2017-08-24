@@ -19,11 +19,6 @@ import {
     ProfilePassword
 } from '../features/user/layouts/Profile';
 
-/*import Vehicles from '../features/vehicle/layouts/Vehicles';
-import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
-import VehicleForm from '../features/vehicle/layouts/VehicleForm';
-import VehicleEditForm from '../features/vehicle/layouts/VehicleUpdate';*/
-
 import Vehicles from '../features/car/layouts/Vehicles';
 import CreateVehicle from '../features/car/layouts/CreateVehicle';
 import EditVehicle from '../features/car/layouts/EditVehicle';
@@ -80,7 +75,7 @@ export default (store) => {
                 {/* Trip creating and editing */}
                 <Route path="trip">
                     <Route path="create" component={ CreateTrip }/>
-                    {/*<Route path="edit/:id" component={ Vehicles TripEdit }/>*/}
+                    <Route path="edit/:id" component={ Vehicles /*TripEdit*/ }/>
                 </Route>
 
                 {/* User dashboard */}
