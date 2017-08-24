@@ -1,23 +1,31 @@
 import React from 'react';
 import Select from 'react-select';
 import NumericInput from 'react-numeric-input';
+import LangService from 'app/services/LangService';
+import * as lang from '../../lang/VehicleForm.locale.json';
+import { localize } from 'react-localize-redux';
 
-export default class VehicleForm extends React.Component {
+class VehicleForm extends React.Component {
+    componentWillMount() {
+        LangService.addTranslation(lang);
+    }
+
     render() {
+        const {translate} = this.props;
         const { errors } = this.props;
         const currentYear = new Date().getFullYear();
 
         return (
             <form role="form" className="card vehicle-form" method="POST" onSubmit={ this.props.onSubmit }>
                 <div className="card-header">
-                    Enter vehicle details
+                    { translate('vehicle_form.enter_vehicle_details') }
                 </div>
                 <div className="card-block">
                     <div className={ "form-group row " + (errors.brand ? 'has-danger' : '') }>
-                        <label className="form-control-label text-muted col-sm-4" htmlFor="brand">Car Brand</label>
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="brand">{ translate('vehicle_form.car_brand') }</label>
                         <Select.Async
                             name="brand"
-                            placeholder="Select Car Brand"
+                            placeholder={ translate('vehicle_form.car_brand_placeholder') }
                             value={ this.props.brand.name }
                             valueKey="name"
                             labelKey="name"
@@ -32,10 +40,10 @@ export default class VehicleForm extends React.Component {
                     </div>
 
                     <div className={ "form-group row " + (errors.model ? 'has-danger' : '') }>
-                        <label className="form-control-label text-muted col-sm-4" htmlFor="model">Car Model</label>
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="model">{ translate('vehicle_form.car_model') }</label>
                         <Select.Async
                             name="model"
-                            placeholder="Please Type Car-model..."
+                            placeholder={ translate('vehicle_form.car_model_placeholder') }
                             value={this.props.model.name}
                             valueKey="name"
                             labelKey="name"
@@ -53,10 +61,10 @@ export default class VehicleForm extends React.Component {
                     </div>
 
                     <div className={ "form-group row " + (errors.color ? 'has-danger' : '') }>
-                        <label className="form-control-label text-muted col-sm-4" htmlFor="color">Color</label>
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="color">{ translate('vehicle_form.car_color') }</label>
                         <Select.Async
                             name="color"
-                            placeholder="Select Car Color"
+                            placeholder={ translate('vehicle_form.car_color_placeholder') }
                             value={this.props.color.color}
                             valueKey="color"
                             labelKey="color"
@@ -71,10 +79,10 @@ export default class VehicleForm extends React.Component {
                     </div>
 
                     <div className={ "form-group row " + (errors.body ? 'has-danger' : '') }>
-                        <label className="form-control-label text-muted col-sm-4" htmlFor="body">Body</label>
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="body">{ translate('vehicle_form.car_body') }</label>
                         <Select.Async
                             name="body"
-                            placeholder="Select Car Body Type"
+                            placeholder={ translate('vehicle_form.car_body_placeholder') }
                             value={this.props.body.body}
                             valueKey="body"
                             labelKey="body"
@@ -89,11 +97,11 @@ export default class VehicleForm extends React.Component {
                     </div>
 
                     <div className={ "form-group row " + (errors.year ? 'has-danger' : '') }>
-                        <label className="form-control-label text-muted col-sm-4" htmlFor="year">Year</label>
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="year">{ translate('vehicle_form.car_year') }</label>
                         <div className="col-sm-8">
                             <NumericInput className="form-control"
                                           name="year"
-                                          placeholder="Select Car Year"
+                                          placeholder={ translate('vehicle_form.car_year_placeholder') }
                                           min={1980}
                                           max={this.currentYear}
                                           value={this.props.year}
@@ -106,11 +114,11 @@ export default class VehicleForm extends React.Component {
                     </div>
 
                     <div className={ "form-group row " + (errors.seats ? 'has-danger' : '') }>
-                        <label className="form-control-label text-muted col-sm-4" htmlFor="seats">Seats</label>
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="seats">{ translate('vehicle_form.car_seats') }</label>
                         <div className="col-sm-8">
                             <NumericInput className="form-control"
                                           name="seats"
-                                          placeholder="Select Seats Count"
+                                          placeholder={ translate('vehicle_form.car_seats_placeholder') }
                                           min={1}
                                           max={8}
                                           value={this.props.seats}
@@ -126,7 +134,7 @@ export default class VehicleForm extends React.Component {
                 <div className="card-footer">
                     <div className="text-center">
                         <button className="btn btn-primary">
-                            Create
+                            { translate('vehicle_form.btn_save') }
                         </button>
                     </div>
                 </div>
@@ -134,3 +142,5 @@ export default class VehicleForm extends React.Component {
         );
     }
 }
+
+export default localize(VehicleForm, 'locale');

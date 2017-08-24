@@ -63,13 +63,6 @@ export default (store) => {
             <Route onEnter={ requireAuth }>
 
             {/* Vehicle creating and show details */}
-            {/*<Route path="mycars">
-                <IndexRoute component={ Vehicles } />
-                <Route path="create" component={ VehicleForm } />
-                <Route path="vehicle/:id" component={ VehicleDetails } />
-                <Route path="vehicle/:id/edit" component={ VehicleEditForm } />
-            </Route>*/}
-
             <Route path="vehicles">
                 <IndexRoute component={ Vehicles } />
                 <Route path="create" component={ CreateVehicle }/>
