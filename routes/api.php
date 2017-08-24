@@ -111,7 +111,7 @@ Route::put('v1/password-resets', [
     'uses' => 'Auth\PasswordResetsController@reset',
 ]);
 
-Route::get('v1/trips/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
-
 Route::post('v1/trips/{trip}/bookings', ['as' => 'booking.create', 'uses' => 'BookingsController@create', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
 Route::delete('v1/bookings/{booking}', ['as' => 'booking.cancel', 'uses' => 'BookingsController@cancel', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
+Route::get('v1/bookings/past', ['as' => 'booking.past', 'uses' => 'BookingsController@past', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
+Route::get('v1/bookings/upcoming', ['as' => 'booking.upcoming', 'uses' => 'BookingsController@upcoming', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);

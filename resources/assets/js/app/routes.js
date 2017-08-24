@@ -30,6 +30,7 @@ import DetailTrip from '../features/trip/layouts/DetailTrip';
 
 import SearchResult from '../features/search/layouts/SearchResult';
 
+import BookingsList from '../features/bookings/layouts/BookingsList';
 import DriverPublicProfile from '../features/public-profiles/layouts/DriverPublicProfile';
 
 import { requireAuth, requireGuest } from '../app/services/AuthService';
@@ -77,6 +78,10 @@ export default (store) => {
                     <Route path="create" component={ CreateTrip }/>
                     <Route path="edit/:id" component={ Vehicles /*TripEdit*/ }/>
                 </Route>
+
+                {/* Bookings - upcomming and pasts */}
+                <Route path="bookings" component={ BookingsList } />
+                <Route path='bookings/past' component={ BookingsList } />
 
                 {/* User dashboard */}
                 <Route path="dashboard">

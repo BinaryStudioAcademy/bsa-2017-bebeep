@@ -10,9 +10,14 @@ use App\Events\ApprovedBookingCanceled;
 use App\Validators\CancelBookingValidator;
 use App\Validators\CreateBookingValidator;
 use App\Validators\ConfirmBookingValidator;
+use App\Services\Requests\BookingListRequest;
+use App\Criteria\Bookings\PastBookingCriteria;
 use App\Services\Requests\BookingStatusRequest;
 use App\Services\Requests\CreateBookingRequest;
 use App\Repositories\Contracts\BookingRepository;
+use App\Criteria\Bookings\UpcommingBookingCriteria;
+use Prettus\Repository\Contracts\CriteriaInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Services\Contracts\BookingService as BookingServiceContract;
 
 class BookingService implements BookingServiceContract
@@ -77,7 +82,7 @@ class BookingService implements BookingServiceContract
      * @param User $user
      * @return Booking
      */
-    public function cancel(Booking $booking, User $user)
+    public function cancel(Booking $booking, User $user) : Booking
     {
         $this->cancelBookingValidator->validate($booking, $user);
 
@@ -98,6 +103,33 @@ class BookingService implements BookingServiceContract
     {
         $booking->status = Booking::STATUS_APPROVED;
         $this->bookingRepository->save($booking);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getList(CriteriaInterface $criteria, int $limit) : LengthAwarePaginator
+    {
+        $this->bookingRepository->pushCriteria($criteria);
+        $result = $this->bookingRepository->paginate($limit);
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPast(BookingListRequest $request, User $user) : LengthAwarePaginator
+    {
+        return $this->getList(new PastBookingCriteria($user), $request->getLimit());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUpcoming(BookingListRequest $request, User $user) : LengthAwarePaginator
+    {
+        return $this->getList(new UpcommingBookingCriteria($user), $request->getLimit());
     }
 
     /**

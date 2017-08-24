@@ -72,6 +72,10 @@ class SearchFilter
         $dayEnd = clone $date;
         $dayEnd->hour += $maxHourOffset < 25 && $minHourOffset < $maxHourOffset ? $maxHourOffset : 24;
 
+        if ($dayStart->timestamp < Carbon::now()->timestamp) {
+            $dayStart = Carbon::now();
+        }
+
         $this->query->where('trips.start_at', '>=', $dayStart)
             ->where('trips.start_at', '<=', $dayEnd);
 

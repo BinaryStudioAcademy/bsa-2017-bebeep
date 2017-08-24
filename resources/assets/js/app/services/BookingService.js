@@ -1,6 +1,9 @@
 import { securedRequest } from 'app/services/RequestService';
 import LangService from './LangService';
 
+export const BOOKING_FILTER_UPCOMING = 'upcoming';
+export const BOOKING_FILTER_PAST = 'past';
+
 const BookingService = {
     getBookings(id) {
         let response;
@@ -61,6 +64,27 @@ const BookingService = {
             errors.seats = LangService.translate('validate.booking.you_can_book_seats' + LangService.getNumberForm(possibleSeats), {seats: possibleSeats})
         }
         return errors;
+    },
+    getBookingsList(filter = BOOKING_FILTER_UPCOMING, page = 1, limit = 10) {
+        return securedRequest.get('/api/v1/bookings/' + (filter !== BOOKING_FILTER_UPCOMING
+                ? BOOKING_FILTER_PAST
+                : BOOKING_FILTER_UPCOMING
+            ), {
+                params: {
+                    page: page > 0 ? page : 1,
+                    limit: limit > 0 ? limit : 10
+                },
+            })
+            .then(
+                response => Promise.resolve(response.data),
+                error => {
+                    if (error.response) {
+                        return Promise.reject(error.response.data)
+                    } else {
+                        return Promise.reject(error);
+                    }
+                }
+            )
     }
 };
 
