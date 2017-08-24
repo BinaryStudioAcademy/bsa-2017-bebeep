@@ -1,20 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { securedRequest } from 'app/services/RequestService';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { deleteVehicle } from '../../actions';
 
 class VehicleItem extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
     onClick(e) {
         e.preventDefault();
 
         const carId = e.target.getAttribute('data-id');
-
-        securedRequest.delete('/api/v1/car/' + carId).then((response) => {
-            console.log(response.data);
-        });
-
-        console.log(carId);
+        this.props.deleteVehicle(carId);
     }
 
     render() {
@@ -41,7 +41,14 @@ class VehicleItem extends React.Component {
 }
 
 VehicleItem.propTypes = {
-    vehicle: PropTypes.object
+    vehicle: PropTypes.object,
+    deleteVehicle: PropTypes.func
 };
 
-export default VehicleItem;
+export default connect(
+    (state) => {
+        return { vehicleState: state.vehicle };
+    },
+    (dispatch) => bindActionCreators({ deleteVehicle }, dispatch)
+
+)(VehicleItem);

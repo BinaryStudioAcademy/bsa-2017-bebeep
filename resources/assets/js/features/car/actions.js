@@ -9,6 +9,13 @@ export function getVehicles() {
     };
 };
 
+export function deleteVehicle(id) {
+    return dispatch => {
+        securedRequest.delete('/api/v1/car/' + id)
+            .then(response => dispatch(vehicleDeleteSuccess({vehicleId: id})));
+    };
+}
+
 export const getAllSuccess = vehicles => ({
     type: actions.VEHICLE_GET_ALL_SUCCESS,
     vehicles
@@ -16,5 +23,10 @@ export const getAllSuccess = vehicles => ({
 
 export const vehicleCreateSuccess = data => ({
     type: actions.VEHICLE_CREATE_SUCCESS,
+    data
+});
+
+export const vehicleDeleteSuccess = data => ({
+    type: actions.VEHICLE_DELETE_SUCCESS,
     data
 });
