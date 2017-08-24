@@ -2,14 +2,14 @@ import React from 'react';
 import {Link} from 'react-router';
 import {localize} from 'react-localize-redux';
 import LangService from 'app/services/LangService';
-import DateService from 'app/services/DateService';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import 'features/search/styles/search-trip-item.scss';
 
 class TripItem extends React.Component {
 
     render() {
         const {trip, translate} = this.props,
-            date = DateService.dateFormat(trip.start_at);
+            date = DateTimeHelper.dateFormat(trip.start_at);
 
         return (
             <Link to={`/trip/${trip.id}`} className="search-trip-item">

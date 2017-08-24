@@ -4,6 +4,9 @@ import BookingService from 'app/services/BookingService';
 import Preloader from 'app/components/Preloader';
 import {Pagination} from 'app/components/Pagination';
 import BookingItem from './BookingItem';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {bookingsGetSuccess} from '../actions'
 import '../styles/bookings-container.scss';
 import CancelBookingModal from "./_Modals/CancelBookingModal";
 
@@ -13,8 +16,6 @@ class BookingsContainer extends React.Component {
         this.state = {
             page: 1,
             limit: 10,
-            data: [],
-            meta: {},
             errors: {},
             preloader: false,
             canceledBooking: null
@@ -31,8 +32,6 @@ class BookingsContainer extends React.Component {
         if (nextProps.filter !== this.props.filter) {
             this.setState({page: 1});
             this.getData(nextProps, Object.assign(this.state, {page: 1}));
-        } else {
-            this.getData(nextProps, this.state);
         }
     }
 
@@ -59,17 +58,16 @@ class BookingsContainer extends React.Component {
     }
 
     getData(props, state) {
-        const { filter } = props,
+        const { filter, bookingsGetSuccess } = props,
             {page, limit} = state;
 
         this.setState({preloader: true});
 
         BookingService.getBookingsList(filter, page, limit)
-            .then(data => this.setState({
-                data: data.data,
-                meta: data.meta,
-                preloader: false
-            }))
+            .then(data => {
+                this.setState({preloader: false});
+                bookingsGetSuccess(data);
+            })
             .catch(error => this.setState({errors: error, preloader: false}));
     }
 
@@ -79,7 +77,8 @@ class BookingsContainer extends React.Component {
     }
 
     render() {
-        const {data, meta, page, limit, preloader} = this.state;
+        const {page, limit, preloader} = this.state,
+            {data, meta} = this.props;
 
         return (
             <div className="bookings-container">
@@ -107,4 +106,10 @@ BookingsContainer.PropTypes = {
     filter: PropTypes.string
 };
 
-export default BookingsContainer;
+export default connect(
+    state => ({
+        data: state.bookings.data,
+        meta: state.bookings.meta
+    }),
+    dispatch => bindActionCreators({bookingsGetSuccess}, dispatch)
+)(BookingsContainer);

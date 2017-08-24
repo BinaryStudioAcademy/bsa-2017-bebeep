@@ -1,12 +1,12 @@
 import React from 'react';
 import {localize} from 'react-localize-redux';
-import DateService from 'app/services/DateService';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import '../styles/booking-item.scss';
 
 class BookingItem extends React.Component {
     render() {
         const {booking, translate} = this.props,
-            date = DateService.dateFormat(booking.start_at_x);
+            date = DateTimeHelper.dateFormat(booking.start_at_x);
 
         return (
             <div className="booking-item row">

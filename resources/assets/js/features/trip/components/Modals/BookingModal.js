@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import BookingService from 'app/services/BookingService';
 import Modal from 'app/components/Modal';
 import SelectItem from './SelectItem';
-import DateService from 'app/services/DateService';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import '../../styles/booking_modal.scss';
 
 class BookingModal extends React.Component {
@@ -73,7 +73,7 @@ class BookingModal extends React.Component {
                     ],
                     seats
                 }).then((data) => {
-                    onSuccess()
+                    onSuccess();
                     this.closeModal();
                 })
                 .catch((error) => this.setState({errors: error.response.data}));
@@ -101,7 +101,7 @@ class BookingModal extends React.Component {
     render() {
         const {isOpenModal, errors, possibleSeats} = this.state,
             {translate, waypoints, price, start_at, maxSeats} = this.props,
-            date = DateService.dateFormat(start_at);
+            date = DateTimeHelper.dateFormat(start_at);
 
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
