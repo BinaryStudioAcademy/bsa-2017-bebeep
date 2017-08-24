@@ -1,6 +1,6 @@
 {
   "trip_booking": {
-    "booking_btn": ["Book it", "Забронювати", "Забронировать"],
+    "booking_btn": ["Go to booking", "Перейти до бронювання", "Перейти к бронированию"],
     "booking": {
       "header": ["Booking trip", "Бронювання подорожі", "Бронирование поездки"],
       "start_trip": ["Begin", "Початок", "Начало"],
