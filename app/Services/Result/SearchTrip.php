@@ -82,9 +82,38 @@ class SearchTrip
         return $result;
     }
 
+    public function getAvailableSeats() : int
+    {
+        /** @var \Illuminate\Support\Collection $routes */
+        $routes = $this->modelTrip->routes->sortBy('id');
+        $fromOffset = 0;
+        $toOffset = 0;
+        $offset = 0;
+
+        foreach ($routes as $route) {
+            if ($route->id == $this->rawTrip->from_id) {
+                $fromOffset = $offset;
+            }
+            if ($route->id == $this->rawTrip->to_id) {
+                $toOffset = $offset;
+                break;
+            }
+            $offset++;
+        }
+
+        $seats = $routes->slice($fromOffset, $toOffset + 1)
+            ->max(function ($route) {
+                return $route->available_seats;
+            });
+
+        return $seats;
+    }
+
     public function __get($name)
     {
-        if ($name === 'routes') {
+        if ($name === 'available_seats') {
+            return $this->getAvailableSeats();
+        } elseif ($name === 'routes') {
             return $this->routes();
         } elseif ($name === 'driver' || $name === 'user') {
             return $this->driver();
