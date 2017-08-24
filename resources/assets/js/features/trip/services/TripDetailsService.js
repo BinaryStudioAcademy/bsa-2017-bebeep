@@ -17,7 +17,6 @@ const EditTripService = {
         ).local().format('llll');
 
         response.trip.price = parseInt(response.trip.price);
-
         response.driver.data.age = moment().diff(response.driver.data.birth_date, 'years');
 
         return response;

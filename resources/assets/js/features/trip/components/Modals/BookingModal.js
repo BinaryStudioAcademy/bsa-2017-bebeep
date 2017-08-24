@@ -9,8 +9,8 @@ import 'features/trip/styles/booking_modal.scss';
 
 class BookingModal extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             isOpenModal: false,
             start: 0,
@@ -127,18 +127,18 @@ class BookingModal extends React.Component {
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
                 <form onSubmit={this.onSubmit} className="booking-modal">
-                    <div className="modal-header">{translate('trip_booking.booking.header')}</div>
+                    <div className="modal-header">{translate('trip_details.booking.header')}</div>
                     <div className="modal-body">
                         <div className="row">
                             <div className="col-sm-6">
                                 <div className="text-muted booking-modal__text">
-                                    {translate('trip_booking.booking.start_trip')}
+                                    {translate('trip_details.booking.start_trip')}
                                 </div>
                                 <b>{this.dateFormat(start_at)}</b>
                             </div>
                             <div className="col-sm-6">
                                 <div className="text-muted booking-modal__text">
-                                    {translate('trip_booking.booking.price_of_trip')}
+                                    {translate('trip_details.booking.price_of_trip')}
                                 </div>
                                 {price} <b>&#8372;</b>
                             </div>
@@ -147,7 +147,7 @@ class BookingModal extends React.Component {
                             <div className="col-sm-4">
                                 <div className={"form-group" + (!!errors.start ? ' has-danger' : '')}>
                                     <label className="form-control-label booking-modal__text">
-                                        {translate('trip_booking.booking.start_point')}
+                                        {translate('trip_details.booking.start_point')}
                                     </label>
                                     <select
                                         name="start_point"
@@ -168,7 +168,7 @@ class BookingModal extends React.Component {
                             <div className="col-sm-4">
                                 <div className={"form-group" + (!!errors.end ? ' has-danger' : '')}>
                                     <label className="form-control-label booking-modal__text">
-                                        {translate('trip_booking.booking.end_point')}
+                                        {translate('trip_details.booking.end_point')}
                                     </label>
                                     <select
                                         name="end_point"
@@ -189,7 +189,7 @@ class BookingModal extends React.Component {
                             <div className="col-sm-4">
                                 <div className={"form-group" + (!!errors.seats ? ' has-danger' : '')}>
                                     <label className="form-control-label booking-modal__text">
-                                        {translate('trip_booking.booking.seats')}
+                                        {translate('trip_details.booking.seats')}
                                     </label>
                                     <input
                                         type="number"
@@ -200,7 +200,7 @@ class BookingModal extends React.Component {
                                         max={maxSeats}
                                         onChange={this.onChangeSeats}
                                     />
-                                    <small className="form-text text-muted">{translate('trip_booking.booking.free_seats', {seats: possibleSeats})}</small>
+                                    <small className="form-text text-muted">{translate('trip_details.booking.free_seats', {seats: possibleSeats})}</small>
                                     <small className="form-control-feedback">{errors.seats}</small>
                                 </div>
                             </div>
@@ -208,9 +208,9 @@ class BookingModal extends React.Component {
                     </div>
                     <div className="modal-footer text-right">
                         <div className="btn btn-danger" role="button" onClick={() => this.closeModal()}>
-                            {translate('trip_booking.booking.cancel')}
+                            {translate('trip_details.booking.cancel')}
                         </div>
-                        <button role="button" className="btn btn-success">{translate('trip_booking.booking.apply')}</button>
+                        <button role="button" className="btn btn-success">{translate('trip_details.booking.apply')}</button>
                     </div>
                 </form>
             </Modal>

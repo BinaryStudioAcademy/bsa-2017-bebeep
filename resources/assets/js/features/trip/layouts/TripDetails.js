@@ -8,7 +8,7 @@ import PageHeader from 'app/components/PageHeader';
 import TripDetailsContainer from '../components/Containers/TripDetailsContainer';
 
 
-export default localize(class TripDetails extends React.Component {
+class TripDetails extends React.Component {
 
     componentWillMount() {
         LangService.addTranslation(lang);
@@ -19,9 +19,11 @@ export default localize(class TripDetails extends React.Component {
 
         return (
             <div>
-                <PageHeader header={translate('trip_details.page_header')}/>
+                <PageHeader header={ translate('trip_details.page_header') }/>
                 <TripDetailsContainer id={ params.id }/>
             </div>
         );
     }
-}, 'locale');
+}
+
+export default localize(TripDetails, 'locale');

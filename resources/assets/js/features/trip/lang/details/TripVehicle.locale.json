@@ -1,6 +1,0 @@
-{
-  "trip_vehicle": {
-    "header": ["Vehicle", "Машина", "Машина"],
-    "color": ["Color", "Колір", "Цвет"]
-  }
-}

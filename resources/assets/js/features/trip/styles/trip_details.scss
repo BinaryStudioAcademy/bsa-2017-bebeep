@@ -4,8 +4,32 @@ $base-color: #6dcff7;
     border: 1px solid #ddd;
 }
 
+.trip-section-header {
+    margin-bottom: 1.5rem;
+    color: #444;
+}
+
 .trip-main-points {
     font-size: 1.4em;
+}
+
+.trip-main-info {
+    font-size: .95em;
+}
+.trip-main-info__label {
+    margin-bottom: .5rem;
+}
+
+.driver-image {
+    max-width: 70px;
+}
+.driver-image__item {
+    border-radius: 50%;
+}
+
+.vehicle-noimage {
+    width: 100px;
+    height: 70px;
 }
 
 .trip-price,
@@ -23,11 +47,12 @@ $base-color: #6dcff7;
     color: #444;
 }
 
-.trip-booking-label {
+.trip-text-label {
+    display: block;
     font-size: .9em;
     color: #888;
 }
-.trip-passengers .trip-booking-label {
+.trip-passengers .trip-text-label {
     font-size: .95em;
 }
 

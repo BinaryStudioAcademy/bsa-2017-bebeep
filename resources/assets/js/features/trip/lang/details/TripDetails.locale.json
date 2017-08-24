@@ -1,5 +1,46 @@
 {
   "trip_details": {
-    "page_header": ["Trip details", "Деталі подорожі", "Детали поездки"]
+    "page_header": ["Trip details", "Деталі подорожі", "Детали поездки"],
+
+    "full_route_link": ["Route", "Маршрут", "Маршрут"],
+    "start_point": ["Start Point", "Адреса відправлення", "Адрес отправления"],
+    "end_point": ["End Point", "Адреса прибуття", "Адрес прибытия"],
+    "start_time": ["Trip start time", "Час початку подорожі", "Время начала поездки"],
+
+    "driver": {
+      "header": ["Driver", "Водій", "Водитель"],
+      "age": ["Age: ${ age }", "Вік: ${ age }", "Возраст: ${ age }"]
+    },
+
+    "vehicle": {
+      "header": ["Vehicle", "Машина", "Машина"],
+      "color": ["Color: ${ color }", "Колір: ${ color }", "Цвет: ${ color }"]
+    },
+
+    "routes_passengers": {
+        "header": ["Route and passengers", "Маршрут і пасажири", "Маршрут и пассажиры"]
+    },
+
+    "booking_main_info": {
+        "price_label": ["per passenger", "з пасажира", "с пассажира"],
+        "places_label": ["free places", "вільні місця", "свободные места"]
+    },
+
+    "passengers_list": {
+        "header": ["Passengers on this trip", "Пасажири в цій поїздці", "Пассажиры в этой поездке"]
+    },
+
+    "booking_btn": ["Go to booking", "Перейти до бронювання", "Перейти к бронированию"],
+    "booking": {
+      "header": ["Booking trip", "Бронювання подорожі", "Бронирование поездки"],
+      "start_trip": ["Begin", "Початок", "Начало"],
+      "price_of_trip": ["Price", "Ціна", "Цена"],
+      "start_point": ["Start point", "Відправлення", "Отправление"],
+      "end_point": ["End point", "Прибуття", "Прибытие"],
+      "seats": ["Seats", "Місць", "Мест"],
+      "free_seats": ["Free seats: ${seats}", "Вільних місць: ${seats}", "Свободных мест: ${seats}"],
+      "apply": ["Apply", "Застосувати", "Применить"],
+      "cancel": ["Cancel", "Відмінити", "Отменить"]
+    }
   }
 }
