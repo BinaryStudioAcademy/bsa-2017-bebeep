@@ -46,7 +46,7 @@ class BookingsContainer extends React.Component {
                 meta: data.meta,
                 preloader: false
             }))
-            .catch(error => this.setState({errors: error}));
+            .catch(error => this.setState({errors: error, preloader: false}));
     }
 
     onChangePage(page) {
