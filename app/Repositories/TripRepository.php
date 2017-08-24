@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Trip;
+use App\Repositories\Helpers\SearchFilter;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class TripRepository extends BaseRepository
@@ -46,5 +47,13 @@ class TripRepository extends BaseRepository
         $trip->restore();
 
         return $trip;
+    }
+
+    /**
+     * @return SearchFilter
+     */
+    public function search() : SearchFilter
+    {
+        return new SearchFilter();
     }
 }

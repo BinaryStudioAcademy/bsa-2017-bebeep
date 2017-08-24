@@ -65,6 +65,7 @@ class ForAuthUser extends React.Component {
 
                     <Link to="/dashboard" className="dropdown-item">{translate('dashboard')}</Link>
                     <Link to="/dashboard/profile" className="dropdown-item">{translate('profile')}</Link>
+                    <Link to="/bookings" className="dropdown-item">{translate('bookings')}</Link>
 
                     <div className="dropdown-divider"></div>
 

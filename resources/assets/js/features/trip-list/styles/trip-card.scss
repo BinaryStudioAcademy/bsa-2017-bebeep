@@ -1,11 +1,9 @@
-.trip-actions .btn {
-    margin-right: 10px;
-}
-
 .trip-item {
     margin-bottom: 30px;
 }
-
+.trip-item .card {
+    height: 100%;
+}
 .deleted-trip .card {
     border-color: #d9534f;
 }

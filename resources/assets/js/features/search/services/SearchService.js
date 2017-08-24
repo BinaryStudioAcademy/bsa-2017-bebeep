@@ -1,14 +1,17 @@
 import { browserHistory } from 'react-router';
 import { simpleRequest } from 'app/services/RequestService';
+import moment from 'moment';
 
 export const search = (
     fromCoord, toCoord, start_at = null, page = 1, sort = 'price', order = 'asc', limit = 10, filter = {}
 ) => {
+    const startDate = start_at !== null ? moment(start_at * 1000).hours(0).minute(0).seconds(0).unix() : null;
+
     return simpleRequest.get('/api/v1/trips/search', {
         params: setFilter(filter, {
             fc: encodeCoord(fromCoord),
             tc: encodeCoord(toCoord),
-            start: start_at,
+            start_at: startDate,
             sort,
             order,
             page,
@@ -30,8 +33,6 @@ export const setFilter = (filter, params = {}) => {
         if (filter[field] instanceof Array) {
             newParams[`filter[${field}][min]`] = filter[field][0];
             newParams[`filter[${field}][max]`] = filter[field][1];
-        } else {
-            newParams[`filter[${field}]`] = filter[field];
         }
     }
     return Object.assign(params, newParams);
@@ -50,8 +51,8 @@ export const getFilter = () => {
     if (+query["filter[time][min]"] >= 0 && +query["filter[time][max]"] > 0) {
         filter['time'] = [+query["filter[time][min]"], +query["filter[time][max]"]];
     }
-    if (+query["filter[date]"] > 0) {
-        filter['date'] = +query["filter[date]"];
+    if (+query["start_at"] > 0) {
+        filter['date'] = +query["start_at"];
     }
     return filter;
 };

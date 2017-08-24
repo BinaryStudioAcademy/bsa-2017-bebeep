@@ -28,6 +28,7 @@
         "Від <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}",
         "От <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}"
       ]
-    }
+    },
+    "trip_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"]
   }
 }

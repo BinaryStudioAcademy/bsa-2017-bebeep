@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Services\Requests\SearchTripRequest as SearchTripRequestInterface;
@@ -29,61 +30,70 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
      */
     public function rules()
     {
-        return [];
+        return [
+            'fc' => 'required|string',
+            'tc' => 'required|string',
+            'start_at' => 'integer',
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getFromLng(): string
-    {
-        $lng = explode('|', $this->get('fc'))[0];
-
-        return $this->get($lng);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFromLat(): string
+    public function getFromLat() : float
     {
         $lat = explode('|', $this->get('fc'))[1];
 
-        return $this->get($lat);
+        return $lat;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getToLng()
+    public function getFromLng() : float
     {
-        $lng = explode('|', $this->get('tc'))[0];
+        $lng = explode('|', $this->get('fc'))[0];
 
-        return $this->get($lng);
+        return $lng;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getToLat()
+    public function getToLat() : float
     {
         $lat = explode('|', $this->get('tc'))[1];
 
-        return $this->get($lat);
+        return $lat;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getTime(): int
+    public function getToLng() : float
     {
-        return(int) $this->get('start');
+        $lng = explode('|', $this->get('tc'))[0];
+
+        return $lng;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getLimit(): int
+    public function getStartAt() : Carbon
+    {
+        $startAt = $this->get('start_at');
+        if ($startAt) {
+            return Carbon::createFromTimestampUTC($startAt);
+        } else {
+            return Carbon::today();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLimit() : int
     {
         return (int) ($this->get('limit') ?? self::DEFAULT_PAGE_LIMIT);
     }
@@ -91,7 +101,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     /**
      * {@inheritdoc}
      */
-    public function getPage(): int
+    public function getPage() : int
     {
         $page = (int) $this->get('page');
 
@@ -101,7 +111,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     /**
      * {@inheritdoc}
      */
-    public function getSort(): string
+    public function getSort() : string
     {
         return $this->get('sort') ?? self::DEFAULT_SORT_FIELD;
     }
@@ -119,7 +129,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     /**
      * {@inheritdoc}
      */
-    public function isAsc(): bool
+    public function isAsc() : bool
     {
         return $this->getOrder() === 'asc';
     }
@@ -127,7 +137,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     /**
      * {@inheritdoc}
      */
-    public function isDesc(): bool
+    public function isDesc() : bool
     {
         return $this->getOrder() === 'desc';
     }
@@ -135,8 +145,56 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     /**
      * {@inheritdoc}
      */
-    public function getFilter(): array
+    public function getFilter() : array
     {
-        return $this->get('filter');
+        return $this->get('filter') ?? [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinTime(): int
+    {
+        if (isset($this->getFilter()['time'])) {
+            return (int) $this->getFilter()['time']['min'] ?? 1;
+        } else {
+            return 1;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMaxTime(): int
+    {
+        if (isset($this->getFilter()['time'])) {
+            return (int) $this->getFilter()['time']['max'] ?? 24;
+        } else {
+            return 24;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMinPrice(): int
+    {
+        if (isset($this->getFilter()['price'])) {
+            return (int) $this->getFilter()['price']['min'] ?? 1;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMaxPrice(): int
+    {
+        if (isset($this->getFilter()['price'])) {
+            return (int) $this->getFilter()['price']['max'] ?? 1;
+        } else {
+            return 0;
+        }
     }
 }
