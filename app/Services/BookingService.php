@@ -5,14 +5,19 @@ namespace App\Services;
 use App\User;
 use App\Models\Trip;
 use App\Models\Booking;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Events\ApprovedBookingCanceled;
 use App\Validators\CancelBookingValidator;
 use App\Validators\CreateBookingValidator;
 use App\Validators\ConfirmBookingValidator;
+use App\Criteria\Bookings\PastBookingCriteria;
 use App\Services\Requests\BookingStatusRequest;
 use App\Services\Requests\CreateBookingRequest;
 use App\Repositories\Contracts\BookingRepository;
+use Prettus\Repository\Contracts\CriteriaInterface;
+use App\Criteria\Bookings\UpcommingBookingCriteria;
 use App\Services\Contracts\BookingService as BookingServiceContract;
 
 class BookingService implements BookingServiceContract
@@ -77,7 +82,7 @@ class BookingService implements BookingServiceContract
      * @param User $user
      * @return Booking
      */
-    public function cancel(Booking $booking, User $user)
+    public function cancel(Booking $booking, User $user) : Booking
     {
         $this->cancelBookingValidator->validate($booking, $user);
 
@@ -98,6 +103,33 @@ class BookingService implements BookingServiceContract
     {
         $booking->status = Booking::STATUS_APPROVED;
         $this->bookingRepository->save($booking);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getList(CriteriaInterface $criteria, int $limit) : LengthAwarePaginator
+    {
+        $this->bookingRepository->pushCriteria($criteria);
+        $result = $this->bookingRepository->paginate($limit);
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPast(User $user) : LengthAwarePaginator
+    {
+        return $this->getList(new PastBookingCriteria($user), 10);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUpcoming(User $user) : LengthAwarePaginator
+    {
+        return $this->getList(new UpcommingBookingCriteria($user), 10);
     }
 
     /**

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Trip;
 use App\Models\Booking;
-use App\Services\BookingService;
+use App\Services\Contracts\BookingService;
+use App\Transformers\Bookings\BookingTransformer;
+use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\BookingStatusRequest;
 use App\Http\Requests\CancelBookingRequest;
@@ -67,5 +69,25 @@ class BookingsController extends Controller
         }
 
         return response()->json($booking);
+    }
+
+    public function upcoming()
+    {
+        $bookings = $this->bookingService->getUpcoming(Auth::user());
+
+        return fractal()
+            ->collection($bookings, new BookingTransformer())
+            ->addMeta([
+                'total' => $bookings->total(),
+                'page' => $bookings->currentPage()
+            ])
+            ->respond();
+    }
+
+    public function past()
+    {
+        $bookings = $this->bookingService->getPast(Auth::user());
+
+        return fractal()->collection($bookings, new BookingTransformer())->respond();
     }
 }
