@@ -61,6 +61,24 @@ const BookingService = {
             errors.seats = LangService.translate('validate.booking.you_can_book_seats' + LangService.getNumberForm(possibleSeats), {seats: possibleSeats})
         }
         return errors;
+    },
+    getBookingsList(filter = 'upcoming', page = 1, limit = 10) {
+        return securedRequest.get('/api/v1/bookings/' + (filter !== 'upcoming' ? 'past' : 'upcoming' ), {
+            params: {
+                page: page > 0 ? page : 1,
+                limit: limit > 0 ? limit : 10
+            },
+        })
+            .then(
+                response => Promise.resolve(response.data),
+                error => {
+                    if (error.response) {
+                        return Promise.reject(error.response.data)
+                    } else {
+                        return Promise.reject(error);
+                    }
+                }
+            )
     }
 };
 

@@ -30,6 +30,8 @@ import DetailTrip from '../features/trip/layouts/DetailTrip';
 
 import SearchResult from '../features/search/layouts/SearchResult';
 
+import BookingsList from '../features/bookings/layouts/BookingsList';
+
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 
 import LangeService from './services/LangService';
@@ -74,6 +76,13 @@ export default (store) => {
                 <Route path="trip">
                     <Route path="create" component={ CreateTrip }/>
                     <Route path="edit/:id" component={ Vehicles /*TripEdit*/ }/>
+                </Route>
+
+                {/* Bookings - upcomming and pasts */}
+                <Redirect from='bookings' to='/bookings/upcoming'/>
+                <Route path="bookings">
+                    <Route path='upcoming' component={ BookingsList } />
+                    <Route path='past' component={ BookingsList } />
                 </Route>
 
                 {/* User dashboard */}
