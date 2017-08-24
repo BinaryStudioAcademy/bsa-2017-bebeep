@@ -1,4 +1,5 @@
 import { securedRequest } from 'app/services/RequestService';
+import { browserHistory } from 'react-router';
 
 const EditVehicleService = {
     getVehicle(id) {
@@ -11,10 +12,13 @@ const EditVehicleService = {
 
     sendUpdatedVehicle(id, data) {
         const tripUrl = '/api/v1/car/' + id;
-        return securedRequest.put(tripUrl, data)
-            .then(
-                response => Promise.resolve(response.data)
-            )
+
+        return securedRequest.put(tripUrl, data).then((response) => {
+            Promise.resolve(response.data);
+            if (response.status === 200) {
+                browserHistory.push('/vehicles');
+            }
+        })
     }
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { VehicleValidate } from 'app/services/VehicleService';
@@ -114,9 +115,9 @@ class CreateVehicle extends React.Component {
         } else {
             securedRequest.post('/api/v1/car', data).then((response) => {
                 this.props.vehicleCreateSuccess(response.data);
-                /*if (response.status === 200) {
-                 browserHistory.push('/vehicles');
-                 }*/
+                if (response.status === 200) {
+                    browserHistory.push('/vehicles');
+                }
             }).catch((error) => {
                 this.setState({
                     errors: error.response.data

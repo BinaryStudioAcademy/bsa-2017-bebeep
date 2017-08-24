@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import { VehicleValidate } from 'app/services/VehicleService';
 import { securedRequest } from 'app/services/RequestService';
 import { VehicleService } from '../../services/VehicleService';
@@ -142,15 +143,7 @@ export default class EditVehicle extends React.Component {
                 errors: validate.errors
             });
         } else {
-            EditVehicleService.sendUpdatedVehicle(this.props.id, data).then((response) => {
-                /*if (response.status === 200) {
-                    browserHistory.push('/vehicles');
-                }*/
-            }).catch((error) => {
-                this.setState({
-                    errors: error.response.data
-                })
-            });
+            EditVehicleService.sendUpdatedVehicle(this.props.id, data);
         }
 
         console.log(this.state.errors);
