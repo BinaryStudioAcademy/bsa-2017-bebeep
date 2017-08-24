@@ -6,6 +6,10 @@
     "pending": ["pending", "очікує", "ожидает"],
     "approved": ["approved", "схвалено", "одобрен"],
     "declined": ["declined", "відсунуто", "отклонен"],
-    "canceled": ["canceled", "відмінено", "отменен"]
+    "canceled": ["canceled", "відмінено", "отменен"],
+    "cancel": ["cancel", "відмінити", "отменить"],
+    "cancel_modal_header": ["Cancel booking", "Відмінити букінг", "Отменить поездку"],
+    "no": ["no", "ні", "нет"],
+    "yes": ["yes", "да", "да"]
   }
 }

@@ -39,6 +39,9 @@ const BookingService = {
                 response => Promise.resolve(response.data)
             )
     },
+    cancelBooking(id) {
+        return securedRequest.delete('/api/v1/bookings/' + id);
+    },
     createBooking(tripId, data) {
         return securedRequest.post('/api/v1/trips/' + tripId + '/bookings', data)
             .then(
