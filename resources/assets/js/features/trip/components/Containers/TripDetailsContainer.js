@@ -42,9 +42,6 @@ class TripDetailsContainer extends React.Component {
             .then(response => {
                 response = TripDetailsService.transformData(response.data);
 
-                response.routes.data[0].busy_seats = 2;
-                response.routes.data[1].busy_seats = 1;
-
                 console.log(response);
 
                 this.setState({
@@ -95,7 +92,7 @@ class TripDetailsContainer extends React.Component {
             );
         }
 
-        console.log( _.sumBy(routes, 'busy_seats') );
+        //console.log(TripDetailsService.getPossibleSeats(trip.seats, routes) );
 
         const startPoint = routes[0].from;
         const endPoint = _.last(routes).to;
@@ -149,7 +146,7 @@ class TripDetailsContainer extends React.Component {
                                 maxSeats={ trip.seats }
                                 waypoints={ routes }
                                 price={ trip.price }
-                                start_at={ 1503774120 * 1000 }
+                                start_at={ trip.start_at_x }
                                 isOpen={ isOpenBookingModal }
                                 onClosed={ this.onBookingClosed }
                                 onSuccess={ this.onBookingSuccess }

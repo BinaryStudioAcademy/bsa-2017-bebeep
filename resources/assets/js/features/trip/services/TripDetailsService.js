@@ -1,8 +1,9 @@
 import moment from 'moment';
+import _ from 'lodash';
 
 import { simpleRequest } from 'app/services/RequestService';
 
-const EditTripService = {
+const TripDetailsService = {
     getDetails(id) {
         return simpleRequest.get(`/api/v1/trips/${id}/detail`)
             .then(
@@ -20,7 +21,13 @@ const EditTripService = {
         response.driver.data.age = moment().diff(response.driver.data.birth_date, 'years');
 
         return response;
+    },
+
+    getPossibleSeats(maxSeats, routes) {
+        const busySeats = _.sumBy(routes, 'busy_seats');
+
+        return maxSeats - busySeats;
     }
 };
 
-export default EditTripService;
+export default TripDetailsService;

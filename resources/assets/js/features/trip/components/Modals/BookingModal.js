@@ -6,6 +6,7 @@ import Modal from 'app/components/Modal';
 import SelectItem from './SelectItem';
 
 import BookingService from 'app/services/BookingService';
+import TripDetailsService from 'features/trip/services/TripDetailsService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import 'features/trip/styles/booking_modal.scss';
@@ -51,17 +52,17 @@ class BookingModal extends React.Component {
     }
 
     validate(iStart, iEnd, seats) {
-        const errors = BookingService.validateBooking(iStart, iEnd, seats, this.getPossibleSeats(iStart, iEnd));
-        this.setState({errors});
-    }
+        const { waypoints, maxSeats } = this.props;
+        const possibleSeats = TripDetailsService.getPossibleSeats(maxSeats, waypoints);
 
-    getPossibleSeats(start, end) {
-        const {waypoints, maxSeats} = this.props,
-            interval = waypoints.slice(start, end + 1),
-            seats = maxSeats - _.reduce(interval, (acc, p) => acc + p.busy_seats, 0),
-            possibleSeats  = seats < 0 ? 0 : seats;
+        const errors = BookingService.validateBooking(
+            iStart,
+            iEnd,
+            seats,
+            possibleSeats
+        );
         this.setState({possibleSeats});
-        return possibleSeats;
+        this.setState({errors});
     }
 
     onSubmit(e) {
@@ -129,7 +130,7 @@ class BookingModal extends React.Component {
                                 <div className="text-muted booking-modal__text">
                                     {translate('trip_details.booking.price_of_trip')}
                                 </div>
-                                {price} <b>&#8372;</b>
+                                <b>$</b> { price }
                             </div>
                         </div>
                         <div className="row">
