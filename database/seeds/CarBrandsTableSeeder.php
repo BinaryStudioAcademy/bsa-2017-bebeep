@@ -4,945 +4,709 @@ use Illuminate\Database\Seeder;
 
 class CarBrandsTableSeeder extends Seeder
 {
-
     /**
-     * Auto generated seed file
+     * Auto generated seed file.
      *
      * @return void
      */
     public function run()
     {
-        
-
         \DB::table('car_brands')->delete();
-        
-        \DB::table('car_brands')->insert(array (
-            0 => 
-            array (
+
+        \DB::table('car_brands')->insert([
+            0 => [
                 'name' => 'AC',
-            ),
-            1 => 
-            array (
+            ],
+            1 => [
                 'name' => 'Acura',
-            ),
-            2 => 
-            array (
+            ],
+            2 => [
                 'name' => 'Alfa Romeo',
-            ),
-            3 => 
-            array (
+            ],
+            3 => [
                 'name' => 'Alpine',
-            ),
-            4 => 
-            array (
+            ],
+            4 => [
                 'name' => 'AM General',
-            ),
-            5 => 
-            array (
+            ],
+            5 => [
                 'name' => 'Ariel',
-            ),
-            6 => 
-            array (
+            ],
+            6 => [
                 'name' => 'Aro',
-            ),
-            7 => 
-            array (
+            ],
+            7 => [
                 'name' => 'Asia',
-            ),
-            8 => 
-            array (
+            ],
+            8 => [
                 'name' => 'Aston Martin',
-            ),
-            9 => 
-            array (
+            ],
+            9 => [
                 'name' => 'Audi',
-            ),
-            10 => 
-            array (
+            ],
+            10 => [
                 'name' => 'Austin',
-            ),
-            11 => 
-            array (
+            ],
+            11 => [
                 'name' => 'Autobianchi',
-            ),
-            12 => 
-            array (
+            ],
+            12 => [
                 'name' => 'Baltijas Dzips',
-            ),
-            13 => 
-            array (
+            ],
+            13 => [
                 'name' => 'Beijing',
-            ),
-            14 => 
-            array (
+            ],
+            14 => [
                 'name' => 'Bentley',
-            ),
-            15 => 
-            array (
+            ],
+            15 => [
                 'name' => 'Bertone',
-            ),
-            16 => 
-            array (
+            ],
+            16 => [
                 'name' => 'Bitter',
-            ),
-            17 => 
-            array (
+            ],
+            17 => [
                 'name' => 'BMW',
-            ),
-            18 => 
-            array (
+            ],
+            18 => [
                 'name' => 'Brabus',
-            ),
-            19 => 
-            array (
+            ],
+            19 => [
                 'name' => 'Brilliance',
-            ),
-            20 => 
-            array (
+            ],
+            20 => [
                 'name' => 'Bristol',
-            ),
-            21 => 
-            array (
+            ],
+            21 => [
                 'name' => 'Bufori',
-            ),
-            22 => 
-            array (
+            ],
+            22 => [
                 'name' => 'Bugatti',
-            ),
-            23 => 
-            array (
+            ],
+            23 => [
                 'name' => 'Buick',
-            ),
-            24 => 
-            array (
+            ],
+            24 => [
                 'name' => 'BYD',
-            ),
-            25 => 
-            array (
+            ],
+            25 => [
                 'name' => 'Byvin',
-            ),
-            26 => 
-            array (
+            ],
+            26 => [
                 'name' => 'Cadillac',
-            ),
-            27 => 
-            array (
+            ],
+            27 => [
                 'name' => 'Callaway',
-            ),
-            28 => 
-            array (
+            ],
+            28 => [
                 'name' => 'Carbodies',
-            ),
-            29 => 
-            array (
+            ],
+            29 => [
                 'name' => 'Caterham',
-            ),
-            30 => 
-            array (
+            ],
+            30 => [
                 'name' => 'Changan',
-            ),
-            31 => 
-            array (
+            ],
+            31 => [
                 'name' => 'ChangFeng',
-            ),
-            32 => 
-            array (
+            ],
+            32 => [
                 'name' => 'Chery',
-            ),
-            33 => 
-            array (
+            ],
+            33 => [
                 'name' => 'Chevrolet',
-            ),
-            34 => 
-            array (
+            ],
+            34 => [
                 'name' => 'Chrysler',
-            ),
-            35 => 
-            array (
+            ],
+            35 => [
                 'name' => 'Citroen',
-            ),
-            36 => 
-            array (
+            ],
+            36 => [
                 'name' => 'Cizeta',
-            ),
-            37 => 
-            array (
+            ],
+            37 => [
                 'name' => 'Coggiola',
-            ),
-            38 => 
-            array (
+            ],
+            38 => [
                 'name' => 'Dacia',
-            ),
-            39 => 
-            array (
+            ],
+            39 => [
                 'name' => 'Dadi',
-            ),
-            40 => 
-            array (
+            ],
+            40 => [
                 'name' => 'Daewoo',
-            ),
-            41 => 
-            array (
+            ],
+            41 => [
                 'name' => 'DAF',
-            ),
-            42 => 
-            array (
+            ],
+            42 => [
                 'name' => 'Daihatsu',
-            ),
-            43 => 
-            array (
+            ],
+            43 => [
                 'name' => 'Daimler',
-            ),
-            44 => 
-            array (
+            ],
+            44 => [
                 'name' => 'Datsun',
-            ),
-            45 => 
-            array (
+            ],
+            45 => [
                 'name' => 'De Tomaso',
-            ),
-            46 => 
-            array (
+            ],
+            46 => [
                 'name' => 'DeLorean',
-            ),
-            47 => 
-            array (
+            ],
+            47 => [
                 'name' => 'Derways',
-            ),
-            48 => 
-            array (
+            ],
+            48 => [
                 'name' => 'Dodge',
-            ),
-            49 => 
-            array (
+            ],
+            49 => [
                 'name' => 'DongFeng',
-            ),
-            50 => 
-            array (
+            ],
+            50 => [
                 'name' => 'Doninvest',
-            ),
-            51 => 
-            array (
+            ],
+            51 => [
                 'name' => 'Donkervoort',
-            ),
-            52 => 
-            array (
+            ],
+            52 => [
                 'name' => 'E-Car',
-            ),
-            53 => 
-            array (
+            ],
+            53 => [
                 'name' => 'Eagle',
-            ),
-            54 => 
-            array (
+            ],
+            54 => [
                 'name' => 'Eagle Cars',
-            ),
-            55 => 
-            array (
+            ],
+            55 => [
                 'name' => 'Ecomotors',
-            ),
-            56 => 
-            array (
+            ],
+            56 => [
                 'name' => 'FAW',
-            ),
-            57 => 
-            array (
+            ],
+            57 => [
                 'name' => 'Ferrari',
-            ),
-            58 => 
-            array (
+            ],
+            58 => [
                 'name' => 'Fiat',
-            ),
-            59 => 
-            array (
+            ],
+            59 => [
                 'name' => 'Fisker',
-            ),
-            60 => 
-            array (
+            ],
+            60 => [
                 'name' => 'Ford',
-            ),
-            61 => 
-            array (
+            ],
+            61 => [
                 'name' => 'Foton',
-            ),
-            62 => 
-            array (
+            ],
+            62 => [
                 'name' => 'FSO',
-            ),
-            63 => 
-            array (
+            ],
+            63 => [
                 'name' => 'Fuqi',
-            ),
-            64 => 
-            array (
+            ],
+            64 => [
                 'name' => 'Geely',
-            ),
-            65 => 
-            array (
+            ],
+            65 => [
                 'name' => 'Geo',
-            ),
-            66 => 
-            array (
+            ],
+            66 => [
                 'name' => 'GMC',
-            ),
-            67 => 
-            array (
+            ],
+            67 => [
                 'name' => 'Gonow',
-            ),
-            68 => 
-            array (
+            ],
+            68 => [
                 'name' => 'Great Wall',
-            ),
-            69 => 
-            array (
+            ],
+            69 => [
                 'name' => 'Hafei',
-            ),
-            70 => 
-            array (
+            ],
+            70 => [
                 'name' => 'Haima',
-            ),
-            71 => 
-            array (
+            ],
+            71 => [
                 'name' => 'Hindustan',
-            ),
-            72 => 
-            array (
+            ],
+            72 => [
                 'name' => 'Holden',
-            ),
-            73 => 
-            array (
+            ],
+            73 => [
                 'name' => 'Honda',
-            ),
-            74 => 
-            array (
+            ],
+            74 => [
                 'name' => 'HuangHai',
-            ),
-            75 => 
-            array (
+            ],
+            75 => [
                 'name' => 'Hummer',
-            ),
-            76 => 
-            array (
+            ],
+            76 => [
                 'name' => 'Hyundai',
-            ),
-            77 => 
-            array (
+            ],
+            77 => [
                 'name' => 'Infiniti',
-            ),
-            78 => 
-            array (
+            ],
+            78 => [
                 'name' => 'Innocenti',
-            ),
-            79 => 
-            array (
+            ],
+            79 => [
                 'name' => 'Invicta',
-            ),
-            80 => 
-            array (
+            ],
+            80 => [
                 'name' => 'Iran Khodro',
-            ),
-            81 => 
-            array (
+            ],
+            81 => [
                 'name' => 'Isdera',
-            ),
-            82 => 
-            array (
+            ],
+            82 => [
                 'name' => 'Isuzu',
-            ),
-            83 => 
-            array (
+            ],
+            83 => [
                 'name' => 'IVECO',
-            ),
-            84 => 
-            array (
+            ],
+            84 => [
                 'name' => 'JAC',
-            ),
-            85 => 
-            array (
+            ],
+            85 => [
                 'name' => 'Jaguar',
-            ),
-            86 => 
-            array (
+            ],
+            86 => [
                 'name' => 'Jeep',
-            ),
-            87 => 
-            array (
+            ],
+            87 => [
                 'name' => 'Jensen',
-            ),
-            88 => 
-            array (
+            ],
+            88 => [
                 'name' => 'JMC',
-            ),
-            89 => 
-            array (
+            ],
+            89 => [
                 'name' => 'Kia',
-            ),
-            90 => 
-            array (
+            ],
+            90 => [
                 'name' => 'Koenigsegg',
-            ),
-            91 => 
-            array (
+            ],
+            91 => [
                 'name' => 'KTM',
-            ),
-            92 => 
-            array (
+            ],
+            92 => [
                 'name' => 'Lamborghini',
-            ),
-            93 => 
-            array (
+            ],
+            93 => [
                 'name' => 'Lancia',
-            ),
-            94 => 
-            array (
+            ],
+            94 => [
                 'name' => 'Land Rover',
-            ),
-            95 => 
-            array (
+            ],
+            95 => [
                 'name' => 'Landwind',
-            ),
-            96 => 
-            array (
+            ],
+            96 => [
                 'name' => 'Lexus',
-            ),
-            97 => 
-            array (
+            ],
+            97 => [
                 'name' => 'Liebao Motor',
-            ),
-            98 => 
-            array (
+            ],
+            98 => [
                 'name' => 'Lifan',
-            ),
-            99 => 
-            array (
+            ],
+            99 => [
                 'name' => 'Lincoln',
-            ),
-            100 => 
-            array (
+            ],
+            100 => [
                 'name' => 'Lotus',
-            ),
-            101 => 
-            array (
+            ],
+            101 => [
                 'name' => 'LTI',
-            ),
-            102 => 
-            array (
+            ],
+            102 => [
                 'name' => 'Luxgen',
-            ),
-            103 => 
-            array (
+            ],
+            103 => [
                 'name' => 'Mahindra',
-            ),
-            104 => 
-            array (
+            ],
+            104 => [
                 'name' => 'Marcos',
-            ),
-            105 => 
-            array (
+            ],
+            105 => [
                 'name' => 'Marlin',
-            ),
-            106 => 
-            array (
+            ],
+            106 => [
                 'name' => 'Marussia',
-            ),
-            107 => 
-            array (
+            ],
+            107 => [
                 'name' => 'Maruti',
-            ),
-            108 => 
-            array (
+            ],
+            108 => [
                 'name' => 'Maserati',
-            ),
-            109 => 
-            array (
+            ],
+            109 => [
                 'name' => 'Maybach',
-            ),
-            110 => 
-            array (
+            ],
+            110 => [
                 'name' => 'Mazda',
-            ),
-            111 => 
-            array (
+            ],
+            111 => [
                 'name' => 'McLaren',
-            ),
-            112 => 
-            array (
+            ],
+            112 => [
                 'name' => 'Mega',
-            ),
-            113 => 
-            array (
+            ],
+            113 => [
                 'name' => 'Mercedes-Benz',
-            ),
-            114 => 
-            array (
+            ],
+            114 => [
                 'name' => 'Mercury',
-            ),
-            115 => 
-            array (
+            ],
+            115 => [
                 'name' => 'Metrocab',
-            ),
-            116 => 
-            array (
+            ],
+            116 => [
                 'name' => 'MG',
-            ),
-            117 => 
-            array (
+            ],
+            117 => [
                 'name' => 'Microcar',
-            ),
-            118 => 
-            array (
+            ],
+            118 => [
                 'name' => 'Minelli',
-            ),
-            119 => 
-            array (
+            ],
+            119 => [
                 'name' => 'MINI',
-            ),
-            120 => 
-            array (
+            ],
+            120 => [
                 'name' => 'Mitsubishi',
-            ),
-            121 => 
-            array (
+            ],
+            121 => [
                 'name' => 'Mitsuoka',
-            ),
-            122 => 
-            array (
+            ],
+            122 => [
                 'name' => 'Morgan',
-            ),
-            123 => 
-            array (
+            ],
+            123 => [
                 'name' => 'Morris',
-            ),
-            124 => 
-            array (
+            ],
+            124 => [
                 'name' => 'Nissan',
-            ),
-            125 => 
-            array (
+            ],
+            125 => [
                 'name' => 'Noble',
-            ),
-            126 => 
-            array (
+            ],
+            126 => [
                 'name' => 'Oldsmobile',
-            ),
-            127 => 
-            array (
+            ],
+            127 => [
                 'name' => 'Opel',
-            ),
-            128 => 
-            array (
+            ],
+            128 => [
                 'name' => 'Osca',
-            ),
-            129 => 
-            array (
+            ],
+            129 => [
                 'name' => 'Pagani',
-            ),
-            130 => 
-            array (
+            ],
+            130 => [
                 'name' => 'Panoz',
-            ),
-            131 => 
-            array (
+            ],
+            131 => [
                 'name' => 'Perodua',
-            ),
-            132 => 
-            array (
+            ],
+            132 => [
                 'name' => 'Peugeot',
-            ),
-            133 => 
-            array (
+            ],
+            133 => [
                 'name' => 'Piaggio',
-            ),
-            134 => 
-            array (
+            ],
+            134 => [
                 'name' => 'Plymouth',
-            ),
-            135 => 
-            array (
+            ],
+            135 => [
                 'name' => 'Pontiac',
-            ),
-            136 => 
-            array (
+            ],
+            136 => [
                 'name' => 'Porsche',
-            ),
-            137 => 
-            array (
+            ],
+            137 => [
                 'name' => 'Premier',
-            ),
-            138 => 
-            array (
+            ],
+            138 => [
                 'name' => 'Proton',
-            ),
-            139 => 
-            array (
+            ],
+            139 => [
                 'name' => 'PUCH',
-            ),
-            140 => 
-            array (
+            ],
+            140 => [
                 'name' => 'Puma',
-            ),
-            141 => 
-            array (
+            ],
+            141 => [
                 'name' => 'Qoros',
-            ),
-            142 => 
-            array (
+            ],
+            142 => [
                 'name' => 'Qvale',
-            ),
-            143 => 
-            array (
+            ],
+            143 => [
                 'name' => 'Reliant',
-            ),
-            144 => 
-            array (
+            ],
+            144 => [
                 'name' => 'Renault',
-            ),
-            145 => 
-            array (
+            ],
+            145 => [
                 'name' => 'Renault Samsung',
-            ),
-            146 => 
-            array (
+            ],
+            146 => [
                 'name' => 'Rolls-Royce',
-            ),
-            147 => 
-            array (
+            ],
+            147 => [
                 'name' => 'Ronart',
-            ),
-            148 => 
-            array (
+            ],
+            148 => [
                 'name' => 'Rover',
-            ),
-            149 => 
-            array (
+            ],
+            149 => [
                 'name' => 'Saab',
-            ),
-            150 => 
-            array (
+            ],
+            150 => [
                 'name' => 'Saleen',
-            ),
-            151 => 
-            array (
+            ],
+            151 => [
                 'name' => 'Santana',
-            ),
-            152 => 
-            array (
+            ],
+            152 => [
                 'name' => 'Saturn',
-            ),
-            153 => 
-            array (
+            ],
+            153 => [
                 'name' => 'Scion',
-            ),
-            154 => 
-            array (
+            ],
+            154 => [
                 'name' => 'SEAT',
-            ),
-            155 => 
-            array (
+            ],
+            155 => [
                 'name' => 'ShuangHuan',
-            ),
-            156 => 
-            array (
+            ],
+            156 => [
                 'name' => 'Skoda',
-            ),
-            157 => 
-            array (
+            ],
+            157 => [
                 'name' => 'Smart',
-            ),
-            158 => 
-            array (
+            ],
+            158 => [
                 'name' => 'Soueast',
-            ),
-            159 => 
-            array (
+            ],
+            159 => [
                 'name' => 'Spectre',
-            ),
-            160 => 
-            array (
+            ],
+            160 => [
                 'name' => 'Spyker',
-            ),
-            161 => 
-            array (
+            ],
+            161 => [
                 'name' => 'SsangYong',
-            ),
-            162 => 
-            array (
+            ],
+            162 => [
                 'name' => 'Subaru',
-            ),
-            163 => 
-            array (
+            ],
+            163 => [
                 'name' => 'Suzuki',
-            ),
-            164 => 
-            array (
+            ],
+            164 => [
                 'name' => 'Talbot',
-            ),
-            165 => 
-            array (
+            ],
+            165 => [
                 'name' => 'TATA',
-            ),
-            166 => 
-            array (
+            ],
+            166 => [
                 'name' => 'Tatra',
-            ),
-            167 => 
-            array (
+            ],
+            167 => [
                 'name' => 'Tazzari',
-            ),
-            168 => 
-            array (
+            ],
+            168 => [
                 'name' => 'Tesla',
-            ),
-            169 => 
-            array (
+            ],
+            169 => [
                 'name' => 'Tianma',
-            ),
-            170 => 
-            array (
+            ],
+            170 => [
                 'name' => 'Tianye',
-            ),
-            171 => 
-            array (
+            ],
+            171 => [
                 'name' => 'Tofas',
-            ),
-            172 => 
-            array (
+            ],
+            172 => [
                 'name' => 'Toyota',
-            ),
-            173 => 
-            array (
+            ],
+            173 => [
                 'name' => 'Trabant',
-            ),
-            174 => 
-            array (
+            ],
+            174 => [
                 'name' => 'Tramontana',
-            ),
-            175 => 
-            array (
+            ],
+            175 => [
                 'name' => 'Triumph',
-            ),
-            176 => 
-            array (
+            ],
+            176 => [
                 'name' => 'TVR',
-            ),
-            177 => 
-            array (
+            ],
+            177 => [
                 'name' => 'Vauxhall',
-            ),
-            178 => 
-            array (
+            ],
+            178 => [
                 'name' => 'Vector',
-            ),
-            179 => 
-            array (
+            ],
+            179 => [
                 'name' => 'Venturi',
-            ),
-            180 => 
-            array (
+            ],
+            180 => [
                 'name' => 'Volkswagen',
-            ),
-            181 => 
-            array (
+            ],
+            181 => [
                 'name' => 'Volvo',
-            ),
-            182 => 
-            array (
+            ],
+            182 => [
                 'name' => 'Vortex',
-            ),
-            183 => 
-            array (
+            ],
+            183 => [
                 'name' => 'Wartburg',
-            ),
-            184 => 
-            array (
+            ],
+            184 => [
                 'name' => 'Westfield',
-            ),
-            185 => 
-            array (
+            ],
+            185 => [
                 'name' => 'Wiesmann',
-            ),
-            186 => 
-            array (
+            ],
+            186 => [
                 'name' => 'Xin Kai',
-            ),
-            187 => 
-            array (
+            ],
+            187 => [
                 'name' => 'Zastava',
-            ),
-            188 => 
-            array (
+            ],
+            188 => [
                 'name' => 'Zotye',
-            ),
-            189 => 
-            array (
+            ],
+            189 => [
                 'name' => 'ZX',
-            ),
-            190 => 
-            array (
+            ],
+            190 => [
                 'name' => 'Ё-мобиль',
-            ),
-            191 => 
-            array (
+            ],
+            191 => [
                 'name' => 'Автокам',
-            ),
-            192 => 
-            array (
+            ],
+            192 => [
                 'name' => 'Астро',
-            ),
-            193 => 
-            array (
+            ],
+            193 => [
                 'name' => 'Бронто',
-            ),
-            194 => 
-            array (
+            ],
+            194 => [
             'name' => 'ВАЗ (Lada)',
-            ),
-            195 => 
-            array (
+            ],
+            195 => [
                 'name' => 'ГАЗ',
-            ),
-            196 => 
-            array (
+            ],
+            196 => [
                 'name' => 'ЗАЗ',
-            ),
-            197 => 
-            array (
+            ],
+            197 => [
                 'name' => 'ЗИЛ',
-            ),
-            198 => 
-            array (
+            ],
+            198 => [
                 'name' => 'ИЖ',
-            ),
-            199 => 
-            array (
+            ],
+            199 => [
                 'name' => 'КамАЗ',
-            ),
-            200 => 
-            array (
+            ],
+            200 => [
                 'name' => 'Канонир',
-            ),
-            201 => 
-            array (
+            ],
+            201 => [
                 'name' => 'ЛуАЗ',
-            ),
-            202 => 
-            array (
+            ],
+            202 => [
                 'name' => 'Москвич',
-            ),
-            203 => 
-            array (
+            ],
+            203 => [
                 'name' => 'СМЗ',
-            ),
-            204 => 
-            array (
+            ],
+            204 => [
                 'name' => 'СеАЗ',
-            ),
-            205 => 
-            array (
+            ],
+            205 => [
                 'name' => 'ТагАЗ',
-            ),
-            206 => 
-            array (
+            ],
+            206 => [
                 'name' => 'УАЗ',
-            ),
-            207 => 
-            array (
+            ],
+            207 => [
                 'name' => 'Ultima',
-            ),
-            208 => 
-            array (
+            ],
+            208 => [
                 'name' => 'Hawtai',
-            ),
-            209 => 
-            array (
+            ],
+            209 => [
                 'name' => 'Renaissance',
-            ),
-            210 => 
-            array (
+            ],
+            210 => [
                 'name' => 'Эксклюзив',
-            ),
-            211 => 
-            array (
+            ],
+            211 => [
                 'name' => 'Gordon',
-            ),
-            212 => 
-            array (
+            ],
+            212 => [
                 'name' => 'Haval',
-            ),
-            213 => 
-            array (
+            ],
+            213 => [
                 'name' => 'Alpina',
-            ),
-            214 => 
-            array (
+            ],
+            214 => [
                 'name' => 'DS',
-            ),
-            215 => 
-            array (
+            ],
+            215 => [
                 'name' => 'PGO',
-            ),
-            216 => 
-            array (
+            ],
+            216 => [
                 'name' => 'Zenvo',
-            ),
-            217 => 
-            array (
+            ],
+            217 => [
                 'name' => 'Rezvani',
-            ),
-            218 => 
-            array (
+            ],
+            218 => [
                 'name' => 'Rimac',
-            ),
-            219 => 
-            array (
+            ],
+            219 => [
                 'name' => 'Adler',
-            ),
-            220 => 
-            array (
+            ],
+            220 => [
                 'name' => 'DeSoto',
-            ),
-            221 => 
-            array (
+            ],
+            221 => [
                 'name' => 'Packard',
-            ),
-            222 => 
-            array (
+            ],
+            222 => [
                 'name' => 'Willys',
-            ),
-            223 => 
-            array (
+            ],
+            223 => [
                 'name' => 'Комбат',
-            ),
-            224 => 
-            array (
+            ],
+            224 => [
                 'name' => 'Borgward',
-            ),
-            225 => 
-            array (
+            ],
+            225 => [
                 'name' => 'Ravon',
-            ),
-            226 => 
-            array (
+            ],
+            226 => [
                 'name' => 'ЗиС',
-            ),
-            227 => 
-            array (
+            ],
+            227 => [
                 'name' => 'AMC',
-            ),
-            228 => 
-            array (
+            ],
+            228 => [
                 'name' => 'Zenos',
-            ),
-            229 => 
-            array (
+            ],
+            229 => [
                 'name' => 'W Motors',
-            ),
-            230 => 
-            array (
+            ],
+            230 => [
                 'name' => 'Hudson',
-            ),
-        ));
-        
-        
+            ],
+        ]);
     }
 }

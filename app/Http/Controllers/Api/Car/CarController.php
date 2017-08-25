@@ -12,7 +12,6 @@ class CarController extends Controller
 {
     private $carService;
 
-
     /**
      * CarController constructor.
      *

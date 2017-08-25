@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Services\Requests\SaveCarRequestInterface as CreateCarRequestInterface;
-use Illuminate\Http\Request;
 
 class SaveCarRequest extends FormRequest implements CreateCarRequestInterface
 {
@@ -26,12 +26,12 @@ class SaveCarRequest extends FormRequest implements CreateCarRequestInterface
     public function rules()
     {
         return [
-            'brand' => "required",
-            'model' => "required",
-            'color' => "required",
-            'body' => "required",
-            'seats' => "required",
-            'year' => "required",
+            'brand' => 'required',
+            'model' => 'required',
+            'color' => 'required',
+            'body' => 'required',
+            'seats' => 'required',
+            'year' => 'required',
         ];
     }
 
@@ -69,6 +69,7 @@ class SaveCarRequest extends FormRequest implements CreateCarRequestInterface
     {
         return $this->get('photo');
     }
+
     public function getUserId(): int
     {
         return $this->user()->id;

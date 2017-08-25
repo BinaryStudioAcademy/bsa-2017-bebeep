@@ -12,6 +12,6 @@ class CarColor extends Model
      * @var array
      */
     protected $fillable = [
-        'color'
+        'color',
     ];
 }

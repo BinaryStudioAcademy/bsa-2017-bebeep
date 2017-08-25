@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
 use App\Models\CarColor;
+use Prettus\Repository\Eloquent\BaseRepository;
 
 class CarColorRepository extends BaseRepository
 {

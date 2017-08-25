@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Services;
 
 use App\Models\Vehicle;
-use App\Repositories\CarRepository;
 use Illuminate\Http\Request;
+use App\Repositories\CarRepository;
 use App\Services\Requests\SaveCarRequestInterface;
 
 class CarService
@@ -57,7 +56,7 @@ class CarService
             'body' => $request->getBody(),
             'seats' => $request->getSeats(),
             'year' => $request->getYear(),
-            'photo' => $request->getPhoto()
+            'photo' => $request->getPhoto(),
         ];
 
         $car = $this->carRepository->updateVehicle(new Vehicle($attributes), $id);

@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 
 class CarColorController extends Controller
 {
-
     private $carColorService;
 
     /**

@@ -12,6 +12,6 @@ class CarModel extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name',
     ];
 }
