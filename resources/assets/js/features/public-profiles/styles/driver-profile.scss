@@ -127,3 +127,27 @@
 .driver-verifications i {
   padding-right: 10px;
 }
+
+/* Driver rating styles */
+
+.rating-marker-outer {
+  width: 35px;
+  line-height: 1;
+}
+
+.rating-marker-inner {
+  height:9px;
+  margin: 5px 0;
+}
+
+.rating-progress-outer {
+  width: 180px;
+}
+.rating-progress-inner {
+  height: 9px;
+  margin:8px 0;
+}
+
+.rating-breakdown-count {
+  margin-left: 10px;
+}
