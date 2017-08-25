@@ -87,15 +87,12 @@ class TripDetailsContainer extends React.Component {
             { translate, id } = this.props;
 
         if (!trip) {
-            return (
-                <div />
-            );
+            return (<div />);
         }
-
-        //console.log(TripDetailsService.getPossibleSeats(trip.seats, routes) );
 
         const startPoint = routes[0].from;
         const endPoint = _.last(routes).to;
+        const possibleSeats = TripDetailsService.getPossibleSeats(trip.seats, routes);
 
         return (
             <div className="row">
@@ -128,7 +125,10 @@ class TripDetailsContainer extends React.Component {
                 <div className="col-md-4">
                     <div className="block-border text-center">
 
-                        <TripBookingMainInfo price={ trip.price } />
+                        <TripBookingMainInfo
+                            price={ trip.price }
+                            possibleSeats={ possibleSeats }
+                        />
                         <TripPassengersList />
 
                         <div className="trip-booking-button-area p-3">

@@ -4,7 +4,7 @@ import { localize } from 'react-localize-redux';
 class TripBookingMainInfo extends React.Component {
 
     render() {
-        const { translate, price } = this.props;
+        const { translate, price, possibleSeats } = this.props;
 
         return (
             <div className="d-flex">
@@ -17,7 +17,7 @@ class TripBookingMainInfo extends React.Component {
                     </span>
                 </div>
                 <div className="trip-places-free px-3 py-2">
-                    <span className="trip-booking-value d-block">2</span>
+                    <span className="trip-booking-value d-block">{ possibleSeats }</span>
                     <span className="trip-text-label">
                         { translate('trip_details.booking_main_info.places_label') }
                     </span>
