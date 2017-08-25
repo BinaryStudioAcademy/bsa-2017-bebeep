@@ -8,6 +8,9 @@ use League\Fractal\TransformerAbstract;
 
 class TripTransformer extends TransformerAbstract
 {
+    /**
+     * @var array
+     */
     protected $availableIncludes = [
         'driver',
         'routes',
@@ -17,10 +20,10 @@ class TripTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @param Trip $trip
+     * @param \App\Services\Result\TripDetail $trip
      * @return array
      */
-    public function transform(TripDetail $trip): array
+    public function transform(TripDetail $trip) : array
     {
         return [
             'trip' => [
@@ -33,16 +36,28 @@ class TripTransformer extends TransformerAbstract
         ];
     }
 
+    /**
+     * @param \App\Services\Result\TripDetail $trip
+     * @return \League\Fractal\Resource\Collection
+     */
     public function includeRoutes(TripDetail $trip)
     {
         return $this->collection($trip->routes, new RouteTransformer());
     }
 
+    /**
+     * @param \App\Services\Result\TripDetail $trip
+     * @return \League\Fractal\Resource\Item
+     */
     public function includeDriver(TripDetail $trip)
     {
-        return $this->item($trip->user, new UserTransformer());
+        return $this->item($trip->user, new UserDriverTransformer());
     }
 
+    /**
+     * @param \App\Services\Result\TripDetail $trip
+     * @return \League\Fractal\Resource\Item
+     */
     public function includeVehicle(TripDetail $trip)
     {
         return $this->item($trip->vehicle, new VehicleTransformer());

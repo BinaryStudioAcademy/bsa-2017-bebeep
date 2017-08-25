@@ -177,7 +177,7 @@ class TripsController extends Controller
 
         return fractal()
             ->item($tripDetail, new DetailTrip\TripTransformer())
-            ->parseIncludes(['driver', 'routes', 'vehicle'])
+            ->parseIncludes(['routes', 'driver', 'vehicle'])
             ->respond();
     }
 }

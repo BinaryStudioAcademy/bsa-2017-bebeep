@@ -2,18 +2,26 @@
 
 namespace App\Transformers\DetailTrip;
 
+use App\Models\Booking;
 use App\Services\Result\RouteDetail;
 use League\Fractal\TransformerAbstract;
 
 class RouteTransformer extends TransformerAbstract
 {
     /**
+     * @var array
+     */
+    protected $defaultIncludes = [
+        'bookings',
+    ];
+
+    /**
      * A Fractal transformer.
      *
-     * @param RouteDetail $route
+     * @param \App\Services\Result\RouteDetail $route
      * @return array
      */
-    public function transform(RouteDetail $route)
+    public function transform(RouteDetail $route) : array
     {
         return [
             'id' => $route->id,
@@ -31,5 +39,14 @@ class RouteTransformer extends TransformerAbstract
             ],
             'busy_seats' => $route->busySeats,
         ];
+    }
+
+    /**
+     * @param \App\Services\Result\RouteDetail $route
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeBookings(RouteDetail $route)
+    {
+        return $this->collection($route->bookings, new BookingTransformer());
     }
 }

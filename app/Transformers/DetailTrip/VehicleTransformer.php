@@ -10,14 +10,15 @@ class VehicleTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
+     * @param \App\Models\Vehicle $vehicle
      * @return array
      */
-    public function transform(Vehicle $vehicle)
+    public function transform(Vehicle $vehicle) : array
     {
         return [
-            'id' => $vehicle['id'],
-            'brand' => $vehicle['brand'],
-            'color' => $vehicle['color'],
+            'id' => $vehicle->id,
+            'brand' => $vehicle->brand,
+            'color' => $vehicle->color,
             'photo' => null,
         ];
     }
