@@ -4,14 +4,14 @@ import DriverBasicInfo from './DriverBasicInfo';
 import DriverRating from './DriverRating';
 import DriverCommentsList from './DriverCommentsList';
 import DriverAbout from './DriverAbout';
-import DriverProfileService from '../services/DriverProfileService';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import "../styles/driver-profile.scss";
 
 class DriverProfile extends React.Component {
 
     getYears() {
-        return DriverProfileService.getTimeFromDate(this.props.profile.birth_date, 'years');
+        return DateTimeHelper.getTimeFromDate(this.props.profile.birth_date, 'years');
     }
 
     render() {

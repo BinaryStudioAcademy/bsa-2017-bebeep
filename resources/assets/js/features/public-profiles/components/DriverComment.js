@@ -1,12 +1,12 @@
 import React from 'react';
 import {localize} from 'react-localize-redux';
-import DriverProfileService from '../services/DriverProfileService';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import "../styles/driver-profile.scss";
 
 class DriverComment extends React.Component {
     getDaysFromComment() {
-        return DriverProfileService.getTimeFromDate(this.props.comment.date, 'days');
+        return DateTimeHelper.getTimeFromDate(this.props.comment.date, 'days');
     }
 
     getStars() {

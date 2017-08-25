@@ -23,8 +23,13 @@ export const dateFormat = (timestamp) => {
     };
 };
 
+export const getTimeFromDate = (date, get) => {
+    return moment().diff(date, get);
+};
+
 const DateTimeHelper = {
-    dateFormat
+    dateFormat,
+    getTimeFromDate
 };
 
 export default DateTimeHelper;
