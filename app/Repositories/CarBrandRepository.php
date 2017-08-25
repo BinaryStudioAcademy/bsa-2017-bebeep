@@ -1,10 +1,9 @@
 <?php
 
-
 namespace App\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
 use App\Models\CarBrand;
+use Prettus\Repository\Eloquent\BaseRepository;
 
 class CarBrandRepository extends BaseRepository
 {

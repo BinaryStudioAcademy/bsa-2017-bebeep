@@ -32,6 +32,7 @@ class IsVehicleOwner
         if ($this->carService->getById($requestId)->user_id !== $request->user()->id) {
             return response()->json(['message' => 'You are not owner vehicle!'], 403);
         }
+
         return $next($request);
     }
 }

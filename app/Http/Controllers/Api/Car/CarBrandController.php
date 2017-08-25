@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 
 class CarBrandController extends Controller
 {
-
     private $carBrandService;
     private $carModelService;
 
@@ -39,8 +38,9 @@ class CarBrandController extends Controller
      * @param $id
      * @return mixed
      */
-    public function getModelByMarkId($id){
-        if ($this->carModelService->getModelByMarkId($id)->count() !== 0){
+    public function getModelByMarkId($id)
+    {
+        if ($this->carModelService->getModelByMarkId($id)->count() !== 0) {
             return $this->carModelService->getModelByMarkId($id);
         } else {
             return response()->json('Not found', 404);
