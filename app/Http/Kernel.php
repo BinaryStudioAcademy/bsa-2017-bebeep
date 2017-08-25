@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\JwtRole;
 use App\Http\Middleware\JwtGuest;
+use App\Http\Middleware\IsVehicleOwner;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -62,5 +63,6 @@ class Kernel extends HttpKernel
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
         'jwt.guest' => JwtGuest::class,
         'jwt.role' => JwtRole::class,
+        'is.vehicle.owner' => IsVehicleOwner::class,
     ];
 }
