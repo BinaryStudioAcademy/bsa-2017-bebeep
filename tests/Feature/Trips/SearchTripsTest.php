@@ -2,9 +2,6 @@
 
 namespace Tests\Feature\Trips;
 
-use App\User;
-use Carbon\Carbon;
-use App\Models\Trip;
 use App\Models\Vehicle;
 
 class SearchTripsTest extends BaseTripTestCase
@@ -17,16 +14,10 @@ class SearchTripsTest extends BaseTripTestCase
         'data' => []
     ];
 
-    public $responseExistData = [['data'=>
-        ['meta' => [
-            'total'=>1,
-            'price'=>[
-                'min' => '350.00',
-                'max' => '350.00',
-        ]]]]];
 
-
-
+    /**
+     * Test to find the right data
+     */
     public function test_search_exist_data()
     {
         $user = $this->getDriverUser();
@@ -65,8 +56,11 @@ class SearchTripsTest extends BaseTripTestCase
         $response->assertSee("\"total\":1");
         $response->assertSee("\"seats\":3");
     }
-
-    public function test_no_exist_data(){
+    
+    /**
+     * Test to find the no right data
+     */
+    public function test_search_no_exist_data(){
         $search = '?fc=30.523400000000038|50.4501&fn=Київ%2C+місто+Київ%2C+Україна&start_at=1503694800&tc=24.029717000000005|49.839683&tn=Львів%2C+Львівська+область%2C+Україна';
         $response = $this->json('GET', self::ENDPOINT.$search);
         $response->assertStatus(200);
