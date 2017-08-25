@@ -1,3 +1,0 @@
-[{"data":
-  [{"driver":{"data":{"age":11,"birth_date":1160265600,"first_name":"Ana","full_name":"Ana Champlin","last_name":"Champlin","photo":null}},"from":{"data":{"id":1,"point":"\u041a\u0438\u0435\u0432","wanted":true}},"id":1,"price":"350.00","routes":{"data":[{"id":1,"point":"\u041a\u0438\u0435\u0432","wanted":true},{"id":1,"point":"\u0425\u0430\u0440\u044c\u043a\u043e\u0432","wanted":true}]},"seats":3,"start_at":1503697996,"start_date":"2017-08-25 21:53:16","to":{"data":{"id":1,"point":"\u0425\u0430\u0440\u044c\u043a\u043e\u0432","wanted":true}}}],
-  "meta":{"price":{"max":"350.00","min":"350.00"},"total":1}}]
