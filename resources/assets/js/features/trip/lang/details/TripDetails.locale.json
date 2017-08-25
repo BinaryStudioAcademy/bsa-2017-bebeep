@@ -18,7 +18,8 @@
     },
 
     "routes_passengers": {
-        "header": ["Route and passengers", "Маршрут і пасажири", "Маршрут и пассажиры"]
+        "header": ["Route and passengers", "Маршрут і пасажири", "Маршрут и пассажиры"],
+        "age_label": ["${ age } y.", "${ age } р.", "${ age } л."]
     },
 
     "booking_main_info": {

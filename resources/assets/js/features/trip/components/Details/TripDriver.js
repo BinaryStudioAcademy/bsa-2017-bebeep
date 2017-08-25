@@ -17,8 +17,8 @@ class TripDriver extends React.Component {
                 </header>
 
                 <div className="d-flex">
-                    <figure className="driver-image mr-4 mb-0">
-                        <img className="driver-image__item"
+                    <figure className="trip-user-image mr-4 mb-0">
+                        <img className="trip-user-image__item"
                             alt={ driver.full_name }
                             src={ getDriverAvatar(driver) }
                         />

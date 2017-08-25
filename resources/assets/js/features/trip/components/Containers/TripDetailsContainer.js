@@ -42,8 +42,6 @@ class TripDetailsContainer extends React.Component {
             .then(response => {
                 response = TripDetailsService.transformData(response.data);
 
-                console.log(response);
-
                 this.setState({
                     trip: response.trip,
                     routes: response.routes.data,
@@ -119,7 +117,7 @@ class TripDetailsContainer extends React.Component {
                         </div>
                     </div>
 
-                    <TripRoutesPassengers />
+                    <TripRoutesPassengers maxSeats={ trip.seats } routes={ routes } />
                 </div>
 
                 <div className="col-md-4">

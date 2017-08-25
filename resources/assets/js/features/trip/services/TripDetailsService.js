@@ -18,9 +18,13 @@ const TripDetailsService = {
         ).local().format('llll');
 
         response.trip.price = parseInt(response.trip.price);
-        response.driver.data.age = moment().diff(response.driver.data.birth_date, 'years');
+        response.driver.data.age = this.getUserAge(response.driver.data);
 
         return response;
+    },
+
+    getUserAge(user) {
+        return moment().diff(user.birth_date, 'years');
     },
 
     getPossibleSeats(maxSeats, routes) {

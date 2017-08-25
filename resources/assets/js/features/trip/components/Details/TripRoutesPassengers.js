@@ -1,10 +1,17 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 
+import TripPassenger from './TripPassenger';
+import TripDetailsService from 'features/trip/services/TripDetailsService';
+
+
 class TripRoutesPassengers extends React.Component {
 
     render() {
-        const { translate } = this.props;
+        const { translate, maxSeats, routes } = this.props;
+
+        console.log(maxSeats);
+        console.log(routes);
 
         return (
             <section className="block-border p-3 mt-4">
@@ -14,40 +21,62 @@ class TripRoutesPassengers extends React.Component {
                     </h3>
                 </header>
 
-                <table className="table table-responsive">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>Driver</th>
-                        <th>Pass 1</th>
-                        <th>Pass 2</th>
-                        <th>Pass 3</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">Київ</th>
-                        <td>+</td>
-                        <td>+</td>
-                        <td>+</td>
-                        <td>+</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Рівне</th>
-                        <td>+</td>
-                        <td>+</td>
-                        <td>+</td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Львів</th>
-                        <td>+</td>
-                        <td>+</td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                </table>
+                <div className="table-responsive">
+                    <table className="table table-bordered trip-routes">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>Driver</th>
+                        {
+                          [...Array(maxSeats)].map((n, i) =>
+                            <th key={i}>Pass {i}</th>
+                          )
+                        }
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {
+                          routes.map((route, i) =>
+                            <tr key={i}>
+                              <th scope="row">
+                                <span className="trip-routes__point">
+                                    { route.from.short_address }
+                                </span>
+
+                              { i === routes.length - 1 &&
+                                <span className="trip-routes__point trip-routes__point--end">
+                                    { route.to.short_address }
+                                </span>
+                              }
+                              </th>
+
+                              <td></td>
+
+                              {
+                                route.bookings.data.map((booking) =>
+                                  [...Array(booking.seats)].map((n, i) =>
+                                     <td key={i}>
+                                        <TripPassenger
+                                            passenger={ booking.user.data }
+                                            age={ TripDetailsService.getUserAge( booking.user.data ) }
+                                        />
+                                    </td>
+                                  )
+                                )
+                              }
+
+                              {
+                                [...Array(maxSeats - route.busy_seats - 1)].map((n, i) =>
+                                  <td key={i}></td>
+                                )
+                              }
+
+                            </tr>
+                          )
+                        }
+                        </tbody>
+                    </table>
+                </div>
             </section>
         )
     }

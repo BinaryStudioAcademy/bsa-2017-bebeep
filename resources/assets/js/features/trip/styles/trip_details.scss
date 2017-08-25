@@ -20,16 +20,43 @@ $base-color: #6dcff7;
     margin-bottom: .5rem;
 }
 
-.driver-image {
+.trip-user-image {
     max-width: 70px;
+    margin: 0 auto 1rem;
 }
-.driver-image__item {
+.trip-user-image--small {
+    max-width: 40px;
+    margin-bottom: .5rem;
+}
+.trip-user-image__item {
     border-radius: 50%;
 }
 
 .vehicle-noimage {
     width: 100px;
     height: 70px;
+}
+
+.trip-routes th {
+    position: relative;
+}
+
+.trip-routes__point {
+    position: relative;
+    top: -2.5rem;
+    font-size: .9em;
+}
+
+.trip-routes__point--end {
+    position: absolute;
+    left: .75rem;
+    bottom: 0;
+    top: inherit;
+}
+
+.trip-route-passenger {
+    font-size: .9em;
+    text-align: center;
 }
 
 .trip-price,
