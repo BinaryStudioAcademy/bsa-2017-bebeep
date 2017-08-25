@@ -10,7 +10,7 @@ class TripBookingMainInfo extends React.Component {
             <div className="d-flex">
                 <div className="trip-price px-3 py-2">
                     <span className="trip-booking-value d-block">
-                        { price } &#8372;
+                        $ { price }
                     </span>
                     <span className="trip-text-label">
                         { translate('trip_details.booking_main_info.price_label') }

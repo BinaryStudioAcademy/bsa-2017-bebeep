@@ -22,7 +22,7 @@ class UserTransformer extends TransformerAbstract
             'full_name' => $user->last_name.' '.$user->first_name,
             'birth_date' => (string) $user->birth_date,
             'birth_date_x' => $user->birth_date->timestamp,
-            'avatar' => $user->getAvatarUrl(),
+            'photo' => $user->getAvatarUrl(),
         ];
     }
 }
