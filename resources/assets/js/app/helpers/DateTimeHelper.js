@@ -23,13 +23,22 @@ export const dateFormat = (timestamp) => {
     };
 };
 
-export const getTimeFromDate = (date, get) => {
-    return moment().diff(date, get);
+export const getTimeFromCommentDate = (date) => {
+    if(moment().diff(date, 'days') > 7) {
+        return moment(date).format('DD MMMM YYYY');
+    } else {
+        return moment().diff(date, 'days');
+    }
+};
+
+export const getUserYearsOld = (date) => {
+    return moment().diff(date, 'years');
 };
 
 const DateTimeHelper = {
     dateFormat,
-    getTimeFromDate
+    getTimeFromCommentDate,
+    getUserYearsOld
 };
 
 export default DateTimeHelper;

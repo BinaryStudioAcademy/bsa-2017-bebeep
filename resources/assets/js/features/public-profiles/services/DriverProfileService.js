@@ -18,7 +18,7 @@ const DriverProfileService = {
                 comments: [
                     {
                         id: 1,
-                        date: '2017-08-19',
+                        date: '2017-08-18',
                         user: 'John Ducky',
                         user_img: 'https://s-media-cache-ak0.pinimg.com/736x/a6/b6/90/a6b69091b0a020ce52af8babd42b9929--hairstyles-for-round-faces-best-hairstyles.jpg',
                         text: 'Great driver!',

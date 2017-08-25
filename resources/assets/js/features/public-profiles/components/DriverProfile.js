@@ -11,7 +11,7 @@ import "../styles/driver-profile.scss";
 class DriverProfile extends React.Component {
 
     getYears() {
-        return DateTimeHelper.getTimeFromDate(this.props.profile.birth_date, 'years');
+        return DateTimeHelper.getUserYearsOld(this.props.profile.birth_date);
     }
 
     render() {

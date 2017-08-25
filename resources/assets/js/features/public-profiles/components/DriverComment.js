@@ -6,7 +6,7 @@ import "../styles/driver-profile.scss";
 
 class DriverComment extends React.Component {
     getDaysFromComment() {
-        return DateTimeHelper.getTimeFromDate(this.props.comment.date, 'days');
+        return DateTimeHelper.getTimeFromCommentDate(this.props.comment.date);
     }
 
     getStars() {
@@ -19,6 +19,7 @@ class DriverComment extends React.Component {
 
     render() {
         const { comment, translate } = this.props;
+        const date = this.getDaysFromComment();
 
         return (
                 <div className="row comment">
@@ -29,7 +30,13 @@ class DriverComment extends React.Component {
                         <div className="card">
                             <div className="card-header">
                                 <strong>{comment.user}</strong>&nbsp;
-                                <span className="text-muted">{translate('driver_public_profile.driver_comment_info', {days: this.getDaysFromComment()})}</span>
+                                <span className="text-muted">
+                                    {(Number.isInteger(date) && date <= 7) ?
+                                        translate('driver_public_profile.driver_comment_info_number', {days: this.getDaysFromComment()})
+                                        :
+                                        translate('driver_public_profile.driver_comment_info_date', {date: this.getDaysFromComment()})
+                                    }
+                                </span>
                                 <span className="pull-right">
                                     {this.getStars()}
                                 </span>
