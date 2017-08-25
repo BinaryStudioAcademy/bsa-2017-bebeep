@@ -126,6 +126,10 @@
     background-position: calc(100% - 15px) 14px;
     -webkit-background-size: 15px 22px;
     background-size: 15px 22px;
+
+    .has-danger & {
+      padding-bottom: $form-select-padding-y - 2px;
+    }
   }
 
   &:after {
@@ -139,4 +143,13 @@
     background-color: $white;
   }
 
+  .has-danger &,
+  &.has-danger {
+    border-bottom-color: $red;
+    border-bottom-width: 2px;
+  }
+  .has-danger &:after,
+  &.has-danger:after {
+    bottom: 2px;
+  }
 }
