@@ -1,0 +1,18 @@
+{
+  "vehicle_form": {
+    "enter_vehicle_details": ["Enter vehicle details", "Заповніть дані про автомобіль", "Заполните данные об автомобиле"],
+    "car_brand": ["Brand", "Бренд", "Бренд"],
+    "car_model": ["Model", "Модель", "Модель"],
+    "car_color": ["Color", "Колір", "Цвет"],
+    "car_body": ["Body", "Кузов", "Кузов"],
+    "car_year": ["Year", "Рік", "Год"],
+    "car_seats": ["Seats", "К-сть місць", "Кол-во мест"],
+    "car_brand_placeholder": ["Select car brand", "Оберіть бренд автомобіля", "Выберите бренд автомобиля"],
+    "car_model_placeholder": ["Please type car model...", "Введіть модель автомобіля...", "Введите модель автомобиля..."],
+    "car_color_placeholder": ["Select car color", "Оберіть колір автомобіля", "Выберите цвет автомобиля"],
+    "car_body_placeholder": ["Select car body", "Оберіть кузов автомобіля", "Выберите кузов автомобиля"],
+    "car_year_placeholder": ["Select car year", "Оберіть рік випуску автомобіля", "Выберите год выпуска автомобиля"],
+    "car_seats_placeholder": ["Select seats count", "Оберіть к-сть місць", "Выберите кол-во мест"],
+    "btn_save": ["Save", "Зберегти", "Сохранить"]
+  }
+}

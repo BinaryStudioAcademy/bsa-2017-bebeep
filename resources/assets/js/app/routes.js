@@ -19,8 +19,9 @@ import {
     ProfilePassword
 } from '../features/user/layouts/Profile';
 
-import Vehicles from '../features/vehicle/layouts/Vehicles';
-import VehicleDetails from '../features/vehicle/layouts/VehicleDetails';
+import Vehicles from '../features/car/layouts/Vehicles';
+import CreateVehicle from '../features/car/layouts/CreateVehicle';
+import EditVehicle from '../features/car/layouts/EditVehicle';
 
 import CreateTrip from '../features/trip/layouts/CreateTrip';
 
@@ -59,12 +60,13 @@ export default (store) => {
             {/* Routes only for auth users */}
             <Route onEnter={ requireAuth }>
 
-                {/* Vehicle creating and show details */}
-                <Route path="vehicles">
-                    <IndexRoute component={ Vehicles }/>
-                    <Route path="create" component={ Vehicles }/>
-                    <Route path=":id" component={ VehicleDetails }/>
-                </Route>
+            {/* Vehicle creating and show details */}
+            <Route path="vehicles">
+                <IndexRoute component={ Vehicles } />
+                <Route path="create" component={ CreateVehicle }/>
+                <Route path="edit/:id" component={ EditVehicle }/>
+                {/*<Route path=":id" component={ VehicleDetails } />*/}
+            </Route>
 
                 {/* Trips - upcoming and past */}
                 <Redirect from='trips' to='/trips/upcoming'/>
