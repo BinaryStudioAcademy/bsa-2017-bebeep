@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {bookingsGetSuccess} from '../actions'
 import '../styles/bookings-container.scss';
+import CancelBookingModal from "./_Modals/CancelBookingModal";
 
 class BookingsContainer extends React.Component {
     constructor() {
@@ -16,7 +17,8 @@ class BookingsContainer extends React.Component {
             page: 1,
             limit: 10,
             errors: {},
-            preloader: false
+            preloader: false,
+            canceledBooking: null
         };
 
         this.onChangePage = this.onChangePage.bind(this);
@@ -31,6 +33,28 @@ class BookingsContainer extends React.Component {
             this.setState({page: 1});
             this.getData(nextProps, Object.assign(this.state, {page: 1}));
         }
+    }
+
+    showCancelBookingModal(booking) {
+        this.setState({
+            canceledBooking: booking
+        });
+    }
+
+    hideCancelBookingModal() {
+        this.setState({
+            canceledBooking: null
+        });
+    }
+
+    cancelBooking() {
+        BookingService.cancelBooking(this.state.canceledBooking.id).then(() => {
+            this.setState({
+                canceledBooking: null
+            });
+
+            this.getData(this.props, this.state);
+        });
     }
 
     getData(props, state) {
@@ -61,7 +85,7 @@ class BookingsContainer extends React.Component {
                 <div className="bookings-container__items">
                     <Preloader enable={preloader} />
                     {data.map(booking => (
-                        <BookingItem key={booking.id} booking={booking} />
+                        <BookingItem key={booking.id} booking={booking} showCancelBookingModal={this.showCancelBookingModal.bind(this)} />
                     ))}
                 </div>
                 <Pagination
@@ -71,6 +95,8 @@ class BookingsContainer extends React.Component {
                     limit={limit}
                     onChangePage={this.onChangePage}
                 />
+
+                <CancelBookingModal isOpen={this.state.canceledBooking} onSubmit={this.cancelBooking.bind(this)} onClose={this.hideCancelBookingModal.bind(this)} />
             </div>
         );
     }
