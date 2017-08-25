@@ -9,7 +9,6 @@ git pull &&
 docker-compose pull &&
 docker-compose run --rm composer install &&
 docker-compose exec -T web php artisan migrate &&
-docker-compose exec -T web php artisan migrate:refresh --seed &&
 docker-compose down &&
 docker-compose run --rm node npm install -q &&
 docker-compose run --rm node npm run prod &&
