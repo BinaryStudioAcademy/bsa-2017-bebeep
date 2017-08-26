@@ -1,9 +1,11 @@
 import React from 'react';
-import {localize} from 'react-localize-redux';
 import Preloader from 'app/components/Preloader';
 import DriverProfile from './DriverProfile';
 import DriverAdditionalInfo from './DriverAdditionalInfo';
-import DriverProfileService from '../services/DriverProfileService';
+import { getProfile } from '../actions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {getTranslate} from 'react-localize-redux';
 
 import "../styles/driver-profile.scss";
 
@@ -12,24 +14,21 @@ class DriverProfileContainer extends React.Component {
         super(props);
 
         this.state = {
-            profile: {},
             preloader: true,
         }
     }
 
     componentDidMount() {
-        const profile = DriverProfileService.getDriverProfile(this.props.id);
+        this.props.getProfile(this.props.id);
         this.setState({
-            profile: profile,
             preloader: false
         });
     }
 
     render() {
-        const { translate } = this.props;
-        const { profile, preloader } = this.state;
+        const { profile, translate } = this.props;
 
-        if (preloader) {
+        if (this.state.preloader) {
             return (
                 <div>
                     <Preloader enable={true}/>
@@ -53,4 +52,10 @@ class DriverProfileContainer extends React.Component {
     }
 }
 
-export default localize(DriverProfileContainer, 'locale');
+export default connect(
+    (state) => ({
+        profile: state.profile.current_driver_profile,
+        translate: getTranslate(state.locale)
+    }),
+    (dispatch) => bindActionCreators({getProfile}, dispatch)
+)(DriverProfileContainer);

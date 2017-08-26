@@ -1,10 +1,13 @@
+import * as actions from './actionTypes';
 import { securedRequest } from 'app/services/RequestService';
-import moment from 'moment';
 
-const DriverProfileService = {
-    getDriverProfile(id) {
-        let response;
-        return response = {
+export const getProfileSuccess = profile => ({
+    type: actions.GET_DRIVER_PROFILE,
+    profile
+});
+
+export const getProfile = (id) => dispatch => {
+        let response = {
                 first_name: 'Andrey',
                 last_name: 'Tondrev',
                 birth_date: '1995-11-12',
@@ -28,18 +31,18 @@ const DriverProfileService = {
                         id: 2,
                         date: '2017-08-22',
                         user: 'Kevin Prince',
-                        user_img: 'http://static4.businessinsider.com/image/55b0ead86da811bc52309d7f-100-100/ben-gilbert.jpg',
+                        user_img: null,
                         text: 'Nice and safety, thanks!',
                         rating: 5
                     }
                 ]
             };
-        /*return securedRequest.get('/api/v1/driver/' + id)
-            .then(
-                response => Promise.resolve(response.data),
-                error => Promise.reject(error.response.data)
-            );*/
-    }
-};
+        dispatch(getProfileSuccess(response));
 
-export default DriverProfileService;
+        /*return securedRequest.get('/api/v1/driver/' + id)
+         .then(response => {
+            response =  Promise.resolve(response.data);
+            dispatch(getProfileSuccess(response.data))
+         });*/
+
+};
