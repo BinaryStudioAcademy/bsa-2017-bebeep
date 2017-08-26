@@ -5,11 +5,9 @@ class TripMainPoints extends React.Component {
 
     render() {
         const { translate, startPoint, endPoint } = this.props;
-        //translate('trip_details.full_route_link')
 
         return (
-            <div className="trip-main-points">
-                <i className="trip-detail-icon fa fa-road mr-2" aria-hidden="true" />
+            <div className="trip-main-points mt-3 mb-4 ml-3">
                 <span className="trip-start-point">
                     { startPoint }
                 </span>
@@ -17,6 +15,10 @@ class TripMainPoints extends React.Component {
                 <span className="trip-end-point">
                     { endPoint }
                 </span>
+                <a href="#" className="trip-main-points__route-map-link ml-3">
+                    <i className="trip-detail-icon fa fa-road mr-2" aria-hidden="true" />
+                    { translate('trip_details.route_map_link') }
+                </a>
             </div>
         )
     }

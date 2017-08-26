@@ -7,7 +7,7 @@ class TripMainInfo extends React.Component {
         const { translate, startPoint, endPoint, startAt } = this.props;
 
         return (
-            <dl className="row trip-main-info mt-4">
+            <dl className="row trip-main-info">
                 <dt className="trip-main-info__label col-sm-3">
                     { translate('trip_details.start_point') }
                 </dt>

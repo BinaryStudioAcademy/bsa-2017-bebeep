@@ -16,7 +16,10 @@ $base-color: #6dcff7;
 }
 
 .trip-main-points {
-    font-size: 1.4em;
+    font-size: 1.3em;
+}
+.trip-main-points__route-map-link {
+    font-size: .8em;
 }
 
 .trip-main-info {
@@ -67,6 +70,10 @@ $base-color: #6dcff7;
 .vehicle-noimage {
     width: 100px;
     height: 70px;
+}
+
+.driver-info__link {
+    color: inherit;
 }
 
 .trip-routes {

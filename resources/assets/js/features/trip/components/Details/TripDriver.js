@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { localize } from 'react-localize-redux';
 
 import { getDriverAvatar } from 'app/services/PhotoService';
+
 
 class TripDriver extends React.Component {
 
@@ -17,17 +19,19 @@ class TripDriver extends React.Component {
                 </header>
 
                 <div className="d-flex">
-                    <figure className="trip-user-image mr-4 mb-0">
-                        <img className="trip-user-image__item"
-                            alt={ driver.full_name }
-                            src={ getDriverAvatar(driver) }
-                        />
-                    </figure>
+                    <Link to={"/driver/" + driver.id}>
+                        <figure className="trip-user-image mr-4 mb-0">
+                            <img className="trip-user-image__item"
+                                alt={ driver.full_name }
+                                src={ getDriverAvatar(driver) }
+                            />
+                        </figure>
+                    </Link>
 
                     <div className="driver-info">
-                        <span className="d-block">
+                        <Link to={"/driver/" + driver.id} className="driver-info__link">
                             <strong>{ driver.full_name }</strong>
-                        </span>
+                        </Link>
                         <span className="trip-text-label driver-age mt-2">
                             { translate('trip_details.driver.age', {age: driver.age}) }
                         </span>

@@ -6,7 +6,6 @@ import _ from 'lodash';
 import UserTooltip from 'app/components/Tooltips/UserTooltip';
 
 import { getPassengerAvatar } from 'app/services/PhotoService';
-import TripDetailsService from 'features/trip/services/TripDetailsService';
 
 
 class TripPassengersCurrent extends React.Component {
@@ -24,8 +23,6 @@ class TripPassengersCurrent extends React.Component {
             return [...Array(booking.seats)].map((n, i) => {
                 i = i + passenger.id;
 
-                passenger.age = TripDetailsService.getUserAge( passenger );
-
                 return <li className="trip-passenger__item" key={i}>
                     <Link to="#" id={"PassengerCurrentTooltip-" + i}>
                         <img className="trip-passenger"
@@ -33,10 +30,7 @@ class TripPassengersCurrent extends React.Component {
                             src={ getPassengerAvatar(passenger) }
                         />
                     </Link>
-                    <UserTooltip
-                        user={ passenger }
-                        target={"PassengerCurrentTooltip-" + i }
-                    />
+                    <UserTooltip user={ passenger } target={"PassengerCurrentTooltip-" + i } />
                 </li>
             });
         });

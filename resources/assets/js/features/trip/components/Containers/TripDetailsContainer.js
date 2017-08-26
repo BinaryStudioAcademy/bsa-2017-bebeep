@@ -18,6 +18,7 @@ import {
 
 import 'features/trip/styles/trip_details.scss';
 
+
 class TripDetailsContainer extends React.Component {
 
     constructor(props) {
@@ -40,8 +41,6 @@ class TripDetailsContainer extends React.Component {
     componentDidMount() {
         TripDetailsService.getDetails(this.props.id)
             .then(response => {
-                response = TripDetailsService.transformData(response.data);
-
                 this.setState({
                     trip: response.trip,
                     routes: response.routes.data,
@@ -94,13 +93,14 @@ class TripDetailsContainer extends React.Component {
 
         return (
             <div className="row">
+                <div className="col-12">
+                    <TripMainPoints
+                        startPoint={ startPoint.short_address }
+                        endPoint={ endPoint.short_address }
+                    />
+                </div>
                 <div className="col-md-8">
                     <div className="block-border p-3">
-                        <TripMainPoints
-                            startPoint={ startPoint.short_address }
-                            endPoint={ endPoint.short_address }
-                        />
-
                         <TripMainInfo
                             startPoint={ startPoint.address }
                             endPoint={ endPoint.address }

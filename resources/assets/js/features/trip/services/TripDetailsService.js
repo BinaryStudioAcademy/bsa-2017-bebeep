@@ -1,13 +1,14 @@
 import moment from 'moment';
 import _ from 'lodash';
 
+import UserService from 'features/user/services/UserService';
 import { simpleRequest } from 'app/services/RequestService';
 
 const TripDetailsService = {
     getDetails(id) {
         return simpleRequest.get(`/api/v1/trips/${id}/detail`)
             .then(
-                response => Promise.resolve(response.data),
+                response => Promise.resolve(this.transformData(response.data.data)),
                 error => Promise.reject(error.response.data)
             );
     },
@@ -18,13 +19,21 @@ const TripDetailsService = {
         ).local().format('llll');
 
         response.trip.price = parseInt(response.trip.price);
-        response.driver.data.age = this.getUserAge(response.driver.data);
+        this.setUsersAge(response);
 
         return response;
     },
 
-    getUserAge(user) {
-        return moment().diff(user.birth_date, 'years');
+    setUsersAge(data) {
+        data.driver.data.age = UserService.getAge(data.driver.data);
+
+        data.routes.data.map((route) => {
+            route.bookings.data = route.bookings.data.map((booking) => {
+                booking.user.data.age = UserService.getAge(booking.user.data);
+                return booking;
+            });
+            return route;
+        });
     },
 
     getPossibleSeats(maxSeats, routes) {

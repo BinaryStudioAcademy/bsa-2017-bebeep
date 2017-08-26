@@ -1,6 +1,11 @@
 import { simpleRequest, securedRequest } from 'app/services/RequestService';
+import moment from 'moment';
 
 const UserService = {
+
+    getAge(user) {
+        return moment().diff(user.birth_date, 'years');
+    },
 
     getProfileGeneral() {
         return securedRequest.get('/api/user/profile')

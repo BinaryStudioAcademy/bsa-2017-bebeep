@@ -4,8 +4,6 @@ import { localize } from 'react-localize-redux';
 import TripRouteUser from './TripRouteUser';
 import { DriverIcon, SeatIcon } from './Icons';
 
-import TripDetailsService from 'features/trip/services/TripDetailsService';
-
 
 class TripRoutesPassengers extends React.Component {
 
@@ -65,7 +63,6 @@ class TripRoutesPassengers extends React.Component {
                                     type="driver"
                                     uniqueKey={ `${route.id}-${driver.id}-d` }
                                     user={ driver }
-                                    age={ TripDetailsService.getUserAge( driver ) }
                                 />
                               }
                               </td>
@@ -81,7 +78,6 @@ class TripRoutesPassengers extends React.Component {
                                             type="passenger"
                                             uniqueKey={ uniqueKey }
                                             user={ passenger }
-                                            age={ TripDetailsService.getUserAge(passenger) }
                                         />
                                     </td>
                                   })
