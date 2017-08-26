@@ -4,7 +4,7 @@ import TripDriver from './TripDriver';
 import TripVehicle from './TripVehicle';
 import TripRoutesPassengers from './TripRoutesPassengers';
 import TripBookingMainInfo from './TripBookingMainInfo';
-import TripPassengersList from './TripPassengersList';
+import TripPassengersCurrent from './TripPassengersCurrent';
 
 export {
     TripMainPoints,
@@ -13,5 +13,5 @@ export {
     TripVehicle,
     TripRoutesPassengers,
     TripBookingMainInfo,
-    TripPassengersList,
+    TripPassengersCurrent,
 };

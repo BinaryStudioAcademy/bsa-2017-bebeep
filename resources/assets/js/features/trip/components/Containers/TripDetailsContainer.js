@@ -13,7 +13,7 @@ import {
     TripVehicle,
     TripRoutesPassengers,
     TripBookingMainInfo,
-    TripPassengersList
+    TripPassengersCurrent
 } from '../Details';
 
 import 'features/trip/styles/trip_details.scss';
@@ -131,7 +131,10 @@ class TripDetailsContainer extends React.Component {
                             price={ trip.price }
                             possibleSeats={ possibleSeats }
                         />
-                        <TripPassengersList />
+                        <TripPassengersCurrent
+                            maxSeats={ trip.seats }
+                            bookings={ routes[0].bookings.data }
+                        />
 
                         <div className="trip-booking-button-area p-3">
                             <button
