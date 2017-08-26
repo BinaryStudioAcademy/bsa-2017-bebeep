@@ -12,7 +12,7 @@ class TripMainInfo extends React.Component {
                     { translate('trip_details.start_point') }
                 </dt>
                 <dd className="trip-main-info__value col-sm-9">
-                    <span className="trip-start-point-address">
+                    <span className="trip-start-point-address trip-point-icon">
                         { startPoint }
                     </span>
                 </dd>
@@ -21,7 +21,7 @@ class TripMainInfo extends React.Component {
                     { translate('trip_details.end_point') }
                 </dt>
                 <dd className="trip-main-info__value col-sm-9">
-                    <span className="trip-end-point-address">
+                    <span className="trip-end-point-address trip-point-icon trip-point-icon--end">
                         { endPoint }
                     </span>
                 </dd>
@@ -30,7 +30,8 @@ class TripMainInfo extends React.Component {
                     { translate('trip_details.start_time') }
                 </dt>
                 <dd className="trip-main-info__value col-sm-9">
-                    <p className="trip-date-start-at">{ startAt }</p>
+                    <i className="trip-detail-icon fa fa-calendar mr-2" aria-hidden="true" />
+                    <span className="trip-date-start-at">{ startAt }</span>
                 </dd>
             </dl>
         )

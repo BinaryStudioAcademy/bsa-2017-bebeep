@@ -117,7 +117,11 @@ class TripDetailsContainer extends React.Component {
                         </div>
                     </div>
 
-                    <TripRoutesPassengers maxSeats={ trip.seats } routes={ routes } />
+                    <TripRoutesPassengers
+                        maxSeats={ trip.seats }
+                        driver={ driver }
+                        routes={ routes }
+                    />
                 </div>
 
                 <div className="col-md-4">

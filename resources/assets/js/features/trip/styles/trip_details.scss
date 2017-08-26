@@ -1,5 +1,11 @@
 $base-color: #6dcff7;
 
+.trip-detail-icon.fa {
+    vertical-align: middle;
+    font-size: 1.5em;
+    color: $base-color;
+}
+
 .block-border {
     border: 1px solid #ddd;
 }
@@ -19,10 +25,36 @@ $base-color: #6dcff7;
 .trip-main-info__label {
     margin-bottom: .5rem;
 }
+.trip-main-info__value {
+    margin-bottom: 1rem;
+}
+
+.trip-point-icon:before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: .5rem;
+    vertical-align: top;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 3px solid $base-color;
+}
+
+.trip-point-icon--waypoint:before {
+    border-width: 2px;
+    border-style: dashed;
+}
+
+.trip-point-icon--end:before {
+    background-color: lighten($base-color, 10%);
+}
 
 .trip-user-image {
     max-width: 70px;
-    margin: 0 auto 1rem;
+}
+.trip-route-passenger .trip-user-image {
+    margin: 0 auto .5rem;
 }
 .trip-user-image--small {
     max-width: 40px;
@@ -37,25 +69,83 @@ $base-color: #6dcff7;
     height: 70px;
 }
 
+.trip-routes {
+    font-size: .8em;
+    border-bottom: 1px solid #eceeef;
+}
+.trip-routes thead th:not(:first-child),
+.trip-routes tbody td {
+    border-left: 1px solid #eceeef;
+}
+
+.trip-routes tbody th {
+    width: 16%;
+    max-width: 60px;
+}
+.trip-routes tbody td {
+    width: 9%;
+    max-width: 40px;
+}
 .trip-routes th {
+    padding: .5rem;
+    text-align: center;
     position: relative;
+}
+.trip-routes td:first-of-type {
+    border-top: none;
+    border-bottom: none;
+}
+
+.trip-routes__head-icon {
+    width: 30px;
+    height: 30px;
+    margin: auto;
 }
 
 .trip-routes__point {
+    display: block;
+    width: 100%;
+    height: 100px;
+    text-align: left;
     position: relative;
-    top: -2.5rem;
-    font-size: .9em;
+    top: -30px;
+}
+.trip-routes__point--end {
+    height: auto;
+    position: absolute;
+    bottom: 3px;
+    top: inherit;
+    left: inherit;
 }
 
-.trip-routes__point--end {
+.trip-routes__point:before {
+    width: 24px;
+    height: 24px;
     position: absolute;
-    left: .75rem;
-    bottom: 0;
-    top: inherit;
+    left: 1px;
+    top: -2px;
+    z-index: 2;
+}
+
+.trip-routes__point:not(.trip-routes__point--end):after {
+    content: '';
+    display: block;
+    width: 2px;
+    height: 100%;
+    background-color: $base-color;
+    position: absolute;
+    left: 12px;
+}
+
+.trip-routes__point-info {
+    margin-left: 2rem;
+}
+
+.trip-routes__driver-cell {
+    background-color: lighten($base-color, 26%);
 }
 
 .trip-route-passenger {
-    font-size: .9em;
     text-align: center;
 }
 

@@ -1,17 +1,16 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 
-import TripPassenger from './TripPassenger';
+import TripRoutePerson from './TripRoutePerson';
+import { DriverIcon, SeatIcon } from './Icons';
+
 import TripDetailsService from 'features/trip/services/TripDetailsService';
 
 
 class TripRoutesPassengers extends React.Component {
 
     render() {
-        const { translate, maxSeats, routes } = this.props;
-
-        console.log(maxSeats);
-        console.log(routes);
+        const { translate, maxSeats, routes, driver } = this.props;
 
         return (
             <section className="block-border p-3 mt-4">
@@ -22,14 +21,22 @@ class TripRoutesPassengers extends React.Component {
                 </header>
 
                 <div className="table-responsive">
-                    <table className="table table-bordered trip-routes">
+                    <table className="table trip-routes">
                         <thead>
                           <tr>
-                            <th></th>
-                            <th>Driver</th>
+                            <th />
+                            <th>
+                                <div className="trip-routes__head-icon">
+                                    <DriverIcon />
+                                </div>
+                            </th>
                         {
                           [...Array(maxSeats)].map((n, i) =>
-                            <th key={i}>Pass {i}</th>
+                            <th key={i}>
+                                <div className="trip-routes__head-icon">
+                                    <SeatIcon />
+                                </div>
+                            </th>
                           )
                         }
                           </tr>
@@ -39,25 +46,40 @@ class TripRoutesPassengers extends React.Component {
                           routes.map((route, i) =>
                             <tr key={i}>
                               <th scope="row">
-                                <span className="trip-routes__point">
-                                    { route.from.short_address }
+                                <span className={"trip-routes__point trip-point-icon" +
+                                    (i !== 0 ? ' trip-point-icon--waypoint' : '')
+                                }>
+                                    <span className="trip-routes__point-info">
+                                        { route.from.short_address }
+                                    </span>
                                 </span>
 
                               { i === routes.length - 1 &&
-                                <span className="trip-routes__point trip-routes__point--end">
-                                    { route.to.short_address }
+                                <span className="trip-routes__point trip-routes__point--end trip-point-icon trip-point-icon--end">
+                                    <span className="trip-routes__point-info">
+                                        { route.to.short_address }
+                                    </span>
                                 </span>
                               }
                               </th>
 
-                              <td></td>
+                              <td className="trip-routes__driver-cell">
+                              { i === 0 &&
+                                <TripRoutePerson
+                                    type="driver"
+                                    person={ driver }
+                                    age={ TripDetailsService.getUserAge( driver ) }
+                                />
+                              }
+                              </td>
 
                               {
                                 route.bookings.data.map((booking) =>
                                   [...Array(booking.seats)].map((n, i) =>
                                      <td key={i}>
-                                        <TripPassenger
-                                            passenger={ booking.user.data }
+                                        <TripRoutePerson
+                                            type="passenger"
+                                            person={ booking.user.data }
                                             age={ TripDetailsService.getUserAge( booking.user.data ) }
                                         />
                                     </td>
