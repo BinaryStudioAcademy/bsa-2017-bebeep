@@ -13,5 +13,12 @@
   "go_to_home_page": ["Go to Home page", "Перейти на домашню сторінку", "Перейти на главную страницу"],
   "tomorrow": ["Tomorrow - ${time}", "Завтра - ${time}", "Завтра - ${time}"],
   "today": ["Today - ${time}", "Сьогодні - ${time}", "Сегодня - ${time}"],
-  "bookings": ["Bookings", "Замовлення", "Заказы"]
+  "bookings": ["Bookings", "Замовлення", "Заказы"],
+  "datepicker": {
+    "today": [
+      "Today",
+      "Сьогодні",
+      "Сегодня"
+    ]
+  }
 }

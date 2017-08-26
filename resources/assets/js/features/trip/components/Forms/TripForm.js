@@ -5,11 +5,15 @@ import LangService from 'app/services/LangService';
 import * as lang from '../../lang/TripForm.locale.json';
 import Waypoints from "./Waypoints";
 import Input from 'app/components/Input';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {getVehicles} from "../../../car/actions";
 
 class TripForm extends React.Component {
 
     componentWillMount() {
         LangService.addTranslation(lang);
+        this.props.getVehicles();
     }
 
     render() {
@@ -27,9 +31,13 @@ class TripForm extends React.Component {
                             {translate('trip_form.select_car')}
                         </label>
                         <div className="col-sm-8">
-                            <select name="vehicle_id" className="form-control" id="vehicle_id">
-                                <option value="1">BMW X5</option>
-                            </select>
+                            {this.props.vehicles.length > 0 &&
+                                <select defaultValue={this.props.trip ? this.props.trip.vehicle_id : ''} name="vehicle_id" className="form-control" id="vehicle_id">
+                                    {this.props.vehicles.map((vehicle) =>
+                                        <option key={vehicle.id} value={vehicle.id}>{vehicle.brand}</option>
+                                    )}
+                                </select>
+                            }
                             <div className="form-control-feedback">{errors.vehicle_id}</div>
                         </div>
                     </div>
@@ -97,4 +105,11 @@ class TripForm extends React.Component {
     }
 }
 
-export default localize(TripForm, 'locale');
+const TripFormConnected = connect(
+    state => ({
+        vehicles: state.vehicle.vehicles,
+    }),
+    (dispatch) => bindActionCreators({getVehicles}, dispatch)
+)(TripForm);
+
+export default localize(TripFormConnected, 'locale');

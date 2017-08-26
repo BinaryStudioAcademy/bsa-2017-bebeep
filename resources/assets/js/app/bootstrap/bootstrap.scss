@@ -1,2 +1,22 @@
+@import "_mixins.scss";
+@include font-face(Helvetica, "../fonts/HelveticaUltraLight/HelveticaUltraLight", 100, normal, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaUltraLightItalic/HelveticaUltraLightItalic", 100, italic, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaThin/HelveticaThin", 200, normal, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaThinItalic/HelveticaThinItalic", 200, italic, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaLight/HelveticaLight", 300, normal, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaLightItalic/HelveticaLightItalic", 300, italic, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaRegular/HelveticaRegular", 400, normal, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaItalic/HelveticaItalic", 400, italic, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaMedium/HelveticaMedium", 500, normal, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaMediumItaicl/HelveticaMediumItaicl", 500, italic, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaBold/HelveticaBold", 600, normal, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaBoldItalic/HelveticaBoldItalic", 600, italic, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaHeavy/HelveticaHeavy", 700, normal, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaHeavyItalic/HelveticaHeavyItalic", 700, italic, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaBlack/HelveticaBlack", 800, normal, eot ttf woff);
+@include font-face(Helvetica, "../fonts/HelveticaBlackItalic/HelveticaBlackItalic", 800, italic, eot ttf woff);
+
 @import "./variables";
 @import "~bootstrap/scss/bootstrap";
+@import "./buttons";
+@import "./inputs";
