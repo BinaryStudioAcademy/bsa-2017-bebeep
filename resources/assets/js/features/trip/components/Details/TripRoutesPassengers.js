@@ -26,16 +26,12 @@ class TripRoutesPassengers extends React.Component {
                           <tr>
                             <th />
                             <th>
-                                <div className="trip-routes__head-icon">
-                                    <DriverIcon />
-                                </div>
+                                <DriverIcon className="trip-routes__head-icon" />
                             </th>
                         {
                           [...Array(maxSeats)].map((n, i) =>
                             <th key={i}>
-                                <div className="trip-routes__head-icon">
-                                    <SeatIcon />
-                                </div>
+                                <SeatIcon className="trip-routes__head-icon" />
                             </th>
                           )
                         }

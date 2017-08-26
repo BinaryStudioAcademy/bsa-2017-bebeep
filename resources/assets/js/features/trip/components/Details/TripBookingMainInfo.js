@@ -1,6 +1,8 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 
+import { SeatIcon } from './Icons';
+
 class TripBookingMainInfo extends React.Component {
 
     render() {
@@ -17,7 +19,10 @@ class TripBookingMainInfo extends React.Component {
                     </span>
                 </div>
                 <div className="trip-places-free px-3 py-2">
-                    <span className="trip-booking-value d-block">{ possibleSeats }</span>
+                    <div className="d-flex justify-content-center align-items-center">
+                        <span className="trip-booking-value">{ possibleSeats }</span>
+                        <SeatIcon className="trip-places-free__icon" />
+                    </div>
                     <span className="trip-text-label">
                         { translate('trip_details.booking_main_info.places_label') }
                     </span>
