@@ -32,9 +32,9 @@ class DriverComment extends React.Component {
                                 <strong>{comment.user}</strong>&nbsp;
                                 <span className="text-muted">
                                     {(Number.isInteger(date) && date <= 7) ?
-                                        translate('driver_public_profile.driver_comment_info_number', {days: this.getDaysFromComment()})
+                                        translate('driver_public_profile.driver_comment_info_number', {days: date})
                                         :
-                                        translate('driver_public_profile.driver_comment_info_date', {date: this.getDaysFromComment()})
+                                        translate('driver_public_profile.driver_comment_info_date', {date: date})
                                     }
                                 </span>
                                 <span className="pull-right">
