@@ -1,22 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { localize } from 'react-localize-redux';
-import { UncontrolledTooltip } from 'reactstrap';
 import _ from 'lodash';
+
+import UserTooltip from 'app/components/Tooltips/UserTooltip';
 
 import { getPassengerAvatar } from 'app/services/PhotoService';
 import TripDetailsService from 'features/trip/services/TripDetailsService';
 
 
 class TripPassengersCurrent extends React.Component {
-
-    getPassengerTooltip(passenger) {
-        const age = this.props.translate(
-            'trip_details.routes_passengers.age_label',
-            { age: TripDetailsService.getUserAge( passenger ) }
-        );
-
-        return `${passenger.full_name} (${age})`;
-    }
 
     renderPassengers() {
         const { bookings } = this.props;
@@ -30,20 +23,20 @@ class TripPassengersCurrent extends React.Component {
 
             return [...Array(booking.seats)].map((n, i) => {
                 i = i + passenger.id;
+
+                passenger.age = TripDetailsService.getUserAge( passenger );
+
                 return <li className="trip-passenger__item" key={i}>
-                    <a href="#" id={"PassengerAvatarTooltip-" + i}>
+                    <Link to="#" id={"PassengerCurrentTooltip-" + i}>
                         <img className="trip-passenger"
                             alt={ passenger.full_name }
                             src={ getPassengerAvatar(passenger) }
                         />
-                    </a>
-                    <UncontrolledTooltip
-                        target={"PassengerAvatarTooltip-" + i }
-                        placement="top"
-                        delay={{ show: 250, hide: 50 }}
-                    >
-                        { this.getPassengerTooltip(passenger) }
-                    </UncontrolledTooltip>
+                    </Link>
+                    <UserTooltip
+                        user={ passenger }
+                        target={"PassengerCurrentTooltip-" + i }
+                    />
                 </li>
             });
         });

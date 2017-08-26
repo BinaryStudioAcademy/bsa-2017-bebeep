@@ -1,7 +1,7 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 
-import TripRoutePerson from './TripRoutePerson';
+import TripRouteUser from './TripRouteUser';
 import { DriverIcon, SeatIcon } from './Icons';
 
 import TripDetailsService from 'features/trip/services/TripDetailsService';
@@ -61,9 +61,10 @@ class TripRoutesPassengers extends React.Component {
 
                               <td className="trip-routes__driver-cell">
                               { i === 0 &&
-                                <TripRoutePerson
+                                <TripRouteUser
                                     type="driver"
-                                    person={ driver }
+                                    uniqueKey={ `${route.id}-${driver.id}-d` }
+                                    user={ driver }
                                     age={ TripDetailsService.getUserAge( driver ) }
                                 />
                               }
@@ -71,15 +72,19 @@ class TripRoutesPassengers extends React.Component {
 
                               {
                                 route.bookings.data.map((booking) =>
-                                  [...Array(booking.seats)].map((n, i) =>
-                                     <td key={i}>
-                                        <TripRoutePerson
+                                  [...Array(booking.seats)].map((n, i) => {
+                                    const passenger = booking.user.data;
+                                    const uniqueKey = `${route.id}-${passenger.id}-${i}`;
+
+                                    return <td key={ uniqueKey }>
+                                        <TripRouteUser
                                             type="passenger"
-                                            person={ booking.user.data }
-                                            age={ TripDetailsService.getUserAge( booking.user.data ) }
+                                            uniqueKey={ uniqueKey }
+                                            user={ passenger }
+                                            age={ TripDetailsService.getUserAge(passenger) }
                                         />
                                     </td>
-                                  )
+                                  })
                                 )
                               }
 
