@@ -65,22 +65,39 @@ class SearchTripsTest extends BaseTripTestCase
         $response->assertJsonFragment($this->responseNoExistData);
     }
 
+    /**
+     * Test to find the right data and filters
+     */
     public function test_search_filter_time_is_right(){
         $response = $this->create_trip();
 
         $response->assertStatus(200);
         $startAt = Carbon::now()->addHour(1)->timestamp;
-        $hour = Carbon::now()->addHour(3)->hour;
-        $search = '?fc=30.523400000000038|50.4501&start_at='.$startAt.'&tc=36.230383000000074|49.9935&sort=price&order=asc&page=1&limit=10&filter[price][min]=0&filter[price][max]=350&filter[time][min]='.$hour.'&filter[time][max]=24';
+        $search = '?fc=30.523400000000038|50.4501&start_at='.$startAt.'&tc=36.230383000000074|49.9935&sort=price&order=asc&page=1&limit=10&filter[price][min]=0&filter[price][max]=400&filter[time][min]=1&filter[time][max]=24';
         $response = $this->json('GET', self::ENDPOINT.$search);
         $response->assertStatus(200);
-//        dd($response);
         $response->assertSee("350.00");
         $response->assertSee("\"total\":1");
         $response->assertSee("\"seats\":3");
-
     }
 
+    /**
+     * Test to find the right data and filters
+     */
+    public function test_search_filter_price_is_no_right(){
+        $response = $this->create_trip();
+
+        $response->assertStatus(200);
+        $startAt = Carbon::now()->addHour(1)->timestamp;
+        $search = '?fc=30.523400000000038|50.4501&start_at='.$startAt.'&tc=36.230383000000074|49.9935&sort=price&order=asc&page=1&limit=10&filter[price][min]=360&filter[price][max]=360&filter[time][min]=1&filter[time][max]=24';
+        $response = $this->json('GET', self::ENDPOINT.$search);
+        $response->assertStatus(200);
+        $response->assertJsonFragment($this->responseNoExistData);
+    }
+
+    /**
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
     private function create_trip(){
         $user = $this->getDriverUser();
 
