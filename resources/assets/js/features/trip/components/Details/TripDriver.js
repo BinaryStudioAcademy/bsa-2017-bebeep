@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { localize } from 'react-localize-redux';
 
-import { getDriverAvatar } from 'app/services/PhotoService';
+import TripUserImage from './TripUserImage';
 
 
 class TripDriver extends React.Component {
@@ -19,14 +19,11 @@ class TripDriver extends React.Component {
                 </header>
 
                 <div className="d-flex">
-                    <Link to={"/driver/" + driver.id}>
-                        <figure className="trip-user-image mr-4 mb-0">
-                            <img className="trip-user-image__item"
-                                alt={ driver.full_name }
-                                src={ getDriverAvatar(driver) }
-                            />
-                        </figure>
-                    </Link>
+                    <TripUserImage
+                        user={ driver }
+                        type="driver"
+                        className="trip-user-image mr-4 mb-0"
+                    />
 
                     <div className="driver-info">
                         <Link to={"/driver/" + driver.id} className="driver-info__link">

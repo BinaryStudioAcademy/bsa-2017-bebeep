@@ -63,6 +63,9 @@ $base-color: #6dcff7;
     max-width: 40px;
     margin-bottom: .5rem;
 }
+.trip-passenger-item .trip-user-image--small {
+    margin-bottom: 0;
+}
 .trip-user-image__item {
     border-radius: 50%;
 }
@@ -180,18 +183,15 @@ $base-color: #6dcff7;
     font-size: .95em;
 }
 
-.trip-passenger__item {
+.trip-passenger-item {
     margin: .5rem .25rem;
 }
 
-.trip-passenger {
+.trip-passenger-item__free {
+    display: block;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-}
-
-.trip-passenger--free {
-    display: block;
     border: 2px dashed #ddd;
 }
 

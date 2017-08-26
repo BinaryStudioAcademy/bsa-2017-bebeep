@@ -1,11 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { localize } from 'react-localize-redux';
 import _ from 'lodash';
 
+import TripUserImage from './TripUserImage';
 import UserTooltip from 'app/components/Tooltips/UserTooltip';
-
-import { getPassengerAvatar } from 'app/services/PhotoService';
 
 
 class TripPassengersCurrent extends React.Component {
@@ -23,13 +21,13 @@ class TripPassengersCurrent extends React.Component {
             return [...Array(booking.seats)].map((n, i) => {
                 i = i + passenger.id;
 
-                return <li className="trip-passenger__item" key={i}>
-                    <Link to="#" id={"PassengerCurrentTooltip-" + i}>
-                        <img className="trip-passenger"
-                            alt={ passenger.full_name }
-                            src={ getPassengerAvatar(passenger) }
-                        />
-                    </Link>
+                return <li className="trip-passenger-item" key={i}>
+                    <TripUserImage
+                        user={ passenger }
+                        type="passenger"
+                        id={"PassengerCurrentTooltip-" + i}
+                        className="trip-user-image trip-user-image--small"
+                    />
                     <UserTooltip user={ passenger } target={"PassengerCurrentTooltip-" + i } />
                 </li>
             });
@@ -41,8 +39,8 @@ class TripPassengersCurrent extends React.Component {
         const busy = 3;
 
         return [...Array(maxSeats - busy)].map((n, i) =>
-            <li className="trip-passenger__item" key={i}>
-                <span className="trip-passenger trip-passenger--free" />
+            <li className="trip-passenger-item" key={i}>
+                <span className="trip-passenger-item__free" />
             </li>
         );
     }
