@@ -2,7 +2,7 @@ import React from 'react';
 import { localize } from 'react-localize-redux';
 
 import LangService from 'app/services/LangService';
-import * as lang from '../lang/details/TripDetails.locale.json';
+import * as lang from '../lang/TripDetails.locale.json';
 
 import PageHeader from 'app/components/PageHeader';
 import TripDetailsContainer from '../components/Containers/TripDetailsContainer';
