@@ -7,7 +7,6 @@ import SelectItem from './SelectItem';
 
 import BookingService from 'app/services/BookingService';
 import TripDetailsService from 'features/trip/services/TripDetailsService';
-import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import 'features/trip/styles/booking_modal.scss';
 
@@ -105,8 +104,7 @@ class BookingModal extends React.Component {
 
     render() {
         const {isOpenModal, errors, possibleSeats} = this.state,
-            {translate, waypoints, price, start_at, maxSeats} = this.props,
-            date = DateTimeHelper.dateFormat(start_at);
+            {translate, waypoints, price, startAt, maxSeats} = this.props;
 
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
@@ -115,25 +113,19 @@ class BookingModal extends React.Component {
                     <div className="modal-body">
                         <div className="row">
                             <div className="col-sm-6">
-                                <div className="text-muted booking-modal__text">
-                                    {translate('trip_details.booking.start_trip')}
-                                </div>
-                                <b>{
-                                    date.date === 'today'
-                                        ? translate('today', {time: date.time})
-                                        : date.date === 'tomorrow'
-                                            ? translate('tomorrow', {time: date.time})
-                                            : `${date.date} - ${date.time}`
-                                }</b>
+                                <span className="text-muted booking-modal__text mr-2">
+                                    {translate('trip_details.booking.start_trip')}:
+                                </span>
+                                <b>{ startAt }</b>
                             </div>
                             <div className="col-sm-6">
-                                <div className="text-muted booking-modal__text">
-                                    {translate('trip_details.booking.price_of_trip')}
-                                </div>
+                                <span className="text-muted booking-modal__text mr-2">
+                                    {translate('trip_details.booking.price_of_trip')}:
+                                </span>
                                 <b>$</b> { price }
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mt-4">
                             <div className="col-sm-4">
                                 <div className={"form-group" + (!!errors.start ? ' has-danger' : '')}>
                                     <label className="form-control-label booking-modal__text">
@@ -211,7 +203,7 @@ class BookingModal extends React.Component {
 BookingModal.PropTypes = {
     waypoints: PropTypes.array.required,
     price: PropTypes.number.required,
-    start_at: PropTypes.number.required,
+    startAt: PropTypes.string.required,
     maxSeats: PropTypes.number.required,
     tripId: PropTypes.number.required,
     isOpen: PropTypes.bool.required,

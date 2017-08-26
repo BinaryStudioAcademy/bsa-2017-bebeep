@@ -4,6 +4,7 @@ import { localize } from 'react-localize-redux';
 import _ from 'lodash';
 
 import TripDetailsService from 'features/trip/services/TripDetailsService';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import BookingModal from '../Modals/BookingModal';
 import {
@@ -47,6 +48,7 @@ class TripDetailsContainer extends React.Component {
                     driver: response.driver.data,
                     vehicle: response.vehicle.data,
                 });
+                this.formatStartAt();
             })
             .catch(error => {
                 this.setState({
@@ -56,6 +58,24 @@ class TripDetailsContainer extends React.Component {
                     vehicle: null,
                 });
             });
+    }
+
+    formatStartAt() {
+        const trip = this.state.trip;
+        let startAt = DateTimeHelper.dateFormat(trip.start_at_x);
+
+        startAt = startAt.date === 'today'
+            ? translate('today', {time: startAt.time})
+            : startAt.date === 'tomorrow'
+                ? translate('tomorrow', {time: startAt.time})
+                : `${startAt.date} - ${startAt.time}`;
+
+        this.setState({
+            trip: {
+                ...trip,
+                start_at_format: startAt,
+            },
+        });
     }
 
     onBookingBtnClick() {
@@ -104,7 +124,7 @@ class TripDetailsContainer extends React.Component {
                         <TripMainInfo
                             startPoint={ startPoint.address }
                             endPoint={ endPoint.address }
-                            startAt={ trip.start_at }
+                            startAt={ trip.start_at_format }
                         />
 
                         <div className="row mt-4">
@@ -145,20 +165,20 @@ class TripDetailsContainer extends React.Component {
                             >
                                 { translate('trip_details.booking_btn') }
                             </button>
-
-                            <BookingModal
-                                tripId={ id }
-                                maxSeats={ trip.seats }
-                                waypoints={ routes }
-                                price={ trip.price }
-                                start_at={ trip.start_at_x }
-                                isOpen={ isOpenBookingModal }
-                                onClosed={ this.onBookingClosed }
-                                onSuccess={ this.onBookingSuccess }
-                            />
                         </div>
                     </div>
                 </div>
+
+                <BookingModal
+                    tripId={ id }
+                    maxSeats={ trip.seats }
+                    waypoints={ routes }
+                    price={ trip.price }
+                    startAt={ trip.start_at_format }
+                    isOpen={ isOpenBookingModal }
+                    onClosed={ this.onBookingClosed }
+                    onSuccess={ this.onBookingSuccess }
+                />
             </div>
         );
     }
