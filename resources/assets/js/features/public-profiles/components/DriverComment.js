@@ -28,8 +28,8 @@ class DriverComment extends React.Component {
                         <img className="img-responsive user-photo" src={comment.user_img ? comment.user_img : defaultUserPhoto}/>
                     </div>
                     <div className="col-sm-10">
-                        <div className="card">
-                            <div className="card-header">
+                        <div className="card card-comment">
+                            <div className="card-header comment-header">
                                 <strong>{comment.user}</strong>&nbsp;
                                 <span className="text-muted">
                                     {(Number.isInteger(date) && date <= 7) ?

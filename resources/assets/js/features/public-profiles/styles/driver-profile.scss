@@ -60,10 +60,10 @@
   padding: 20px;
 }
 
-.card {
+.card-comment {
   position:relative;
 }
-.card>.card-header:after,.card>.card-header:before{
+.card>.comment-header:after,.card>.comment-header:before{
   position:absolute;
   top:14px;
   left:-16px;
@@ -77,14 +77,14 @@
   pointer-events:none;
 }
 
-.card>.card-header:after{
+.card>.comment-header:after{
   border-width:7px;
   border-right-color:#f7f7f7;
   margin-top:1px;
   margin-left:2px;
 }
 
-.card>.card-header:before{
+.card>.comment-header:before{
   border-right-color:#ddd;
   border-width:8px;
 }

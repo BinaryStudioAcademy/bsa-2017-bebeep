@@ -26,7 +26,6 @@ class DriverRating extends React.Component {
                             <div className="pull-left rating-progress-outer">
                                 <div className="progress rating-progress-inner">
                                     <div className="progress-bar bg-success" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" style={{width:'100%'}}>
-                                        <span className="sr-only">80% Complete (danger)</span>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +38,6 @@ class DriverRating extends React.Component {
                             <div className="pull-left rating-progress-outer">
                                 <div className="progress rating-progress-inner">
                                     <div className="progress-bar bg-primary" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" style={{width:'100%'}}>
-                                        <span className="sr-only">80% Complete (danger)</span>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +50,6 @@ class DriverRating extends React.Component {
                             <div className="pull-left rating-progress-outer">
                                 <div className="progress rating-progress-inner">
                                     <div className="progress-bar bg-info" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" style={{width:'60%'}}>
-                                        <span className="sr-only">80% Complete (danger)</span>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +62,6 @@ class DriverRating extends React.Component {
                             <div className="pull-left rating-progress-outer">
                                 <div className="progress rating-progress-inner">
                                     <div className="progress-bar bg-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" style={{width:'40%'}}>
-                                        <span className="sr-only">80% Complete (danger)</span>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +74,6 @@ class DriverRating extends React.Component {
                             <div className="pull-left rating-progress-outer">
                                 <div className="progress rating-progress-inner">
                                     <div className="progress-bar bg-danger" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" style={{width:'20%'}}>
-                                        <span className="sr-only">80% Complete (danger)</span>
                                     </div>
                                 </div>
                             </div>

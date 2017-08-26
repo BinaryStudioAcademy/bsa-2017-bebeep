@@ -5,14 +5,13 @@ import DriverAdditionalInfo from './DriverAdditionalInfo';
 import { getProfile } from '../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {getTranslate} from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 
 import "../styles/driver-profile.scss";
 
 class DriverProfileContainer extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             preloader: true,
         }
