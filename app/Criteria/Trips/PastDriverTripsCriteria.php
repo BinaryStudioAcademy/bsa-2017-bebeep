@@ -2,9 +2,9 @@
 
 namespace App\Criteria\Trips;
 
-use App\Models\Booking;
 use App\User;
 use Carbon\Carbon;
+use App\Models\Booking;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 

@@ -10,7 +10,7 @@ class DriverTripTransformer extends TransformerAbstract
     protected $availableIncludes = [
         'routes',
         'vehicle',
-        'bookings'
+        'bookings',
     ];
 
     public function transform(Trip $trip): array
