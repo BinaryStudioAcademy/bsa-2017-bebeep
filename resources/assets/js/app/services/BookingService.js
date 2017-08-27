@@ -4,36 +4,16 @@ import LangService from './LangService';
 export const BOOKING_FILTER_UPCOMING = 'upcoming';
 export const BOOKING_FILTER_PAST = 'past';
 
+export const BOOKING_STATUS_DECLINED = 'declined';
+export const BOOKING_STATUS_APPROVED = 'approved';
+export const BOOKING_STATUS_PENDING = 'pending';
+export const BOOKING_STATUS_CANCELED = 'canceled';
+
 const BookingService = {
-    getBookings(id) {
-        let response;
-        return response = [
-            {
-                booking_id: 1,
-                first_name: 'Misha',
-                last_name: 'Markelov',
-                img: 'https://pickaface.net/assets/images/slides/slide4.png'
-            },{
-                booking_id: 2,
-                first_name: 'Steve',
-                last_name: 'Jobs',
-                img: 'https://pickaface.net/assets/images/slides/slide2.png'
-            },{
-                booking_id: 3,
-                first_name: 'Angela',
-                last_name: 'Minoy',
-                img: 'https://pickaface.net/assets/images/slides/slide1.png'
-            }
-        ];
-        /*return securedRequest.get('/api/v1/trips/' + id + '/bookings')
-            .then(
-                response => Promise.resolve(response.data),
-                error => Promise.reject(error.response.data)
-            );*/
-    },
+
     getBookingsCount(data) {
         if (!data) return null;
-        return data.length;
+        return _.reduce(data, (count, booking) => booking.status === BOOKING_STATUS_PENDING ? count + 1 : count, 0);
     },
     updateBookingStatus(trip_id, booking_id, data) {
         const url = '/api/v1/trips/' + trip_id + '/bookings/' + booking_id + '/status';

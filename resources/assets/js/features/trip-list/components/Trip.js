@@ -21,19 +21,8 @@ class Trip extends React.Component {
             deletable: this.props.deletable,
             editable: this.props.editable,
             isDeleted: false,
-            bookings: [],
-            bookingsCount: 0,
             modalIsOpen: false
         };
-    }
-
-    componentDidMount() {
-        const bookings = BookingService.getBookings(this.props.trip.id);
-        const count = BookingService.getBookingsCount(bookings);
-        this.setState({
-            bookings: bookings,
-            bookingsCount: count
-        });
     }
 
     onClick() {
@@ -47,19 +36,19 @@ class Trip extends React.Component {
     }
 
     getStartPlace() {
-        if (!this.props.trip.routes.length) {
+        if (!this.props.trip.routes.data.length) {
             return null;
         }
 
-        return this.props.trip.routes[0].from;
+        return this.props.trip.routes.data[0].from;
     }
 
     getEndPlace() {
-        if (!this.props.trip.routes.length > 0) {
+        if (!this.props.trip.routes.data.length > 0) {
             return null;
         }
 
-        return this.props.trip.routes[this.props.trip.routes.length - 1].to;
+        return this.props.trip.routes.data[this.props.trip.routes.data.length - 1].to;
     }
 
     deleteSelf() {
@@ -88,9 +77,10 @@ class Trip extends React.Component {
         const startPlace = this.getStartPlace();
         const endPlace = this.getEndPlace();
         const startDate = this.getStartDate();
-        const waypoints = getWaypointsFromRoutes(this.props.trip.routes);
-        const bookingCount = this.state.bookingsCount;
-        const { bookings, modalIsOpen } = this.state;
+        const waypoints = getWaypointsFromRoutes(this.props.trip.routes.data);
+        const { modalIsOpen } = this.state;
+        const bookings = this.props.trip.bookings.data;
+        const bookingCount = BookingService.getBookingsCount(bookings);
 
         return (
             <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
@@ -106,7 +96,7 @@ class Trip extends React.Component {
                     >
                         <div className="card-block">
                             <div className="card-text">
-                                <span className="text-muted"><strong>{translate('trip_list.car')}:</strong> {this.props.trip.vehicle.brand}</span><br/>
+                                <span className="text-muted"><strong>{translate('trip_list.car')}:</strong> {this.props.trip.vehicle.data.brand}</span><br/>
                                 <span className="text-muted"><strong>{translate('trip_list.price')}:</strong> ${this.props.trip.price}</span><br/>
                                 <span className="text-muted"><strong>{translate('trip_list.seats')}:</strong> {this.props.trip.seats}</span><br/>
                             </div>
@@ -125,8 +115,11 @@ class Trip extends React.Component {
                     </DirectionsMap>
                 ) : (<span>&nbsp;</span>)}
 
-                <BookingModal bookings={ bookings } count={ bookingCount } tripId={ this.props.trip.id } isOpen={ modalIsOpen }
-                             onClosed={ () => this.state.modalIsOpen = false } />
+                <BookingModal bookings={ bookings }
+                              count={ bookingCount }
+                              tripId={ this.props.trip.id }
+                              isOpen={ modalIsOpen }
+                              onClosed={ () => this.state.modalIsOpen = false } />
             </div>
         )
     }

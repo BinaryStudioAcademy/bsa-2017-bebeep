@@ -1,8 +1,11 @@
 import React from 'react';
 import BookingInfo from '../BookingInfo';
-import { localize } from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
 import Modal from 'app/components/Modal';
-import BookingService from 'app/services/BookingService';
+import BookingService, {BOOKING_STATUS_DECLINED, BOOKING_STATUS_APPROVED} from 'app/services/BookingService';
 
 import '../../styles/booking-info.scss';
 
@@ -38,8 +41,6 @@ class BookingModal extends React.Component {
         const { modalIsOpen } = this.state;
         const { translate, bookings, tripId, count } = this.props;
         const onClosed = this.props.onClosed || (() => {});
-        const approved = 'approved';
-        const declined = 'declined';
 
         return (
             <div>
@@ -51,8 +52,8 @@ class BookingModal extends React.Component {
                                 <BookingInfo
                                     key={ i }
                                     booking={ booking }
-                                    onApprove={() => this.onActionClick(tripId, booking.booking_id, approved)}
-                                    onDecline={() => this.onActionClick(tripId, booking.booking_id, declined)}
+                                    onApprove={() => this.onActionClick(tripId, booking.id, BOOKING_STATUS_APPROVED)}
+                                    onDecline={() => this.onActionClick(tripId, booking.id, BOOKING_STATUS_DECLINED)}
                                 />
                             )}
                         </ul>
@@ -68,4 +69,9 @@ class BookingModal extends React.Component {
     }
 }
 
-export default localize(BookingModal, 'locale');
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale)
+    }),
+    dispatch => bindActionCreators({}, dispatch)
+)(BookingModal);

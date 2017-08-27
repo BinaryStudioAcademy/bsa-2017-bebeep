@@ -9,8 +9,8 @@ import {getTranslate} from 'react-localize-redux';
 class TripsListContainer extends React.Component {
     render() {
         const {translate} = this.props;
-        const tripsView = (this.props.trips.length > 0)
-            ? this.props.trips.map(trip => {
+        const tripsView = (this.props.trips.data.length > 0)
+            ? this.props.trips.data.map(trip => {
                 return (
                     <Trip key={trip.id} trip={ trip } editable={this.props.filter === 'upcoming'} deletable={this.props.filter === 'upcoming'} />
                 );

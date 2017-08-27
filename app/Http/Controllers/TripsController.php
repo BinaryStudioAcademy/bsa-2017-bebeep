@@ -6,6 +6,7 @@ use App\Models\Trip;
 use App\Services\TripsService;
 use App\Transformers\DetailTrip;
 use App\Services\TripDetailService;
+use App\Transformers\DriverTrip\DriverTripTransformer;
 use Illuminate\Support\Facades\Auth;
 use App\Transformers\TripTransformer;
 use App\Http\Requests\CreateTripRequest;
@@ -57,7 +58,9 @@ class TripsController extends Controller
     {
         $trips = $this->tripsService->getUpcoming(Auth::user());
 
-        return response()->json($trips);
+        return fractal()->collection($trips, new DriverTripTransformer())
+            ->parseIncludes(['routes', 'vehicle', 'bookings'])
+            ->respond();
     }
 
     /**
@@ -67,7 +70,9 @@ class TripsController extends Controller
     {
         $trips = $this->tripsService->getPast(Auth::user());
 
-        return response()->json($trips);
+        return fractal()->collection($trips, new DriverTripTransformer())
+            ->parseIncludes(['routes', 'vehicle', 'bookings'])
+            ->respond();
     }
 
     /**
