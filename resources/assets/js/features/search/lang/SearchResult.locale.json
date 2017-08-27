@@ -1,6 +1,6 @@
 {
   "search_result": {
-    "search_trips": ["Search trips", "Пошук подоржей", "Поиск поездок"],
+    "search_trips": ["Search trips", "Пошук подорожей", "Поиск поездок"],
     "found_trips": ["Found trips: ${size}", "Знайдено подорожей: ${size}", "Найдено поездок: ${size}"],
     "loading": ["Loading ...", "Завантаження ...", "Загрузка ..."],
     "showing_of": ["Showing ${count} of ${size}", "Показано ${count} з ${size}", "Показано ${count} из ${size}"],

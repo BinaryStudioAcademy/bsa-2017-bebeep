@@ -18,6 +18,10 @@ class PastDriverTripsCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->whereUserId($this->user->id)->where('end_at', '<', Carbon::now()->toDateTimeString())->with(['routes', 'vehicle'])->latest('id');
+        return $model->whereUserId($this->user->id)
+            ->where('end_at', '<', Carbon::now()->toDateTimeString())
+            ->with(['routes', 'vehicle'])
+            ->orderBy('start_at', 'desc')
+            ->latest('id');
     }
 }
