@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link, IndexLink } from 'react-router';
+import ChangeLocalization from '../ChangeLocalization';
+import {localize} from 'react-localize-redux';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-import { getAuthUser } from '../../services/AuthService';
+import { getAuthUser } from 'app/services/AuthService';
 
-class ForAuthUser extends Component {
+class ForAuthUser extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,7 +25,7 @@ class ForAuthUser extends Component {
     }
 
     render() {
-        const dropdownClass = this.state.isDropdownOpen ? 'show' : '';
+        const {translate} = this.props;
         const authUser = getAuthUser();
 
         return (
@@ -30,42 +33,53 @@ class ForAuthUser extends Component {
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
                     <Link to="/vehicles" className="nav-link" activeClassName="active">
-                        My vehicles
+                        {translate('my_vehicles')}
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/vehicles/create" className="nav-link" activeClassName="active">
+                        {translate('add_vehicle')}
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/trip/create" className="nav-link" activeClassName="active">
-                        Create new trip
+                        {translate('create_new_trip')}
                     </Link>
                   </li>
                   <li className="nav-item">
-                      <Link to="/trips" className="nav-link" activeClassName="active">
-                          My trips
-                      </Link>
+                    <Link to="/trips" className="nav-link" activeClassName="active">
+                        {translate('my_trips')}
+                    </Link>
                   </li>
                 </ul>
 
-                <div className={"nav-item dropdown " + dropdownClass}>
-                  <button className="btn btn-secondary dropdown-toggle"
-                      type="button" data-toggle="dropdown" aria-haspopup="true"
-                      aria-expanded={this.state.isDropdownOpen}
-                      onClick={this.toggleUserDropdown}>
-                    { authUser.username }
-                  </button>
+                <Dropdown className="nav-item" isOpen={this.state.isDropdownOpen} toggle={this.toggleUserDropdown}>
+                    <DropdownToggle caret>
+                        { authUser.username }
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <Link onClick={this.toggleUserDropdown} to="/dashboard" className="dropdown-item" >
+                            {translate('dashboard')}
+                        </Link>
+                        <Link onClick={this.toggleUserDropdown} to="/dashboard/profile" className="dropdown-item" >
+                            {translate('profile')}
+                        </Link>
+                        <Link onClick={this.toggleUserDropdown} to="/bookings" className="dropdown-item" >
+                            {translate('bookings')}
+                        </Link>
+                        <DropdownItem divider />
+                        <Link onClick={this.toggleUserDropdown} to="/logout" className="dropdown-item" >
+                            {translate('logout')}
+                        </Link>
+                    </DropdownMenu>
+                </Dropdown>
 
-                  <div className="dropdown-menu dropdown-menu-right">
-
-                    <Link to="/dashboard" className="dropdown-item">Dashboard</Link>
-                    <Link to="/dashboard/profile" className="dropdown-item">Profile</Link>
-
-                    <div className="dropdown-divider"></div>
-
-                    <Link to="/logout" className="dropdown-item">Logout</Link>
-                  </div>
+                <div className="nav-item">
+                    <ChangeLocalization />
                 </div>
             </div>
         );
     }
 }
 
-export default ForAuthUser;
+export default localize(ForAuthUser, 'locale');

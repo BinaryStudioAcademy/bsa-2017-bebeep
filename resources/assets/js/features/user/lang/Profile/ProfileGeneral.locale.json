@@ -1,0 +1,32 @@
+{
+  "profile_general": {
+    "personal_information": ["Personal information", "Особиста інформація", "Личная информация"],
+    "user_profile_general_success": [
+      "User profile general data successfully updated!",
+      "Дані користувача успішно оновлені!",
+      "Данные пользователя успешно обновлены!"
+    ],
+    "failed_update_user_profile_general_data": [
+      "Failed to update the user profile general data! Check the validation!",
+      "Не вдалося оновити загальні дані профілю! Перевірте введені дані!",
+      "Не удалось обновить общие данные профиля! Проверьте введенные данные!"
+    ],
+    "profile_data_not_found": [
+      "Profile data not found!",
+      "Дані профілю не знайдені!",
+      "Данные профиля не найдены!"
+    ],
+    "save": [
+      "Save", "Зберегти", "Сохранить"
+    ],
+    "about_me": ["About me", "Про себе", "Обо мне"],
+    "first_name": ["First name", "Ім'я", "Имя"],
+    "last_name": ["Last name", "Прізвище", "Фамилия"],
+    "email": ["E-mail", "Ел. адреса", "Эл. адрес"],
+    "phone": ["Phone number", "Телефон", "Телефон"],
+    "birth_date": ["Birth date", "Дата народження", "Дата рождения"],
+    "role": ["Role", "Роль", "Роль"],
+    "driver": ["driver", "водій", "водитель"],
+    "passenger": ["passenger", "пасажир", "пассажир"]
+  }
+}

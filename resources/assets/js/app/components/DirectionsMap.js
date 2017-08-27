@@ -1,6 +1,11 @@
 import React from "react";
 import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
+import {getTranslate} from "react-localize-redux";
+import {connect} from "react-redux";
+import LangeService from '../services/LangService';
 import moment from 'moment';
+import TripRoute from '../helpers/TripRoute';
+
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap
@@ -10,20 +15,24 @@ const GoogleMapContainer = withGoogleMap(props => (
     </GoogleMap>
 ));
 
-export default class DirectionsMap extends React.Component {
+class DirectionsMap extends React.Component {
     state = {
         directions: null,
         distance: null,
         duration: null,
         start_address: null,
         end_address: null,
-        requestId: null
+        requestId: null,
+        directionRenderQueue: [],
+        directionRenderQueueIsProcessing: false
     };
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.DirectionsService = new google.maps.DirectionsService();
+
+        LangeService.addTranslation(require('../lang/directionsmap.locale.json'));
     }
 
     componentWillMount() {
@@ -38,40 +47,83 @@ export default class DirectionsMap extends React.Component {
             this.props.to.lng === nextProps.to.lng &&
             this.props.from.lat === nextProps.from.lat &&
             this.props.to.lng === nextProps.to.lng
+            && !this.isWaypointsChanged(nextProps.waypoints)
         ) {
             return;
         }
 
-        this.renderDirection(nextProps);
+        this.state.directionRenderQueue.push(nextProps);
+        this.processDirectionRenderQueue();
+    }
+
+    processDirectionRenderQueue() {
+        if (this.state.directionRenderQueue.length <= 0 || this.state.directionRenderQueueIsProcessing) {
+            return;
+        }
+
+        this.renderDirection(this.state.directionRenderQueue.shift());
+    }
+
+    isWaypointsChanged(waypoints) {
+        let result = false;
+
+        if (!waypoints) {
+            return result;
+        }
+
+        if (waypoints.length !== this.props.waypoints.length) {
+            return true;
+        }
+
+        this.props.waypoints.forEach((waypoint, index) => {
+            if (
+                waypoint.location.lat !== waypoints[index].location.lat ||
+                waypoint.location.lng !== waypoints[index].location.lng
+            ) {
+                result = true;
+            }
+        });
+
+        return result;
     }
 
     renderDirection(props) {
+        this.setState({directionRenderQueueIsProcessing: true});
+
         this.DirectionsService.route({
             origin: props.from,
             destination: props.to,
+            waypoints: props.waypoints || [],
             travelMode: google.maps.TravelMode.DRIVING,
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
-                let response = result.routes[0].legs[0];
+                let route = new TripRoute(result.routes[0]);
 
                 this.setState({
                     directions: result,
-                    distance: response.distance.text,
-                    duration: response.duration.text,
-                    start_address: response.start_address,
-                    end_address: response.end_address
+                    distance: route.getDistance(),
+                    duration: route.getDuration(),
+                    start_address: route.getStartPoint().start_address,
+                    end_address: route.getEndPoint().end_address
                 });
 
-                this.props.endTime(response.duration.value);
+                this.props.endTime(route.getDurationRaw());
             }
+
+            this.setState({directionRenderQueueIsProcessing: false});
+            this.processDirectionRenderQueue();
         });
     }
 
     render() {
+        const {translate} = this.props;
         return (
             <div className="card">
                 <div className="card-header">
-                    {this.props.title}
+                    <span>{this.props.title}</span>
+                    {this.props.bookingCount  ? (
+                        <button type="button" className="btn bookings btn-sm btn-primary hover" onClick={this.props.onClickBooking}>{translate('booking.bookings_button')} <span className="badge badge-red">{this.props.bookingCount}</span></button>
+                    ) : ( <span>&nbsp;</span>) }
                 </div>
                 <div className="card-block google-map">
                         <GoogleMapContainer
@@ -83,17 +135,16 @@ export default class DirectionsMap extends React.Component {
                             }
                             center={this.props.from}
                             directions={this.state.directions}
-                            key={moment()}
                         />
                 </div>
                 {this.state.distance  ?
                     (
                         <div className="card-footer">
-                            <h6>Trip info</h6>
-                            <span className="text-muted">Start point address: </span>{this.state.start_address}<br/>
-                            <span className="text-muted">End point address: </span>{this.state.end_address}<br/>
-                            <span className="text-muted">Distance: </span>{this.state.distance}<br/>
-                            <span className="text-muted">Duration: </span>{this.state.duration}
+                            <h6>{translate('directionsmap.trip_info')}</h6>
+                            <span className="text-muted">{translate('directionsmap.start_point_address')}: </span>{this.state.start_address}<br/>
+                            <span className="text-muted">{translate('directionsmap.end_point_address')}: </span>{this.state.end_address}<br/>
+                            <span className="text-muted">{translate('directionsmap.distance')}: </span>{this.state.distance}<br/>
+                            <span className="text-muted">{translate('directionsmap.duration')}: </span>{this.state.duration}
                         </div>
                     ) : (
                             <div>&nbsp;</div>
@@ -104,3 +155,9 @@ export default class DirectionsMap extends React.Component {
         );
     }
 }
+
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale)
+    })
+)(DirectionsMap);

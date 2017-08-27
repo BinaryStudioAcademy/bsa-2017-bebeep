@@ -1,0 +1,79 @@
+{
+  "validate": {
+    "last_name_is_required": ["Last name is required", "Прізвище - обов'язкове поле", "Фамилия - обязательное поле"],
+    "first_name_is_required": ["First name is required", "Ім'я - обов'язкове поле", "Имя - обязательное поле"],
+    "phone_is_required_and_must_contain_numbers": [
+      "Phone is required, and must contain digits not more 15",
+      "Телефон - обов'язкове поле, та має містити не більше 15 цифр",
+      "Телефон - обязательное поле, и должен содержать не более 15 цифр"
+    ],
+    "not_valid_email": ["Email is incorrect", "Ел. адреса введена некоректно", "Эл. адрес введен некорректно"],
+    "choose_role": ["Choose your role", "Оберіть роль", "Выберите роль"],
+    "password_must_be_more_six_symbols": [
+      "Password must be more or equal 6 characters",
+      "Пароль має бути не менше 6 символів",
+      "Пароль должен быть не менее 6 символов"
+    ],
+    "password_not_confirm": [
+      "Repeated password does not match",
+      "Паролі не співпадають",
+      "Пароли не совпадают"
+    ],
+    "birth_date_is_invalid": ["Birth date is invalid date", "Дата народження введена некоректно", "Дата рождения введена некорректно"],
+    "about_must_be_less_500_characters": [
+      "About me must be less or equal 500 characters",
+      "Поле \"Про себе\" повинно містити не більше 500 символів",
+      "Поле \"О себе\" должно содержать не более 500 символов"
+    ],
+    "token_is_empty": ["Token is empty", "Токен порожній", "Токен пустой"],
+    "already_have_password": [
+      "You already have this password, enter another one.",
+      "Ви вже маєте такий пароль, введіть інший.",
+      "Вы уже имеете такой пароль, введите другой."
+    ],
+    "email_invalid": ["Email is invalid", "Ел. адреса не вірна", "Эл. адрес не верный"],
+    "token_invalid": ["Token is invalid", "Токен недійсний", "Недопустимый токен"],
+    "please_select_leaving_from_point": [
+      "Please select leaving from point",
+      "Будь ласка, оберіть адресу відправлення",
+      "Пожалуйста, выберите адрес отправления"
+    ],
+    "please_select_going_to_point": [
+      "Please select going to point",
+      "Будь ласка, оберіть адресу прибуття",
+      "Пожалуйста, выберите адрес прибытия"
+    ],
+    "please_select_ride_date": [
+      "Please select ride date",
+      "Будь ласка, оберіть дату подорожі",
+      "Пожалуйста, выберите дату поездки"
+    ],
+    "incorrect_leaving_from_point": [
+      "Incorrect leaving from point",
+      "Некоректна адреса відправлення",
+      "Некорректный адрес отправления"
+    ],
+    "incorrect_going_to_point": [
+      "Incorrect going to point",
+      "Некоректна адреса прибуття",
+      "Некорректный адрес прибытия"
+    ],
+    "please_select_a_car": ["Please select a car", "Будь ласка, оберіть авто", "Пожалуйста, выберите авто"],
+    "please_enter_trip_start_time": ["Please enter trip start time", "Будь ласка, введіть час початку подорожі", "Пожалуйста, введите время начала поездки"],
+    "please_enter_trip_end_time": ["Please enter trip end time", "Будь ласка, введіть час кінця подорожі", "Пожалуйста, введите время окончания поездки"],
+    "enter_trip_start_point": ["Enter trip start point", "Введіть початкову адресу подорожі", "Введите начальный адрес поездки"],
+    "enter_trip_end_point": ["Enter trip end point", "Введіть кінцеву адресу подорожі", "Введите конечный адрес поездки"],
+    "enter_trip_price": ["Enter trip price", "Введіть ціну подорожі", "Введите цену поездки"],
+    "enter_trip_seats": ["Enter trip seats", "Введіть доступні місця подорожі", "Введите доступные места поездки"],
+    "trip_price_must_be_greater_than_0": ["Trip price must be greater than 0", "Ціна подорожі повинна бути більше 0", "Цена поездки должна быть больше 0"],
+    "trip_seats_must_be_greater_than_0": ["Trip seats must be greater than 0", "Місця подорожі повинні бути більше 0", "Места поездки должны быть больше 0"],
+    "booking": {
+      "start_point_not_found": ["Start point not found", "Точка відправлення не знайдена", "Точка отправления не найдена"],
+      "end_point_not_found": ["End point not found", "Точка прибуття не знайдена", "Точка прибытия не найдена"],
+      "end_point_incorrect": ["Incorrect end point", "Точка відправлення некоректна", "Точка отправления не корректна"],
+      "you_can_book_seats1": ["You can book ${seats} seat", "Доступно ${seats} місце", "Доступно ${seats} место"],
+      "you_can_book_seats2": ["You can book ${seats} seats", "Доступно ${seats} місця", "Доступно ${seats} места"],
+      "you_can_book_seats3": ["You can book ${seats} seats", "Доступно ${seats} місць", "Доступно ${seats} мест"]
+    }
+  }
+}

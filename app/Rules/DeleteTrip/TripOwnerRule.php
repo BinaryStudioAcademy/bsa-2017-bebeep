@@ -11,7 +11,7 @@ class TripOwnerRule implements DeleteTripRule
     public function validate(Trip $trip, User $user): bool
     {
         if ($trip->user_id != $user->id) {
-            throw new UserHasNotPermissionsToDeleteTripException('User is not owner of this trip');
+            throw new UserHasNotPermissionsToDeleteTripException(__('Rules/DeleteTrip/TripOwnerRule.user_is_not_owner_trip'));
         }
 
         return true;

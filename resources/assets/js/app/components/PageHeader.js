@@ -1,17 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class PageHeader extends Component {
+class PageHeader extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            header: this.props.header
-        }
+    constructor() {
+        super();
     }
 
     render() {
-        const { header } = this.state;
+        const { header } = this.props;
 
         return (
             <header className="page-header">

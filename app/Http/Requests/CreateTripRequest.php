@@ -105,4 +105,12 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     {
         return (array) $this->get('to');
     }
+
+    /**
+     * @return array
+     */
+    public function getWaypoints(): array
+    {
+        return (array) $this->get('waypoints');
+    }
 }

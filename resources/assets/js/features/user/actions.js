@@ -1,9 +1,8 @@
-import axios from 'axios';
 import * as actions from './actionTypes';
 
-import { UserValidator } from '../../app/services/UserService';
-import { simpleRequest, securedRequest } from '../../app/services/RequestService';
-import { getAuthToken, initSession, destroySession } from '../../app/services/AuthService';
+import { UserValidator } from 'app/services/UserService';
+import { simpleRequest, securedRequest } from 'app/services/RequestService';
+import { getAuthToken, initSession, destroySession } from 'app/services/AuthService';
 
 
 export const registerSuccess = data => ({
@@ -42,14 +41,14 @@ function processFailedLoginResponse(response) {
             return {
                 type: actions.LOGIN_FAILED_BAD_CREDENTIALS,
                 response
-            }
+            };
         default:
             return {
                 type: actions.LOGIN_FAILED,
                 response
             }
     }
-};
+}
 
 export const doLogin = (credentials) => dispatch => {
     const emailValid = UserValidator.email(credentials.email);
@@ -72,8 +71,12 @@ export const doLogin = (credentials) => dispatch => {
             dispatch(loginSuccess(response.data))
         })
         .catch(error => {
-            destroySession();
-            dispatch(processFailedLoginResponse(error.response))
+            if (error.response) {
+                destroySession();
+                dispatch(processFailedLoginResponse(error.response))
+            } else {
+                console.error(error);
+            }
         });
 
 };

@@ -1,11 +1,16 @@
-.trip-actions .btn {
-    margin-right: 10px;
-}
-
 .trip-item {
     margin-bottom: 30px;
 }
-
+.trip-item .card {
+    height: 100%;
+}
 .deleted-trip .card {
     border-color: #d9534f;
+}
+
+.badge-red {
+    background-color: rgba(255, 0, 0, 0.86);
+    border-radius: 0.4rem;
+    padding: 0.2em 0.4em;
+    font-size: 78%;
 }

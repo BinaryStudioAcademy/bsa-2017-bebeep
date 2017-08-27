@@ -1,14 +1,13 @@
 @component('mail::message')
-# Hi
+# {{__('email/reset-password.hi')}}
 
-You are receiving this email because we received a password reset request for your account.
+{{__('email/reset-password.you_are_receiving_this_email_beacause')}}
 
 @component('mail::button', ['url' => url('/password/reset?token=' . $token)])
-    Reset Password
+    {{__('email/reset-password.reset_password')}}
 @endcomponent
 
-If you did not request a password reset, no further action is required.
+{{__('email/reset-password.no_further_action')}}
 
-Thanks,<br>
-{{ config('app.name') }}
+{!! __('email/reset-password.thanks', ["name" => config('app.name')]) !!}
 @endcomponent

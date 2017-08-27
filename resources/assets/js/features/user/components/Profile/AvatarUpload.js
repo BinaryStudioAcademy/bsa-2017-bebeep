@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
+import {localize} from 'react-localize-redux';
 
 import StatusModal from '../_Modals/StatusModal';
-import UserService from '../../services/UserService';
+import UserService from 'features/user/services/UserService';
 
-import '../../../../app/styles/react-cropper.scss';
-import '../../../../app/styles/image-cropper.scss';
+import 'app/styles/react-cropper.scss';
+import 'app/styles/image-cropper.scss';
 
 const AVATAR_WIDTH = 100;
 const AVATAR_HEIGHT = 100;
@@ -15,15 +16,15 @@ const AVATAR_MAX_SIZE_HUMAN = 10;
 const AVATAR_MAX_SIZE = 1024 * 1024 * AVATAR_MAX_SIZE_HUMAN;
 
 const DROPZONE_ERROR = {
-    max_size: 'The file size is more than the maximum allowed!',
-    mime_type: 'The file type is not supported!',
+    max_size: 'profile_avatar.file_size_more_maximum',
+    mime_type: 'profile_avatar.file_type_is_not_supported',
 };
 
 const MODAL_MSG = {
-    success: 'User profile avatar successfully updated!',
+    success: 'profile_avatar.user_profile_avatar_successfully_updated',
 };
 
-class AvatarUpload extends Component {
+class AvatarUpload extends React.Component {
 
     constructor(props) {
         super(props);
@@ -68,12 +69,13 @@ class AvatarUpload extends Component {
     }
 
     onDropRejected(files) {
+        const {translate} = this.props;
         if (files[0].size > AVATAR_MAX_SIZE) {
             this.setState({
                 modal: {
                     isOpen: true,
                     status: 'error',
-                    msg: DROPZONE_ERROR.max_size,
+                    msg: translate(DROPZONE_ERROR.max_size),
                 }
             });
             return;
@@ -82,7 +84,7 @@ class AvatarUpload extends Component {
             modal: {
                 isOpen: true,
                 status: 'error',
-                msg: DROPZONE_ERROR.mime_type,
+                msg: translate(DROPZONE_ERROR.mime_type),
             }
         });
     }
@@ -104,6 +106,7 @@ class AvatarUpload extends Component {
     }
 
     onImageSave() {
+        const {translate} = this.props;
         const updatedData = {
             'avatar': this.imageCrop(),
         };
@@ -115,7 +118,7 @@ class AvatarUpload extends Component {
                     modal: {
                         isOpen: true,
                         status: 'success',
-                        msg: MODAL_MSG.success,
+                        msg: translate(MODAL_MSG.success),
                     }
                 });
             })
@@ -146,6 +149,7 @@ class AvatarUpload extends Component {
 
     render() {
         const { image, imageCurrent, modal } = this.state;
+        const {translate} = this.props;
         const cropperHide = null === image.preview ? ' hide' : '';
         const currentHide = null === imageCurrent ? ' hide' : '';
 
@@ -168,9 +172,9 @@ class AvatarUpload extends Component {
                             <p className="image-cropper__dropzone-icon">
                                 <i className="fa fa-3x fa-user-circle-o" aria-hidden="true" />
                             </p>
-                            <p>Drop an image or click to select a file to upload.</p>
+                            <p>{translate('profile_avatar.drop_image_or_click_to_select_file_to_upload')}</p>
                             <p className="image-cropper__dropzone-rules">
-                                Only image. Max { AVATAR_MAX_SIZE_HUMAN } Mb
+                                {translate('profile_avatar.only_image_max_mb', {size: AVATAR_MAX_SIZE_HUMAN})}
                             </p>
                         </Dropzone>
                     </div>
@@ -209,7 +213,7 @@ class AvatarUpload extends Component {
 
                             <button className="image-cropper__btn btn btn-primary"
                                     onClick={ this.onImageSave }>
-                                Save
+                                {translate('profile_avatar.save_avatar')}
                             </button>
                         </div>
                     </div>
@@ -220,14 +224,14 @@ class AvatarUpload extends Component {
                         <div className="user-current-avatar">
                             <figure className="user-current-avatar__block">
                                 <figcaption className="user-current-avatar__caption">
-                                    Current avatar
+                                    {translate('profile_avatar.current_avatar')}
                                 </figcaption>
-                                <img src={ imageCurrent } alt="User current avatar"/>
+                                <img src={ imageCurrent } alt={translate('profile_avatar.user_current_avatar')}/>
                             </figure>
                             <div>
                                 <button className="image-cropper__btn btn btn-danger"
                                         onClick={ this.onDelete }>
-                                    Delete
+                                    {translate('profile_avatar.delete_avatar')}
                                 </button>
                             </div>
                         </div>
@@ -241,4 +245,4 @@ class AvatarUpload extends Component {
     }
 }
 
-export default AvatarUpload;
+export default localize(AvatarUpload, 'locale');

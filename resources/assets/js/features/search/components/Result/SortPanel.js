@@ -1,22 +1,23 @@
 import React from 'react';
-import '../../styles/search-sort.scss';
+import {localize} from 'react-localize-redux';
+import 'features/search/styles/search-sort.scss';
 
 class SortPanel extends React.Component {
     render() {
-        const { sort, order, onChange } = this.props;
+        const { sort, order, onChange, translate } = this.props;
         return (
             <span>
                 <a href="#sort/price"
                    onClick={e => { e.preventDefault(); onChange('price') }}
                    className={"search-sort" + (sort === 'price' ? " search-sort_active" : '') + (order === 'asc' ? " search-sort_asc" : "")}
-                >Price</a>
+                >{translate('search_result.price')}</a>
                 <a href="#sort/start"
                    onClick={e => { e.preventDefault(); onChange('start_at') }}
                    className={"search-sort" + (sort === 'start_at' ? " search-sort_active" : '') + (order === 'asc' ? " search-sort_asc" : "")}
-                >Date</a>
+                >{translate('search_result.date')}</a>
             </span>
         );
     }
 }
 
-export default SortPanel;
+export default localize(SortPanel, 'locale');

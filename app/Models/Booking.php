@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
+    const STATUS_DECLINED = 'declined';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_PENDING = 'pending';
+    const STATUS_CANCELED = 'canceled';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -15,6 +20,7 @@ class Booking extends Model
         'status',
         'trip_id',
         'user_id',
+        'seats',
     ];
 
     /**
@@ -31,5 +37,19 @@ class Booking extends Model
     public function routes()
     {
         return $this->belongsToMany(Route::class);
+    }
+
+    /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($booking) {
+            $booking->status = self::STATUS_PENDING;
+        });
     }
 }

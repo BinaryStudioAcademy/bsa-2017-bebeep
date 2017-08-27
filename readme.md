@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/BinaryStudioAcademy/bsa-2017-bebeep.svg?branch=development)](https://travis-ci.org/BinaryStudioAcademy/bsa-2017-bebeep) [![StyleCI](https://styleci.io/repos/99309628/shield?branch=development)](https://styleci.io/repos/99309628)
+
 ## Getting started
 
 Install the following packages prior to standing up your development environment:

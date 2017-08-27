@@ -1,0 +1,56 @@
+.booking-item {
+
+  color: #212121;
+  padding: 15px 10px;
+
+  &:visited,
+  &:link,
+  &:hover {
+    color: #212121;
+    text-decoration: none;
+  }
+
+  &:hover {
+    background-color: darken(#fff, 5%);
+  }
+
+  &__route-item {
+    font-size: 1.1rem;
+    margin: 0 5px;
+  }
+  &__route-arrow.fa {
+    font-size: .9rem;
+    color: lighten(#212121, 10%);
+  }
+  
+  &__status {
+    text-align: right;
+  }
+  
+  &__badge {
+    border-radius: 1em;
+    padding: 5px 10px 7px;
+    font-size: .8rem;
+    color: #fff;
+
+    &_approved {
+      background-color: #2ab27b;
+    }
+
+    &_declined {
+      background-color: #c12e2a;
+    }
+
+    &_canceled {
+      background-color: #ffd500;
+    }
+
+    &_pending {
+      background-color: #0275d8;
+    }
+  }
+}
+
+.btn-cancel-booking {
+  margin-left: 20px;
+}

@@ -1,13 +1,22 @@
 import React from 'react';
-import PageHeader from '../../../app/components/PageHeader';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import PageHeader from 'app/components/PageHeader';
 import TripsListContainer from "../components/TripsListContainer";
-import {tripsFilterChanged, tripsLoadSuccess} from '../actions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Link} from 'react-router';
-import {securedRequest} from '../../../app/services/RequestService';
+import { securedRequest } from 'app/services/RequestService';
+import { tripsFilterChanged, tripsLoadSuccess } from '../actions';
+import LangService from 'app/services/LangService';
+import {getTranslate} from 'react-localize-redux';
+import * as lang from '../lang/TripList.locale.json';
 
 class TripsList extends React.Component {
+
+    componentWillMount() {
+        LangService.addTranslation(lang);
+    }
+
     componentDidMount() {
         this.changeFilter();
         this.loadTrips(TripsList.getFilterName(this.props));
@@ -44,19 +53,21 @@ class TripsList extends React.Component {
     }
 
     render() {
+        const {translate} = this.props;
+
         return (
             <div>
-                <PageHeader header={'My Trips'}/>
+                <PageHeader header={translate('trip_list.my_trips_header')}/>
 
                 <ul className="nav nav-pills">
                     <li className="nav-item">
                         <Link to="/trips/upcoming" className="nav-link" activeClassName="active">
-                            Upcoming
+                            {translate('trip_list.upcoming')}
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/trips/past" className="nav-link" activeClassName="active">
-                            Past
+                            {translate('trip_list.past')}
                         </Link>
                     </li>
                 </ul>
@@ -72,7 +83,8 @@ class TripsList extends React.Component {
 const TripsListConnected = connect(
     (state) => ({
         filter: state.tripList.filter,
-        trips: state.tripList.trips
+        trips: state.tripList.trips,
+        translate: getTranslate(state.locale)
     }),
     (dispatch) => bindActionCreators({tripsLoadSuccess, tripsFilterChanged}, dispatch)
 )(TripsList);

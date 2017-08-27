@@ -1,6 +1,5 @@
 <?php
 
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -76,6 +75,16 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 });
 
 Route::group([
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
+], function () {
+    Route::resource('v1/car', 'Api\\Car\\CarController');
+    Route::resource('v1/car-body', 'Api\\Car\\CarBodyController', ['only' => ['index']]);
+    Route::resource('v1/car-color', 'Api\\Car\\CarColorController', ['only' => ['index']]);
+    Route::resource('v1/car-brand', 'Api\\Car\\CarBrandController', ['only' => ['index']]);
+    Route::get('v1/car-brand/{model}/models', 'Api\\Car\\CarBrandController@getModelByMarkId');
+});
+
+Route::group([
     'prefix' => 'v1/trips',
     'as' => 'trips.',
     'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
@@ -89,9 +98,16 @@ Route::group([
     Route::delete('{trip}', ['as' => 'delete', 'uses' => 'TripsController@delete']);
 
     Route::delete('trash/{tripId}', ['as' => 'restore', 'uses' => 'TripsController@restore']);
+
+    Route::put('{trip}/bookings/{booking}/status', ['as' => 'booking.status', 'uses' => 'BookingsController@status']);
 });
 
-Route::get('v1/trips/search', ['as' => 'search', 'uses' => 'TripsController@search']);
+Route::group([
+    'prefix' => 'v1/trips',
+], function () {
+    Route::get('/search', ['as' => 'trips.search', 'uses' => 'TripsController@search']);
+    Route::get('/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
+});
 
 Route::post('v1/password-resets', [
     'middleware' => 'jwt.guest',
@@ -104,3 +120,8 @@ Route::put('v1/password-resets', [
     'as' => 'password.reset',
     'uses' => 'Auth\PasswordResetsController@reset',
 ]);
+
+Route::post('v1/trips/{trip}/bookings', ['as' => 'booking.create', 'uses' => 'BookingsController@create', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
+Route::delete('v1/bookings/{booking}', ['as' => 'booking.cancel', 'uses' => 'BookingsController@cancel', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
+Route::get('v1/bookings/past', ['as' => 'booking.past', 'uses' => 'BookingsController@past', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
+Route::get('v1/bookings/upcoming', ['as' => 'booking.upcoming', 'uses' => 'BookingsController@upcoming', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);

@@ -1,15 +1,22 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import { geocodeByAddress } from 'react-places-autocomplete';
+
 import TripForm from '../Forms/TripForm';
-import DirectionsMap from "../../../../app/components/DirectionsMap";
-import Validator from '../../../../app/services/Validator';
-import EditTripService from '../../services/EditTripService';
-import { createTripRules, getStartAndEndTime } from '../../../../app/services/TripService';
-import { getCoordinatesFromPlace } from '../../../../app/services/GoogleMapService';
+import {localize} from 'react-localize-redux';
+import { EditableWaypoints } from './EditableWaypoints';
+import DirectionsMap from 'app/components/DirectionsMap';
+
+import Validator from 'app/services/Validator';
+import EditTripService from 'features/trip/services/EditTripService';
+import { createTripRules, getStartAndEndTime } from 'app/services/TripService';
+import {
+    convertWaypointsToGoogleWaypoints,
+    getCoordinatesFromPlace
+} from 'app/services/GoogleMapService';
+
 
 class EditTripContainer extends React.Component {
-
     constructor(props) {
         super(props);
 
@@ -36,19 +43,24 @@ class EditTripContainer extends React.Component {
     componentDidMount() {
         EditTripService.getTrip(this.props.id)
             .then(response => {
-                response = EditTripService.transformData(response);
-                const routes = response.routes[0];
+                response = EditTripService.transformData(response.data);
+
+                const routes = response.routes.data;
+
                 this.setState({
                     trip: response,
                     startPoint: {
-                        address: routes.from.formatted_address
+                        address: routes[0].from.formatted_address
                     },
                     endPoint: {
-                        address: routes.to.formatted_address
+                        address: routes[routes.length - 1].to.formatted_address
                     },
                 });
+
                 this.onSelectStartPoint(this.state.startPoint.address);
                 this.onSelectEndPoint(this.state.endPoint.address);
+
+                this.props.addWaypointsFromRoutes(this.state.trip.routes.data);
             })
             .catch(error => {
                 this.setState({
@@ -120,9 +132,10 @@ class EditTripContainer extends React.Component {
             seats: e.target['seats'].value,
             from: this.state.startPoint.place,
             to: this.state.endPoint.place,
+            waypoints: this.props.getPlacesFromWaypoints()
         };
 
-        const validated = Validator.validate(createTripRules, data);
+        const validated = Validator.validate(createTripRules(), data);
 
         if (!validated.valid) {
             this.setState({errors: validated.errors});
@@ -138,7 +151,14 @@ class EditTripContainer extends React.Component {
     }
 
     render() {
+        const placesCssClasses = {
+            root: 'form-group',
+            input: 'form-control',
+            autocompleteContainer: 'autocomplete-container text-left'
+        };
+
         const { trip,  errors } = this.state;
+        const { translate } = this.props;
         const startPointProps = {
             value: this.state.startPoint.address,
             onChange: this.onChangeStartPoint.bind(this),
@@ -152,10 +172,19 @@ class EditTripContainer extends React.Component {
         if (this.state.notFoundTrip) {
             return (
                 <div className="alert alert-danger" role="alert">
-                    Can't load this trip. Please try later
+                    {translate('edit_trip.cant_load_this_trip')}
                 </div>
             );
         }
+
+        if (!this.state.trip.id) {
+            return (
+                <div className="alert">
+                    {translate('edit_trip.loading')}
+                </div>
+            );
+        }
+
         return (
             <div className="row">
                 <div className="col-sm-6">
@@ -167,12 +196,17 @@ class EditTripContainer extends React.Component {
                         endPoint={endPointProps}
                         onSelectEndPoint={this.onSelectEndPoint.bind(this)}
                         onSelectStartPoint={this.onSelectStartPoint.bind(this)}
+                        placesCssClasses={placesCssClasses}
                         onSubmit={this.onSubmit.bind(this)}
+                        waypoints={this.props.waypoints}
+                        onWaypointAdd={this.props.onWaypointAdd}
+                        onWaypointDelete={this.props.onWaypointDelete}
                     />
                 </div>
                 <div className="col-sm-6">
                     <DirectionsMap
-                        title="Preview Trip"
+                        title={translate("edit_trip.preview_trip")}
+                        waypoints={convertWaypointsToGoogleWaypoints(this.props.waypoints)}
                         from={getCoordinatesFromPlace(this.state.startPoint.place)}
                         to={getCoordinatesFromPlace(this.state.endPoint.place)}
                         endTime={this.setEndTime.bind(this)}
@@ -182,4 +216,7 @@ class EditTripContainer extends React.Component {
         );
     }
 }
-export default EditTripContainer;
+
+const EditTripContainerWithWaypoints = EditableWaypoints(EditTripContainer);
+
+export default localize(EditTripContainerWithWaypoints, 'locale');

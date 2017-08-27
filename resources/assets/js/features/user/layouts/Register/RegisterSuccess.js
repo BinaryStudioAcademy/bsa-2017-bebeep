@@ -1,25 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import LangService from 'app/services/LangService';
+import {getTranslate} from 'react-localize-redux';
+import * as lang from 'features/user/lang/Register/RegisterSuccess.locale.json';
+import PageHeader from 'app/components/PageHeader';
 
-import PageHeader from '../../../../app/components/PageHeader';
-
-class RegisterSuccess extends Component {
+class RegisterSuccess extends React.Component {
 
     componentWillMount() {
         if (!this.props.successRegister) {
             browserHistory.push('/registration');
         }
+        LangService.addTranslation(lang);
     }
 
     render() {
+        const {translate} = this.props;
+
         return (
             <div>
-                <PageHeader header={ 'Register' } />
+                <PageHeader header={ translate('register_success.header_register') } />
                 <div className="card" >
                     <div className="card-block">
                         <div className="alert alert-success" role="alert">
-                            <strong>Register successful!</strong> The verification link has been sent to your email
+                            {translate('register_success.register_success')}
                         </div>
                     </div>
                 </div>
@@ -30,7 +35,8 @@ class RegisterSuccess extends Component {
 
 const RegisterSuccessConnected = connect(
     (state) => ({
-        successRegister: state.user.register.success
+        successRegister: state.user.register.success,
+        translate: getTranslate(state.locale)
     })
 )(RegisterSuccess);
 

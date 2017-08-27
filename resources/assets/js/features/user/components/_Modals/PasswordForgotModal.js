@@ -1,12 +1,16 @@
 import React from 'react';
-import validate from 'validate.js';
+import {localize} from 'react-localize-redux';
 
-import Input from '../../../../app/components/Input';
-import Modal from '../../../../app/components/Modal';
+import LangService from 'app/services/LangService';
+import {UserValidator} from 'app/services/UserService';
 
-import { simpleRequest } from '../../../../app/services/RequestService';
+import * as lang from 'features/user/lang/_Modals/PasswordForgotModal.locale.json';
+import Input from 'app/components/Input';
+import Modal from 'app/components/Modal';
+import { simpleRequest } from 'app/services/RequestService';
 
-import '../../styles/password_forgot.scss';
+import 'features/user/styles/password_forgot.scss';
+
 
 class PasswordForgotModal extends React.Component {
     constructor() {
@@ -19,13 +23,17 @@ class PasswordForgotModal extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentWillMount() {
+        LangService.addTranslation(lang);
+    }
+
     onSubmit(e) {
         e.preventDefault();
         const email = e.target['forgotten_email'].value,
-            error = validate.single(email, {presence: true, email: true});
-        if (error) {
+            error = UserValidator.email(email);
+        if (!error.valid) {
             this.setState({
-                errors: { email: error.join(', ') }
+                errors: { email: error.error }
             });
         } else {
             simpleRequest.post('/api/v1/password-resets', {
@@ -50,27 +58,28 @@ class PasswordForgotModal extends React.Component {
     }
 
     render() {
-        const {errors, formIsOpen, alertIsOpen} = this.state;
+        const {errors, formIsOpen, alertIsOpen} = this.state,
+            {translate} = this.props;
         const onClosed = this.props.onClosed || (() => {});
         return (
             <div>
                 <Modal isOpen={formIsOpen} onClosed={() => { this.state.formIsOpen = false; onClosed(); }}>
                     <form method="post" action="/api/password/forgot" className="password-form" onSubmit={this.onSubmit} autoComplete="false">
-                        <div className="modal-header">Enter your email address and we will send you a link to reset your password.</div>
+                        <div className="modal-header">{translate('password_forgot_modal.enter_your_email_and_we_will_send_link')}</div>
                         <div className="modal-body">
                             <Input
                                 name="forgotten_email"
                                 type="email"
                                 id="email"
                                 error={errors.email}
-                            >E-mail</Input>
+                            >{translate('password_forgot_modal.email')}</Input>
                         </div>
                         <div className="modal-footer text-right">
                             <button className="btn" onClick={(e) => {
                                 e.preventDefault();
                                 this.setState({formIsOpen: false});
-                            }}>Cancel</button>
-                            <button className="btn btn-primary" role="button">Send password reset email</button>
+                            }}>{translate('password_forgot_modal.cancel')}</button>
+                            <button className="btn btn-primary" role="button">{translate('password_forgot_modal.send_password_reset_email')}</button>
                         </div>
                     </form>
                 </Modal>
@@ -82,7 +91,7 @@ class PasswordForgotModal extends React.Component {
                         }}>
                             <span>&times;</span>
                         </button>
-                        Link to reset password send to your email
+                        {translate('password_forgot_modal.link_to_reset_password_send_to_your_email')}
                     </div>
                 </Modal>
             </div>
@@ -90,4 +99,4 @@ class PasswordForgotModal extends React.Component {
     }
 }
 
-export default PasswordForgotModal;
+export default localize(PasswordForgotModal, 'locale');

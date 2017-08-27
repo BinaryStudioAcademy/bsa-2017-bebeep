@@ -111,11 +111,8 @@
     &-item {
       color: #999;
 
-      &_from, &_from~* {
+      &_selected {
         color: #232323;
-      }
-      &_to~* {
-        color: #999;
       }
     }
 

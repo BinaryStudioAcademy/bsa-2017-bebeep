@@ -1,14 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import DatePicker from 'react-datepicker';
-import Slider, {Range} from 'rc-slider';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { setUrl, setFilter, getFilter} from '../../services/SearchService';
 import { withRouter } from 'react-router';
-import '../../styles/filter.scss';
+import {getTranslate} from 'react-localize-redux';
+import DatePicker from 'react-datepicker';
+import Slider, { Range } from 'rc-slider';
+
+import { setUrl, setFilter, getFilter} from 'features/search/services/SearchService';
+
+import 'features/search/styles/filter.scss';
 
 class Filter extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -43,7 +47,7 @@ class Filter extends React.Component {
     }
 
     dateChange(date) {
-        setUrl(setFilter({date: date ? date.unix() : null}));
+        setUrl({start_at: date ? date.unix() : null});
     }
 
     timeChange(time) {
@@ -56,23 +60,23 @@ class Filter extends React.Component {
 
     render() {
         const { time, price, date } = this.state;
-        const { priceBounds } = this.props;
+        const { priceBounds, translate } = this.props;
 
         return (
             <div className="filter">
                 <div className="filter__prop">
-                    <div className="filter__prop-name">Date</div>
+                    <div className="filter__prop-name">{translate('search_result.filter.date')}</div>
                     <div className="filter__prop-control">
                         <DatePicker
                             todayButton={"Today"}
                             selected={date}
                             onChange={this.dateChange}
-                            placeholderText="mm/dd/yyyy"
+                            placeholderText={translate('search_result.filter.date_placeholder')}
                             minDate={moment()}
                             className="form-control"
                             isClearable={true}
                         />
-                        <div className="filter__prop-sign">Time: {time[0]}h - {time[1]}h</div>
+                        <div className="filter__prop-sign">{translate('search_result.filter.time', {start: time[0], end: time[1]})}</div>
                         <Range
                             min={0}
                             max={24}
@@ -85,10 +89,10 @@ class Filter extends React.Component {
                     </div>
                 </div>
                 <div className="filter__prop">
-                    <div className="filter__prop-name">Price</div>
+                    <div className="filter__prop-name">{translate('search_result.filter.price')}</div>
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
-                            From <span className="filter__currency">$</span>{price[0]} to <span className="filter__currency">$</span>{price[1]}
+                            {translate('search_result.filter.price_range', {start: price[0],end: price[1]})}
                         </div>
                         <Range
                             min={priceBounds[0]}
@@ -115,5 +119,6 @@ Filter.PropTypes = {
 export default withRouter(connect(
     (state) => ({
         start_at: state.search.start_at,
+        translate: getTranslate(state.locale)
     })
 )(Filter));

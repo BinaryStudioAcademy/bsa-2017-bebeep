@@ -1,56 +1,43 @@
 import React from 'react';
-import Input from '../../../../app/components/Input';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import moment from 'moment';
+import {localize} from 'react-localize-redux';
+import LangService from 'app/services/LangService';
+import * as lang from '../../lang/TripForm.locale.json';
+import Waypoints from "./Waypoints";
+import Input from 'app/components/Input';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {getVehicles} from "../../../car/actions";
 
 class TripForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            momentKey: null,
-        };
-    }
 
-    componentDidMount() {
-        this.setState({
-            momentKey: moment(),
-        });
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.trip) {
-            return nextProps.trip.id !== this.props.trip.id ||
-                nextProps.startPoint.value !== this.props.startPoint.value ||
-                nextProps.endPoint.value !== this.props.endPoint.value;
-        }
-        return true;
+    componentWillMount() {
+        LangService.addTranslation(lang);
+        this.props.getVehicles();
     }
 
     render() {
-        const { errors } = this.props;
-        const { momentKey } = this.state;
-
-        const placesCssClasses = {
-            root: 'form-group',
-            input: 'form-control',
-            autocompleteContainer: 'autocomplete-container'
-        };
+        const { errors, translate } = this.props;
 
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
-                  onSubmit={ this.props.onSubmit } key={ momentKey }>
+                  onSubmit={ this.props.onSubmit }>
                 <div className="card-header">
-                    {this.props.trip ? 'Edit trip' : 'Create trip'}
+                    {this.props.trip ? translate('trip_form.edit_trip') : translate('trip_form.create_trip')}
                 </div>
                 <div className="card-block">
                     <div className={"form-group row " + (errors.vehicle_id ? 'has-danger' : '')}>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="vehicle_id">
-                            Select car
+                            {translate('trip_form.select_car')}
                         </label>
                         <div className="col-sm-8">
-                            <select name="vehicle_id" className="form-control" id="vehicle_id">
-                                <option value="1">BMW X5</option>
-                            </select>
+                            {this.props.vehicles.length > 0 &&
+                                <select defaultValue={this.props.trip ? this.props.trip.vehicle_id : ''} name="vehicle_id" className="form-control" id="vehicle_id">
+                                    {this.props.vehicles.map((vehicle) =>
+                                        <option key={vehicle.id} value={vehicle.id}>{vehicle.brand}</option>
+                                    )}
+                                </select>
+                            }
                             <div className="form-control-feedback">{errors.vehicle_id}</div>
                         </div>
                     </div>
@@ -60,7 +47,7 @@ class TripForm extends React.Component {
                         id="price"
                         defaultValue={this.props.trip ? this.props.trip.price : ''}
                         required={false}
-                        error={errors.price}>Price
+                        error={errors.price}>{translate('trip_form.price')}
                     </Input>
                     <Input
                         type="number"
@@ -68,28 +55,26 @@ class TripForm extends React.Component {
                         id="seats"
                         defaultValue={this.props.trip ? this.props.trip.seats : ''}
                         required={false}
-                        error={errors.seats}>Available seats
+                        error={errors.seats}>{translate('trip_form.available_seats')}
                     </Input>
                     <div className={"form-group row " + (this.props.errors.from ? 'has-danger' : '')}>
-                        <label className="form-control-label text-muted col-sm-4">Start Point</label>
+                        <label className="form-control-label text-muted col-sm-4">{translate('trip_form.start_point')}</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={this.props.startPoint}
-                                                classNames={placesCssClasses}
+                                                classNames={this.props.placesCssClasses}
                                                 onSelect={this.props.onSelectStartPoint}
                                                 onEnterKeyDown={this.props.onSelectStartPoint}
-                                                key={ momentKey }
                             />
                             <div className="form-control-feedback">{this.props.errors.from}</div>
                         </div>
                     </div>
                     <div className={"form-group row " + (this.props.errors.to ? 'has-danger' : '')}>
-                        <label className="form-control-label text-muted col-sm-4">End Point</label>
+                        <label className="form-control-label text-muted col-sm-4">{translate('trip_form.end_point')}</label>
                         <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={this.props.endPoint}
-                                                classNames={placesCssClasses}
+                                                classNames={this.props.placesCssClasses}
                                                 onSelect={this.props.onSelectEndPoint}
                                                 onEnterKeyDown={this.props.onSelectEndPoint}
-                                                key={ momentKey }
                             />
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>
@@ -100,11 +85,18 @@ class TripForm extends React.Component {
                         id="start_at"
                         defaultValue={this.props.trip ? this.props.trip.start_at : ''}
                         required={false}
-                        error={errors.start_at}>Trip start time
+                        error={errors.start_at}>{translate('trip_form.trip_start_time')}
                     </Input>
+
+                    <Waypoints waypoints={this.props.waypoints}
+                               placesCssClasses={this.props.placesCssClasses}
+                               onWaypointDelete={this.props.onWaypointDelete}
+                               onWaypointAdd={this.props.onWaypointAdd}
+                    />
+
                     <div className="form-group">
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">{this.props.trip ? 'Edit trip' : 'Create trip'}</button>
+                            <button type="submit" className="btn btn-primary">{this.props.trip ? translate('trip_form.edit_trip_btn') : translate('trip_form.create_trip_btn')}</button>
                         </div>
                     </div>
                 </div>
@@ -113,4 +105,11 @@ class TripForm extends React.Component {
     }
 }
 
-export default TripForm;
+const TripFormConnected = connect(
+    state => ({
+        vehicles: state.vehicle.vehicles,
+    }),
+    (dispatch) => bindActionCreators({getVehicles}, dispatch)
+)(TripForm);
+
+export default localize(TripFormConnected, 'locale');

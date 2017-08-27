@@ -4,8 +4,8 @@ import SearchForm from './SearchForm';
 import TripList from './TripList';
 import Placeholder from './Placeholder';
 import SortPanel from './SortPanel';
-import Preloader from '../../../../app/components/Preloader';
-import { Pagination } from '../../../../app/components/Pagination';
+import Preloader from 'app/components/Preloader';
+import { Pagination } from 'app/components/Pagination';
 import { connect } from 'react-redux';
 import {
     search,
@@ -14,11 +14,12 @@ import {
     getFilter,
     getCurrentPage,
     getCountResult
-} from '../../services/SearchService';
-import { searchSuccess } from '../../actions';
+} from 'features/search/services/SearchService';
+import { searchSuccess } from 'features/search/actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
-import '../../styles/search-result.scss';
+import {getTranslate} from 'react-localize-redux';
+import 'features/search/styles/search-result.scss';
 
 class Result extends React.Component {
 
@@ -106,25 +107,30 @@ class Result extends React.Component {
         search(fromCoord, toCoord, start_at, page, sort, order, limit, filter)
             .then(response => {
                 this.setState({
-                    collection: response.data.collection,
+                    collection: response.data.data,
                     meta: {
-                        totalSize: response.data.meta.total,
+                        totalSize: +response.data.meta.total,
                         priceRange: [
-                            response.data.meta.price.min,
-                            response.data.meta.price.max
+                            +response.data.meta.price.min,
+                            +response.data.meta.price.max
                         ]
                     },
                     preloader: false
                 });
             })
-            .catch(error => this.setState({
-                errors: error.response,
-                preloader: false
-            }));
+            .catch(error => {
+                if (error.response) {
+                    this.setState({
+                        errors: error.response,
+                        preloader: false
+                    })
+                }
+            });
     }
 
     render() {
         const {sort, order, page, limit, meta, collection, preloader} = this.state,
+            {translate} = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
         return (
@@ -140,7 +146,7 @@ class Result extends React.Component {
                         <div className="container">
                             <div className="row search-result__header">
                                 <div className="col-8 align-self-center">
-                                    Found trips: {meta.totalSize}
+                                    {translate('search_result.found_trips', {size: meta.totalSize})}
                                 </div>
                                 <div className="search-result__sort-container col-4">
                                     <SortPanel
@@ -154,7 +160,7 @@ class Result extends React.Component {
                                 <Preloader enable={preloader}/>
                                 {
                                     preloader
-                                        ? <Placeholder show={true}>Loading ...</Placeholder>
+                                        ? <Placeholder show={true}>{translate('search_result.loading')}</Placeholder>
                                         : <TripList
                                                 collection={collection}
                                             />
@@ -162,7 +168,7 @@ class Result extends React.Component {
                             </div>
                             <div className="row search-result__pagination">
                                 <div className="col-sm-6 align-self-center">
-                                    Showing {countResult} of {meta.totalSize}
+                                    {translate('search_result.showing_of', {count: countResult, size: meta.totalSize})}
                                 </div>
                                 <div className="col-sm-6">
                                     <Pagination
@@ -184,7 +190,8 @@ class Result extends React.Component {
 
 const ResultConnected = connect(
     (state) => ({
-        tripData: state.search
+        tripData: state.search,
+        translate: getTranslate(state.locale)
     }),
     (dispatch) => bindActionCreators({searchSuccess},dispatch)
 )(Result);

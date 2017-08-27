@@ -1,0 +1,22 @@
+{
+  "trip_list": {
+    "my_trips_header": ["My Trips", "Мої подорожі", "Мои поездки"],
+    "upcoming": ["Upcoming", "Поточні", "Текущие"],
+    "past": ["Past", "Минулі", "Прошлые"],
+    "car": ["Car", "Авто", "Авто"],
+    "price": ["Price", "Ціна", "Цена"],
+    "seats": ["Seats", "Місця для сідіння", "Места для седения"],
+    "edit": ["Edit", "Редагувати", "Редактировать"],
+    "delete": ["Delete", "Видалити", "Удалить"],
+    "restore": ["Restore", "Відновити", "Восстановить"],
+    "deleted_successfully": ["Deleted successfully", "Успішно видалено", "Успешно удалено"],
+    "trips_not_found": ["Trips not found", "Подорожей не знайдено", "Поездок не найдено"]
+  },
+  "booking": {
+    "bookings_button": ["New bookings", "Нові бронювання", "Новые бронирования"],
+    "bookings_in_pending": ["bookings in pending", "бронювання в очікуванні", "бронирования в ожидании"],
+    "accept_button": ["Accept booking", "Підтвердити", "Подтвердить"],
+    "reject_button": ["Reject", "Відхилити", "Отменить"],
+    "close_button": ["Close", "Закрити", "Закрыть"]
+  }
+}
