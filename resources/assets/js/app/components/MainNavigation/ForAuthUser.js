@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, IndexLink } from 'react-router';
 import ChangeLocalization from '../ChangeLocalization';
 import {localize} from 'react-localize-redux';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import { getAuthUser } from 'app/services/AuthService';
 
@@ -25,22 +26,11 @@ class ForAuthUser extends React.Component {
 
     render() {
         const {translate} = this.props;
-        const dropdownClass = this.state.isDropdownOpen ? 'show' : '';
         const authUser = getAuthUser();
 
         return (
             <div className="d-flex w-100">
                 <ul className="navbar-nav mr-auto">
-                  <li className="nav-item">
-                    <Link to="/vehicles" className="nav-link" activeClassName="active">
-                        {translate('my_vehicles')}
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/vehicles/create" className="nav-link" activeClassName="active">
-                        {translate('add_vehicle')}
-                    </Link>
-                  </li>
                   <li className="nav-item">
                     <Link to="/trip/create" className="nav-link" activeClassName="active">
                         {translate('create_new_trip')}
@@ -53,25 +43,38 @@ class ForAuthUser extends React.Component {
                   </li>
                 </ul>
 
-                <div className={"nav-item dropdown " + dropdownClass}>
-                  <button className="btn btn-secondary dropdown-toggle"
-                      type="button" data-toggle="dropdown" aria-haspopup="true"
-                      aria-expanded={this.state.isDropdownOpen}
-                      onClick={this.toggleUserDropdown}>
-                    { authUser.username }
-                  </button>
+                <Dropdown className="nav-item" isOpen={this.state.isDropdownOpen} toggle={this.toggleUserDropdown}>
+                    <DropdownToggle caret>
+                        { authUser.username }
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <Link onClick={this.toggleUserDropdown} to="/dashboard" className="dropdown-item" >
+                            {translate('dashboard')}
+                        </Link>
+                        <Link onClick={this.toggleUserDropdown} to="/dashboard/profile" className="dropdown-item" >
+                            {translate('profile')}
+                        </Link>
+                        <Link onClick={this.toggleUserDropdown} to="/bookings" className="dropdown-item" >
+                            {translate('bookings')}
+                        </Link>
 
-                  <div className="dropdown-menu dropdown-menu-right">
+                        <DropdownItem divider />
 
-                    <Link to="/dashboard" className="dropdown-item">{translate('dashboard')}</Link>
-                    <Link to="/dashboard/profile" className="dropdown-item">{translate('profile')}</Link>
-                    <Link to="/bookings" className="dropdown-item">{translate('bookings')}</Link>
+                        <Link onClick={this.toggleUserDropdown} to="/vehicles" className="dropdown-item" >
+                            {translate('my_vehicles')}
+                        </Link>
+                        <Link onClick={this.toggleUserDropdown} to="/vehicles/create" className="dropdown-item" >
+                            {translate('add_vehicle')}
+                        </Link>
 
-                    <div className="dropdown-divider"></div>
+                        <DropdownItem divider />
 
-                    <Link to="/logout" className="dropdown-item">{translate('logout')}</Link>
-                  </div>
-                </div>
+                        <Link onClick={this.toggleUserDropdown} to="/logout" className="dropdown-item" >
+                            {translate('logout')}
+                        </Link>
+                    </DropdownMenu>
+                </Dropdown>
+
                 <div className="nav-item">
                     <ChangeLocalization />
                 </div>
