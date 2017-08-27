@@ -32,16 +32,6 @@ class ForAuthUser extends React.Component {
             <div className="d-flex w-100">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <Link to="/vehicles" className="nav-link" activeClassName="active">
-                        {translate('my_vehicles')}
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/vehicles/create" className="nav-link" activeClassName="active">
-                        {translate('add_vehicle')}
-                    </Link>
-                  </li>
-                  <li className="nav-item">
                     <Link to="/trip/create" className="nav-link" activeClassName="active">
                         {translate('create_new_trip')}
                     </Link>
@@ -67,7 +57,18 @@ class ForAuthUser extends React.Component {
                         <Link onClick={this.toggleUserDropdown} to="/bookings" className="dropdown-item" >
                             {translate('bookings')}
                         </Link>
+
                         <DropdownItem divider />
+
+                        <Link onClick={this.toggleUserDropdown} to="/vehicles" className="dropdown-item" >
+                            {translate('my_vehicles')}
+                        </Link>
+                        <Link onClick={this.toggleUserDropdown} to="/vehicles/create" className="dropdown-item" >
+                            {translate('add_vehicle')}
+                        </Link>
+
+                        <DropdownItem divider />
+
                         <Link onClick={this.toggleUserDropdown} to="/logout" className="dropdown-item" >
                             {translate('logout')}
                         </Link>

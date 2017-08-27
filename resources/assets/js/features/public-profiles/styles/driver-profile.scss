@@ -60,33 +60,36 @@
   padding: 20px;
 }
 
-.card {
+.card-comment {
   position:relative;
 }
-.card>.card-header:after,.card>.card-header:before{
-  position:absolute;
-  top:14px;
-  left:-16px;
-  right:100%;
-  width:0;
-  height:0;
-  display:block;
-  content:" ";
-  border-color:transparent;
-  border-style:solid solid outset;
-  pointer-events:none;
-}
 
-.card>.card-header:after{
-  border-width:7px;
-  border-right-color:#f7f7f7;
-  margin-top:1px;
-  margin-left:2px;
-}
-
-.card>.card-header:before{
-  border-right-color:#ddd;
-  border-width:8px;
+.card {
+    & > .comment-header {
+      &:before, &:after {
+        position: absolute;
+        top: 14px;
+        left: -16px;
+        right: 100%;
+        width: 0;
+        height: 0;
+        display: block;
+        content: " ";
+        border-color: transparent;
+        border-style: solid solid outset;
+        pointer-events: none;
+      }
+      &:after {
+        border-width:7px;
+        border-right-color:#f7f7f7;
+        margin-top:1px;
+        margin-left:2px;
+      }
+      &:before {
+        border-right-color:#ddd;
+        border-width:8px;
+      }
+    }
 }
 
 .user-photo {
@@ -126,4 +129,29 @@
 
 .driver-verifications i {
   padding-right: 10px;
+}
+
+/* Driver rating styles */
+
+.rating {
+  &__marker {
+    width: 35px;
+    line-height: 1;
+  }
+  &-marker {
+    height:9px;
+    margin: 5px 0;
+  }
+
+  &__progress {
+    width: 180px;
+  }
+  &-progress {
+    height: 9px;
+    margin:8px 0;
+  }
+
+  &__count {
+    margin-left: 10px;
+  }
 }

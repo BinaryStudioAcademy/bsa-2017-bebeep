@@ -29,6 +29,6 @@ class UpcommingBookingCriteria implements CriteriaInterface
             ->where('trips.end_at', '>', Carbon::now())
             ->where($model->getTable().'.user_id', $this->user->id)
             ->with(['routes', 'trip'])
-            ->orderBy('trips.start_at', 'desc');
+            ->orderBy('trips.start_at', 'asc');
     }
 }

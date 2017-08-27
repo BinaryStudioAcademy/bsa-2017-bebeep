@@ -24,6 +24,7 @@ class UpcomingDriverTripsCriteria implements CriteriaInterface
             ->with(['routes', 'vehicle', 'bookings' => function ($query) {
                 $query->where('status', Booking::STATUS_PENDING);
             }])
+            ->orderBy('start_at', 'asc')
             ->latest('id');
     }
 }
