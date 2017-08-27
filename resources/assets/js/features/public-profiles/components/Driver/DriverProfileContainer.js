@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 
-import "../../styles/driver-profile.scss";
+import "../../styles/public-profile.scss";
 
 class DriverProfileContainer extends React.Component {
     constructor(props) {
@@ -32,7 +32,7 @@ class DriverProfileContainer extends React.Component {
                 <div>
                     <Preloader enable={true}/>
                     <div className="justify-content-center loading-placeholder loading-placeholder_show">
-                        <span className="align-self-center">{translate('driver_public_profile.loading')}</span>
+                        <span className="align-self-center">{translate('public_profile.loading')}</span>
                     </div>
                 </div>
             );

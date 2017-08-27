@@ -3,7 +3,7 @@ import {localize} from 'react-localize-redux';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import {defaultUserPhoto} from 'app/services/PhotoService';
 
-import "../styles/driver-profile.scss";
+import "../styles/public-profile.scss";
 
 class ProfileComment extends React.Component {
     getDaysFromComment() {

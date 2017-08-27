@@ -6,7 +6,7 @@ import ProfileCommentsList from '../ProfileCommentsList';
 import ProfileAbout from '../ProfileAbout';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
-import "../../styles/driver-profile.scss";
+import "../../styles/public-profile.scss";
 
 class DriverProfile extends React.Component {
 
@@ -18,7 +18,7 @@ class DriverProfile extends React.Component {
         const { translate, profile } = this.props;
 
         return (
-            <div className="driver-profile">
+            <div className="driver__profile">
                 <ProfileBasicInfo
                     first_name={profile.first_name}
                     last_name={profile.last_name}

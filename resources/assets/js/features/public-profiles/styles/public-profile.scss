@@ -12,24 +12,63 @@
     display: flex;
   }
 }
+
 .preloader_active {
   padding-top: 100px;
 }
 
-.driver-profile {
-  padding-right: 10px;
-}
+.driver {
+  &__profile {
+    padding-right: 10px;
+    &-border {
+      border-left: 1px solid rgba(128, 128, 128, 0.2);
+    }
+  }
 
-.driver-profile-border {
-  border-left: 1px solid rgba(128, 128, 128, 0.2);
-}
+  &-avatar {
+    margin-bottom: 20px;
+  }
 
-.driver-avatar {
-  margin-bottom: 20px;
-}
+  &-years {
+    font-weight: 100;
+  }
 
-.driver-years {
-  font-weight: 100;
+  &__about {
+    margin-top: 15px;
+    &-me {
+      border-radius: 5px;
+      background-color: rgba(136, 200, 255, 0.27);
+      padding: 20px;
+    }
+  }
+
+  &-name {
+    margin-bottom: 20px;
+  }
+
+  &-additional-info {
+    padding-left: 15px;
+  }
+
+  &-car {
+    border: 1px solid rgba(128, 128, 128, 0.19);
+    width: 230px;
+    height: 140px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+
+    &-block {
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(128, 128, 128, 0.27);
+
+      &-verifications{
+        color: #5cb85c !important;
+        i {
+          padding-right: 10px;
+        }
+      }
+    }
+  }
 }
 
 .small-text {
@@ -40,31 +79,22 @@
   color: rgba(241, 199, 31, 0.88) !important;
   padding-right: 5px;
 }
-.preference-green {
-  color: #5cb85c !important;
-  margin-right: 5px;
-}
-
-.preference-red {
-  color: rgba(199, 44, 21, 0.93) !important;
-  margin-right: 5px;
-}
-
-.rating-info {
-  margin: 25px 0;
-}
-
-.driver-about-me {
-  border-radius: 5px;
-  background-color: rgba(136, 200, 255, 0.27);
-  padding: 20px;
-}
-
-.card-comment {
-  position:relative;
+.preference {
+  &-green {
+    color: #5cb85c !important;
+    margin-right: 5px;
+  }
+  &-red {
+    color: rgba(199, 44, 21, 0.93) !important;
+    margin-right: 5px;
+  }
 }
 
 .card {
+    &-comment {
+      position:relative;
+    }
+
     & > .comment-header {
       &:before, &:after {
         position: absolute;
@@ -102,35 +132,6 @@
   margin-bottom: 15px;
 }
 
-.driver-name {
-  margin-bottom: 20px;
-}
-
-.driver-additional-info {
-  padding-left: 15px;
-}
-
-.driver-car-block {
-  padding: 15px 0;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.27);
-}
-
-.driver-car {
-  border: 1px solid rgba(128, 128, 128, 0.19);
-  width: 230px;
-  height: 140px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-}
-
-.driver-verifications{
-  color: #5cb85c !important;
-}
-
-.driver-verifications i {
-  padding-right: 10px;
-}
-
 /* Driver rating styles */
 
 .rating {
@@ -153,5 +154,9 @@
 
   &__count {
     margin-left: 20px;
+  }
+
+  &-info {
+    margin: 25px 0;
   }
 }

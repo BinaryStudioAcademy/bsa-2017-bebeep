@@ -4,7 +4,7 @@ import ProfileBasicInfo from '../ProfileBasicInfo';
 import ProfileAbout from '../ProfileAbout';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
-import "../../styles/driver-profile.scss";
+import "../../styles/public-profile.scss";
 
 class PassengerProfile extends React.Component {
 
