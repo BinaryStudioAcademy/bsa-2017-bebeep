@@ -18,6 +18,10 @@ class UpcomingDriverTripsCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->whereUserId($this->user->id)->where('start_at', '>=', Carbon::now()->toDateTimeString())->with(['routes', 'vehicle'])->latest('id');
+        return $model->whereUserId($this->user->id)
+            ->where('start_at', '>=', Carbon::now()->toDateTimeString())
+            ->with(['routes', 'vehicle'])
+            ->orderBy('start_at', 'asc')
+            ->latest('id');
     }
 }
