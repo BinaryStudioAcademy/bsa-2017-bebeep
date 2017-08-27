@@ -65,41 +65,35 @@
 }
 
 .card {
-  & > .comment-header {
-    &:before,&:after {
-      position:absolute;
-      top:14px;
-      left:-16px;
-      right:100%;
-      width:0;
-      height:0;
-      display:block;
-      content:" ";
-      border-color:transparent;
-      border-style:solid solid outset;
-      pointer-events:none;
+    & > .comment-header {
+      &:before, &:after {
+        position: absolute;
+        top: 14px;
+        left: -16px;
+        right: 100%;
+        width: 0;
+        height: 0;
+        display: block;
+        content: " ";
+        border-color: transparent;
+        border-style: solid solid outset;
+        pointer-events: none;
+      }
     }
-  }
-}
-
-.card {
-  & > .comment-header {
-    &:after {
-      border-width:7px;
-      border-right-color:#f7f7f7;
-      margin-top:1px;
-      margin-left:2px;
+    & > .comment-header {
+      &:after {
+        border-width:7px;
+        border-right-color:#f7f7f7;
+        margin-top:1px;
+        margin-left:2px;
+      }
     }
-  }
-}
-
-.card {
-  & > .comment-header {
-    &:before {
-      border-right-color:#ddd;
-      border-width:8px;
+    & > .comment-header {
+      &:before {
+        border-right-color:#ddd;
+        border-width:8px;
+      }
     }
-  }
 }
 
 .user-photo {
@@ -143,24 +137,25 @@
 
 /* Driver rating styles */
 
-.rating__marker {
-  width: 35px;
-  line-height: 1;
-}
+.rating {
+  &__marker {
+    width: 35px;
+    line-height: 1;
+  }
+  &-marker {
+    height:9px;
+    margin: 5px 0;
+  }
 
-.rating-marker {
-  height:9px;
-  margin: 5px 0;
-}
+  &__progress {
+    width: 180px;
+  }
+  &-progress {
+    height: 9px;
+    margin:8px 0;
+  }
 
-.rating__progress {
-  width: 180px;
-}
-.rating-progress {
-  height: 9px;
-  margin:8px 0;
-}
-
-.rating-breakdown-count {
-  margin-left: 10px;
+  &__count {
+    margin-left: 10px;
+  }
 }

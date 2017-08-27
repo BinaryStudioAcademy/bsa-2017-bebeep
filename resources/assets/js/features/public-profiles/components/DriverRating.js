@@ -29,7 +29,7 @@ class DriverRating extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="pull-right rating-breakdown-count">1</div>
+                            <div className="pull-right rating__count">1</div>
                         </div>
                         <div className="pull-left">
                             <div className="pull-left rating__marker">
@@ -41,7 +41,7 @@ class DriverRating extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="pull-right rating-breakdown-count">1</div>
+                            <div className="pull-right rating__count">1</div>
                         </div>
                         <div className="pull-left">
                             <div className="pull-left rating__marker">
@@ -53,7 +53,7 @@ class DriverRating extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="pull-right rating-breakdown-count">0</div>
+                            <div className="pull-right rating__count">0</div>
                         </div>
                         <div className="pull-left">
                             <div className="pull-left rating__marker">
@@ -65,7 +65,7 @@ class DriverRating extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="pull-right rating-breakdown-count">0</div>
+                            <div className="pull-right rating__count">0</div>
                         </div>
                         <div className="pull-left">
                             <div className="pull-left rating__marker">
@@ -77,7 +77,7 @@ class DriverRating extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="pull-right rating-breakdown-count">0</div>
+                            <div className="pull-right rating__count">0</div>
                         </div>
                     </div>
                 </div>
