@@ -47,7 +47,8 @@ class SearchTripsTest extends BaseTripTestCase
                 'trip_id' => json_decode($response->getContent())->id,
             ]
         );
-        $search = '?fc=30.523400000000038|50.4501&fn=Київ%2C+місто+Київ%2C+Україна&start_at=1503694800&tc=36.230383000000074|49.9935&tn=Харьков%2C+Харьковская+область%2C+Украина';
+        $start_at = Carbon::now()->timestamp;
+        $search = '?fc=30.523400000000038|50.4501&start_at=' . $start_at . '&tc=36.230383000000074|49.9935';
         $response = $this->json('GET', self::ENDPOINT . $search);
         $response->assertStatus(200);
         $response->assertSee("350.00");
@@ -60,7 +61,7 @@ class SearchTripsTest extends BaseTripTestCase
      */
     public function test_search_no_exist_data()
     {
-        $search = '?fc=30.523400000000038|50.4501&fn=Київ%2C+місто+Київ%2C+Україна&start_at=1503694800&tc=24.029717000000005|49.839683&tn=Львів%2C+Львівська+область%2C+Україна';
+        $search = '?fc=30.523400000000038|50.4501&start_at=1503694800&tc=24.029717000000005|49.839683';
         $response = $this->json('GET', self::ENDPOINT . $search);
         $response->assertStatus(200);
         $response->assertJsonFragment($this->responseNoExistData);
