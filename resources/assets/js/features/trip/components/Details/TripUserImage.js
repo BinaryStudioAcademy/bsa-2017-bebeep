@@ -8,10 +8,9 @@ class TripUserImage extends React.Component {
 
     render() {
         const { user, type, id, className } = this.props,
-            getAvatar = type === 'driver' ? getDriverAvatar : getPassengerAvatar;
+            link = `/${type}/${user.id}`;
 
-        // TODO : Link for Passenger Profile
-        const link = type === 'driver' ? `/driver/${user.id}` : '#';
+        const getAvatar = type === 'driver' ? getDriverAvatar : getPassengerAvatar;
 
         return (
             <Link to={ link } id={ id }>
