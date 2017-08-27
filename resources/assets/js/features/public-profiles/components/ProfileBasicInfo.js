@@ -4,7 +4,7 @@ import {defaultUserPhoto} from 'app/services/PhotoService';
 
 import "../styles/driver-profile.scss";
 
-class DriverBasicInfo extends React.Component {
+class ProfileBasicInfo extends React.Component {
 
     render() {
         const { first_name, last_name, years, img, translate } = this.props;
@@ -29,4 +29,4 @@ class DriverBasicInfo extends React.Component {
     }
 }
 
-export default localize(DriverBasicInfo, 'locale');
+export default localize(ProfileBasicInfo, 'locale');

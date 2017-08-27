@@ -5,7 +5,7 @@ import {defaultUserPhoto} from 'app/services/PhotoService';
 
 import "../styles/driver-profile.scss";
 
-class DriverComment extends React.Component {
+class ProfileComment extends React.Component {
     getDaysFromComment() {
         return DateTimeHelper.getTimeFromCommentDate(this.props.comment.date);
     }
@@ -52,4 +52,4 @@ class DriverComment extends React.Component {
     }
 }
 
-export default localize(DriverComment, 'locale');
+export default localize(ProfileComment, 'locale');

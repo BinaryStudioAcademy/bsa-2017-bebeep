@@ -3,7 +3,7 @@ import {localize} from 'react-localize-redux';
 
 import "../styles/driver-profile.scss";
 
-class DriverAbout extends React.Component {
+class ProfileAbout extends React.Component {
 
     render() {
         const { about, translate } = this.props;
@@ -17,4 +17,4 @@ class DriverAbout extends React.Component {
     }
 }
 
-export default localize(DriverAbout, 'locale');
+export default localize(ProfileAbout, 'locale');

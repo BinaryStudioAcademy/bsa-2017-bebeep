@@ -2,11 +2,16 @@ import * as actions from './actionTypes';
 import { securedRequest } from 'app/services/RequestService';
 
 export const publicDriverProfileSetState = profile => ({
-    type: actions.PUBLIC_PROFILE_SET_STATE,
+    type: actions.PUBLIC_DRIVER_PROFILE_SET_STATE,
     profile
 });
 
-export const getProfile = (id) => dispatch => {
+export const publicPassengerProfileSetState = profile => ({
+    type: actions.PUBLIC_PASSENGER_PROFILE_SET_STATE,
+    profile
+});
+
+export const getDriverProfile = (id) => dispatch => {
         let response = {
                 first_name: 'Andrey',
                 last_name: 'Tondrev',
@@ -44,5 +49,23 @@ export const getProfile = (id) => dispatch => {
             response =  Promise.resolve(response.data);
             dispatch(publicDriverProfileSetState(response.data))
          });*/
+
+};
+
+export const getPassengerProfile = (id) => dispatch => {
+    let response = {
+        first_name: 'Tomas',
+        last_name: 'Witsel',
+        birth_date: '1988-11-11',
+        about_me: null,
+        img: null
+    };
+    dispatch(publicPassengerProfileSetState(response));
+
+    /*return securedRequest.get('/api/v1/passenger/' + id)
+     .then(response => {
+     response =  Promise.resolve(response.data);
+     dispatch(publicPassengerProfileSetState(response.data))
+     });*/
 
 };
