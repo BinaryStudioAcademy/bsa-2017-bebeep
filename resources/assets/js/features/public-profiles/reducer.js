@@ -6,7 +6,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch(action.type) {
-        case actions.GET_DRIVER_PROFILE:
+        case actions.PUBLIC_PROFILE_SET_STATE:
             return {
                 ...state,
                 current_driver_profile: action.profile

@@ -1,8 +1,8 @@
 import * as actions from './actionTypes';
 import { securedRequest } from 'app/services/RequestService';
 
-export const getProfileSuccess = profile => ({
-    type: actions.GET_DRIVER_PROFILE,
+export const publicDriverProfileSetState = profile => ({
+    type: actions.PUBLIC_PROFILE_SET_STATE,
     profile
 });
 
@@ -37,12 +37,12 @@ export const getProfile = (id) => dispatch => {
                     }
                 ]
             };
-        dispatch(getProfileSuccess(response));
+        dispatch(publicDriverProfileSetState(response));
 
         /*return securedRequest.get('/api/v1/driver/' + id)
          .then(response => {
             response =  Promise.resolve(response.data);
-            dispatch(getProfileSuccess(response.data))
+            dispatch(publicDriverProfileSetState(response.data))
          });*/
 
 };
