@@ -6,11 +6,9 @@ import {localize} from 'react-localize-redux';
 
 class DriverProfile extends React.Component {
     render() {
-        const { car, translate } = this.props;
-
         return (
             <div className="driver-additional-info">
-                <DriverCar car={car}/>
+                <DriverCar car={this.props.car}/>
                 <DriverVerifications />
                 <DriverActivity />
             </div>

@@ -1,0 +1,2 @@
+export const defaultUserPhoto = 'http://www.theenergycollective.com/wp-content/plugins/userpro/img/default_avatar_male.jpg';
+export const defaultCarPhoto = 'https://cdn4.iconfinder.com/data/icons/car-silhouettes/1000/sedan-512.png';
