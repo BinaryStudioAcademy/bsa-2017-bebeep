@@ -21,7 +21,6 @@ class SearchTripsTest extends BaseTripTestCase
     public $userId;
     public $trip;
 
-
     /**
      * Test to find the right data.
      */
