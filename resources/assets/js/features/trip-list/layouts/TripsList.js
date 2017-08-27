@@ -74,7 +74,7 @@ class TripsList extends React.Component {
 
                 <br/>
 
-                <TripsListContainer filter={this.props.filter} trips={this.props.trips} />
+                <TripsListContainer filter={this.props.filter} />
             </div>
         );
     }
@@ -83,7 +83,6 @@ class TripsList extends React.Component {
 const TripsListConnected = connect(
     (state) => ({
         filter: state.tripList.filter,
-        trips: state.tripList.trips,
         translate: getTranslate(state.locale)
     }),
     (dispatch) => bindActionCreators({tripsLoadSuccess, tripsFilterChanged}, dispatch)

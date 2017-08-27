@@ -3,6 +3,7 @@ import BookingInfo from '../BookingInfo';
 import { getTranslate } from 'react-localize-redux';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {changeBookingStatus} from '../../actions';
 
 import Modal from 'app/components/Modal';
 import BookingService, {BOOKING_STATUS_DECLINED, BOOKING_STATUS_APPROVED} from 'app/services/BookingService';
@@ -30,7 +31,8 @@ class BookingModal extends React.Component {
             status
         };
 
-        BookingService.updateBookingStatus(tripId, bookingId, data);
+        BookingService.updateBookingStatus(tripId, bookingId, data)
+            .then(() => this.props.changeBookingStatus(bookingId, status));
         this.setState({
             modalIsOpen: false
         });
@@ -73,5 +75,5 @@ export default connect(
     state => ({
         translate: getTranslate(state.locale)
     }),
-    dispatch => bindActionCreators({}, dispatch)
+    dispatch => bindActionCreators({changeBookingStatus}, dispatch)
 )(BookingModal);

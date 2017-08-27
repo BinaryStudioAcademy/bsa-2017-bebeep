@@ -1,7 +1,11 @@
 import * as actions from './actionTypes';
 
 const initialState = {
-    trips: {data: []},
+    list: [],
+    trips: {},
+    vehicle: {},
+    routes: {},
+    bookings: {},
     filter: 'upcoming'
 };
 
@@ -13,9 +17,14 @@ export default function (state = initialState, action) {
                 filter: action.payload
             };
         case actions.TRIPS_LOAD_SUCCESS:
+            return Object.assign(state, action.data);
+        case actions.TRIPS_BOOKING_STATUS_CHANGE:
             return {
                 ...state,
-                trips: action.payload
+                bookings: {
+                    ...state.bookings,
+                    [action.id]: action.booking
+                }
             };
         default: {
             return state;
