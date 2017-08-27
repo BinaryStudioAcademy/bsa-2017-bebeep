@@ -170,18 +170,28 @@ class CreateBookingTest extends JwtTestCase
     {
         $data = $this->createTripWithDriver();
         $this->url = $this->getUrl($data['trip']->id);
+        $route1 = $data['routes'][0]->id;
+        $route2 = $data['routes'][1]->id;
 
         $user = $this->getPassengerUser();
 
-        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [1, 2], 'seats' => 1]);
+        $response = $this->jsonRequestAsUser(
+            $user,
+            $this->method,
+            $this->url,
+            [
+                'routes' => [$route1, $route2],
+                'seats' => 1
+            ]
+        );
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('booking_route', [
-            'route_id' => 1,
+            'route_id' => $route1,
             'booking_id' => $response->json()['id'],
         ]);
         $this->assertDatabaseHas('booking_route', [
-            'route_id' => 2,
+            'route_id' => $route2,
             'booking_id' => $response->json()['id'],
         ]);
 
