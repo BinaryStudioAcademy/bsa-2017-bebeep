@@ -181,7 +181,7 @@ class CreateBookingTest extends JwtTestCase
             $this->url,
             [
                 'routes' => [$route1, $route2],
-                'seats' => 1
+                'seats' => 1,
             ]
         );
         $response->assertStatus(200);
