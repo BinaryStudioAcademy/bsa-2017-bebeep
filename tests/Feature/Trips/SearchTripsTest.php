@@ -79,9 +79,9 @@ class SearchTripsTest extends BaseTripTestCase
         $search = '?fc=30.523400000000038|50.4501&start_at='.$startAt.'&tc=36.230383000000074|49.9935&sort=price&order=asc&page=1&limit=10&filter[price][min]=0&filter[price][max]=400&filter[time][min]=1&filter[time][max]=24';
         $response = $this->json('GET', self::ENDPOINT.$search);
         $response->assertStatus(200);
-        $response->assertSee("350.00");
-        $response->assertSee("\"total\":1");
-        $response->assertSee("\"seats\":3");
+        $response->assertSee('350.00');
+        $response->assertSee('"total":1');
+        $response->assertSee('"seats":3');
     }
 
     /**
