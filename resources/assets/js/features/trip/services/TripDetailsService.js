@@ -1,7 +1,7 @@
 import moment from 'moment';
 import _ from 'lodash';
 
-import UserService from 'features/user/services/UserService';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import { simpleRequest } from 'app/services/RequestService';
 
 const TripDetailsService = {
@@ -25,11 +25,11 @@ const TripDetailsService = {
     },
 
     setUsersAge(data) {
-        data.driver.data.age = UserService.getAge(data.driver.data);
+        data.driver.data.age = DateTimeHelper.getUserYearsOld(data.driver.data.birth_date);
 
         data.routes.data.map((route) => {
             route.bookings.data = route.bookings.data.map((booking) => {
-                booking.user.data.age = UserService.getAge(booking.user.data);
+                booking.user.data.age = DateTimeHelper.getUserYearsOld(booking.user.data.birth_date);
                 return booking;
             });
             return route;
