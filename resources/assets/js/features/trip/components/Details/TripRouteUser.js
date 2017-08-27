@@ -12,7 +12,7 @@ class TripRouteUser extends React.Component {
         const { translate, type, uniqueKey, user } = this.props;
 
         return (
-            <div className="trip-route-passenger">
+            <div className="trip-routes__passenger">
                 <TripUserImage
                     user={ user }
                     type={ type }
@@ -22,7 +22,7 @@ class TripRouteUser extends React.Component {
 
                 <UserTooltip user={ user } target={"UserTooltip-" + uniqueKey} />
 
-                <div className="passenger-info">
+                <div>
                     <span className="d-block">
                         <strong>{ _.truncate(user.full_name, {'length': 10}) }</strong>
                     </span>

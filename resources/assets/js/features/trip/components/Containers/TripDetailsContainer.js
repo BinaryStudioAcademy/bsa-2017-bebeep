@@ -6,6 +6,7 @@ import _ from 'lodash';
 import TripDetailsService from 'features/trip/services/TripDetailsService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
+import Preloader from 'app/components/Preloader';
 import BookingModal from '../Modals/BookingModal';
 import {
     TripMainPoints,
@@ -31,7 +32,8 @@ class TripDetailsContainer extends React.Component {
             driver: null,
             vehicle: null,
             isOpenBookingModal: false,
-            disableBookingBtn: false
+            disableBookingBtn: false,
+            preloader: true,
         };
 
         this.onBookingBtnClick = this.onBookingBtnClick.bind(this);
@@ -47,17 +49,11 @@ class TripDetailsContainer extends React.Component {
                     routes: response.routes.data,
                     driver: response.driver.data,
                     vehicle: response.vehicle.data,
+                    preloader: false,
                 });
                 this.formatStartAt();
             })
-            .catch(error => {
-                this.setState({
-                    trip: null,
-                    routes: null,
-                    driver: null,
-                    vehicle: null,
-                });
-            });
+            .catch(error => {});
     }
 
     formatStartAt() {
@@ -99,12 +95,15 @@ class TripDetailsContainer extends React.Component {
                 driver,
                 vehicle,
                 isOpenBookingModal,
-                disableBookingBtn
+                disableBookingBtn,
+                preloader
             } = this.state,
             { translate, id } = this.props;
 
-        if (!trip) {
-            return (<div />);
+        if (preloader) {
+            return (
+                <Preloader enable={true} />
+            );
         }
 
         const startPoint = routes[0].from;
@@ -156,10 +155,10 @@ class TripDetailsContainer extends React.Component {
                             bookings={ routes[0].bookings.data }
                         />
 
-                        <div className="trip-booking-button-area p-3">
+                        <div className="trip-booking-button p-3">
                             <button
                                 role="button"
-                                className={"btn trip-booking-button py-3" +
+                                className={"btn trip-booking-button__btn py-3" +
                                     (disableBookingBtn ? " disabled" : "")}
                                 onClick={ this.onBookingBtnClick }
                             >
