@@ -1,18 +1,18 @@
-$base-color: #6dcff7;
+@import '~app/bootstrap/variables';
 
 .trip-detail-icon.fa {
     vertical-align: middle;
     font-size: 1.5em;
-    color: $base-color;
+    color: $teal;
 }
 
 .block-border {
-    border: 1px solid #ddd;
+    border: 1px solid $gray-lighter;
 }
 
 .trip-section-header {
     margin-bottom: 1.5rem;
-    color: #444;
+    color: $gray-dark;
 }
 
 .trip-main-points {
@@ -42,9 +42,9 @@ $base-color: #6dcff7;
     display: inline-block;
     margin-right: .5rem;
     vertical-align: top;
-    background-color: #fff;
+    background-color: $white;
     border-radius: 50%;
-    border: 3px solid $base-color;
+    border: 3px solid $teal;
 }
 
 .trip-point-icon--waypoint:before {
@@ -53,7 +53,7 @@ $base-color: #6dcff7;
 }
 
 .trip-point-icon--end:before {
-    background-color: lighten($base-color, 10%);
+    background-color: lighten($teal, 10%);
 }
 
 .trip-user-image {
@@ -79,7 +79,7 @@ $base-color: #6dcff7;
 
 .trip-routes {
     font-size: .8em;
-    border-bottom: 1px solid #eceeef;
+    border-bottom: 1px solid $gray-lighter;
 
     th {
         padding: .5rem;
@@ -93,7 +93,7 @@ $base-color: #6dcff7;
 
     thead th:not(:first-child),
     tbody td {
-        border-left: 1px solid #eceeef;
+        border-left: 1px solid $gray-lighter;
     }
 
     tbody th {
@@ -142,7 +142,7 @@ $base-color: #6dcff7;
             display: block;
             width: 2px;
             height: 100%;
-            background-color: $base-color;
+            background-color: $teal;
             position: absolute;
             left: 12px;
         }
@@ -154,7 +154,7 @@ $base-color: #6dcff7;
     }
 
     &__driver-cell {
-        background-color: lighten($base-color, 26%);
+        background-color: lighten($teal, 26%);
     }
 
     &__passenger {
@@ -168,22 +168,22 @@ $base-color: #6dcff7;
 .trip-price,
 .trip-places-free {
     width: 100%;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $gray-lighter;
 }
 .trip-price {
-    border-right: 1px solid #ddd;
+    border-right: 1px solid $gray-lighter;
 }
 
 .trip-booking-value {
     font-size: 2.5em;
     font-weight: bold;
-    color: #444;
+    color: $gray-dark;
 }
 
 .trip-text-label {
     display: block;
     font-size: .9em;
-    color: #888;
+    color: $gray-light;
 }
 
 .trip-passengers-current {
@@ -204,7 +204,7 @@ $base-color: #6dcff7;
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        border: 2px dashed #ddd;
+        border: 2px dashed $gray-lighter;
     }
 }
 
@@ -218,21 +218,21 @@ $base-color: #6dcff7;
 }
 
 .trip-booking-button {
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
+    background-color: $gray-lightest;
+    border-top: 1px solid $gray-lighter;
 
     &__btn {
         width: 100%;
         font-size: .95em;
         font-weight: 600;
-        color: #fff;
+        color: $white;
         letter-spacing: 1px;
         text-transform: uppercase;
-        background-color: $base-color;
+        background-color: $teal;
         box-shadow: inset 0 -2px rgba(0, 0, 0, .2);
 
         &:hover {
-            background-color: darken($base-color, 30%);
+            background-color: darken($teal, 30%);
         }
         &:focus,
         &:active {
