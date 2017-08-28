@@ -2,9 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { localize } from 'react-localize-redux';
+import _ from 'lodash';
 
 import { tripDetailsLoadSuccess } from 'features/trip/actions';
 import { searchSuccess } from 'features/search/actions';
+
 import TripDetailsService from 'features/trip/services/TripDetailsService';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 
@@ -50,7 +52,7 @@ class TripDetails extends React.Component {
     setSearchData() {
         const { details, searchSuccess } = this.props,
             startPoint = details.routes[0].from,
-            endPoint = details.routes[details.routes.length - 1].to;
+            endPoint = _.last(details.routes).to;
 
         const searchData = {
             from: {

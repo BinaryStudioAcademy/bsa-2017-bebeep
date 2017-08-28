@@ -51,10 +51,8 @@ class BookingModal extends React.Component {
 
     validate(iStart, iEnd, seats) {
         const { waypoints } = this.props;
-        const freeSeats = _.sumBy(_.slice(waypoints, iStart, iEnd + 1), 'free_seats');
-
-        console.log(iStart, iEnd);
-        console.log( freeSeats );
+        const freeSeats = waypoints[0].free_seats;
+        // TODO :: temporary. It is necessary to solve the problem of showing trips/routes
 
         const errors = BookingService.validateBooking(
             iStart,
@@ -107,6 +105,7 @@ class BookingModal extends React.Component {
         const {isOpenModal, errors} = this.state,
             {translate, waypoints, price, startAt, maxSeats} = this.props;
 
+        // TODO :: temporary. It is necessary to solve the problem of showing trips/routes
         const freeSeats = waypoints[0].free_seats;
 
         return (
