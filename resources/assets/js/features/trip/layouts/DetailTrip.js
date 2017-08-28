@@ -34,7 +34,7 @@ class DetailTrip extends React.Component {
                     maxSeats={3}
                     waypoints={[
                         {
-                            "id": 9,
+                            "id": 3,
                             "from": {
                                 "lng": 30.52340000000004,
                                 "lat": 50.4501,
