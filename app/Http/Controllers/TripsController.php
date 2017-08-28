@@ -14,6 +14,7 @@ use App\Http\Requests\UpdateTripRequest;
 use App\Http\Requests\GetDriverTripRequest;
 use App\Exceptions\Trip\UserCantEditTripException;
 use App\Transformers\Search\SearchTripTransformer;
+use App\Transformers\DriverTrip\DriverTripTransformer;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 
 class TripsController extends Controller
@@ -57,7 +58,9 @@ class TripsController extends Controller
     {
         $trips = $this->tripsService->getUpcoming(Auth::user());
 
-        return response()->json($trips);
+        return fractal()->collection($trips, new DriverTripTransformer())
+            ->parseIncludes(['routes', 'vehicle', 'bookings'])
+            ->respond();
     }
 
     /**
@@ -67,7 +70,9 @@ class TripsController extends Controller
     {
         $trips = $this->tripsService->getPast(Auth::user());
 
-        return response()->json($trips);
+        return fractal()->collection($trips, new DriverTripTransformer())
+            ->parseIncludes(['routes', 'vehicle', 'bookings'])
+            ->respond();
     }
 
     /**
