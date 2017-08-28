@@ -9,13 +9,9 @@ import UserTooltip from 'app/components/Tooltips/UserTooltip';
 class TripPassengersCurrent extends React.Component {
 
     renderPassengers() {
-        const { bookings } = this.props;
+        const bookings = this.props.bookings;
 
         return bookings.map((booking) => {
-            if (booking.status !== 'approved') {
-                return null;
-            }
-
             const passenger = booking.user.data;
 
             return [...Array(booking.seats)].map((n, i) => {
@@ -35,10 +31,9 @@ class TripPassengersCurrent extends React.Component {
     }
 
     renderSeatsFree() {
-        const { maxSeats } = this.props;
-        const busy = 3;
+        const freeSeats = this.props.freeSeats;
 
-        return [...Array(maxSeats - busy)].map((n, i) =>
+        return [...Array(freeSeats)].map((n, i) =>
             <li className="trip-passengers-current__item" key={i}>
                 <span className="trip-passengers-current__free" />
             </li>

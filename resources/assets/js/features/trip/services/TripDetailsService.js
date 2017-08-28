@@ -15,15 +15,17 @@ const TripDetailsService = {
 
     transformData(response) {
         response.trip.price = parseInt(response.trip.price);
-        this.setUsersAge(response);
+
+        this.setDriverAge(response);
+        this.transformRoutesData(response);
 
         return response;
     },
 
-    setUsersAge(data) {
-        data.driver.data.age = DateTimeHelper.getUserYearsOld(data.driver.data.birth_date);
-
+    transformRoutesData(data) {
         data.routes.data.map((route) => {
+            route.free_seats = this.getRouteFreeSeats(data.trip.seats, route.reserved_seats);
+
             route.bookings.data = route.bookings.data.map((booking) => {
                 booking.user.data.age = DateTimeHelper.getUserYearsOld(booking.user.data.birth_date);
                 return booking;
@@ -32,8 +34,11 @@ const TripDetailsService = {
         });
     },
 
-    getFreeSeats(maxSeats, routes) {
-        const reservedSeats = _.sumBy(routes, 'reserved_seats');
+    setDriverAge(data) {
+        data.driver.data.age = DateTimeHelper.getUserYearsOld(data.driver.data.birth_date);
+    },
+
+    getRouteFreeSeats(maxSeats, reservedSeats) {
         return maxSeats - reservedSeats;
     }
 };

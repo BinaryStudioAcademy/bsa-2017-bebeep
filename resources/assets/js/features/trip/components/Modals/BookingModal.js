@@ -6,7 +6,6 @@ import Modal from 'app/components/Modal';
 import SelectItem from './SelectItem';
 
 import BookingService from 'app/services/BookingService';
-import TripDetailsService from 'features/trip/services/TripDetailsService';
 
 import 'features/trip/styles/booking_modal.scss';
 
@@ -51,8 +50,11 @@ class BookingModal extends React.Component {
     }
 
     validate(iStart, iEnd, seats) {
-        const { waypoints, maxSeats } = this.props;
-        const freeSeats = TripDetailsService.getFreeSeats(maxSeats, waypoints);
+        const { waypoints } = this.props;
+        const freeSeats = _.sumBy(_.slice(waypoints, iStart, iEnd + 1), 'free_seats');
+
+        console.log(iStart, iEnd);
+        console.log( freeSeats );
 
         const errors = BookingService.validateBooking(
             iStart,
@@ -102,8 +104,10 @@ class BookingModal extends React.Component {
     }
 
     render() {
-        const {isOpenModal, errors, freeSeats} = this.state,
+        const {isOpenModal, errors} = this.state,
             {translate, waypoints, price, startAt, maxSeats} = this.props;
+
+        const freeSeats = waypoints[0].free_seats;
 
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>

@@ -2,13 +2,13 @@ import React from 'react';
 import { localize } from 'react-localize-redux';
 
 import TripRouteUser from './TripRouteUser';
-import { DriverIcon, SeatIcon } from './Icons';
+import { DriverIcon, SeatIcon } from 'app/components/Icons';
 
 
 class TripRoutesPassengers extends React.Component {
 
     render() {
-        const { translate, maxSeats, freeSeats, routes, driver } = this.props;
+        const { translate, maxSeats, routes, driver } = this.props;
 
         return (
             <section className="block-border p-3 mt-4">
@@ -85,7 +85,7 @@ class TripRoutesPassengers extends React.Component {
                               }
 
                               {
-                                [...Array(freeSeats)].map((n, i) =>
+                                [...Array(route.free_seats)].map((n, i) =>
                                   <td key={i}></td>
                                 )
                               }

@@ -1,6 +1,5 @@
 {
   "trip_details": {
-    "page_header": ["Trip details", "Деталі подорожі", "Детали поездки"],
 
     "route_map_link": ["Route", "Маршрут", "Маршрут"],
     "start_point": ["Start Point", "Адреса відправлення", "Адрес отправления"],

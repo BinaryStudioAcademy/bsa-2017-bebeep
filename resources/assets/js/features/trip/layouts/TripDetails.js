@@ -2,16 +2,19 @@ import React from 'react';
 import { localize } from 'react-localize-redux';
 
 import LangService from 'app/services/LangService';
-import * as lang from '../lang/TripDetails.locale.json';
+import * as LangTripDetails from '../lang/TripDetails.locale.json';
+import * as LangSearchForm from 'features/search/lang/SearchIndex.locale.json';
 
 import PageHeader from 'app/components/PageHeader';
+import SearchForm from 'features/search/components/Index/SearchForm';
 import TripDetailsContainer from '../components/Containers/TripDetailsContainer';
 
 
 class TripDetails extends React.Component {
 
     componentWillMount() {
-        LangService.addTranslation(lang);
+        LangService.addTranslation(LangTripDetails);
+        LangService.addTranslation(LangSearchForm);
     }
 
     render() {
@@ -19,8 +22,8 @@ class TripDetails extends React.Component {
 
         return (
             <div>
-                <PageHeader header={ translate('trip_details.page_header') }/>
-                <TripDetailsContainer id={ params.id }/>
+                <SearchForm />
+                <TripDetailsContainer id={ params.id } />
             </div>
         );
     }

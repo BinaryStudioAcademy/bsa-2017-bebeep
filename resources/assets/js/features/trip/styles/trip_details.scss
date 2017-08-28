@@ -55,6 +55,14 @@
     background-color: lighten($teal, 10%);
 }
 
+.trip-vehicle-image {
+    max-width: 120px;
+
+    &__item {
+        border-radius: 1rem;
+    }
+}
+
 .trip-user-image {
     max-width: 70px;
 
@@ -65,11 +73,6 @@
         max-width: 40px;
         margin-bottom: .5rem;
     }
-}
-
-.vehicle-noimage {
-    width: 100px;
-    height: 70px;
 }
 
 .driver-info__link {

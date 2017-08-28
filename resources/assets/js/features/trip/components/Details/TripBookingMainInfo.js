@@ -1,7 +1,7 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 
-import { SeatIcon } from './Icons';
+import { SeatIcon } from 'app/components/Icons';
 
 class TripBookingMainInfo extends React.Component {
 

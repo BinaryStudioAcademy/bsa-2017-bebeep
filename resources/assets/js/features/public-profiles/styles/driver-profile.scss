@@ -117,8 +117,7 @@
 
 .driver-car {
   border: 1px solid rgba(128, 128, 128, 0.19);
-  width: 230px;
-  height: 140px;
+  max-width: 230px;
   border-radius: 5px;
   margin-bottom: 15px;
 }
