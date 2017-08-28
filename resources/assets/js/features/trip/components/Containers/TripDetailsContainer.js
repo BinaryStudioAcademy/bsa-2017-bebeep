@@ -90,7 +90,7 @@ class TripDetailsContainer extends React.Component {
         const startPoint = routes[0].from,
             endPoint = _.last(routes).to,
             currentBookings = routes[0].bookings.data,
-            possibleSeats = TripDetailsService.getPossibleSeats(trip.seats, routes);
+            freeSeats = TripDetailsService.getFreeSeats(trip.seats, routes);
 
         return (
             <div className="row">
@@ -122,6 +122,7 @@ class TripDetailsContainer extends React.Component {
                         maxSeats={ trip.seats }
                         driver={ driver }
                         routes={ routes }
+                        freeSeats={ freeSeats }
                     />
                 </div>
 
@@ -130,7 +131,7 @@ class TripDetailsContainer extends React.Component {
 
                         <TripBookingMainInfo
                             price={ trip.price }
-                            possibleSeats={ possibleSeats }
+                            freeSeats={ freeSeats }
                         />
                         <TripPassengersCurrent
                             maxSeats={ trip.seats }

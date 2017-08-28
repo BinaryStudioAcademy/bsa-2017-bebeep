@@ -6,7 +6,7 @@ import { SeatIcon } from './Icons';
 class TripBookingMainInfo extends React.Component {
 
     render() {
-        const { translate, price, possibleSeats } = this.props;
+        const { translate, price, freeSeats } = this.props;
 
         return (
             <div className="d-flex">
@@ -20,7 +20,7 @@ class TripBookingMainInfo extends React.Component {
                 </div>
                 <div className="trip-places-free px-3 py-2">
                     <div className="d-flex justify-content-center align-items-center">
-                        <span className="trip-booking-value">{ possibleSeats }</span>
+                        <span className="trip-booking-value">{ freeSeats }</span>
                         <SeatIcon className="trip-places-free__icon" />
                     </div>
                     <span className="trip-text-label">

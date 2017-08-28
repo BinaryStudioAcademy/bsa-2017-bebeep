@@ -20,7 +20,7 @@ class BookingModal extends React.Component {
             start: 0,
             end: 0,
             seats: 1,
-            possibleSeats: 1,
+            freeSeats: 1,
             errors: {}
         };
         this.onSubmit = this.onSubmit.bind(this);
@@ -52,15 +52,15 @@ class BookingModal extends React.Component {
 
     validate(iStart, iEnd, seats) {
         const { waypoints, maxSeats } = this.props;
-        const possibleSeats = TripDetailsService.getPossibleSeats(maxSeats, waypoints);
+        const freeSeats = TripDetailsService.getFreeSeats(maxSeats, waypoints);
 
         const errors = BookingService.validateBooking(
             iStart,
             iEnd,
             seats,
-            possibleSeats
+            freeSeats
         );
-        this.setState({possibleSeats});
+        this.setState({freeSeats});
         this.setState({errors});
     }
 
@@ -103,7 +103,7 @@ class BookingModal extends React.Component {
     }
 
     render() {
-        const {isOpenModal, errors, possibleSeats} = this.state,
+        const {isOpenModal, errors, freeSeats} = this.state,
             {translate, waypoints, price, startAt, maxSeats} = this.props;
 
         return (
@@ -182,7 +182,7 @@ class BookingModal extends React.Component {
                                         max={maxSeats}
                                         onChange={this.onChangeSeats}
                                     />
-                                    <small className="form-text text-muted">{translate('trip_details.booking.free_seats', {seats: possibleSeats})}</small>
+                                    <small className="form-text text-muted">{translate('trip_details.booking.free_seats', {seats: freeSeats})}</small>
                                     <small className="form-control-feedback">{errors.seats}</small>
                                 </div>
                             </div>

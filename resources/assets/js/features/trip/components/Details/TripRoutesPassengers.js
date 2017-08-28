@@ -8,7 +8,7 @@ import { DriverIcon, SeatIcon } from './Icons';
 class TripRoutesPassengers extends React.Component {
 
     render() {
-        const { translate, maxSeats, routes, driver } = this.props;
+        const { translate, maxSeats, freeSeats, routes, driver } = this.props;
 
         return (
             <section className="block-border p-3 mt-4">
@@ -85,7 +85,7 @@ class TripRoutesPassengers extends React.Component {
                               }
 
                               {
-                                [...Array(maxSeats - route.busy_seats - 1)].map((n, i) =>
+                                [...Array(freeSeats)].map((n, i) =>
                                   <td key={i}></td>
                                 )
                               }
