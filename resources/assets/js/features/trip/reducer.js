@@ -1,7 +1,28 @@
 import * as actions from './actionTypes';
 
-const initialState = {};
+const initialState = {
+    details: {
+        trip: null,
+        routes: null,
+        driver: null,
+        vehicle: null,
+    },
+};
 
 export default function (state = initialState, action) {
-    return state;
+    switch (action.type) {
+        case actions.TRIP_DETAILS_LOAD_SUCCESS:
+            return {
+                ...state,
+                details: {
+                    trip: action.payload.trip,
+                    routes: action.payload.routes.data,
+                    driver: action.payload.driver.data,
+                    vehicle: action.payload.vehicle.data,
+                },
+            };
+
+        default:
+            return state;
+    }
 };

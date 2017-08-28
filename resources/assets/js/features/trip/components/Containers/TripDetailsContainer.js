@@ -1,7 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { localize } from 'react-localize-redux';
 import _ from 'lodash';
+
+import { tripDetailsLoadSuccess } from 'features/trip/actions';
 
 import TripDetailsService from 'features/trip/services/TripDetailsService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
@@ -27,10 +31,6 @@ class TripDetailsContainer extends React.Component {
         super(props);
 
         this.state = {
-            trip: null,
-            routes: null,
-            driver: null,
-            vehicle: null,
             isOpenBookingModal: false,
             disableBookingBtn: false,
             preloader: true,
@@ -44,36 +44,25 @@ class TripDetailsContainer extends React.Component {
     componentDidMount() {
         TripDetailsService.getDetails(this.props.id)
             .then(response => {
+                this.props.tripDetailsLoadSuccess(response);
+                this.formatStartAt();
                 this.setState({
-                    trip: response.trip,
-                    routes: response.routes.data,
-                    driver: response.driver.data,
-                    vehicle: response.vehicle.data,
                     preloader: false,
                 });
-                this.formatStartAt();
             })
             .catch(error => {});
     }
 
     formatStartAt() {
-        const trip = this.state.trip;
-        const translate = this.props.translate;
+        const { trip, translate } = this.props;
 
         let startAt = DateTimeHelper.dateFormat(trip.start_at_x);
 
-        startAt = startAt.date === 'today'
+        trip.start_at_format = startAt.date === 'today'
             ? translate('today', {time: startAt.time})
             : startAt.date === 'tomorrow'
                 ? translate('tomorrow', {time: startAt.time})
                 : `${startAt.date} - ${startAt.time}`;
-
-        this.setState({
-            trip: {
-                ...trip,
-                start_at_format: startAt,
-            },
-        });
     }
 
     onBookingBtnClick() {
@@ -91,26 +80,17 @@ class TripDetailsContainer extends React.Component {
     }
 
     render() {
-        const {
-                trip,
-                routes,
-                driver,
-                vehicle,
-                isOpenBookingModal,
-                disableBookingBtn,
-                preloader
-            } = this.state,
-            { translate, id } = this.props;
+        const { id, translate, trip, routes, driver, vehicle } = this.props,
+            { isOpenBookingModal, disableBookingBtn, preloader } = this.state;
 
         if (preloader) {
-            return (
-                <Preloader enable={true} />
-            );
+            return (<Preloader enable={true} />);
         }
 
-        const startPoint = routes[0].from;
-        const endPoint = _.last(routes).to;
-        const possibleSeats = TripDetailsService.getPossibleSeats(trip.seats, routes);
+        const startPoint = routes[0].from,
+            endPoint = _.last(routes).to,
+            currentBookings = routes[0].bookings.data,
+            possibleSeats = TripDetailsService.getPossibleSeats(trip.seats, routes);
 
         return (
             <div className="row">
@@ -154,7 +134,7 @@ class TripDetailsContainer extends React.Component {
                         />
                         <TripPassengersCurrent
                             maxSeats={ trip.seats }
-                            bookings={ routes[0].bookings.data }
+                            bookings={ currentBookings }
                         />
 
                         <div className="trip-booking-button p-3">
@@ -185,4 +165,15 @@ class TripDetailsContainer extends React.Component {
     }
 }
 
-export default localize(TripDetailsContainer, 'locale');
+const TripDetailsContainerConnected = connect(
+    state => ({
+        trip: state.trip.details.trip,
+        routes: state.trip.details.routes,
+        driver: state.trip.details.driver,
+        vehicle: state.trip.details.vehicle
+    }),
+    (dispatch) =>
+        bindActionCreators({ tripDetailsLoadSuccess }, dispatch)
+)(TripDetailsContainer);
+
+export default localize(TripDetailsContainerConnected, 'locale');

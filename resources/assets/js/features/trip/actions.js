@@ -4,3 +4,10 @@ export const tripCreateSuccess = data => ({
     type: actions.TRIP_CREATE_SUCCESS,
     data
 });
+
+export const tripDetailsLoadSuccess = payload => {
+    return {
+        type: actions.TRIP_DETAILS_LOAD_SUCCESS,
+        payload
+    }
+};
