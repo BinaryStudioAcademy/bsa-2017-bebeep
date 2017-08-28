@@ -1,8 +1,8 @@
 import { securedRequest } from 'app/services/RequestService';
 import LangService from './LangService';
 
-export const BOOKING_FILTER_UPCOMING = 'upcoming';
-export const BOOKING_FILTER_PAST = 'past';
+export const FILTER_UPCOMING = 'upcoming';
+export const FILTER_PAST = 'past';
 
 export const BOOKING_STATUS_DECLINED = 'declined';
 export const BOOKING_STATUS_APPROVED = 'approved';
@@ -48,10 +48,10 @@ const BookingService = {
         }
         return errors;
     },
-    getBookingsList(filter = BOOKING_FILTER_UPCOMING, page = 1, limit = 10) {
-        return securedRequest.get('/api/v1/bookings/' + (filter !== BOOKING_FILTER_UPCOMING
-                ? BOOKING_FILTER_PAST
-                : BOOKING_FILTER_UPCOMING
+    getBookingsList(filter = FILTER_UPCOMING, page = 1, limit = 10) {
+        return securedRequest.get('/api/v1/bookings/' + (filter !== FILTER_UPCOMING
+                ? FILTER_PAST
+                : FILTER_UPCOMING
             ), {
                 params: {
                     page: page > 0 ? page : 1,

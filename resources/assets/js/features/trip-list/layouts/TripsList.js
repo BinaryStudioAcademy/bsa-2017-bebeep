@@ -10,6 +10,7 @@ import { tripsFilterChanged, tripsLoadSuccess } from '../actions';
 import LangService from 'app/services/LangService';
 import {getTranslate} from 'react-localize-redux';
 import * as lang from '../lang/TripList.locale.json';
+import { FILTER_PAST, FILTER_UPCOMING } from 'app/services/BookingService';
 
 class TripsList extends React.Component {
 
@@ -43,7 +44,7 @@ class TripsList extends React.Component {
     }
 
     static getFilterName(source) {
-        return source.location.pathname === '/trips/upcoming' ? 'upcoming' : 'past';
+        return source.location.pathname === '/trips/upcoming' ? FILTER_UPCOMING : FILTER_PAST;
     }
 
     loadTrips(filter) {
