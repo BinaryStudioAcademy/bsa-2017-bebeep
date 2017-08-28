@@ -58,6 +58,8 @@ class TripDetailsContainer extends React.Component {
 
     formatStartAt() {
         const trip = this.state.trip;
+        const translate = this.props.translate;
+
         let startAt = DateTimeHelper.dateFormat(trip.start_at_x);
 
         startAt = startAt.date === 'today'

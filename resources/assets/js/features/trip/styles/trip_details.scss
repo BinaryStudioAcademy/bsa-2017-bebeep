@@ -28,6 +28,7 @@ $base-color: #6dcff7;
 
     &__label {
         margin-bottom: .5rem;
+        font-weight: 600;
     }
     &__value {
         margin-bottom: 1rem;
@@ -149,6 +150,7 @@ $base-color: #6dcff7;
 
     &__point-info {
         margin-left: 2rem;
+        font-weight: 600;
     }
 
     &__driver-cell {

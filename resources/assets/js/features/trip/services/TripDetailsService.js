@@ -14,10 +14,6 @@ const TripDetailsService = {
     },
 
     transformData(response) {
-        response.trip.start_at = moment.utc(
-            response.trip.start_at + '0000', 'YYYY-MM-DD HH:mm:ss Z'
-        ).local().format('llll');
-
         response.trip.price = parseInt(response.trip.price);
         this.setUsersAge(response);
 
