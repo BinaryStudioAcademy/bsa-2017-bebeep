@@ -20,7 +20,7 @@ class BookingTransformer extends TransformerAbstract
             'first_name' => $booking->user->first_name,
             'last_name' => $booking->user->last_name,
             'img' => $booking->user->getAvatarUrl(),
-            'user_id' => $booking->user_id
+            'user_id' => $booking->user_id,
         ];
     }
 }
