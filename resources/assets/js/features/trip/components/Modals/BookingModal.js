@@ -70,11 +70,10 @@ class BookingModal extends React.Component {
             { start, end, seats, errors } = this.state;
 
         if (_.isEmpty(errors)) {
+            const routes = _.slice(_.map(waypoints, 'id'), start, end + 1);
+
             BookingService.createBooking(tripId, {
-                    routes: [
-                        waypoints[start].id,
-                        waypoints[end].id
-                    ],
+                    routes,
                     seats
                 }).then((data) => {
                     onSuccess();
