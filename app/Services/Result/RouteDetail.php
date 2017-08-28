@@ -2,7 +2,8 @@
 
 namespace App\Services\Result;
 
-use App\Models\Route;
+use App\Models\{ Route, Booking };
+use Illuminate\Support\Collection;
 
 class RouteDetail
 {
@@ -39,6 +40,16 @@ class RouteDetail
     }
 
     /**
+     * Get approved bookings for the route.
+     *
+     * @return \Illuminate\Support\Collection|null
+     */
+    public function getApprovedBookings() : ?Collection
+    {
+        return $this->route->bookings()->where('status', Booking::STATUS_APPROVED)->get();
+    }
+
+    /**
      * @param string $name
      *
      * @return mixed
@@ -47,6 +58,9 @@ class RouteDetail
     {
         if ($name === 'reservedSeats') {
             return $this->reservedSeats;
+        }
+        if ($name === 'approvedBookings') {
+            return $this->getApprovedBookings();
         }
         if (isset($this->route[$name])) {
             return $this->route[$name];

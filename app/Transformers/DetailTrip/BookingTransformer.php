@@ -25,7 +25,6 @@ class BookingTransformer extends TransformerAbstract
     {
         return [
             'id' => $booking->id,
-            'status' => $booking->status,
             'user' => $booking->user,
             'seats' => $booking->seats,
         ];

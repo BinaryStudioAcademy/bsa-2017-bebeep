@@ -17,7 +17,7 @@ class VehicleTransformer extends TransformerAbstract
     {
         return [
             'id' => $vehicle->id,
-            'brand' => $vehicle->brand,
+            'model' => $vehicle->model,
             'color' => $vehicle->color,
             'photo' => null,
         ];

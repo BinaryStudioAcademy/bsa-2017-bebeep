@@ -47,6 +47,6 @@ class RouteTransformer extends TransformerAbstract
      */
     public function includeBookings(RouteDetail $route)
     {
-        return $this->collection($route->bookings, new BookingTransformer());
+        return $this->collection($route->approvedBookings, new BookingTransformer());
     }
 }
