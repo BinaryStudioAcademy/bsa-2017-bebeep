@@ -18,6 +18,11 @@ class RegisterUserService
     private $userRepository;
 
     /**
+     * @var array
+     */
+    private $customClaims = [];
+
+    /**
      * @param \App\Repositories\UserRepository $userRepository
      */
     public function __construct(UserRepository $userRepository)
@@ -46,7 +51,9 @@ class RegisterUserService
 
         event(new UserRegistered($user));
 
-        return \JWTAuth::fromUser($user);
+        $this->setCustomClaims($user);
+
+        return \JWTAuth::fromUser($user, $this->getCustomClaims());
     }
 
     /**
@@ -74,5 +81,30 @@ class RegisterUserService
         $user = $this->userRepository->save($user);
 
         return \JWTAuth::fromUser($user);
+    }
+
+    /**
+     * Get custom claims for JWT Token payload data.
+     *
+     * @return array
+     */
+    private function getCustomClaims(): array
+    {
+        return $this->customClaims;
+    }
+
+    /**
+     * Set custom claims for JWT Token payload data.
+     *
+     * @param User $user
+     * @return RegisterUserService
+     */
+    private function setCustomClaims(User $user): self
+    {
+        $this->customClaims = [
+            'username' => $user->getFullName(),
+        ];
+
+        return $this;
     }
 }

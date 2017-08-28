@@ -8,6 +8,7 @@ import Input from 'app/components/Input';
 import { registerSuccess } from 'features/user/actions';
 import { simpleRequest } from 'app/services/RequestService';
 import { RegisterValidate } from 'app/services/UserService';
+import { initSession, destroySession } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
 
@@ -47,11 +48,14 @@ class Form extends React.Component {
                 .then(
                     response => {
                         registerSuccess();
-                        browserHistory.push('/registration/success');
-                    },
-                    error => this.setState({
-                        errors: error.response.data
-                    })
+                        initSession(response.data.token);
+                        browserHistory.push('/dashboard');
+                    }
+                )
+                .catch(error => {
+                        this.setState({errors: error.response.data});
+                        destroySession();
+                    }
                 );
         }
     }
