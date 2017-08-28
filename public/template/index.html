@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home Page</title>
+
+    <script src="https://use.fontawesome.com/d4264d4d98.js"></script>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="#" class="header__logo"><img src="img/logo.png" alt="BeBeep"></a>
+
+            <ul class="header__menu header__menu--right">
+                <li class="header__menu-item"><a href="#">Регистрация</a></li>
+                <li class="header__menu-item"><a href="#">Войти</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="home-welcome">
+        <div class="home-welcome__nav">
+            <a href="#" class="home-welcome__nav-item home-welcome__nav-item--active">
+                <img src="img/welcome-icon1.png" alt="">
+                <span>Я пассажир</span>
+            </a>
+            <a href="#" class="home-welcome__nav-item">
+                <img src="img/welcome-icon2.png" alt="">
+                <span>Я водитель</span>
+            </a>
+        </div>
+
+        <div class="home-welcome__search">
+            <h2 class="home-welcome__search-header">Сэкономим на бензине? Поехали!</h2>
+
+            <div class="home-welcome__search-form">
+                <div class="home-welcome__search-input">
+                    <label class="form-input fa-circle-o">
+                        <input class="form-input__text" />
+                        <span class="form-input__label">Откуда</span>
+                    </label>
+                </div>
+
+                <div class="home-welcome__search-input">
+                    <label class="form-input">
+                        <input class="form-input__text" />
+                        <span class="form-input__label">Куда</span>
+                    </label>
+                </div>
+
+                <div class="home-welcome__search-input home-welcome__search-input--calendar">
+                    <label class="form-input fa-calendar form-input_focus">
+                        <div class="form-input__text">
+                            <div><div class="react-datepicker-wrapper"><div class="react-datepicker__input-container"><input type="text" value="" id="date" class="form-input__text "></div></div></div>
+                        </div>
+                        <span class="form-input__label">Когда?</span>
+                    </label>
+                </div>
+
+                <button class="btn btn-warning btn-lg">Продолжить</button>
+            </div>
+        </div>
+
+        <div class="home-welcome__steps">
+            <a href="#" class="home-welcome__steps-step home-welcome__steps-step--active">1</a>
+            <a href="#" class="home-welcome__steps-step">2</a>
+            <a href="#" class="home-welcome__steps-step">3</a>
+        </div>
+    </section>
+
+</body>
+</html>
