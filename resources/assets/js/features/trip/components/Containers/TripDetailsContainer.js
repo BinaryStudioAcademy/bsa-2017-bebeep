@@ -1,16 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router';
 import { localize } from 'react-localize-redux';
 import _ from 'lodash';
 
-import { tripDetailsLoadSuccess } from 'features/trip/actions';
-
-import TripDetailsService from 'features/trip/services/TripDetailsService';
-import DateTimeHelper from 'app/helpers/DateTimeHelper';
-
-import Preloader from 'app/components/Preloader';
 import BookingModal from '../Modals/BookingModal';
 import {
     TripMainPoints,
@@ -33,36 +24,11 @@ class TripDetailsContainer extends React.Component {
         this.state = {
             isOpenBookingModal: false,
             disableBookingBtn: false,
-            preloader: true,
         };
 
         this.onBookingBtnClick = this.onBookingBtnClick.bind(this);
         this.onBookingSuccess = this.onBookingSuccess.bind(this);
         this.onBookingClosed = this.onBookingClosed.bind(this);
-    }
-
-    componentDidMount() {
-        TripDetailsService.getDetails(this.props.id)
-            .then(response => {
-                this.props.tripDetailsLoadSuccess(response);
-                this.formatStartAt();
-                this.setState({
-                    preloader: false,
-                });
-            })
-            .catch(error => {});
-    }
-
-    formatStartAt() {
-        const { trip, translate } = this.props;
-
-        let startAt = DateTimeHelper.dateFormat(trip.start_at_x);
-
-        trip.start_at_format = startAt.date === 'today'
-            ? translate('today', {time: startAt.time})
-            : startAt.date === 'tomorrow'
-                ? translate('tomorrow', {time: startAt.time})
-                : `${startAt.date} - ${startAt.time}`;
     }
 
     onBookingBtnClick() {
@@ -80,12 +46,9 @@ class TripDetailsContainer extends React.Component {
     }
 
     render() {
-        const { id, translate, trip, routes, driver, vehicle } = this.props,
-            { isOpenBookingModal, disableBookingBtn, preloader } = this.state;
-
-        if (preloader) {
-            return (<Preloader enable={true} />);
-        }
+        const { trip, routes, driver, vehicle } = this.props.details,
+            translate = this.props.translate,
+            { isOpenBookingModal, disableBookingBtn } = this.state;
 
         const startPoint = routes[0].from,
             endPoint = _.last(routes).to,
@@ -152,7 +115,7 @@ class TripDetailsContainer extends React.Component {
                 </div>
 
                 <BookingModal
-                    tripId={ id }
+                    tripId={ trip.id }
                     maxSeats={ trip.seats }
                     waypoints={ routes }
                     price={ trip.price }
@@ -166,15 +129,4 @@ class TripDetailsContainer extends React.Component {
     }
 }
 
-const TripDetailsContainerConnected = connect(
-    state => ({
-        trip: state.trip.details.trip,
-        routes: state.trip.details.routes,
-        driver: state.trip.details.driver,
-        vehicle: state.trip.details.vehicle
-    }),
-    (dispatch) =>
-        bindActionCreators({ tripDetailsLoadSuccess }, dispatch)
-)(TripDetailsContainer);
-
-export default localize(TripDetailsContainerConnected, 'locale');
+export default localize(TripDetailsContainer, 'locale');
