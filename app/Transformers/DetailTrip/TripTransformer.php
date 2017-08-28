@@ -12,8 +12,8 @@ class TripTransformer extends TransformerAbstract
      * @var array
      */
     protected $availableIncludes = [
-        'driver',
         'routes',
+        'driver',
         'vehicle',
     ];
 

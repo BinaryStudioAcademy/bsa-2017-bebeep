@@ -33,9 +33,8 @@ const TripDetailsService = {
     },
 
     getFreeSeats(maxSeats, routes) {
-        const busySeats = _.sumBy(routes, 'busy_seats');
-
-        return maxSeats - busySeats;
+        const reservedSeats = _.sumBy(routes, 'reserved_seats');
+        return maxSeats - reservedSeats;
     }
 };
 

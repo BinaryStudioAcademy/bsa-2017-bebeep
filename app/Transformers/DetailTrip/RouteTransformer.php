@@ -11,7 +11,7 @@ class RouteTransformer extends TransformerAbstract
     /**
      * @var array
      */
-    protected $defaultIncludes = [
+    protected $availableIncludes = [
         'bookings',
     ];
 
@@ -37,7 +37,7 @@ class RouteTransformer extends TransformerAbstract
                 'short_address' => $route->to['address_components'][0]['short_name'],
                 'address' => $route->to['formatted_address'],
             ],
-            'busy_seats' => $route->busySeats,
+            'reserved_seats' => $route->reservedSeats,
         ];
     }
 

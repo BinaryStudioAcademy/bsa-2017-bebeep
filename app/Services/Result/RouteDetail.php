@@ -14,7 +14,7 @@ class RouteDetail
     /**
      * @var int
      */
-    protected $busySeats = 0;
+    protected $reservedSeats = 0;
 
     /**
      * @param \App\Models\Route $route
@@ -25,15 +25,15 @@ class RouteDetail
     }
 
     /**
-     * Set busy seats on the route.
+     * Set reserved seats on the route.
      *
-     * @param int $busySeats
+     * @param int $reservedSeats
      *
      * @return $this
      */
-    public function setBusySeats(int $busySeats) : self
+    public function setReservedSeats(int $reservedSeats) : self
     {
-        $this->busySeats = $busySeats;
+        $this->reservedSeats = $reservedSeats;
 
         return $this;
     }
@@ -45,8 +45,8 @@ class RouteDetail
      */
     public function __get(string $name)
     {
-        if ($name === 'busySeats') {
-            return $this->busySeats;
+        if ($name === 'reservedSeats') {
+            return $this->reservedSeats;
         }
         if (isset($this->route[$name])) {
             return $this->route[$name];

@@ -11,7 +11,7 @@ class BookingTransformer extends TransformerAbstract
     /**
      * @var array
      */
-    protected $defaultIncludes = [
+    protected $availableIncludes = [
         'user',
     ];
 

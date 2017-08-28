@@ -31,8 +31,8 @@ class TripDetailService implements Contracts\TripDetailService
         $trip->routes->each(function ($route) use ($tripDetail) {
             $tripDetail->pushRoute(
                 (new RouteDetail($route))
-                    ->setBusySeats(
-                        $this->routeService->countBusySeats($route)
+                    ->setReservedSeats(
+                        $this->routeService->countReservedSeats($route)
                     )
             );
         });

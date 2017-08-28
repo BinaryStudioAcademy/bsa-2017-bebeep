@@ -139,7 +139,7 @@ class BookingModal extends React.Component {
                                             <SelectItem
                                                 key={'from_' + p.id}
                                                 value={p.id}
-                                                disabled={p.busy_seats >= maxSeats}
+                                                disabled={p.reserved_seats >= maxSeats}
                                             >{p.from.short_address}</SelectItem>
                                         ))}
                                     </select>
@@ -160,7 +160,7 @@ class BookingModal extends React.Component {
                                             <SelectItem
                                                 key={'to_' + p.id}
                                                 value={p.id}
-                                                disabled={p.busy_seats >= maxSeats}
+                                                disabled={p.reserved_seats >= maxSeats}
                                             >{p.to.short_address}</SelectItem>
                                         )))}
                                     </select>
