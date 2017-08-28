@@ -1,6 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import {localize} from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {getTranslate} from 'react-localize-redux';
+
 import { Link } from 'react-router';
 
 import DirectionsMap from "app/components/DirectionsMap";
@@ -21,19 +24,8 @@ class Trip extends React.Component {
             deletable: this.props.deletable,
             editable: this.props.editable,
             isDeleted: false,
-            bookings: [],
-            bookingsCount: 0,
             modalIsOpen: false
         };
-    }
-
-    componentDidMount() {
-        const bookings = BookingService.getBookings(this.props.trip.id);
-        const count = BookingService.getBookingsCount(bookings);
-        this.setState({
-            bookings: bookings,
-            bookingsCount: count
-        });
     }
 
     onClick() {
@@ -47,19 +39,21 @@ class Trip extends React.Component {
     }
 
     getStartPlace() {
-        if (!this.props.trip.routes.length) {
+        const {routes, trip} = this.props;
+        if (_.isEmpty(trip.routes)) {
             return null;
         }
 
-        return this.props.trip.routes[0].from;
+        return routes[trip.routes[0]].from;
     }
 
     getEndPlace() {
-        if (!this.props.trip.routes.length > 0) {
+        const {routes, trip} = this.props;
+        if (_.isEmpty(trip.routes)) {
             return null;
         }
 
-        return this.props.trip.routes[this.props.trip.routes.length - 1].to;
+        return routes[trip.routes[trip.routes.length - 1]].to;
     }
 
     deleteSelf() {
@@ -84,13 +78,20 @@ class Trip extends React.Component {
 
 
     render() {
-        const {translate} = this.props;
+        const {translate, routes, trip, bookings, vehicles} = this.props;
         const startPlace = this.getStartPlace();
         const endPlace = this.getEndPlace();
         const startDate = this.getStartDate();
-        const waypoints = getWaypointsFromRoutes(this.props.trip.routes);
-        const bookingCount = this.state.bookingsCount;
-        const { bookings, modalIsOpen } = this.state;
+        const waypoints = getWaypointsFromRoutes(_.reduce(trip.routes, (arr, id) => {
+            arr.push(routes[id]);
+            return arr;
+        }, []));
+        const { modalIsOpen } = this.state;
+        const arBookings = _.reduce(trip.bookings, (arr, id) => {
+            arr.push(bookings[id]);
+            return arr;
+        }, []);
+        const bookingCount = BookingService.getBookingsCount(arBookings);
 
         return (
             <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
@@ -106,14 +107,14 @@ class Trip extends React.Component {
                     >
                         <div className="card-block">
                             <div className="card-text">
-                                <span className="text-muted"><strong>{translate('trip_list.car')}:</strong> {this.props.trip.vehicle.brand}</span><br/>
-                                <span className="text-muted"><strong>{translate('trip_list.price')}:</strong> ${this.props.trip.price}</span><br/>
-                                <span className="text-muted"><strong>{translate('trip_list.seats')}:</strong> {this.props.trip.seats}</span><br/>
+                                <span className="text-muted"><strong>{translate('trip_list.car')}:</strong> {vehicles[trip.vehicle].brand}</span><br/>
+                                <span className="text-muted"><strong>{translate('trip_list.price')}:</strong> ${trip.price}</span><br/>
+                                <span className="text-muted"><strong>{translate('trip_list.seats')}:</strong> {trip.seats}</span><br/>
                             </div>
                         </div>
                         <div className="card-footer trip-actions">
                             {this.state.editable ? (
-                                <Link to={'/trip/edit/' + this.props.trip.id} className="btn btn-primary">{translate('trip_list.edit')}</Link>
+                                <Link to={'/trip/edit/' + trip.id} className="btn btn-primary">{translate('trip_list.edit')}</Link>
                             ) : (<span>&nbsp;</span>)}
                             {this.state.deletable ? (
                                 <button onClick={this.deleteSelf.bind(this)} className="btn btn-danger hover">{translate('trip_list.delete')}</button>
@@ -125,11 +126,21 @@ class Trip extends React.Component {
                     </DirectionsMap>
                 ) : (<span>&nbsp;</span>)}
 
-                <BookingModal bookings={ bookings } count={ bookingCount } tripId={ this.props.trip.id } isOpen={ modalIsOpen }
-                             onClosed={ () => this.state.modalIsOpen = false } />
+                <BookingModal bookings={ arBookings }
+                              count={ bookingCount }
+                              tripId={ trip.id }
+                              isOpen={ modalIsOpen }
+                              onClosed={ () => this.state.modalIsOpen = false } />
             </div>
         )
     }
 }
 
-export default localize(Trip, 'locale');
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale),
+        vehicles: state.tripList.vehicles,
+        routes: state.tripList.routes,
+        bookings: state.tripList.bookings,
+    })
+)(Trip);

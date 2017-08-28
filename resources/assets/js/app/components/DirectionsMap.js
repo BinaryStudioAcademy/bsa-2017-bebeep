@@ -31,14 +31,13 @@ class DirectionsMap extends React.Component {
         super(props);
 
         this.DirectionsService = new google.maps.DirectionsService();
-
-        LangeService.addTranslation(require('../lang/directionsmap.locale.json'));
     }
 
     componentWillMount() {
         if (this.props.needDirection) {
             this.renderDirection(this.props);
         }
+        LangeService.addTranslation(require('../lang/directionsmap.locale.json'));
     }
 
     componentWillReceiveProps(nextProps) {
