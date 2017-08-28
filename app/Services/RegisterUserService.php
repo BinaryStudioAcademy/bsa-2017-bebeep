@@ -26,11 +26,11 @@ class RegisterUserService
     }
 
     /**
-     * @param \App\Services\Requests\RegisterUserRequest $request
+     * @param RegisterUserRequest $request
      *
-     * @return \App\User
+     * @return string
      */
-    public function register(RegisterUserRequest $request): User
+    public function register(RegisterUserRequest $request): string
     {
         $attributes = [
             'email' => $request->getEmail(),
@@ -46,7 +46,7 @@ class RegisterUserService
 
         event(new UserRegistered($user));
 
-        return $user;
+        return \JWTAuth::fromUser($user);
     }
 
     /**
