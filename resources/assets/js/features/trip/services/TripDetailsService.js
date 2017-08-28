@@ -22,6 +22,10 @@ const TripDetailsService = {
         return response;
     },
 
+    setDriverAge(data) {
+        data.driver.data.age = DateTimeHelper.getUserYearsOld(data.driver.data.birth_date);
+    },
+
     transformRoutesData(data) {
         data.routes.data.map((route) => {
             route.free_seats = this.getRouteFreeSeats(data.trip.seats, route.reserved_seats);
@@ -32,10 +36,6 @@ const TripDetailsService = {
             });
             return route;
         });
-    },
-
-    setDriverAge(data) {
-        data.driver.data.age = DateTimeHelper.getUserYearsOld(data.driver.data.birth_date);
     },
 
     getRouteFreeSeats(maxSeats, reservedSeats) {

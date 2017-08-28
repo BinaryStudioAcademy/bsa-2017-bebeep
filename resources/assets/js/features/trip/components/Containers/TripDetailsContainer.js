@@ -3,6 +3,7 @@ import { localize } from 'react-localize-redux';
 import _ from 'lodash';
 
 import BookingModal from '../Modals/BookingModal';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import {
     TripMainPoints,
     TripMainInfo,
@@ -31,6 +32,19 @@ class TripDetailsContainer extends React.Component {
         this.onBookingClosed = this.onBookingClosed.bind(this);
     }
 
+    formatStartAt() {
+        const translate = this.props.translate,
+            trip = this.props.details.trip;
+
+        let startAt = DateTimeHelper.dateFormat(trip.start_at_x);
+
+        trip.start_at_format = startAt.date === 'today'
+            ? translate('today', {time: startAt.time})
+            : startAt.date === 'tomorrow'
+                ? translate('tomorrow', {time: startAt.time})
+                : `${startAt.date} - ${startAt.time}`;
+    }
+
     onBookingBtnClick() {
         if (!this.state.disableBookingBtn) {
             this.setState({ isOpenBookingModal: true });
@@ -54,6 +68,8 @@ class TripDetailsContainer extends React.Component {
             endPoint = _.last(routes).to,
             currentBookings = routes[0].bookings.data,
             currentFreeSeats = routes[0].free_seats;
+
+        this.formatStartAt();
 
         return (
             <div className="row">

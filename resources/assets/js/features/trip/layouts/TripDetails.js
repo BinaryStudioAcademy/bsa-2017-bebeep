@@ -9,7 +9,6 @@ import TripDetailsService from 'features/trip/services/TripDetailsService';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 
 import Preloader from 'app/components/Preloader';
-import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import SearchForm from 'features/search/components/Index/SearchForm';
 import TripDetailsContainer from '../components/Containers/TripDetailsContainer';
 
@@ -34,9 +33,7 @@ class TripDetails extends React.Component {
         TripDetailsService.getDetails(params.id)
             .then(response => {
                 this.props.tripDetailsLoadSuccess(response);
-
                 this.setSearchData();
-                this.formatStartAt();
 
                 this.setState({
                     preloader: false,
@@ -67,19 +64,6 @@ class TripDetails extends React.Component {
             start_at: details.trip.start_at_x,
         };
         this.props.searchSuccess(searchData);
-    }
-
-    formatStartAt() {
-        const translate = this.props.translate,
-            trip = this.props.details.trip;
-
-        let startAt = DateTimeHelper.dateFormat(trip.start_at_x);
-
-        trip.start_at_format = startAt.date === 'today'
-            ? translate('today', {time: startAt.time})
-            : startAt.date === 'tomorrow'
-                ? translate('tomorrow', {time: startAt.time})
-                : `${startAt.date} - ${startAt.time}`;
     }
 
     render() {

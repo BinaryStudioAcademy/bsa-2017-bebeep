@@ -12,7 +12,7 @@
     },
 
     "vehicle": {
-      "header": ["Vehicle", "Машина", "Машина"],
+      "header": ["Vehicle", "Авто", "Авто"],
       "color": ["Color: ${ color }", "Колір: ${ color }", "Цвет: ${ color }"]
     },
 
