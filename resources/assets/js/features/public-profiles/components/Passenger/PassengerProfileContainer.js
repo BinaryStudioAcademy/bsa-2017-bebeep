@@ -10,18 +10,15 @@ import { getTranslate } from 'react-localize-redux';
 import "../../styles/public-profile.scss";
 
 class PassengerProfileContainer extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
         this.props.getPassengerProfile(this.props.id);
     }
 
     render() {
-        const { profile, translate } = this.props;
+        const { profile, preloader, translate } = this.props;
 
-        if (Object.keys(profile).length === 0) {
+        if (preloader) {
             return (
                 <div>
                     <Preloader enable={true}/>
@@ -48,6 +45,7 @@ class PassengerProfileContainer extends React.Component {
 export default connect(
     (state) => ({
         profile: state.profile.current_passenger_profile,
+        preloader: state.profile.preloader,
         translate: getTranslate(state.locale)
     }),
     (dispatch) => bindActionCreators({getPassengerProfile}, dispatch)
