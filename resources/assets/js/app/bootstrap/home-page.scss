@@ -8,11 +8,11 @@ html, body {
   padding: 30px 0;
 
   &__menu {
-    &--left {
+    &_left {
       float: left;
     }
 
-    &--right {
+    &_right {
       float: right;
     }
   }
@@ -44,7 +44,7 @@ html, body {
   }
 }
 
-.home-welcome {
+.home-slider {
   width: 100%;
   height: 600px;
   background: url('/template/img/bg.jpg') no-repeat center center;
@@ -55,7 +55,7 @@ html, body {
     text-align: center;
   }
 
-  &__nav {
+  &__tabs {
     padding-top: 60px;
     text-align: center;
   }
@@ -69,18 +69,14 @@ html, body {
   }
 }
 
-.home-welcome-search {
-  &__form {
-    margin-top: 35px;
-
-    .btn {
-      margin-left: 15px;
-      display: inline-block;
-      vertical-align: middle;
-      padding-left: 11px;
-      padding-right: 11px;
-      letter-spacing: .025em;
-    }
+.wizard-form {
+  .btn {
+    margin-left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 11px;
+    padding-right: 11px;
+    letter-spacing: .025em;
   }
 
   &__input {
@@ -88,7 +84,7 @@ html, body {
     vertical-align: middle;
     margin-left: 15px;
     width: 250px;
-    &--calendar {
+    &_calendar {
       width: 170px;
     }
     .form-input {
@@ -103,15 +99,16 @@ html, body {
   }
 
   &__header {
+    margin-bottom: 35px;
     color: #fff;
     font-size: 35px;
     font-weight: bold;
     letter-spacing: .025em;
-    text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
   }
 }
 
-.home-welcome-steps {
+.wizard-steps {
   &__step {
     position: relative;
     display: inline-flex;
@@ -145,7 +142,7 @@ html, body {
       left: 25px;
       top: 50%;
     }
-    &--active {
+    &_active {
       font-weight: bold;
       background: #fff;
       color: #6dcff6;
@@ -157,8 +154,8 @@ html, body {
   }
 }
 
-.home-welcome-nav {
-  &__item {
+.wizard-tabs {
+  &__tab {
     position: relative;
     display: inline-block;
     vertical-align: middle;
@@ -176,7 +173,7 @@ html, body {
       color: #fff;
     }
 
-    &--active {
+    &_active {
       background: #6dcff6;
       &::before {
         content: "";
