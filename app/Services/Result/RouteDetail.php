@@ -60,12 +60,15 @@ class RouteDetail
         if ($name === 'reservedSeats') {
             return $this->reservedSeats;
         }
+
         if ($name === 'approvedBookings') {
             return $this->getApprovedBookings();
         }
+
         if (isset($this->route[$name])) {
             return $this->route[$name];
         }
+
         return null;
     }
 }
