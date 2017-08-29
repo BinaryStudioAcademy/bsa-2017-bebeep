@@ -98,6 +98,19 @@
   &.has-danger:after {
     bottom: 2px;
   }
+
+  &__autocomplete-container {
+    position: absolute;
+    z-index: 1;
+    width: calc(100% + 2px);
+    left: -1px;
+    border: 1px solid $gray-lighter;
+    border-top: none;
+
+    -webkit-box-shadow: 0 1px 2px 0 lighten($black, 63%);
+    -moz-box-shadow: 0 1px 2px 0 lighten($black, 63%);
+    box-shadow: 0 1px 2px 0 lighten($black, 63%);
+  }
 }
 
 .form-select {

@@ -1,0 +1,10 @@
+@import '../../../app/bootstrap/mixins';
+
+.wizard-trip {
+  &__step {
+    display: none;
+    &_active {
+      display: block;
+    }
+  }
+}
