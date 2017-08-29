@@ -7,8 +7,8 @@ import { getTranslate } from 'react-localize-redux';
 import PageHeader from 'app/components/PageHeader';
 import TripsListContainer from "../components/TripsListContainer";
 
-import { tripsFilterChanged, tripsLoadSuccess } from '../actions';
 import { securedRequest } from 'app/services/RequestService';
+import { tripsFilterChanged, tripsLoadSuccess } from '../actions';
 import { FILTER_PAST, FILTER_UPCOMING } from 'app/services/BookingService';
 
 import LangService from 'app/services/LangService';
@@ -56,7 +56,7 @@ class TripsList extends React.Component {
     }
 
     render() {
-        const { translate } = this.props;
+        const { translate, filter } = this.props;
 
         return (
             <div>
@@ -77,7 +77,7 @@ class TripsList extends React.Component {
 
                 <br/>
 
-                <TripsListContainer filter={this.props.filter} />
+                <TripsListContainer filter={filter} />
             </div>
         );
     }

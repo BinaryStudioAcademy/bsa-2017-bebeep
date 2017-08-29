@@ -9,6 +9,10 @@ class BookingInfo extends React.Component {
         const { translate, booking, onApprove, onDecline } = this.props,
             user = booking.user;
 
+        if (!user) {
+            return (<span />);
+        }
+
         return (
             <li className="li-bookings booking-modal-item">
                 <div className="row">
@@ -18,7 +22,7 @@ class BookingInfo extends React.Component {
                     </div>
 
                     <div className="col-md-5">
-                        <span>{ user.full_name }</span>
+                        <span>{ user.full_name}</span>
                     </div>
 
                     <div className="col-md-5">

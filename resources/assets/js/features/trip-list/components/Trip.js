@@ -80,9 +80,9 @@ class Trip extends React.Component {
         });
     }
 
-
     render() {
-        const {translate, routes, trip, bookings, vehicles} = this.props;
+        const { translate, routes, trip, bookings, vehicles } = this.props;
+
         const startPlace = this.getStartPlace();
         const endPlace = this.getEndPlace();
         const startDate = this.getStartDate();
@@ -131,10 +131,11 @@ class Trip extends React.Component {
                 ) : (<span>&nbsp;</span>)}
 
                 <BookingModal bookings={ arBookings }
-                              count={ bookingCount }
-                              tripId={ trip.id }
-                              isOpen={ modalIsOpen }
-                              onClosed={ () => this.state.modalIsOpen = false } />
+                    count={ bookingCount }
+                    tripId={ trip.id }
+                    isOpen={ modalIsOpen }
+                    onClosed={ () => this.state.modalIsOpen = false }
+                />
             </div>
         )
     }
