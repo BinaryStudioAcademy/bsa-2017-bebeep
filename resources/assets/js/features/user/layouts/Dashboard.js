@@ -20,7 +20,6 @@ class Dashboard extends React.Component {
         return (
             <section className="page-section">
                 <PageHeader header={ translate('dashboard.header') } />
-                { user.avatar }
                 <p className="text-center">
                     { translate('dashboard.hello', {username: user.full_name}) }
                 </p>
