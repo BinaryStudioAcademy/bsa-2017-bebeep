@@ -97,7 +97,8 @@ class StepOne extends React.Component {
     }
 
     render() {
-        const {start_at, errors} = this.state;
+        const {start_at, errors} = this.state,
+            {translate} = this.props;
 
         return (
             <div className="row">
@@ -107,26 +108,26 @@ class StepOne extends React.Component {
                         ico="fa-circle-o"
                         onChange={this.onSelectedFrom}
                         error={errors.from}
-                    >Откуда</InputPlaces>
+                    >{translate('wizard-trip.from')}</InputPlaces>
                 </div>
                 <div className="col-md-3 col-sm-4">
                     <InputPlaces
                         id="trip_to"
                         onChange={this.onSelectedTo}
                         error={errors.to}
-                    >Куда</InputPlaces>
+                    >{translate('wizard-trip.to')}</InputPlaces>
                 </div>
                 <div className="col-md-3 col-sm-4">
                     <InputDate
                         id="trip_date"
                         value={start_at}
                         onChange={this.onChangeDate}
-                        label="Когда"
+                        label={translate('wizard-trip.when')}
                         error={errors.start_at}
                     />
                 </div>
                 <div className="col-md-3 col-sm-12">
-                    <Button color="warning" size="lg" role="button" onClick={this.onNext}>Продолжить</Button>
+                    <Button color="warning" size="lg" role="button" onClick={this.onNext}>{translate('wizard-trip.continue')}</Button>
                 </div>
             </div>
         );

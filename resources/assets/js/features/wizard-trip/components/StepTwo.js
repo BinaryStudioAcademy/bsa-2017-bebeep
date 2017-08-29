@@ -59,7 +59,8 @@ class StepTwo extends React.Component {
     }
 
     render() {
-        const {price, seats, errors} = this.state;
+        const {price, seats, errors} = this.state,
+            {translate} = this.props;
 
         return (
             <div className="row">
@@ -70,7 +71,7 @@ class StepTwo extends React.Component {
                         value={price}
                         onChange={this.onPriceChange}
                         error={errors.price}
-                    >Цена за место</Input>
+                    >{translate('wizard-trip.price_per_seat')}</Input>
                 </div>
                 <div className="col-md-4 col-sm-6">
                     <Input
@@ -78,10 +79,10 @@ class StepTwo extends React.Component {
                         value={seats}
                         onChange={this.onSeatsChange}
                         error={errors.seats}
-                    >Количество мест</Input>
+                    >{translate('wizard-trip.places')}</Input>
                 </div>
                 <div className="col-md-4 col-sm-12">
-                    <Button color="warning" size="lg" role="button" onClick={this.onNext}>Продолжить</Button>
+                    <Button color="warning" size="lg" role="button" onClick={this.onNext}>{translate('wizard-trip.continue')}</Button>
                 </div>
             </div>
         );

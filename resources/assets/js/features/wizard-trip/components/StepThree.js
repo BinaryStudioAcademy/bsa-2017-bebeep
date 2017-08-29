@@ -48,7 +48,8 @@ class StepThree extends React.Component {
     }
 
     render() {
-        const {brand, model, errors} = this.state;
+        const {brand, model, errors} = this.state,
+            {translate} = this.props;
 
         return (
             <div className="row">
@@ -59,7 +60,7 @@ class StepThree extends React.Component {
                         value={brand}
                         onChange={this.onMarkChange}
                         error={errors.brand}
-                    >Марка авто</Input>
+                    >{translate('wizard-trip.car_mark')}</Input>
                 </div>
                 <div className="col-md-4 col-sm-6">
                     <Input
@@ -67,10 +68,10 @@ class StepThree extends React.Component {
                         value={model}
                         onChange={this.onModelChange}
                         error={errors.model}
-                    >Модель авто</Input>
+                    >{translate('wizard-trip.car_model')}</Input>
                 </div>
                 <div className="col-md-4 col-sm-12">
-                    <Button color="warning" size="lg" role="button" onClick={this.onNext}>Продолжить</Button>
+                    <Button color="warning" size="lg" role="button" onClick={this.onNext}>{translate('wizard-trip.create')}</Button>
                 </div>
             </div>
         );
