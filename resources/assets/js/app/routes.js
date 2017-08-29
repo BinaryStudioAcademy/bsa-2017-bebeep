@@ -50,9 +50,6 @@ export default (store) => {
             {/* Search page */}
             <Route path="search" component={ SearchResult }/>
 
-            {/* Trip creating */}
-            <Route path="trip/create" component={ CreateTrip } />
-
             {/* Routes only for auth users */}
             <Route onEnter={ requireAuth }>
 
@@ -71,8 +68,9 @@ export default (store) => {
                     <Route path="past" component={ TripsList }/>
                 </Route>
 
-                {/* Trip details and editing */}
+                {/* Trip details, creating and editing */}
                 <Route path="trip">
+                    <Route path="create" component={ CreateTrip } />
                     <Route path=":id" component={ TripDetails } />
                     <Route path="edit/:id" component={ EditTrip } />
                 </Route>
