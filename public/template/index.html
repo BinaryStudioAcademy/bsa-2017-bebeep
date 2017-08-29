@@ -13,12 +13,38 @@
 <body>
 
     <header class="header">
-        <div class="container">
-            <a href="#" class="logo"><img src="img/logo.png" alt="BeBeep"></a>
+        <div class="header__container container clearfix">
+            <a href="#" class="header__logo logo"><img src="img/logo.png" alt="BeBeep"></a>
 
             <ul class="header__menu header__menu_right header-menu">
                 <li class="header-menu__item"><a href="#">Регистрация</a></li>
                 <li class="header-menu__item"><a href="#">Войти</a></li>
+
+                <li class="header-menu__item header-menu__item_no-hover">
+                    <div class="header-menu__dropdown dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button">Профиль</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="header-menu__item header-menu__item_no-hover header-menu__item_no-space">
+                    <div class="header-menu__dropdown dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button">Ру</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </header>

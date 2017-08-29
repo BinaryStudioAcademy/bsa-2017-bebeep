@@ -7,7 +7,14 @@ html, body {
   background: #fff;
   padding: 30px 0;
 
+  &__logo {
+    float: left;
+  }
+
   &__menu {
+    margin-bottom: 0;
+    margin-top: 3px;
+
     &_left {
       float: left;
     }
@@ -24,10 +31,21 @@ html, body {
     vertical-align: middle;
     padding-left: 50px;
 
-    &--active a, &:hover a {
+    &_active a, &:hover a {
       text-decoration: none;
       border-bottom: 1px solid;
       color: #000;
+    }
+
+    &_no-hover {
+      &:hover a {
+        border-bottom: 1px solid transparent;
+        color: #939393;
+      }
+    }
+
+    &_no-space {
+      padding-left: 5px;
     }
 
     a {
@@ -194,6 +212,18 @@ html, body {
     span {
       display: block;
       margin-top: 10px;
+    }
+  }
+}
+
+.header-menu__dropdown {
+  button, a {
+    font-size: 18px;
+    font-weight: bold;
+    color: #939393;
+    letter-spacing: .025em;
+    &:hover {
+      text-decoration: none;
     }
   }
 }
