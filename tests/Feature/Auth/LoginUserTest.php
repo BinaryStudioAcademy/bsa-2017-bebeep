@@ -67,17 +67,4 @@ class LoginUserTest extends JwtTestCase
             'password' => $user->password,
         ]);
     }
-
-    /**
-     * @test
-     */
-    public function guest_cant_auth_if_he_is_not_verified()
-    {
-        $user = factory(User::class)->create();
-        $user->is_verified = false;
-        $user->save();
-
-        $response = $this->json('POST', $this->urlAuthorization, ['email' => $user->email, 'password' => $user->password]);
-        $response->assertStatus(401);
-    }
 }
