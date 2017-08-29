@@ -148,10 +148,10 @@ class AvatarUpload extends React.Component {
     }
 
     render() {
-        const { image, imageCurrent, modal } = this.state;
-        const {translate} = this.props;
-        const cropperHide = null === image.preview ? ' hide' : '';
-        const currentHide = null === imageCurrent ? ' hide' : '';
+        const { image, imageCurrent, modal } = this.state,
+            { translate } = this.props,
+            cropperHide = null === image.preview ? ' hide' : '',
+            currentHide = null === imageCurrent ? ' hide' : '';
 
         return (
             <div className="container-fluid">
@@ -172,9 +172,13 @@ class AvatarUpload extends React.Component {
                             <p className="image-cropper__dropzone-icon">
                                 <i className="fa fa-3x fa-user-circle-o" aria-hidden="true" />
                             </p>
-                            <p>{translate('profile_avatar.drop_image_or_click_to_select_file_to_upload')}</p>
+                            <p>
+                                { translate('profile_avatar.drop_image_or_click_to_select_file_to_upload') }
+                            </p>
                             <p className="image-cropper__dropzone-rules">
-                                {translate('profile_avatar.only_image_max_mb', {size: AVATAR_MAX_SIZE_HUMAN})}
+                                { translate('profile_avatar.only_image_max_mb', {
+                                    size: AVATAR_MAX_SIZE_HUMAN
+                                }) }
                             </p>
                         </Dropzone>
                     </div>
@@ -194,7 +198,7 @@ class AvatarUpload extends React.Component {
                                 <button className="btn image-cropper__btn-image-rotate"
                                         onClick={ () => this.imageRotate('left') }>
                                     <i className="image-cropper__btn-image-rotate-icon fa fa-undo"
-                                        aria-hidden="true"></i>
+                                        aria-hidden="true" />
                                 </button>
 
                                 <button className="btn image-cropper__btn-image-rotate"
@@ -226,7 +230,8 @@ class AvatarUpload extends React.Component {
                                 <figcaption className="user-current-avatar__caption">
                                     {translate('profile_avatar.current_avatar')}
                                 </figcaption>
-                                <img src={ imageCurrent } alt={translate('profile_avatar.user_current_avatar')}/>
+                                <img src={ imageCurrent }
+                                    alt={translate('profile_avatar.user_current_avatar')}/>
                             </figure>
                             <div>
                                 <button className="image-cropper__btn btn btn-danger"
