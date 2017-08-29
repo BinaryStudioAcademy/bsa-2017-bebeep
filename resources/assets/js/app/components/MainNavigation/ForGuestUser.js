@@ -5,6 +5,7 @@ import { localize } from 'react-localize-redux';
 
 import ChangeLocalization from '../ChangeLocalization';
 
+
 class ForGuestUser extends React.Component {
 
     render() {

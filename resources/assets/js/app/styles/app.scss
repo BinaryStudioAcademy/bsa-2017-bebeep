@@ -52,10 +52,14 @@ strong {
 
 .main-navigation {
     border-bottom: 2px solid $gray-lighter;
+
+    &__dropdowns {
+        margin-top: 1rem;
+    }
 }
 .main-navigation-dropdown {
     height: 100%;
-    margin-left: .5rem;
+    margin-left: 1rem;
     margin-bottom: 1rem;
 
     &__dropdown-toggle {
@@ -99,6 +103,11 @@ strong {
 }
 
 @media (min-width: 992px) {
+    .main-navigation {
+        &__dropdowns {
+            margin-top: 0;
+        }
+    }
     .main-navigation-dropdown {
         margin-bottom: 0;
     }
