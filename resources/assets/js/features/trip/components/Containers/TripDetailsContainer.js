@@ -68,7 +68,7 @@ class TripDetailsContainer extends React.Component {
             endPoint = _.last(routes).to,
             currentBookings = routes[0].bookings.data,
             currentFreeSeats = routes[0].free_seats;
-        // TODO :: temporary. It is necessary to solve the problem of showing trips/routes
+        // TODO :: currentBookings and currentFreeSeats can be not only the first route
 
         this.formatStartAt();
 

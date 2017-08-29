@@ -14,6 +14,7 @@ class BookingModal extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             isOpenModal: false,
             start: 0,
@@ -30,18 +31,20 @@ class BookingModal extends React.Component {
 
     componentWillMount() {
         const { start, end, seats } = this.state;
+
+        this.setFreeSeats();
         this.validate(start, end, seats);
     }
 
     componentWillReceiveProps(newProps) {
         if (this.state.isOpenModal !== newProps.isOpen) {
-            this.setState({isOpenModal: newProps.isOpen});
+            this.setState({ isOpenModal: newProps.isOpen });
         }
     }
 
     closeModal() {
         const onClosed = this.props.onClosed || (() => {});
-        this.setState({isOpenModal: false});
+        this.setState({ isOpenModal: false });
         onClosed();
     }
 
@@ -49,10 +52,20 @@ class BookingModal extends React.Component {
         return _.findIndex(this.props.waypoints, {id});
     }
 
+    getFreeSeats(num) {
+        num = num || 0;
+        return this.props.waypoints[num].free_seats;
+    }
+
+    setFreeSeats(param, isFreeSeats) {
+        const freeSeats = isFreeSeats ? param : this.getFreeSeats(param);
+
+        this.setState({ freeSeats: freeSeats });
+    }
+
     validate(iStart, iEnd, seats) {
-        const { waypoints } = this.props;
-        const freeSeats = waypoints[0].free_seats;
-        // TODO :: temporary. It is necessary to solve the problem of showing trips/routes
+        const { waypoints } = this.props,
+            freeSeats = this.getFreeSeats(iStart);
 
         const errors = BookingService.validateBooking(
             iStart,
@@ -60,13 +73,15 @@ class BookingModal extends React.Component {
             seats,
             freeSeats
         );
-        this.setState({freeSeats});
-        this.setState({errors});
+
+        this.setFreeSeats(freeSeats, true);
+        this.setState({ errors });
     }
 
     onSubmit(e) {
         e.preventDefault();
-        const {onSuccess, waypoints, tripId} = this.props,
+
+        const { onSuccess, waypoints, tripId } = this.props,
             { start, end, seats, errors } = this.state;
 
         if (_.isEmpty(errors)) {
@@ -79,50 +94,52 @@ class BookingModal extends React.Component {
                     onSuccess();
                     this.closeModal();
                 })
-                .catch((error) => this.setState({errors: error.response.data}));
+                .catch((error) => this.setState({ errors: error.response.data }));
         }
     }
 
     onChangeStartPoint(e) {
         const start = this.getRouteById(+e.target.value);
+
         this.validate(start, this.state.end, this.state.seats);
-        this.setState({start});
+        this.setState({ start });
     }
 
     onChangeEndPoint(e) {
         const end = this.getRouteById(+e.target.value);
+
         this.validate(this.state.start, end, this.state.seats);
-        this.setState({end});
+        this.setState({ end });
     }
 
     onChangeSeats(e) {
         const seats = +e.target.value;
+
         this.validate(this.state.start, this.state.end, seats);
-        this.setState({seats});
+        this.setState({ seats });
     }
 
     render() {
-        const {isOpenModal, errors} = this.state,
-            {translate, waypoints, price, startAt, maxSeats} = this.props;
-
-        // TODO :: temporary. It is necessary to solve the problem of showing trips/routes
-        const freeSeats = waypoints[0].free_seats;
+        const {isOpenModal, freeSeats, errors} = this.state,
+            { translate, waypoints, price, startAt, maxSeats } = this.props;
 
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
                 <form onSubmit={this.onSubmit} className="booking-modal">
-                    <div className="modal-header">{translate('trip_details.booking.header')}</div>
+                    <div className="modal-header">
+                        { translate('trip_details.booking.header') }
+                    </div>
                     <div className="modal-body">
                         <div className="row">
                             <div className="col-sm-6">
                                 <span className="text-muted booking-modal__text mr-2">
-                                    {translate('trip_details.booking.start_trip')}:
+                                    { translate('trip_details.booking.start_trip') }:
                                 </span>
                                 <b>{ startAt }</b>
                             </div>
                             <div className="col-sm-6">
                                 <span className="text-muted booking-modal__text mr-2">
-                                    {translate('trip_details.booking.price_of_trip')}:
+                                    { translate('trip_details.booking.price_of_trip') }:
                                 </span>
                                 <b>$</b> { price }
                             </div>
@@ -131,12 +148,12 @@ class BookingModal extends React.Component {
                             <div className="col-sm-4">
                                 <div className={"form-group" + (!!errors.start ? ' has-danger' : '')}>
                                     <label className="form-control-label booking-modal__text">
-                                        {translate('trip_details.booking.start_point')}
+                                        { translate('trip_details.booking.start_point') }
                                     </label>
                                     <select
                                         name="start_point"
                                         className={"form-control" + (!!errors.start ? ' has-danger' : '')}
-                                        onChange={this.onChangeStartPoint}
+                                        onChange={ this.onChangeStartPoint }
                                     >
                                         {waypoints.map(p => (
                                             <SelectItem
@@ -146,13 +163,15 @@ class BookingModal extends React.Component {
                                             >{p.from.short_address}</SelectItem>
                                         ))}
                                     </select>
-                                    <small className="form-control-feedback">{errors.start}</small>
+                                    <small className="form-control-feedback">
+                                        { errors.start }
+                                    </small>
                                 </div>
                             </div>
                             <div className="col-sm-4">
                                 <div className={"form-group" + (!!errors.end ? ' has-danger' : '')}>
                                     <label className="form-control-label booking-modal__text">
-                                        {translate('trip_details.booking.end_point')}
+                                        { translate('trip_details.booking.end_point') }
                                     </label>
                                     <select
                                         name="end_point"
@@ -194,7 +213,8 @@ class BookingModal extends React.Component {
                         <div className="btn btn-danger" role="button" onClick={() => this.closeModal()}>
                             {translate('trip_details.booking.cancel')}
                         </div>
-                        <button role="button" className="btn btn-success">{translate('trip_details.booking.apply')}</button>
+                        <button role="button" className="btn btn-success">
+                            { translate('trip_details.booking.apply') }</button>
                     </div>
                 </form>
             </Modal>
