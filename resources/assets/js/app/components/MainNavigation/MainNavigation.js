@@ -29,7 +29,7 @@ class MainNavigation extends React.Component {
         const navLinks = isAuthorized() ? <ForAuthUser /> : <ForGuestUser />;
 
         return (
-            <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+            <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse main-navigation">
               <button className="navbar-toggler navbar-toggler-right" type="button"
                     data-toggle="collapse" data-target="#navbarToogle"
                     aria-controls="navbarToogle" aria-expanded="false"

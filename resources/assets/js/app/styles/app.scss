@@ -39,3 +39,20 @@ img {
 .bookings {
     float: right;
 }
+
+.main-navigation-dropdown,
+.main-navigation-dropdown__dropdown-toggle {
+    height: 100%;
+}
+
+.user-personal-menu__avatar {
+    width: 35px;
+    margin-right: .5rem;
+    border-radius: 50%;
+}
+
+.language-switcher__icon {
+    margin-right: .5rem;
+    vertical-align: middle;
+    font-size: 1.5em;
+}

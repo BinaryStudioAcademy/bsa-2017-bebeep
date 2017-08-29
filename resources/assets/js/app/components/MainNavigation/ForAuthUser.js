@@ -30,7 +30,7 @@ class ForAuthUser extends React.Component {
         const { user, translate } = this.props;
 
         return (
-            <div className="d-flex w-100">
+            <div className="d-flex align-items-center w-100">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
                     <Link to="/trip/create" className="nav-link" activeClassName="active">
@@ -44,12 +44,18 @@ class ForAuthUser extends React.Component {
                   </li>
                 </ul>
 
-                <Dropdown className="nav-item"
+                <Dropdown className="main-navigation-dropdown user-personal-menu"
                     isOpen={ this.state.isDropdownOpen }
                     toggle={ this.toggleUserDropdown }
                 >
-                    <DropdownToggle caret>{ user.full_name }</DropdownToggle>
-                    <DropdownMenu>
+                    <DropdownToggle className="main-navigation-dropdown__dropdown-toggle" caret>
+                        <img src={ user.avatar }
+                            alt={ user.full_name }
+                            className="user-personal-menu__avatar"
+                        />
+                        { user.full_name }
+                    </DropdownToggle>
+                    <DropdownMenu right>
                         <Link onClick={this.toggleUserDropdown} to="/dashboard" className="dropdown-item" >
                             {translate('dashboard')}
                         </Link>
@@ -72,14 +78,13 @@ class ForAuthUser extends React.Component {
                         <DropdownItem divider />
 
                         <Link onClick={this.toggleUserDropdown} to="/logout" className="dropdown-item" >
-                            {translate('logout')}
+                            <i className="fa fa-sign-out fa-fw" aria-hidden="true" />
+                            { translate('logout') }
                         </Link>
                     </DropdownMenu>
                 </Dropdown>
 
-                <div className="nav-item">
-                    <ChangeLocalization />
-                </div>
+                <ChangeLocalization />
             </div>
         );
     }
