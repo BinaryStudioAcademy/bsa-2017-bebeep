@@ -5,31 +5,38 @@ import RouteUser from './RouteUser';
 
 class RouteBase extends React.Component {
 
-    isThisLastPoint() {
-        const { position, count } = this.props;
-
-        return position === count - 1;
+    isShowDriver() {
+        return this.props.showDriver;
     }
 
-    renderLastPoint() {
-        if (!this.isThisLastPoint()) {
+    isShowWayPoint() {
+        return this.props.showWayPoint;
+    }
+
+    isShowEndPoint() {
+        return this.props.showEndPoint;
+    }
+
+    renderEndPoint() {
+        const showEndPoint = this.isShowEndPoint(),
+            route = this.props.route;
+
+        if (!showEndPoint) {
             return null;
         }
-
-        const route = this.props.route;
 
         return (
             <RoutePoint
                 location={route.to}
-                position="last"
+                showEndPoint={showEndPoint}
             />
         );
     }
 
     renderDriver() {
-        const { position, route, driver } = this.props;
+        const { route, driver } = this.props;
 
-        if (position !== 0) {
+        if (!this.isShowDriver()) {
             return null;
         }
 
@@ -72,17 +79,17 @@ class RouteBase extends React.Component {
     }
 
     render() {
-        const { position, route, count } = this.props;
+        const { route } = this.props,
+            showWayPoint = this.isShowWayPoint();
 
         return (
             <tr>
                 <th scope="row">
                     <RoutePoint
                         location={route.from}
-                        position={position}
-                        count={count}
+                        showWayPoint={showWayPoint}
                     />
-                    { this.renderLastPoint() }
+                    { this.renderEndPoint() }
                 </th>
 
                 <td className="trip-routes__driver-cell">
