@@ -111,7 +111,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            if (isset($parameters[1]) && (int) $parameters[1] <= (int) $value) {
+            if (isset($parameters[1]) && (int) $parameters[1] >= (int) $value) {
                 return true;
             }
 
