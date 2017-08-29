@@ -55,5 +55,4 @@ class SaveVehicleRequest implements SaveCarRequestInterface
     {
         return $this->user->id;
     }
-
 }
