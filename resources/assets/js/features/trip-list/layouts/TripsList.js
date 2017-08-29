@@ -2,15 +2,17 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getTranslate } from 'react-localize-redux';
 
 import PageHeader from 'app/components/PageHeader';
 import TripsListContainer from "../components/TripsListContainer";
-import { securedRequest } from 'app/services/RequestService';
+
 import { tripsFilterChanged, tripsLoadSuccess } from '../actions';
-import LangService from 'app/services/LangService';
-import { getTranslate } from 'react-localize-redux';
-import * as lang from '../lang/TripList.locale.json';
+import { securedRequest } from 'app/services/RequestService';
 import { FILTER_PAST, FILTER_UPCOMING } from 'app/services/BookingService';
+
+import LangService from 'app/services/LangService';
+import * as lang from '../lang/TripList.locale.json';
 
 class TripsList extends React.Component {
 
@@ -54,7 +56,7 @@ class TripsList extends React.Component {
     }
 
     render() {
-        const {translate} = this.props;
+        const { translate } = this.props;
 
         return (
             <div>
