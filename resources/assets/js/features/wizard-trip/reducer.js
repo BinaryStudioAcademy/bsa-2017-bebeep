@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
             break;
         case actions.WIZARD_TRIP_CAR:
             return {
-                ...seats,
+                ...state,
                 step: STEP_THREE,
                 mark: action.data.mark,
                 model: action.data.model
