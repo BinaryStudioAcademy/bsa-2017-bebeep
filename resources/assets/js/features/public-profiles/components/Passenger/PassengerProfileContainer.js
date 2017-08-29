@@ -12,22 +12,16 @@ import "../../styles/public-profile.scss";
 class PassengerProfileContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            preloader: true,
-        }
     }
 
     componentDidMount() {
         this.props.getPassengerProfile(this.props.id);
-        this.setState({
-            preloader: false
-        });
     }
 
     render() {
         const { profile, translate } = this.props;
 
-        if (this.state.preloader) {
+        if (Object.keys(profile).length === 0) {
             return (
                 <div>
                     <Preloader enable={true}/>
