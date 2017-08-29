@@ -1,7 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
 import { Button } from 'reactstrap';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addLocation} from '../actions';
+import {getTranslate} from 'react-localize-redux';
 
 class StepOne extends React.Component {
 
@@ -17,13 +20,21 @@ class StepOne extends React.Component {
                 place: null,
                 address: ''
             },
-            date: null
+            start_at: null
         };
 
         this.onSelectedFrom = this.onSelectedFrom.bind(this);
         this.onSelectedTo = this.onSelectedTo.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
-        this.onNext = this.onNext.bind(this);
+        this.onNext= this.onNext.bind(this);
+    }
+
+    componentWillMount() {
+        this.setState({
+            from: this.props.tripWizard.from,
+            to: this.props.tripWizard.to,
+            start_at: this.props.tripWizard.start_at,
+        });
     }
 
     onSelectedFrom(from) {
@@ -34,17 +45,16 @@ class StepOne extends React.Component {
         this.setState({to});
     }
 
-    onChangeDate(date) {
-        this.setState({date});
+    onChangeDate(start_at) {
+        this.setState({start_at});
     }
 
-    onNext(e) {
-        e.preventDefault();
-        this.props.onNext(this.state);
+    onNext() {
+        this.props.addLocation(this.state);
     }
 
     render() {
-        const {date} = this.state;
+        const {start_at} = this.state;
 
         return (
             <div className="row">
@@ -66,7 +76,7 @@ class StepOne extends React.Component {
                 <div className="col-md-3 col-sm-4">
                     <InputDate
                         id="trip_date"
-                        value={date}
+                        value={start_at}
                         onChange={this.onChangeDate}
                         label="Когда"
                         error=""
@@ -80,8 +90,10 @@ class StepOne extends React.Component {
     }
 }
 
-StepOne.PropTypes = {
-    onNext: PropTypes.func.required
-};
-
-export default StepOne;
+export default connect(
+    state => ({
+        tripWizard: state.tripWizard,
+        translate: getTranslate(state.locale)
+    }),
+    dispatch => bindActionCreators({addLocation}, dispatch)
+)(StepOne);

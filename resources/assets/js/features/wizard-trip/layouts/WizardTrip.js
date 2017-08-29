@@ -4,87 +4,68 @@ import * as lang from '../lang/WizardTrip.json';
 import StepOne from '../components/StepOne';
 import StepTwo from '../components/StepTwo';
 import StepThree from '../components/StepThree';
-import {STEP_ONE, STEP_TWO, STEP_THREE, COMPLETE} from '../services/WizardTripService';
+import {INIT, STEP_ONE, STEP_TWO, STEP_THREE} from '../services/WizardTripService';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {completeTrip} from '../actions';
 import '../styles/wizard-trip.scss';
 
 class WizardTrip extends React.Component {
-
     constructor() {
         super();
-
-        this.state = {
-            step: STEP_ONE,
-            from: {},
-            to: {},
-            date: null,
-        };
-
-        this.stepOneComplete = this.stepOneComplete.bind(this);
-        this.stepTwoComplete = this.stepTwoComplete.bind(this);
-        this.stepThreeComplete = this.stepThreeComplete.bind(this);
     }
 
     componentWillMount() {
         LangService.addTranslation(lang);
     }
 
-    stepOneComplete(data) {
-        this.setState({
-            from: data.from,
-            to: data.to,
-            date: data.date,
-            step: STEP_TWO
-        });
-    }
-
-    stepTwoComplete(data) {
-        this.setState({
-            step: STEP_THREE
-        });
-    }
-
-    stepThreeComplete(data) {
-        this.setState({
-            step: COMPLETE
-        });
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.step === STEP_THREE) {
+            this.props.completeTrip();
+        }
     }
 
     render() {
-        const {step, from, to, date} = this.state;
+        const {step} = this.props;
 
         return (
             <div className="container wizard-trip">
+                <div className={"wizard-trip__step" + (step === INIT
+                        ? ' wizard-trip__step_active'
+                        : ''
+                    )}
+                >
+                    <StepOne />
+                </div>
                 <div className={"wizard-trip__step" + (step === STEP_ONE
                         ? ' wizard-trip__step_active'
                         : ''
                     )}
                 >
-                    <StepOne onNext={this.stepOneComplete} />
+                    <StepTwo />
                 </div>
                 <div className={"wizard-trip__step" + (step === STEP_TWO
                         ? ' wizard-trip__step_active'
                         : ''
                     )}
                 >
-                    <StepTwo onNext={this.stepTwoComplete} />
+                    <StepThree />
                 </div>
                 <div className={"wizard-trip__step" + (step === STEP_THREE
                         ? ' wizard-trip__step_active'
                         : ''
-                    )}
-                >
-                    <StepThree onNext={this.stepThreeComplete} />
-                </div>
-                <div className={"wizard-trip__step" + (step === COMPLETE
-                        ? ' wizard-trip__step_active'
-                        : ''
                 )}
                 >
-
+                    complete!
                 </div>
             </div>
         );
     }
 }
 
-export default WizardTrip;
+export default connect(
+    state => ({
+        step: state.tripWizard.step
+    }),
+    dispatch => bindActionCreators({completeTrip}, dispatch)
+)(WizardTrip);

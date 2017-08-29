@@ -1,7 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Input} from 'app/components/Controls/index.js';
 import { Button } from 'reactstrap';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addSeats} from '../actions';
+import {getTranslate} from 'react-localize-redux';
 
 class StepTwo extends React.Component {
     constructor() {
@@ -15,6 +18,14 @@ class StepTwo extends React.Component {
         this.onSeatsChange = this.onSeatsChange.bind(this);
         this.onNext = this.onNext.bind(this);
     }
+
+    componentWillMount() {
+        this.setState({
+            price: this.props.tripWizard.price,
+            seats: this.props.tripWizard.seats
+        });
+    }
+
     onPriceChange(e) {
         const value = e.target.value.match(/[0-9]+/),
             price = value && !isNaN(+value[0]) ? +value[0] : (value && value.length !== 0 ? this.state.price : '');
@@ -27,8 +38,7 @@ class StepTwo extends React.Component {
     }
 
     onNext() {
-        const {onNext} = this.props;
-        onNext(this.state);
+        this.props.addSeats(this.state);
     }
 
     render() {
@@ -61,8 +71,10 @@ class StepTwo extends React.Component {
     }
 }
 
-StepTwo.PropTypes = {
-    onNext: PropTypes.func.required
-};
-
-export default StepTwo;
+export default connect(
+    state => ({
+        tripWizard: state.tripWizard,
+        translate: getTranslate(state.locale)
+    }),
+    dispatch => bindActionCreators({addSeats}, dispatch)
+)(StepTwo);

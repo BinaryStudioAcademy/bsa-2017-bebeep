@@ -1,7 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Input} from 'app/components/Controls/index.js';
 import { Button } from 'reactstrap';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addCar} from '../actions';
+import {getTranslate} from 'react-localize-redux';
 
 class StepThree extends React.Component {
     constructor() {
@@ -23,8 +26,7 @@ class StepThree extends React.Component {
     }
 
     onNext() {
-        const {onNext} = this.props;
-        onNext(this.state);
+        this.props.addCar(this.state);
     }
 
     render() {
@@ -57,8 +59,10 @@ class StepThree extends React.Component {
     }
 }
 
-StepThree.PropTypes = {
-    onNext: PropTypes.func.required
-};
-
-export default StepThree;
+export default connect(
+    state => ({
+        tripWizard: state.tripWizard,
+        translate: getTranslate(state.locale)
+    }),
+    dispatch => bindActionCreators({addCar}, dispatch)
+)(StepThree);
