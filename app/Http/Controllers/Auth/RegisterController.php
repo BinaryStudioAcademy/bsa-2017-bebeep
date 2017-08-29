@@ -30,9 +30,9 @@ class RegisterController extends Controller
      */
     public function register(RegisterUserRequest $request): JsonResponse
     {
-        $user = $this->registerUserService->register($request);
+        $token = $this->registerUserService->register($request);
 
-        return response()->json(['user' => $user]);
+        return response()->json(['token' => $token]);
     }
 
     /**
