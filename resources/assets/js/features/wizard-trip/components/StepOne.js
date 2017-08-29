@@ -38,8 +38,14 @@ class StepOne extends React.Component {
         const {from , to, start_at} = this.props.tripWizard;
 
         this.setState({
-            from: from,
-            to: to,
+            from: {
+                place: from,
+                address: to && from.formatted_address
+            },
+            to: {
+                place: to,
+                address: to && to.formatted_address
+            },
             start_at: start_at ? moment(start_at) : start_at
         });
     }

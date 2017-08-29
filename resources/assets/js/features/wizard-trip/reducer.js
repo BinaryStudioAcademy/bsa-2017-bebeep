@@ -1,5 +1,5 @@
 import * as actions from './actionTypes';
-import {INIT, STEP_ONE, STEP_TWO, STEP_THREE} from './services/WizardTripService';
+import {INIT, STEP_ONE, STEP_TWO, STEP_THREE} from 'app/services/WizardTripService';
 
 const initialState = {
     step: INIT,

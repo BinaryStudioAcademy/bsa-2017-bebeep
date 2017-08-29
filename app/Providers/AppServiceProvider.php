@@ -107,8 +107,12 @@ class AppServiceProvider extends ServiceProvider
             $parameters,
             $validator
         ) {
-            if (! $parameters || ! Auth::user() || ! $parameters[0]) {
+            if (! $parameters || ! Auth::user()) {
                 return false;
+            }
+
+            if (isset($parameters[1]) && (int) $parameters[1] <= (int) $value) {
+                return true;
             }
 
             $vehicle = Vehicle::whereId($parameters[0])->first();

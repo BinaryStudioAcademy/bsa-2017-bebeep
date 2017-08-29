@@ -4,7 +4,7 @@ import * as lang from '../lang/WizardTrip.json';
 import StepOne from '../components/StepOne';
 import StepTwo from '../components/StepTwo';
 import StepThree from '../components/StepThree';
-import {INIT, STEP_ONE, STEP_TWO, STEP_THREE, savePendingTrip} from '../services/WizardTripService';
+import {INIT, STEP_ONE, STEP_TWO, STEP_THREE, savePendingTrip} from 'app/services/WizardTripService';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {completeTrip} from '../actions';
@@ -22,16 +22,13 @@ class WizardTrip extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {tripData} = this.props;
+        const {tripData, completeTrip} = nextProps;
 
         if (nextProps.step === STEP_THREE) {
             if (AuthService.isAuthorized()) {
-                savePendingTrip(tripData).then(
-                    (response) => this.props.completeTrip(),
-                    (error) => this.props.completeTrip()
-                );
+                savePendingTrip(tripData).then(() => completeTrip());
             } else {
-                browserHistory.push('/register');
+                browserHistory.push('/registration');
             }
         }
     }
@@ -55,19 +52,12 @@ class WizardTrip extends React.Component {
                 >
                     <StepTwo />
                 </div>
-                <div className={"wizard-trip__step" + (step === STEP_TWO
+                <div className={"wizard-trip__step" + (step === STEP_TWO || step === STEP_THREE
                         ? ' wizard-trip__step_active'
                         : ''
                     )}
                 >
                     <StepThree />
-                </div>
-                <div className={"wizard-trip__step" + (step === STEP_THREE
-                        ? ' wizard-trip__step_active'
-                        : ''
-                )}
-                >
-                    complete!
                 </div>
             </div>
         );

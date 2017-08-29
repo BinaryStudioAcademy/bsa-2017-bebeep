@@ -36,8 +36,6 @@ import DriverPublicProfile from '../features/public-profiles/layouts/DriverPubli
 
 import Elements from '../features/elements/Elements.js';
 
-import WizardTrip from 'features/wizard-trip/layouts/WizardTrip'
-
 import { requireAuth, requireGuest } from '../app/services/AuthService';
 
 import LangeService from './services/LangService';
@@ -53,7 +51,6 @@ export default (store) => {
         <Route path="/" component={ App }>
 
             <Route path="elements" component={Elements} />
-            <Route path="wizard" component={WizardTrip} />
 
             {/* Index page */}
             <IndexRoute component={ SearchIndex }/>

@@ -21,4 +21,6 @@ interface CreateTripRequest
     public function getTo(): array;
 
     public function getWaypoints(): array;
+
+    public function getVehicle(): array;
 }

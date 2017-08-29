@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\User;
 use Carbon\Carbon;
 use App\Models\Trip;
 use Illuminate\Validation\Rule;
@@ -33,13 +32,13 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
 
         return [
             'price' => 'required',
-            'seats' => 'required|integer|min:0|max_seats_from_vehicle:'.$this->get('vehicle_id'),
+            'seats' => 'required|integer|min:0|max_seats_from_vehicle:'.$this->get('vehicle_id').','.$this->get('vehicle')['seats'],
             'start_at' => 'required|integer|greater_than_date:'.$minStartAt,
             'end_at' => 'required|integer|greater_than_date:'.$this->get('start_at'),
             'from' => 'required|array',
             'to' => 'required|array',
             'vehicle_id' => [
-                'required',
+                'required_without:vehicle',
                 'integer',
                 Rule::exists('vehicles', 'id')->where(function ($query) {
                     $query->where([
@@ -47,6 +46,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
                     ]);
                 }),
             ],
+            'vehicle' => 'required_without:vehicle_id',
         ];
     }
 
@@ -87,7 +87,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getVehicleId(): int
     {
-        return $this->get('vehicle_id');
+        return (int) $this->get('vehicle_id');
     }
 
     /**
@@ -112,5 +112,13 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     public function getWaypoints(): array
     {
         return (array) $this->get('waypoints');
+    }
+
+    /**
+     * @return array
+     */
+    public function getVehicle(): array
+    {
+        return $this->get('vehicle');
     }
 }

@@ -12,7 +12,8 @@ import { initSession, destroySession } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
 
-import {STEP_THREE} from 'features/wizard-trip/services/WizardTripService';
+import {STEP_THREE, savePendingTrip} from 'app/services/WizardTripService';
+import {completeTrip} from 'features/wizard-trip/actions';
 
 import 'features/user/styles/user_register.scss';
 
@@ -35,7 +36,7 @@ class Form extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const {registerSuccess, tripPending} = this.props,
+        const {registerSuccess, tripPending, completeTrip} = this.props,
             {hasTripPending} = this.state,
             registerData = {
                 first_name: e.target['first_name'].value,
@@ -61,7 +62,7 @@ class Form extends React.Component {
                         registerSuccess();
                         initSession(response.data.token);
                         if (hasTripPending) {
-                            console.log(tripPending);
+                            savePendingTrip(tripPending).then(() => completeTrip());
                         } else {
                             browserHistory.push('/dashboard');
                         }
@@ -132,7 +133,7 @@ class Form extends React.Component {
                                        id="role_driver"
                                        name="role_driver"
                                        value="1"
-                                       checked={hasTripPending}
+                                       defaultChecked={hasTripPending}
                                 /> {translate('register_form.driver')}
                             </label>
                         </div>
@@ -184,7 +185,7 @@ const FormConnected = connect(
         translate: getTranslate(state.locale)
     }),
     (dispatch) =>
-        bindActionCreators({registerSuccess}, dispatch)
+        bindActionCreators({registerSuccess, completeTrip}, dispatch)
 )(Form);
 
 export default FormConnected;
