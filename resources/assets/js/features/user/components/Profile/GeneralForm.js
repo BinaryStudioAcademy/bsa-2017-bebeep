@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getTranslate } from 'react-localize-redux';
 import _ from 'lodash';
 
 import Input from 'app/components/Input';
@@ -9,10 +10,8 @@ import StatusModal from '../_Modals/StatusModal';
 
 import { updateProfileSuccess } from 'features/user/actions';
 
-import UserService from 'features/user/services/UserService';
 import { ProfileValidate } from 'app/services/UserService';
-
-import { getTranslate } from 'react-localize-redux';
+import UserService from 'features/user/services/UserService';
 
 const MODAL_MSG = {
     success: 'profile_general.user_profile_general_success',

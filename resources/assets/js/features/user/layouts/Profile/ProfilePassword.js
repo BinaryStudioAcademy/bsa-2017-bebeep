@@ -1,10 +1,11 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
+
+import PageHeader from 'app/components/PageHeader';
+import PasswordForm from 'features/user/components/Profile/PasswordForm';
 
 import LangService from 'app/services/LangService';
 import * as lang from 'features/user/lang/Profile/ProfilePassword.locale.json';
-import {localize} from 'react-localize-redux';
-import PageHeader from 'app/components/PageHeader';
-import PasswordForm from 'features/user/components/Profile/PasswordForm';
 
 class ProfilePassword extends React.Component {
 
@@ -13,7 +14,8 @@ class ProfilePassword extends React.Component {
     }
 
     render() {
-        const {translate} = this.props;
+        const { translate } = this.props;
+
         return (
             <div>
                 <PageHeader header={ translate('profile_password.change_password') } />

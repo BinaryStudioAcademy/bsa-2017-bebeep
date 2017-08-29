@@ -1,7 +1,7 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
 
 import StatusModal from '../_Modals/StatusModal';
 import UserService from 'features/user/services/UserService';
