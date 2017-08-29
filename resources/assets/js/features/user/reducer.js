@@ -9,7 +9,11 @@ const initialState = {
         success: isAuthorized(),
         errors: {},
         httpStatus: 200
-    }
+    },
+    data: {
+        full_name: 'Diana Kub ss',
+        avatar: '/storage/media/1/CjUxMQYKNR7bDfE1dmu6',
+    },
 };
 
 export default function (state = initialState, action) {
@@ -28,7 +32,8 @@ export default function (state = initialState, action) {
                     ...state.login,
                     success: isAuthorized(),
                     httpStatus: 200
-                }
+                },
+                data: action.data.user,
             };
         case actions.LOGIN_VERIFY_FAILED:
             return {

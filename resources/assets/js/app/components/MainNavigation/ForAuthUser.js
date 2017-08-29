@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link, IndexLink } from 'react-router';
+import { localize } from 'react-localize-redux';
+
 import ChangeLocalization from '../ChangeLocalization';
-import {localize} from 'react-localize-redux';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-import { getAuthUser } from 'app/services/AuthService';
 
 class ForAuthUser extends React.Component {
 
@@ -25,8 +27,7 @@ class ForAuthUser extends React.Component {
     }
 
     render() {
-        const {translate} = this.props;
-        const authUser = getAuthUser();
+        const { user, translate } = this.props;
 
         return (
             <div className="d-flex w-100">
@@ -43,10 +44,11 @@ class ForAuthUser extends React.Component {
                   </li>
                 </ul>
 
-                <Dropdown className="nav-item" isOpen={this.state.isDropdownOpen} toggle={this.toggleUserDropdown}>
-                    <DropdownToggle caret>
-                        { authUser.username }
-                    </DropdownToggle>
+                <Dropdown className="nav-item"
+                    isOpen={ this.state.isDropdownOpen }
+                    toggle={ this.toggleUserDropdown }
+                >
+                    <DropdownToggle caret>{ user.full_name }</DropdownToggle>
                     <DropdownMenu>
                         <Link onClick={this.toggleUserDropdown} to="/dashboard" className="dropdown-item" >
                             {translate('dashboard')}
@@ -83,4 +85,11 @@ class ForAuthUser extends React.Component {
     }
 }
 
-export default localize(ForAuthUser, 'locale');
+const ForAuthUserConnected = connect(
+    (state) => ({
+        user: state.user.data,
+    }),
+    null
+)(ForAuthUser);
+
+export default localize(ForAuthUserConnected, 'locale');
