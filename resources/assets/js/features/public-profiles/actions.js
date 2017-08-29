@@ -11,6 +11,11 @@ export const publicPassengerProfileSetState = profile => ({
     profile
 });
 
+export const publicPassengerProfileSetRequestStatus = (status) => ({
+    type: actions.PUBLIC_PASSENGER_PROFILE_SET_REQUEST_STATUS,
+    status
+});
+
 export const getDriverProfile = (id) => dispatch => {
         let response = {
                 first_name: 'Andrey',
@@ -53,6 +58,7 @@ export const getDriverProfile = (id) => dispatch => {
 };
 
 export const getPassengerProfile = (id) => dispatch => {
+    dispatch(publicPassengerProfileSetRequestStatus(false));
     let response = {
         first_name: 'Tomas',
         last_name: 'Witsel',
@@ -61,6 +67,7 @@ export const getPassengerProfile = (id) => dispatch => {
         img: null
     };
     dispatch(publicPassengerProfileSetState(response));
+    dispatch(publicPassengerProfileSetRequestStatus(true));
 
     /*return securedRequest.get('/api/v1/passenger/' + id)
      .then(response => {
