@@ -103,7 +103,8 @@ class AuthUserService
     private function setCustomClaims(User $user): self
     {
         $this->customClaims = [
-            'username' => $user->getFullName(),
+            'full_name' => $user->getFullName(),
+            'avatar' => $user->getAvatarUrl(),
         ];
 
         return $this;
