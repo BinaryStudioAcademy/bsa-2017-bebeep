@@ -1,14 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getTranslate } from 'react-localize-redux';
-import _ from 'lodash';
+import { localize } from 'react-localize-redux';
 
 import Input from 'app/components/Input';
 import Textarea from 'app/components/Textarea';
 import StatusModal from '../_Modals/StatusModal';
-
-import { updateProfileSuccess } from 'features/user/actions';
 
 import { ProfileValidate } from 'app/services/UserService';
 import UserService from 'features/user/services/UserService';
@@ -24,8 +19,6 @@ class GeneralForm extends React.Component {
         super(props);
 
         this.state = {
-            profile: {},
-            profileNotFound: false,
             errors: {},
             modal: {
                 isOpen: false,
@@ -36,20 +29,6 @@ class GeneralForm extends React.Component {
 
         this.onSubmit = this.onSubmit.bind(this);
         this.handleRoleChange = this.handleRoleChange.bind(this);
-    }
-
-    componentDidMount() {
-        UserService.getProfileGeneral()
-            .then(response => {
-                this.setState({
-                    profile: response.data,
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    profileNotFound: true,
-                });
-            });
     }
 
     handleRoleChange(e) {
@@ -86,9 +65,7 @@ class GeneralForm extends React.Component {
             return;
         }
 
-        this.setState({
-            errors: {}
-        });
+        this.setState({ errors: {} });
 
         UserService.updateProfileGeneral(profileData)
             .then(response => {
@@ -116,17 +93,10 @@ class GeneralForm extends React.Component {
     }
 
     render() {
-        const { profile, errors, profileNotFound, modal } = this.state,
-            {translate} = this.props;
+        const { errors, modal } = this.state,
+            { profile, translate } = this.props;
 
-        if (profileNotFound) {
-            return (
-                <div className="alert alert-danger" role="alert">{translate('profile_general.profile_data_not_found')}</div>
-            );
-        }
-        if (_.isEmpty(profile)) {
-            return (<div></div>);
-        }
+        console.log(profile);
 
         return (
             <div>
@@ -235,12 +205,4 @@ class GeneralForm extends React.Component {
     }
 }
 
-const GeneralFormConnected = connect(
-    state => ({
-        translate: getTranslate(state.locale)
-    }),
-    (dispatch) =>
-        bindActionCreators({ updateProfileSuccess }, dispatch)
-)(GeneralForm);
-
-export default GeneralFormConnected;
+export default localize(GeneralForm, 'locale');

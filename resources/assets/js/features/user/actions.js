@@ -20,6 +20,11 @@ export const loginFormFailed = data => ({
     data
 });
 
+export const userProfileSetState = data => ({
+    type: actions.USER_PROFILE_SET_STATE,
+    data
+});
+
 export const updateProfileSuccess = data => ({
     type: actions.USER_PROFILE_UPDATE_SUCCESS,
     data

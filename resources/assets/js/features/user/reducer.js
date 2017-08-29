@@ -12,8 +12,9 @@ const initialState = {
     },
     base_data: {
         full_name: 'Diana Kub',
-        avatar: '/storage/media/1/CjUxMQYKNR7bDfE1dmu6',
+        avatar: '/storage/media/1/R71CAr5khbh4vBO8Fd8i',
     },
+    profile: {},
 };
 
 export default function (state = initialState, action) {
@@ -68,6 +69,12 @@ export default function (state = initialState, action) {
                     errors: action.response.data,
                     httpStatus: action.response.status,
                 }
+            };
+
+        case actions.USER_PROFILE_SET_STATE:
+            return {
+                ...state,
+                profile: action.data,
             };
 
         case actions.USER_PROFILE_UPDATE_SUCCESS:
