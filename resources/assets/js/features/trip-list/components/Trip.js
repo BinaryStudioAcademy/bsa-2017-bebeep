@@ -1,17 +1,16 @@
 import React from 'react';
-import moment from 'moment';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {getTranslate} from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
+import moment from 'moment';
 
-import { Link } from 'react-router';
-
-import DirectionsMap from "app/components/DirectionsMap";
-import { securedRequest } from 'app/services/RequestService';
-import { getWaypointsFromRoutes } from 'app/services/GoogleMapService';
-import BookingService from 'app/services/BookingService';
 import BookingModal from './_Modals/BookingModal';
+import DirectionsMap from "app/components/DirectionsMap";
 
+import { securedRequest } from 'app/services/RequestService';
+import BookingService from 'app/services/BookingService';
+import { getWaypointsFromRoutes } from 'app/services/GoogleMapService';
 
 import '../styles/trip-card.scss';
 
@@ -35,11 +34,15 @@ class Trip extends React.Component {
     }
 
     getStartDate() {
-        return moment(`${this.props.trip.start_at} +0000`, "YYYY-MM-DD HH:mm:ss Z").format('D MMMM HH:mm');
+        return moment(
+            `${this.props.trip.start_at} +0000`,
+            "YYYY-MM-DD HH:mm:ss Z"
+        ).format('D MMMM HH:mm');
     }
 
     getStartPlace() {
         const {routes, trip} = this.props;
+
         if (_.isEmpty(trip.routes)) {
             return null;
         }
@@ -49,6 +52,7 @@ class Trip extends React.Component {
 
     getEndPlace() {
         const {routes, trip} = this.props;
+
         if (_.isEmpty(trip.routes)) {
             return null;
         }
