@@ -13,6 +13,7 @@
     "trips_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"]
   },
   "booking": {
+    "seats": ["Number of seats", "Кількість місць", "Количество мест"],
     "bookings_button": ["New bookings", "Нові бронювання", "Новые бронирования"],
     "bookings_in_pending": ["bookings in pending", "бронювання в очікуванні", "бронирования в ожидании"],
     "accept_button": ["Accept booking", "Підтвердити", "Подтвердить"],

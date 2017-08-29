@@ -10,27 +10,34 @@ class BookingInfo extends React.Component {
             user = booking.user;
 
         return (
-            <li className="li-bookings">
+            <li className="li-bookings booking-modal-item">
                 <div className="row">
                     <div className="col-md-2">
                         <img src={user.photo}
                             className="img-circle img-booking-user img-responsive" />
                     </div>
 
-                    <div className="col-md-4">
+                    <div className="col-md-5">
                         <span>{ user.full_name }</span>
                     </div>
 
-                    <div className="col-md-3">
-                        <button className="btn btn-sm hover btn-success"
+                    <div className="col-md-5">
+                        <strong className="mr-2">
+                            { translate('booking.seats') }:
+                        </strong>
+                        <span>{ booking.seats }</span>
+                    </div>
+                </div>
+
+                <div className="row mt-3">
+                    <div className="col-md-12 booking-modal-item__buttons">
+                        <button className="btn btn-sm hover btn-success booking-modal-item__button"
                             onClick={onApprove}
                         >
                             { translate('booking.accept_button') }
                         </button>
-                    </div>
 
-                    <div className="col-md-3">
-                        <button className="btn btn-sm hover btn-danger"
+                        <button className="btn btn-sm hover btn-danger booking-modal-item__button"
                             onClick={onDecline}
                         >
                             { translate('booking.reject_button') }
