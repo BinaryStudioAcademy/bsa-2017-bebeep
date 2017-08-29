@@ -8,12 +8,19 @@ use League\Fractal\TransformerAbstract;
 class RouteTransformer extends TransformerAbstract
 {
     /**
+     * @var array
+     */
+    protected $availableIncludes = [
+        'bookings',
+    ];
+
+    /**
      * A Fractal transformer.
      *
-     * @param RouteDetail $route
+     * @param \App\Services\Result\RouteDetail $route
      * @return array
      */
-    public function transform(RouteDetail $route)
+    public function transform(RouteDetail $route) : array
     {
         return [
             'id' => $route->id,
@@ -29,7 +36,16 @@ class RouteTransformer extends TransformerAbstract
                 'short_address' => $route->to['address_components'][0]['short_name'],
                 'address' => $route->to['formatted_address'],
             ],
-            'busy_seats' => $route->busySeats,
+            'reserved_seats' => $route->reservedSeats,
         ];
+    }
+
+    /**
+     * @param \App\Services\Result\RouteDetail $route
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeBookings(RouteDetail $route)
+    {
+        return $this->collection($route->approvedBookings, new BookingTransformer());
     }
 }

@@ -109,6 +109,18 @@ Route::group([
     Route::get('/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
 });
 
+Route::post('v1/trips/{trip}/bookings', ['as' => 'booking.create', 'uses' => 'BookingsController@create', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
+
+Route::group([
+    'prefix' => 'v1/bookings',
+    'as' => 'booking.',
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION],
+], function () {
+    Route::get('/past', ['as' => 'past', 'uses' => 'BookingsController@past']);
+    Route::get('/upcoming', ['as' => 'upcoming', 'uses' => 'BookingsController@upcoming']);
+    Route::delete('/{booking}', ['as' => 'cancel', 'uses' => 'BookingsController@cancel']);
+});
+
 Route::post('v1/password-resets', [
     'middleware' => 'jwt.guest',
     'as' => 'password.forgot',
@@ -120,8 +132,3 @@ Route::put('v1/password-resets', [
     'as' => 'password.reset',
     'uses' => 'Auth\PasswordResetsController@reset',
 ]);
-
-Route::post('v1/trips/{trip}/bookings', ['as' => 'booking.create', 'uses' => 'BookingsController@create', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
-Route::delete('v1/bookings/{booking}', ['as' => 'booking.cancel', 'uses' => 'BookingsController@cancel', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
-Route::get('v1/bookings/past', ['as' => 'booking.past', 'uses' => 'BookingsController@past', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
-Route::get('v1/bookings/upcoming', ['as' => 'booking.upcoming', 'uses' => 'BookingsController@upcoming', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);

@@ -52,18 +52,24 @@ class Route extends Model
     /**
      * @return int
      */
-    public function getAvailableSeatsAttribute()
+    public function getReservedSeatsAttribute() : int
+    {
+        return $this->bookings->reject(function ($booking) {
+            return $booking->status !== Booking::STATUS_APPROVED;
+        })->reduce(function ($carry, $booking) {
+            return $carry + $booking->seats;
+        }, 0);
+    }
+
+    /**
+     * @return int
+     */
+    public function getAvailableSeatsAttribute() : int
     {
         if ($this->bookings->count() <= 0) {
             return $this->trip->seats;
         }
 
-        $seatsReserved = $this->bookings->reject(function ($booking) {
-            return $booking->status !== Booking::STATUS_APPROVED;
-        })->reduce(function ($carry, $booking) {
-            return $carry + $booking->seats;
-        }, 0);
-
-        return $this->trip->seats - $seatsReserved;
+        return $this->trip->seats - $this->reserved_seats;
     }
 }

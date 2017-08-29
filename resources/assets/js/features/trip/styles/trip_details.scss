@@ -1,0 +1,245 @@
+@import '~app/bootstrap/variables';
+
+.trip-detail-icon.fa {
+    font-size: 1.5em;
+    color: $teal;
+}
+
+.block-border {
+    border: 1px solid $gray-lighter;
+}
+
+.trip-section-header {
+    margin-bottom: 1.5rem;
+    color: $gray-dark;
+}
+
+.trip-main-points {
+    font-size: 1.3em;
+
+    &__route-map-link {
+        font-size: .8em;
+    }
+}
+
+.trip-main-info {
+    font-size: .95em;
+
+    &__label {
+        margin-bottom: .5rem;
+        font-weight: 600;
+    }
+    &__value {
+        margin-bottom: 1rem;
+    }
+}
+
+.trip-point-icon:before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: .5rem;
+    vertical-align: top;
+    background-color: $white;
+    border-radius: 50%;
+    border: 3px solid $teal;
+}
+
+.trip-point-icon--waypoint:before {
+    border-width: 2px;
+    border-style: dashed;
+}
+
+.trip-point-icon--end:before {
+    background-color: lighten($teal, 10%);
+}
+
+.trip-vehicle-image {
+    max-width: 120px;
+
+    &__item {
+        border-radius: 1rem;
+    }
+}
+
+.trip-user-image {
+    max-width: 70px;
+
+    &__item {
+        border-radius: 50%;
+    }
+    &--small {
+        max-width: 40px;
+        margin-bottom: .5rem;
+    }
+}
+
+.driver-info__link {
+    color: inherit;
+}
+
+.trip-routes {
+    font-size: .8em;
+    border-bottom: 1px solid $gray-lighter;
+
+    th {
+        padding: .5rem;
+        text-align: center;
+        position: relative;
+    }
+    td:first-of-type {
+        border-top: none;
+        border-bottom: none;
+    }
+
+    thead th:not(:first-child),
+    tbody td {
+        border-left: 1px solid $gray-lighter;
+    }
+
+    tbody th {
+        width: 16%;
+        max-width: 60px;
+    }
+
+    tbody td {
+        width: 9%;
+        max-width: 40px;
+    }
+
+    &__head-icon {
+        width: 30px;
+        height: 30px;
+        margin: auto;
+    }
+
+    &__point {
+        display: block;
+        width: 100%;
+        height: 100px;
+        text-align: left;
+        position: relative;
+        top: -30px;
+
+        &:before {
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            left: 1px;
+            top: -2px;
+            z-index: 2;
+        }
+
+        &--end {
+            height: auto;
+            position: absolute;
+            bottom: 3px;
+            top: inherit;
+            left: inherit;
+        }
+
+        &:not(&--end):after {
+            content: '';
+            display: block;
+            width: 2px;
+            height: 100%;
+            background-color: $teal;
+            position: absolute;
+            left: 12px;
+        }
+    }
+
+    &__point-info {
+        margin-left: 2rem;
+        font-weight: 600;
+    }
+
+    &__driver-cell {
+        background-color: lighten($teal, 26%);
+    }
+
+    &__passenger {
+        text-align: center;
+    }
+    &__passenger .trip-user-image {
+        margin: 0 auto .5rem;
+    }
+}
+
+.trip-price,
+.trip-places-free {
+    width: 100%;
+    border-bottom: 1px solid $gray-lighter;
+}
+.trip-price {
+    border-right: 1px solid $gray-lighter;
+}
+
+.trip-booking-value {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: $gray-dark;
+}
+
+.trip-text-label {
+    display: block;
+    font-size: .9em;
+    color: $gray-light;
+}
+
+.trip-passengers-current {
+
+    .trip-text-label {
+        font-size: .95em;
+    }
+
+    &__item {
+        margin: .5rem .25rem;
+
+        & .trip-user-image--small {
+            margin-bottom: 0;
+        }
+    }
+    &__free {
+        display: block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px dashed $gray-lighter;
+    }
+}
+
+.trip-places-free {
+
+    &__icon {
+        width: 35px;
+        height: 35px;
+        margin-left: .5rem;
+    }
+}
+
+.trip-booking-button {
+    background-color: $gray-lightest;
+    border-top: 1px solid $gray-lighter;
+
+    &__btn {
+        width: 100%;
+        font-size: .95em;
+        font-weight: 600;
+        color: $white;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        background-color: $teal;
+        box-shadow: inset 0 -2px rgba(0, 0, 0, .2);
+
+        &:hover {
+            background-color: darken($teal, 30%);
+        }
+        &:focus,
+        &:active {
+            box-shadow: inset 0 1px rgba(0, 0, 0, .2);
+            transform: translateY(2px);
+        }
+    }
+}

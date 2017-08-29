@@ -12,7 +12,7 @@ import { updateProfileSuccess } from 'features/user/actions';
 import UserService from 'features/user/services/UserService';
 import { ProfileValidate } from 'app/services/UserService';
 
-import {getTranslate} from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 
 const MODAL_MSG = {
     success: 'profile_general.user_profile_general_success',
