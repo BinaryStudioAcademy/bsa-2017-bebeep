@@ -1,13 +1,16 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 
 import BookingInfo from '../BookingInfo';
 import Modal from 'app/components/Modal';
 
-import {changeBookingStatus} from 'features/trip-list/actions';
-import BookingService, {BOOKING_STATUS_DECLINED, BOOKING_STATUS_APPROVED} from 'app/services/BookingService';
+import { changeBookingStatus } from 'features/trip-list/actions';
+import BookingService, {
+    BOOKING_STATUS_DECLINED,
+    BOOKING_STATUS_APPROVED
+} from 'app/services/BookingService';
 
 import 'features/trip-list/styles/booking-info.scss';
 
