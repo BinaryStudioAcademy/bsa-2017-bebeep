@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
+import { Navbar, Collapse, NavbarBrand, NavbarToggler } from 'reactstrap';
 
 import { isAuthorized } from 'app/services/AuthService';
 
@@ -25,26 +26,18 @@ class MainNavigation extends React.Component {
     }
 
     render() {
-        const navClass = !this.state.isNavOpen ? 'collapse' : '';
         const navLinks = isAuthorized() ? <ForAuthUser /> : <ForGuestUser />;
 
         return (
-            <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse main-navigation">
-              <button className="navbar-toggler navbar-toggler-right" type="button"
-                    data-toggle="collapse" data-target="#navbarToogle"
-                    aria-controls="navbarToogle" aria-expanded="false"
-                    aria-label="Toggle navigation"
-                    onClick={this.toggleNavbar}>
+            <Navbar className="main-navigation" light toggleable="md">
+                <NavbarToggler right onClick={this.toggleNavbar} />
 
-                <span className="navbar-toggler-icon"></span>
-              </button>
+                <NavbarBrand tag={IndexLink} to="/">BeBeep</NavbarBrand>
 
-              <IndexLink to="/" className="navbar-brand">BeBeep</IndexLink>
-
-              <div className={"navbar-collapse " + navClass} id="navbarToogle">
-                { navLinks }
-              </div>
-            </nav>
+                <Collapse isOpen={this.state.isNavOpen} navbar>
+                    { navLinks }
+                </Collapse>
+            </Navbar>
         );
     }
 }

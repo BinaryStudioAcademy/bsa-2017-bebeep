@@ -5,8 +5,8 @@ import LangService from '../services/LangService';
 
 class ChangeLocalization extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             isDropdownOpen: false,
@@ -38,7 +38,9 @@ class ChangeLocalization extends React.Component {
             >
                 <DropdownToggle className="main-navigation-dropdown__dropdown-toggle" caret>
                     <i className="fa fa-language language-switcher__icon" aria-hidden="true" />
-                    { LangService.getName(currentLanguage) }
+                    <span className="main-navigation-dropdown__toggle-label">
+                        { currentLanguage.toUpperCase() }
+                    </span>
                 </DropdownToggle>
                 <DropdownMenu right>
                     {languages.map((lang) =>

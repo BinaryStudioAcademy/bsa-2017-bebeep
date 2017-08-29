@@ -1,3 +1,5 @@
+@import '~app/bootstrap/variables';
+
 img {
     max-width: 100%;
     height: auto;
@@ -26,7 +28,7 @@ strong {
 .page-header {
     margin-bottom: 1.5rem;
     color: #444;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $gray-lighter;
 }
 
 .page-header .h1,
@@ -48,19 +50,56 @@ strong {
     float: right;
 }
 
-.main-navigation-dropdown,
-.main-navigation-dropdown__dropdown-toggle {
+.main-navigation {
+    border-bottom: 2px solid $gray-lighter;
+}
+.main-navigation-dropdown {
     height: 100%;
+    margin-left: .5rem;
+    margin-bottom: 1rem;
+
+    &__dropdown-toggle {
+        width: 100%;
+        height: 100%;
+        font-size: .95em;
+        padding: .25rem 1rem;
+    }
+    &__toggle-label {
+        margin: 0 .25rem;
+    }
+
+    .dropdown-item {
+        padding: .5rem 1.5rem;
+        font-size: .95em;
+    }
 }
 
-.user-personal-menu__avatar {
-    width: 35px;
-    margin-right: .5rem;
-    border-radius: 50%;
+.user-personal-menu {
+    .dropdown-menu {
+        min-width: 200px;
+    }
+
+    &__avatar {
+        width: 35px;
+        margin-right: .5rem;
+        border-radius: 50%;
+    }
 }
 
-.language-switcher__icon {
-    margin-right: .5rem;
-    vertical-align: middle;
-    font-size: 1.5em;
+.language-switcher {
+    .dropdown-item {
+        cursor: pointer;
+    }
+
+    &__icon.fa {
+        margin-right: .5rem;
+        vertical-align: middle;
+        font-size: 1.5em;
+    }
+}
+
+@media (min-width: 992px) {
+    .main-navigation-dropdown {
+        margin-bottom: 0;
+    }
 }
