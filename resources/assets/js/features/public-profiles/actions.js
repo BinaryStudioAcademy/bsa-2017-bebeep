@@ -64,7 +64,7 @@ export const getPassengerProfile = (id) => dispatch => {
         last_name: 'Witsel',
         birth_date: '1988-11-11',
         about_me: null,
-        img: null
+        img: 'http://static5.businessinsider.com/image/564f9a296bb3f7fd52624841-100-100/dennis-green.jpg'
     };
     dispatch(publicPassengerProfileSetState(response));
     dispatch(publicPassengerProfileSetRequestStatus(true));

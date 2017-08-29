@@ -16,9 +16,9 @@ class PassengerProfileContainer extends React.Component {
     }
 
     render() {
-        const { profile, isFetched, translate } = this.props;
+        const { profile, is_fetched, translate } = this.props;
 
-        if (!isFetched) {
+        if (!is_fetched) {
             return (
                 <div>
                     <Preloader enable={true}/>
@@ -45,7 +45,7 @@ class PassengerProfileContainer extends React.Component {
 export default connect(
     (state) => ({
         profile: state.profile.current_passenger_profile,
-        isFetched: state.profile.isFetched,
+        is_fetched: state.profile.is_fetched,
         translate: getTranslate(state.locale)
     }),
     (dispatch) => bindActionCreators({getPassengerProfile}, dispatch)

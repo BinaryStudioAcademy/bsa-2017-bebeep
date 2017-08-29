@@ -8,7 +8,7 @@ import TripsListContainer from "../components/TripsListContainer";
 import { securedRequest } from 'app/services/RequestService';
 import { tripsFilterChanged, tripsLoadSuccess } from '../actions';
 import LangService from 'app/services/LangService';
-import {getTranslate} from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 import * as lang from '../lang/TripList.locale.json';
 import { FILTER_PAST, FILTER_UPCOMING } from 'app/services/BookingService';
 
