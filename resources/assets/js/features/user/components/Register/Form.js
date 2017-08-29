@@ -12,6 +12,8 @@ import { initSession, destroySession } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
 
+import {STEP_THREE} from 'features/wizard-trip/services/WizardTripService';
+
 import 'features/user/styles/user_register.scss';
 
 class Form extends React.Component {
@@ -20,13 +22,21 @@ class Form extends React.Component {
         super();
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
+            hasTripPending: false,
             errors: {}
         };
     }
 
+    componentWillMount() {
+        if (this.props.tripPending.step === STEP_THREE) {
+            this.setState({hasTripPending: true});
+        }
+    }
+
     onSubmit(e) {
         e.preventDefault();
-        const {registerSuccess} = this.props,
+        const {registerSuccess, tripPending} = this.props,
+            {hasTripPending} = this.state,
             registerData = {
                 first_name: e.target['first_name'].value,
                 last_name: e.target['last_name'].value,
@@ -37,8 +47,9 @@ class Form extends React.Component {
                 role_passenger: e.target['role_passenger'].checked,
                 password: e.target['password'].value,
                 password_confirmation: e.target['password_confirmation'].value
-            };
-        const validate = RegisterValidate(registerData);
+            },
+            validate = RegisterValidate(registerData);
+
         if (!validate.valid) {
             this.setState({
                 errors: validate.errors
@@ -49,7 +60,11 @@ class Form extends React.Component {
                     response => {
                         registerSuccess();
                         initSession(response.data.token);
-                        browserHistory.push('/dashboard');
+                        if (hasTripPending) {
+                            console.log(tripPending);
+                        } else {
+                            browserHistory.push('/dashboard');
+                        }
                     }
                 )
                 .catch(error => {
@@ -61,7 +76,7 @@ class Form extends React.Component {
     }
 
     render() {
-        const {errors} = this.state,
+        const {errors, hasTripPending} = this.state,
             {translate} = this.props;
 
         return (
@@ -117,6 +132,7 @@ class Form extends React.Component {
                                        id="role_driver"
                                        name="role_driver"
                                        value="1"
+                                       checked={hasTripPending}
                                 /> {translate('register_form.driver')}
                             </label>
                         </div>
@@ -164,6 +180,7 @@ class Form extends React.Component {
 
 const FormConnected = connect(
     state => ({
+        tripPending: state.tripWizard,
         translate: getTranslate(state.locale)
     }),
     (dispatch) =>

@@ -6,6 +6,7 @@ const initialState = {
     from: {},
     to: {},
     start_at: null,
+    end_at: null,
     seats: 0,
     price: 0,
     brand: '',
@@ -21,6 +22,7 @@ export default (state = initialState, action) => {
                 from: action.data.from,
                 to: action.data.to,
                 start_at: action.data.start_at,
+                end_at: action.data.end_at,
             };
             break;
         case actions.WIZARD_TRIP_SEATS:

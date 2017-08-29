@@ -5,8 +5,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {addLocation} from '../actions';
 import {getTranslate} from 'react-localize-redux';
-import {createTripRules} from 'app/services/TripService';
+import {createTripRules, getStartAndEndTime} from 'app/services/TripService';
 import Validator from 'app/services/Validator';
+import TripRoute from 'app/helpers/TripRoute';
+import moment from 'moment';
 
 class StepOne extends React.Component {
 
@@ -33,10 +35,12 @@ class StepOne extends React.Component {
     }
 
     componentWillMount() {
+        const {from , to, start_at} = this.props.tripWizard;
+
         this.setState({
-            from: this.props.tripWizard.from,
-            to: this.props.tripWizard.to,
-            start_at: this.props.tripWizard.start_at,
+            from: from,
+            to: to,
+            start_at: start_at ? moment(start_at) : start_at
         });
     }
 
@@ -53,21 +57,37 @@ class StepOne extends React.Component {
     }
 
     onNext() {
-        const toBeValidated = {
-                from: this.state.from.place,
-                to: this.state.to.place,
-                start_at: this.state.start_at,
-            },
-            {from, to, start_at} = createTripRules(),
-            validated = Validator.validate({
-                from, to, start_at
-            }, toBeValidated);
+        const directionService = new google.maps.DirectionsService();
 
-        if (validated.valid) {
-            this.props.addLocation(this.state);
-        } else {
-            this.setState({errors: validated.errors});
-        }
+        directionService.route({
+            origin: this.state.from.address,
+            destination: this.state.to.address,
+            waypoints: [],
+            travelMode: google.maps.TravelMode.DRIVING,
+        }, (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK) {
+                const route = new TripRoute(result.routes[0]),
+                    time = getStartAndEndTime(this.state.start_at, route.getDurationRaw()),
+                    toBeValidated = {
+                        from: this.state.from.place,
+                        to: this.state.to.place,
+                        start_at: time.start_at,
+                        end_at: time.end_at
+                    },
+                    {from, to, start_at, end_at} = createTripRules(),
+                    validated = Validator.validate({
+                        from, to, start_at, end_at
+                    }, toBeValidated);
+
+                if (validated.valid) {
+                    this.props.addLocation(toBeValidated);
+                } else {
+                    this.setState({errors: validated.errors});
+                }
+            }
+        });
+
+
     }
 
     render() {
