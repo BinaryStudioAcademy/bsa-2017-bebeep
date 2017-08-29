@@ -70,7 +70,7 @@ html, body {
 }
 
 .wizard-form {
-  .btn {
+  &__btn {
     margin-left: 15px;
     display: inline-block;
     vertical-align: middle;
@@ -86,9 +86,6 @@ html, body {
     width: 250px;
     &_calendar {
       width: 170px;
-    }
-    .form-input {
-      border: none;
     }
     &:first-child {
       margin-left: 0;
@@ -199,4 +196,8 @@ html, body {
       margin-top: 10px;
     }
   }
+}
+
+.form-input_no-border {
+  border: none;
 }
