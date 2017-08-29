@@ -16,11 +16,19 @@ html, body {
       float: right;
     }
   }
+}
 
-  &__menu-item {
+.header-menu {
+  &__item {
     display: inline-block;
     vertical-align: middle;
     padding-left: 50px;
+
+    &--active a, &:hover a {
+      text-decoration: none;
+      border-bottom: 1px solid;
+      color: #000;
+    }
 
     a {
       font-size: 18px;
@@ -28,11 +36,6 @@ html, body {
       color: #939393;
       letter-spacing: .025em;
       border-bottom: 1px solid transparent;
-      &:hover {
-        text-decoration: none;
-        border-bottom: 1px solid;
-        color: #000;
-      }
     }
 
     &:first-child {
@@ -50,49 +53,6 @@ html, body {
   &__steps {
     margin-top: 100px;
     text-align: center;
-    &-step {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      vertical-align: middle;
-      font-size: 18px;
-      color: #fff;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: #6dcff6;
-      margin-right: 250px;
-      &:last-child {
-        margin-right: 0;
-        &::after {
-          display: none;
-        }
-      }
-      &:hover {
-        text-decoration: none;
-        color: #fff;
-      }
-      &::after {
-        content: "";
-        display: block;
-        height: 1px;
-        width: 260px;
-        background: #6dcff6;
-        position: absolute;
-        left: 25px;
-        top: 50%;
-      }
-      &--active {
-        font-weight: bold;
-        background: #fff;
-        color: #6dcff6;
-        border: 3px solid;
-        &:hover {
-          color: #6dcff6;
-        }
-      }
-    }
   }
 
   &__nav {
@@ -100,7 +60,105 @@ html, body {
     text-align: center;
   }
 
-  &__nav-item {
+  &__search {
+    width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    text-align: center;
+  }
+}
+
+.home-welcome-search {
+  &__form {
+    margin-top: 35px;
+
+    .btn {
+      margin-left: 15px;
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 11px;
+      padding-right: 11px;
+      letter-spacing: .025em;
+    }
+  }
+
+  &__input {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 15px;
+    width: 250px;
+    &--calendar {
+      width: 170px;
+    }
+    .form-input {
+      border: none;
+    }
+    &:first-child {
+      margin-left: 0;
+    }
+    .form-input__text {
+      width: calc(100% - 40px);
+    }
+  }
+
+  &__header {
+    color: #fff;
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: .025em;
+    text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.home-welcome-steps {
+  &__step {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    font-size: 18px;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #6dcff6;
+    margin-right: 250px;
+    &:last-child {
+      margin-right: 0;
+      &::after {
+        display: none;
+      }
+    }
+    &:hover {
+      text-decoration: none;
+      color: #fff;
+    }
+    &::after {
+      content: "";
+      display: block;
+      height: 1px;
+      width: 260px;
+      background: #6dcff6;
+      position: absolute;
+      left: 25px;
+      top: 50%;
+    }
+    &--active {
+      font-weight: bold;
+      background: #fff;
+      color: #6dcff6;
+      border: 3px solid;
+      &:hover {
+        color: #6dcff6;
+      }
+    }
+  }
+}
+
+.home-welcome-nav {
+  &__item {
     position: relative;
     display: inline-block;
     vertical-align: middle;
@@ -142,54 +200,6 @@ html, body {
     span {
       display: block;
       margin-top: 10px;
-    }
-  }
-
-  &__search {
-    width: 940px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 100px;
-    text-align: center;
-
-    &-form {
-      margin-top: 35px;
-
-      .btn {
-        margin-left: 15px;
-        display: inline-block;
-        vertical-align: middle;
-        padding-left: 11px;
-        padding-right: 11px;
-        letter-spacing: .025em;
-      }
-    }
-
-    &-input {
-      display: inline-block;
-      vertical-align: middle;
-      margin-left: 15px;
-      width: 250px;
-      &--calendar {
-        width: 170px;
-      }
-      .form-input {
-        border: none;
-      }
-      &:first-child {
-        margin-left: 0;
-      }
-      .form-input__text {
-        width: calc(100% - 40px);
-      }
-    }
-
-    &-header {
-      color: #fff;
-      font-size: 35px;
-      font-weight: bold;
-      letter-spacing: .025em;
-      text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
     }
   }
 }
