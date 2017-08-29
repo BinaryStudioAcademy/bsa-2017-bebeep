@@ -1,13 +1,11 @@
 import React from 'react';
-import { localize } from 'react-localize-redux';
-
-import { getProfileAvatar } from 'app/services/PhotoService';
+import {localize} from 'react-localize-redux';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
+import {defaultUserPhoto} from 'app/services/PhotoService';
 
 import "../styles/driver-profile.scss";
 
 class DriverComment extends React.Component {
-
     getDaysFromComment() {
         return DateTimeHelper.getTimeFromCommentDate(this.props.comment.date);
     }
@@ -27,8 +25,7 @@ class DriverComment extends React.Component {
         return (
                 <div className="row comment">
                     <div className="col-sm-2">
-                        <img className="img-responsive user-photo"
-                            src={ getProfileAvatar(comment.user_img) }/>
+                        <img className="img-responsive user-photo" src={comment.user_img ? comment.user_img : defaultUserPhoto}/>
                     </div>
                     <div className="col-sm-10">
                         <div className="card card-comment">

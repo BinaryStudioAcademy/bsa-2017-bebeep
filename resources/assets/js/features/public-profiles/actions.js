@@ -16,7 +16,7 @@ export const getProfile = (id) => dispatch => {
                 car: {
                     model: 'BMW X5',
                     color: 'blue',
-                    photo: null
+                    img: null
                 },
                 comments: [
                     {

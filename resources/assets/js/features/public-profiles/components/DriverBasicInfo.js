@@ -1,7 +1,6 @@
 import React from 'react';
-import { localize } from 'react-localize-redux';
-
-import { getProfileAvatar } from 'app/services/PhotoService';
+import {localize} from 'react-localize-redux';
+import {defaultUserPhoto} from 'app/services/PhotoService';
 
 import "../styles/driver-profile.scss";
 
@@ -12,7 +11,7 @@ class DriverBasicInfo extends React.Component {
 
         return (
             <div className="text-center">
-                <img src={ getProfileAvatar(img) } width="150" height="150" className="rounded-circle driver-avatar" />
+                <img src={img ? img : defaultUserPhoto} width="150" height="150" className="rounded-circle driver-avatar" />
                 <h4 className="m-y-2 driver-name">{first_name}&nbsp;{last_name}, <span className="driver-years text-muted">{years} {translate('driver_public_profile.driver_years')}</span></h4>
                 <strong>{translate('driver_public_profile.driver_experience')} </strong> {translate('driver_public_profile.driver_experienced')} <br/>
                 <strong>{translate('driver_public_profile.driver_preferences')} </strong>

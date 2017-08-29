@@ -5,6 +5,11 @@ import PROFILE_AVATAR_DEFAULT from 'app/images/user/profile_default.jpg';
 import DRIVER_AVATAR_DEFAULT from 'app/images/user/driver_default.png';
 import PASSENGER_AVATAR_DEFAULT from 'app/images/user/passenger_default.png';
 
+// TODO :: it's better to replace these with getProfileAvatar
+export const defaultUserPhoto = PROFILE_AVATAR_DEFAULT;
+// TODO :: it's better to replace these with getVehiclePhoto
+export const defaultCarPhoto = 'https://cdn4.iconfinder.com/data/icons/car-silhouettes/1000/sedan-512.png';
+
 export const getProfileAvatar = (avatar) => {
     return avatar ? avatar : PROFILE_AVATAR_DEFAULT;
 };
