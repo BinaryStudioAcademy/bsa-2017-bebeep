@@ -10,7 +10,7 @@ const initialState = {
         errors: {},
         httpStatus: 200
     },
-    data: {
+    base_data: {
         full_name: 'Diana Kub',
         avatar: '/storage/media/1/CjUxMQYKNR7bDfE1dmu6',
     },
@@ -33,7 +33,7 @@ export default function (state = initialState, action) {
                     success: isAuthorized(),
                     httpStatus: 200
                 },
-                data: action.data.user,
+                base_data: action.data.user,
             };
         case actions.LOGIN_VERIFY_FAILED:
             return {

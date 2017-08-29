@@ -1,11 +1,12 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 import validate from 'validate.js';
 import _ from 'lodash';
-import {localize} from 'react-localize-redux';
-import * as lang from '../../lang/_Modals/StatusModal.locale.json';
+
+import Modal from 'app/components/Modal';
 
 import LangService from 'app/services/LangService';
-import Modal from 'app/components/Modal';
+import * as lang from 'features/user/lang/_Modals/StatusModal.locale.json';
 
 class StatusModal extends React.Component {
 

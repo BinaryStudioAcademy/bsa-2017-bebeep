@@ -1,4 +1,4 @@
-import { securedRequest } from '../../../app/services/RequestService';
+import { securedRequest } from 'app/services/RequestService';
 
 export const VehicleService = {
     getBrandOptions() {

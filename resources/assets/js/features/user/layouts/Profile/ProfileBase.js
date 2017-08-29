@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
-import LangService from '../../../../app/services/LangService';
-import * as lang from '../../lang/Profile/ProfileBase.locale.json';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
+
+import LangService from 'app/services/LangService';
+import * as lang from 'features/user/lang/Profile/ProfileBase.locale.json';
 
 import 'features/user/styles/profile.scss';
 

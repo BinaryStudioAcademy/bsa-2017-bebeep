@@ -1,10 +1,11 @@
 import React from 'react';
-import LangService from '../../../app/services/LangService';
-import * as lang from '../lang/CreateTrip.locale.json';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
 
 import PageHeader from 'app/components/PageHeader';
 import CreateTripContainer from '../components/Containers/CreateTripContainer';
+
+import LangService from 'app/services/LangService';
+import * as lang from '../lang/CreateTrip.locale.json';
 
 import '../styles/create_trip.scss';
 

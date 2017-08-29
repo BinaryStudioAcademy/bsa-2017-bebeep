@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { localize } from 'react-localize-redux';
 
-import LangService from '../../../app/services/LangService';
-import * as lang from '../lang/Dashboard.locale.json';
-
 import PageHeader from 'app/components/PageHeader';
+
+import LangService from 'app/services/LangService';
+import * as lang from '../lang/Dashboard.locale.json';
 
 class Dashboard extends React.Component {
 
@@ -21,7 +21,9 @@ class Dashboard extends React.Component {
             <section className="page-section">
                 <PageHeader header={ translate('dashboard.header') } />
                 { user.avatar }
-                <p className="text-center">{translate('dashboard.hello', {username: user.full_name})}</p>
+                <p className="text-center">
+                    { translate('dashboard.hello', {username: user.full_name}) }
+                </p>
             </section>
         )
     }
@@ -29,7 +31,7 @@ class Dashboard extends React.Component {
 
 const DashboardConnected = connect(
     (state) => ({
-        user: state.user.data,
+        user: state.user.base_data,
     }),
     null
 )(Dashboard);

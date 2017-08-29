@@ -44,7 +44,7 @@ class ForAuthUser extends React.Component {
 
 const ForAuthUserConnected = connect(
     (state) => ({
-        user: state.user.data,
+        user: state.user.base_data,
     }),
     null
 )(ForAuthUser);
