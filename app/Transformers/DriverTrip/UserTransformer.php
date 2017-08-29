@@ -18,7 +18,7 @@ class UserTransformer extends TransformerAbstract
         return [
             'id' => $user->id,
             'full_name' => $user->getFullName(),
-            'avatar' => $user->getAvatarUrl(),
+            'photo' => $user->getAvatarUrl(),
         ];
     }
 }
