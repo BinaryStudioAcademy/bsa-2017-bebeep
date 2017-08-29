@@ -2,11 +2,11 @@ import React from 'react';
 import { localize } from 'react-localize-redux';
 import _ from 'lodash';
 
-import TripUserImage from './TripUserImage';
+import TripUserImage from '../TripUserImage';
 import UserTooltip from 'app/components/Tooltips/UserTooltip';
 
 
-class TripRouteUser extends React.Component {
+class RouteUser extends React.Component {
 
     render() {
         const { translate, type, uniqueKey, user } = this.props;
@@ -38,4 +38,4 @@ class TripRouteUser extends React.Component {
     }
 }
 
-export default localize(TripRouteUser, 'locale');
+export default localize(RouteUser, 'locale');

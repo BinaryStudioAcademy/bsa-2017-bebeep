@@ -1,14 +1,38 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 
-import TripRouteUser from './TripRouteUser';
+import { RouteBase } from './Route';
 import { DriverIcon, SeatIcon } from 'app/components/Icons';
 
 
 class TripRoutesPassengers extends React.Component {
 
+    renderSeatsIcons() {
+        const maxSeats = this.props.maxSeats;
+
+        return [...Array(maxSeats)].map((n, i) =>
+            <th key={i}>
+                <SeatIcon className="trip-routes__head-icon" />
+            </th>
+        );
+    }
+
+    renderRoutes() {
+        const { routes, driver } = this.props;
+
+        return routes.map((route, i) =>
+            <RouteBase
+                key={i}
+                position={i}
+                route={route}
+                driver={driver}
+                count={routes.length}
+            />
+        );
+    }
+
     render() {
-        const { translate, maxSeats, routes, driver } = this.props;
+        const { translate } = this.props;
 
         return (
             <section className="block-border p-3 mt-4">
@@ -26,74 +50,11 @@ class TripRoutesPassengers extends React.Component {
                             <th>
                                 <DriverIcon className="trip-routes__head-icon" />
                             </th>
-                        {
-                          [...Array(maxSeats)].map((n, i) =>
-                            <th key={i}>
-                                <SeatIcon className="trip-routes__head-icon" />
-                            </th>
-                          )
-                        }
+                            { this.renderSeatsIcons() }
                           </tr>
                         </thead>
-                        <tbody>
-                        {
-                          routes.map((route, i) =>
-                            <tr key={i}>
-                              <th scope="row">
-                                <span className={"trip-routes__point trip-point-icon" +
-                                    (i !== 0 ? ' trip-point-icon--waypoint' : '')
-                                }>
-                                    <span className="trip-routes__point-info">
-                                        { route.from.short_address }
-                                    </span>
-                                </span>
 
-                              { i === routes.length - 1 &&
-                                <span className="trip-routes__point trip-routes__point--end trip-point-icon trip-point-icon--end">
-                                    <span className="trip-routes__point-info">
-                                        { route.to.short_address }
-                                    </span>
-                                </span>
-                              }
-                              </th>
-
-                              <td className="trip-routes__driver-cell">
-                              { i === 0 &&
-                                <TripRouteUser
-                                    type="driver"
-                                    uniqueKey={ `${route.id}-${driver.id}-d` }
-                                    user={ driver }
-                                />
-                              }
-                              </td>
-
-                              {
-                                route.bookings.data.map((booking) =>
-                                  [...Array(booking.seats)].map((n, i) => {
-                                    const passenger = booking.user.data;
-                                    const uniqueKey = `${route.id}-${passenger.id}-${i}`;
-
-                                    return <td key={ uniqueKey }>
-                                        <TripRouteUser
-                                            type="passenger"
-                                            uniqueKey={ uniqueKey }
-                                            user={ passenger }
-                                        />
-                                    </td>
-                                  })
-                                )
-                              }
-
-                              {
-                                [...Array(route.free_seats)].map((n, i) =>
-                                  <td key={i}></td>
-                                )
-                              }
-
-                            </tr>
-                          )
-                        }
-                        </tbody>
+                        <tbody>{ this.renderRoutes() }</tbody>
                     </table>
                 </div>
             </section>

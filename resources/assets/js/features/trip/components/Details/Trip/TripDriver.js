@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { localize } from 'react-localize-redux';
 
-import TripUserImage from './TripUserImage';
+import TripUserImage from '../TripUserImage';
 
 
 class TripDriver extends React.Component {

@@ -4,15 +4,18 @@ import _ from 'lodash';
 
 import BookingModal from '../Modals/BookingModal';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
+
+import {
+    TripRoutesPassengers,
+    TripBookingMainInfo,
+    TripPassengersCurrent,
+} from '../Details';
 import {
     TripMainPoints,
     TripMainInfo,
     TripDriver,
     TripVehicle,
-    TripRoutesPassengers,
-    TripBookingMainInfo,
-    TripPassengersCurrent
-} from '../Details';
+} from '../Details/Trip';
 
 import 'features/trip/styles/trip_details.scss';
 
