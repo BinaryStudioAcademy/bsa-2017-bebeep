@@ -54,7 +54,7 @@ class TripDetails extends React.Component {
             startPoint = details.routes[0].from,
             endPoint = _.last(details.routes).to;
 
-        const searchData = {
+        this.props.searchSuccess({
             from: {
                 name: startPoint.address,
                 coordinate: {lat: startPoint.lat, lng: startPoint.lng},
@@ -64,8 +64,7 @@ class TripDetails extends React.Component {
                 coordinate: {lat: endPoint.lat, lng: endPoint.lng},
             },
             start_at: details.trip.start_at_x,
-        };
-        this.props.searchSuccess(searchData);
+        });
     }
 
     render() {

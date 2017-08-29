@@ -41,6 +41,10 @@ class SearchForm extends React.Component {
     }
 
     componentDidMount() {
+        if (this.props.pageType === 'index') {
+            return;
+        }
+
         const { tripDefaultData } = this.props;
 
         if (tripDefaultData.from.name) {
