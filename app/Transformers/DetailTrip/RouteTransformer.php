@@ -2,7 +2,6 @@
 
 namespace App\Transformers\DetailTrip;
 
-use App\Models\Booking;
 use App\Services\Result\RouteDetail;
 use League\Fractal\TransformerAbstract;
 

@@ -22,7 +22,7 @@ class TripDetailService implements Contracts\TripDetailService
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDetail(Trip $trip) : TripDetail
     {

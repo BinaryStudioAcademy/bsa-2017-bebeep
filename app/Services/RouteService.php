@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\{ Route, Booking };
+use App\Models\Route;
 
 class RouteService implements Contracts\RouteService
 {

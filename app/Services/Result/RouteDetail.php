@@ -2,7 +2,8 @@
 
 namespace App\Services\Result;
 
-use App\Models\{ Route, Booking };
+use App\Models\Route;
+use App\Models\Booking;
 use Illuminate\Support\Collection;
 
 class RouteDetail

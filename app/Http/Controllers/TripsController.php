@@ -3,27 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trip;
+use App\Services\TripsService;
+use App\Services\TripDetailService;
 use Illuminate\Support\Facades\Auth;
-use App\Services\{
-    TripsService,
-    TripDetailService
-};
-use App\Http\Requests\{
-    CreateTripRequest,
-    SearchTripRequest,
-    UpdateTripRequest,
-    GetDriverTripRequest
-};
-use App\Transformers\{
-    TripTransformer,
-    Search\SearchTripTransformer,
-    DriverTrip\DriverTripTransformer,
-    DetailTrip\TripTransformer as TripDetailsTransformer
-};
-use App\Exceptions\{
-    Trip\UserCantEditTripException,
-    User\UserHasNotPermissionsToDeleteTripException
-};
+use App\Transformers\TripTransformer;
+use App\Http\Requests\CreateTripRequest;
+use App\Http\Requests\SearchTripRequest;
+use App\Http\Requests\UpdateTripRequest;
+use App\Http\Requests\GetDriverTripRequest;
+use App\Exceptions\Trip\UserCantEditTripException;
+use App\Transformers\Search\SearchTripTransformer;
+use App\Transformers\DriverTrip\DriverTripTransformer;
+use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
+use App\Transformers\DetailTrip\TripTransformer as TripDetailsTransformer;
 
 class TripsController extends Controller
 {

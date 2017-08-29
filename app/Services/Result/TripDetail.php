@@ -48,9 +48,11 @@ class TripDetail
         if ($name === 'routes') {
             return $this->routes;
         }
+
         if (isset($this->trip[$name])) {
             return $this->trip[$name];
         }
+
         return null;
     }
 }
