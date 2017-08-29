@@ -5,9 +5,9 @@ export const tripCreateSuccess = data => ({
     data
 });
 
-export const tripDetailsLoadSuccess = payload => {
+export const tripDetailsSetState = payload => {
     return {
-        type: actions.TRIP_DETAILS_LOAD_SUCCESS,
+        type: actions.TRIP_DETAILS_SET_STATE,
         payload
     }
 };

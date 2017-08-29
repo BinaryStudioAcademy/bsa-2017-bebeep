@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { localize } from 'react-localize-redux';
 import _ from 'lodash';
 
-import { tripDetailsLoadSuccess } from 'features/trip/actions';
+import { tripDetailsSetState } from 'features/trip/actions';
 import { searchSuccess } from 'features/search/actions';
 
 import TripDetailsService from 'features/trip/services/TripDetailsService';
@@ -30,11 +30,11 @@ class TripDetails extends React.Component {
     }
 
     componentDidMount() {
-        const { params, tripDetailsLoadSuccess } = this.props;
+        const { params, tripDetailsSetState } = this.props;
 
         TripDetailsService.getDetails(params.id)
             .then(response => {
-                this.props.tripDetailsLoadSuccess(response);
+                this.props.tripDetailsSetState(response);
                 this.setSearchData();
 
                 this.setState({
@@ -89,7 +89,7 @@ const TripDetailsConnected = connect(
         details: state.trip.details
     }),
     (dispatch) =>
-        bindActionCreators({ tripDetailsLoadSuccess, searchSuccess }, dispatch)
+        bindActionCreators({ tripDetailsSetState, searchSuccess }, dispatch)
 )(TripDetails);
 
 export default localize(TripDetailsConnected, 'locale');
