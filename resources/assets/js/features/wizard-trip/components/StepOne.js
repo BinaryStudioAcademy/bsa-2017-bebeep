@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {addLocation} from '../actions';
 import {getTranslate} from 'react-localize-redux';
+import {createTripRules} from 'app/services/TripService';
+import Validator from 'app/services/Validator';
 
 class StepOne extends React.Component {
 
@@ -20,7 +22,8 @@ class StepOne extends React.Component {
                 place: null,
                 address: ''
             },
-            start_at: null
+            start_at: null,
+            errors: {}
         };
 
         this.onSelectedFrom = this.onSelectedFrom.bind(this);
@@ -50,11 +53,25 @@ class StepOne extends React.Component {
     }
 
     onNext() {
-        this.props.addLocation(this.state);
+        const toBeValidated = {
+                from: this.state.from.place,
+                to: this.state.to.place,
+                start_at: this.state.start_at,
+            },
+            {from, to, start_at} = createTripRules(),
+            validated = Validator.validate({
+                from, to, start_at
+            }, toBeValidated);
+
+        if (validated.valid) {
+            this.props.addLocation(this.state);
+        } else {
+            this.setState({errors: validated.errors});
+        }
     }
 
     render() {
-        const {start_at} = this.state;
+        const {start_at, errors} = this.state;
 
         return (
             <div className="row">
@@ -63,14 +80,14 @@ class StepOne extends React.Component {
                         id="trip_from"
                         ico="fa-circle-o"
                         onChange={this.onSelectedFrom}
-                        error=""
+                        error={errors.from}
                     >Откуда</InputPlaces>
                 </div>
                 <div className="col-md-3 col-sm-4">
                     <InputPlaces
                         id="trip_to"
                         onChange={this.onSelectedTo}
-                        error=""
+                        error={errors.to}
                     >Куда</InputPlaces>
                 </div>
                 <div className="col-md-3 col-sm-4">
@@ -79,7 +96,7 @@ class StepOne extends React.Component {
                         value={start_at}
                         onChange={this.onChangeDate}
                         label="Когда"
-                        error=""
+                        error={errors.start_at}
                     />
                 </div>
                 <div className="col-md-3 col-sm-12">

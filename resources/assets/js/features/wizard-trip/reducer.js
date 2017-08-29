@@ -8,7 +8,7 @@ const initialState = {
     start_at: null,
     seats: 0,
     price: 0,
-    mark: '',
+    brand: '',
     model: ''
 };
 
@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 step: STEP_THREE,
-                mark: action.data.mark,
+                brand: action.data.brand,
                 model: action.data.model
             };
             break;

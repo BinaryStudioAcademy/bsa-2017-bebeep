@@ -5,42 +5,60 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {addCar} from '../actions';
 import {getTranslate} from 'react-localize-redux';
+import { VehicleValidate } from 'app/services/VehicleService';
 
 class StepThree extends React.Component {
     constructor() {
         super();
         this.state = {
-            mark: '',
-            model: ''
+            brand: '',
+            model: '',
+            errors: {}
         };
 
         this.onMarkChange = this.onMarkChange.bind(this);
         this.onModelChange = this.onModelChange.bind(this);
         this.onNext = this.onNext.bind(this);
     }
-    onMarkChange(e) {
-        this.setState({mark: e.target.value});
+
+    componentWillMount() {
+        this.setState({
+            brand: this.props.tripWizard.brand,
+            model: this.props.tripWizard.model
+        });
     }
+
+    onMarkChange(e) {
+        this.setState({brand: e.target.value});
+    }
+
     onModelChange(e) {
         this.setState({model: e.target.value});
     }
 
     onNext() {
-        this.props.addCar(this.state);
+        const {brand, model} = this.state,
+            result = VehicleValidate({brand, model});
+
+        if (result.valid) {
+            this.props.addCar(this.state);
+        } else {
+            this.setState({errors: result.errors});
+        }
     }
 
     render() {
-        const {mark, model} = this.state;
+        const {brand, model, errors} = this.state;
 
         return (
             <div className="row">
                 <div className="col-md-4 col-sm-6">
                     <Input
-                        id="mark"
+                        id="brand"
                         ico="fa-circle-o"
-                        value={mark}
+                        value={brand}
                         onChange={this.onMarkChange}
-                        error=""
+                        error={errors.brand}
                     >Марка авто</Input>
                 </div>
                 <div className="col-md-4 col-sm-6">
@@ -48,7 +66,7 @@ class StepThree extends React.Component {
                         id="model"
                         value={model}
                         onChange={this.onModelChange}
-                        error=""
+                        error={errors.model}
                     >Модель авто</Input>
                 </div>
                 <div className="col-md-4 col-sm-12">

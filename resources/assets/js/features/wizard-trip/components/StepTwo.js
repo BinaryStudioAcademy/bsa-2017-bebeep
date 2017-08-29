@@ -5,13 +5,16 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {addSeats} from '../actions';
 import {getTranslate} from 'react-localize-redux';
+import {createTripRules} from 'app/services/TripService';
+import Validator from 'app/services/Validator';
 
 class StepTwo extends React.Component {
     constructor() {
         super();
         this.state = {
             price: '',
-            seats: ''
+            seats: '',
+            errors: {}
         };
 
         this.onPriceChange = this.onPriceChange.bind(this);
@@ -21,16 +24,17 @@ class StepTwo extends React.Component {
 
     componentWillMount() {
         this.setState({
-            price: this.props.tripWizard.price,
-            seats: this.props.tripWizard.seats
+            price: this.props.tripWizard.price || '',
+            seats: this.props.tripWizard.seats || ''
         });
     }
 
     onPriceChange(e) {
         const value = e.target.value.match(/[0-9]+/),
             price = value && !isNaN(+value[0]) ? +value[0] : (value && value.length !== 0 ? this.state.price : '');
-            this.setState({price});
+        this.setState({price});
     }
+
     onSeatsChange(e) {
         const value = +e.target.value,
             seats = value && !isNaN(value) && value > 0 ? value : (value <= 0 ? '' : this.state.seats);
@@ -38,11 +42,24 @@ class StepTwo extends React.Component {
     }
 
     onNext() {
-        this.props.addSeats(this.state);
+        const toBeValidated = {
+                price: this.state.price,
+                seats: this.state.seats
+            },
+            {price, seats} = createTripRules(),
+            validated = Validator.validate({
+                price, seats
+            }, toBeValidated);
+
+        if (validated.valid) {
+            this.props.addSeats(this.state);
+        } else {
+            this.setState({errors: validated.errors});
+        }
     }
 
     render() {
-        const {price, seats} = this.state;
+        const {price, seats, errors} = this.state;
 
         return (
             <div className="row">
@@ -52,7 +69,7 @@ class StepTwo extends React.Component {
                         ico="fa-circle-o"
                         value={price}
                         onChange={this.onPriceChange}
-                        error=""
+                        error={errors.price}
                     >Цена за место</Input>
                 </div>
                 <div className="col-md-4 col-sm-6">
@@ -60,7 +77,7 @@ class StepTwo extends React.Component {
                         id="seats"
                         value={seats}
                         onChange={this.onSeatsChange}
-                        error=""
+                        error={errors.seats}
                     >Количество мест</Input>
                 </div>
                 <div className="col-md-4 col-sm-12">
