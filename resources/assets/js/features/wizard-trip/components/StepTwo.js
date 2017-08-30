@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {addSeats} from '../actions';
 import {getTranslate} from 'react-localize-redux';
 import {createTripRules} from 'app/services/TripService';
+import {prepareNumber} from 'app/services/WizardTripService';
 import Validator from 'app/services/Validator';
 
 class StepTwo extends React.Component {
@@ -30,14 +31,14 @@ class StepTwo extends React.Component {
     }
 
     onPriceChange(e) {
-        const value = e.target.value.match(/[0-9]+/),
-            price = value && !isNaN(+value[0]) ? +value[0] : (value && value.length !== 0 ? this.state.price : '');
+        const value = prepareNumber(e.target.value),
+            price = value || '';
         this.setState({price});
     }
 
     onSeatsChange(e) {
-        const value = +e.target.value,
-            seats = value && !isNaN(value) && value > 0 ? value : (value <= 0 ? '' : this.state.seats);
+        const value = prepareNumber(e.target.value),
+            seats = value || '';
         this.setState({seats});
     }
 

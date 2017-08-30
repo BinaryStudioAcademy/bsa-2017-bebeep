@@ -31,3 +31,10 @@ export const savePendingTrip  = (tripData) => {
             }
     );
 };
+
+export const prepareNumber = (value) => {
+    const number = value.match(/[0-9]+/);
+    return number && !isNaN(+number[0]) && +number[0] > 0
+        ? +number[0]
+        : 0;
+};
