@@ -13,7 +13,8 @@ const initialState = {
     base_data: {
         first_name: 'Diana',
         last_name: 'Kub',
-        avatar: '/storage/media/1/R71CAr5khbh4vBO8Fd8i',
+        avatar: null,
+        //avatar: '/storage/media/1/R71CAr5khbh4vBO8Fd8i',
     },
     profile: {},
 };

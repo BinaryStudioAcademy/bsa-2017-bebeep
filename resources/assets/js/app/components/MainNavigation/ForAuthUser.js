@@ -8,11 +8,15 @@ import { localize } from 'react-localize-redux';
 import UserDropdown from './UserDropdown';
 import ChangeLocalization from '../ChangeLocalization';
 
+import { getProfileAvatar } from 'app/services/PhotoService';
+
 
 class ForAuthUser extends React.Component {
 
     render() {
         const { user, translate } = this.props;
+
+        user.avatar = getProfileAvatar(user.avatar);
 
         return (
             <div className="d-flex align-items-md-center w-100">
