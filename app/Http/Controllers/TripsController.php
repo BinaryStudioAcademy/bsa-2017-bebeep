@@ -59,7 +59,7 @@ class TripsController extends Controller
         $trips = $this->tripsService->getUpcoming(Auth::user());
 
         return fractal()->collection($trips, new DriverTripTransformer())
-            ->parseIncludes(['routes', 'vehicle', 'bookings'])
+            ->parseIncludes(['routes', 'vehicle', 'bookings', 'bookings.user'])
             ->respond();
     }
 
@@ -71,7 +71,7 @@ class TripsController extends Controller
         $trips = $this->tripsService->getPast(Auth::user());
 
         return fractal()->collection($trips, new DriverTripTransformer())
-            ->parseIncludes(['routes', 'vehicle', 'bookings'])
+            ->parseIncludes(['routes', 'vehicle', 'bookings', 'bookings.user'])
             ->respond();
     }
 

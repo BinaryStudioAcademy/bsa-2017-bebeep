@@ -1,10 +1,10 @@
 import React from 'react';
-import DriverProfileContainer from '../components/Driver/DriverProfileContainer';
+import PassengerProfileContainer from '../components/Passenger/PassengerProfileContainer';
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/DriverPublicProfile.locale.json';
 import {localize} from 'react-localize-redux';
 
-export default localize(class DriverPublicProfile extends React.Component {
+export default localize(class PassengerPublicProfile extends React.Component {
 
     componentWillMount() {
         LangService.addTranslation(lang);
@@ -13,7 +13,7 @@ export default localize(class DriverPublicProfile extends React.Component {
     render() {
         const {translate} = this.props;
         return (
-            <DriverProfileContainer id={ this.props.params.id }/>
+            <PassengerProfileContainer id={ this.props.params.id }/>
         );
     }
 }, 'locale');

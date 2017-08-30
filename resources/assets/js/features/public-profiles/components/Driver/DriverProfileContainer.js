@@ -2,12 +2,12 @@ import React from 'react';
 import Preloader from 'app/components/Preloader';
 import DriverProfile from './DriverProfile';
 import DriverAdditionalInfo from './DriverAdditionalInfo';
-import { getProfile } from '../actions';
+import { getDriverProfile } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 
-import "../styles/driver-profile.scss";
+import "../../styles/public-profile.scss";
 
 class DriverProfileContainer extends React.Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class DriverProfileContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getProfile(this.props.id);
+        this.props.getDriverProfile(this.props.id);
         this.setState({
             preloader: false
         });
@@ -32,7 +32,7 @@ class DriverProfileContainer extends React.Component {
                 <div>
                     <Preloader enable={true}/>
                     <div className="justify-content-center loading-placeholder loading-placeholder_show">
-                        <span className="align-self-center">{translate('driver_public_profile.loading')}</span>
+                        <span className="align-self-center">{translate('public_profile.loading')}</span>
                     </div>
                 </div>
             );
@@ -56,5 +56,5 @@ export default connect(
         profile: state.profile.current_driver_profile,
         translate: getTranslate(state.locale)
     }),
-    (dispatch) => bindActionCreators({getProfile}, dispatch)
+    (dispatch) => bindActionCreators({getDriverProfile}, dispatch)
 )(DriverProfileContainer);
