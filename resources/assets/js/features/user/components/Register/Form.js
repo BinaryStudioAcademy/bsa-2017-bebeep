@@ -29,7 +29,7 @@ class Form extends React.Component {
     }
 
     componentWillMount() {
-        if (this.props.tripPending.step === STEP_THREE) {
+        if (this.props.stepWizard === STEP_THREE) {
             this.setState({hasTripPending: true});
         }
     }
@@ -62,7 +62,10 @@ class Form extends React.Component {
                         registerSuccess();
                         initSession(response.data.token);
                         if (hasTripPending) {
-                            savePendingTrip(tripPending).then(() => completeTrip());
+                            savePendingTrip(tripPending).then(() => {
+                                completeTrip();
+                                browserHistory.push('/trips');
+                            });
                         } else {
                             browserHistory.push('/dashboard');
                         }
@@ -181,7 +184,8 @@ class Form extends React.Component {
 
 const FormConnected = connect(
     state => ({
-        tripPending: state.tripWizard,
+        stepWizard: state.tripWizard.step,
+        tripPending: state.tripWizard.pendingTrip,
         translate: getTranslate(state.locale)
     }),
     (dispatch) =>

@@ -23,11 +23,9 @@ export const savePendingTrip  = (tripData) => {
         },
     }).then(
             reponse => {
-                browserHistory.push('/trips');
                 return Promise.resolve(reponse);
             },
             error => {
-                browserHistory.push('/trips');
                 console.error(error);
                 return Promise.resolve({});
             }

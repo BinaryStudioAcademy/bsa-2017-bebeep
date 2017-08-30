@@ -136,7 +136,7 @@ class StepOne extends React.Component {
 
 export default connect(
     state => ({
-        tripWizard: state.tripWizard,
+        tripWizard: state.tripWizard.pendingTrip,
         translate: getTranslate(state.locale)
     }),
     dispatch => bindActionCreators({addLocation}, dispatch)

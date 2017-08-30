@@ -3,14 +3,16 @@ import {INIT, STEP_ONE, STEP_TWO, STEP_THREE} from 'app/services/WizardTripServi
 
 const initialState = {
     step: INIT,
-    from: {},
-    to: {},
-    start_at: null,
-    end_at: null,
-    seats: 0,
-    price: 0,
-    brand: '',
-    model: ''
+    pendingTrip: {
+        from: {},
+        to: {},
+        start_at: null,
+        end_at: null,
+        seats: 0,
+        price: 0,
+        brand: '',
+        model: ''
+    }
 };
 
 export default (state = initialState, action) => {
@@ -19,26 +21,35 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 step: STEP_ONE,
-                from: action.data.from,
-                to: action.data.to,
-                start_at: action.data.start_at,
-                end_at: action.data.end_at,
+                pendingTrip: {
+                    ...state.pendingTrip,
+                    from: action.data.from,
+                    to: action.data.to,
+                    start_at: action.data.start_at,
+                    end_at: action.data.end_at,
+                }
             };
             break;
         case actions.WIZARD_TRIP_SEATS:
             return {
                 ...state,
                 step: STEP_TWO,
-                seats: action.data.seats,
-                price: action.data.price
+                pendingTrip: {
+                    ...state.pendingTrip,
+                    seats: action.data.seats,
+                    price: action.data.price
+                }
             };
             break;
         case actions.WIZARD_TRIP_CAR:
             return {
                 ...state,
                 step: STEP_THREE,
-                brand: action.data.brand,
-                model: action.data.model
+                pendingTrip: {
+                    ...state.pendingTrip,
+                    brand: action.data.brand,
+                    model: action.data.model
+                }
             };
             break;
         case actions.WIZARD_TRIP_COMPLETE:

@@ -91,7 +91,7 @@ class StepTwo extends React.Component {
 
 export default connect(
     state => ({
-        tripWizard: state.tripWizard,
+        tripWizard: state.tripWizard.pendingTrip,
         translate: getTranslate(state.locale)
     }),
     dispatch => bindActionCreators({addSeats}, dispatch)

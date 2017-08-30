@@ -26,7 +26,10 @@ class WizardTrip extends React.Component {
 
         if (nextProps.step === STEP_THREE) {
             if (AuthService.isAuthorized()) {
-                savePendingTrip(tripData).then(() => completeTrip());
+                savePendingTrip(tripData).then(() => {
+                    completeTrip();
+                    browserHistory.push('/trips');
+                });
             } else {
                 browserHistory.push('/registration');
             }
@@ -67,7 +70,7 @@ class WizardTrip extends React.Component {
 export default connect(
     state => ({
         step: state.tripWizard.step,
-        tripData: state.tripWizard
+        tripData: state.tripWizard.pendingTrip
     }),
     dispatch => bindActionCreators({completeTrip}, dispatch)
 )(WizardTrip);
