@@ -3,10 +3,15 @@
 .autocomplete-container {
   position: absolute;
   font-size: 14px;
-  top: 30px;
+  width: 90%;
   background-color: white;
   border: 1px solid #999;
   z-index: 1000;
+}
+
+.search-result #PlacesAutocomplete__autocomplete-container {
+  top: 55px;
+  width: 90%;
 }
 
 #PlacesAutocomplete__root {
@@ -92,7 +97,7 @@
 
   &__search {
     &-input {
-      font-size: 14px;
+      font-size: 16px !important;
       box-shadow: none;
       border-radius: 5px;
       padding-left: 40px;
@@ -101,8 +106,8 @@
 
     &-input-start:before, &-input-end:before {
       position: absolute;
-      top: 17px;
-      left: 28px;
+      top: 19px;
+      left: 27px;
       content: '';
       width: 20px;
       height: 20px;
