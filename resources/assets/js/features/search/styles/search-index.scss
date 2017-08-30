@@ -43,7 +43,7 @@
 
 .suggestion-icon {
   padding-right: 10px;
-  color: #3f84f5;
+  color: #6dcff6;
 }
 
 .form-control {
@@ -71,7 +71,7 @@
   margin-bottom: 30px;
 
   &__btn {
-    padding: 15px 25px;
+    padding: 20px 30px;
     font-size: 1.05em;
     font-weight: 600;
     color: $white;
@@ -90,12 +90,34 @@
     }
   }
 
-  &__search-input {
-    font-size: 14px;
-    padding: 15px;
-    -webkit-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
-    -moz-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
+  &__search {
+    &-input {
+      font-size: 14px;
+      padding: 20px;
+      box-shadow: none;
+      border-radius: 5px;
+      padding-left: 40px;
+    }
+
+    &-input-start:before, &-input-end:before {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      content: '';
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      vertical-align: top;
+      background-color: $white;
+      border-radius: 50%;
+      border: 3px solid $teal;
+    }
+
+    &-input-end:before {
+      background-color: $teal;
+    }
+
   }
 
 }
+

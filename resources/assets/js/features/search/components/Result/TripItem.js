@@ -50,7 +50,7 @@ class TripItem extends React.Component {
                                 <span className="search-trip-item__from-ico"></span>{trip.from.data.point}
                             </div>
                             <div className="search-trip-item__to">
-                                <span className="search-trip-item__from-ico search-trip-item__to-ico"></span>{trip.to.data.point}
+                                <span className="search-trip-item__from-ico search-trip-item__from-end"></span>{trip.to.data.point}
                             </div>
                         </div>
                         <div className="search-trip-item__offer">

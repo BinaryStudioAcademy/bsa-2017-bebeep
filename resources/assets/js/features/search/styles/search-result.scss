@@ -1,3 +1,5 @@
+@import '~app/bootstrap/variables';
+
 .search-result {
 
   &__header {
@@ -19,6 +21,11 @@
 
   &__pagination {
     background-color: #fff;
-    padding: 10px 0;
+    padding: 15px 0;
+
+    .active a {
+      background-color: #6dcff6;
+      border-color: #6dcff6;
+    }
   }
 }

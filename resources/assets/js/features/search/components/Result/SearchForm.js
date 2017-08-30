@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -7,7 +6,6 @@ import { bindActionCreators } from 'redux';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
-import DatePicker from 'react-datepicker';
 
 import { searchSuccess } from 'features/search/actions';
 import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
@@ -143,8 +141,13 @@ class SearchForm extends React.Component {
     render() {
         const {tripData, errors} = this.state,
             {translate} = this.props,
-            placesCssClasses = {
-                root: 'form-group',
+            startPlaceCssClasses = {
+                root: 'form-group search-block__search-input-start',
+                input: 'form-control search-block__search-input',
+                autocompleteContainer: 'autocomplete-container'
+            },
+            endPlaceCssClasses = {
+                root: 'form-group search-block__search-input-end',
                 input: 'form-control search-block__search-input',
                 autocompleteContainer: 'autocomplete-container'
             },
@@ -176,7 +179,7 @@ class SearchForm extends React.Component {
                     <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
                         <PlacesAutocomplete
                             inputProps={startPointProps}
-                            classNames={placesCssClasses}
+                            classNames={startPlaceCssClasses}
                             onSelect={this.onSelectStartPoint}
                             onEnterKeyDown={this.onSelectStartPoint}
                             googleLogo={false}
@@ -191,7 +194,7 @@ class SearchForm extends React.Component {
                     <div className={"form-group" + (errors.to ? ' has-danger' : '')}>
                         <PlacesAutocomplete
                             inputProps={endPointProps}
-                            classNames={placesCssClasses}
+                            classNames={endPlaceCssClasses}
                             onSelect={this.onSelectEndPoint}
                             onEnterKeyDown={this.onSelectEndPoint}
                             googleLogo={false}
