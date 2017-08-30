@@ -13,7 +13,7 @@ class App extends React.Component {
             <div id="application">
                 <MainHeader />
 
-                <div className="main-container container py-4">
+                <div className={this.props.location.pathname !== '/' ? 'main-container container py-4' : ''}>
                     {this.props.children}
                 </div>
             </div>

@@ -37,7 +37,7 @@ class WizardTrip extends React.Component {
         const {step} = this.props;
 
         return (
-            <div className="container wizard-trip">
+            <div>
                 <div className={"wizard-trip__step" + (step === INIT
                         ? ' wizard-trip__step--active'
                         : ''
@@ -58,6 +58,12 @@ class WizardTrip extends React.Component {
                     )}
                 >
                     <StepThree />
+                </div>
+
+                <div className="home-slider__steps wizard-steps">
+                    <a href="#" className={'wizard-steps__step ' + (step === INIT ? 'wizard-steps__step_active' : '')}>1</a>
+                    <a href="#" className={'wizard-steps__step ' + (step === STEP_ONE ? 'wizard-steps__step_active' : '')}>2</a>
+                    <a href="#" className={'wizard-steps__step ' + (step === STEP_TWO ? 'wizard-steps__step_active' : '')}>3</a>
                 </div>
             </div>
         );
