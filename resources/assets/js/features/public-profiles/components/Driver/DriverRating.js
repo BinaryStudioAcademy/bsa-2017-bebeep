@@ -1,7 +1,7 @@
 import React from 'react';
 import {localize} from 'react-localize-redux';
 
-import "../styles/driver-profile.scss";
+import "../../styles/public-profile.scss";
 
 class DriverRating extends React.Component {
 
