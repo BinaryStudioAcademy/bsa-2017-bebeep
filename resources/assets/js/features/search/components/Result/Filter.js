@@ -73,20 +73,26 @@ class Filter extends React.Component {
                             onChange={this.dateChange}
                             placeholderText={translate('search_result.filter.date_placeholder')}
                             minDate={moment()}
-                            className="form-control"
-                            isClearable={true}
-                        />
-                        <div className="filter__prop-sign">{translate('search_result.filter.time', {start: time[0], end: time[1]})}</div>
-                        <Range
-                            min={0}
-                            max={24}
-                            allowCross={false}
-                            value={time}
-                            onChange={(time) => this.setState({time})}
-                            onAfterChange={this.timeChange}
-                            pushable
+                            className="form-control filter__prop-datepicker-input"
                         />
                     </div>
+                </div>
+                <div className="filter__prop">
+                        <div className="filter__prop-name">{translate('search_result.filter.time-text')}</div>
+                        <div className="filter__prop-control">
+                            <div className="filter__prop-sign">
+                                {translate('search_result.filter.time-value', {start: time[0], end: time[1]})}
+                            </div>
+                            <Range
+                                min={0}
+                                max={24}
+                                allowCross={false}
+                                value={time}
+                                onChange={(time) => this.setState({time})}
+                                onAfterChange={this.timeChange}
+                                pushable
+                            />
+                        </div>
                 </div>
                 <div className="filter__prop">
                     <div className="filter__prop-name">{translate('search_result.filter.price')}</div>

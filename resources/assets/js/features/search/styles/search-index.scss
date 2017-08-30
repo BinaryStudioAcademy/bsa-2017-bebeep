@@ -1,3 +1,5 @@
+@import '~app/bootstrap/variables';
+
 .autocomplete-container {
   position: absolute;
   font-size: 14px;
@@ -62,4 +64,38 @@
 
 .picker-error {
   border-color: #d9534f;
+}
+
+.search-block {
+  margin-top: 15px;
+  margin-bottom: 30px;
+
+  &__btn {
+    padding: 15px 25px;
+    font-size: 1.05em;
+    font-weight: 600;
+    color: $white;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background-color: $teal;
+    box-shadow: inset 0 -2px rgba(0, 0, 0, .2);
+
+    &:hover {
+      background-color: darken($teal, 30%);
+    }
+    &:focus,
+    &:active {
+      box-shadow: inset 0 1px rgba(0, 0, 0, .2);
+      transform: translateY(2px);
+    }
+  }
+
+  &__search-input {
+    font-size: 14px;
+    padding: 15px;
+    -webkit-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
+  }
+
 }

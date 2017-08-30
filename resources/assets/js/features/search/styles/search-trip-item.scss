@@ -1,17 +1,21 @@
 @import '~font-awesome/scss/_variables';
+@import '~app/bootstrap/variables';
 
 .search-trip-item {
-  $borderColor: #bbb;
   $bgColor: #fff;
+
+  &-block {
+    padding: 10px;
+  }
 
   display: block;
   background-color: $bgColor;
-  border-top: 1px solid $borderColor;
+  border-top: 1px solid $gray-lighter;
   padding: 10px 0;
   color: #272727;
 
   &:last-child {
-    border-bottom: 1px solid $borderColor;
+    border-bottom: 1px solid $gray-lighter;
   }
 
   &:hover {
@@ -22,15 +26,16 @@
   }
 
   &__user-container {
-    border-right: 1px solid $borderColor;
+    padding: 15px 20px;
+    border-right: 1px solid $gray-light;
     @media screen and (max-width: 574px) {
       border-right: none;
     }
   }
 
   &__user-photo {
-    width: 72px;
-    height: 72px;
+    width: 80px;
+    height: 80px;
     margin-right: 10px;
     border-radius: 50%;
     float: left;

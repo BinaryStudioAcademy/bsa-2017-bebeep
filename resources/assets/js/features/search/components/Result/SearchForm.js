@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -6,9 +7,10 @@ import { bindActionCreators } from 'redux';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
+import DatePicker from 'react-datepicker';
 
 import { searchSuccess } from 'features/search/actions';
-import { setUrl, encodeCoord, decodeCoord } from 'features/search/services/SearchService';
+import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
 import {getTranslate} from 'react-localize-redux';
 
 class SearchForm extends React.Component {
@@ -49,7 +51,6 @@ class SearchForm extends React.Component {
                 },
                 start_at: +query.start_at || tripData.start_at
             };
-
         this.setState({
             tripData: newTripData
         });
@@ -144,7 +145,7 @@ class SearchForm extends React.Component {
             {translate} = this.props,
             placesCssClasses = {
                 root: 'form-group',
-                input: 'form-control search-input',
+                input: 'form-control search-block__search-input',
                 autocompleteContainer: 'autocomplete-container'
             },
             startPointProps = {
@@ -170,8 +171,8 @@ class SearchForm extends React.Component {
             );
 
         return (
-            <div className="row">
-                <div className="col-sm-4">
+            <div className="row search-block">
+                <div className="col-sm-3 offset-md-2">
                     <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
                         <PlacesAutocomplete
                             inputProps={startPointProps}
@@ -185,14 +186,8 @@ class SearchForm extends React.Component {
                         />
                         {errors.from ? (<small className="form-control-feedback text-mutted">{errors.from}</small>) : ''}
                     </div>
-
                 </div>
-                <div className="col-sm-2">
-                    <div className="form-group text-center">
-                        <button role="button" className="btn btn-success" onClick={this.swapFromTo}><i className="fa fa-exchange"></i></button>
-                    </div>
-                </div>
-                <div className="col-sm-4">
+                <div className="col-sm-3">
                     <div className={"form-group" + (errors.to ? ' has-danger' : '')}>
                         <PlacesAutocomplete
                             inputProps={endPointProps}
@@ -208,7 +203,7 @@ class SearchForm extends React.Component {
                     </div>
                 </div>
                 <div className="col-sm-2">
-                    <button role="button" className="btn btn-primary" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
+                    <button role="button" className="btn search-block__btn" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
                 </div>
             </div>
         )

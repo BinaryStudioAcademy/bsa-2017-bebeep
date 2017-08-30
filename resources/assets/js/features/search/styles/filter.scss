@@ -10,15 +10,25 @@
 .filter {
 
   &__prop:not(:last-child) {
-    border-bottom: 1px solid #efefef;
     padding: 10px 0;
-  }
-
-  &__prop-name {
-    font-weight: bold;
     margin-bottom: 5px;
   }
-  &__prop-sign {
-    font-size: .9rem;
+
+  &__prop {
+    &-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    &-sign {
+      padding: 5px 0;
+      font-size: .9rem;
+    }
+
+    &-datepicker-input {
+      margin-top: 5px;
+      padding: 15px;
+    }
   }
+
 }

@@ -17,7 +17,7 @@ class TripItem extends React.Component {
 
         return (
             <Link to={`/trip/${trip.id}`} className="search-trip-item">
-                <div className="row">
+                <div className="row search-trip-item-block">
                     <div className="search-trip-item__user-container col-sm-4">
                         <img className="search-trip-item__user-photo"
                              src={ getDriverAvatar(trip.driver.data) }

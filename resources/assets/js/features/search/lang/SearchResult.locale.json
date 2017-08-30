@@ -6,7 +6,7 @@
     "showing_of": ["Showing ${count} of ${size}", "Показано ${count} з ${size}", "Показано ${count} из ${size}"],
     "leaving_from": ["Leaving from...", "Відправлення від...", "Отправление от..."],
     "going_to": ["Going to...", "Прибуття до...", "Прибытие в..."],
-    "search": ["Search", "Пошук", "Поиск"],
+    "search": ["Search", "Знайти", "Найти"],
     "price": ["Price", "Ціна", "Цена"],
     "date": ["Date", "Дата", "Дата"],
     "free_seats1": ["free seat(s)", "вільне місце", "свободное место"],
@@ -21,7 +21,8 @@
     "filter": {
       "date": ["Date", "Дата", "Дата"],
       "date_placeholder": ["mm/dd/yyyy", "дд.мм.рррр", "дд.мм.гггг"],
-      "time": ["Time: ${start}h - ${end}h", "Час: ${start}ч - ${end}ч", "Время: ${start}ч - ${end}ч"],
+      "time-value": ["${start}h - ${end}h", "${start}ч - ${end}ч", "${start}ч - ${end}ч"],
+      "time-text": ["Time", "Час", "Время"],
       "price": ["Price", "Ціна", "Цена"],
       "price_range": [
         "From <span className='filter__currency'>$</span>${start} to <span className='filter__currency'>$</span>${end}",
