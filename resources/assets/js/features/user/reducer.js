@@ -9,7 +9,9 @@ const initialState = {
         success: isAuthorized(),
         errors: {},
         httpStatus: 200
-    }
+    },
+    booking:null,
+    formRole:null
 };
 
 export default function (state = initialState, action) {
@@ -67,6 +69,18 @@ export default function (state = initialState, action) {
 
         case actions.USER_PROFILE_UPDATE_SUCCESS:
             return state;
+
+        case actions.USER_BOOKING_SET_STATE:
+            return {
+                ...state,
+                booking: action.data
+            };
+
+        case actions.USER_ROLE_SET_STATE:
+            return {
+                ...state,
+                formRole: action.data
+            };
 
         default:
             return state;

@@ -5,9 +5,10 @@ import { browserHistory } from 'react-router';
 
 import Input from 'app/components/Input';
 
-import { registerSuccess } from 'features/user/actions';
+import { registerSuccess, userBookingSetState, userFormRoleSetState } from 'features/user/actions';
 import { simpleRequest } from 'app/services/RequestService';
-import { RegisterValidate } from 'app/services/UserService';
+import BookingService from 'app/services/BookingService';
+import { RegisterValidate, checkPassengerRole } from 'app/services/UserService';
 import { initSession, destroySession } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
@@ -22,6 +23,26 @@ class Form extends React.Component {
         this.state = {
             errors: {}
         };
+    }
+
+    isUserHaveBooking(){
+        const {booking}=this.props;
+
+        return booking;
+    }
+
+    createBooking(){
+        const {tripId, routes, seats}=this.props.booking;
+
+        BookingService.createBooking(tripId, {
+            routes,
+            seats
+        }).then((data) => {
+            this.props.userBookingSetState(null);
+            this.props.userFormRoleSetState(null);
+            browserHistory.push('/bookings');
+        })
+            .catch((error) => {});
     }
 
     onSubmit(e) {
@@ -49,7 +70,11 @@ class Form extends React.Component {
                     response => {
                         registerSuccess();
                         initSession(response.data.token);
-                        browserHistory.push('/dashboard');
+                        if (this.isUserHaveBooking()){
+                            this.createBooking();
+                        } else {
+                            browserHistory.push('/dashboard');
+                        }
                     }
                 )
                 .catch(error => {
@@ -60,9 +85,11 @@ class Form extends React.Component {
         }
     }
 
+
     render() {
         const {errors} = this.state,
-            {translate} = this.props;
+            {translate,userRole} = this.props;
+        const passengerCheck = checkPassengerRole(userRole);
 
         return (
             <form role="form" className="card register-form" action="/api/user/register" method="POST"
@@ -127,6 +154,7 @@ class Form extends React.Component {
                                        id="role_passenger"
                                        name="role_passenger"
                                        value="1"
+                                       defaultChecked={passengerCheck}
                                 /> {translate('register_form.passenger')}
                             </label>
                         </div>
@@ -164,10 +192,13 @@ class Form extends React.Component {
 
 const FormConnected = connect(
     state => ({
-        translate: getTranslate(state.locale)
+        translate: getTranslate(state.locale),
+        booking: state.user.booking,
+        userLogin: state.user.login.success,
+        userRole: state.user.formRole
     }),
     (dispatch) =>
-        bindActionCreators({registerSuccess}, dispatch)
+        bindActionCreators({registerSuccess, userBookingSetState, userFormRoleSetState}, dispatch)
 )(Form);
 
 export default FormConnected;

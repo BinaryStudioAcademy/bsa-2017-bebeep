@@ -76,7 +76,6 @@ export default (store) => {
                 {/* Trip details, creating and editing */}
                 <Route path="trip">
                     <Route path="create" component={ CreateTrip } />
-                    {/*<Route path=":id" component={ TripDetails } />*/}
                     <Route path="edit/:id" component={ EditTrip } />
                 </Route>
 

@@ -25,6 +25,16 @@ export const updateProfileSuccess = data => ({
     data
 });
 
+export const userBookingSetState = data => ({
+    type: actions.USER_BOOKING_SET_STATE,
+    data
+});
+
+export const userFormRoleSetState = data => ({
+    type: actions.USER_ROLE_SET_STATE,
+    data
+});
+
 function processFailedLoginResponse(response) {
     switch (response.status) {
         case 401:
