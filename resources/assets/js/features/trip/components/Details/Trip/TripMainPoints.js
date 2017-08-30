@@ -1,10 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { localize } from 'react-localize-redux';
+import TripMapModal from '../../Modals/TripMapModal';
 
 class TripMainPoints extends React.Component {
 
+    constructor() {
+        super();
+
+        this.state = {
+            isShowTrip: false
+        };
+
+        this.toggleTrip = this.toggleTrip.bind(this);
+    }
+
+    toggleTrip() {
+        this.setState({isShowTrip: !this.state.isShowTrip});
+    }
+
     render() {
-        const { translate, startPoint, endPoint } = this.props;
+        const { translate, startPoint, endPoint, waypoints } = this.props;
 
         return (
             <div className="trip-main-points mt-3 mb-4 ml-3">
@@ -15,13 +31,16 @@ class TripMainPoints extends React.Component {
                 <span className="trip-end-point">
                     { endPoint }
                 </span>
-                <a href="#" className="trip-main-points__route-map-link ml-3">
-                    <i className="trip-detail-icon fa fa-road mr-2" aria-hidden="true" />
-                    { translate('trip_details.route_map_link') }
-                </a>
+                <TripMapModal className="trip-main-points__route-map-link ml-3" waypoints={waypoints} />
             </div>
         )
     }
 }
+
+TripMainPoints.PropTypes = {
+    startPoint: PropTypes.string.isRequired,
+    endPoint: PropTypes.string.isRequired,
+    waypoints: PropTypes.array.isRequired
+};
 
 export default localize(TripMainPoints, 'locale');

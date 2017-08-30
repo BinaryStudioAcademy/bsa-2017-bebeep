@@ -40,6 +40,32 @@ const TripDetailsService = {
 
     getRouteFreeSeats(maxSeats, reservedSeats) {
         return maxSeats - reservedSeats;
+    },
+
+    getMapDestination(routes) {
+        return new Promise((resolve, reject) => {
+            const startPoint = routes[0].from,
+                endPoint = routes[routes.length - 1].to,
+                waypoints = _.reduce(routes.slice(0, -1), (arr, route) => {
+                    const latLng = new google.maps.LatLng(parseFloat(route.to.lat),parseFloat(route.to.lng));
+                    arr.push({location: latLng, stopover: true});
+                    return arr;
+                }, []),
+                directionsService = new google.maps.DirectionsService();
+
+            directionsService.route({
+                origin: startPoint,
+                destination: endPoint,
+                waypoints: waypoints,
+                travelMode: google.maps.TravelMode.DRIVING,
+            }, (result, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    resolve(result, status);
+                } else {
+                    reject(result, status);
+                }
+            });
+        });
     }
 };
 
