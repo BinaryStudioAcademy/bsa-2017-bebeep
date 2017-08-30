@@ -14,7 +14,6 @@ const initialState = {
         first_name: 'Diana',
         last_name: 'Kub',
         avatar: null,
-        //avatar: '/storage/media/1/R71CAr5khbh4vBO8Fd8i',
     },
 };
 

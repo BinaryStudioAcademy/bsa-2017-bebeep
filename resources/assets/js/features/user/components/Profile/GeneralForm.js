@@ -41,8 +41,8 @@ class GeneralForm extends React.Component {
         }
     }
 
-    checkValidation(profileData) {
-        const validate = ProfileValidate(profileData);
+    checkValidation(data) {
+        const validate = ProfileValidate(data);
 
         if (!validate.valid) {
             this.setState({
@@ -57,10 +57,10 @@ class GeneralForm extends React.Component {
         return true;
     }
 
-    updateProfileGeneral(profileData) {
+    updateProfileGeneral(data) {
         const { updateProfileSuccess, translate } = this.props;
 
-        UserService.updateProfileGeneral(profileData)
+        UserService.updateProfileGeneral(data)
             .then(response => {
                 this.setState({
                     modal: {
@@ -87,7 +87,7 @@ class GeneralForm extends React.Component {
         e.preventDefault();
 
         const form = e.target,
-            profileData = {
+            data = {
                 first_name: form.first_name.value,
                 last_name: form.last_name.value,
                 email: form.email.value,
@@ -98,11 +98,11 @@ class GeneralForm extends React.Component {
                 about_me: form.about_me.value,
             };
 
-        if (!this.checkValidation(profileData)) {
+        if (!this.checkValidation(data)) {
             return;
         }
 
-        this.updateProfileGeneral(profileData);
+        this.updateProfileGeneral(data);
     }
 
     render() {

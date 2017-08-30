@@ -1,24 +1,17 @@
 import React from 'react';
-import Dropzone from 'react-dropzone';
-import Cropper from 'react-cropper';
 import { localize } from 'react-localize-redux';
 
+import FilesDropzone from 'app/components/FilesDropzone';
+import ImageCropper from 'app/components/ImageCropper';
+import AvatarCurrent from './AvatarCurrent';
 import StatusModal from '../_Modals/StatusModal';
-import UserService from 'features/user/services/UserService';
 
-import 'app/styles/react-cropper.scss';
-import 'app/styles/image-cropper.scss';
+import UserService from 'features/user/services/UserService';
 
 const AVATAR_WIDTH = 100;
 const AVATAR_HEIGHT = 100;
 const AVATAR_MIME_TYPES = 'image/*';
-const AVATAR_MAX_SIZE_HUMAN = 10;
-const AVATAR_MAX_SIZE = 1024 * 1024 * AVATAR_MAX_SIZE_HUMAN;
-
-const DROPZONE_ERROR = {
-    max_size: 'profile_avatar.file_size_more_maximum',
-    mime_type: 'profile_avatar.file_type_is_not_supported',
-};
+const AVATAR_MAX_SIZE_MB = 10;
 
 const MODAL_MSG = {
     success: 'profile_avatar.user_profile_avatar_successfully_updated',
@@ -30,7 +23,6 @@ class AvatarUpload extends React.Component {
         super(props);
 
         this.state = {
-            imageCurrent: null,
             image: {
                 file: null,
                 preview: null,
@@ -44,77 +36,59 @@ class AvatarUpload extends React.Component {
 
         this.onDropAccepted = this.onDropAccepted.bind(this);
         this.onDropRejected = this.onDropRejected.bind(this);
-        this.imageRotate = this.imageRotate.bind(this);
+        this.onInitCropper = this.onInitCropper.bind(this);
+
         this.onImageSave = this.onImageSave.bind(this);
         this.onDelete = this.onDelete.bind(this);
     }
 
-    componentWillMount() {
-        UserService.getProfileAvatar()
-            .then(response => {
-                this.setState({
-                    imageCurrent: response.avatar,
-                });
-            })
-            .catch(error => {});
+    onInitCropper(cropper) {
+        this.cropper = cropper;
     }
 
-    onDropAccepted(files) {
+    shouldCropperBeHidden() {
+        return this.state.image.preview === null;
+    }
+
+    toggleAvatarCurrentShow() {
+        return this.props.avatarCurrent === null ? ' hide' : '';
+    }
+
+    onDropAccepted(file) {
         this.setState({
             image: {
-                file: files[0],
-                preview: files[0].preview,
+                file: file,
+                preview: file.preview,
             },
         });
     }
 
-    onDropRejected(files) {
-        const {translate} = this.props;
-        if (files[0].size > AVATAR_MAX_SIZE) {
-            this.setState({
-                modal: {
-                    isOpen: true,
-                    status: 'error',
-                    msg: translate(DROPZONE_ERROR.max_size),
-                }
-            });
-            return;
-        }
+    onDropRejected(error) {
         this.setState({
             modal: {
                 isOpen: true,
                 status: 'error',
-                msg: translate(DROPZONE_ERROR.mime_type),
+                msg: error,
             }
         });
     }
 
-    imageRotate(direction) {
-        const degree = direction === 'left' ? -90 : 90;
-        this.cropper.rotate(degree);
-    }
-
     imageCrop() {
-        const imageType = this.state.image.file.type;
+        const imageMimeType = this.state.image.file.type;
 
-        return this.cropper.getCroppedCanvas({
-            width: AVATAR_WIDTH,
-            height: AVATAR_HEIGHT,
-            imageSmoothingEnabled: true,
-            imageSmoothingQuality: 'high',
-        }).toDataURL(imageType);
+        return this.cropper.imageCrop({
+            mimeType: imageMimeType,
+        });
     }
 
     onImageSave() {
-        const {translate} = this.props;
-        const updatedData = {
-            'avatar': this.imageCrop(),
-        };
+        const { translate } = this.props,
+            data = { avatar: this.imageCrop() };
 
-        UserService.updateProfileAvatar(updatedData)
+        UserService.updateProfileAvatar(data)
             .then(response => {
+                this.props.updateAvatarSuccess(response.avatar);
                 this.setState({
-                    imageCurrent: response.avatar,
                     modal: {
                         isOpen: true,
                         status: 'success',
@@ -136,8 +110,8 @@ class AvatarUpload extends React.Component {
     onDelete() {
         UserService.deleteProfileAvatar()
             .then(response => {
+                this.props.updateAvatarSuccess(null);
                 this.setState({
-                    imageCurrent: null,
                     image: {
                         file: null,
                         preview: null,
@@ -148,103 +122,55 @@ class AvatarUpload extends React.Component {
     }
 
     render() {
-        const { image, imageCurrent, modal } = this.state,
-            { translate } = this.props,
-            cropperHide = null === image.preview ? ' hide' : '',
-            currentHide = null === imageCurrent ? ' hide' : '';
+        const { image, modal } = this.state,
+            { translate, avatarCurrent } = this.props;
 
         return (
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-4">
-                        <Dropzone
-                            accept={ AVATAR_MIME_TYPES }
-                            maxSize={ AVATAR_MAX_SIZE }
-                            className="image-cropper__dropzone noselect"
-                            activeClassName="image-cropper__dropzone--active"
-                            acceptClassName="image-cropper__dropzone--accert"
-                            rejectClassName="image-cropper__dropzone--reject"
-                            multiple={ false }
-                            onDropAccepted={ this.onDropAccepted }
-                            onDropRejected={ this.onDropRejected }
-                            ref={ (dropzone) => { this.dropzone = dropzone; } }
-                        >
-                            <p className="image-cropper__dropzone-icon">
-                                <i className="fa fa-3x fa-user-circle-o" aria-hidden="true" />
-                            </p>
-                            <p>
-                                { translate('profile_avatar.drop_image_or_click_to_select_file_to_upload') }
-                            </p>
-                            <p className="image-cropper__dropzone-rules">
-                                { translate('profile_avatar.only_image_max_mb', {
-                                    size: AVATAR_MAX_SIZE_HUMAN
-                                }) }
-                            </p>
-                        </Dropzone>
+                        <FilesDropzone
+                            fileMimeTypes={ AVATAR_MIME_TYPES }
+                            fileMaxSizeMb={ AVATAR_MAX_SIZE_MB }
+                            onDropAcceptedCustom={ this.onDropAccepted }
+                            onDropRejectedCustom={ this.onDropRejected }
+                        />
                     </div>
 
-                    <div className="col-5">
-                        <div className={ "image-cropper__cropper-wrapper" + cropperHide }>
-                            <Cropper
-                                className="image-cropper__base-cropper"
-                                src={ image.preview }
-                                aspectRatio={ 1 / 1 }
-                                autoCropArea={ .8 }
-                                preview=".image-cropper__image-preview"
-                                viewMode={ 1 }
-                                ref={ (cropper) => { this.cropper = cropper; } }
-                            />
-                            <div className="image-cropper__buttons-rotate">
-                                <button className="btn image-cropper__btn-image-rotate"
-                                        onClick={ () => this.imageRotate('left') }>
-                                    <i className="image-cropper__btn-image-rotate-icon fa fa-undo"
-                                        aria-hidden="true" />
-                                </button>
-
-                                <button className="btn image-cropper__btn-image-rotate"
-                                        onClick={ () => this.imageRotate('right') }>
-                                    <i className="image-cropper__btn-image-rotate-icon fa fa-repeat"
-                                        aria-hidden="true" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-2">
-                        <div className={ "image-cropper__preview-wrapper" + cropperHide }>
-                            <div className="image-cropper__image-preview"
-                                style={{ width: AVATAR_WIDTH, height: AVATAR_HEIGHT }} />
-
-                            <button className="image-cropper__btn btn btn-primary"
-                                    onClick={ this.onImageSave }>
-                                {translate('profile_avatar.save_avatar')}
-                            </button>
-                        </div>
+                    <div className="col-8">
+                        <ImageCropper
+                            image={ image.preview }
+                            destWidth={ AVATAR_WIDTH }
+                            destHeight={ AVATAR_HEIGHT }
+                            isHide={ this.shouldCropperBeHidden() }
+                            ref={ cropper => { this.onInitCropper(cropper); } }
+                        />
                     </div>
                 </div>
 
-                <div className={ "row mt-4" + currentHide }>
+                <div>
+                    <button
+                        className="image-cropper__btn btn btn-primary"
+                        onClick={ this.onImageSave }
+                    >
+                        { translate('profile_avatar.save_avatar') }
+                    </button>
+                </div>
+
+                <div className={ "row mt-4" + this.toggleAvatarCurrentShow() }>
                     <div className="col-12">
-                        <div className="user-current-avatar">
-                            <figure className="user-current-avatar__block">
-                                <figcaption className="user-current-avatar__caption">
-                                    {translate('profile_avatar.current_avatar')}
-                                </figcaption>
-                                <img src={ imageCurrent }
-                                    alt={translate('profile_avatar.user_current_avatar')}/>
-                            </figure>
-                            <div>
-                                <button className="image-cropper__btn btn btn-danger"
-                                        onClick={ this.onDelete }>
-                                    {translate('profile_avatar.delete_avatar')}
-                                </button>
-                            </div>
-                        </div>
+                        <AvatarCurrent
+                            avatar={ avatarCurrent }
+                            onDelete={ this.onDelete }
+                        />
                     </div>
                 </div>
 
-                <StatusModal modal={ modal } isOpen={ modal.isOpen }
-                    onClosed={ () => this.state.modal.isOpen = false } />
+                <StatusModal
+                    modal={ modal }
+                    isOpen={ modal.isOpen }
+                    onClosed={ () => this.state.modal.isOpen = false }
+                />
             </div>
         )
     }
