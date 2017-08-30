@@ -2,6 +2,10 @@
 
   &__header {
     background-color: #fff;
+    margin-bottom: 10px;
+    &-count {
+      color: #636262;
+    }
   }
 
   &__sort-container {

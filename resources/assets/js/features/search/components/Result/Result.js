@@ -145,7 +145,7 @@ class Result extends React.Component {
                     <div className="col-md-9">
                         <div className="container">
                             <div className="row search-result__header">
-                                <div className="col-8 align-self-center">
+                                <div className="col-8 align-self-center search-result__header-count">
                                     {translate('search_result.found_trips', {size: meta.totalSize})}
                                 </div>
                                 <div className="search-result__sort-container col-4">

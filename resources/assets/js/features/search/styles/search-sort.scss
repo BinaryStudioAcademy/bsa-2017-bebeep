@@ -2,14 +2,15 @@
 
 .search-sort {
   display: inline-block;
-  padding: 10px 5px;
+  padding: 5px;
   color: #121212;
 
   &:focus,
   &:hover,
   &_active {
+    border-radius: 5px;
     text-decoration: none;
-    background-color: #efefef;
+    background-color: rgba(239, 239, 239, 0.89);
     color: #121212;
   }
 
