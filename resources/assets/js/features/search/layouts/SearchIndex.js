@@ -5,6 +5,7 @@ import SearchForm from '../components/Index/SearchForm';
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/SearchIndex.locale.json';
 import {localize} from 'react-localize-redux';
+import WizardTrip from 'features/wizard-trip/layouts/WizardTrip'
 
 export default localize(class SearchIndex extends React.Component {
 
@@ -17,7 +18,8 @@ export default localize(class SearchIndex extends React.Component {
         return (
             <div>
                 <PageHeader header={translate('search_index.find_a_ride_header')}/>
-                <SearchForm />
+                <SearchForm pageType="index" />
+                <WizardTrip />
             </div>
         );
     }

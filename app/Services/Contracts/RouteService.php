@@ -7,10 +7,10 @@ use App\Models\Route;
 interface RouteService
 {
     /**
-     * Count busy seats at route.
+     * Count reserved seats at route.
      *
      * @param Route $route
      * @return int
      */
-    public function countBusySeats(Route $route) : int;
+    public function countReservedSeats(Route $route) : int;
 }

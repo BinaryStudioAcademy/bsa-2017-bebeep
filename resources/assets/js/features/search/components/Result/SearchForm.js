@@ -89,9 +89,7 @@ class SearchForm extends React.Component {
                     })
                 });
             })
-            .catch(error => {
-                console.error(error);
-            });
+            .catch(error => {});
     }
 
     onSelectStartPoint(address) {

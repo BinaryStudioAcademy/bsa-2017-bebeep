@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Trip;
 use App\Services\TripsService;
-use App\Transformers\DetailTrip;
 use App\Services\TripDetailService;
 use Illuminate\Support\Facades\Auth;
 use App\Transformers\TripTransformer;
@@ -16,6 +15,7 @@ use App\Exceptions\Trip\UserCantEditTripException;
 use App\Transformers\Search\SearchTripTransformer;
 use App\Transformers\DriverTrip\DriverTripTransformer;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
+use App\Transformers\DetailTrip\TripTransformer as TripDetailsTransformer;
 
 class TripsController extends Controller
 {
@@ -59,7 +59,7 @@ class TripsController extends Controller
         $trips = $this->tripsService->getUpcoming(Auth::user());
 
         return fractal()->collection($trips, new DriverTripTransformer())
-            ->parseIncludes(['routes', 'vehicle', 'bookings'])
+            ->parseIncludes(['routes', 'vehicle', 'bookings', 'bookings.user'])
             ->respond();
     }
 
@@ -71,7 +71,7 @@ class TripsController extends Controller
         $trips = $this->tripsService->getPast(Auth::user());
 
         return fractal()->collection($trips, new DriverTripTransformer())
-            ->parseIncludes(['routes', 'vehicle', 'bookings'])
+            ->parseIncludes(['routes', 'vehicle', 'bookings', 'bookings.user'])
             ->respond();
     }
 
@@ -181,8 +181,14 @@ class TripsController extends Controller
         $tripDetail = $this->tripDetailService->getDetail($trip);
 
         return fractal()
-            ->item($tripDetail, new DetailTrip\TripTransformer())
-            ->parseIncludes(['driver', 'routes', 'vehicle'])
+            ->item($tripDetail, new TripDetailsTransformer())
+            ->parseIncludes([
+                'driver',
+                'vehicle',
+                'routes',
+                'routes.bookings',
+                'routes.bookings.user',
+            ])
             ->respond();
     }
 }

@@ -1,4 +1,5 @@
 import { simpleRequest, securedRequest } from 'app/services/RequestService';
+import moment from 'moment';
 
 const UserService = {
 

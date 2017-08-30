@@ -36,6 +36,28 @@ class SearchForm extends React.Component {
             startDate: null
         };
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
+        this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.pageType === 'index') {
+            return;
+        }
+
+        const { tripDefaultData } = this.props;
+
+        if (tripDefaultData.from.name) {
+            this.onSelectStartPoint(tripDefaultData.from.name);
+        }
+        if (tripDefaultData.to.name) {
+            this.onSelectEndPoint(tripDefaultData.to.name);
+        }
+        if (tripDefaultData.start_at) {
+            this.setState({
+                startDate: moment(tripDefaultData.start_at, "s"),
+            });
+        }
     }
 
     onClick(e) {
@@ -124,7 +146,7 @@ class SearchForm extends React.Component {
     }
 
     render() {
-        const {translate} = this.props;
+        const { translate } = this.props;
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control search-input',
@@ -133,7 +155,7 @@ class SearchForm extends React.Component {
 
         const startPointProps = {
             value: this.state.startPoint.address,
-            onChange: this.onChangeStartPoint.bind(this),
+            onChange: this.onChangeStartPoint,
             type: 'search',
             placeholder: translate('search_index.leaving_from'),
             autoFocus: true
@@ -141,7 +163,7 @@ class SearchForm extends React.Component {
 
         const endPointProps = {
             value: this.state.endPoint.address,
-            onChange: this.onChangeEndPoint.bind(this),
+            onChange: this.onChangeEndPoint,
             type: 'search',
             placeholder: translate('search_index.going_to'),
             autoFocus: false
@@ -215,6 +237,7 @@ class SearchForm extends React.Component {
 
 export default connect(
     state => ({
+        tripDefaultData: state.search,
         translate: getTranslate(state.locale)
     }),
     (dispatch) => bindActionCreators({searchSuccess}, dispatch)

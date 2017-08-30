@@ -1,9 +1,13 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {localize} from 'react-localize-redux';
+import { Link } from 'react-router';
+import { localize } from 'react-localize-redux';
+
+import { getDriverAvatar } from 'app/services/PhotoService';
 import LangService from 'app/services/LangService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
+
 import 'features/search/styles/search-trip-item.scss';
+
 
 class TripItem extends React.Component {
 
@@ -15,9 +19,10 @@ class TripItem extends React.Component {
             <Link to={`/trip/${trip.id}`} className="search-trip-item">
                 <div className="row">
                     <div className="search-trip-item__user-container col-sm-4">
-                        <img src={ trip.driver.data.photo }
+                        <img className="search-trip-item__user-photo"
+                             src={ getDriverAvatar(trip.driver.data) }
                              alt={ trip.driver.data.full_name }
-                             className="search-trip-item__user-photo"/>
+                        />
                         <div className="search-trip-item__user-name"
                              title={ trip.driver.data.full_name }
                         >{ trip.driver.data.full_name }</div>

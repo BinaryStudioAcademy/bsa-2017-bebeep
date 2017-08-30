@@ -1,5 +1,7 @@
 import * as actions from './actionTypes';
 
+import { getPassengerAvatar } from 'app/services/PhotoService';
+
 export const tripsLoadSuccess = payload => {
     const data = _.reduce(payload.data, (result, data) => {
         const vehicle = data.vehicle.data,
@@ -8,7 +10,12 @@ export const tripsLoadSuccess = payload => {
                 return routes;
             }, {}),
             bookings = _.reduce(data.bookings.data, (bookings, booking) => {
+                const user = booking.user.data;
+                user.photo = getPassengerAvatar(user);
+
+                booking.user = user;
                 bookings[booking.id] = booking;
+
                 return bookings;
             }, {}),
             trip = {
