@@ -38,3 +38,23 @@ export const prepareNumber = (value) => {
         ? +number[0]
         : 0;
 };
+
+export const checkTripData = (data) => {
+    return !(
+        _.isEmpty(data.from)
+        &&
+        _.isEmpty(data.to)
+        &&
+        data.start_at === null
+        &&
+        data.end_at === null
+        &&
+        data.seats <= 0
+        &&
+        data.price <= 0
+        &&
+        _.isEmpty(data.brand)
+        &&
+        _.isEmpty(data.model)
+    );
+};
