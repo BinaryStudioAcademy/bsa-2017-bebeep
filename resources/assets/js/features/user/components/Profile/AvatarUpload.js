@@ -135,6 +135,15 @@ class AvatarUpload extends React.Component {
                             onDropAcceptedCustom={ this.onDropAccepted }
                             onDropRejectedCustom={ this.onDropRejected }
                         />
+
+                        <div className="mt-3 text-right">
+                            <button
+                                className="image-cropper__btn btn btn-primary"
+                                onClick={ this.onImageSave }
+                            >
+                                { translate('profile_avatar.save_avatar') }
+                            </button>
+                        </div>
                     </div>
 
                     <div className="col-8">
@@ -148,16 +157,7 @@ class AvatarUpload extends React.Component {
                     </div>
                 </div>
 
-                <div>
-                    <button
-                        className="image-cropper__btn btn btn-primary"
-                        onClick={ this.onImageSave }
-                    >
-                        { translate('profile_avatar.save_avatar') }
-                    </button>
-                </div>
-
-                <div className={ "row mt-4" + this.toggleAvatarCurrentShow() }>
+                <div className={ "row mt-5" + this.toggleAvatarCurrentShow() }>
                     <div className="col-12">
                         <AvatarCurrent
                             avatar={ avatarCurrent }

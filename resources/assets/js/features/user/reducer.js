@@ -11,8 +11,8 @@ const initialState = {
         httpStatus: 200
     },
     profile: {
-        first_name: 'Diana',
-        last_name: 'Kub',
+        first_name: '',
+        last_name: '',
         avatar: null,
     },
 };
