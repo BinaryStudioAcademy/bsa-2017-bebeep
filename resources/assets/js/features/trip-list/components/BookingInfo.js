@@ -1,5 +1,7 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
+import {defaultUserPhoto} from 'app/services/PhotoService';
+import { Link } from 'react-router';
 
 import '../styles/booking-info.scss';
 

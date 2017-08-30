@@ -27,6 +27,7 @@ import TripsList from '../features/trip-list/layouts/TripsList';
 
 import BookingsList from '../features/bookings/layouts/BookingsList';
 import DriverPublicProfile from '../features/public-profiles/layouts/DriverPublicProfile';
+import PassengerPublicProfile from '../features/public-profiles/layouts/PassengerPublicProfile';
 
 import Elements from '../features/elements/Elements.js';
 
@@ -113,6 +114,9 @@ export default (store) => {
 
             {/*Driver public profile*/}
             <Route path="driver/:id" component={ DriverPublicProfile }/>
+
+            {/*Passenger public profile*/}
+            <Route path="passenger/:id" component={ PassengerPublicProfile }/>
 
             {/* Page not found */}
             <Route path="*" component={ NotFound }/>

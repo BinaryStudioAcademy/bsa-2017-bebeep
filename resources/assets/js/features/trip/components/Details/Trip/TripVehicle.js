@@ -23,7 +23,7 @@ class TripVehicle extends React.Component {
 
                     <div className="vehicle-info">
                         <span className="d-block">
-                            <strong>{ vehicle.model }</strong>
+                            <strong>{ vehicle.brand } { vehicle.model }</strong>
                         </span>
                         <span className="trip-text-label vehicle-color mt-2">
                             { translate('trip_details.vehicle.color', {color: vehicle.color}) }
