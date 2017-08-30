@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
 
 const DashboardConnected = connect(
     (state) => ({
-        user: state.user.base_data,
+        user: state.user.profile,
     }),
     null
 )(Dashboard);

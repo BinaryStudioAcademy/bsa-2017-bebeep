@@ -26,7 +26,12 @@ export const userProfileSetState = data => ({
 });
 
 export const userProfileUpdateState = data => ({
-    type: actions.USER_PROFILE_UPDATE_SUCCESS,
+    type: actions.USER_PROFILE_UPDATE_STATE,
+    data
+});
+
+export const userAvatarUpdateState = data => ({
+    type: actions.USER_AVATAR_UPDATE_STATE,
     data
 });
 
