@@ -83,7 +83,8 @@ export default function (state = initialState, action) {
                 profile: action.data,
                 base_data: {
                     ...state.base_data,
-                    full_name: `${action.data.first_name} ${action.data.last_name}`,
+                    first_name: action.data.first_name,
+                    last_name: action.data.last_name,
                 },
             };
 

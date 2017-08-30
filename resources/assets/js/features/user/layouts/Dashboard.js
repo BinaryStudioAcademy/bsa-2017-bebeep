@@ -15,13 +15,14 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        const { user, translate } = this.props;
+        const { user, translate } = this.props,
+            userName = `${user.first_name} ${user.last_name}`;
 
         return (
             <section className="page-section">
                 <PageHeader header={ translate('dashboard.header') } />
                 <p className="text-center">
-                    { translate('dashboard.hello', {username: user.full_name}) }
+                    { translate('dashboard.hello', {username: userName}) }
                 </p>
             </section>
         )

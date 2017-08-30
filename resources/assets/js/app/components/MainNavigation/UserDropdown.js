@@ -22,7 +22,8 @@ class UserDropdown extends React.Component {
     }
 
     render() {
-        const { user, translate } = this.props;
+        const { user, translate } = this.props,
+            userName = `${user.first_name} ${user.last_name}`;
 
         return (
             <Dropdown className="main-navigation-dropdown user-personal-menu"
@@ -31,11 +32,11 @@ class UserDropdown extends React.Component {
             >
                 <DropdownToggle className="main-navigation-dropdown__dropdown-toggle" caret>
                     <img src={ user.avatar }
-                        alt={ user.full_name }
+                        alt={ userName }
                         className="user-personal-menu__avatar"
                     />
                     <span className="main-navigation-dropdown__toggle-label">
-                        { user.full_name }
+                        { userName }
                     </span>
                 </DropdownToggle>
 
