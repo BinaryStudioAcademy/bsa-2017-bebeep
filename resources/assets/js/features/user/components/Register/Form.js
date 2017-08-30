@@ -12,7 +12,7 @@ import { initSession, destroySession } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
 
-import {savePendingTrip, checkTripData} from 'app/services/WizardTripService';
+import {STEP_THREE, savePendingTrip, isTripReady} from 'app/services/WizardTripService';
 import {completeTrip} from 'features/wizard-trip/actions';
 
 import 'features/user/styles/user_register.scss';
@@ -29,14 +29,14 @@ class Form extends React.Component {
     }
 
     componentWillMount() {
-        if (checkTripData(this.props.tripPending)) {
-            this.setState({hasTripPending: true});
+        if (this.props.stepWizard === STEP_THREE) {
+            this.setState({hasTripPending: isTripReady(this.props.tripPending)});
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!this.state.hasTripPending && checkTripData(nextProps.tripPending)) {
-            this.setState({hasTripPending: true});
+        if (!this.state.hasTripPending && nextProps.stepWizard === STEP_THREE) {
+            this.setState({hasTripPending: isTripReady(nextProps.tripPending)});
         }
     }
 
@@ -190,6 +190,7 @@ class Form extends React.Component {
 
 const FormConnected = connect(
     state => ({
+        stepWizard: state.tripWizard.step,
         tripPending: state.tripWizard.pendingTrip,
         translate: getTranslate(state.locale)
     }),

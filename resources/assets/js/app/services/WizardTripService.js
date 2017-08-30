@@ -39,7 +39,7 @@ export const prepareNumber = (value) => {
         : 0;
 };
 
-export const checkTripData = (data) => {
+export const isTripReady = (data) => {
     return !(
         _.isEmpty(data.from)
         &&
