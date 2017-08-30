@@ -4,7 +4,6 @@ import { localize } from 'react-localize-redux';
 import FilesDropzone from 'app/components/FilesDropzone';
 import ImageCropper from 'app/components/ImageCropper';
 import AvatarCurrent from './AvatarCurrent';
-import StatusModal from '../_Modals/StatusModal';
 
 import UserService from 'features/user/services/UserService';
 
@@ -12,10 +11,6 @@ const AVATAR_WIDTH = 100;
 const AVATAR_HEIGHT = 100;
 const AVATAR_MIME_TYPES = 'image/*';
 const AVATAR_MAX_SIZE_MB = 10;
-
-const MODAL_MSG = {
-    success: 'profile_avatar.user_profile_avatar_successfully_updated',
-};
 
 class AvatarUpload extends React.Component {
 
@@ -27,18 +22,14 @@ class AvatarUpload extends React.Component {
                 file: null,
                 preview: null,
             },
-            modal: {
-                isOpen: false,
-                status: '',
-                msg: '',
-            },
         };
+
+        this.onInitCropper = this.onInitCropper.bind(this);
 
         this.onDropAccepted = this.onDropAccepted.bind(this);
         this.onDropRejected = this.onDropRejected.bind(this);
-        this.onInitCropper = this.onInitCropper.bind(this);
 
-        this.onImageSave = this.onImageSave.bind(this);
+        this.onAvatarSave = this.onAvatarSave.bind(this);
         this.onDelete = this.onDelete.bind(this);
     }
 
@@ -46,59 +37,57 @@ class AvatarUpload extends React.Component {
         this.cropper = cropper;
     }
 
-    shouldCropperBeHidden() {
-        return this.state.image.preview === null;
-    }
+    setAvatarState(file) {
+        file = file instanceof window.File ? file : null;
+        const preview = file !== null ? file.preview : null;
 
-    onDropAccepted(file) {
         this.setState({
             image: {
                 file: file,
-                preview: file.preview,
+                preview: preview,
             },
         });
     }
 
+    toggleShow() {
+        return this.state.image.file !== null;
+    }
+
+    toggleClassShow() {
+        return !this.toggleShow() ? ' hide' : '';
+    }
+
+    onDropAccepted(file) {
+        this.setAvatarState(file);
+    }
+
     onDropRejected(error) {
-        this.setState({
-            modal: {
-                isOpen: true,
-                status: 'error',
-                msg: error,
-            }
+        this.setAvatarState();
+        this.props.setStatusModal({
+            msg: error,
         });
     }
 
-    imageCrop() {
+    cropAvatar() {
         const imageMimeType = this.state.image.file.type;
 
-        return this.cropper.imageCrop({
+        return this.cropper.cropImage({
             mimeType: imageMimeType,
         });
     }
 
-    onImageSave() {
-        const { translate } = this.props,
-            data = { avatar: this.imageCrop() };
+    onAvatarSave() {
+        const { translate, setStatusModal } = this.props,
+            data = { avatar: this.cropAvatar() };
 
         UserService.updateProfileAvatar(data)
             .then(response => {
                 this.props.updateAvatarSuccess(response.avatar);
-                this.setState({
-                    modal: {
-                        isOpen: true,
-                        status: 'success',
-                        msg: translate(MODAL_MSG.success),
-                    }
-                });
+                this.cropper.reset();
             })
             .catch(error => {
-                this.setState({
-                    modal: {
-                        isOpen: true,
-                        status: 'error',
-                        msg: error,
-                    }
+                setStatusModal({
+                    msg: error,
                 });
             });
     }
@@ -107,19 +96,15 @@ class AvatarUpload extends React.Component {
         UserService.deleteProfileAvatar()
             .then(response => {
                 this.props.updateAvatarSuccess(null);
-                this.setState({
-                    image: {
-                        file: null,
-                        preview: null,
-                    },
-                });
-            })
-            .catch(error => {});
+                this.setAvatarState();
+            });
     }
 
     render() {
-        const { image, modal } = this.state,
-            { translate, avatarCurrent } = this.props;
+        const { image } = this.state,
+            { translate, avatarCurrent, isDefaultAvatar } = this.props,
+            toggleShow = this.toggleShow(),
+            classShow = this.toggleClassShow();
 
         return (
             <div className="container-fluid">
@@ -132,10 +117,11 @@ class AvatarUpload extends React.Component {
                             onDropRejectedCustom={ this.onDropRejected }
                         />
 
-                        <div className="mt-3 text-right">
+                        <div className={ "mt-3 text-right" + classShow }>
                             <button
                                 className="image-cropper__btn btn btn-primary"
-                                onClick={ this.onImageSave }
+                                onClick={ this.onAvatarSave }
+                                disabled={ !toggleShow }
                             >
                                 { translate('profile_avatar.save_avatar') }
                             </button>
@@ -147,7 +133,7 @@ class AvatarUpload extends React.Component {
                             image={ image.preview }
                             destWidth={ AVATAR_WIDTH }
                             destHeight={ AVATAR_HEIGHT }
-                            isHide={ this.shouldCropperBeHidden() }
+                            toggleShow={ toggleShow }
                             ref={ cropper => { this.onInitCropper(cropper); } }
                         />
                     </div>
@@ -156,15 +142,10 @@ class AvatarUpload extends React.Component {
                 <div className="mt-5">
                     <AvatarCurrent
                         avatar={ avatarCurrent }
+                        isDefault={ isDefaultAvatar }
                         onDelete={ this.onDelete }
                     />
                 </div>
-
-                <StatusModal
-                    modal={ modal }
-                    isOpen={ modal.isOpen }
-                    onClosed={ () => this.state.modal.isOpen = false }
-                />
             </div>
         )
     }

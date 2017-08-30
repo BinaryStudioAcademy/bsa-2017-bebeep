@@ -45,8 +45,7 @@ const UserService = {
     deleteProfileAvatar() {
         return securedRequest.delete('/api/user/profile/avatar')
             .then(
-                response => Promise.resolve(response.data),
-                error => Promise.reject(error.response.data)
+                response => Promise.resolve(response.data)
             );
     },
 

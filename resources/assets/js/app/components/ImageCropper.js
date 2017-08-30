@@ -13,24 +13,44 @@ class ImageCropper extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            toggleShow: this.props.toggleShow || false,
+        };
+
         this.onInitCropper = this.onInitCropper.bind(this);
-        this.imageRotate = this.imageRotate.bind(this);
+        this.rotateImage = this.rotateImage.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const newToggleShow = nextProps.toggleShow;
+
+        if (this.props.toggleShow !== newToggleShow) {
+            this.toggleShow(newToggleShow);
+        }
     }
 
     onInitCropper(cropper) {
         this.cropper = cropper;
     }
 
-    toggleCropperShow() {
-        return this.props.isHide ? ' hide' : '';
+    toggleShow(toggle) {
+        toggle ? this.cropper.enable() : this.cropper.disable();
+
+        this.setState({
+            toggleShow: toggle,
+        });
     }
 
-    imageRotate(direction) {
+    toggleClassShow() {
+        return !this.state.toggleShow ? ' hide' : '';
+    }
+
+    rotateImage(direction) {
         const degree = direction === 'left' ? -90 : 90;
         this.cropper.rotate(degree);
     }
 
-    imageCrop(options) {
+    cropImage(options) {
         const { destWidth, destHeight } = this.props,
             { mimeType } = options;
 
@@ -42,13 +62,18 @@ class ImageCropper extends React.Component {
         }).toDataURL(mimeType);
     }
 
+    reset() {
+        this.cropper.reset();
+    }
+
     render() {
-        const { image, destWidth, destHeight, aspectRatio, autoCropArea } = this.props,
-            toggleShow = this.toggleCropperShow();
+        const { toggleShow } = this.state,
+            { image, destWidth, destHeight, aspectRatio, autoCropArea } = this.props,
+            classShow = this.toggleClassShow();
 
         return (
             <div className="d-flex">
-                <div className={ "image-cropper__cropper-wrapper" + toggleShow }>
+                <div className={ "image-cropper__cropper-wrapper" + classShow }>
                     <Cropper
                         src={ image }
                         aspectRatio={ aspectRatio }
@@ -58,22 +83,28 @@ class ImageCropper extends React.Component {
                         preview=".image-cropper__image-preview"
                         ref={ cropper => { this.onInitCropper(cropper) } }
                     />
+
                     <div className="image-cropper__buttons-rotate">
-                        <button className="btn image-cropper__btn-image-rotate"
-                                onClick={ () => this.imageRotate('left') }>
+                        <button
+                            className="btn image-cropper__btn-image-rotate"
+                            onClick={ () => this.rotateImage('left') }
+                            disabled={ !toggleShow }
+                        >
                             <i className="image-cropper__btn-image-rotate-icon fa fa-undo"
                                 aria-hidden="true" />
                         </button>
-
-                        <button className="btn image-cropper__btn-image-rotate"
-                                onClick={ () => this.imageRotate('right') }>
+                        <button
+                            className="btn image-cropper__btn-image-rotate"
+                            onClick={ () => this.rotateImage('right') }
+                            disabled={ !toggleShow }
+                        >
                             <i className="image-cropper__btn-image-rotate-icon fa fa-repeat"
                                 aria-hidden="true" />
                         </button>
                     </div>
                 </div>
 
-                <div className={ "image-cropper__preview-wrapper  " }>
+                <div className={ "image-cropper__preview-wrapper" + classShow }>
                     <div className="image-cropper__image-preview"
                         style={{ width: destWidth, height: destHeight }} />
                 </div>

@@ -5,8 +5,21 @@ import 'features/user/styles/profile_avatar.scss';
 
 class AvatarCurrent extends React.Component {
 
+    renderDeleteButton() {
+        const { translate, isDefault, onDelete } = this.props;
+
+        return isDefault ? null : (
+            <div>
+                <button className="image-cropper__btn btn btn-danger"
+                        onClick={ onDelete }>
+                    { translate('profile_avatar.delete_avatar') }
+                </button>
+            </div>
+        );
+    }
+
     render() {
-        const { translate, avatar, onDelete } = this.props;
+        const { translate, avatar } = this.props;
 
         return (
             <div className="user-current-avatar">
@@ -18,12 +31,8 @@ class AvatarCurrent extends React.Component {
                         className="user-current-avatar__image"
                         alt={ translate('profile_avatar.user_current_avatar') } />
                 </figure>
-                <div>
-                    <button className="image-cropper__btn btn btn-danger"
-                            onClick={ onDelete }>
-                        { translate('profile_avatar.delete_avatar') }
-                    </button>
-                </div>
+
+                { this.renderDeleteButton() }
             </div>
         )
     }
