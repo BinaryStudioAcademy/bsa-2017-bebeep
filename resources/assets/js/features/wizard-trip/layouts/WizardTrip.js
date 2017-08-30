@@ -39,21 +39,21 @@ class WizardTrip extends React.Component {
         return (
             <div className="container wizard-trip">
                 <div className={"wizard-trip__step" + (step === INIT
-                        ? ' wizard-trip__step_active'
+                        ? ' wizard-trip__step--active'
                         : ''
                     )}
                 >
                     <StepOne />
                 </div>
                 <div className={"wizard-trip__step" + (step === STEP_ONE
-                        ? ' wizard-trip__step_active'
+                        ? ' wizard-trip__step--active'
                         : ''
                     )}
                 >
                     <StepTwo />
                 </div>
                 <div className={"wizard-trip__step" + (step === STEP_TWO || step === STEP_THREE
-                        ? ' wizard-trip__step_active'
+                        ? ' wizard-trip__step--active'
                         : ''
                     )}
                 >

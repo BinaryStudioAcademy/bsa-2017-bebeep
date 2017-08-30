@@ -68,7 +68,7 @@ class InputPlaces extends React.Component {
                 required: required
             },
             placesCssClasses = {
-                root: 'form-input__text',
+                root: 'form-input__text form-input__autocomplete-root',
                 input: 'form-input__text ' + (className || ''),
                 autocompleteContainer: 'form-input__autocomplete-container'
             },
@@ -83,7 +83,7 @@ class InputPlaces extends React.Component {
             <div className={(error ? 'has-danger' : '')} >
                 <label
                     htmlFor={ id }
-                    className={'form-input ' + (ico || '') + (address !== '' || focused ? ' form-input_focus' : '')}
+                    className={'form-input ' + (ico || '') + (address !== '' || focused ? ' form-input--focus' : '')}
                 >
                     <PlacesAutocomplete
                         inputProps={inputProps}

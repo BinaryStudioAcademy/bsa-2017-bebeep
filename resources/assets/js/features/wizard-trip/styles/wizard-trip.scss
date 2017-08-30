@@ -3,7 +3,7 @@
 .wizard-trip {
   &__step {
     display: none;
-    &_active {
+    &--active {
       display: block;
     }
   }

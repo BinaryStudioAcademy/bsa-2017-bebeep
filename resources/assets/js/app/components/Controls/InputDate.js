@@ -37,7 +37,7 @@ class InputDate extends React.Component {
 
         return (
             <div className={(error ? 'has-danger' : '')} >
-                <label htmlFor={id} className={"form-input fa-calendar" + (value !== null || focused ? ' form-input_focus' : '')}>
+                <label htmlFor={id} className={"form-input fa-calendar" + (value !== null || focused ? ' form-input--focus' : '')}>
                     <div className="form-input__text">
                         <DatePicker
                             todayButton={translate('datepicker.today')}
