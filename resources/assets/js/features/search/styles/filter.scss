@@ -1,11 +1,33 @@
 @import '~rc-slider/assets/index.css';
 
-.react-datepicker__close-icon {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
+.filter__prop-control .react-datepicker {
+  &__close-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+  }
+  &__input-container:before {
+    content: "\f073";
+    top: 15px;
+    left: 15px;
+    font-size: 1.4em;
+    color: #6dcff6;
+    font-family: FontAwesome;
+    position: absolute;
+  }
+  &__input-container:after {
+    content: "Когда";
+    position: absolute;
+    top: 15px;
+    left: 45px;
+    font-size: 0.7rem;
+    color: rgba(0, 0, 0, 0.54);
+    font-weight: 500;
+  }
+
 }
+
 
 .filter {
 
@@ -27,7 +49,7 @@
 
     &-datepicker-input {
       margin-top: 5px;
-      padding: 15px;
+      padding: 26px 10px 5px 45px;
     }
   }
 

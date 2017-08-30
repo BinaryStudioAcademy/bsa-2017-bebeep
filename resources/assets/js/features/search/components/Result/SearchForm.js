@@ -155,14 +155,12 @@ class SearchForm extends React.Component {
                 value: tripData.from.name,
                 onChange: this.onChangeStartPoint,
                 type: 'search',
-                placeholder: translate('search_result.leaving_from'),
                 autoFocus: true
             },
             endPointProps = {
                 value: tripData.to.name,
                 onChange: this.onChangeEndPoint,
                 type: 'search',
-                placeholder: translate('search_result.going_to'),
                 autoFocus: false
             },
             AutocompleteItem = ({ formattedSuggestion }) => (
