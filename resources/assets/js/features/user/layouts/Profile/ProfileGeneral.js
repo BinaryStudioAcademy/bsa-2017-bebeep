@@ -8,7 +8,7 @@ import PageHeader from 'app/components/PageHeader';
 import GeneralForm from 'features/user/components/Profile/GeneralForm';
 
 import UserService from 'features/user/services/UserService';
-import { userProfileSetState, updateProfileSuccess } from 'features/user/actions';
+import { userProfileSetState, userProfileUpdateState } from 'features/user/actions';
 
 import LangService from 'app/services/LangService';
 import * as lang from 'features/user/lang/Profile/ProfileGeneral.locale.json';
@@ -48,7 +48,7 @@ class ProfileGeneral extends React.Component {
     }
 
     renderContent() {
-        const { profile, updateProfileSuccess, translate } = this.props,
+        const { profile, userProfileUpdateState, translate } = this.props,
             { preloader, notFoundOrError } = this.state;
 
         if (preloader) {
@@ -66,7 +66,7 @@ class ProfileGeneral extends React.Component {
         return (
             <GeneralForm
                 profile={profile}
-                updateProfileSuccess={updateProfileSuccess}
+                updateProfileSuccess={userProfileUpdateState}
             />
         );
     }
@@ -90,7 +90,7 @@ const ProfileGeneralConnected = connect(
     (dispatch) =>
         bindActionCreators({
             userProfileSetState,
-            updateProfileSuccess,
+            userProfileUpdateState,
         }, dispatch)
 )(ProfileGeneral);
 

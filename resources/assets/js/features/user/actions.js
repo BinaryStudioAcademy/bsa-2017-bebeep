@@ -25,7 +25,7 @@ export const userProfileSetState = data => ({
     data
 });
 
-export const updateProfileSuccess = data => ({
+export const userProfileUpdateState = data => ({
     type: actions.USER_PROFILE_UPDATE_SUCCESS,
     data
 });

@@ -11,7 +11,8 @@ const initialState = {
         httpStatus: 200
     },
     base_data: {
-        full_name: 'Diana Kub',
+        first_name: 'Diana',
+        last_name: 'Kub',
         avatar: '/storage/media/1/R71CAr5khbh4vBO8Fd8i',
     },
     profile: {},
