@@ -22,6 +22,8 @@ class DirectionsMap extends React.Component {
         duration: null,
         start_address: null,
         end_address: null,
+        start_city: null,
+        end_city: null,
         requestId: null,
         directionRenderQueue: [],
         directionRenderQueueIsProcessing: false
@@ -103,7 +105,9 @@ class DirectionsMap extends React.Component {
                     distance: route.getDistance(),
                     duration: route.getDuration(),
                     start_address: route.getStartPoint().start_address,
-                    end_address: route.getEndPoint().end_address
+                    end_address: route.getEndPoint().end_address,
+                    start_city: route.getStartCity(),
+                    end_city: route.getEndCity()
                 });
 
                 this.props.endTime(route.getDurationRaw());
@@ -119,7 +123,12 @@ class DirectionsMap extends React.Component {
         return (
             <div className="card">
                 <div className="card-header">
-                    <span>{this.props.title}</span>
+                    <span>{this.props.title}</span><br/>
+
+                    {this.state.start_city ? (
+                        <span>{ this.state.start_city + " - " + this.state.end_city }</span>
+                    ) : ''}
+
                     {this.props.bookingCount  ? (
                         <button type="button" className="btn bookings btn-sm btn-primary hover" onClick={this.props.onClickBooking}>{translate('booking.bookings_button')} <span className="badge badge-red">{this.props.bookingCount}</span></button>
                     ) : ( <span>&nbsp;</span>) }
