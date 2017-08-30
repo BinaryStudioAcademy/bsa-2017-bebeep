@@ -10,6 +10,7 @@ use App\Repositories\RouteRepository;
 use App\Validators\DeleteTripValidator;
 use App\Validators\UpdateTripValidator;
 use App\Validators\RestoreTripValidator;
+use App\Services\Helpers\SaveVehicleRequest;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\SearchTripRequest;
 use App\Services\Requests\UpdateTripRequest;
@@ -23,6 +24,7 @@ class TripsService
 {
     protected $routeRepository;
     private $tripRepository;
+    private $carService;
     private $deleteTripValidator;
     private $restoreTripValidator;
     private $updateTripValidator;
@@ -32,6 +34,7 @@ class TripsService
      *
      * @param TripRepository $tripRepository
      * @param RouteRepository $routeRepository
+     * @param CarService $carService
      * @param DeleteTripValidator $deleteTripValidator
      * @param RestoreTripValidator $restoreTripValidator
      * @param UpdateTripValidator $updateTripValidator
@@ -39,12 +42,14 @@ class TripsService
     public function __construct(
         TripRepository $tripRepository,
         RouteRepository $routeRepository,
+        CarService $carService,
         DeleteTripValidator $deleteTripValidator,
         RestoreTripValidator $restoreTripValidator,
         UpdateTripValidator $updateTripValidator
     ) {
         $this->tripRepository = $tripRepository;
         $this->routeRepository = $routeRepository;
+        $this->carService = $carService;
         $this->deleteTripValidator = $deleteTripValidator;
         $this->restoreTripValidator = $restoreTripValidator;
         $this->updateTripValidator = $updateTripValidator;
@@ -122,9 +127,17 @@ class TripsService
             'seats' => $request->getSeats(),
             'start_at' => $request->getStartAt(),
             'end_at' => $request->getEndAt(),
-            'vehicle_id' => $request->getVehicleId(),
             'user_id' => $user->id,
         ];
+
+        if ($request->getVehicleId() > 0) {
+            $tripAttributes['vehicle_id'] = $request->getVehicleId();
+        } else {
+            $tripAttributes['vehicle_id'] = $this->carService->create(new SaveVehicleRequest(
+                $request->getVehicle(),
+                $user
+            ))->id;
+        }
 
         $trip = $this->tripRepository->save(new Trip($tripAttributes));
 

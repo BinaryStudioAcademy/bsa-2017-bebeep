@@ -13,6 +13,9 @@ import { initSession, destroySession } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
 
+import {STEP_THREE, savePendingTrip, isTripReady} from 'app/services/WizardTripService';
+import {completeTrip} from 'features/wizard-trip/actions';
+
 import 'features/user/styles/user_register.scss';
 
 class Form extends React.Component {
@@ -21,9 +24,11 @@ class Form extends React.Component {
         super();
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
+            hasTripPending: false,
             errors: {}
         };
     }
+
 
     isUserHaveBooking(){
         const {booking}=this.props;
@@ -31,8 +36,8 @@ class Form extends React.Component {
         return booking;
     }
 
-    createBooking(){
-        const {tripId, routes, seats}=this.props.booking;
+    createBooking() {
+        const {tripId, routes, seats} = this.props.booking;
 
         BookingService.createBooking(tripId, {
             routes,
@@ -42,12 +47,26 @@ class Form extends React.Component {
             this.props.userFormRoleSetState(null);
             browserHistory.push('/bookings');
         })
-            .catch((error) => {});
+            .catch((error) => {
+            });
+    }
+
+    componentWillMount() {
+        if (this.props.stepWizard === STEP_THREE) {
+            this.setState({hasTripPending: isTripReady(this.props.tripPending)});
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.state.hasTripPending && nextProps.stepWizard === STEP_THREE) {
+            this.setState({hasTripPending: isTripReady(nextProps.tripPending)});
+        }
     }
 
     onSubmit(e) {
         e.preventDefault();
-        const {registerSuccess} = this.props,
+        const {registerSuccess, tripPending, completeTrip} = this.props,
+            {hasTripPending} = this.state,
             registerData = {
                 first_name: e.target['first_name'].value,
                 last_name: e.target['last_name'].value,
@@ -58,8 +77,9 @@ class Form extends React.Component {
                 role_passenger: e.target['role_passenger'].checked,
                 password: e.target['password'].value,
                 password_confirmation: e.target['password_confirmation'].value
-            };
-        const validate = RegisterValidate(registerData);
+            },
+            validate = RegisterValidate(registerData);
+
         if (!validate.valid) {
             this.setState({
                 errors: validate.errors
@@ -70,7 +90,17 @@ class Form extends React.Component {
                     response => {
                         registerSuccess();
                         initSession(response.data.token);
-                        if (this.isUserHaveBooking()){
+                        if (hasTripPending) {
+                            savePendingTrip(tripPending).then(() => {
+                                completeTrip();
+                                browserHistory.push('/trips');
+                            });
+
+                        } else {
+                            browserHistory.push('/dashboard');
+                        }
+
+                        if (this.isUserHaveBooking()) {
                             this.createBooking();
                         } else {
                             browserHistory.push('/dashboard');
@@ -87,9 +117,11 @@ class Form extends React.Component {
 
 
     render() {
-        const {errors} = this.state,
+
+        const {errors, hasTripPending} = this.state,
             {translate,userRole} = this.props;
         const passengerCheck = checkPassengerRole(userRole);
+
 
         return (
             <form role="form" className="card register-form" action="/api/user/register" method="POST"
@@ -144,6 +176,7 @@ class Form extends React.Component {
                                        id="role_driver"
                                        name="role_driver"
                                        value="1"
+                                       defaultChecked={hasTripPending}
                                 /> {translate('register_form.driver')}
                             </label>
                         </div>
@@ -192,13 +225,15 @@ class Form extends React.Component {
 
 const FormConnected = connect(
     state => ({
-        translate: getTranslate(state.locale),
         booking: state.user.booking,
         userLogin: state.user.login.success,
-        userRole: state.user.formRole
+        userRole: state.user.formRole,
+        stepWizard: state.tripWizard.step,
+        tripPending: state.tripWizard.pendingTrip,
+        translate: getTranslate(state.locale)
     }),
     (dispatch) =>
-        bindActionCreators({registerSuccess, userBookingSetState, userFormRoleSetState}, dispatch)
+        bindActionCreators({registerSuccess, completeTrip, userBookingSetState, userFormRoleSetState}, dispatch)
 )(Form);
 
 export default FormConnected;
