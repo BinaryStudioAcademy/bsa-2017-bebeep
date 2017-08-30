@@ -32,40 +32,33 @@ class GeneralForm extends React.Component {
     }
 
     handleRoleChange(e) {
-        const roleCheck = e.target;
+        const profile = this.props.profile,
+            roleCheck = e.target;
 
-        if (!this.state.profile['can_uncheck_' + roleCheck.name]) {
+        if (!profile['can_uncheck_' + roleCheck.name]) {
             roleCheck.checked = !roleCheck.checked;
             return;
         }
     }
 
-    onSubmit(e) {
-        e.preventDefault();
-
-        const form = e.target;
-        const { updateProfileSuccess, translate } = this.props;
-
-        const profileData = {
-            first_name: form.first_name.value,
-            last_name: form.last_name.value,
-            email: form.email.value,
-            phone: form.phone.value,
-            birth_date: form.birth_date.value,
-            role_driver: form.role_driver.checked,
-            role_passenger: form.role_passenger.checked,
-            about_me: form.about_me.value,
-        };
-
+    checkValidation(profileData) {
         const validate = ProfileValidate(profileData);
+
         if (!validate.valid) {
             this.setState({
                 errors: validate.errors
             });
-            return;
+
+            return false;
         }
 
         this.setState({ errors: {} });
+
+        return true;
+    }
+
+    updateProfileGeneral(profileData) {
+        const { updateProfileSuccess, translate } = this.props;
 
         UserService.updateProfileGeneral(profileData)
             .then(response => {
@@ -76,9 +69,7 @@ class GeneralForm extends React.Component {
                         msg: translate(MODAL_MSG.success),
                     }
                 });
-                // TODO :: updateProfileSuccess method will change the user name
-                // in the main navigation dropdown
-                updateProfileSuccess();
+                updateProfileSuccess(response.data);
             })
             .catch(error => {
                 this.setState({
@@ -92,11 +83,31 @@ class GeneralForm extends React.Component {
             });
     }
 
+    onSubmit(e) {
+        e.preventDefault();
+
+        const form = e.target,
+            profileData = {
+                first_name: form.first_name.value,
+                last_name: form.last_name.value,
+                email: form.email.value,
+                phone: form.phone.value,
+                birth_date: form.birth_date.value,
+                role_driver: form.role_driver.checked,
+                role_passenger: form.role_passenger.checked,
+                about_me: form.about_me.value,
+            };
+
+        if (!this.checkValidation(profileData)) {
+            return;
+        }
+
+        this.updateProfileGeneral(profileData);
+    }
+
     render() {
         const { errors, modal } = this.state,
             { profile, translate } = this.props;
-
-        console.log(profile);
 
         return (
             <div>

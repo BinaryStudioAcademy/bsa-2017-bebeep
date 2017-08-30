@@ -78,7 +78,14 @@ export default function (state = initialState, action) {
             };
 
         case actions.USER_PROFILE_UPDATE_SUCCESS:
-            return state;
+            return {
+                ...state,
+                profile: action.data,
+                base_data: {
+                    ...state.base_data,
+                    full_name: `${action.data.first_name} ${action.data.last_name}`,
+                },
+            };
 
         default:
             return state;
