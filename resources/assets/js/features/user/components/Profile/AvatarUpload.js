@@ -50,10 +50,6 @@ class AvatarUpload extends React.Component {
         return this.state.image.preview === null;
     }
 
-    toggleAvatarCurrentShow() {
-        return this.props.avatarCurrent === null ? ' hide' : '';
-    }
-
     onDropAccepted(file) {
         this.setState({
             image: {
@@ -128,7 +124,7 @@ class AvatarUpload extends React.Component {
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-md-4">
                         <FilesDropzone
                             fileMimeTypes={ AVATAR_MIME_TYPES }
                             fileMaxSizeMb={ AVATAR_MAX_SIZE_MB }
@@ -146,7 +142,7 @@ class AvatarUpload extends React.Component {
                         </div>
                     </div>
 
-                    <div className="col-8">
+                    <div className="col-md-8">
                         <ImageCropper
                             image={ image.preview }
                             destWidth={ AVATAR_WIDTH }
@@ -157,13 +153,11 @@ class AvatarUpload extends React.Component {
                     </div>
                 </div>
 
-                <div className={ "row mt-5" + this.toggleAvatarCurrentShow() }>
-                    <div className="col-12">
-                        <AvatarCurrent
-                            avatar={ avatarCurrent }
-                            onDelete={ this.onDelete }
-                        />
-                    </div>
+                <div className="mt-5">
+                    <AvatarCurrent
+                        avatar={ avatarCurrent }
+                        onDelete={ this.onDelete }
+                    />
                 </div>
 
                 <StatusModal
