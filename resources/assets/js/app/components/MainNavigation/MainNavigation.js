@@ -25,13 +25,15 @@ class MainNavigation extends React.Component {
     }
 
     render() {
-        const navClass = !this.state.isNavOpen ? 'collapse' : '';
-        const navLinks = isAuthorized() ? <ForAuthUser /> : <ForGuestUser />;
+        const navClass = !this.state.isNavOpen ? 'collapse' : '',
+            navLinks = isAuthorized() ? <ForAuthUser /> : <ForGuestUser />;
 
         return (
             <header className="header">
                 <div className="header__container container clearfix">
-                    <IndexLink to="/" className="header__logo logo"><img src="/template/img/logo.png" alt="BeBeep" /></IndexLink>
+                    <IndexLink to="/" className="header__logo logo">
+                        <img src="/template/img/logo.png" alt="BeBeep" />
+                    </IndexLink>
 
                     { navLinks }
                 </div>

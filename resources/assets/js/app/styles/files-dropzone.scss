@@ -1,0 +1,44 @@
+.files-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 200px;
+    padding: .5rem;
+    text-align: center;
+    border: 2px dashed #666;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: .6;
+    transition: all .4s;
+
+    &--active,
+    &:hover {
+        opacity: 1;
+    }
+    &--active {
+        border-style: solid;
+    }
+    &--accert {
+        border-color: #5cb85c;
+        color: #5cb85c;
+    }
+    &--reject {
+        border-color: #d9534f;
+        color: #d9534f;
+    }
+
+    &__icon {
+        margin-bottom: 1rem;
+    }
+
+    &__label {
+        font-size: .9em;
+    }
+
+    &__rules {
+        margin-bottom: 0;
+        font-size: .8em;
+        font-style: italic;
+    }
+}

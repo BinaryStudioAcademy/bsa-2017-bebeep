@@ -1,5 +1,5 @@
 import * as actions from './actionTypes';
-import { securedRequest } from '../../app/services/RequestService';
+import { securedRequest } from 'app/services/RequestService';
 
 export function getVehicles() {
     return dispatch => {

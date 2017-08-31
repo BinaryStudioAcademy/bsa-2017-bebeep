@@ -2,11 +2,13 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
+import VehicleForm from '../Forms/VehicleForm';
+
 import { VehicleValidate } from 'app/services/VehicleService';
 import { securedRequest } from 'app/services/RequestService';
-import { VehicleService } from '../../services/VehicleService';
-import { vehicleCreateSuccess } from '../../actions';
-import VehicleForm from '../Forms/VehicleForm';
+import { VehicleService } from 'features/car/services/VehicleService';
+import { vehicleCreateSuccess } from 'features/car/actions';
 
 class CreateVehicle extends React.Component {
     constructor(props) {
