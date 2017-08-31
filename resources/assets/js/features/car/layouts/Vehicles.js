@@ -1,10 +1,14 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
+
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import PageHeader from 'app/components/PageHeader';
+import VehiclesList from '../components/Containers/VehiclesList';
+
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/Vehicles.locale.json';
-import {localize} from 'react-localize-redux';
+
 import '../styles/vehicle.scss';
-import VehiclesList from '../components/Containers/VehiclesList';
 
 class Vehicles extends React.Component {
 
@@ -13,13 +17,13 @@ class Vehicles extends React.Component {
     }
 
     render() {
-        const {translate} = this.props;
+        const { translate } = this.props;
 
         return (
-            <div>
+            <ContainerWrapper>
                 <PageHeader header={ translate('vehicles.vehicles_list_header') } />
                 <VehiclesList />
-            </div>
+            </ContainerWrapper>
         )
     }
 }

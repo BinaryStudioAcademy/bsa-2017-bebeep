@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import LangService from 'app/services/LangService';
-import {getTranslate} from 'react-localize-redux';
-import * as lang from 'features/user/lang/Register/RegisterSuccess.locale.json';
+import { getTranslate } from 'react-localize-redux';
+
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import PageHeader from 'app/components/PageHeader';
+
+import LangService from 'app/services/LangService';
+import * as lang from 'features/user/lang/Register/RegisterSuccess.locale.json';
+
 
 class RegisterSuccess extends React.Component {
 
@@ -16,10 +20,10 @@ class RegisterSuccess extends React.Component {
     }
 
     render() {
-        const {translate} = this.props;
+        const { translate } = this.props;
 
         return (
-            <div>
+            <ContainerWrapper>
                 <PageHeader header={ translate('register_success.header_register') } />
                 <div className="card" >
                     <div className="card-block">
@@ -28,8 +32,8 @@ class RegisterSuccess extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
-        )
+            </ContainerWrapper>
+        );
     }
 }
 

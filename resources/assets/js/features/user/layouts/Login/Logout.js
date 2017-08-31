@@ -1,11 +1,13 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import PageHeader from 'app/components/PageHeader';
 import Logout from 'features/user/components/Login/Logout';
 
 import LangService from 'app/services/LangService';
 import * as lang from 'features/user/lang/Login/Logout.locale.json';
-import {localize} from 'react-localize-redux';
+
 import 'features/user/styles/user.scss';
 
 class LogoutLayout extends React.Component {
@@ -15,13 +17,14 @@ class LogoutLayout extends React.Component {
     }
 
     render() {
-        const {translate} = this.props;
+        const { translate } = this.props;
+
         return (
-            <div>
+            <ContainerWrapper>
                 <PageHeader header={ translate('logout.header_logout') } />
                 <Logout />
-            </div>
-        )
+            </ContainerWrapper>
+        );
     }
 }
 
