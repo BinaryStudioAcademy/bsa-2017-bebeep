@@ -7,6 +7,8 @@ import 'app/styles/image-cropper.scss';
 const ASPECT_RATIO = 1 / 1;
 const AUTOCROP_AREA = .8;
 const VIEW_MODE = 1;
+const ROTATE_DIRECTION_LEFT = 'left';
+const ROTATE_DIRECTION_RIGHT = 'right';
 
 class ImageCropper extends React.Component {
 
@@ -46,7 +48,7 @@ class ImageCropper extends React.Component {
     }
 
     rotateImage(direction) {
-        const degree = direction === 'left' ? -90 : 90;
+        const degree = direction === ROTATE_DIRECTION_LEFT ? -90 : 90;
         this.cropper.rotate(degree);
     }
 
@@ -87,7 +89,7 @@ class ImageCropper extends React.Component {
                     <div className="image-cropper__buttons-rotate">
                         <button
                             className="btn image-cropper__btn-image-rotate"
-                            onClick={ () => this.rotateImage('left') }
+                            onClick={ () => this.rotateImage(ROTATE_DIRECTION_LEFT) }
                             disabled={ !toggleShow }
                         >
                             <i className="image-cropper__btn-image-rotate-icon fa fa-undo"
@@ -95,7 +97,7 @@ class ImageCropper extends React.Component {
                         </button>
                         <button
                             className="btn image-cropper__btn-image-rotate"
-                            onClick={ () => this.rotateImage('right') }
+                            onClick={ () => this.rotateImage(ROTATE_DIRECTION_RIGHT) }
                             disabled={ !toggleShow }
                         >
                             <i className="image-cropper__btn-image-rotate-icon fa fa-repeat"
