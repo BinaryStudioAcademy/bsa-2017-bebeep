@@ -50,7 +50,7 @@ class GivenContainer extends React.Component {
 
 export default connect(
     state => ({
-        givenReviews: state.user.profile.reviews.given
+        givenReviews: state.user.reviews.given
     }),
     dispatch => bindActionCreators({setGivenReviews}, dispatch))
 (GivenContainer);

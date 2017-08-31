@@ -44,8 +44,8 @@ class ReceivedContainer extends React.Component {
 
 export default connect(
     state => ({
-        receivedReviews: state.user.profile.reviews.received,
-        rating: state.user.profile.reviews.rating
+        receivedReviews: state.user.reviews.received,
+        rating: state.user.reviews.rating
     }),
     dispatch => bindActionCreators({setReceivedReviews}, dispatch)
 )(ReceivedContainer);

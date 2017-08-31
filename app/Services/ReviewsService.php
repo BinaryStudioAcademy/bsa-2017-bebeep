@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Criteria\Review\RatingReviewCriteria;
 use App\User;
 use App\Repositories\ReviewRepository;
 use App\Criteria\Review\GivenReviewCriteria;
@@ -25,5 +26,15 @@ class ReviewsService implements Contracts\ReviewsService
     public function getReceived(User $user)
     {
         return $this->reviewRepository->getByCriteria(new ReceivedReviewCriteria($user));
+    }
+
+    public function getRating(User $user)
+    {
+        return $this->reviewRepository
+            ->getByCriteria(new RatingReviewCriteria($user))
+            ->reduce(function ($rating, $mark) {
+                $rating[$mark['mark'] - 1] = $mark['mark_count'];
+                return $rating;
+            }, [0, 0, 0, 0, 0]);
     }
 }

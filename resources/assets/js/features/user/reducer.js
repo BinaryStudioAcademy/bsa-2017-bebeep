@@ -13,12 +13,12 @@ const initialState = {
     profile: {
         first_name: '',
         last_name: '',
-        avatar: null,
-        reviews: {
-            given: [],
-            received: [],
-            rating: [0, 0, 0, 0, 0]
-        }
+        avatar: null
+    },
+    reviews: {
+        given: [],
+        received: [],
+        rating: [0, 0, 0, 0, 0]
     },
     entities: {
         reviews: {
@@ -104,12 +104,9 @@ export default function (state = initialState, action) {
         case actions.USER_REVIEWS_SET_GIVEN:
             return {
                 ...state,
-                profile: {
-                    ...state.profile,
-                    reviews: {
-                        ...state.profile.reviews,
-                        given: _.union(state.profile.reviews.given, action.reviews.givenReviews)
-                    }
+                reviews: {
+                    ...state.reviews,
+                    given: _.union(state.reviews.given, action.reviews.givenReviews)
                 },
                 entities: {
                     ...state.entities,
@@ -125,13 +122,10 @@ export default function (state = initialState, action) {
         case actions.USER_REVIEWS_SET_RECEIVED:
             return {
                 ...state,
-                profile: {
-                    ...state.profile,
-                    reviews: {
-                        ...state.profile.reviews,
-                        received: _.union(state.profile.reviews.received, action.reviews.receivedReviews),
-                        rating: action.rating
-                    }
+                reviews: {
+                    ...state.reviews,
+                    received: _.union(state.reviews.received, action.reviews.receivedReviews),
+                    rating: action.rating
                 },
                 entities: {
                     ...state.entities,
