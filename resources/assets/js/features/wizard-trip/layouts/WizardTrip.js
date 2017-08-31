@@ -33,26 +33,28 @@ class WizardTrip extends React.Component {
         }
     }
 
-    render() {
-        const {step} = this.props;
+    stepIs(step) {
+        return this.props.step === step;
+    }
 
+    render() {
         return (
             <div>
-                <div className={"wizard-trip__step" + (step === INIT
+                <div className={"wizard-trip__step" + (this.stepIs(INIT)
                         ? ' wizard-trip__step--active'
                         : ''
                     )}
                 >
                     <StepOne />
                 </div>
-                <div className={"wizard-trip__step" + (step === STEP_ONE
+                <div className={"wizard-trip__step" + (this.stepIs(STEP_ONE)
                         ? ' wizard-trip__step--active'
                         : ''
                     )}
                 >
                     <StepTwo />
                 </div>
-                <div className={"wizard-trip__step" + (step === STEP_TWO || step === STEP_THREE
+                <div className={"wizard-trip__step" + (this.stepIs(STEP_TWO) || this.stepIs(STEP_THREE)
                         ? ' wizard-trip__step--active'
                         : ''
                     )}
@@ -61,9 +63,9 @@ class WizardTrip extends React.Component {
                 </div>
 
                 <div className="home-slider__steps wizard-steps">
-                    <a href="#" className={'wizard-steps__step ' + (step === INIT ? 'wizard-steps__step_active' : '')}>1</a>
-                    <a href="#" className={'wizard-steps__step ' + (step === STEP_ONE ? 'wizard-steps__step_active' : '')}>2</a>
-                    <a href="#" className={'wizard-steps__step ' + (step === STEP_TWO ? 'wizard-steps__step_active' : '')}>3</a>
+                    <a href="#" className={'wizard-steps__step ' + (this.stepIs(INIT) ? 'wizard-steps__step_active' : '')}>1</a>
+                    <a href="#" className={'wizard-steps__step ' + (this.stepIs(STEP_ONE) ? 'wizard-steps__step_active' : '')}>2</a>
+                    <a href="#" className={'wizard-steps__step ' + (this.stepIs(STEP_TWO) ? 'wizard-steps__step_active' : '')}>3</a>
                 </div>
             </div>
         );
