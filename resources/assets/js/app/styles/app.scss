@@ -1,4 +1,5 @@
 @import '~app/bootstrap/variables';
+@import '~app/bootstrap/locale/init';
 
 a,
 .link-style {
@@ -26,6 +27,7 @@ strong {
 }
 
 .noselect,
+.dropdown,
 .form-check-label {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -165,13 +167,36 @@ strong {
         font-size: 18px;
         font-weight: bold;
     }
-    .dropdown-item {
-        cursor: pointer;
+
+    &--user-menu {
+        &__avatar {
+            width: 35px;
+            margin-right: .5rem;
+            border-radius: 50%;
+        }
     }
-    &--user-menu__avatar {
-        width: 35px;
-        margin-right: .5rem;
-        border-radius: 50%;
+}
+
+.header-locales-menu {
+
+    &__locale-current {
+        display: inline-block;
+        vertical-align: middle;
+
+        @include localesMenuIcons(30);
+    }
+
+    &__locale {
+        padding: 3px 1rem;
+        cursor: pointer;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            margin-right: .75rem;
+        }
+
+        @include localesMenuIcons(12, true);
     }
 }
 
