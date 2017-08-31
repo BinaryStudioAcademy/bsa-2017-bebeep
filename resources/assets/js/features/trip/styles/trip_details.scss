@@ -251,6 +251,10 @@
     }
 }
 
+.modal-dialog .modal-title {
+    font-size: 1.3rem;
+}
+
 .trip-map-modal {
 
     &__header {
@@ -258,9 +262,6 @@
             font-size: 2.4rem;
         }
 
-        .modal-title {
-            font-size: 1.3rem;
-        }
         .trip-detail-icon {
             margin-left: .5rem;
             vertical-align: bottom;

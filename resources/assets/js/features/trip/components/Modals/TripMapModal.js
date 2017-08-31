@@ -64,22 +64,18 @@ class TripMapModal extends React.Component {
 
                     <ModalBody className="p-0">
                         <div className="trip-map-modal__map-container">
-                        <GoogleMapContainer
-                            containerElement={
-                                <div className="h-100 ss" />
-                            }
-                            mapElement={
-                                <div className="h-100" />
-                            }
-                            center={startPoint}
-                            directions={directions}
-                        />
-                    </div>
+                            <GoogleMapContainer
+                                containerElement={
+                                    <div className="h-100 ss" />
+                                }
+                                mapElement={
+                                    <div className="h-100" />
+                                }
+                                center={startPoint}
+                                directions={directions}
+                            />
+                        </div>
                     </ModalBody>
-                    {/*<i className="trip-map-modal__close fa fa-times fa-2x"
-                        role="button"
-                        onClick={this.toggleModal}
-                    />*/}
                 </Modal>
             </span>
         );

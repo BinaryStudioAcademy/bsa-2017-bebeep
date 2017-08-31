@@ -3,6 +3,7 @@ import { localize } from 'react-localize-redux';
 import _ from 'lodash';
 
 import BookingModal from '../Modals/BookingModal';
+import BookingStatusModal from '../Modals/BookingStatusModal';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import {
@@ -19,6 +20,7 @@ import {
 
 import 'features/trip/styles/trip_details.scss';
 
+import { Modal } from 'reactstrap';
 
 class TripDetailsContainer extends React.Component {
 
@@ -27,12 +29,14 @@ class TripDetailsContainer extends React.Component {
 
         this.state = {
             isOpenBookingModal: false,
+            isOpenBookingStatusModal: false,
             disableBookingBtn: false,
         };
 
         this.onBookingBtnClick = this.onBookingBtnClick.bind(this);
         this.onBookingSuccess = this.onBookingSuccess.bind(this);
         this.onBookingClosed = this.onBookingClosed.bind(this);
+        this.onBookingStatusClosed = this.onBookingStatusClosed.bind(this);
     }
 
     formatStartAt() {
@@ -55,17 +59,24 @@ class TripDetailsContainer extends React.Component {
     }
 
     onBookingSuccess() {
-        this.setState({ disableBookingBtn: true });
+        this.setState({
+            disableBookingBtn: true,
+            isOpenBookingStatusModal: true
+        });
     }
 
     onBookingClosed() {
         this.setState({ isOpenBookingModal: false });
     }
 
+    onBookingStatusClosed() {
+        this.setState({ isOpenBookingStatusModal: false });
+    }
+
     render() {
         const { trip, routes, driver, vehicle } = this.props.details,
             translate = this.props.translate,
-            { isOpenBookingModal, disableBookingBtn } = this.state;
+            { isOpenBookingModal, isOpenBookingStatusModal, disableBookingBtn } = this.state;
 
         const startPoint = routes[0].from,
             endPoint = _.last(routes).to,
@@ -144,6 +155,11 @@ class TripDetailsContainer extends React.Component {
                     isOpen={ isOpenBookingModal }
                     onClosed={ this.onBookingClosed }
                     onSuccess={ this.onBookingSuccess }
+                />
+
+                <BookingStatusModal
+                    isOpen={ isOpenBookingStatusModal }
+                    onClosed={ this.onBookingStatusClosed }
                 />
             </div>
         );
