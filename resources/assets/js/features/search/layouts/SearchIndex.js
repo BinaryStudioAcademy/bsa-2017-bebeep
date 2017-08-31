@@ -37,13 +37,13 @@ export default localize(class SearchIndex extends React.Component {
             <div>
                 <section className="home-slider">
                     <div className="home-slider__tabs wizard-tabs">
-                        <a href="#" onClick={() => {this.setState({mode: 'passenger'})}}
+                        <a href="#" onClick={() => {this.setState({mode: MODE_PASSENGER})}}
                            className={'wizard-tabs__tab ' + (this.isPassengerMode() ? 'wizard-tabs__tab_active' : '')}
                         >
                             <img src="/template/img/welcome-icon1.png" alt=""/>
                                 <span>{translate('search_index.i_am_passenger')}</span>
                         </a>
-                        <a href="#" onClick={() => {this.setState({mode: 'driver'})}}
+                        <a href="#" onClick={() => {this.setState({mode: MODE_DRIVER})}}
                            className={'wizard-tabs__tab ' + (this.isDriverMode() ? 'wizard-tabs__tab_active' : '')}
                         >
                             <img src="/template/img/welcome-icon2.png" alt=""/>
