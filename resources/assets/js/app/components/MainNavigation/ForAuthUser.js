@@ -1,8 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
-import { Nav, NavLink, NavItem } from 'reactstrap';
 import { localize } from 'react-localize-redux';
 
 import UserDropdown from './UserDropdown';
@@ -20,27 +19,27 @@ class ForAuthUser extends React.Component {
 
         return (
             <div className="d-flex align-items-md-center w-100">
-                <Nav className="mr-auto" navbar>
-                    <NavItem>
-                        <NavLink tag={Link} to="/trip/create" activeClassName="active">
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link to="/trip/create" className="nav-link" activeClassName="active">
                             { translate('create_new_trip') }
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink tag={Link} to="/trips" activeClassName="active">
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/trips" className="nav-link" activeClassName="active">
                             { translate('my_trips') }
-                        </NavLink>
-                    </NavItem>
-                </Nav>
+                        </Link>
+                    </li>
+                </ul>
 
-                <Nav className="main-navigation__dropdowns" navbar>
-                    <NavItem>
+                <ul className="navbar-nav main-navigation__dropdowns">
+                    <li className="nav-item">
                         <UserDropdown user={user} />
-                    </NavItem>
-                    <NavItem>
+                    </li>
+                    <li className="nav-item">
                         <ChangeLocalization />
-                    </NavItem>
-                </Nav>
+                    </li>
+                </ul>
             </div>
         );
     }
