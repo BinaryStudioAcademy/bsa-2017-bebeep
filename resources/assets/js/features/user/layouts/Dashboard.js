@@ -1,11 +1,12 @@
 import React from 'react';
-
-import LangService from '../../../app/services/LangService';
-import * as lang from '../lang/Dashboard.locale.json';
-import {localize} from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { localize } from 'react-localize-redux';
 
 import PageHeader from 'app/components/PageHeader';
-import { getAuthUser } from 'app/services/AuthService';
+
+import LangService from 'app/services/LangService';
+import * as lang from '../lang/Dashboard.locale.json';
 
 class Dashboard extends React.Component {
 
@@ -14,16 +15,25 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        const authUser = getAuthUser();
-        const {translate} = this.props;
+        const { user, translate } = this.props,
+            userName = `${user.first_name} ${user.last_name}`;
 
         return (
             <section className="page-section">
                 <PageHeader header={ translate('dashboard.header') } />
-                <p className="text-center">{translate('dashboard.hello', {username: authUser.username})}</p>
+                <p className="text-center">
+                    { translate('dashboard.hello', {username: userName}) }
+                </p>
             </section>
         )
     }
 }
 
-export default localize(Dashboard, 'locale');
+const DashboardConnected = connect(
+    (state) => ({
+        user: state.user.profile,
+    }),
+    null
+)(Dashboard);
+
+export default localize(DashboardConnected, 'locale');

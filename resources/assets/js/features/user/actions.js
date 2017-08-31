@@ -2,7 +2,7 @@ import * as actions from './actionTypes';
 
 import { UserValidator } from 'app/services/UserService';
 import { simpleRequest, securedRequest } from 'app/services/RequestService';
-import { getAuthToken, initSession, destroySession } from 'app/services/AuthService';
+import { getAuthToken, getAuthUser, initSession, destroySession } from 'app/services/AuthService';
 
 
 export const registerSuccess = data => ({
@@ -20,8 +20,18 @@ export const loginFormFailed = data => ({
     data
 });
 
-export const updateProfileSuccess = data => ({
-    type: actions.USER_PROFILE_UPDATE_SUCCESS,
+export const userProfileSetState = data => ({
+    type: actions.USER_PROFILE_SET_STATE,
+    data
+});
+
+export const userProfileUpdateState = data => ({
+    type: actions.USER_PROFILE_UPDATE_STATE,
+    data
+});
+
+export const userAvatarUpdateState = data => ({
+    type: actions.USER_AVATAR_UPDATE_STATE,
     data
 });
 
@@ -68,7 +78,7 @@ export const doLogin = (credentials) => dispatch => {
     })
         .then(response => {
             initSession(response.data.token);
-            dispatch(loginSuccess(response.data))
+            dispatch(loginSuccess(getAuthUser()));
         })
         .catch(error => {
             if (error.response) {

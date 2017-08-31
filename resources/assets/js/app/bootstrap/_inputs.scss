@@ -26,6 +26,7 @@
     margin-right: $form-input-ico-margin-x;
     display: inline-block;
     font-size: $form-input-circle-height + 2;
+    width: $form-input-circle-height;
     line-height: $form-input-circle-height;
     color: $teal;
     font-family: FontAwesome;
@@ -57,7 +58,7 @@
     }
   }
 
-  &__text > &__text {
+  &__text &__text {
     width: 100%;
   }
 

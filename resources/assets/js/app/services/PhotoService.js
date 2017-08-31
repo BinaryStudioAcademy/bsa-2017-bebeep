@@ -14,6 +14,10 @@ export const getProfileAvatar = (avatar) => {
     return avatar ? avatar : PROFILE_AVATAR_DEFAULT;
 };
 
+export const isDefaultProfileAvatar = (avatar) => {
+    return avatar === PROFILE_AVATAR_DEFAULT;
+};
+
 export const getDriverAvatar = (driver) => {
     return driver.photo ? driver.photo : DRIVER_AVATAR_DEFAULT;
 };
