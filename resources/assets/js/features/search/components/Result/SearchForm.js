@@ -7,6 +7,8 @@ import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 import { searchSuccess } from 'features/search/actions';
 import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
@@ -18,14 +20,20 @@ class SearchForm extends React.Component {
         super();
         this.state = {
             tripData: {},
-            errors: {}
+            errors: {},
+            date: null
         };
+        this.dateChange = this.dateChange.bind(this);
         this.swapFromTo = this.swapFromTo.bind(this);
         this.onSelectStartPoint = this.onSelectStartPoint.bind(this);
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
         this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
         this.onSelectEndPoint = this.onSelectEndPoint.bind(this);
         this.onClickSearch = this.onClickSearch.bind(this);
+    }
+
+    dateChange(date) {
+        setUrl({start_at: date ? date.unix() : null});
     }
 
     componentWillMount() {
@@ -50,9 +58,16 @@ class SearchForm extends React.Component {
                 },
                 start_at: +query.start_at || tripData.start_at
             };
+        let filter = getFilter();
+        if (filter.date) {
+            filter.date = moment.unix(filter.date);
+        }
         this.setState({
             tripData: newTripData
         });
+        this.setState(Object.assign({
+            date: props.start_at ? moment.unix(props.start_at) : null
+        }, filter));
     }
 
     swapFromTo() {
@@ -140,7 +155,7 @@ class SearchForm extends React.Component {
     }
 
     render() {
-        const {tripData, errors} = this.state,
+        const {tripData, errors, date} = this.state,
             {translate} = this.props,
             startPlaceCssClasses = {
                 root: 'form-group search-block__search-input-start',
@@ -176,7 +191,7 @@ class SearchForm extends React.Component {
             <div className="search-block">
                 <div className="container">
                     <div className="row search-block-centered">
-                        <div className="col-sm-3 offset-md-2">
+                        <div className="col-sm-3 offset-md-1">
                             <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
                                 <label className='form-input search-block__search-label fa-circle-o'>
                                     <PlacesAutocomplete
@@ -213,6 +228,19 @@ class SearchForm extends React.Component {
                             </div>
                         </div>
                         <div className="col-sm-2">
+                            <label className='form-input filter__prop-control-label search-block__search-label fa-calendar'>
+                                <DatePicker
+                                    todayButton={"Today"}
+                                    selected={date}
+                                    onChange={this.dateChange}
+                                    placeholderText={translate('search_result.filter.date_placeholder')}
+                                    minDate={moment()}
+                                    className="form-control filter__prop-datepicker-input"
+                                />
+                                <span className="form-input__label search-block__search-label-span">{translate('search_result.when')}</span>
+                            </label>
+                        </div>
+                        <div className="col-sm-3">
                             <button role="button" className="btn search-block__btn" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
                         </div>
                     </div>
@@ -229,6 +257,7 @@ SearchForm.PropTypes = {
 const SearchFormConnect = connect(
     state => ({
         tripData: state.search,
+        start_at: state.search.start_at,
         translate: getTranslate(state.locale)
     }),
     dispatch =>

@@ -16,11 +16,9 @@ class Filter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: null,
             time: [0, 24],
             price: [0, 0],
         };
-        this.dateChange = this.dateChange.bind(this);
         this.timeChange = this.timeChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
     }
@@ -36,18 +34,10 @@ class Filter extends React.Component {
     updateState(props) {
         const {query} = props.location;
         let filter = getFilter();
-        if (filter.date) {
-            filter.date = moment.unix(filter.date);
-        }
         this.setState(Object.assign({
             price: props.priceBounds,
-            time: [0, 24],
-            date: props.start_at ? moment.unix(props.start_at) : null
+            time: [0, 24]
         }, filter));
-    }
-
-    dateChange(date) {
-        setUrl({start_at: date ? date.unix() : null});
     }
 
     timeChange(time) {
@@ -59,27 +49,11 @@ class Filter extends React.Component {
     }
 
     render() {
-        const { time, price, date } = this.state;
+        const { time, price } = this.state;
         const { priceBounds, translate } = this.props;
 
         return (
             <div className="filter filter-centered">
-                <div className="filter__prop">
-                    <div className="filter__prop-name">{translate('search_result.filter.date')}</div>
-                    <div className="filter__prop-control">
-                        <label className='form-input filter__prop-control-label search-block__search-label fa-calendar'>
-                            <DatePicker
-                                todayButton={"Today"}
-                                selected={date}
-                                onChange={this.dateChange}
-                                placeholderText={translate('search_result.filter.date_placeholder')}
-                                minDate={moment()}
-                                className="form-control filter__prop-datepicker-input"
-                            />
-                            <span className="form-input__label search-block__search-label-span">{translate('search_result.when')}</span>
-                        </label>
-                    </div>
-                </div>
                 <div className="filter__prop">
                         <div className="filter__prop-name">{translate('search_result.filter.time-text')}</div>
                         <div className="filter__prop-control">

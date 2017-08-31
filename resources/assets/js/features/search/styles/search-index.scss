@@ -86,7 +86,7 @@
   }
 
   &__btn {
-    padding: 17px 30px;
+    padding: 20px 30px;
     font-size: 1.05em;
     font-weight: 600;
     color: $white;
@@ -132,5 +132,9 @@
 
   }
 
+}
+
+.search-block .react-datepicker__input-container {
+    top: -20px;
 }
 
