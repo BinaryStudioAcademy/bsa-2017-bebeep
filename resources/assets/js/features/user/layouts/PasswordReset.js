@@ -1,14 +1,15 @@
 import React from 'react';
-import LangService from 'app/services/LangService';
-import {UserValidator, VerifyValidator} from '../../../app/services/UserService';
-import * as lang from '../lang/PasswordReset.locale.json';
-import {localize} from 'react-localize-redux';
 import { browserHistory } from 'react-router';
+import { localize } from 'react-localize-redux';
 
-import PageHeader from 'app/components/PageHeader';
 import Input from 'app/components/Input';
+import PageHeader from 'app/components/PageHeader';
 
 import UserService from '../services/UserService';
+import { UserValidator, VerifyValidator } from 'app/services/UserService';
+
+import LangService from 'app/services/LangService';
+import * as lang from '../lang/PasswordReset.locale.json';
 
 import '../styles/password_forgot.scss';
 

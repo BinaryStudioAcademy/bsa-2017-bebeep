@@ -52,8 +52,8 @@ class StepThree extends React.Component {
             {translate} = this.props;
 
         return (
-            <div className="row">
-                <div className="col-md-4 col-sm-6">
+            <div>
+                <div className="wizard-form__input">
                     <Input
                         id="brand"
                         ico="fa-circle-o"
@@ -62,7 +62,7 @@ class StepThree extends React.Component {
                         error={errors.brand}
                     >{translate('wizard-trip.car_mark')}</Input>
                 </div>
-                <div className="col-md-4 col-sm-6">
+                <div className="wizard-form__input">
                     <Input
                         id="model"
                         value={model}
@@ -70,9 +70,8 @@ class StepThree extends React.Component {
                         error={errors.model}
                     >{translate('wizard-trip.car_model')}</Input>
                 </div>
-                <div className="col-md-4 col-sm-12">
-                    <Button color="warning" size="lg" role="button" onClick={this.onNext}>{translate('wizard-trip.create')}</Button>
-                </div>
+
+                <Button className="wizard-form__btn btn btn-warning btn-lg" color="warning" size="lg" role="button" onClick={this.onNext}>{translate('wizard-trip.create')}</Button>
             </div>
         );
     }

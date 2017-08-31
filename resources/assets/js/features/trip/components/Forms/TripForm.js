@@ -1,13 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import {localize} from 'react-localize-redux';
-import LangService from 'app/services/LangService';
-import * as lang from '../../lang/TripForm.locale.json';
-import Waypoints from "./Waypoints";
+import { localize } from 'react-localize-redux';
+
+import Waypoints from './Waypoints';
 import Input from 'app/components/Input';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {getVehicles} from "../../../car/actions";
+import { getVehicles } from 'features/car/actions';
+
+import LangService from 'app/services/LangService';
+import * as lang from 'features/trip/lang/TripForm.locale.json';
 
 class TripForm extends React.Component {
 

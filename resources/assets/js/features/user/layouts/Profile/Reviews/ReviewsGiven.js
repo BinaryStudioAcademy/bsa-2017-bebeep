@@ -3,7 +3,7 @@ import LangService from 'app/services/LangService';
 import * as lang from '../../../lang/Profile/ProfileReviews.locale.json';
 import {localize} from 'react-localize-redux';
 
-class LeftReviews extends React.Component {
+class ReviewsReceived extends React.Component {
     componentWillMount() {
         LangService.addTranslation(lang);
     }
@@ -17,4 +17,4 @@ class LeftReviews extends React.Component {
     }
 }
 
-export default localize(LeftReviews, 'locale');
+export default localize(ReviewsReceived, 'locale');

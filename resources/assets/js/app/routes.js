@@ -30,8 +30,8 @@ import DriverPublicProfile from '../features/public-profiles/layouts/DriverPubli
 import PassengerPublicProfile from '../features/public-profiles/layouts/PassengerPublicProfile';
 
 import {
-    LeftReviews,
-    ReceivedReviews
+    ReviewsReceived,
+    ReviewsGiven
 } from '../features/user/layouts/Profile/Reviews';
 
 import Elements from '../features/elements/Elements.js';
@@ -96,12 +96,17 @@ export default (store) => {
                         <Route path="general" component={ ProfileGeneral }/>
                         {/* User profile avatar */}
                         <Route path="avatar" component={ ProfileAvatar }/>
+
+                        {/* User reviews */}
+                        <Route path="reviews">
+                            {/* User received reviews */}
+                            <Route path="received" component={ ReviewsReceived }/>
+                            { /*User given reviews */ }
+                            <Route path="given" component={ ReviewsGiven }/>
+                        </Route>
+
                         {/* User profile password */}
                         <Route path="password" component={ ProfilePassword }/>
-                        {/* User reviews */}
-                        <Route path="reviews" component={ LeftReviews }/>
-                        <Route path="reviews/left" component={ LeftReviews }/>
-                        <Route path="reviews/received" component={ ReceivedReviews }/>
                     </Route>
                 </Route>
 

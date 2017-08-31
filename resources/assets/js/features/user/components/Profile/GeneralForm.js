@@ -1,18 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import _ from 'lodash';
+import { localize } from 'react-localize-redux';
 
 import Input from 'app/components/Input';
 import Textarea from 'app/components/Textarea';
-import StatusModal from '../_Modals/StatusModal';
 
-import { updateProfileSuccess } from 'features/user/actions';
-
-import UserService from 'features/user/services/UserService';
 import { ProfileValidate } from 'app/services/UserService';
-
-import { getTranslate } from 'react-localize-redux';
+import UserService from 'features/user/services/UserService';
 
 const MODAL_MSG = {
     success: 'profile_general.user_profile_general_success',
@@ -25,109 +18,86 @@ class GeneralForm extends React.Component {
         super(props);
 
         this.state = {
-            profile: {},
-            profileNotFound: false,
             errors: {},
-            modal: {
-                isOpen: false,
-                status: '',
-                msg: '',
-            },
         };
 
         this.onSubmit = this.onSubmit.bind(this);
         this.handleRoleChange = this.handleRoleChange.bind(this);
     }
 
-    componentDidMount() {
-        UserService.getProfileGeneral()
-            .then(response => {
-                this.setState({
-                    profile: response.data,
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    profileNotFound: true,
-                });
-            });
-    }
-
     handleRoleChange(e) {
-        const roleCheck = e.target;
+        const profile = this.props.profile,
+            roleCheck = e.target;
 
-        if (!this.state.profile['can_uncheck_' + roleCheck.name]) {
+        if (!profile['can_uncheck_' + roleCheck.name]) {
             roleCheck.checked = !roleCheck.checked;
             return;
         }
     }
 
-    onSubmit(e) {
-        e.preventDefault();
+    checkValidation(data) {
+        const validate = ProfileValidate(data);
 
-        const form = e.target;
-        const { updateProfileSuccess, translate } = this.props;
-
-        const profileData = {
-            first_name: form.first_name.value,
-            last_name: form.last_name.value,
-            email: form.email.value,
-            phone: form.phone.value,
-            birth_date: form.birth_date.value,
-            role_driver: form.role_driver.checked,
-            role_passenger: form.role_passenger.checked,
-            about_me: form.about_me.value,
-        };
-
-        const validate = ProfileValidate(profileData);
         if (!validate.valid) {
             this.setState({
                 errors: validate.errors
             });
-            return;
+
+            return false;
         }
 
-        this.setState({
-            errors: {}
-        });
+        this.setState({ errors: {} });
 
-        UserService.updateProfileGeneral(profileData)
+        return true;
+    }
+
+    updateProfileGeneral(data) {
+        const { updateProfileSuccess, setStatusModal, translate } = this.props;
+
+        UserService.updateProfileGeneral(data)
             .then(response => {
-                this.setState({
-                    modal: {
-                        isOpen: true,
-                        status: 'success',
-                        msg: translate(MODAL_MSG.success),
-                    }
+                updateProfileSuccess(response.data);
+                setStatusModal({
+                    status: 'success',
+                    msg: translate(MODAL_MSG.success),
                 });
-                // TODO :: updateProfileSuccess method will change the user name
-                // in the main navigation dropdown
-                updateProfileSuccess();
             })
             .catch(error => {
                 this.setState({
                     errors: error,
-                    modal: {
-                        isOpen: true,
-                        status: 'error',
-                        msg: translate(MODAL_MSG.error),
-                    }
+                });
+                setStatusModal({
+                    msg: translate(MODAL_MSG.error),
                 });
             });
     }
 
-    render() {
-        const { profile, errors, profileNotFound, modal } = this.state,
-            {translate} = this.props;
+    onSubmit(e) {
+        e.preventDefault();
+        document.activeElement.blur();
 
-        if (profileNotFound) {
-            return (
-                <div className="alert alert-danger" role="alert">{translate('profile_general.profile_data_not_found')}</div>
-            );
+        const form = e.target,
+            data = {
+                first_name: form.first_name.value,
+                last_name: form.last_name.value,
+                email: form.email.value,
+                phone: form.phone.value,
+                birth_date: form.birth_date.value,
+                role_driver: form.role_driver.checked,
+                role_passenger: form.role_passenger.checked,
+                about_me: form.about_me.value,
+            };
+
+        if (!this.checkValidation(data)) {
+            return;
         }
-        if (_.isEmpty(profile)) {
-            return (<div></div>);
-        }
+
+        this.updateProfileGeneral(data);
+    }
+
+    render() {
+        const { errors } = this.state,
+            { profile, translate } = this.props;
 
         return (
             <div>
@@ -228,20 +198,9 @@ class GeneralForm extends React.Component {
                         </div>
                     </div>
                 </form>
-
-                <StatusModal modal={ modal } isOpen={ modal.isOpen }
-                    onClosed={ () => this.state.modal.isOpen = false } />
             </div>
-        )
+        );
     }
 }
 
-const GeneralFormConnected = connect(
-    state => ({
-        translate: getTranslate(state.locale)
-    }),
-    (dispatch) =>
-        bindActionCreators({ updateProfileSuccess }, dispatch)
-)(GeneralForm);
-
-export default GeneralFormConnected;
+export default localize(GeneralForm, 'locale');

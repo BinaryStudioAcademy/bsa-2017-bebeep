@@ -1,7 +1,7 @@
-import LeftReviews from './LeftReviews';
-import ReceivedReviews from './ReceivedReviews';
+import ReviewsGiven from './ReviewsGiven';
+import ReviewsReceived from './ReviewsReceived';
 
 export {
-    LeftReviews,
-    ReceivedReviews,
+    ReviewsGiven,
+    ReviewsReceived,
 };
