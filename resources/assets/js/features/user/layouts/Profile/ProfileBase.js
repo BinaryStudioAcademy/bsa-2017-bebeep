@@ -46,6 +46,23 @@ class ProfileBase extends React.Component {
                         </li>
                       </ul>
                     </aside>
+
+
+                    <aside>
+                        <ul className="menu-sidebar">
+                            <li className="menu-sidebar__header">{translate('profile_base.reviews')}</li>
+                            <li className="menu-sidebar__item">
+                                <Link to="/dashboard/profile/reviews/left"
+                                      className="menu-sidebar__link"
+                                      activeClassName="menu-sidebar__link--active"
+                                >{translate('profile_base.reviews_left')}</Link>
+                                <Link to="/dashboard/profile/reviews/received"
+                                      className="menu-sidebar__link"
+                                      activeClassName="menu-sidebar__link--active"
+                                >{translate('profile_base.reviews_received')}</Link>
+                            </li>
+                        </ul>
+                    </aside>
                 </div>
                 <div className="col-9">
                     { this.props.children }

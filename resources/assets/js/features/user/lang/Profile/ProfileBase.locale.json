@@ -4,6 +4,9 @@
     "personal_info": ["Personal info", "Особиста інформація", "Личная информация"],
     "avatar": ["Avatar", "Аватар", "Аватар"],
     "account": ["Account", "Аккаунт", "Аккаунт"],
-    "change_password": ["Change password", "Змінити пароль", "Сменить пароль"]
+    "change_password": ["Change password", "Змінити пароль", "Сменить пароль"],
+    "reviews": ["Reviews", "Відгуки", "Отзывы"],
+    "reviews_left": ["Left", "Залишені", "Оставленные"],
+    "reviews_received": ["Received", "Отримані", "Полученые"]
   }
 }
