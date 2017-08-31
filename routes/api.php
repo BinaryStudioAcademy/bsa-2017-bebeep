@@ -11,6 +11,13 @@
 |
 */
 
+Route::group(['prefix' => 'driver', 'as' => 'driver.'], function () {
+    Route::get('{user}/reviews', [
+        'as' => 'reviews',
+        'uses' => 'DriverController@getReviews',
+    ]);
+});
+
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('register', [
         'middleware' => 'jwt.guest',
