@@ -6,6 +6,10 @@
     "leaving_from_label": ["Leaving from", "Відправлення від", "Отправление от"],
     "going_to_label": ["Going to", "Прибуття до", "Прибытие в"],
     "date": ["Date", "Дата", "Дата"],
-    "find_a_ride": ["Find a ride", "Знайти подорож", "Найти поездку"]
+    "find_a_ride": ["Find a ride", "Знайти подорож", "Найти поездку"],
+    "i_am_passenger": ["I am Passenger", "Я пасажир", "Я пассажир"],
+    "i_am_driver": ["I am Driver", "Я водій", "Я водитель"],
+    "find_cheap_ride": ["Find a cheap ride!", "Знайти дешеву подорож!", "Найдем дешевые поездки!"],
+    "find_cheap_ride_driver": ["Save on gasoline? Go!", "Збережіть на бензині!", "Сэкономим на бензине? Поехали!"]
   }
 }

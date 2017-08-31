@@ -1,9 +1,10 @@
 import React from 'react';
 import Select from 'react-select';
 import NumericInput from 'react-numeric-input';
-import LangService from 'app/services/LangService';
-import * as lang from '../../lang/VehicleForm.locale.json';
 import { localize } from 'react-localize-redux';
+
+import LangService from 'app/services/LangService';
+import * as lang from 'features/car/lang/VehicleForm.locale.json';
 
 class VehicleForm extends React.Component {
     componentWillMount() {

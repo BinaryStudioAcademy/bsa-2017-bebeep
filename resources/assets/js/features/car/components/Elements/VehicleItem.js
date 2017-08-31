@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deleteVehicle } from '../../actions';
+
+import { deleteVehicle } from 'features/car/actions';
 
 class VehicleItem extends React.Component {
     constructor(props) {

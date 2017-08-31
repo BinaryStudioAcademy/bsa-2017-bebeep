@@ -9,7 +9,12 @@ const initialState = {
         success: isAuthorized(),
         errors: {},
         httpStatus: 200
-    }
+    },
+    profile: {
+        first_name: '',
+        last_name: '',
+        avatar: null,
+    },
 };
 
 export default function (state = initialState, action) {
@@ -19,7 +24,8 @@ export default function (state = initialState, action) {
                 ...state,
                 register: {
                     success: true,
-                }
+                },
+                profile: action.data.user,
             };
         case actions.LOGIN_SUCCESS:
             return {
@@ -28,7 +34,8 @@ export default function (state = initialState, action) {
                     ...state.login,
                     success: isAuthorized(),
                     httpStatus: 200
-                }
+                },
+                profile: action.data.user,
             };
         case actions.LOGIN_VERIFY_FAILED:
             return {
@@ -65,8 +72,21 @@ export default function (state = initialState, action) {
                 }
             };
 
-        case actions.USER_PROFILE_UPDATE_SUCCESS:
-            return state;
+        case actions.USER_PROFILE_SET_STATE:
+        case actions.USER_PROFILE_UPDATE_STATE:
+            return {
+                ...state,
+                profile: action.data,
+            };
+
+        case actions.USER_AVATAR_UPDATE_STATE:
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    avatar: action.data,
+                }
+            };
 
         default:
             return state;

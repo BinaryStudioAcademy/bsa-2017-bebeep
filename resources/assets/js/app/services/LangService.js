@@ -20,9 +20,9 @@ const LangService = (() => {
         },
         getName(code) {
             return {
-                [LANG_EN]: 'en',
-                [LANG_UA]: 'ua',
-                [LANG_RU]: 'ru'
+                [LANG_EN]: 'English',
+                [LANG_UA]: 'Українська',
+                [LANG_RU]: 'Русский',
             }[code];
         },
         setActiveLanguage(code) {

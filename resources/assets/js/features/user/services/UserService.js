@@ -1,12 +1,11 @@
 import { simpleRequest, securedRequest } from 'app/services/RequestService';
-import moment from 'moment';
 
 const UserService = {
 
     getProfileGeneral() {
         return securedRequest.get('/api/user/profile')
             .then(
-                response => Promise.resolve(response.data),
+                response => Promise.resolve(response.data.data),
                 error => Promise.reject(error.response.data)
             );
     },
@@ -46,8 +45,7 @@ const UserService = {
     deleteProfileAvatar() {
         return securedRequest.delete('/api/user/profile/avatar')
             .then(
-                response => Promise.resolve(response.data),
-                error => Promise.reject(error.response.data)
+                response => Promise.resolve(response.data)
             );
     },
 

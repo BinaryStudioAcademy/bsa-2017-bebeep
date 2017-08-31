@@ -81,6 +81,7 @@ class TripDetailsContainer extends React.Component {
                     <TripMainPoints
                         startPoint={ startPoint.short_address }
                         endPoint={ endPoint.short_address }
+                        waypoints={ routes }
                     />
                 </div>
                 <div className="col-md-8">

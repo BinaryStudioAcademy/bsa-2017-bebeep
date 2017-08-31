@@ -3,6 +3,11 @@
     "profile": ["Profile", "Профіль", "Профиль"],
     "personal_info": ["Personal info", "Особиста інформація", "Личная информация"],
     "avatar": ["Avatar", "Аватар", "Аватар"],
+    "reviews": {
+        "header": ["Reviews", "Відгуки", "Отзывы"],
+        "received": ["Received", "Отримані", "Полученные"],
+        "given": ["Given", "Залишені", "Оставленные"]
+    },
     "account": ["Account", "Аккаунт", "Аккаунт"],
     "change_password": ["Change password", "Змінити пароль", "Сменить пароль"]
   }

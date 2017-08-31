@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 
-import Modal from 'app/components/Modal';
 import BookingInfo from '../BookingInfo';
+import Modal from 'app/components/Modal';
 
 import { changeBookingStatus } from 'features/trip-list/actions';
 import BookingService, {
@@ -14,7 +14,9 @@ import BookingService, {
 
 import 'features/trip-list/styles/booking-info.scss';
 
+
 class BookingModal extends React.Component {
+
     constructor() {
         super();
         this.state = {
