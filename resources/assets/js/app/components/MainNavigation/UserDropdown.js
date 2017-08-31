@@ -26,18 +26,16 @@ class UserDropdown extends React.Component {
             userName = `${user.first_name} ${user.last_name}`;
 
         return (
-            <Dropdown className="main-navigation-dropdown user-personal-menu"
+            <Dropdown className="header-menu__dropdown header-menu__dropdown--user-menu"
                 isOpen={ this.state.isDropdownOpen }
                 toggle={ this.toggleUserDropdown }
             >
-                <DropdownToggle className="main-navigation-dropdown__dropdown-toggle" caret>
+                <DropdownToggle caret>
                     <img src={ user.avatar }
                         alt={ userName }
-                        className="user-personal-menu__avatar"
+                        className="header-menu__dropdown--user-menu__avatar"
                     />
-                    <span className="main-navigation-dropdown__toggle-label">
-                        { userName }
-                    </span>
+                    <span>{ userName }</span>
                 </DropdownToggle>
 
                 <DropdownMenu right>

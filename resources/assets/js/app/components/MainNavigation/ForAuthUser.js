@@ -30,11 +30,11 @@ class ForAuthUser extends React.Component {
                     </Link>
                 </li>
 
-                <li className="header-menu__item header-menu__item_no-hover">
+                <li className="header-menu__item header-menu__item_no-hover header-menu__item--align-stretch">
                     <UserDropdown user={user} />
                 </li>
 
-                <li className="header-menu__item header-menu__item_no-hover header-menu__item_no-space">
+                <li className="header-menu__item header-menu__item_no-hover header-menu__item_no-space header-menu__item--align-stretch">
                     <ChangeLocalization />
                 </li>
             </ul>

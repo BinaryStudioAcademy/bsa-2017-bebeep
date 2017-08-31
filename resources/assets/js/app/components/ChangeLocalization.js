@@ -32,13 +32,12 @@ class ChangeLocalization extends React.Component {
             languages = LangService.languages;
 
         return (
-            <Dropdown className="main-navigation-dropdown language-switcher"
+            <Dropdown className="header-menu__dropdown"
                 isOpen={ this.state.isDropdownOpen }
                 toggle={ this.toggleLangDropdown }
             >
-                <DropdownToggle className="main-navigation-dropdown__dropdown-toggle" caret>
-                    <i className="fa fa-language language-switcher__icon" aria-hidden="true" />
-                    <span className="main-navigation-dropdown__toggle-label">
+                <DropdownToggle caret>
+                    <span>
                         { currentLanguage.toUpperCase() }
                     </span>
                 </DropdownToggle>
