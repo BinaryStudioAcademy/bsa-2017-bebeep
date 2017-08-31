@@ -63,7 +63,7 @@ class Filter extends React.Component {
         const { priceBounds, translate } = this.props;
 
         return (
-            <div className="filter">
+            <div className="filter filter-centered">
                 <div className="filter__prop">
                     <div className="filter__prop-name">{translate('search_result.filter.date')}</div>
                     <div className="filter__prop-control">

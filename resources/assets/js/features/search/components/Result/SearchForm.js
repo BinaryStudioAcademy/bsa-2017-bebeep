@@ -175,7 +175,7 @@ class SearchForm extends React.Component {
         return (
             <div className="search-block">
                 <div className="container">
-                    <div className="row">
+                    <div className="row search-block-centered">
                         <div className="col-sm-3 offset-md-2">
                             <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
                                 <label className='form-input search-block__search-label fa-circle-o'>

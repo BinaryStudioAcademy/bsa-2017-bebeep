@@ -19,10 +19,22 @@
     margin-bottom: 5px;
   }
 
+  &-centered {
+    @media screen and (max-width: 660px) {
+      padding: 0 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  }
+
   &__prop {
     &-name {
       font-weight: bold;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+
+      @media screen and (max-width: 660px) {
+        margin-bottom: 15px;
+      }
     }
 
     &-sign {
