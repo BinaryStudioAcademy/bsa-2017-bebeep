@@ -1,77 +1,40 @@
 import React from 'react';
-import {Link, IndexLink} from 'react-router';
-import ChangeLocalization from '../ChangeLocalization';
-import {localize} from 'react-localize-redux';
-import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { localize } from 'react-localize-redux';
 
-import {getAuthUser} from 'app/services/AuthService';
+import UserDropdown from './UserDropdown';
+import ChangeLocalization from '../ChangeLocalization';
+
+import { getProfileAvatar } from 'app/services/PhotoService';
+
 
 class ForAuthUser extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isDropdownOpen: false,
-        };
-
-        this.toggleUserDropdown = this.toggleUserDropdown.bind(this);
-    }
-
-    toggleUserDropdown() {
-        this.setState({
-            isDropdownOpen: !this.state.isDropdownOpen,
-        });
-    }
-
     render() {
-        const {translate} = this.props;
-        const authUser = getAuthUser();
+        const { user, translate } = this.props;
+
+        user.avatar = getProfileAvatar(user.avatar);
 
         return (
             <ul className="header__menu header__menu_right header-menu">
                 <li className="header-menu__item">
                     <Link to="/trip/create" activeClassName="active">
-                        {translate('create_new_trip')}
+                        { translate('create_new_trip') }
                     </Link>
                 </li>
                 <li className="header-menu__item">
                     <Link to="/trips" activeClassName="active">
-                        {translate('my_trips')}
+                        { translate('my_trips') }
                     </Link>
                 </li>
-                <Dropdown className="header-menu__item header-menu__item_no-hover" isOpen={this.state.isDropdownOpen} toggle={this.toggleUserDropdown}>
-                    <DropdownToggle caret>
-                        { authUser.username }
-                    </DropdownToggle>
-                    <DropdownMenu>
-                        <Link onClick={this.toggleUserDropdown} to="/dashboard" className="dropdown-item" >
-                            {translate('dashboard')}
-                        </Link>
-                        <Link onClick={this.toggleUserDropdown} to="/dashboard/profile" className="dropdown-item" >
-                            {translate('profile')}
-                        </Link>
-                        <Link onClick={this.toggleUserDropdown} to="/bookings" className="dropdown-item" >
-                            {translate('bookings')}
-                        </Link>
 
-                        <DropdownItem divider />
+                <li className="header-menu__item header-menu__item_no-hover header-menu__item--align-stretch">
+                    <UserDropdown user={user} />
+                </li>
 
-                        <Link onClick={this.toggleUserDropdown} to="/vehicles" className="dropdown-item" >
-                            {translate('my_vehicles')}
-                        </Link>
-                        <Link onClick={this.toggleUserDropdown} to="/vehicles/create" className="dropdown-item" >
-                            {translate('add_vehicle')}
-                        </Link>
-
-                        <DropdownItem divider />
-
-                        <Link onClick={this.toggleUserDropdown} to="/logout" className="dropdown-item" >
-                            {translate('logout')}
-                        </Link>
-                    </DropdownMenu>
-                </Dropdown>
-                <li className="header-menu__item header-menu__item_no-hover header-menu__item_no-space">
+                <li className="header-menu__item header-menu__item_no-hover header-menu__item_no-space header-menu__item--align-stretch">
                     <ChangeLocalization />
                 </li>
             </ul>
@@ -79,4 +42,11 @@ class ForAuthUser extends React.Component {
     }
 }
 
-export default localize(ForAuthUser, 'locale');
+const ForAuthUserConnected = connect(
+    (state) => ({
+        user: state.user.profile,
+    }),
+    null
+)(ForAuthUser);
+
+export default localize(ForAuthUserConnected, 'locale');
