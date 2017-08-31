@@ -67,14 +67,17 @@ class Filter extends React.Component {
                 <div className="filter__prop">
                     <div className="filter__prop-name">{translate('search_result.filter.date')}</div>
                     <div className="filter__prop-control">
-                        <DatePicker
-                            todayButton={"Today"}
-                            selected={date}
-                            onChange={this.dateChange}
-                            placeholderText={translate('search_result.filter.date_placeholder')}
-                            minDate={moment()}
-                            className="form-control filter__prop-datepicker-input"
-                        />
+                        <label className='form-input filter__prop-control-label search-block__search-label fa-calendar'>
+                            <DatePicker
+                                todayButton={"Today"}
+                                selected={date}
+                                onChange={this.dateChange}
+                                placeholderText={translate('search_result.filter.date_placeholder')}
+                                minDate={moment()}
+                                className="form-control filter__prop-datepicker-input"
+                            />
+                            <span className="form-input__label search-block__search-label-span">{translate('search_result.when')}</span>
+                        </label>
                     </div>
                 </div>
                 <div className="filter__prop">

@@ -10,8 +10,9 @@
 }
 
 .search-result #PlacesAutocomplete__autocomplete-container {
-  top: 55px;
-  width: 90%;
+  top: 60px;
+  width: 100%;
+  left: 0;
 }
 
 #PlacesAutocomplete__root {
@@ -99,48 +100,28 @@
   }
 
   &__search {
+    &-label {
+      padding: 20px 30px 5px 15px;
+      border: none;
+    }
+
+    &-label-span {
+      top: 10px;
+      left: 45px;
+      font-size: 0.9rem;
+    }
+
     &-input {
-      font-size: 16px !important;
+      font-size: 17px !important;
       box-shadow: none;
       border-radius: 5px;
-      padding-left: 40px;
-      padding-top: 27px;
+      padding: 0;
+      margin-left: 30px;
+      border: none;
     }
 
-    &-input-start:before, &-input-end:before {
-      position: absolute;
-      top: 19px;
-      left: 27px;
-      content: '';
-      width: 20px;
-      height: 20px;
-      display: inline-block;
-      vertical-align: top;
-      background-color: $white;
-      border-radius: 50%;
-      border: 3px solid $teal;
-    }
-
-    &-input-start:after, &-input-end:after {
-      position: absolute;
-      top: 10px;
-      left: 55px;
-      font-size: 0.7rem;
-      color: rgba(0, 0, 0, 0.54);
-      font-weight: 500;
-    }
-
-    &-input-start:after{
-      content: "Откуда";
-    }
-
-    &-input-end:after{
-      content: "Куда";
-    }
-
-
-    &-input-end:before {
-      background-color: $teal;
+    &-input-start, &-input-end {
+      margin-top: -15px;
     }
 
   }

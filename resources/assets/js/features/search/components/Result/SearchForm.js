@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
+import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
 
 import { searchSuccess } from 'features/search/actions';
 import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
@@ -177,32 +178,38 @@ class SearchForm extends React.Component {
                     <div className="row">
                         <div className="col-sm-3 offset-md-2">
                             <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
-                                <PlacesAutocomplete
-                                    inputProps={startPointProps}
-                                    classNames={startPlaceCssClasses}
-                                    onSelect={this.onSelectStartPoint}
-                                    onEnterKeyDown={this.onSelectStartPoint}
-                                    googleLogo={false}
-                                    autocompleteItem={AutocompleteItem}
-                                    highlightFirstSuggestion={true}
-                                    onError={() => this.setState({errors: {from: 'Invalid address'}})}
-                                />
-                                {errors.from ? (<small className="form-control-feedback text-mutted">{errors.from}</small>) : ''}
+                                <label className='form-input search-block__search-label fa-circle-o'>
+                                    <PlacesAutocomplete
+                                        inputProps={startPointProps}
+                                        classNames={startPlaceCssClasses}
+                                        onSelect={this.onSelectStartPoint}
+                                        onEnterKeyDown={this.onSelectStartPoint}
+                                        googleLogo={false}
+                                        autocompleteItem={AutocompleteItem}
+                                        highlightFirstSuggestion={true}
+                                        onError={() => this.setState({errors: {from: 'Invalid address'}})}
+                                    />
+                                    {errors.from ? (<small className="form-control-feedback text-mutted">{errors.from}</small>) : ''}
+                                    <span className="form-input__label search-block__search-label-span">{translate('search_result.from')}</span>
+                                </label>
                             </div>
                         </div>
                         <div className="col-sm-3">
                             <div className={"form-group" + (errors.to ? ' has-danger' : '')}>
-                                <PlacesAutocomplete
-                                    inputProps={endPointProps}
-                                    classNames={endPlaceCssClasses}
-                                    onSelect={this.onSelectEndPoint}
-                                    onEnterKeyDown={this.onSelectEndPoint}
-                                    googleLogo={false}
-                                    autocompleteItem={AutocompleteItem}
-                                    highlightFirstSuggestion={true}
-                                    onError={() => this.setState({errors: {to: 'Invalid address'}})}
-                                />
-                                {errors.to ? (<small className="form-control-feedback text-mutted">{errors.to}</small>) : ''}
+                                <label className='form-input search-block__search-label fa-circle'>
+                                    <PlacesAutocomplete
+                                        inputProps={endPointProps}
+                                        classNames={endPlaceCssClasses}
+                                        onSelect={this.onSelectEndPoint}
+                                        onEnterKeyDown={this.onSelectEndPoint}
+                                        googleLogo={false}
+                                        autocompleteItem={AutocompleteItem}
+                                        highlightFirstSuggestion={true}
+                                        onError={() => this.setState({errors: {to: 'Invalid address'}})}
+                                    />
+                                    {errors.to ? (<small className="form-control-feedback text-mutted">{errors.to}</small>) : ''}
+                                    <span className="form-input__label search-block__search-label-span">{translate('search_result.to')}</span>
+                                </label>
                             </div>
                         </div>
                         <div className="col-sm-2">
