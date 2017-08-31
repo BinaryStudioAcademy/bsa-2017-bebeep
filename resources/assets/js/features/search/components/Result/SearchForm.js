@@ -172,39 +172,43 @@ class SearchForm extends React.Component {
             );
 
         return (
-            <div className="row search-block">
-                <div className="col-sm-3 offset-md-2">
-                    <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
-                        <PlacesAutocomplete
-                            inputProps={startPointProps}
-                            classNames={startPlaceCssClasses}
-                            onSelect={this.onSelectStartPoint}
-                            onEnterKeyDown={this.onSelectStartPoint}
-                            googleLogo={false}
-                            autocompleteItem={AutocompleteItem}
-                            highlightFirstSuggestion={true}
-                            onError={() => this.setState({errors: {from: 'Invalid address'}})}
-                        />
-                        {errors.from ? (<small className="form-control-feedback text-mutted">{errors.from}</small>) : ''}
+            <div className="search-block">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-3 offset-md-2">
+                            <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
+                                <PlacesAutocomplete
+                                    inputProps={startPointProps}
+                                    classNames={startPlaceCssClasses}
+                                    onSelect={this.onSelectStartPoint}
+                                    onEnterKeyDown={this.onSelectStartPoint}
+                                    googleLogo={false}
+                                    autocompleteItem={AutocompleteItem}
+                                    highlightFirstSuggestion={true}
+                                    onError={() => this.setState({errors: {from: 'Invalid address'}})}
+                                />
+                                {errors.from ? (<small className="form-control-feedback text-mutted">{errors.from}</small>) : ''}
+                            </div>
+                        </div>
+                        <div className="col-sm-3">
+                            <div className={"form-group" + (errors.to ? ' has-danger' : '')}>
+                                <PlacesAutocomplete
+                                    inputProps={endPointProps}
+                                    classNames={endPlaceCssClasses}
+                                    onSelect={this.onSelectEndPoint}
+                                    onEnterKeyDown={this.onSelectEndPoint}
+                                    googleLogo={false}
+                                    autocompleteItem={AutocompleteItem}
+                                    highlightFirstSuggestion={true}
+                                    onError={() => this.setState({errors: {to: 'Invalid address'}})}
+                                />
+                                {errors.to ? (<small className="form-control-feedback text-mutted">{errors.to}</small>) : ''}
+                            </div>
+                        </div>
+                        <div className="col-sm-2">
+                            <button role="button" className="btn search-block__btn" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
+                        </div>
                     </div>
-                </div>
-                <div className="col-sm-3">
-                    <div className={"form-group" + (errors.to ? ' has-danger' : '')}>
-                        <PlacesAutocomplete
-                            inputProps={endPointProps}
-                            classNames={endPlaceCssClasses}
-                            onSelect={this.onSelectEndPoint}
-                            onEnterKeyDown={this.onSelectEndPoint}
-                            googleLogo={false}
-                            autocompleteItem={AutocompleteItem}
-                            highlightFirstSuggestion={true}
-                            onError={() => this.setState({errors: {to: 'Invalid address'}})}
-                        />
-                        {errors.to ? (<small className="form-control-feedback text-mutted">{errors.to}</small>) : ''}
-                    </div>
-                </div>
-                <div className="col-sm-2">
-                    <button role="button" className="btn search-block__btn" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
                 </div>
             </div>
         )

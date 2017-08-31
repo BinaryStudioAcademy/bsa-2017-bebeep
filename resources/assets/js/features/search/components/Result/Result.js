@@ -136,48 +136,50 @@ class Result extends React.Component {
         return (
             <div className="search-result">
                 <SearchForm onSearch={this.onSearch} />
-                <div className="row">
-                    <div className="col-md-3">
-                        <Filter
-                            priceBounds={meta.priceRange}
-                        />
-                    </div>
-                    <div className="col-md-9">
-                        <div className="container">
-                            <div className="row search-result__header">
-                                <div className="col-8 align-self-center search-result__header-count">
-                                    {translate('search_result.found_trips', {size: meta.totalSize})}
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-3">
+                            <Filter
+                                priceBounds={meta.priceRange}
+                            />
+                        </div>
+                        <div className="col-md-9">
+                            <div className="container">
+                                <div className="row search-result__header">
+                                    <div className="col-8 align-self-center search-result__header-count">
+                                        {translate('search_result.found_trips', {size: meta.totalSize})}
+                                    </div>
+                                    <div className="search-result__sort-container col-4">
+                                        <SortPanel
+                                            sort={sort}
+                                            order={order}
+                                            onChange={ this.onChangeSort }
+                                        />
+                                    </div>
                                 </div>
-                                <div className="search-result__sort-container col-4">
-                                    <SortPanel
-                                        sort={sort}
-                                        order={order}
-                                        onChange={ this.onChangeSort }
-                                    />
+                                <div className="search-result__item-container">
+                                    <Preloader enable={preloader}/>
+                                    {
+                                        preloader
+                                            ? <Placeholder show={true}>{translate('search_result.loading')}</Placeholder>
+                                            : <TripList
+                                            collection={collection}
+                                        />
+                                    }
                                 </div>
-                            </div>
-                            <div className="search-result__item-container">
-                                <Preloader enable={preloader}/>
-                                {
-                                    preloader
-                                        ? <Placeholder show={true}>{translate('search_result.loading')}</Placeholder>
-                                        : <TripList
-                                                collection={collection}
-                                            />
-                                }
-                            </div>
-                            <div className="row search-result__pagination">
-                                <div className="col-sm-6 align-self-center">
-                                    {translate('search_result.showing_of', {count: countResult, size: meta.totalSize})}
-                                </div>
-                                <div className="col-sm-6">
-                                    <Pagination
-                                        isDisabled={preloader}
-                                        size={meta.totalSize}
-                                        page={currentPage}
-                                        limit={limit}
-                                        onChangePage={this.onChangePage}
-                                    />
+                                <div className="row search-result__pagination">
+                                    <div className="col-sm-6 align-self-center">
+                                        {translate('search_result.showing_of', {count: countResult, size: meta.totalSize})}
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <Pagination
+                                            isDisabled={preloader}
+                                            size={meta.totalSize}
+                                            page={currentPage}
+                                            limit={limit}
+                                            onChangePage={this.onChangePage}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
