@@ -49,7 +49,7 @@ class Rating extends React.Component {
     render() {
         const { translate, marks } = this.props,
             marksStats = this.getMarks(marks);
-        console.log(marksStats.getPercent(5));
+
         return (
             <div className="rating-info">
                 <div className="row">
