@@ -252,6 +252,21 @@
 }
 
 .trip-map-modal {
+
+    &__header {
+        button span {
+            font-size: 2.4rem;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+        }
+        .trip-detail-icon {
+            margin-left: .5rem;
+            vertical-align: bottom;
+        }
+    }
+
     &__close {
         color: $white;
         position: absolute;
@@ -260,7 +275,7 @@
 
     &__map-container {
         max-height: 100vh;
-        height: 500px;
+        height: 400px;
     }
 
     @include media-breakpoint-down(xs) {

@@ -43,7 +43,7 @@ class TripMapModal extends React.Component {
 
     render() {
         const { isOpenModal, directions } = this.state,
-            { translate, waypoints, className } = this.props,
+            { translate, waypoints, className, modalHeader } = this.props,
             startPoint = waypoints[0].from;
 
         return (
@@ -57,14 +57,16 @@ class TripMapModal extends React.Component {
                     isOpen={isOpenModal}
                     toggle={this.toggleModal}
                 >
-                    <i className="trip-map-modal__close fa fa-times fa-2x"
-                        role="button"
-                        onClick={this.toggleModal}
-                    />
-                    <div className="trip-map-modal__map-container">
+                    <ModalHeader className="trip-map-modal__header" toggle={this.toggleModal}>
+                        { modalHeader }
+                        <i className="trip-detail-icon fa fa-road" aria-hidden="true" />
+                    </ModalHeader>
+
+                    <ModalBody className="p-0">
+                        <div className="trip-map-modal__map-container">
                         <GoogleMapContainer
                             containerElement={
-                                <div className="h-100" />
+                                <div className="h-100 ss" />
                             }
                             mapElement={
                                 <div className="h-100" />
@@ -73,6 +75,11 @@ class TripMapModal extends React.Component {
                             directions={directions}
                         />
                     </div>
+                    </ModalBody>
+                    {/*<i className="trip-map-modal__close fa fa-times fa-2x"
+                        role="button"
+                        onClick={this.toggleModal}
+                    />*/}
                 </Modal>
             </span>
         );
