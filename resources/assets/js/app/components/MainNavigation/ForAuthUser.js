@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link, IndexLink } from 'react-router';
+import {Link, IndexLink} from 'react-router';
 import ChangeLocalization from '../ChangeLocalization';
 import {localize} from 'react-localize-redux';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
-import { getAuthUser } from 'app/services/AuthService';
+import {getAuthUser} from 'app/services/AuthService';
 
 class ForAuthUser extends React.Component {
 
@@ -29,21 +29,18 @@ class ForAuthUser extends React.Component {
         const authUser = getAuthUser();
 
         return (
-            <div className="d-flex w-100">
-                <ul className="navbar-nav mr-auto">
-                  <li className="nav-item">
-                    <Link to="/trip/create" className="nav-link" activeClassName="active">
+            <ul className="header__menu header__menu_right header-menu">
+                <li className="header-menu__item">
+                    <Link to="/trip/create" activeClassName="active">
                         {translate('create_new_trip')}
                     </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/trips" className="nav-link" activeClassName="active">
+                </li>
+                <li className="header-menu__item">
+                    <Link to="/trips" activeClassName="active">
                         {translate('my_trips')}
                     </Link>
-                  </li>
-                </ul>
-
-                <Dropdown className="nav-item" isOpen={this.state.isDropdownOpen} toggle={this.toggleUserDropdown}>
+                </li>
+                <Dropdown className="header-menu__item header-menu__item_no-hover" isOpen={this.state.isDropdownOpen} toggle={this.toggleUserDropdown}>
                     <DropdownToggle caret>
                         { authUser.username }
                     </DropdownToggle>
@@ -74,11 +71,10 @@ class ForAuthUser extends React.Component {
                         </Link>
                     </DropdownMenu>
                 </Dropdown>
-
-                <div className="nav-item">
+                <li className="header-menu__item header-menu__item_no-hover header-menu__item_no-space">
                     <ChangeLocalization />
-                </div>
-            </div>
+                </li>
+            </ul>
         );
     }
 }
