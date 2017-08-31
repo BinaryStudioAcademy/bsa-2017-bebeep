@@ -1,31 +1,31 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
+import { localize } from 'react-localize-redux';
+
 import ChangeLocalization from '../ChangeLocalization';
-import {localize} from 'react-localize-redux';
+
 
 class ForGuestUser extends React.Component {
 
     render() {
-        const {translate} = this.props;
-        return (
-            <div className="d-flex w-100">
-                <ul className="nav navbar-nav navbar-right ml-auto">
-                  <li className="nav-item">
-                    <Link to="/login" className="nav-link" activeClassName="active">
-                        {translate('login')}
-                    </Link>
-                  </li>
+        const { translate } = this.props;
 
-                  <li className="nav-item">
-                    <Link to="/registration" className="nav-link" activeClassName="active">
-                        {translate('register')}
+        return (
+            <ul className="header__menu header__menu_right header-menu">
+                <li className="header-menu__item">
+                    <Link to="/login" activeClassName="active">
+                        { translate('login') }
                     </Link>
-                  </li>
-                  <li className="nav-item">
-                      <ChangeLocalization />
-                  </li>
-                </ul>
-            </div>
+                </li>
+                <li className="header-menu__item">
+                    <Link to="/registration" activeClassName="active">
+                        { translate('register') }
+                    </Link>
+                </li>
+                <li className="header-menu__item header-menu__item_no-hover header-menu__item--align-stretch">
+                    <ChangeLocalization />
+                </li>
+            </ul>
         );
     }
 }

@@ -1,11 +1,15 @@
 import React from 'react';
-import PageHeader from '../../../app/components/PageHeader';
-import '../styles/vehicle.scss';
-import '../styles/react-select.scss';
+import { localize } from 'react-localize-redux';
+
 import CreateVehicleForm from '../components/Containers/CreateVehicle';
+
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/CreateVehicle.locale.json';
-import { localize } from 'react-localize-redux';
+
+import PageHeader from 'app/components/PageHeader';
+
+import '../styles/vehicle.scss';
+import '../styles/react-select.scss';
 
 class CreateVehicle extends React.Component {
 

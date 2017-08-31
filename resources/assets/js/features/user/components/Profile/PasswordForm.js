@@ -1,7 +1,7 @@
-import {localize} from 'react-localize-redux';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { localize } from 'react-localize-redux';
 
 import Input from 'app/components/Input';
 import StatusModal from '../_Modals/StatusModal';

@@ -91,6 +91,15 @@ export default (store) => {
                         <Route path="general" component={ ProfileGeneral }/>
                         {/* User profile avatar */}
                         <Route path="avatar" component={ ProfileAvatar }/>
+
+                        {/* User reviews */}
+                        {/*<Route path="reviews">*/}
+                            {/* User received reviews */}
+                            {/*<Route path="received" component={ ReviewsReceived }/>*/}
+                            {/* User given reviews */}
+                            {/*<Route path="given" component={ ReviewsGiven }/>*/}
+                        {/*</Route>*/}
+
                         {/* User profile password */}
                         <Route path="password" component={ ProfilePassword }/>
                     </Route>

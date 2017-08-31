@@ -1,0 +1,24 @@
+{
+  "files_dropzone": {
+    "file_type_is_not_supported": [
+      "The file type is not supported!",
+      "Тип файлу не підтримується!",
+      "Тип файла не поддерживается!"
+    ],
+    "file_size_more_maximum": [
+      "The file size is more than the maximum allowed!",
+      "Розмір файлу більше максимально дозволеного!",
+      "Размер файла больше максимально допустимого!"
+    ],
+    "drop_or_click_to_select_file_to_upload": [
+      "Drop a file or click here to select one to upload.",
+      "Перемістіть файл або натисніть тут для його завантаження.",
+      "Переместите файл или нажмите здесь для его загрузки."
+    ],
+    "rule_max_size_mb": [
+      "Max ${ size } Mb",
+      "Макс. ${ size } Мб",
+      "Макс. ${ size } Мб"
+    ]
+  }
+}
