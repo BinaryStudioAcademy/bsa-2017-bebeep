@@ -77,7 +77,9 @@ class TripDetails extends React.Component {
 
         return (
             <div>
-                <SearchForm />
+                <div className="text-center mb-5">
+                    <SearchForm />
+                </div>
                 <TripDetailsContainer details={ details } />
             </div>
         );
