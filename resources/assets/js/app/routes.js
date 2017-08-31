@@ -15,8 +15,7 @@ import {
     ProfileBase,
     ProfileGeneral,
     ProfileAvatar,
-    ProfilePassword,
-    ProfileReviews
+    ProfilePassword
 } from '../features/user/layouts/Profile';
 
 import Vehicles from '../features/car/layouts/Vehicles';
@@ -29,6 +28,11 @@ import TripsList from '../features/trip-list/layouts/TripsList';
 import BookingsList from '../features/bookings/layouts/BookingsList';
 import DriverPublicProfile from '../features/public-profiles/layouts/DriverPublicProfile';
 import PassengerPublicProfile from '../features/public-profiles/layouts/PassengerPublicProfile';
+
+import {
+    LeftReviews,
+    ReceivedReviews
+} from '../features/user/layouts/Profile/Reviews';
 
 import Elements from '../features/elements/Elements.js';
 
@@ -95,9 +99,9 @@ export default (store) => {
                         {/* User profile password */}
                         <Route path="password" component={ ProfilePassword }/>
                         {/* User reviews */}
-                        <Route path="reviews" component={ ProfileReviews }/>
-                        <Route path="reviews/left" component={ ProfileReviews }/>
-                        <Route path="reviews/received" component={ ProfileReviews }/>
+                        <Route path="reviews" component={ LeftReviews }/>
+                        <Route path="reviews/left" component={ LeftReviews }/>
+                        <Route path="reviews/received" component={ ReceivedReviews }/>
                     </Route>
                 </Route>
 

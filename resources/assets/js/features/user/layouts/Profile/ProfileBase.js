@@ -47,7 +47,6 @@ class ProfileBase extends React.Component {
                       </ul>
                     </aside>
 
-
                     <aside>
                         <ul className="menu-sidebar">
                             <li className="menu-sidebar__header">{translate('profile_base.reviews')}</li>
@@ -56,6 +55,8 @@ class ProfileBase extends React.Component {
                                       className="menu-sidebar__link"
                                       activeClassName="menu-sidebar__link--active"
                                 >{translate('profile_base.reviews_left')}</Link>
+                            </li>
+                            <li className="menu-sidebar__item">
                                 <Link to="/dashboard/profile/reviews/received"
                                       className="menu-sidebar__link"
                                       activeClassName="menu-sidebar__link--active"

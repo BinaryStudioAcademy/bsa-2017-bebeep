@@ -1,18 +1,20 @@
 import React from 'react';
 import LangService from 'app/services/LangService';
-import * as lang from '../../lang/Profile/ProfileReviews.locale.json';
+import * as lang from '../../../lang/Profile/ProfileReviews.locale.json';
 import {localize} from 'react-localize-redux';
 
-class ProfileReviews extends React.Component {
+class ReceivedReviews extends React.Component {
     componentWillMount() {
         LangService.addTranslation(lang);
     }
 
     render() {
         return (
-            <div></div>
+            <div>
+
+            </div>
         );
     }
 }
 
-export default localize(ProfileReviews, 'locale');
+export default localize(ReceivedReviews, 'locale');
