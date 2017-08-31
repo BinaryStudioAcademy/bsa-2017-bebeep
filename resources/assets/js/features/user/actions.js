@@ -117,3 +117,48 @@ export const doLogout = (data) => {
             });
     }
 };
+
+export const setGivenReviews = (payload) => {
+    const reviews = _.reduce(payload.data, (reviews, review) => {
+        reviews['users'][review.user.data.id] = review.user.data;
+        reviews['givenReviews'].push(review.id);
+        reviews['reviews'][review.id] = {
+            ...review,
+            user: review.user.data.id
+        };
+
+        return reviews;
+    }, {
+        users: {},
+        reviews: {},
+        givenReviews: []
+    });
+
+    return {
+        type: actions.USER_REVIEWS_SET_GIVEN,
+        reviews
+    }
+};
+
+export const setReceivedReviews = (payload) => {
+    const reviews = _.reduce(payload.data, (reviews, review) => {
+        reviews['users'][review.user.data.id] = review.user.data;
+        reviews['receivedReviews'].push(review.id);
+        reviews['reviews'][review.id] = {
+            ...review,
+            user: review.user.data.id
+        };
+
+        return reviews;
+    }, {
+        users: {},
+        reviews: {},
+        receivedReviews: []
+    });
+
+    return {
+        type: actions.USER_REVIEWS_SET_RECEIVED,
+        rating: payload.meta.rating,
+        reviews
+    }
+};

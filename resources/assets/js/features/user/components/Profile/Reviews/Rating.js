@@ -6,7 +6,7 @@ import { Progress } from 'reactstrap';
 
 import "../../../styles/rating.scss";
 
-class DriverRating extends React.Component {
+class Rating extends React.Component {
     componentWillMount() {
         LangService.addTranslation(lang);
     }
@@ -31,17 +31,32 @@ class DriverRating extends React.Component {
         return info;
     }
 
+    getMarks(marks) {
+        const marksInfo = this.countProps(marks);
+        return {
+            get avg() {
+                return marksInfo['avg'];
+            },
+            getPercent(mark) {
+                return marksInfo.byMark[mark] ? marksInfo.byMark[mark].percent : 0;
+            },
+            getCount(mark) {
+                return marksInfo.byMark[mark] ? marksInfo.byMark[mark].count : 0;
+            }
+        };
+    }
+
     render() {
         const { translate, marks } = this.props,
-            marksStats = this.countProps(marks);
-
+            marksStats = this.getMarks(marks);
+        console.log(marksStats.getPercent(5));
         return (
             <div className="rating-info">
                 <div className="row">
                     <div className="col-sm-6 text-center">
                         <div className="rating-block">
                             <h5>{translate('rating.driver_rating')}</h5>
-                            <h2 className="bold padding-bottom-7"><i className="fa fa-star" aria-hidden="true"></i>{marksStats['avg']} <span className="small-text">/ 5</span></h2>
+                            <h2 className="bold padding-bottom-7"><i className="fa fa-star" aria-hidden="true"></i>{marksStats.avg} <span className="small-text">/ 5</span></h2>
                         </div>
                     </div>
                     <div className="col-sm-6">
@@ -51,45 +66,45 @@ class DriverRating extends React.Component {
                                 <div className="rating-marker">5</div>
                             </div>
                             <div className="pull-left rating__progress">
-                                <Progress className="rating-progress" color="success" value={marksStats.byMark[5].percent} />
+                                <Progress className="rating-progress" color="success" value={marksStats.getPercent(5)} />
                             </div>
-                            <div className="pull-right rating__count">{marksStats.byMark[5].count}</div>
+                            <div className="pull-right rating__count">{marksStats.getCount(5)}</div>
                         </div>
                         <div className="pull-left">
                             <div className="pull-left rating__marker">
                                 <div className="rating-marker">4 </div>
                             </div>
                             <div className="pull-left rating__progress">
-                                <Progress className="rating-progress" color="primary" value={marksStats.byMark[4].percent} />
+                                <Progress className="rating-progress" color="primary" value={marksStats.getPercent(4)} />
                             </div>
-                            <div className="pull-right rating__count">{marksStats.byMark[4].count}</div>
+                            <div className="pull-right rating__count">{marksStats.getCount(4)}</div>
                         </div>
                         <div className="pull-left">
                             <div className="pull-left rating__marker">
                                 <div className="rating-marker">3</div>
                             </div>
                             <div className="pull-left rating__progress">
-                                <Progress className="rating-progress" color="info" value={marksStats.byMark[3].percent} />
+                                <Progress className="rating-progress" color="info" value={marksStats.getPercent(3)} />
                             </div>
-                            <div className="pull-right rating__count">{marksStats.byMark[3].count}</div>
+                            <div className="pull-right rating__count">{marksStats.getCount(3)}</div>
                         </div>
                         <div className="pull-left">
                             <div className="pull-left rating__marker">
                                 <div className="rating-marker">2</div>
                             </div>
                             <div className="pull-left rating__progress">
-                                <Progress className="rating-progress" color="warning" value={marksStats.byMark[2].percent} />
+                                <Progress className="rating-progress" color="warning" value={marksStats.getPercent(2)} />
                             </div>
-                            <div className="pull-right rating__count">{marksStats.byMark[2].count}</div>
+                            <div className="pull-right rating__count">{marksStats.getCount(2)}</div>
                         </div>
                         <div className="pull-left">
                             <div className="pull-left rating__marker">
                                 <div className="rating-marker">1</div>
                             </div>
                             <div className="pull-left rating__progress">
-                                <Progress className="rating-progress" color="danger" value={marksStats.byMark[1].percent} />
+                                <Progress className="rating-progress" color="danger" value={marksStats.getPercent(1)} />
                             </div>
-                            <div className="pull-right rating__count">{marksStats.byMark[1].count}</div>
+                            <div className="pull-right rating__count">{marksStats.getCount(1)}</div>
                         </div>
                     </div>
                 </div>
@@ -98,4 +113,4 @@ class DriverRating extends React.Component {
     }
 }
 
-export default localize(DriverRating, 'locale');
+export default localize(Rating, 'locale');
