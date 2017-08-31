@@ -27,6 +27,7 @@ class ReviewsController extends Controller
     {
         $user = Auth::user();
         $reviews = $this->reviewsService->getReceived($user);
+
         return fractal()
             ->collection($reviews, new ReviewTransformer())
             ->parseIncludes(['user'])

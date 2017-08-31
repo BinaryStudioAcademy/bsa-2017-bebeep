@@ -7,7 +7,6 @@ use League\Fractal\TransformerAbstract;
 
 class ReviewTransformer extends TransformerAbstract
 {
-
     protected $availableIncludes = [
         'user', 'driver',
     ];
