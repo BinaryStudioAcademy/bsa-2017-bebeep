@@ -92,6 +92,8 @@ class AppServiceProvider extends ServiceProvider
                 new UserHasNotActiveBookingsForTrip($app->make(\App\Repositories\Contracts\BookingRepository::class))
             );
         });
+
+        $this->app->bind(\App\Services\Contracts\ReviewsService::class, \App\Services\ReviewsService::class);
     }
 
     /**
