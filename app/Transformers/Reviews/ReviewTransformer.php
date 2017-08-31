@@ -9,7 +9,7 @@ class ReviewTransformer extends TransformerAbstract
 {
 
     protected $availableIncludes = [
-        'user', 'driver'
+        'user', 'driver',
     ];
 
     /**

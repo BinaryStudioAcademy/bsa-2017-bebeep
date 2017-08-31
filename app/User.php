@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Models\Review;
 use App\Models\Trip;
+use App\Models\Review;
 use App\Models\Booking;
 use App\Models\Vehicle;
 use Spatie\MediaLibrary\Media;

@@ -136,10 +136,10 @@ Route::put('v1/password-resets', [
 Route::get('v1/reviews/given', [
     'middleware' => ['jwt.auth'],
     'as' => 'reviews.given',
-    'uses' => 'ReviewsController@given'
+    'uses' => 'ReviewsController@given',
 ]);
 Route::get('v1/reviews/received', [
     'middleware' => ['jwt.auth'],
     'as' => 'reviews.received',
-    'uses' => 'ReviewsController@received'
+    'uses' => 'ReviewsController@received',
 ]);

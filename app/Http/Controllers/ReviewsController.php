@@ -19,6 +19,7 @@ class ReviewsController extends Controller
     {
         $user = Auth::user();
         $reviews = $this->reviewsService->getGiven($user);
+
         return fractal()->collection($reviews, new ReviewTransformer())->parseIncludes(['user']);
     }
 
@@ -30,7 +31,7 @@ class ReviewsController extends Controller
             ->collection($reviews, new ReviewTransformer())
             ->parseIncludes(['user'])
             ->addMeta([
-                'rating' => $this->reviewsService->getRating($user)
+                'rating' => $this->reviewsService->getRating($user),
             ]);
     }
 }

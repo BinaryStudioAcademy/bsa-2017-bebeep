@@ -7,10 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
-/**
- * Class RatingReviewCriteria
- * @package namespace App\Criteria\Reviews;
- */
 class RatingReviewCriteria implements CriteriaInterface
 {
     protected $user;
@@ -21,7 +17,7 @@ class RatingReviewCriteria implements CriteriaInterface
     }
 
     /**
-     * Apply criteria in query repository
+     * Apply criteria in query repository.
      *
      * @param                     $model
      * @param RepositoryInterface $repository
