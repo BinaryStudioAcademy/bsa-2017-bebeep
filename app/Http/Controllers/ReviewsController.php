@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Transformers\Reviews\ReviewTransformer;
-use App\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Contracts\ReviewsService;
+use App\Transformers\Reviews\ReviewTransformer;
 
 class ReviewsController extends Controller
 {
@@ -16,14 +15,16 @@ class ReviewsController extends Controller
         $this->reviewsService = $reviewsService;
     }
 
-    public function given(Request $request, User $user)
+    public function given()
     {
+        $user = Auth::user();
         $reviews = $this->reviewsService->getGiven($user);
         return fractal()->collection($reviews, new ReviewTransformer())->parseIncludes(['user']);
     }
 
-    public function received(Request $request, User $user)
+    public function received()
     {
+        $user = Auth::user();
         $reviews = $this->reviewsService->getReceived($user);
         return fractal()
             ->collection($reviews, new ReviewTransformer())

@@ -22,7 +22,7 @@ class ReviewTransformer extends TransformerAbstract
         return [
             'id' => $review->id,
             'mark' => $review->mark,
-            'comment' => $review->mark,
+            'comment' => $review->comment,
             'date' => $review->created_at->timestamp,
         ];
     }

@@ -4,30 +4,16 @@ import Rating from './Rating';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {setReceivedReviews} from '../../../actions';
+import {fetchReceived} from 'app/services/ReviewService'
 
 class ReceivedContainer extends React.Component {
 
     componentWillMount() {
-        this.props.setReceivedReviews({
-            data: [
-                {
-                    id: 1,
-                    user: {
-                        data: {
-                            id: 1,
-                            full_name: "Ivan Ivanov",
-                            photo: null
-                        }
-                    },
-                    comment: "asdasd",
-                    date: Date.now() - 60 * 60 * 24 * 5 * 1000,
-                    mark: 3
-                }
-            ],
-            meta: {
-                rating: [5, 6, 2, 4, 1]
-            }
-        });
+        fetchReceived()
+            .then((response) => {
+                this.props.setReceivedReviews(response.data);
+            })
+            .catch(() => {});
     }
 
     render() {

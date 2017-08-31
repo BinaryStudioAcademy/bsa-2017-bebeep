@@ -15,7 +15,7 @@ class ReviewsList extends React.Component {
                     <Review
                         key={id}
                         mark={reviews.byId[id].mark}
-                        date={reviews.byId[id].date}
+                        date={reviews.byId[id].date * 1000}
                         user={users.byId[reviews.byId[id].user]}
                     >{reviews.byId[id].comment}</Review>
                 ))}

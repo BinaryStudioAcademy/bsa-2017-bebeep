@@ -3,40 +3,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {setGivenReviews} from '../../../actions';
 import ReviewsList from './ReviewsList';
+import {fetchGiven} from 'app/services/ReviewService'
 
 class GivenContainer extends React.Component {
 
     componentWillMount() {
-        this.props.setGivenReviews({
-            data: [
-                {
-                    id: 1,
-                    user: {
-                        data: {
-                            id: 1,
-                            full_name: "Ivan Ivanov",
-                            photo: null
-                        }
-                    },
-                    comment: "asdasd",
-                    date: Date.now(),
-                    mark: 4
-                },
-                {
-                    id: 2,
-                    user: {
-                        data: {
-                            id: 2,
-                            full_name: "Petr Petrov",
-                            photo: null
-                        }
-                    },
-                    comment: "Hjfskaf askfkas asf",
-                    date: Date.now() - 60 * 60 * 24 * 1000,
-                    mark: 3
-                }
-            ]
-        });
+        fetchGiven().then((response) => this.props.setGivenReviews(response.data));
     }
 
     render() {
