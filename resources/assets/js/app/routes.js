@@ -15,8 +15,6 @@ import {
     ProfileBase,
     ProfileGeneral,
     ProfileAvatar,
-    ReviewsReceived,
-    ReviewsGiven,
     ProfilePassword
 } from '../features/user/layouts/Profile';
 
@@ -94,12 +92,12 @@ export default (store) => {
                         <Route path="avatar" component={ ProfileAvatar }/>
 
                         {/* User reviews */}
-                        <Route path="reviews">
+                        {/*<Route path="reviews">*/}
                             {/* User received reviews */}
-                            <Route path="received" component={ ReviewsReceived }/>
+                            {/*<Route path="received" component={ ReviewsReceived }/>*/}
                             {/* User given reviews */}
-                            <Route path="given" component={ ReviewsGiven }/>
-                        </Route>
+                            {/*<Route path="given" component={ ReviewsGiven }/>*/}
+                        {/*</Route>*/}
 
                         {/* User profile password */}
                         <Route path="password" component={ ProfilePassword }/>
