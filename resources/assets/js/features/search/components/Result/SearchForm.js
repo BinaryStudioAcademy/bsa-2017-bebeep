@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
@@ -107,6 +108,26 @@ class SearchForm extends React.Component {
             .catch(error => {});
     }
 
+    setDataAndRedirectSearch() {
+        const { tripData } = this.state,
+            { searchSuccess } = this.props;
+
+        const searchData = {
+            from: {
+                name: tripData.from.name,
+                coordinate: tripData.from.coordinate,
+            },
+            to: {
+                name: tripData.to.name,
+                coordinate: tripData.to.coordinate,
+            },
+            start_at: tripData.start_at,
+        };
+
+        searchSuccess(searchData);
+        browserHistory.push('/search');
+    }
+
     onSelectStartPoint(address) {
         this.selectGeoPoint('from', address);
     }
@@ -129,7 +150,7 @@ class SearchForm extends React.Component {
             return;
         }
         const { tripData } = this.state,
-            { onSearch, translate } = this.props,
+            { onSearch, translate, redirectToSearch } = this.props,
             toBeValidated = {
                 from: tripData.from.coordinate,
                 to: tripData.to.coordinate,
@@ -139,8 +160,14 @@ class SearchForm extends React.Component {
                 to: Validator.coordinate(translate('validate.incorrect_going_to_point'))
             },
             validated = Validator.validate(resultValidate, toBeValidated);
+
         if (!validated.valid) {
             this.setState({errors: validated.errors});
+            return;
+        }
+
+        if (redirectToSearch) {
+            this.setDataAndRedirectSearch();
             return;
         }
 

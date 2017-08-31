@@ -11,12 +11,12 @@ import TripDetailsService from 'features/trip/services/TripDetailsService';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 
 import Preloader from 'app/components/Preloader';
-import SearchForm from 'features/search/components/Index/SearchForm';
+import SearchForm from 'features/search/components/Result/SearchForm';
 import TripDetailsContainer from '../components/Containers/TripDetailsContainer';
 
 import LangService from 'app/services/LangService';
 import * as LangTripDetails from '../lang/TripDetails.locale.json';
-import * as LangSearchForm from 'features/search/lang/SearchIndex.locale.json';
+import * as LangSearchForm from 'features/search/lang/SearchResult.locale.json';
 
 
 class TripDetails extends React.Component {
@@ -77,10 +77,11 @@ class TripDetails extends React.Component {
 
         return (
             <div>
-                <div className="text-center mb-5">
-                    <SearchForm />
+                <SearchForm redirectToSearch={ true } />
+
+                <div className="container">
+                    <TripDetailsContainer details={ details } />
                 </div>
-                <TripDetailsContainer details={ details } />
             </div>
         );
     }
