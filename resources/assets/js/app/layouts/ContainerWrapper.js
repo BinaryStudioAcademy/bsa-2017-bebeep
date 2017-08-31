@@ -17,5 +17,4 @@ ContainerWrapper.defaultProps = {
     className: '',
 };
 
-
 export default ContainerWrapper;
