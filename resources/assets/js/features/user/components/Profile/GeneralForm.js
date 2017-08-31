@@ -3,7 +3,6 @@ import { localize } from 'react-localize-redux';
 
 import Input from 'app/components/Input';
 import Textarea from 'app/components/Textarea';
-import StatusModal from '../_Modals/StatusModal';
 
 import { ProfileValidate } from 'app/services/UserService';
 import UserService from 'features/user/services/UserService';
@@ -20,11 +19,6 @@ class GeneralForm extends React.Component {
 
         this.state = {
             errors: {},
-            modal: {
-                isOpen: false,
-                status: '',
-                msg: '',
-            },
         };
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -58,33 +52,29 @@ class GeneralForm extends React.Component {
     }
 
     updateProfileGeneral(data) {
-        const { updateProfileSuccess, translate } = this.props;
+        const { updateProfileSuccess, setStatusModal, translate } = this.props;
 
         UserService.updateProfileGeneral(data)
             .then(response => {
-                this.setState({
-                    modal: {
-                        isOpen: true,
-                        status: 'success',
-                        msg: translate(MODAL_MSG.success),
-                    }
-                });
                 updateProfileSuccess(response.data);
+                setStatusModal({
+                    status: 'success',
+                    msg: translate(MODAL_MSG.success),
+                });
             })
             .catch(error => {
                 this.setState({
                     errors: error,
-                    modal: {
-                        isOpen: true,
-                        status: 'error',
-                        msg: translate(MODAL_MSG.error),
-                    }
+                });
+                setStatusModal({
+                    msg: translate(MODAL_MSG.error),
                 });
             });
     }
 
     onSubmit(e) {
         e.preventDefault();
+        document.activeElement.blur();
 
         const form = e.target,
             data = {
@@ -106,7 +96,7 @@ class GeneralForm extends React.Component {
     }
 
     render() {
-        const { errors, modal } = this.state,
+        const { errors } = this.state,
             { profile, translate } = this.props;
 
         return (
@@ -208,11 +198,8 @@ class GeneralForm extends React.Component {
                         </div>
                     </div>
                 </form>
-
-                <StatusModal modal={ modal } isOpen={ modal.isOpen }
-                    onClosed={ () => this.state.modal.isOpen = false } />
             </div>
-        )
+        );
     }
 }
 

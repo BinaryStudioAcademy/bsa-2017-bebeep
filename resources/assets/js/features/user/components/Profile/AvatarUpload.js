@@ -147,7 +147,7 @@ class AvatarUpload extends React.Component {
                     />
                 </div>
             </div>
-        )
+        );
     }
 }
 

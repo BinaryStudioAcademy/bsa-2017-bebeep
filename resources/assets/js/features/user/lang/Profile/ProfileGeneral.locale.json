@@ -1,6 +1,10 @@
 {
   "profile_general": {
-    "personal_information": ["Personal information", "Особиста інформація", "Личная информация"],
+    "personal_information": [
+      "Personal information",
+      "Особиста інформація",
+      "Личная информация"
+    ],
     "user_profile_general_success": [
       "User profile general data successfully updated!",
       "Дані користувача успішно оновлені!",

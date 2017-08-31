@@ -3,15 +3,17 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { localize } from 'react-localize-redux';
 
+import { userProfileSetState, userProfileUpdateState } from 'features/user/actions';
+
 import Preloader from 'app/components/Preloader';
 import PageHeader from 'app/components/PageHeader';
 import GeneralForm from 'features/user/components/Profile/GeneralForm';
+import StatusModal from 'features/user/components/_Modals/StatusModal';
 
 import UserService from 'features/user/services/UserService';
-import { userProfileSetState, userProfileUpdateState } from 'features/user/actions';
-
 import LangService from 'app/services/LangService';
 import * as lang from 'features/user/lang/Profile/ProfileGeneral.locale.json';
+
 
 class ProfileGeneral extends React.Component {
 
@@ -21,7 +23,18 @@ class ProfileGeneral extends React.Component {
         this.state = {
             preloader: true,
             notFoundOrError: false,
+            modal: {
+                isOpen: false,
+                status: 'error',
+                msg: '',
+            },
         };
+
+        this.setStatusModal = this.setStatusModal.bind(this);
+    }
+
+    componentWillMount() {
+        LangService.addTranslation(lang);
     }
 
     componentDidMount() {
@@ -43,12 +56,20 @@ class ProfileGeneral extends React.Component {
             });
     }
 
-    componentWillMount() {
-        LangService.addTranslation(lang);
+    setStatusModal(options) {
+        const { status, msg } = options;
+
+        this.setState({
+            modal: {
+                isOpen: true,
+                status,
+                msg,
+            }
+        });
     }
 
     renderContent() {
-        const { profile, userProfileUpdateState, translate } = this.props,
+        const { translate, profile, userProfileUpdateState } = this.props,
             { preloader, notFoundOrError } = this.state;
 
         if (preloader) {
@@ -65,19 +86,27 @@ class ProfileGeneral extends React.Component {
 
         return (
             <GeneralForm
-                profile={profile}
-                updateProfileSuccess={userProfileUpdateState}
+                profile={ profile }
+                updateProfileSuccess={ userProfileUpdateState }
+                setStatusModal={ this.setStatusModal }
             />
         );
     }
 
     render() {
-        const { translate } = this.props;
+        const { translate } = this.props,
+            { modal } = this.state;
 
         return (
             <div>
                 <PageHeader header={ translate('profile_general.personal_information') } />
                 { this.renderContent() }
+
+                <StatusModal
+                    modal={ modal }
+                    isOpen={ modal.isOpen }
+                    onClosed={ () => this.state.modal.isOpen = false }
+                />
             </div>
         );
     }

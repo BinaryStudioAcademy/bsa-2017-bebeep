@@ -60,9 +60,15 @@ class StatusModal extends React.Component {
                     <div className={ "modal-header alert-" + classStatus }>{ header }!</div>
                     <div className="modal-body">{ this.getMessage() }</div>
                     <div className="modal-footer text-right">
-                        <button className={ "btn btn-" + classStatus } role="button" onClick={(e) => {
-                            this.setState({ modalIsOpen: false });
-                        }}>{translate('status_modal.ok')}</button>
+                        <button
+                            className={ "btn btn-" + classStatus }
+                            role="button"
+                            onClick={(e) => {
+                                this.setState({ modalIsOpen: false });
+                            }}
+                        >
+                            { translate('status_modal.ok') }
+                        </button>
                     </div>
                 </Modal>
             </div>
