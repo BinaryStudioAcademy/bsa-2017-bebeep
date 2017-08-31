@@ -8,7 +8,7 @@ import Input from 'app/components/Input';
 import { registerSuccess } from 'features/user/actions';
 import { simpleRequest } from 'app/services/RequestService';
 import { RegisterValidate } from 'app/services/UserService';
-import { initSession, destroySession } from 'app/services/AuthService';
+import { initSession, destroySession, getAuthUser } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
 
@@ -47,8 +47,8 @@ class Form extends React.Component {
             simpleRequest.post('/api/user/register', registerData)
                 .then(
                     response => {
-                        registerSuccess();
                         initSession(response.data.token);
+                        registerSuccess(getAuthUser());
                         browserHistory.push('/dashboard');
                     }
                 )

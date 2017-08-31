@@ -24,7 +24,8 @@ export default function (state = initialState, action) {
                 ...state,
                 register: {
                     success: true,
-                }
+                },
+                profile: action.data.user,
             };
         case actions.LOGIN_SUCCESS:
             return {
