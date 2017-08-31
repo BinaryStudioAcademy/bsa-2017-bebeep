@@ -106,7 +106,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function leftReviews()
+    public function givenReviews()
     {
         return $this->hasMany(Review::class, 'user_id');
     }
