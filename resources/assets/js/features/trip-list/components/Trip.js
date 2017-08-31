@@ -108,6 +108,7 @@ class Trip extends React.Component {
                                    from={startPlace.geometry.location}
                                    to={endPlace.geometry.location}
                                    waypoints={waypoints}
+                                   show={false}
                     >
                         <div className="card-block">
                             <div className="card-text">
