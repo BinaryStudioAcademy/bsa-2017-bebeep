@@ -9,9 +9,6 @@
         "given": ["Given", "Залишені", "Оставленные"]
     },
     "account": ["Account", "Аккаунт", "Аккаунт"],
-    "change_password": ["Change password", "Змінити пароль", "Сменить пароль"],
-    "reviews": ["Reviews", "Відгуки", "Отзывы"],
-    "reviews_left": ["Left", "Залишені", "Оставленные"],
-    "reviews_received": ["Received", "Отримані", "Полученые"]
+    "change_password": ["Change password", "Змінити пароль", "Сменить пароль"]
   }
 }
