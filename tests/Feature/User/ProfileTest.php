@@ -28,6 +28,7 @@ class ProfileTest extends JwtTestCase
         'email' => 'alex@example.com',
         'phone' => '380501112200',
         'birth_date' => '1984-04-24',
+        'avatar' => null,
     ];
 
     /**
@@ -39,6 +40,7 @@ class ProfileTest extends JwtTestCase
         'email' => 'bking@gmail.com',
         'phone' => '380955556633',
         'birth_date' => '1975-08-15',
+        'avatar' => null,
         'about_me' => 'Lorem ipsum dolor sit amet.',
     ];
 
