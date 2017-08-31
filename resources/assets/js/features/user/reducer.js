@@ -106,7 +106,7 @@ export default function (state = initialState, action) {
                 ...state,
                 reviews: {
                     ...state.reviews,
-                    given: _.union(state.reviews.given, action.reviews.givenReviews)
+                    given: action.reviews.givenReviews
                 },
                 entities: {
                     ...state.entities,
@@ -124,7 +124,7 @@ export default function (state = initialState, action) {
                 ...state,
                 reviews: {
                     ...state.reviews,
-                    received: _.union(state.reviews.received, action.reviews.receivedReviews),
+                    received: action.reviews.receivedReviews,
                     rating: action.rating
                 },
                 entities: {

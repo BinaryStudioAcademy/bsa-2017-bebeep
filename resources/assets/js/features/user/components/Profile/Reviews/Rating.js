@@ -3,6 +3,7 @@ import {localize} from 'react-localize-redux';
 import LangService from 'app/services/LangService';
 import * as lang from '../../../lang/Profile/Reviews/Rating.locale.json';
 import { Progress } from 'reactstrap';
+import {getRatingStats} from 'app/services/ReviewService';
 
 import "../../../styles/rating.scss";
 
@@ -11,44 +12,9 @@ class Rating extends React.Component {
         LangService.addTranslation(lang);
     }
 
-    countProps(marks) {
-        const maxMark = _.max(marks);
-        let info = _.reduce(marks, (marks, mark, i) => {
-                marks['byMark'][i + 1] = {
-                    percent: 100 * mark / maxMark,
-                    count: mark
-                };
-                marks['sum'] += mark * (i + 1);
-                marks['count'] += mark;
-                return marks;
-            }, {
-                sum: 0,
-                count: 0,
-                byMark: {}
-            });
-        const avg = parseInt(info.sum / info.count * 100) / 100;
-        info['avg'] = isNaN(avg) ? 0 : avg;
-        return info;
-    }
-
-    getMarks(marks) {
-        const marksInfo = this.countProps(marks);
-        return {
-            get avg() {
-                return marksInfo['avg'];
-            },
-            getPercent(mark) {
-                return marksInfo.byMark[mark] ? marksInfo.byMark[mark].percent : 0;
-            },
-            getCount(mark) {
-                return marksInfo.byMark[mark] ? marksInfo.byMark[mark].count : 0;
-            }
-        };
-    }
-
     render() {
         const { translate, marks } = this.props,
-            marksStats = this.getMarks(marks);
+            marksStats = getRatingStats(marks);
 
         return (
             <div className="rating-info">

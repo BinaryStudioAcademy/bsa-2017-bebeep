@@ -3,19 +3,37 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {setGivenReviews} from '../../../actions';
 import ReviewsList from './ReviewsList';
+import Preloader from 'app/components/Preloader'
 import {fetchGiven} from 'app/services/ReviewService'
+import ReviewsListEmpty from './ReviewsListEmpty';
 
 class GivenContainer extends React.Component {
 
+    constructor() {
+        super();
+        this.state = {
+            preloader: false
+        };
+    }
+
     componentWillMount() {
-        fetchGiven().then((response) => this.props.setGivenReviews(response.data));
+        this.setState({preloader: true});
+        fetchGiven().then((response) => {
+            this.setState({preloader: false});
+            this.props.setGivenReviews(response.data);
+        }).catch(() => this.setState({preloader: false}));
     }
 
     render() {
-        const {givenReviews} = this.props;
+        const {givenReviews} = this.props,
+            {preloader} = this.state;
 
         return (
-            <ReviewsList list={givenReviews}/>
+            <div style={{position: 'relative'}}>
+                <Preloader enable={preloader} />
+                <ReviewsListEmpty show={givenReviews.length <= 0 && !preloader} />
+                <ReviewsList list={givenReviews}/>
+            </div>
         );
     }
 }
