@@ -36,7 +36,7 @@ class TripForm extends React.Component {
                             {this.props.vehicles.length > 0 &&
                                 <select defaultValue={this.props.trip ? this.props.trip.vehicle_id : ''} name="vehicle_id" className="form-control" id="vehicle_id">
                                     {this.props.vehicles.map((vehicle) =>
-                                        <option key={vehicle.id} value={vehicle.id}>{vehicle.brand}</option>
+                                        <option key={vehicle.id} value={vehicle.id}>{vehicle.brand} {vehicle.model}</option>
                                     )}
                                 </select>
                             }

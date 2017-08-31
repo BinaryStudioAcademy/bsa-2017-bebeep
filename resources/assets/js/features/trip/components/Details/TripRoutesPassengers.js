@@ -7,6 +7,18 @@ import { DriverIcon, SeatIcon } from 'app/components/Icons';
 
 class TripRoutesPassengers extends React.Component {
 
+    isStartPoint(position) {
+        return position === 0;
+    }
+
+    isWayPoint(position) {
+        return position !== 0;
+    }
+
+    isEndPoint(position, count) {
+        return position === count - 1;
+    }
+
     renderSeatsIcons() {
         const maxSeats = this.props.maxSeats;
 
@@ -20,15 +32,22 @@ class TripRoutesPassengers extends React.Component {
     renderRoutes() {
         const { routes, driver } = this.props;
 
-        return routes.map((route, i) =>
-            <RouteBase
-                key={i}
-                position={i}
-                route={route}
-                driver={driver}
-                count={routes.length}
-            />
-        );
+        return routes.map((route, i) => {
+            const showDriver = this.isStartPoint(i),
+                showWayPoint = this.isWayPoint(i),
+                showEndPoint = this.isEndPoint(i, routes.length);
+
+            return (
+                <RouteBase
+                    key={i}
+                    route={route}
+                    driver={driver}
+                    showDriver={showDriver}
+                    showWayPoint={showWayPoint}
+                    showEndPoint={showEndPoint}
+                />
+            );
+        });
     }
 
     render() {

@@ -7,11 +7,16 @@ import BookingInfo from '../BookingInfo';
 import Modal from 'app/components/Modal';
 
 import { changeBookingStatus } from 'features/trip-list/actions';
-import BookingService, {BOOKING_STATUS_DECLINED, BOOKING_STATUS_APPROVED} from 'app/services/BookingService';
+import BookingService, {
+    BOOKING_STATUS_DECLINED,
+    BOOKING_STATUS_APPROVED
+} from 'app/services/BookingService';
 
 import 'features/trip-list/styles/booking-info.scss';
 
+
 class BookingModal extends React.Component {
+
     constructor() {
         super();
         this.state = {
@@ -28,12 +33,14 @@ class BookingModal extends React.Component {
     }
 
     onActionClick(tripId, bookingId, status) {
-        const data = {
-            status
-        };
+        const { changeBookingStatus } = this.props;
+        const data = { status };
 
         BookingService.updateBookingStatus(tripId, bookingId, data)
-            .then(() => this.props.changeBookingStatus(bookingId, status));
+            .then(() => {
+                changeBookingStatus(bookingId, status);
+            });
+
         this.setState({
             modalIsOpen: false
         });
@@ -47,8 +54,14 @@ class BookingModal extends React.Component {
 
         return (
             <div>
-                <Modal isOpen={ modalIsOpen } onClosed={() => { this.state.modalIsOpen = false; onClosed(); }}>
-                    <div className={ "modal-header booking-back" }><span><strong>{count}</strong> {translate('booking.bookings_in_pending')}</span></div>
+                <Modal isOpen={ modalIsOpen }
+                    onClosed={() => { this.state.modalIsOpen = false; onClosed(); }}
+                >
+                    <div className={ "modal-header booking-back" }>
+                        <span>
+                            <strong>{count}</strong> { translate('booking.bookings_in_pending') }
+                        </span>
+                    </div>
                     <div className="modal-body">
                         <ul className="list-unstyled">
                             {bookings.map((booking, i) =>

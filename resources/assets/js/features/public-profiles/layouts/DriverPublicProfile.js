@@ -1,5 +1,5 @@
 import React from 'react';
-import DriverProfileContainer from '../components/DriverProfileContainer';
+import DriverProfileContainer from '../components/Driver/DriverProfileContainer';
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/DriverPublicProfile.locale.json';
 import {localize} from 'react-localize-redux';

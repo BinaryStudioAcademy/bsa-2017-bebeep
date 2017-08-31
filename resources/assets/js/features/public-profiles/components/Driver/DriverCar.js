@@ -2,7 +2,7 @@ import React from 'react';
 import {localize} from 'react-localize-redux';
 import {defaultCarPhoto} from 'app/services/PhotoService';
 
-import "../styles/driver-profile.scss";
+import "../../styles/public-profile.scss";
 
 class DriverProfile extends React.Component {
     render() {
