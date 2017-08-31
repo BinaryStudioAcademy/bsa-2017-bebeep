@@ -31,7 +31,7 @@ class TripMainPoints extends React.Component {
                 <span className="trip-end-point">
                     { endPoint }
                 </span>
-                <TripMapModal className="trip-main-points__route-map-link ml-3" waypoints={waypoints} />
+                <TripMapModal className="trip-main-points__route-map-link" waypoints={waypoints} />
             </div>
         )
     }

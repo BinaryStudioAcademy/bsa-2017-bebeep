@@ -1,7 +1,6 @@
 @import '~app/bootstrap/variables';
 @import "~bootstrap/scss/mixins/breakpoints";
 
-
 .trip-detail-icon.fa {
     font-size: 1.5em;
     color: $teal;
@@ -20,7 +19,13 @@
     font-size: 1.3em;
 
     &__route-map-link {
+        margin-left: 1rem;
         font-size: .8em;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
 

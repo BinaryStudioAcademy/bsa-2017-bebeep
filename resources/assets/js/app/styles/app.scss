@@ -1,3 +1,13 @@
+@import '~app/bootstrap/variables';
+
+a,
+.link-style {
+    color: darken($teal, 30%);
+
+    &:hover {
+        color: darken($teal, 45%);
+    }
+}
 img {
     max-width: 100%;
     height: auto;

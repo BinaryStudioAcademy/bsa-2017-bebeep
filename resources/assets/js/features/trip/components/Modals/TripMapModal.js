@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { localize } from 'react-localize-redux';
-import {Modal} from 'reactstrap';
-import {withGoogleMap, GoogleMap, DirectionsRenderer} from "react-google-maps";
-import TripDetailsService from '../../services/TripDetailsService';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { withGoogleMap, GoogleMap, DirectionsRenderer } from "react-google-maps";
+
+import TripDetailsService from 'features/trip/services/TripDetailsService';
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap
@@ -47,12 +48,19 @@ class TripMapModal extends React.Component {
 
         return (
             <span>
-                <a href="#" className={className} onClick={this.toggleModal}>
+                <span className={"link-style " + className} onClick={this.toggleModal}>
                     <i className="trip-detail-icon fa fa-road mr-2" aria-hidden="true" />
                     { translate('trip_details.route_map_link') }
-                </a>
-                <Modal className="trip-map-modal" isOpen={isOpenModal} toggle={this.toggleModal} size="lg">
-                    <i className="trip-map-modal__close fa fa-times fa-3x" onClick={this.toggleModal} role="button" />
+                </span>
+                <Modal className="trip-map-modal"
+                    size="lg"
+                    isOpen={isOpenModal}
+                    toggle={this.toggleModal}
+                >
+                    <i className="trip-map-modal__close fa fa-times fa-2x"
+                        role="button"
+                        onClick={this.toggleModal}
+                    />
                     <div className="trip-map-modal__map-container">
                         <GoogleMapContainer
                             containerElement={
