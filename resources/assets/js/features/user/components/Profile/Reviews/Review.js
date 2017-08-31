@@ -4,10 +4,14 @@ import {localize} from 'react-localize-redux';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import {defaultUserPhoto} from 'app/services/PhotoService';
 import LangService from 'app/services/LangService';
+import * as lang from '../../../lang/Profile/Reviews/Review.locale.json';
 
 import "../../../styles/review.scss";
 
 class Review extends React.Component {
+    componentWillMount() {
+        LangService.addTranslation(lang);
+    }
 
     getStars(mark) {
         let stars = [];

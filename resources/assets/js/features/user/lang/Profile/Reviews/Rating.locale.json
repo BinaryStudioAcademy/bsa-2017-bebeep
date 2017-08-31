@@ -1,0 +1,6 @@
+{
+  "rating": {
+    "driver_rating": ["Average rating", "Середній рейтинг", "Средний рейтинг"],
+    "driver_rating_breakdown": ["Rating breakdown", "Детальний рейтинг", "Подробный рейтинг"]
+  }
+}
