@@ -1,9 +1,15 @@
+.card-header {
+    cursor: pointer;
+}
+
 .trip-item {
     margin-bottom: 30px;
 }
+
 .trip-item .card {
-    height: 100%;
+    max-height: 100%;
 }
+
 .deleted-trip .card {
     border-color: #d9534f;
 }
@@ -13,4 +19,15 @@
     border-radius: 0.4rem;
     padding: 0.2em 0.4em;
     font-size: 78%;
+}
+
+.show-details {
+    transition: opacity 0.25s ease-in-out;
+    height: 100%;
+}
+
+.hide-details {
+    transition: opacity 0.25s ease-in-out;
+    height: 0;
+    overflow: hidden;
 }

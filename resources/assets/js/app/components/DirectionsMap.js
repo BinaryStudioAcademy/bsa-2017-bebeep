@@ -26,7 +26,8 @@ class DirectionsMap extends React.Component {
         end_city: null,
         requestId: null,
         directionRenderQueue: [],
-        directionRenderQueueIsProcessing: false
+        directionRenderQueueIsProcessing: false,
+        showTripBlock: !!(this.props.show)
     };
 
     constructor(props) {
@@ -118,11 +119,18 @@ class DirectionsMap extends React.Component {
         });
     }
 
+    handleClick(e) {
+        e.preventDefault();
+        this.setState({showTripBlock: !this.state.showTripBlock});
+    }
+
     render() {
         const {translate} = this.props;
+        let tripDetailsClass = (this.state.showTripBlock) ? 'show-details' : 'hide-details';
+
         return (
             <div className="card">
-                <div className="card-header">
+                <div className="card-header" onClick={this.handleClick.bind(this)}>
                     <span>{this.props.title}</span><br/>
 
                     {this.state.start_city ? (
@@ -133,32 +141,35 @@ class DirectionsMap extends React.Component {
                         <button type="button" className="btn bookings btn-sm btn-primary hover" onClick={this.props.onClickBooking}>{translate('booking.bookings_button')} <span className="badge badge-red">{this.props.bookingCount}</span></button>
                     ) : ( <span>&nbsp;</span>) }
                 </div>
-                <div className="card-block google-map">
+
+                <div className={tripDetailsClass}>
+                    <div className="card-block google-map">
                         <GoogleMapContainer
-                            containerElement={
-                                <div style={{height: `100%`}}/>
-                            }
-                            mapElement={
-                                <div style={{height: `100%`}}/>
-                            }
-                            center={this.props.from}
-                            directions={this.state.directions}
+                          containerElement={
+                              <div style={{height: `100%`}}/>
+                          }
+                          mapElement={
+                              <div style={{height: `100%`}}/>
+                          }
+                          center={this.props.from}
+                          directions={this.state.directions}
                         />
-                </div>
-                {this.state.distance  ?
+                    </div>
+                  {this.state.distance  ?
                     (
-                        <div className="card-footer">
-                            <h6>{translate('directionsmap.trip_info')}</h6>
-                            <span className="text-muted">{translate('directionsmap.start_point_address')}: </span>{this.state.start_address}<br/>
-                            <span className="text-muted">{translate('directionsmap.end_point_address')}: </span>{this.state.end_address}<br/>
-                            <span className="text-muted">{translate('directionsmap.distance')}: </span>{this.state.distance}<br/>
-                            <span className="text-muted">{translate('directionsmap.duration')}: </span>{this.state.duration}
-                        </div>
+                      <div className="card-footer">
+                          <h6>{translate('directionsmap.trip_info')}</h6>
+                          <span className="text-muted">{translate('directionsmap.start_point_address')}: </span>{this.state.start_address}<br/>
+                          <span className="text-muted">{translate('directionsmap.end_point_address')}: </span>{this.state.end_address}<br/>
+                          <span className="text-muted">{translate('directionsmap.distance')}: </span>{this.state.distance}<br/>
+                          <span className="text-muted">{translate('directionsmap.duration')}: </span>{this.state.duration}
+                      </div>
                     ) : (
-                            <div>&nbsp;</div>
-                        )
-                }
-                {this.props.children}
+                      <div>&nbsp;</div>
+                    )
+                  }
+                  {this.props.children}
+                </div>
             </div>
         );
     }
