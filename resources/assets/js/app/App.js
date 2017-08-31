@@ -1,6 +1,7 @@
 import React from 'react';
 
 import MainHeader from './components/MainHeader';
+import {isRootPath} from './helpers/NavHelper';
 
 import './bootstrap/bootstrap.scss';
 import './bootstrap/font-awesome.scss';
@@ -13,7 +14,7 @@ class App extends React.Component {
             <div id="application">
                 <MainHeader />
 
-                <div className="main-container container py-4">
+                <div className={!isRootPath(this.props.location.pathname) ? 'main-container container py-4' : ''}>
                     {this.props.children}
                 </div>
             </div>

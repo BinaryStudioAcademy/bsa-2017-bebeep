@@ -18,29 +18,26 @@ class ForAuthUser extends React.Component {
         user.avatar = getProfileAvatar(user.avatar);
 
         return (
-            <div className="d-flex align-items-md-center w-100">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link to="/trip/create" className="nav-link" activeClassName="active">
-                            { translate('create_new_trip') }
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/trips" className="nav-link" activeClassName="active">
-                            { translate('my_trips') }
-                        </Link>
-                    </li>
-                </ul>
+            <ul className="header__menu header__menu_right header-menu">
+                <li className="header-menu__item">
+                    <Link to="/trip/create" activeClassName="active">
+                        { translate('create_new_trip') }
+                    </Link>
+                </li>
+                <li className="header-menu__item">
+                    <Link to="/trips" activeClassName="active">
+                        { translate('my_trips') }
+                    </Link>
+                </li>
 
-                <ul className="navbar-nav main-navigation__dropdowns">
-                    <li className="nav-item">
-                        <UserDropdown user={user} />
-                    </li>
-                    <li className="nav-item">
-                        <ChangeLocalization />
-                    </li>
-                </ul>
-            </div>
+                <li className="header-menu__item header-menu__item_no-hover">
+                    <UserDropdown user={user} />
+                </li>
+
+                <li className="header-menu__item header-menu__item_no-hover header-menu__item_no-space">
+                    <ChangeLocalization />
+                </li>
+            </ul>
         );
     }
 }

@@ -1,5 +1,3 @@
-@import '~app/bootstrap/variables';
-
 img {
     max-width: 100%;
     height: auto;
@@ -28,7 +26,7 @@ strong {
 .page-header {
     margin-bottom: 1.5rem;
     color: #444;
-    border-bottom: 1px solid $gray-lighter;
+    border-bottom: 1px solid #ddd;
 }
 
 .page-header .h1,
@@ -50,65 +48,102 @@ strong {
     float: right;
 }
 
-.main-navigation {
-    border-bottom: 2px solid $gray-lighter;
+.header {
+    background: #fff;
+    padding: 30px 0;
 
-    &__dropdowns {
-        margin-top: 1rem;
-    }
-}
-.main-navigation-dropdown {
-    height: 100%;
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-
-    &__dropdown-toggle {
-        width: 100%;
-        height: 100%;
-        font-size: .95em;
-        padding: .25rem 1rem;
-    }
-    &__toggle-label {
-        margin: 0 .25rem;
+    &__logo {
+        float: left;
     }
 
-    .dropdown-item {
-        padding: .5rem 1.5rem;
-        font-size: .95em;
-    }
-}
+    &__menu {
+        margin-bottom: 0;
+        margin-top: 3px;
 
-.user-personal-menu {
-    .dropdown-menu {
-        min-width: 200px;
-    }
+        &_left {
+            float: left;
+        }
 
-    &__avatar {
-        width: 35px;
-        margin-right: .5rem;
-        border-radius: 50%;
-    }
-}
-
-.language-switcher {
-    .dropdown-item {
-        cursor: pointer;
-    }
-
-    &__icon.fa {
-        margin-right: .5rem;
-        vertical-align: middle;
-        font-size: 1.5em;
-    }
-}
-
-@media (min-width: 992px) {
-    .main-navigation {
-        &__dropdowns {
-            margin-top: 0;
+        &_right {
+            float: right;
         }
     }
-    .main-navigation-dropdown {
-        margin-bottom: 0;
+}
+
+.header-menu {
+    &__item {
+        display: inline-block;
+        vertical-align: middle;
+        padding-left: 50px;
+
+        a.active, &:hover a {
+            text-decoration: none;
+            border-bottom: 1px solid;
+            color: #000;
+        }
+
+        &_no-hover {
+            &:hover a {
+                border-bottom: 1px solid transparent;
+                color: #939393;
+            }
+        }
+
+        &_no-space {
+            padding-left: 5px;
+        }
+
+        a {
+            font-size: 18px;
+            font-weight: bold;
+            color: #939393;
+            letter-spacing: .025em;
+            border-bottom: 1px solid transparent;
+        }
+
+        &:first-child {
+            padding-left: 0;
+        }
     }
+}
+
+.home-slider {
+    width: 100%;
+    height: 600px;
+    background: url('/template/img/bg.jpg') no-repeat center center;
+    background-size: cover;
+
+    &__steps {
+        margin-top: 100px;
+        text-align: center;
+    }
+
+    &__tabs {
+        padding-top: 60px;
+        text-align: center;
+    }
+
+    &__search {
+        width: 940px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 100px;
+        text-align: center;
+    }
+}
+
+.header-menu__dropdown {
+    button, a {
+        font-size: 18px;
+        font-weight: bold;
+        color: #939393;
+        letter-spacing: .025em;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+.form-input_no-border {
+    border: none;
 }

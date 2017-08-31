@@ -101,8 +101,8 @@ class StepOne extends React.Component {
             {translate} = this.props;
 
         return (
-            <div className="row">
-                <div className="col-md-3 col-sm-4">
+            <div>
+                <div className="wizard-form__input">
                     <InputPlaces
                         id="trip_from"
                         ico="fa-circle-o"
@@ -110,14 +110,14 @@ class StepOne extends React.Component {
                         error={errors.from}
                     >{translate('wizard-trip.from')}</InputPlaces>
                 </div>
-                <div className="col-md-3 col-sm-4">
+                <div className="wizard-form__input">
                     <InputPlaces
                         id="trip_to"
                         onChange={this.onSelectedTo}
                         error={errors.to}
                     >{translate('wizard-trip.to')}</InputPlaces>
                 </div>
-                <div className="col-md-3 col-sm-4">
+                <div className="wizard-form__input wizard-form__input_calendar">
                     <InputDate
                         id="trip_date"
                         value={start_at}
@@ -126,9 +126,8 @@ class StepOne extends React.Component {
                         error={errors.start_at}
                     />
                 </div>
-                <div className="col-md-3 col-sm-12">
-                    <Button color="warning" size="lg" role="button" onClick={this.onNext}>{translate('wizard-trip.continue')}</Button>
-                </div>
+
+                <Button className="wizard-form__btn btn btn-warning btn-lg" color="warning" size="lg" role="button" onClick={this.onNext}>{translate('wizard-trip.continue')}</Button>
             </div>
         );
     }
