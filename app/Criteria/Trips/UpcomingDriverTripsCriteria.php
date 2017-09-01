@@ -22,7 +22,7 @@ class UpcomingDriverTripsCriteria implements CriteriaInterface
         return $model->whereUserId($this->user->id)
             ->where('start_at', '>=', Carbon::now()->toDateTimeString())
             ->with(['routes',
-                'vehicle' => function($query) {
+                'vehicle' => function ($query) {
                     $query->withTrashed();
                 },
                 'bookings' => function ($query) {
