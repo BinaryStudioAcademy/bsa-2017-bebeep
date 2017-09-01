@@ -40,6 +40,7 @@ $factory->define(App\Models\Vehicle::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Trip::class, function (Faker\Generator $faker) {
     $start = \Carbon\Carbon::now()->addSeconds(App\Models\Trip::MIN_DELAY_TO_START_DATE);
+
     return [
         'price' => $faker->numberBetween(1, 1000),
         'start_at' => $start->toDateTimeString(),
