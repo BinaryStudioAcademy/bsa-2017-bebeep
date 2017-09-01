@@ -21,9 +21,13 @@ class UpcomingDriverTripsCriteria implements CriteriaInterface
     {
         return $model->whereUserId($this->user->id)
             ->where('start_at', '>=', Carbon::now()->toDateTimeString())
-            ->with(['routes', 'vehicle', 'bookings' => function ($query) {
-                $query->where('status', Booking::STATUS_PENDING);
-            }])
+            ->with(['routes',
+                'vehicle' => function ($query) {
+                    $query->withTrashed();
+                },
+                'bookings' => function ($query) {
+                    $query->where('status', Booking::STATUS_PENDING);
+                }, ])
             ->orderBy('start_at', 'asc')
             ->latest('id');
     }

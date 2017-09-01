@@ -5,6 +5,7 @@ import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import { simpleRequest } from 'app/services/RequestService';
 
 const TripDetailsService = {
+
     getDetails(id) {
         return simpleRequest.get(`/api/v1/trips/${id}/detail`)
             .then(
