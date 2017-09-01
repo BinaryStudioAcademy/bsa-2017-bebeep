@@ -7,6 +7,7 @@ use App\Services\RouteService;
 use App\Services\PasswordService;
 use App\Rules\Booking\TripDateRule;
 use App\Services\UserProfileService;
+use App\Services\UserPublicProfileService;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
@@ -30,6 +31,7 @@ use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 use App\Services\Contracts\RouteService as RouteServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
+use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -52,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(PasswordServiceContract::class, PasswordService::class);
         $this->app->bind(UserProfileServiceContract::class, UserProfileService::class);
+        $this->app->bind(UserPublicProfileServiceContract::class, UserPublicProfileService::class);
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);
