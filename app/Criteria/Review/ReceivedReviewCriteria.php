@@ -6,10 +6,6 @@ use App\User;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
-/**
- * Class ReceivedReviewCriteria
- * @package namespace App\Criteria\Review;
- */
 class ReceivedReviewCriteria implements CriteriaInterface
 {
     protected $user;
@@ -20,7 +16,7 @@ class ReceivedReviewCriteria implements CriteriaInterface
     }
 
     /**
-     * Apply criteria in query repository
+     * Apply criteria in query repository.
      *
      * @param                     $model
      * @param RepositoryInterface $repository

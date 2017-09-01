@@ -21,6 +21,20 @@ export default class TripRoute {
         return this.route.legs[this.route.legs.length - 1];
     }
 
+    getStartCity() {
+        let startAddress = this.getStartPoint().start_address;
+        let resultArray = startAddress.split(",");
+
+        return resultArray[2].trim();
+    }
+
+    getEndCity() {
+        let endAddress = this.getEndPoint().end_address;
+        let resultArray = endAddress.split(",");
+
+        return resultArray[2].trim();
+    }
+
     getDistanceRaw() {
         return this.distance;
     }
