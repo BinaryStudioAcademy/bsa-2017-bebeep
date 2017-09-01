@@ -1,28 +1,31 @@
 import React from 'react';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
+
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
-import {defaultUserPhoto} from 'app/services/PhotoService';
+import { getProfileAvatar } from 'app/services/PhotoService';
 
 import "../styles/public-profile.scss";
 
 class ProfileComment extends React.Component {
     getStars() {
         let stars = [];
-        for (let i = 0; i < this.props.comment.mark; i++) {
-            stars.push(<i className="fa fa-star" aria-hidden="true" key={i}></i>);
+        for (let i = 0; i < this.props.comment.rating; i++) {
+            stars.push(<i className="fa fa-star" aria-hidden="true" key={i} />);
         }
         return stars;
     }
 
     render() {
         const { comment, translate } = this.props;
-        const date = DateTimeHelper.getTimeFromCommentDate(this.props.comment.date);
+        const date = DateTimeHelper.getTimeFromCommentDateForComment(this.props.comment.date);
         let user = this.props.comment.user.data;
 
         return (
                 <div className="row comment">
                     <div className="col-sm-2">
-                        <img className="img-responsive user-photo" src={user.photo || defaultUserPhoto}/>
+                        <img className="img-responsive user-photo"
+                            src={ getProfileAvatar(user.photo) }
+                        />
                     </div>
                     <div className="col-sm-10">
                         <div className="card card-comment">

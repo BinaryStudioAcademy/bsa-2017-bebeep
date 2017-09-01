@@ -126,8 +126,6 @@ class CreateVehicle extends React.Component {
                 })
             });
         }
-
-        console.log(this.state.errors);
     }
 
     render() {

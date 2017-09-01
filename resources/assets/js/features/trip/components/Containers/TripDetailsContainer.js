@@ -1,5 +1,5 @@
 import React from 'react';
-import { localize } from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 import _ from 'lodash';
 
 import BookingModal from '../Modals/BookingModal';
@@ -16,6 +16,9 @@ import {
     TripDriver,
     TripVehicle,
 } from '../Details/Trip';
+import {addBookingState} from '../../actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import 'features/trip/styles/trip_details.scss';
 
@@ -35,17 +38,28 @@ class TripDetailsContainer extends React.Component {
         this.onBookingClosed = this.onBookingClosed.bind(this);
     }
 
+    componentWillMount() {
+        this.toggleBookingBtn(this.props);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.toggleBookingBtn(nextProps);
+    }
+
+    toggleBookingBtn(props) {
+        const {isOwner, hasBooking} = props.details;
+
+        this.setState({disableBookingBtn: hasBooking || isOwner});
+    }
+
     formatStartAt() {
         const translate = this.props.translate,
             trip = this.props.details.trip;
 
-        let startAt = DateTimeHelper.dateFormat(trip.start_at_x);
-
-        trip.start_at_format = startAt.date === 'today'
-            ? translate('today', {time: startAt.time})
-            : startAt.date === 'tomorrow'
-                ? translate('tomorrow', {time: startAt.time})
-                : `${startAt.date} - ${startAt.time}`;
+        trip.start_at_format = DateTimeHelper.dateFormatLocale({
+            timestamp: trip.start_at_x,
+            getTranslate: translate,
+        });
     }
 
     onBookingBtnClick() {
@@ -55,7 +69,7 @@ class TripDetailsContainer extends React.Component {
     }
 
     onBookingSuccess() {
-        this.setState({ disableBookingBtn: true });
+        this.props.addBookingState(true);
     }
 
     onBookingClosed() {
@@ -150,4 +164,9 @@ class TripDetailsContainer extends React.Component {
     }
 }
 
-export default localize(TripDetailsContainer, 'locale');
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale)
+    }),
+    dispatch => bindActionCreators({ addBookingState }, dispatch)
+)(TripDetailsContainer);

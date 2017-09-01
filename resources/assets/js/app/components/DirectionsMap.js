@@ -147,6 +147,18 @@ class DirectionsMap extends React.Component {
                 <div className="card-header" onClick={ this.handleClick }>
                     <span>{ title }</span>
 
+                    { bookingCount  ? (
+                        <button type="button"
+                            className="btn bookings btn-sm btn-primary hover"
+                            onClick={ (e) => { e.stopPropagation(); onClickBooking(); } }
+                        >
+                            { translate('booking.bookings_button') }
+                            <span className="badge badge-red">
+                                { bookingCount }
+                            </span>
+                        </button>
+                    ) : '' }
+
                     { start_city ? (
                         <div className="trip-main-points mt-3">
                             <span>{ start_city }</span>
@@ -155,18 +167,6 @@ class DirectionsMap extends React.Component {
                             <i className="trip-detail-icon v-align-bottom fa fa-road ml-2"
                                 aria-hidden="true" />
                         </div>
-                    ) : '' }
-
-                    { bookingCount  ? (
-                        <button type="button"
-                            className="btn bookings btn-sm btn-primary hover"
-                            onClick={ onClickBooking }
-                        >
-                            { translate('booking.bookings_button') }
-                            <span className="badge badge-red">
-                                { bookingCount }
-                            </span>
-                        </button>
                     ) : '' }
                 </div>
 
