@@ -1,3 +1,5 @@
+@import "~app/bootstrap/locale/init";
+
 img {
     max-width: 100%;
     height: auto;
@@ -16,11 +18,22 @@ strong {
 }
 
 .noselect,
+.dropdown,
 .form-check-label {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.v-align-top {
+    vertical-align: top;
+}
+.v-align-middle {
+    vertical-align: middle;
+}
+.v-align-bottom {
+    vertical-align: bottom;
 }
 
 .page-header {
@@ -37,6 +50,7 @@ strong {
 }
 
 .main-container {
+    margin-top: 5px;
     background-color: #fff
 }
 
@@ -51,6 +65,8 @@ strong {
 .header {
     background: #fff;
     padding: 30px 0;
+    border-bottom: 1px solid rgba(212, 207, 207, 0.24);
+    box-shadow: 0 5px 5px -5px rgba(51, 51, 51, 0.22);
 
     &__logo {
         float: left;
@@ -155,13 +171,36 @@ strong {
         font-size: 18px;
         font-weight: bold;
     }
-    .dropdown-item {
-        cursor: pointer;
+
+    &--user-menu {
+        &__avatar {
+            width: 35px;
+            margin-right: .5rem;
+            border-radius: 50%;
+        }
     }
-    &--user-menu__avatar {
-        width: 35px;
-        margin-right: .5rem;
-        border-radius: 50%;
+}
+
+.header-locales-menu {
+
+    &__locale-current {
+        display: inline-block;
+        vertical-align: middle;
+
+        @include localesMenuIcons(30);
+    }
+
+    &__locale {
+        padding: 3px 1rem;
+        cursor: pointer;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            margin-right: .75rem;
+        }
+
+        @include localesMenuIcons(12, true);
     }
 }
 

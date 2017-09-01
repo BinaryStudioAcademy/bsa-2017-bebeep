@@ -6,9 +6,12 @@ import { bindActionCreators } from 'redux';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
+import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 import { searchSuccess } from 'features/search/actions';
-import { setUrl, encodeCoord, decodeCoord } from 'features/search/services/SearchService';
+import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
 import {getTranslate} from 'react-localize-redux';
 
 class SearchForm extends React.Component {
@@ -17,14 +20,20 @@ class SearchForm extends React.Component {
         super();
         this.state = {
             tripData: {},
-            errors: {}
+            errors: {},
+            date: null
         };
+        this.dateChange = this.dateChange.bind(this);
         this.swapFromTo = this.swapFromTo.bind(this);
         this.onSelectStartPoint = this.onSelectStartPoint.bind(this);
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
         this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
         this.onSelectEndPoint = this.onSelectEndPoint.bind(this);
         this.onClickSearch = this.onClickSearch.bind(this);
+    }
+
+    dateChange(date) {
+        setUrl({start_at: date ? date.unix() : null});
     }
 
     componentWillMount() {
@@ -49,10 +58,16 @@ class SearchForm extends React.Component {
                 },
                 start_at: +query.start_at || tripData.start_at
             };
-
+        let filter = getFilter();
+        if (filter.date) {
+            filter.date = moment.unix(filter.date);
+        }
         this.setState({
             tripData: newTripData
         });
+        this.setState(Object.assign({
+            date: props.start_at ? moment.unix(props.start_at) : null
+        }, filter));
     }
 
     swapFromTo() {
@@ -140,25 +155,28 @@ class SearchForm extends React.Component {
     }
 
     render() {
-        const {tripData, errors} = this.state,
+        const {tripData, errors, date} = this.state,
             {translate} = this.props,
-            placesCssClasses = {
-                root: 'form-group',
-                input: 'form-control search-input',
+            startPlaceCssClasses = {
+                root: 'form-group search-block__search-input-start',
+                input: 'form-control search-block__search-input',
+                autocompleteContainer: 'autocomplete-container'
+            },
+            endPlaceCssClasses = {
+                root: 'form-group search-block__search-input-end',
+                input: 'form-control search-block__search-input',
                 autocompleteContainer: 'autocomplete-container'
             },
             startPointProps = {
                 value: tripData.from.name,
                 onChange: this.onChangeStartPoint,
                 type: 'search',
-                placeholder: translate('search_result.leaving_from'),
                 autoFocus: true
             },
             endPointProps = {
                 value: tripData.to.name,
                 onChange: this.onChangeEndPoint,
                 type: 'search',
-                placeholder: translate('search_result.going_to'),
                 autoFocus: false
             },
             AutocompleteItem = ({ formattedSuggestion }) => (
@@ -170,45 +188,62 @@ class SearchForm extends React.Component {
             );
 
         return (
-            <div className="row">
-                <div className="col-sm-4">
-                    <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
-                        <PlacesAutocomplete
-                            inputProps={startPointProps}
-                            classNames={placesCssClasses}
-                            onSelect={this.onSelectStartPoint}
-                            onEnterKeyDown={this.onSelectStartPoint}
-                            googleLogo={false}
-                            autocompleteItem={AutocompleteItem}
-                            highlightFirstSuggestion={true}
-                            onError={() => this.setState({errors: {from: 'Invalid address'}})}
-                        />
-                        {errors.from ? (<small className="form-control-feedback text-mutted">{errors.from}</small>) : ''}
+            <div className="search-block">
+                <div className="container">
+                    <div className="row search-block-centered">
+                        <div className="col-sm-3 offset-md-1">
+                            <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
+                                <label className='form-input search-block__search-label fa-circle-o'>
+                                    <PlacesAutocomplete
+                                        inputProps={startPointProps}
+                                        classNames={startPlaceCssClasses}
+                                        onSelect={this.onSelectStartPoint}
+                                        onEnterKeyDown={this.onSelectStartPoint}
+                                        googleLogo={false}
+                                        autocompleteItem={AutocompleteItem}
+                                        highlightFirstSuggestion={true}
+                                        onError={() => this.setState({errors: {from: 'Invalid address'}})}
+                                    />
+                                    {errors.from ? (<small className="form-control-feedback text-mutted">{errors.from}</small>) : ''}
+                                    <span className="form-input__label search-block__search-label-span">{translate('search_result.from')}</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div className="col-sm-3">
+                            <div className={"form-group" + (errors.to ? ' has-danger' : '')}>
+                                <label className='form-input search-block__search-label fa-circle'>
+                                    <PlacesAutocomplete
+                                        inputProps={endPointProps}
+                                        classNames={endPlaceCssClasses}
+                                        onSelect={this.onSelectEndPoint}
+                                        onEnterKeyDown={this.onSelectEndPoint}
+                                        googleLogo={false}
+                                        autocompleteItem={AutocompleteItem}
+                                        highlightFirstSuggestion={true}
+                                        onError={() => this.setState({errors: {to: 'Invalid address'}})}
+                                    />
+                                    {errors.to ? (<small className="form-control-feedback text-mutted">{errors.to}</small>) : ''}
+                                    <span className="form-input__label search-block__search-label-span">{translate('search_result.to')}</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div className="col-sm-2">
+                            <label className='form-input filter__prop-control-label search-block__search-label fa-calendar'>
+                                <DatePicker
+                                    todayButton={"Today"}
+                                    selected={date}
+                                    onChange={this.dateChange}
+                                    placeholderText={translate('search_result.filter.date_placeholder')}
+                                    minDate={moment()}
+                                    className="form-control filter__prop-datepicker-input"
+                                />
+                                <span className="form-input__label search-block__search-label-span">{translate('search_result.when')}</span>
+                            </label>
+                        </div>
+                        <div className="col-sm-3">
+                            <button role="button" className="btn search-block__btn" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
+                        </div>
                     </div>
-
-                </div>
-                <div className="col-sm-2">
-                    <div className="form-group text-center">
-                        <button role="button" className="btn btn-success" onClick={this.swapFromTo}><i className="fa fa-exchange"></i></button>
-                    </div>
-                </div>
-                <div className="col-sm-4">
-                    <div className={"form-group" + (errors.to ? ' has-danger' : '')}>
-                        <PlacesAutocomplete
-                            inputProps={endPointProps}
-                            classNames={placesCssClasses}
-                            onSelect={this.onSelectEndPoint}
-                            onEnterKeyDown={this.onSelectEndPoint}
-                            googleLogo={false}
-                            autocompleteItem={AutocompleteItem}
-                            highlightFirstSuggestion={true}
-                            onError={() => this.setState({errors: {to: 'Invalid address'}})}
-                        />
-                        {errors.to ? (<small className="form-control-feedback text-mutted">{errors.to}</small>) : ''}
-                    </div>
-                </div>
-                <div className="col-sm-2">
-                    <button role="button" className="btn btn-primary" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
                 </div>
             </div>
         )
@@ -222,6 +257,7 @@ SearchForm.PropTypes = {
 const SearchFormConnect = connect(
     state => ({
         tripData: state.search,
+        start_at: state.search.start_at,
         translate: getTranslate(state.locale)
     }),
     dispatch =>

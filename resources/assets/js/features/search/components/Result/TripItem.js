@@ -26,7 +26,7 @@ class TripItem extends React.Component {
 
         return (
             <Link to={`/trip/${trip.id}`} className="search-trip-item">
-                <div className="row">
+                <div className="row search-trip-item-block">
                     <div className="search-trip-item__user-container col-sm-4">
 
                         <img className="search-trip-item__user-photo"
@@ -63,18 +63,21 @@ class TripItem extends React.Component {
                             </div>
 
                             <div className="search-trip-item__from">
-                                <i className="fa fa-circle-o search-trip-item__from-ico" title="from" /> {
+                                <span className="search-trip-item__from-ico" />{
                                     trip.from.data.point }
                             </div>
                             <div className="search-trip-item__to">
-                                <i className="fa fa-circle-o search-trip-item__to-ico"  title="to" /> {
-                                    trip.to.data.point }
+                                <span className="search-trip-item__from-ico search-trip-item__from-end" />{
+                                    trip.to.data.point
+                                }
                             </div>
                         </div>
 
                         <div className="search-trip-item__offer">
+
                             <div className="search-trip-item__price">
-                                <span className="search-trip-item__price-currency">$</span>{ trip.price }
+                                { parseInt(trip.price) }
+                                <span className="search-trip-item__price-currency">$</span>
                             </div>
 
                             <div className="search-trip-item__price-sign">
