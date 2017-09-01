@@ -69,3 +69,12 @@ $factory->define(App\Models\Booking::class, function (Faker\Generator $faker) {
         'seats' => 1,
     ];
 });
+
+$factory->define(App\Models\Review::class, function (Faker\Generator $faker) {
+    return [
+        'comment' => $faker->text(250),
+        'mark' => $faker->numberBetween(1, 5),
+        'driver_id' => 1,
+        'user_id' => 2,
+    ];
+});
