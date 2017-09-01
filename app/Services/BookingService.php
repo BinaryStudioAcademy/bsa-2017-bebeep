@@ -5,6 +5,7 @@ namespace App\Services;
 use App\User;
 use App\Models\Trip;
 use App\Models\Booking;
+use App\Events\BookingCreated;
 use App\Events\BookingApproved;
 use App\Events\BookingDeclined;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,8 @@ class BookingService implements BookingServiceContract
         ]));
 
         $booking->routes()->sync($request->getRoutes());
+
+        event(new BookingCreated($booking));
 
         return $booking;
     }
