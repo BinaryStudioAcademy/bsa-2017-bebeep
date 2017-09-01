@@ -9,7 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendBookingApprovedEmailToPassenger implements ShouldQueue
 {
-
     /**
      * Handle the event.
      *

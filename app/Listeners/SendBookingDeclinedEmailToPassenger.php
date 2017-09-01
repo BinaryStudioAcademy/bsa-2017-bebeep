@@ -4,8 +4,8 @@ namespace App\Listeners;
 
 use App\Events\BookingDeclined;
 use App\Mail\BookingDeclinedEmail;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendBookingDeclinedEmailToPassenger implements ShouldQueue
 {
