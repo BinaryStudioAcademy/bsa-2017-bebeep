@@ -5,6 +5,9 @@ namespace App\Services;
 use App\User;
 use App\Models\Trip;
 use App\Models\Booking;
+use App\Events\BookingCreated;
+use App\Events\BookingApproved;
+use App\Events\BookingDeclined;
 use Illuminate\Support\Facades\Auth;
 use App\Events\ApprovedBookingCanceled;
 use App\Validators\CancelBookingValidator;
@@ -57,6 +60,8 @@ class BookingService implements BookingServiceContract
 
         $booking->routes()->sync($request->getRoutes());
 
+        event(new BookingCreated($booking));
+
         return $booking;
     }
 
@@ -103,6 +108,7 @@ class BookingService implements BookingServiceContract
     {
         $booking->status = Booking::STATUS_APPROVED;
         $this->bookingRepository->save($booking);
+        event(new BookingApproved($booking));
     }
 
     /**
@@ -139,5 +145,6 @@ class BookingService implements BookingServiceContract
     {
         $booking->status = Booking::STATUS_DECLINED;
         $this->bookingRepository->save($booking);
+        event(new BookingDeclined($booking));
     }
 }
