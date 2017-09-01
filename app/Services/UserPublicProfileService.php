@@ -3,23 +3,44 @@
 namespace App\Services;
 
 use App\User;
+use App\Repositories\Contracts\TripRepository;
 use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
 
 class UserPublicProfileService implements UserPublicProfileServiceContract
 {
     /**
-     * {@inheritdoc}
+     * @param \App\Repositories\Contracts\TripRepository $tripRepository
      */
-    public function getDriverProfile(User $user) : ?User
+    public function __construct(TripRepository $tripRepository)
     {
-        return !$user->isDriver() ? null : $user;
+        $this->tripRepository = $tripRepository;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPassengerProfile(User $user) : User
+    public function getDriverProfile(User $user) : ?User
     {
-        return !$user->isPassenger() ? null : $user;
+        if (!$user->isDriver()) {
+            return null;
+        }
+
+        $user->trips_count = $this->tripRepository->getPastTripsCountForDriver($user);
+
+        return $user;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPassengerProfile(User $user) : ?User
+    {
+        if (!$user->isPassenger()) {
+            return null;
+        }
+
+        $user->trips_count = $this->tripRepository->getPastTripsCountForPassenger($user);
+
+        return $user;
     }
 }

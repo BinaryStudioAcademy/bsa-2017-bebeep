@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use Auth;
 use App\User;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -53,7 +52,7 @@ class PublicProfileController extends Controller
         $user = $this->userPublicProfileService->getPassengerProfile($user);
 
         if ($user === null) {
-            return response()->json([], 404);
+            return response()->json('', 404);
         }
 
         return fractal($user, new PassengerPublicProfileTransformer())->respond();
