@@ -133,6 +133,11 @@ Route::put('v1/password-resets', [
     'uses' => 'Auth\PasswordResetsController@reset',
 ]);
 
+Route::get('v1/driver/{user}', [
+    'as' => 'driver.profile',
+    'uses' => 'User\PublicProfileController@showDriver',
+]);
+
 Route::get('v1/reviews/given', [
     'middleware' => ['jwt.auth'],
     'as' => 'reviews.given',
