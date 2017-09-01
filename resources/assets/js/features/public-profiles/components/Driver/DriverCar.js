@@ -1,8 +1,9 @@
 import React from 'react';
-import {localize} from 'react-localize-redux';
-import {defaultCarPhoto} from 'app/services/PhotoService';
+import { localize } from 'react-localize-redux';
 
-import "../../styles/public-profile.scss";
+import { getVehiclePhoto } from 'app/services/PhotoService';
+
+import "features/public-profiles/styles/public-profile.scss";
 
 class DriverProfile extends React.Component {
 
@@ -15,9 +16,8 @@ class DriverProfile extends React.Component {
                     <strong>{ translate('driver_public_profile.driver_car_header') } </strong>
                 </p>
 
-                <div className="car-logo">
-                    <img src={vehicle.photo ? vehicle.photo : defaultCarPhoto}
-                        className="img-responsive driver-car" />
+                <div className="driver-car">
+                    { getVehiclePhoto(vehicle) }
                 </div>
                 <span>{ translate('driver_public_profile.driver_car_model') }</span>
 

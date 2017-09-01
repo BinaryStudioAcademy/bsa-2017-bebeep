@@ -1,7 +1,6 @@
 import React from 'react';
-import { localize } from 'react-localize-redux';
-import {defaultUserPhoto} from 'app/services/PhotoService';
 import { Link } from 'react-router';
+import { localize } from 'react-localize-redux';
 
 import '../styles/booking-info.scss';
 
@@ -19,12 +18,12 @@ class BookingInfo extends React.Component {
             <li className="li-bookings booking-modal-item">
                 <div className="row">
                     <div className="col-md-2">
-                        <img src={user.photo}
+                        <img src={ user.photo }
                             className="img-circle img-booking-user img-responsive" />
                     </div>
 
                     <div className="col-md-5">
-                        <span>{ user.full_name}</span>
+                        <span>{ user.full_name }</span>
                     </div>
 
                     <div className="col-md-5">
@@ -38,13 +37,13 @@ class BookingInfo extends React.Component {
                 <div className="row mt-3">
                     <div className="col-md-12 booking-modal-item__buttons">
                         <button className="btn btn-sm hover btn-success booking-modal-item__button"
-                            onClick={onApprove}
+                            onClick={ onApprove }
                         >
                             { translate('booking.accept_button') }
                         </button>
 
                         <button className="btn btn-sm hover btn-danger booking-modal-item__button"
-                            onClick={onDecline}
+                            onClick={ onDecline }
                         >
                             { translate('booking.reject_button') }
                         </button>

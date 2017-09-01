@@ -1,8 +1,6 @@
 import * as actions from './actionTypes';
 import { securedRequest } from 'app/services/RequestService';
 
-import PublicProfileService from './services/PublicProfileService';
-
 export const publicDriverProfileSetState = profile => ({
     type: actions.PUBLIC_DRIVER_PROFILE_SET_STATE,
     profile
@@ -18,29 +16,20 @@ export const publicProfileSetRequestStatus = (status) => ({
     status
 });
 
-export const getDriverProfile = (id) => dispatch => {
+export const getPublicProfile = (id, type) => dispatch => {
     dispatch(publicProfileSetRequestStatus(false));
 
-    return securedRequest.get('/api/v1/driver/' + id)
+    if (type !== 'driver' && type !== 'passenger') {
+        return null;
+    }
+
+    const actionSetState = type === 'driver' ?
+        publicDriverProfileSetState :
+        publicPassengerProfileSetState;
+
+    return securedRequest.get(`/api/v1/${type}/${id}`)
         .then(response => {
-            response = PublicProfileService.transformData(response.data.data);
-
-            dispatch(publicDriverProfileSetState(response));
-            dispatch(publicProfileSetRequestStatus(true));
-        })
-        .catch(error => {
-            dispatch(publicProfileSetRequestStatus(false));
-        });
-};
-
-export const getPassengerProfile = (id) => dispatch => {
-    dispatch(publicProfileSetRequestStatus(false));
-
-    return securedRequest.get('/api/v1/passenger/' + id)
-        .then(response => {
-            response = PublicProfileService.transformData(response.data.data);
-
-            dispatch(publicPassengerProfileSetState(response));
+            dispatch(actionSetState(response.data.data));
             dispatch(publicProfileSetRequestStatus(true));
         })
         .catch(error => {

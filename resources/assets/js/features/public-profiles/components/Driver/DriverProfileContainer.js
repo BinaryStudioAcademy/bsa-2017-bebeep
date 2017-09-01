@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { localize } from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 
-import { getDriverProfile } from 'features/public-profiles/actions';
+import { getPublicProfile } from 'features/public-profiles/actions';
 
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
@@ -16,16 +16,16 @@ import "features/public-profiles/styles/public-profile.scss";
 class DriverProfileContainer extends React.Component {
 
     componentDidMount() {
-        this.props.getDriverProfile(this.props.id);
+        this.props.getPublicProfile(this.props.id, 'driver');
     }
 
-    formatActivityStarted() {
+    setActivityStarted() {
         const { profile, translate } = this.props;
 
-        profile.activity_started = DateTimeHelper.dateFormatLocale({
-            timestamp: profile.created_at,
-            getTranslate: translate,
-        });
+        profile.activity_started = DateTimeHelper.dateFormat(profile.created_at, {
+            dateFormat: 'DD.MM.YYYY',
+            onlyDate: true,
+        }).date;
     }
 
     render() {
@@ -36,13 +36,15 @@ class DriverProfileContainer extends React.Component {
                 <div>
                     <Preloader enable={true}/>
                     <div className="justify-content-center loading-placeholder loading-placeholder_show">
-                        <span className="align-self-center">{translate('public_profile.loading')}</span>
+                        <span className="align-self-center">
+                            { translate('public_profile.loading') }
+                        </span>
                     </div>
                 </div>
             );
         }
 
-        this.formatActivityStarted();
+        this.setActivityStarted();
 
         return (
             <div className="row">
@@ -50,23 +52,18 @@ class DriverProfileContainer extends React.Component {
                     <DriverProfile profile={ profile } />
                 </div>
                 <div className="col-md-4 driver-profile-border">
-                    <DriverAdditionalInfo
-                        vehicle={ profile.vehicle }
-                        email_is_verified={ profile.email_is_verified }
-                        activity_started={ profile.activity_started }
-                    />
+                    <DriverAdditionalInfo profile={ profile } />
                 </div>
             </div>
         );
     }
 }
 
-const DriverPublicProfileConnected = connect(
-    state => ({
+export default connect(
+    (state) => ({
         profile: state.profile.current_driver_profile,
         is_fetched: state.profile.is_fetched,
+        translate: getTranslate(state.locale)
     }),
-    (dispatch) => bindActionCreators({ getDriverProfile }, dispatch)
+    (dispatch) => bindActionCreators({ getPublicProfile }, dispatch)
 )(DriverProfileContainer);
-
-export default localize(DriverPublicProfileConnected, 'locale');

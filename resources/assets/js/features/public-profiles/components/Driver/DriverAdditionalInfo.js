@@ -1,18 +1,23 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
+
 import DriverCar from './DriverCar';
 import ProfileActivity from '../ProfileActivity';
 import ProfileVerifications from '../ProfileVerifications';
-import {localize} from 'react-localize-redux';
 
 class DriverAdditionalInfo extends React.Component {
 
     render() {
-        const { vehicle, email_is_verified, activity_started } = this.props;
+        const { profile } = this.props;
+
         return (
             <div className="driver-additional-info">
-                <DriverCar vehicle={ vehicle.data } />
-                <ProfileVerifications email_is_verified={ email_is_verified } />
-                <ProfileActivity activity_started={ activity_started } />
+                <DriverCar vehicle={ profile.vehicle.data } />
+                <ProfileVerifications email_is_verified={ profile.email_is_verified } />
+                <ProfileActivity
+                    trips_count={ profile.trips_count }
+                    activity_started={ profile.activity_started }
+                />
             </div>
         );
     }

@@ -43,7 +43,8 @@
   }
 
   &-name {
-    margin-bottom: 20px;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
   }
 
   &-additional-info {
@@ -163,9 +164,5 @@
 
   &__count {
     margin-left: 20px;
-  }
-
-  &-info {
-    margin: 25px 0;
   }
 }

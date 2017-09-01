@@ -6,7 +6,7 @@
     "profile_preferences": ["My preferences:", "Мої вподобання:", "Мои предпочтения:"],
     "profile_experienced": ["Experienced", "Досвідчений", "Опытный"],
     "profile_about_me": ["About me:", "Про мене:", "Обо мне:"],
-    "profile_without_about": ["User has not added any personal information", "Користувач ще не додав інформації про себе", "Пользователь не добавил информации о себе"],
+    "profile_without_about": ["User has not added any personal information", "Користувач ще не додав інформацію про себе", "Пользователь не добавил информацию о себе"],
     "profile_like_music": ["I like music", "Люблю слухати музику", "Люблю слушать музыку"],
     "profile_animals_not_allowed": ["Animals not allowed", "З тваринами не можна", "С животными нельзя"],
 
@@ -43,6 +43,7 @@
     "profile_activity_online": ["Last online: ", "Востаннє онлайн: ", "Последний онлайн: "],
     "profile_activity_member_since": ["Member since: ", "Користувач з: ", "Пользователь с: "]
   },
+
   "driver_public_profile": {
     "driver_rating": ["Average rating", "Середній рейтинг водія", "Средний рейтинг водителя"],
     "driver_rating_breakdown": ["Rating breakdown", "Детальний рейтинг", "Подробный рейтинг"],

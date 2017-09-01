@@ -6,17 +6,19 @@ import "../styles/public-profile.scss";
 class DriverProfile extends React.Component {
 
     render() {
-        const { translate, activity_started } = this.props;
-
-        console.log(activity_started);
+        const { translate, trips_count, activity_started } = this.props;
 
         return (
             <div className="driver-car-block">
-                <p className="text-left"><strong>{translate('public_profile.profile_activity')} </strong></p>
+                <p className="text-left">
+                    <strong>{ translate('public_profile.profile_activity') } </strong>
+                </p>
                 <div className="driver-activity">
-                    <span>{translate('public_profile.profile_activity_rides')}</span><span className="text-muted">15</span><br/>
-                    <span>{translate('public_profile.profile_activity_online')}</span><span className="text-muted">22.08.2017</span><br/>
-                    <span>{translate('public_profile.profile_activity_member_since')}</span><span className="text-muted">11.11.2016</span><br/>
+                    <span>{ translate('public_profile.profile_activity_rides') }</span>
+                    <span className="text-muted">{ trips_count }</span><br/>
+
+                    <span>{ translate('public_profile.profile_activity_member_since') }</span>
+                    <span className="text-muted">{ activity_started }</span><br/>
                 </div>
             </div>
         );

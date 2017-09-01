@@ -19,6 +19,9 @@ class ProfileVerifications extends React.Component {
         );
     }
 
+    // TODO :: this.renderVerificationRule('phone_number', ...)
+    // TODO :: this.renderVerificationRule('agreement', ...)
+
     render() {
         const { translate, email_is_verified } = this.props;
 
@@ -28,9 +31,9 @@ class ProfileVerifications extends React.Component {
                     <strong>{ translate('public_profile.verifications.header') } </strong>
                 </p>
                 <div className="driver-car-block__verifications">
-                    { this.renderVerificationRule('phone_number') }
+                    { this.renderVerificationRule('phone_number', true) }
                     { this.renderVerificationRule('email', email_is_verified) }
-                    { this.renderVerificationRule('agreement') }
+                    { this.renderVerificationRule('agreement', true) }
                 </div>
             </div>
         );
