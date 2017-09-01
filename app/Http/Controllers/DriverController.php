@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Services\ReviewsService;
 use App\Transformers\Reviews\ReviewTransformer;
-use App\User;
 
 class DriverController extends Controller
 {
@@ -37,4 +37,3 @@ class DriverController extends Controller
         return response()->json($meta);
     }
 }
-

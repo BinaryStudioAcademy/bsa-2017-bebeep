@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\Review;
 use App\User;
+use App\Models\Review;
 use Tests\JwtTestCase;
 
 class GetDriverReviewsTest extends JwtTestCase

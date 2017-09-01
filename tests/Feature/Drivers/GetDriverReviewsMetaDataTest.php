@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Trips;
 
-use App\Models\Review;
 use App\User;
+use App\Models\Review;
 use Tests\JwtTestCase;
 
 class GetDriverReviewsMetaDataTest extends JwtTestCase
@@ -44,7 +44,7 @@ class GetDriverReviewsMetaDataTest extends JwtTestCase
             1 => 0,
             2 => 3,
             3 => 5,
-            4 => 10
+            4 => 10,
         ]);
     }
 
