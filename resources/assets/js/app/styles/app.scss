@@ -26,6 +26,16 @@ strong {
     user-select: none;
 }
 
+.v-align-top {
+    vertical-align: top;
+}
+.v-align-middle {
+    vertical-align: middle;
+}
+.v-align-bottom {
+    vertical-align: bottom;
+}
+
 .page-header {
     margin-bottom: 1.5rem;
     color: #444;
@@ -196,4 +206,8 @@ strong {
 
 .form-input_no-border {
     border: none;
+}
+
+.position-relative {
+    position: relative;
 }
