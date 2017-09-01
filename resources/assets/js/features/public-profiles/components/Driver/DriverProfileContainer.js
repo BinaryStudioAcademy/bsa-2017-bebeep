@@ -2,7 +2,9 @@ import React from 'react';
 import Preloader from 'app/components/Preloader';
 import DriverProfile from './DriverProfile';
 import DriverAdditionalInfo from './DriverAdditionalInfo';
-import { getDriverProfile } from '../../actions';
+import { publicDriverProfileSetState } from '../../actions';
+import PublicProfileService from 'features/public-profiles/services/PublicProfileService';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
@@ -18,10 +20,16 @@ class DriverProfileContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getDriverProfile(this.props.id);
-        this.setState({
-            preloader: false
-        });
+        const { id, publicDriverProfileSetState } = this.props;
+
+        PublicProfileService.getDriverProfile(id)
+            .then(response => {
+                publicDriverProfileSetState(response);
+
+                this.setState({
+                    preloader: false
+                });
+            });
     }
 
     render() {
@@ -37,6 +45,10 @@ class DriverProfileContainer extends React.Component {
                 </div>
             );
         }
+
+        console.log(profile);
+
+        return (<div>sdfdsf</div>);
 
         return (
             <div className="row">
@@ -56,5 +68,5 @@ export default connect(
         profile: state.profile.current_driver_profile,
         translate: getTranslate(state.locale)
     }),
-    (dispatch) => bindActionCreators({getDriverProfile}, dispatch)
+    (dispatch) => bindActionCreators({ publicDriverProfileSetState }, dispatch)
 )(DriverProfileContainer);

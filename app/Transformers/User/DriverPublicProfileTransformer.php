@@ -25,7 +25,11 @@ class DriverPublicProfileTransformer extends TransformerAbstract
             'birth_date' => $user->birth_date ? $user->birth_date->format('Y-m-d') : null,
             'about_me' => $user->about_me,
             'img' => $user->getAvatarUrl(),
-            'car' => null,
+            'car' => [
+                'model' => 'BMW X5',
+                'color' => 'blue',
+                'img' => null,
+            ],
         ];
     }
 }

@@ -48,11 +48,7 @@ export const getDriverProfile = (id) => dispatch => {
         ]
     };
 
-    simpleRequest.get('/api/v1/driver/' + id)
-        .then(response => {
-            console.log(response.data);
-            //dispatch(publicDriverProfileSetState(response.data));
-        });
+    //dispatch(publicDriverProfileSetState(response));
 };
 
 export const getPassengerProfile = (id) => dispatch => {
