@@ -3,24 +3,65 @@ import _ from 'lodash';
 
 const DateTimeHelper = {
 
-    dateFormat(timestamp) {
-        const date = moment(timestamp * 1000),
-            now = moment(),
-            formatDate = _.capitalize(date.format('ddd DD MMM')),
-            time = date.format('H:mm');
+    /**
+     * Get formatted date.
+     *
+     * Options can be:
+     * {
+     *     dateFormat  - date format,    default  'ddd DD MMM'
+     *     timeFormat  - time format,    default  'H:mm'
+     *     onlyDate    - get only date,  default  false
+     *     onlyTime    - get only time,  default  false
+     *     dayModifier - day modifier (today, tomorrow), default  true
+     *                   If onlyDate or onlyTime is true, it may not affect
+     * }
+     *
+     * @param  int timestamp
+     * @param  object options
+     *
+     * @return object { time: <time> }
+     *                { date: <date> }
+     *                { date: <date|'today'|'tomorrow'>, time: <time> }
+     */
+    dateFormat(timestamp, options) {
+        const defaultOptions = {
+            dateFormat: 'ddd DD MMM',
+            timeFormat: 'H:mm',
+            onlyDate: false,
+            onlyTime: false,
+            dayModifier: true,
+        };
+        options = {
+            ...defaultOptions,
+            ...options,
+        };
 
-        if (now.isSame(date, 'day')) {
-            return {
-                date: 'today',
-                time
-            };
+        const now = moment(),
+            date = moment(timestamp * 1000),
+            formatDate = _.capitalize(date.format(options.dateFormat)),
+            time = date.format(options.timeFormat);
+
+        if (options.onlyTime) {
+            return { time };
+        }
+        if (options.onlyDate) {
+            return { date: formatDate };
         }
 
-        if (now.isSame(date.subtract(1, 'day'), 'day')) {
-            return {
-                date: 'tomorrow',
-                time
-            };
+        if (options.dayModifier) {
+            if (now.isSame(date, 'day')) {
+                return {
+                    date: 'today',
+                    time
+                };
+            }
+
+            if (now.isSame(date.subtract(1, 'day'), 'day')) {
+                return {
+                    date: 'tomorrow',
+                    time
+                };
+            }
         }
 
         return {
