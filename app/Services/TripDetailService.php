@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\User;
 use App\Models\Trip;
 use App\Services\Result\TripDetail;
 use App\Services\Result\RouteDetail;
@@ -38,5 +39,21 @@ class TripDetailService implements Contracts\TripDetailService
         });
 
         return $tripDetail;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasBookings(Trip $trip, User $user) : bool
+    {
+        return $trip->bookings()->whereUserId($user->id)->count() > 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isOwner(Trip $trip, User $user) : bool
+    {
+        return $trip->user->id === $user->id;
     }
 }

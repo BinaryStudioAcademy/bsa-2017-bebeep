@@ -11,3 +11,10 @@ export const tripDetailsSetState = payload => {
         payload
     }
 };
+
+export const addBookingState = isBooked => {
+    return {
+        type: actions.TRIP_DETAILS_ADD_BOOKING,
+        isBooked
+    }
+};
