@@ -7,11 +7,6 @@ import { getProfileAvatar } from 'app/services/PhotoService';
 import "../styles/public-profile.scss";
 
 class ProfileComment extends React.Component {
-
-    getDaysFromComment() {
-        return DateTimeHelper.getTimeFromCommentDate(this.props.comment.date);
-    }
-
     getStars() {
         let stars = [];
         for (let i = 0; i < this.props.comment.rating; i++) {
@@ -21,22 +16,23 @@ class ProfileComment extends React.Component {
     }
 
     render() {
-        const { comment, translate } = this.props,
-            date = this.getDaysFromComment();
+        const { comment, translate } = this.props;
+        const date = DateTimeHelper.getTimeFromCommentDateForComment(this.props.comment.date);
+        let user = this.props.comment.user.data;
 
         return (
                 <div className="row comment">
                     <div className="col-sm-2">
                         <img className="img-responsive user-photo"
-                            src={ getProfileAvatar(comment.user_img) }
+                            src={ getProfileAvatar(user.photo) }
                         />
                     </div>
                     <div className="col-sm-10">
                         <div className="card card-comment">
                             <div className="card-header comment-header">
-                                <strong>{ comment.user }</strong>&nbsp;
+                                <strong>{user.first_name} {user.last_name}</strong>&nbsp;
                                 <span className="text-muted">
-                                    {(Number.isInteger(date) && date <= 7) ?
+                                    {(Number.isInteger(date)) ?
                                         translate('driver_public_profile.driver_comment_info_number', {days: date})
                                         :
                                         translate('driver_public_profile.driver_comment_info_date', {date: date})
@@ -47,7 +43,7 @@ class ProfileComment extends React.Component {
                                 </span>
                             </div>
                             <div className="card-block">
-                                {comment.text}
+                                {comment.comment}
                             </div>
                         </div>
                     </div><br/>
