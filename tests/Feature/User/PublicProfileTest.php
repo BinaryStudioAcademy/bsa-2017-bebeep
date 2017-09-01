@@ -5,18 +5,11 @@ namespace Tests\Feature\User;
 use App\User;
 use Tests\TestCase;
 use App\Models\Vehicle;
-//use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PublicProfileTest extends TestCase
 {
     use DatabaseMigrations;
-
-    /*public function setUp()
-    {
-        parent::setUp();
-        Artisan::call('migrate:refresh');
-    }*/
 
     /**
      * @test
