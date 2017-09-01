@@ -4,12 +4,20 @@ namespace App\Transformers\User;
 
 use App\User;
 use League\Fractal\TransformerAbstract;
+use App\Transformers\Vehicle\DriverProfile\VehicleTransformer;
 
 /**
  * Class DriverPublicProfileTransformer.
  */
 class DriverPublicProfileTransformer extends TransformerAbstract
 {
+    /**
+     * @var array
+     */
+    protected $availableIncludes = [
+        'vehicle',
+    ];
+
     /**
      * Transform the driver public profile data.
      *
@@ -20,16 +28,20 @@ class DriverPublicProfileTransformer extends TransformerAbstract
     public function transform(User $user) : array
     {
         return [
+            'id' => $user->id,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
-            'birth_date' => $user->birth_date ? $user->birth_date->format('Y-m-d') : null,
+            'birth_date' => $user->birth_date ? $user->birth_date->timestamp : null,
             'about_me' => $user->about_me,
-            'img' => $user->getAvatarUrl(),
-            'car' => [
-                'model' => 'BMW X5',
-                'color' => 'blue',
-                'img' => null,
-            ],
+            'photo' => $user->getAvatarUrl(),
+            'email_is_verified' => $user->is_verified,
+            'created_at' => $user->created_at->timestamp,
+            'vehicle' => $user->vehicle,
         ];
+    }
+
+    public function includeVehicle(User $user)
+    {
+        return $this->item($user->vehicles->first(), new VehicleTransformer());
     }
 }

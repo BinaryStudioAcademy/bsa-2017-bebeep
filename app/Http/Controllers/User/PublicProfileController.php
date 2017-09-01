@@ -38,7 +38,9 @@ class PublicProfileController extends Controller
             return response()->json([], 404);
         }
 
-        return fractal($user, new DriverPublicProfileTransformer())->respond();
+        return fractal($user, new DriverPublicProfileTransformer())
+            ->parseIncludes(['vehicle'])
+            ->respond();
     }
 
     /**

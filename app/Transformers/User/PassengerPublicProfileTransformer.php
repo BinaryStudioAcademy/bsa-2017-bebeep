@@ -24,7 +24,7 @@ class PassengerPublicProfileTransformer extends TransformerAbstract
             'last_name' => $user->last_name,
             'birth_date' => $user->birth_date ? $user->birth_date->format('Y-m-d') : null,
             'about_me' => $user->about_me,
-            'img' => $user->getAvatarUrl(),
+            'photo' => $user->getAvatarUrl(),
         ];
     }
 }
