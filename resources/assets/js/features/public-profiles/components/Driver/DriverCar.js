@@ -5,10 +5,14 @@ import { getVehiclePhoto } from 'app/services/PhotoService';
 
 import "features/public-profiles/styles/public-profile.scss";
 
-class DriverProfile extends React.Component {
+class DriverCar extends React.Component {
 
     render() {
         const { vehicle, translate } = this.props;
+
+        if (vehicle.length === 0) {
+            return null;
+        }
 
         return (
             <div className="driver-car-block">
@@ -32,4 +36,4 @@ class DriverProfile extends React.Component {
     }
 }
 
-export default localize(DriverProfile, 'locale');
+export default localize(DriverCar, 'locale');
