@@ -23,11 +23,11 @@ class UpcomingDriverTripsCriteria implements CriteriaInterface
             ->where('start_at', '>=', Carbon::now()->toDateTimeString())
             ->with(['routes',
                 'vehicle' => function($query) {
-                $query->withTrashed();
-            },
+                    $query->withTrashed();
+                },
                 'bookings' => function ($query) {
                     $query->where('status', Booking::STATUS_PENDING);
-                }])
+                }, ])
             ->orderBy('start_at', 'asc')
             ->latest('id');
     }
