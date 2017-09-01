@@ -120,7 +120,7 @@ class BookingModal extends React.Component {
     }
 
     render() {
-        const {isOpenModal, freeSeats, errors} = this.state,
+        const {isOpenModal, freeSeats, errors, start, end} = this.state,
             { translate, waypoints, price, startAt, maxSeats } = this.props;
 
         return (
@@ -153,6 +153,7 @@ class BookingModal extends React.Component {
                                     <select
                                         name="start_point"
                                         className={"form-control" + (!!errors.start ? ' has-danger' : '')}
+                                        defaultValue={waypoints[start].id}
                                         onChange={ this.onChangeStartPoint }
                                     >
                                         {waypoints.map(p => (
@@ -176,6 +177,7 @@ class BookingModal extends React.Component {
                                     <select
                                         name="end_point"
                                         className={"form-control" + (!!errors.end ? ' has-danger' : '')}
+                                        defaultValue={waypoints[end].id}
                                         onChange={this.onChangeEndPoint}
                                     >
                                         {waypoints.map(((p) => (
