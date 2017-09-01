@@ -132,3 +132,24 @@ Route::put('v1/password-resets', [
     'as' => 'password.reset',
     'uses' => 'Auth\PasswordResetsController@reset',
 ]);
+
+Route::get('v1/driver/{user}', [
+    'as' => 'driver.profile',
+    'uses' => 'User\PublicProfileController@showDriver',
+]);
+
+Route::get('v1/passenger/{user}', [
+    'as' => 'passenger.profile',
+    'uses' => 'User\PublicProfileController@showPassenger',
+]);
+
+Route::get('v1/reviews/given', [
+    'middleware' => ['jwt.auth'],
+    'as' => 'reviews.given',
+    'uses' => 'ReviewsController@given',
+]);
+Route::get('v1/reviews/received', [
+    'middleware' => ['jwt.auth'],
+    'as' => 'reviews.received',
+    'uses' => 'ReviewsController@received',
+]);

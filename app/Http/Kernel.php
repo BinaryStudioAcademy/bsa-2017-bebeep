@@ -42,6 +42,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             'bindings',
+            \App\Http\Middleware\JwtAuth::class,
         ],
     ];
 

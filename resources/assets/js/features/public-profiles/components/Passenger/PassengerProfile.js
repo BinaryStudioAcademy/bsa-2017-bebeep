@@ -21,7 +21,7 @@ class PassengerProfile extends React.Component {
                     first_name={profile.first_name}
                     last_name={profile.last_name}
                     years={this.getYears()}
-                    img={profile.img}
+                    photo={profile.photo}
                 />
                 <ProfileAbout
                     about={profile.about_me}

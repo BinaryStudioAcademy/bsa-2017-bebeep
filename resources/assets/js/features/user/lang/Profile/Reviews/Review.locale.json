@@ -1,0 +1,9 @@
+{
+  "review": {
+    "info_today": ["commented today", "прокоментував(ла) сьогодні", "прокомментировал(а) сегодня"],
+    "info_day_ago1": ["commented ${days} day ago", "прокоментував(ла) ${days} день назад", "прокомментировал(а) ${days} день назад"],
+    "info_day_ago2": ["commented ${days} days ago", "прокоментував(ла) ${days} дні тому", "прокомментировал(а) ${days} дня назад"],
+    "info_day_ago3": ["commented ${days} days ago", "прокоментував(ла) ${days} днів назад", "прокомментировал(а) ${days} дней назад"],
+    "info_date": ["commented on ${date}", "прокоментував(ла) ${date}", "прокомментировал(а) ${date}"]
+  }
+}

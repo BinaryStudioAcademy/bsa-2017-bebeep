@@ -25,14 +25,14 @@ export default class TripRoute {
         let startAddress = this.getStartPoint().start_address;
         let resultArray = startAddress.split(",");
 
-        return resultArray[2];
+        return resultArray[2].trim();
     }
 
     getEndCity() {
         let endAddress = this.getEndPoint().end_address;
         let resultArray = endAddress.split(",");
 
-        return resultArray[2];
+        return resultArray[2].trim();
     }
 
     getDistanceRaw() {

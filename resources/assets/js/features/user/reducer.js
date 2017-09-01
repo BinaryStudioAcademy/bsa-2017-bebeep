@@ -13,8 +13,21 @@ const initialState = {
     profile: {
         first_name: '',
         last_name: '',
-        avatar: null,
+        avatar: null
     },
+    reviews: {
+        given: [],
+        received: [],
+        rating: [0, 0, 0, 0, 0]
+    },
+    entities: {
+        reviews: {
+            byId: {}
+        },
+        users: {
+            byId: {}
+        },
+    }
 };
 
 export default function (state = initialState, action) {
@@ -85,6 +98,43 @@ export default function (state = initialState, action) {
                 profile: {
                     ...state.profile,
                     avatar: action.data,
+                }
+            };
+
+        case actions.USER_REVIEWS_SET_GIVEN:
+            return {
+                ...state,
+                reviews: {
+                    ...state.reviews,
+                    given: action.reviews.givenReviews
+                },
+                entities: {
+                    ...state.entities,
+                    users: {
+                        byId: Object.assign(state.entities.users.byId, action.reviews.users),
+                    },
+                    reviews: {
+                        byId: Object.assign(state.entities.reviews.byId, action.reviews.reviews),
+                    }
+                }
+            };
+
+        case actions.USER_REVIEWS_SET_RECEIVED:
+            return {
+                ...state,
+                reviews: {
+                    ...state.reviews,
+                    received: action.reviews.receivedReviews,
+                    rating: action.rating
+                },
+                entities: {
+                    ...state.entities,
+                    users: {
+                        byId: Object.assign(state.entities.users.byId, action.reviews.users),
+                    },
+                    reviews: {
+                        byId: Object.assign(state.entities.reviews.byId, action.reviews.reviews),
+                    }
                 }
             };
 

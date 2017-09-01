@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router';
-import { localize } from 'react-localize-redux';
+import {Link} from 'react-router';
+import {localize} from 'react-localize-redux';
 
 import LangService from 'app/services/LangService';
 import * as lang from 'features/user/lang/Profile/ProfileBase.locale.json';
@@ -14,7 +14,7 @@ class ProfileBase extends React.Component {
     }
 
     render() {
-        const { translate } = this.props;
+        const {translate} = this.props;
 
         return (
             <div className="row">
@@ -26,16 +26,16 @@ class ProfileBase extends React.Component {
                             </li>
                             <li className="menu-sidebar__item">
                                 <Link to="/dashboard/profile/general"
-                                    className="menu-sidebar__link"
-                                    activeClassName="menu-sidebar__link--active"
+                                      className="menu-sidebar__link"
+                                      activeClassName="menu-sidebar__link--active"
                                 >
                                     { translate('profile_base.personal_info') }
                                 </Link>
                             </li>
                             <li className="menu-sidebar__item">
                                 <Link to="/dashboard/profile/avatar"
-                                    className="menu-sidebar__link"
-                                    activeClassName="menu-sidebar__link--active"
+                                      className="menu-sidebar__link"
+                                      activeClassName="menu-sidebar__link--active"
                                 >
                                     { translate('profile_base.avatar') }
                                 </Link>
@@ -50,16 +50,16 @@ class ProfileBase extends React.Component {
                             </li>
                             <li className="menu-sidebar__item">
                                 <Link to="/dashboard/profile/reviews/received"
-                                    className="menu-sidebar__link"
-                                    activeClassName="menu-sidebar__link--active"
+                                      className="menu-sidebar__link"
+                                      activeClassName="menu-sidebar__link--active"
                                 >
                                     { translate('profile_base.reviews.received') }
                                 </Link>
                             </li>
                             <li className="menu-sidebar__item">
                                 <Link to="/dashboard/profile/reviews/given"
-                                    className="menu-sidebar__link"
-                                    activeClassName="menu-sidebar__link--active"
+                                      className="menu-sidebar__link"
+                                      activeClassName="menu-sidebar__link--active"
                                 >
                                     { translate('profile_base.reviews.given') }
                                 </Link>
@@ -74,8 +74,8 @@ class ProfileBase extends React.Component {
                             </li>
                             <li className="menu-sidebar__item">
                                 <Link to="/dashboard/profile/password"
-                                    className="menu-sidebar__link"
-                                    activeClassName="menu-sidebar__link--active"
+                                      className="menu-sidebar__link"
+                                      activeClassName="menu-sidebar__link--active"
                                 >
                                     { translate('profile_base.change_password') }
                                 </Link>

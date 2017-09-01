@@ -1,0 +1,26 @@
+.rating {
+  &__marker {
+    width: 35px;
+    line-height: 1;
+  }
+  &-marker {
+    height:9px;
+    margin: 5px 0;
+  }
+
+  &__progress {
+    width: 180px;
+  }
+  &-progress {
+    height: 9px;
+    margin:8px 0;
+  }
+
+  &__count {
+    margin-left: 20px;
+  }
+
+  &-info {
+    margin: 2rem 0;
+  }
+}
