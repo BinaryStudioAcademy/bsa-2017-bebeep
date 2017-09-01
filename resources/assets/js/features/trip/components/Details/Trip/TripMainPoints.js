@@ -5,7 +5,7 @@ import TripMapModal from '../../Modals/TripMapModal';
 
 class TripMainPoints extends React.Component {
 
-    constructor() {
+    /*constructor() {
         super();
 
         this.state = {
@@ -17,13 +17,13 @@ class TripMainPoints extends React.Component {
 
     toggleTrip() {
         this.setState({isShowTrip: !this.state.isShowTrip});
-    }
+    }*/
 
-    render() {
-        const { translate, startPoint, endPoint, waypoints } = this.props;
+    renderRouteTitle() {
+        const { startPoint, endPoint } = this.props;
 
         return (
-            <div className="trip-main-points mt-3 mb-4 ml-3">
+            <span>
                 <span className="trip-start-point">
                     { startPoint }
                 </span>
@@ -31,7 +31,21 @@ class TripMainPoints extends React.Component {
                 <span className="trip-end-point">
                     { endPoint }
                 </span>
-                <TripMapModal className="trip-main-points__route-map-link ml-3" waypoints={waypoints} />
+            </span>
+        );
+    }
+
+    render() {
+        const { translate, waypoints } = this.props,
+            routeTitle = this.renderRouteTitle();
+
+        return (
+            <div className="trip-main-points mt-3 mb-4 ml-3">
+                { routeTitle }
+                <TripMapModal className="trip-main-points__route-map-link"
+                    waypoints={ waypoints }
+                    modalHeader={ routeTitle }
+                />
             </div>
         )
     }
