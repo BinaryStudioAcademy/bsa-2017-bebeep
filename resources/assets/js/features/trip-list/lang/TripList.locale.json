@@ -1,7 +1,7 @@
 {
   "trip_list": {
     "my_trips_header": ["My Trips", "Мої подорожі", "Мои поездки"],
-    "upcoming": ["Upcoming", "Поточні", "Текущие"],
+    "upcoming": ["Upcoming", "Майбутні", "Будущие"],
     "past": ["Past", "Минулі", "Прошлые"],
     "car": ["Car", "Авто", "Авто"],
     "price": ["Price", "Ціна", "Цена"],
