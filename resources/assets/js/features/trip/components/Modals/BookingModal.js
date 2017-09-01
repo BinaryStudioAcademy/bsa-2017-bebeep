@@ -122,7 +122,7 @@ class BookingModal extends React.Component {
     render() {
         const {isOpenModal, freeSeats, errors, start, end} = this.state,
             { translate, waypoints, price, startAt, maxSeats } = this.props;
-        console.log(errors);
+
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
                 <form onSubmit={this.onSubmit} className="booking-modal">

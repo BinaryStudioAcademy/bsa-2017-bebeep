@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Models\Trip;
 use App\Services\TripsService;
 use App\Services\TripDetailService;
@@ -16,6 +17,7 @@ use App\Transformers\Search\SearchTripTransformer;
 use App\Transformers\DriverTrip\DriverTripTransformer;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
 use App\Transformers\DetailTrip\TripTransformer as TripDetailsTransformer;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class TripsController extends Controller
 {
@@ -179,6 +181,11 @@ class TripsController extends Controller
     public function detail(Trip $trip)
     {
         $tripDetail = $this->tripDetailService->getDetail($trip);
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (\Exception $e) {
+            $user = new User;
+        }
 
         return fractal()
             ->item($tripDetail, new TripDetailsTransformer())
@@ -188,6 +195,10 @@ class TripsController extends Controller
                 'routes',
                 'routes.bookings',
                 'routes.bookings.user',
+            ])
+            ->addMeta([
+                'is_owner' => $this->tripDetailService->isOwner($trip, $user),
+                'has_booking' => $this->tripDetailService->hasBookings($trip, $user),
             ])
             ->respond();
     }

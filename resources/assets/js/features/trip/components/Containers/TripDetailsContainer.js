@@ -1,5 +1,5 @@
 import React from 'react';
-import { localize } from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 import _ from 'lodash';
 
 import BookingModal from '../Modals/BookingModal';
@@ -16,6 +16,9 @@ import {
     TripDriver,
     TripVehicle,
 } from '../Details/Trip';
+import {addBookingState} from '../../actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import 'features/trip/styles/trip_details.scss';
 
@@ -33,6 +36,20 @@ class TripDetailsContainer extends React.Component {
         this.onBookingBtnClick = this.onBookingBtnClick.bind(this);
         this.onBookingSuccess = this.onBookingSuccess.bind(this);
         this.onBookingClosed = this.onBookingClosed.bind(this);
+    }
+
+    componentWillMount() {
+        this.toggleBookingBtn(this.props);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.toggleBookingBtn(nextProps);
+    }
+
+    toggleBookingBtn(props) {
+        const {isOwner, hasBooking} = props.details;
+
+        this.setState({disableBookingBtn: hasBooking || isOwner});
     }
 
     formatStartAt() {
@@ -55,7 +72,7 @@ class TripDetailsContainer extends React.Component {
     }
 
     onBookingSuccess() {
-        this.setState({ disableBookingBtn: true });
+        this.props.addBookingState(true);
     }
 
     onBookingClosed() {
@@ -150,4 +167,9 @@ class TripDetailsContainer extends React.Component {
     }
 }
 
-export default localize(TripDetailsContainer, 'locale');
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale)
+    }),
+    dispatch => bindActionCreators({ addBookingState }, dispatch)
+)(TripDetailsContainer);
