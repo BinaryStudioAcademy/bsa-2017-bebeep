@@ -59,7 +59,6 @@ class TripDetailsContainer extends React.Component {
     }
 
     onBookingSuccess() {
-        console.log('close');
         this.setState({
             disableBookingBtn: true,
             isOpenBookingStatusModal: true

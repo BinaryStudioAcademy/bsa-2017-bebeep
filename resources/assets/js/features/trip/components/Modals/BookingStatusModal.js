@@ -21,7 +21,7 @@ class BookingStatusModal extends React.Component {
     }
 
     closeModal() {
-        this.setState({ isOpen: !this.state.isOpen });
+        this.setState({ isOpen: false });
         this.props.onClosed();
     }
 
