@@ -42,7 +42,12 @@ class TripDetails extends React.Component {
                     preloader: false,
                 });
             })
-            .catch(error => {});
+            .catch(error => {
+                this.setState({
+                    preloader: false,
+                });
+                console.error(error);
+            });
     }
 
     componentWillMount() {
@@ -55,7 +60,7 @@ class TripDetails extends React.Component {
             startPoint = details.routes[0].from,
             endPoint = _.last(details.routes).to;
 
-        this.props.searchSuccess({
+        searchSuccess({
             from: {
                 name: startPoint.address,
                 coordinate: {lat: startPoint.lat, lng: startPoint.lng},

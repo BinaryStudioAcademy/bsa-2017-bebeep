@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Models\Trip;
 use App\Services\TripsService;
 use App\Services\TripDetailService;
@@ -188,6 +189,10 @@ class TripsController extends Controller
                 'routes',
                 'routes.bookings',
                 'routes.bookings.user',
+            ])
+            ->addMeta([
+                'is_owner' => $this->tripDetailService->isOwner($trip, Auth::user() ?? new User()),
+                'has_booking' => $this->tripDetailService->hasBookings($trip, Auth::user() ?? new User()),
             ])
             ->respond();
     }

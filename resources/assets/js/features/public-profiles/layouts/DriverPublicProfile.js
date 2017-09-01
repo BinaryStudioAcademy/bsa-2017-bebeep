@@ -14,11 +14,11 @@ class DriverPublicProfile extends React.Component {
     }
 
     render() {
-        const { translate } = this.props;
+        const { translate, params } = this.props;
 
         return (
             <ContainerWrapper>
-                <DriverProfileContainer id={ this.props.params.id }/>
+                <DriverProfileContainer id={ params.id }/>
             </ContainerWrapper>
         );
     }

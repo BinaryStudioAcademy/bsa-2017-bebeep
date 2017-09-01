@@ -65,8 +65,6 @@ export default class EditVehicle extends React.Component {
                     notFoundVehicle: true,
                 });
             });
-
-        console.log(this.props.id);
     }
 
     handleBrandChange(data) {
@@ -147,8 +145,6 @@ export default class EditVehicle extends React.Component {
         } else {
             EditVehicleService.sendUpdatedVehicle(this.props.id, data);
         }
-
-        console.log(this.state.errors);
     }
 
     render() {

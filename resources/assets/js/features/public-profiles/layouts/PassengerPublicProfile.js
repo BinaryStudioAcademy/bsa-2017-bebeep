@@ -14,11 +14,11 @@ class PassengerPublicProfile extends React.Component {
     }
 
     render() {
-        const { translate } = this.props;
+        const { translate, params } = this.props;
 
         return (
             <ContainerWrapper>
-                <PassengerProfileContainer id={ this.props.params.id } />
+                <PassengerProfileContainer id={ params.id } />
             </ContainerWrapper>
         );
     }
