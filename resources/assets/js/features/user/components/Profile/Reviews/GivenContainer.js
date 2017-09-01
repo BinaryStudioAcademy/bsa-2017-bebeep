@@ -26,13 +26,16 @@ class GivenContainer extends React.Component {
 
     render() {
         const {givenReviews} = this.props,
-            {preloader} = this.state;
+            {preloader} = this.state,
+            isEmpty = givenReviews.length <= 0 && !preloader;
 
         return (
-            <div style={{position: 'relative'}}>
+            <div className="position-relative">
                 <Preloader enable={preloader} />
-                <ReviewsListEmpty show={givenReviews.length <= 0 && !preloader} />
-                <ReviewsList list={givenReviews}/>
+                {isEmpty
+                    ? <ReviewsListEmpty />
+                    : <ReviewsList list={givenReviews}/>
+                }
             </div>
         );
     }

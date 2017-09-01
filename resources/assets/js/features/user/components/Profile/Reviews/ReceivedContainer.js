@@ -31,14 +31,17 @@ class ReceivedContainer extends React.Component {
 
     render() {
         const {rating, receivedReviews} = this.props,
-            {preloader} = this.state;
+            {preloader} = this.state,
+            isEmpty = receivedReviews.length <= 0 && !preloader;
 
         return (
-            <div style={{position: 'relative'}}>
+            <div  className="position-relative">
                 <Preloader enable={preloader} />
                 <Rating marks={rating} />
-                <ReviewsList list={receivedReviews}/>
-                <ReviewsListEmpty show={receivedReviews.length <= 0 && !preloader} />
+                { isEmpty
+                    ? <ReviewsListEmpty />
+                    : <ReviewsList list={receivedReviews}/>
+                }
             </div>
         );
     }

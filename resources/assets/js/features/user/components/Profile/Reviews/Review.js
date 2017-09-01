@@ -21,9 +21,20 @@ class Review extends React.Component {
         return stars;
     }
 
+    getCommentDate(date) {
+        const {translate} = this.props,
+            commentDate = DateTimeHelper.getTimeFromCommentDate(date);
+
+        return Number.isInteger(commentDate) && commentDate <= 7
+            ? ( commentDate === 0
+                ? translate('review.info_today')
+                : translate('review.info_day_ago' + LangService.getNumberForm(commentDate), {days: commentDate}) )
+            : translate('review.info_date', {date: commentDate});
+    }
+
     render() {
-        const {mark, children, user, date, translate} = this.props;
-        const commentDate = DateTimeHelper.getTimeFromCommentDate(date);
+        const {mark, children, user, date} = this.props,
+            commentDate = this.getCommentDate(date);
 
         return (
             <div className="row comment">
@@ -35,12 +46,7 @@ class Review extends React.Component {
                         <div className="card-header comment-header">
                             <strong>{user.full_name}</strong>&nbsp;
                             <span className="text-muted">
-                                {(Number.isInteger(commentDate) && commentDate <= 7)
-                                    ? ( commentDate === 0
-                                        ? translate('review.info_today')
-                                        : translate('review.info_day_ago' + LangService.getNumberForm(commentDate), {days: commentDate}) )
-                                    : translate('review.info_date', {date: commentDate})
-                                }
+                                {commentDate}
                             </span>
                             <span className="pull-right">
                                 {this.getStars(mark)}
