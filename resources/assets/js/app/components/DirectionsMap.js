@@ -34,6 +34,7 @@ class DirectionsMap extends React.Component {
         super(props);
 
         this.DirectionsService = new google.maps.DirectionsService();
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentWillMount() {
@@ -59,7 +60,9 @@ class DirectionsMap extends React.Component {
     }
 
     processDirectionRenderQueue() {
-        if (this.state.directionRenderQueue.length <= 0 || this.state.directionRenderQueueIsProcessing) {
+        if (this.state.directionRenderQueue.length <= 0 ||
+            this.state.directionRenderQueueIsProcessing
+        ) {
             return;
         }
 
@@ -121,28 +124,53 @@ class DirectionsMap extends React.Component {
 
     handleClick(e) {
         e.preventDefault();
-        this.setState({showTripBlock: !this.state.showTripBlock});
+        this.setState({ showTripBlock: !this.state.showTripBlock });
     }
 
     render() {
-        const {translate} = this.props;
-        let tripDetailsClass = (this.state.showTripBlock) ? 'show-details' : 'hide-details';
+        const {
+            start_city,
+            end_city,
+            directions,
+            distance,
+            start_address,
+            end_address,
+            duration,
+            showTripBlock
+        } = this.state;
+
+        const { translate, title, bookingCount, onClickBooking } = this.props,
+            tripDetailsClass = showTripBlock ? 'show-details' : 'hide-details';
 
         return (
             <div className="card">
-                <div className="card-header" onClick={this.handleClick.bind(this)}>
-                    <span>{this.props.title}</span><br/>
+                <div className="card-header" onClick={ this.handleClick }>
+                    <span>{ title }</span>
 
-                    {this.state.start_city ? (
-                        <span>{ this.state.start_city + " - " + this.state.end_city }</span>
-                    ) : ''}
+                    { start_city ? (
+                        <div className="trip-main-points mt-3">
+                            <span>{ start_city }</span>
+                            <i className="fa fa-long-arrow-right mx-2" aria-hidden="true" />
+                            <span>{ end_city }</span>
+                            <i className="trip-detail-icon v-align-bottom fa fa-road ml-2"
+                                aria-hidden="true" />
+                        </div>
+                    ) : '' }
 
-                    {this.props.bookingCount  ? (
-                        <button type="button" className="btn bookings btn-sm btn-primary hover" onClick={this.props.onClickBooking}>{translate('booking.bookings_button')} <span className="badge badge-red">{this.props.bookingCount}</span></button>
-                    ) : ( <span>&nbsp;</span>) }
+                    { bookingCount  ? (
+                        <button type="button"
+                            className="btn bookings btn-sm btn-primary hover"
+                            onClick={ onClickBooking }
+                        >
+                            { translate('booking.bookings_button') }
+                            <span className="badge badge-red">
+                                { bookingCount }
+                            </span>
+                        </button>
+                    ) : '' }
                 </div>
 
-                <div className={tripDetailsClass}>
+                <div className={ tripDetailsClass }>
                     <div className="card-block google-map">
                         <GoogleMapContainer
                           containerElement={
@@ -151,24 +179,37 @@ class DirectionsMap extends React.Component {
                           mapElement={
                               <div style={{height: `100%`}}/>
                           }
-                          center={this.props.from}
-                          directions={this.state.directions}
+                          center={ this.props.from }
+                          directions={ directions }
                         />
                     </div>
-                  {this.state.distance  ?
+                  { distance  ?
                     (
                       <div className="card-footer">
-                          <h6>{translate('directionsmap.trip_info')}</h6>
-                          <span className="text-muted">{translate('directionsmap.start_point_address')}: </span>{this.state.start_address}<br/>
-                          <span className="text-muted">{translate('directionsmap.end_point_address')}: </span>{this.state.end_address}<br/>
-                          <span className="text-muted">{translate('directionsmap.distance')}: </span>{this.state.distance}<br/>
-                          <span className="text-muted">{translate('directionsmap.duration')}: </span>{this.state.duration}
+                          <h6>{ translate('directionsmap.trip_info') }</h6>
+
+                          <span className="text-muted">{
+                                translate('directionsmap.start_point_address') }: </span>
+                            { start_address }<br/>
+
+                          <span className="text-muted">{
+                                translate('directionsmap.end_point_address') }: </span>
+                            { end_address }<br/>
+
+                          <span className="text-muted">{
+                                translate('directionsmap.distance') }: </span>
+                            { distance }<br/>
+
+                          <span className="text-muted">{
+                                translate('directionsmap.duration') }: </span>
+                            { duration }
                       </div>
                     ) : (
-                      <div>&nbsp;</div>
+                      <div />
                     )
                   }
-                  {this.props.children}
+
+                  { this.props.children }
                 </div>
             </div>
         );
