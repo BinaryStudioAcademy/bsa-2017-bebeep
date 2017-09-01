@@ -2,6 +2,7 @@ import React from 'react';
 import { localize } from 'react-localize-redux';
 
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
+import { BOOKING_STATUS_DECLINED, BOOKING_STATUS_CANCELED } from 'app/services/BookingService';
 
 import '../styles/booking-item.scss';
 
@@ -19,7 +20,9 @@ class BookingItem extends React.Component {
     renderCancelButton() {
         const { booking, showCancelBookingModal, translate } = this.props;
 
-        if (booking.status === 'canceled') {
+        if (booking.status === BOOKING_STATUS_DECLINED ||
+            booking.status === BOOKING_STATUS_CANCELED
+        ) {
             return null;
         }
 
