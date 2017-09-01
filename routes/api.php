@@ -16,6 +16,11 @@ Route::group(['prefix' => 'driver', 'as' => 'driver.'], function () {
         'as' => 'reviews',
         'uses' => 'DriverController@getReviews',
     ]);
+
+    Route::get('{user}/reviews-meta', [
+        'as' => 'reviews-meta',
+        'uses' => 'DriverController@getReviewsMetaData',
+    ]);
 });
 
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {

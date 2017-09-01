@@ -6,20 +6,20 @@ use App\Models\Review;
 use App\User;
 use Tests\JwtTestCase;
 
-class GetDriverReviewsTest extends JwtTestCase
+class GetDriverReviewsMetaDataTest extends JwtTestCase
 {
     protected $method = 'GET';
     protected $url;
 
     public function getUrl($id)
     {
-        return route('driver.reviews', $id);
+        return route('driver.reviews-meta', $id);
     }
 
     /**
      * @test
      */
-    public function guest_cant_list_unexisted_driver_reviews()
+    public function guest_cant_get_meta_of_unexisted_driver_reviews()
     {
         $response = $this->json($this->method, $this->getUrl(1));
         $response->assertStatus(404);
@@ -28,19 +28,24 @@ class GetDriverReviewsTest extends JwtTestCase
     /**
      * @test
      */
-    public function guest_can_list_existed_driver_reviews()
+    public function guest_can_get_meta_of_existed_driver_comments()
     {
         $driver = $this->getDriverUser();
         $passenger = $this->getPassengerUser();
-        factory(Review::class, 10)->create(['user_id' => $passenger->id, 'driver_id' => $driver->id]);
-
-        $driver2 = $this->getDriverUser();
-        factory(Review::class, 5)->create(['user_id' => $passenger->id, 'driver_id' => $driver2->id]);
+        factory(Review::class, 10)->create(['mark' => 5, 'user_id' => $passenger->id, 'driver_id' => $driver->id]);
+        factory(Review::class, 5)->create(['mark' => 4, 'user_id' => $passenger->id, 'driver_id' => $driver->id]);
+        factory(Review::class, 3)->create(['mark' => 3, 'user_id' => $passenger->id, 'driver_id' => $driver->id]);
 
         $response = $this->json($this->method, $this->getUrl(1));
         $response->assertStatus(200);
 
-        $this->assertCount(10, $response->json()['data']);
+        $response->assertJson([
+            0 => 0,
+            1 => 0,
+            2 => 3,
+            3 => 5,
+            4 => 10
+        ]);
     }
 
     protected function getPassengerUser()
