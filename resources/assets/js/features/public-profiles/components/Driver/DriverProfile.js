@@ -25,13 +25,11 @@ class DriverProfile extends React.Component {
                     years={this.getYears()}
                     img={profile.img}
                 />
-                <DriverRating />
+                <DriverRating driver={profile.id} />
                 <ProfileAbout
                     about={profile.about_me}
                 />
-                <ProfileCommentsList
-                    comments={profile.comments}
-                />
+                <ProfileCommentsList driver={profile.id} />
             </div>
         );
     }

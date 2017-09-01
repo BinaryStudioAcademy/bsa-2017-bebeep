@@ -1,3 +1,14 @@
+.driver__comments, .rating-info {
+  position: relative;
+}
+
+.rating-info {
+  min-height: 100px;
+  .preloader {
+    padding-top: 0;
+  }
+}
+
 .loading-placeholder {
   position: absolute;
   top: 0;

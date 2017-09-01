@@ -25,6 +25,6 @@ class ReceivedReviewCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->where(['driver_id' => $this->user->id])->with(['user', 'driver']);
+        return $model->where(['driver_id' => $this->user->id])->with(['user', 'driver'])->latest('id');
     }
 }

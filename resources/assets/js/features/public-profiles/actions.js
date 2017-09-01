@@ -18,6 +18,7 @@ export const publicPassengerProfileSetRequestStatus = (status) => ({
 
 export const getDriverProfile = (id) => dispatch => {
         let response = {
+                id: 1,
                 first_name: 'Andrey',
                 last_name: 'Tondrev',
                 birth_date: '1995-11-12',
