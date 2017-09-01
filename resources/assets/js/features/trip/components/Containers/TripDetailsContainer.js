@@ -39,13 +39,10 @@ class TripDetailsContainer extends React.Component {
         const translate = this.props.translate,
             trip = this.props.details.trip;
 
-        let startAt = DateTimeHelper.dateFormat(trip.start_at_x);
-
-        trip.start_at_format = startAt.date === 'today'
-            ? translate('today', {time: startAt.time})
-            : startAt.date === 'tomorrow'
-                ? translate('tomorrow', {time: startAt.time})
-                : `${startAt.date} - ${startAt.time}`;
+        trip.start_at_format = DateTimeHelper.dateFormatLocale({
+            timestamp: trip.start_at_x,
+            getTranslate: translate,
+        });
     }
 
     onBookingBtnClick() {
