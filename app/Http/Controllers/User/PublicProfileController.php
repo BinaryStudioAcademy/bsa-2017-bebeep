@@ -34,7 +34,7 @@ class PublicProfileController extends Controller
         $user = $this->userPublicProfileService->getDriverProfile($user);
 
         if ($user === null) {
-            return response()->json([], 404);
+            return response()->json('', 422);
         }
 
         return fractal($user, new DriverPublicProfileTransformer())
@@ -52,7 +52,7 @@ class PublicProfileController extends Controller
         $user = $this->userPublicProfileService->getPassengerProfile($user);
 
         if ($user === null) {
-            return response()->json('', 404);
+            return response()->json('', 422);
         }
 
         return fractal($user, new PassengerPublicProfileTransformer())->respond();
