@@ -3,7 +3,6 @@
 namespace App\Repositories\Contracts;
 
 use App\User;
-use Carbon\Carbon;
 use App\Models\Trip;
 use App\Repositories\Helpers\SearchFilter;
 use Prettus\Repository\Contracts\RepositoryInterface;

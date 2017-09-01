@@ -21,7 +21,7 @@ class UserPublicProfileService implements UserPublicProfileServiceContract
      */
     public function getDriverProfile(User $user) : ?User
     {
-        if (!$user->isDriver()) {
+        if (! $user->isDriver()) {
             return null;
         }
 
@@ -35,7 +35,7 @@ class UserPublicProfileService implements UserPublicProfileServiceContract
      */
     public function getPassengerProfile(User $user) : ?User
     {
-        if (!$user->isPassenger()) {
+        if (! $user->isPassenger()) {
             return null;
         }
 

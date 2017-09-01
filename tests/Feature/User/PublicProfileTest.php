@@ -82,12 +82,12 @@ class PublicProfileTest extends TestCase
                             'model',
                             'color',
                             'photo',
-                        ]
+                        ],
                     ],
                     'trips_count',
                     'email_is_verified',
                     'created_at',
-                ]
+                ],
             ]);
     }
 
@@ -112,7 +112,7 @@ class PublicProfileTest extends TestCase
                     'trips_count',
                     'email_is_verified',
                     'created_at',
-                ]
+                ],
             ]);
     }
 
