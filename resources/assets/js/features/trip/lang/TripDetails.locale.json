@@ -40,7 +40,14 @@
       "seats": ["Seats", "Місць", "Мест"],
       "free_seats": ["Free seats: ${seats}", "Вільних місць: ${seats}", "Свободных мест: ${seats}"],
       "apply": ["Apply", "Застосувати", "Применить"],
-      "cancel": ["Cancel", "Відмінити", "Отменить"]
+      "cancel": ["Cancel", "Відмінити", "Отменить"],
+      "status": {
+        "success": [
+            "You have successfully booked this trip.",
+            "Ви успішно забронювали цю поїздку.",
+            "Вы успешно забронировали эту поездку."
+        ]
+      }
     }
   }
 }

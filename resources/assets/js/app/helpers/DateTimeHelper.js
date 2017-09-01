@@ -81,6 +81,17 @@ const DateTimeHelper = {
                 : `${dateFormat.date} - ${dateFormat.time}`;
     },
 
+    getTimeFromCommentDateForComment(date)
+    {
+        let momentDate = moment.unix(date);
+
+        if (moment().diff(momentDate, 'days') > 7) {
+            return momentDate.format('DD MMMM YYYY');
+        }
+
+        return moment().diff(momentDate, 'days');
+    },
+
     getTimeFromCommentDate(date) {
         if (moment().diff(date, 'days') > 7) {
             return moment(date).format('DD MMMM YYYY');

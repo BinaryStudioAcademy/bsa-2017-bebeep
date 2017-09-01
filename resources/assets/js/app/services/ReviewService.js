@@ -1,4 +1,4 @@
-import {securedRequest} from './RequestService';
+import {securedRequest, simpleRequest} from './RequestService';
 
 export const fetchGiven = () => {
     return securedRequest.get('/api/v1/reviews/given');
@@ -6,6 +6,14 @@ export const fetchGiven = () => {
 
 export const fetchReceived = () => {
     return securedRequest.get('/api/v1/reviews/received');
+};
+
+export const fetchReceivedByDriver = (driverId) => {
+    return simpleRequest.get(`/api/driver/${driverId}/reviews`);
+};
+
+export const fetchReceivedByDriverRating = (driverId) => {
+    return simpleRequest.get(`/api/driver/${driverId}/reviews-meta`);
 };
 
 export const calcRatingData = (marks) => {
@@ -23,7 +31,7 @@ export const calcRatingData = (marks) => {
         count: 0,
         byMark: {}
     });
-    const avg = parseInt(info.sum / info.count * 100) / 100;
+    const avg = parseFloat(info.sum / info.count * 100) / 100;
     info['avg'] = isNaN(avg) ? 0 : avg;
     return info;
 };

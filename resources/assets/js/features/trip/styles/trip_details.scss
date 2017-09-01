@@ -1,7 +1,6 @@
 @import '~app/bootstrap/variables';
 @import "~bootstrap/scss/mixins/breakpoints";
 
-
 .trip-detail-icon.fa {
     font-size: 1.5em;
     color: $teal;
@@ -20,7 +19,13 @@
     font-size: 1.3em;
 
     &__route-map-link {
+        margin-left: 1rem;
         font-size: .8em;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
 
@@ -246,7 +251,23 @@
     }
 }
 
+.modal-dialog .modal-title {
+    font-size: 1.3rem;
+}
+
 .trip-map-modal {
+
+    &__header {
+        button span {
+            font-size: 2.4rem;
+        }
+
+        .trip-detail-icon {
+            margin-left: .5rem;
+            vertical-align: bottom;
+        }
+    }
+
     &__close {
         color: $white;
         position: absolute;
@@ -255,7 +276,7 @@
 
     &__map-container {
         max-height: 100vh;
-        height: 500px;
+        height: 400px;
     }
 
     @include media-breakpoint-down(xs) {

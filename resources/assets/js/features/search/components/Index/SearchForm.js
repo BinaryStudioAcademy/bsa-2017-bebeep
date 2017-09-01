@@ -82,7 +82,8 @@ class SearchForm extends React.Component {
     }
 
     render() {
-        const { translate } = this.props;
+        const { translate, pageType } = this.props,
+            btnType = pageType !== 'index' ? 'info' : 'warning';
 
         return (
             <form role="form" className="search-form" action="" method="POST">
@@ -111,7 +112,13 @@ class SearchForm extends React.Component {
                         error={this.state.errors.start_at}
                     />
                 </div>
-                <Button className="wizard-form__btn btn btn-warning btn-lg" color="warning" size="lg" role="button" onClick={this.onClick.bind(this)}>{translate('search_index.find_a_ride')}</Button>
+                <Button className={"wizard-form__btn btn btn-lg btn-" + btnType}
+                    color={btnType}
+                    size="lg"
+                    role="button"
+                    onClick={this.onClick.bind(this)}>
+                        { translate('search_index.find_a_ride') }
+                </Button>
             </form>
         );
     }

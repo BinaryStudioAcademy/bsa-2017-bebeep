@@ -79,7 +79,7 @@ class TripDetailsContainer extends React.Component {
     render() {
         const { trip, routes, driver, vehicle } = this.props.details,
             translate = this.props.translate,
-            { isOpenBookingModal, disableBookingBtn } = this.state;
+            { isOpenBookingModal, isOpenBookingStatusModal, disableBookingBtn } = this.state;
 
         const startPoint = routes[0].from,
             endPoint = _.last(routes).to,
