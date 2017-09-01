@@ -10,7 +10,6 @@ use App\Services\Requests\TokenRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Exceptions\Auth\CreateTokenException;
 use App\Exceptions\Auth\UserNotFoundException;
-use App\Exceptions\Auth\UserNotVerifiedException;
 use App\Exceptions\Auth\InvalidCredentialsException;
 
 class AuthUserService
@@ -43,7 +42,6 @@ class AuthUserService
      * @throws CreateTokenException
      * @throws InvalidCredentialsException
      * @throws UserNotFoundException
-     * @throws UserNotVerifiedException
      */
     public function auth(LoginRequest $request)
     {
@@ -56,10 +54,6 @@ class AuthUserService
 
         if (is_null($user)) {
             throw new UserNotFoundException(__('Services/AuthUserService.user_not_register'));
-        }
-
-        if (! $user->isVerified()) {
-            throw new UserNotVerifiedException(__('Services/AuthUserService.user_not_verified'));
         }
 
         $this->setCustomClaims($user);
@@ -103,14 +97,15 @@ class AuthUserService
     /**
      * Set custom claims for JWT Token payload data.
      *
-     * @param \App\User $user
-     *
-     * @return $this
+     * @param User $user
+     * @return AuthUserService
      */
     private function setCustomClaims(User $user): self
     {
         $this->customClaims = [
-            'username' => $user->getFullName(),
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'avatar' => $user->getAvatarUrl(),
         ];
 
         return $this;

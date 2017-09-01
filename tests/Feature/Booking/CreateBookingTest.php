@@ -170,18 +170,28 @@ class CreateBookingTest extends JwtTestCase
     {
         $data = $this->createTripWithDriver();
         $this->url = $this->getUrl($data['trip']->id);
+        $route1 = $data['routes'][0]->id;
+        $route2 = $data['routes'][1]->id;
 
         $user = $this->getPassengerUser();
 
-        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [1, 2], 'seats' => 1]);
+        $response = $this->jsonRequestAsUser(
+            $user,
+            $this->method,
+            $this->url,
+            [
+                'routes' => [$route1, $route2],
+                'seats' => 1,
+            ]
+        );
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('booking_route', [
-            'route_id' => 1,
+            'route_id' => $route1,
             'booking_id' => $response->json()['id'],
         ]);
         $this->assertDatabaseHas('booking_route', [
-            'route_id' => 2,
+            'route_id' => $route2,
             'booking_id' => $response->json()['id'],
         ]);
 
@@ -190,6 +200,54 @@ class CreateBookingTest extends JwtTestCase
             'user_id' => $user->id,
             'status' => Booking::STATUS_PENDING,
             'seats' => 1,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_book_trip_if_at_least_one_seat_in_route_is_free()
+    {
+        $data = $this->createTripWithDriver();
+        $this->url = $this->getUrl($data['trip']->id);
+
+        $user1 = $this->getPassengerUser();
+        $user2 = $this->getPassengerUser();
+
+        $route1 = $data['routes'][0]->id;
+        $route2 = $data['routes'][1]->id;
+
+        $booking = factory(Booking::class)->create([
+            'trip_id' => $data['trip']->id,
+            'user_id' => $user1->id,
+            'seats' => 2,
+        ]);
+        $booking->routes()->sync($route1);
+
+        $this->assertDatabaseHas('bookings', [
+            'trip_id' => $data['trip']->id,
+            'user_id' => $user1->id,
+            'status' => Booking::STATUS_PENDING,
+            'seats' => 2,
+        ]);
+
+        $response = $this->jsonRequestAsUser(
+            $user2,
+            $this->method,
+            $this->url,
+            [
+                'routes' => [$route2],
+                'seats' => 2,
+            ]
+        );
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('bookings', [
+            'trip_id' => $data['trip']->id,
+            'user_id' => $user2->id,
+            'status' => Booking::STATUS_PENDING,
+            'seats' => 2,
         ]);
     }
 

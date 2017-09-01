@@ -73,7 +73,7 @@ class ListDriverTripsTest extends BaseTripTestCase
         $this->url = route('trips.upcoming');
         $response = $this->jsonAsUser($user);
         $response->assertStatus(200);
-        $this->assertCount(5, $response->json());
+        $this->assertCount(5, $response->json()['data']);
     }
 
     /**
@@ -94,7 +94,7 @@ class ListDriverTripsTest extends BaseTripTestCase
         $this->url = route('trips.past');
         $response = $this->jsonAsUser($user);
         $response->assertStatus(200);
-        $this->assertCount(10, $response->json());
+        $this->assertCount(10, $response->json()['data']);
     }
 
     /**

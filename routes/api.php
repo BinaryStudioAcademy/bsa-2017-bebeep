@@ -11,6 +11,18 @@
 |
 */
 
+Route::group(['prefix' => 'driver', 'as' => 'driver.'], function () {
+    Route::get('{user}/reviews', [
+        'as' => 'reviews',
+        'uses' => 'DriverController@getReviews',
+    ]);
+
+    Route::get('{user}/reviews-meta', [
+        'as' => 'reviews-meta',
+        'uses' => 'DriverController@getReviewsMetaData',
+    ]);
+});
+
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::post('register', [
         'middleware' => 'jwt.guest',
@@ -109,6 +121,18 @@ Route::group([
     Route::get('/{trip}/detail', ['as' => 'trip.detail', 'uses' => 'TripsController@detail']);
 });
 
+Route::post('v1/trips/{trip}/bookings', ['as' => 'booking.create', 'uses' => 'BookingsController@create', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
+
+Route::group([
+    'prefix' => 'v1/bookings',
+    'as' => 'booking.',
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION],
+], function () {
+    Route::get('/past', ['as' => 'past', 'uses' => 'BookingsController@past']);
+    Route::get('/upcoming', ['as' => 'upcoming', 'uses' => 'BookingsController@upcoming']);
+    Route::delete('/{booking}', ['as' => 'cancel', 'uses' => 'BookingsController@cancel']);
+});
+
 Route::post('v1/password-resets', [
     'middleware' => 'jwt.guest',
     'as' => 'password.forgot',
@@ -121,7 +145,23 @@ Route::put('v1/password-resets', [
     'uses' => 'Auth\PasswordResetsController@reset',
 ]);
 
-Route::post('v1/trips/{trip}/bookings', ['as' => 'booking.create', 'uses' => 'BookingsController@create', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
-Route::delete('v1/bookings/{booking}', ['as' => 'booking.cancel', 'uses' => 'BookingsController@cancel', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
-Route::get('v1/bookings/past', ['as' => 'booking.past', 'uses' => 'BookingsController@past', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
-Route::get('v1/bookings/upcoming', ['as' => 'booking.upcoming', 'uses' => 'BookingsController@upcoming', 'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION]]);
+Route::get('v1/driver/{user}', [
+    'as' => 'driver.profile',
+    'uses' => 'User\PublicProfileController@showDriver',
+]);
+
+Route::get('v1/passenger/{user}', [
+    'as' => 'passenger.profile',
+    'uses' => 'User\PublicProfileController@showPassenger',
+]);
+
+Route::get('v1/reviews/given', [
+    'middleware' => ['jwt.auth'],
+    'as' => 'reviews.given',
+    'uses' => 'ReviewsController@given',
+]);
+Route::get('v1/reviews/received', [
+    'middleware' => ['jwt.auth'],
+    'as' => 'reviews.received',
+    'uses' => 'ReviewsController@received',
+]);

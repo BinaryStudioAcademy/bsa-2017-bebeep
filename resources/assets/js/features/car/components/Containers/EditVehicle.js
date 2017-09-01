@@ -1,10 +1,12 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+
+import VehicleForm from '../Forms/VehicleForm';
+
 import { VehicleValidate } from 'app/services/VehicleService';
 import { securedRequest } from 'app/services/RequestService';
-import { VehicleService } from '../../services/VehicleService';
-import VehicleForm from '../Forms/VehicleForm';
-import EditVehicleService from '../../services/EditVehicleService';
+import { VehicleService } from 'features/car/services/VehicleService';
+import EditVehicleService from 'features/car/services/EditVehicleService';
 
 export default class EditVehicle extends React.Component {
     constructor(props) {
@@ -63,8 +65,6 @@ export default class EditVehicle extends React.Component {
                     notFoundVehicle: true,
                 });
             });
-
-        console.log(this.props.id);
     }
 
     handleBrandChange(data) {
@@ -145,8 +145,6 @@ export default class EditVehicle extends React.Component {
         } else {
             EditVehicleService.sendUpdatedVehicle(this.props.id, data);
         }
-
-        console.log(this.state.errors);
     }
 
     render() {

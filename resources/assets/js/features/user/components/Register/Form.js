@@ -8,8 +8,12 @@ import Input from 'app/components/Input';
 import { registerSuccess } from 'features/user/actions';
 import { simpleRequest } from 'app/services/RequestService';
 import { RegisterValidate } from 'app/services/UserService';
+import { initSession, destroySession, getAuthUser } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
+
+import {STEP_THREE, savePendingTrip, isTripReady} from 'app/services/WizardTripService';
+import {completeTrip} from 'features/wizard-trip/actions';
 
 import 'features/user/styles/user_register.scss';
 
@@ -19,13 +23,27 @@ class Form extends React.Component {
         super();
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
+            hasTripPending: false,
             errors: {}
         };
     }
 
+    componentWillMount() {
+        if (this.props.stepWizard === STEP_THREE) {
+            this.setState({hasTripPending: isTripReady(this.props.tripPending)});
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.state.hasTripPending && nextProps.stepWizard === STEP_THREE) {
+            this.setState({hasTripPending: isTripReady(nextProps.tripPending)});
+        }
+    }
+
     onSubmit(e) {
         e.preventDefault();
-        const {registerSuccess} = this.props,
+        const {registerSuccess, tripPending, completeTrip} = this.props,
+            {hasTripPending} = this.state,
             registerData = {
                 first_name: e.target['first_name'].value,
                 last_name: e.target['last_name'].value,
@@ -36,8 +54,9 @@ class Form extends React.Component {
                 role_passenger: e.target['role_passenger'].checked,
                 password: e.target['password'].value,
                 password_confirmation: e.target['password_confirmation'].value
-            };
-        const validate = RegisterValidate(registerData);
+            },
+            validate = RegisterValidate(registerData);
+
         if (!validate.valid) {
             this.setState({
                 errors: validate.errors
@@ -46,18 +65,29 @@ class Form extends React.Component {
             simpleRequest.post('/api/user/register', registerData)
                 .then(
                     response => {
-                        registerSuccess();
-                        browserHistory.push('/registration/success');
-                    },
-                    error => this.setState({
-                        errors: error.response.data
-                    })
+                        initSession(response.data.token);
+                        registerSuccess(getAuthUser());
+
+                        if (hasTripPending) {
+                            savePendingTrip(tripPending).then(() => {
+                                completeTrip();
+                                browserHistory.push('/trips');
+                            });
+                        } else {
+                            browserHistory.push('/dashboard');
+                        }
+                    }
+                )
+                .catch(error => {
+                        this.setState({errors: error.response.data});
+                        destroySession();
+                    }
                 );
         }
     }
 
     render() {
-        const {errors} = this.state,
+        const {errors, hasTripPending} = this.state,
             {translate} = this.props;
 
         return (
@@ -113,6 +143,7 @@ class Form extends React.Component {
                                        id="role_driver"
                                        name="role_driver"
                                        value="1"
+                                       defaultChecked={hasTripPending}
                                 /> {translate('register_form.driver')}
                             </label>
                         </div>
@@ -160,10 +191,12 @@ class Form extends React.Component {
 
 const FormConnected = connect(
     state => ({
+        stepWizard: state.tripWizard.step,
+        tripPending: state.tripWizard.pendingTrip,
         translate: getTranslate(state.locale)
     }),
     (dispatch) =>
-        bindActionCreators({registerSuccess}, dispatch)
+        bindActionCreators({registerSuccess, completeTrip}, dispatch)
 )(Form);
 
 export default FormConnected;

@@ -1,0 +1,57 @@
+{
+  "public_profile": {
+    "loading": ["Profile is loading...", "Профіль завантажується...", "Профиль загружается..."],
+    "profile_years": ["years old", "р", "л"],
+    "profile_experience": ["Experience:", "Досвід:", "Опыт:"],
+    "profile_preferences": ["My preferences:", "Мої вподобання:", "Мои предпочтения:"],
+    "profile_experienced": ["Experienced", "Досвідчений", "Опытный"],
+    "profile_about_me": ["About me:", "Про мене:", "Обо мне:"],
+    "profile_without_about": ["User has not added any personal information", "Користувач ще не додав інформацію про себе", "Пользователь не добавил информацию о себе"],
+    "profile_like_music": ["I like music", "Люблю слухати музику", "Люблю слушать музыку"],
+    "profile_animals_not_allowed": ["Animals not allowed", "З тваринами не можна", "С животными нельзя"],
+
+    "verifications": {
+        "header": ["Verification", "Підтвердження даних", "Подтверждение данных"],
+        "phone_number": {
+            "success": [
+                "Phone number verified",
+                "Номер телефону підтверджено",
+                "Номер телефона подтвержден"
+            ],
+            "error": [
+                "Phone number is not verified",
+                "Номер телефону не підтверджено",
+                "Номер телефона не подтвержден"
+            ]
+        },
+        "email": {
+            "success": ["Email address verified", "Email підтверджено", "Email подтвержден"],
+            "error": [
+                "Email address is not verified",
+                "Email не підтверджено",
+                "Email не подтвержден"
+            ]
+        },
+        "agreement": {
+            "success": ["Agreement accepted", "Правила прийняті", "Правила приняты"],
+            "error": ["Agreement is not accepted", "Правила не прийняті", "Правила не приняты"]
+        }
+    },
+
+    "profile_activity": ["Member activity", "Активність користувача", "Активность пользователя"],
+    "profile_activity_rides": ["Rides: ", "Поїздок: ", "Поездок: "],
+    "profile_activity_online": ["Last online: ", "Востаннє онлайн: ", "Последний онлайн: "],
+    "profile_activity_member_since": ["Member since: ", "Користувач з: ", "Пользователь с: "]
+  },
+
+  "driver_public_profile": {
+    "driver_rating": ["Average rating", "Середній рейтинг водія", "Средний рейтинг водителя"],
+    "driver_rating_breakdown": ["Rating breakdown", "Детальний рейтинг", "Подробный рейтинг"],
+    "driver_comments": ["Reviews:", "Відгуки:", "Отзывы:"],
+    "driver_comment_info_number": ["commented ${days} days ago", "прокоментував(ла) ${days} днів назад", "прокомментировал(а) ${days} дней назад"],
+    "driver_comment_info_date": ["commented on ${date}", "прокоментував(ла) ${date}", "прокомментировал(а) ${date}"],
+    "driver_car_header": ["My car", "Моє авто", "Мой автомобиль"],
+    "driver_car_model": ["Model: ", "Модель: ", "Модель: "],
+    "driver_car_color": ["Color: ", "Колір: ", "Цвет: "]
+  }
+}

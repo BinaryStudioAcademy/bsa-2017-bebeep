@@ -1,21 +1,24 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
-import PageHeader from 'app/components/PageHeader';
-import DriverProfileContainer from '../components/DriverProfileContainer';
+import DriverProfileContainer from '../components/Driver/DriverProfileContainer';
+
 import LangService from 'app/services/LangService';
-import * as lang from '../lang/DriverPublicProfile.locale.json';
-import {localize} from 'react-localize-redux';
+import * as lang from '../lang/PublicProfile.locale.json';
 
-export default localize(class DriverPublicProfile extends React.Component {
+class DriverPublicProfile extends React.Component {
 
     componentWillMount() {
         LangService.addTranslation(lang);
     }
 
     render() {
-        const {translate} = this.props;
+        const { translate, params } = this.props;
+
         return (
-            <DriverProfileContainer id={ this.props.params.id }/>
+            <DriverProfileContainer id={ params.id }/>
         );
     }
-}, 'locale');
+}
+
+export default localize(DriverPublicProfile, 'locale');

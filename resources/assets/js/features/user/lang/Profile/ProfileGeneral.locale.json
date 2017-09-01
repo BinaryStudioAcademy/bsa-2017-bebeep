@@ -1,6 +1,10 @@
 {
   "profile_general": {
-    "personal_information": ["Personal information", "Особиста інформація", "Личная информация"],
+    "personal_information": [
+      "Personal information",
+      "Особиста інформація",
+      "Личная информация"
+    ],
     "user_profile_general_success": [
       "User profile general data successfully updated!",
       "Дані користувача успішно оновлені!",
@@ -11,10 +15,10 @@
       "Не вдалося оновити загальні дані профілю! Перевірте введені дані!",
       "Не удалось обновить общие данные профиля! Проверьте введенные данные!"
     ],
-    "profile_data_not_found": [
-      "Profile data not found!",
-      "Дані профілю не знайдені!",
-      "Данные профиля не найдены!"
+    "profile_data_not_found_or_error": [
+      "Profile data not found or error in request!",
+      "Дані профілю не знайдені або помилка в запиті!",
+      "Данные профиля не найдены или ошибка в запросе!"
     ],
     "save": [
       "Save", "Зберегти", "Сохранить"

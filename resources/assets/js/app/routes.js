@@ -1,17 +1,16 @@
 import React from 'react';
-import { IndexRoute, Route, Redirect } from 'react-router';
+import {IndexRoute, Route, Redirect} from 'react-router';
 
 import App from './App';
 import NotFound from './layouts/NotFound';
 
-import SearchIndex from '../features/search/layouts/SearchIndex';
+import {SearchIndex, SearchResult} from '../features/search/layouts';
 
-import { LoginForm, Logout } from '../features/user/layouts/Login';
+import {LoginForm, Logout} from '../features/user/layouts/Login';
 import PasswordReset from '../features/user/layouts/PasswordReset';
-import { RegisterForm, RegisterSuccess, RegisterVerify } from '../features/user/layouts/Register';
+import {RegisterForm, RegisterSuccess, RegisterVerify} from '../features/user/layouts/Register';
 
 import Dashboard from '../features/user/layouts/Dashboard';
-
 import {
     ProfileBase,
     ProfileGeneral,
@@ -23,21 +22,21 @@ import Vehicles from '../features/car/layouts/Vehicles';
 import CreateVehicle from '../features/car/layouts/CreateVehicle';
 import EditVehicle from '../features/car/layouts/EditVehicle';
 
-import CreateTrip from '../features/trip/layouts/CreateTrip';
-
-import EditTrip from '../features/trip/layouts/EditTrip';
+import {CreateTrip, EditTrip, TripDetails} from '../features/trip/layouts';
 import TripsList from '../features/trip-list/layouts/TripsList';
-import DetailTrip from '../features/trip/layouts/DetailTrip';
-
-import SearchResult from '../features/search/layouts/SearchResult';
 
 import BookingsList from '../features/bookings/layouts/BookingsList';
 import DriverPublicProfile from '../features/public-profiles/layouts/DriverPublicProfile';
+import PassengerPublicProfile from '../features/public-profiles/layouts/PassengerPublicProfile';
+
+import {
+    ReviewsReceived,
+    ReviewsGiven
+} from '../features/user/layouts/Profile/Reviews';
 
 import Elements from '../features/elements/Elements.js';
 
-import { requireAuth, requireGuest } from '../app/services/AuthService';
-
+import {requireAuth, requireGuest} from '../app/services/AuthService';
 import LangeService from './services/LangService';
 
 export default (store) => {
@@ -50,28 +49,23 @@ export default (store) => {
     return (
         <Route path="/" component={ App }>
 
-            <Route path="elements" component={Elements} />
+            <Route path="elements" component={Elements}/>
 
             {/* Index page */}
             <IndexRoute component={ SearchIndex }/>
-
-            {/* Trip creating and editing */}
-            <Route path="trip">
-                <Route path="create" component={ CreateTrip } />
-                <Route path="edit/:id" component={ EditTrip } />
-                <Route path=":id" component={DetailTrip}/>
-            </Route>
+            {/* Search page */}
+            <Route path="search" component={ SearchResult }/>
 
             {/* Routes only for auth users */}
             <Route onEnter={ requireAuth }>
 
-            {/* Vehicle creating and show details */}
-            <Route path="vehicles">
-                <IndexRoute component={ Vehicles } />
-                <Route path="create" component={ CreateVehicle }/>
-                <Route path="edit/:id" component={ EditVehicle }/>
-                {/*<Route path=":id" component={ VehicleDetails } />*/}
-            </Route>
+                {/* Vehicle creating and show details */}
+                <Route path="vehicles">
+                    <IndexRoute component={ Vehicles }/>
+                    <Route path="create" component={ CreateVehicle }/>
+                    <Route path="edit/:id" component={ EditVehicle }/>
+                    {/*<Route path=":id" component={ VehicleDetails } />*/}
+                </Route>
 
                 {/* Trips - upcoming and past */}
                 <Redirect from='trips' to='/trips/upcoming'/>
@@ -80,15 +74,16 @@ export default (store) => {
                     <Route path="past" component={ TripsList }/>
                 </Route>
 
-                {/* Trip creating and editing */}
+                {/* Trip details, creating and editing */}
                 <Route path="trip">
                     <Route path="create" component={ CreateTrip }/>
-                    <Route path="edit/:id" component={ Vehicles /*TripEdit*/ }/>
+                    <Route path=":id" component={ TripDetails }/>
+                    <Route path="edit/:id" component={ EditTrip }/>
                 </Route>
 
                 {/* Bookings - upcomming and pasts */}
-                <Route path="bookings" component={ BookingsList } />
-                <Route path='bookings/past' component={ BookingsList } />
+                <Route path="bookings" component={ BookingsList }/>
+                <Route path='bookings/past' component={ BookingsList }/>
 
                 {/* User dashboard */}
                 <Route path="dashboard">
@@ -101,6 +96,15 @@ export default (store) => {
                         <Route path="general" component={ ProfileGeneral }/>
                         {/* User profile avatar */}
                         <Route path="avatar" component={ ProfileAvatar }/>
+
+                        {/* User reviews */}
+                        <Route path="reviews">
+                            {/* User received reviews */}
+                            <Route path="received" component={ ReviewsReceived }/>
+                            { /*User given reviews */ }
+                            <Route path="given" component={ ReviewsGiven }/>
+                        </Route>
+
                         {/* User profile password */}
                         <Route path="password" component={ ProfilePassword }/>
                     </Route>
@@ -125,8 +129,8 @@ export default (store) => {
             {/*Driver public profile*/}
             <Route path="driver/:id" component={ DriverPublicProfile }/>
 
-            {/* Page not found */}
-            <Route path="search" component={ SearchResult }/>
+            {/*Passenger public profile*/}
+            <Route path="passenger/:id" component={ PassengerPublicProfile }/>
 
             {/* Page not found */}
             <Route path="*" component={ NotFound }/>

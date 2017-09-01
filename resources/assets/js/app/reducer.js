@@ -7,6 +7,8 @@ import tripList from '../features/trip-list/reducer';
 import { localeReducer as locale } from 'react-localize-redux';
 import search from '../features/search/reducer';
 import bookings from '../features/bookings/reducer';
+import profile from '../features/public-profiles/reducer';
+import tripWizard from 'features/wizard-trip/reducer';
 
 export default combineReducers({
     user,
@@ -16,4 +18,6 @@ export default combineReducers({
     trip,
     tripList,
     bookings,
+    profile,
+    tripWizard
 });

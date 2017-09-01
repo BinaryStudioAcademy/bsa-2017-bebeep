@@ -4,10 +4,15 @@ namespace App\Providers;
 
 use App\Models\Vehicle;
 use App\Services\RouteService;
+use App\Services\BookingService;
+use App\Services\ReviewsService;
 use App\Services\PasswordService;
 use App\Rules\Booking\TripDateRule;
+use App\Services\TripDetailService;
+use App\Repositories\TripRepository;
 use App\Services\UserProfileService;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\BookingRepository;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
 use App\Validators\UpdateTripValidator;
@@ -15,6 +20,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Validators\RestoreTripValidator;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\BookingConfirm\OwnerConfirm;
+use App\Services\UserPublicProfileService;
 use App\Validators\CancelBookingValidator;
 use App\Validators\CreateBookingValidator;
 use App\Validators\CanUncheckRoleValidator;
@@ -28,8 +34,14 @@ use App\Validators\RoutesExistsForTripValidator;
 use App\Rules\Booking\UserHasNotActiveBookingsForTrip;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 use App\Services\Contracts\RouteService as RouteServiceContract;
+use App\Services\Contracts\BookingService as BookingServiceContract;
+use App\Services\Contracts\ReviewsService as ReviewsServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
+use App\Repositories\Contracts\TripRepository as TripRepositoryContract;
+use App\Services\Contracts\TripDetailService as TripDetailServiceContract;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
+use App\Repositories\Contracts\BookingRepository as BookingRepositoryContract;
+use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -50,8 +62,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(TripRepositoryContract::class, TripRepository::class);
+        $this->app->bind(BookingRepositoryContract::class, BookingRepository::class);
+
+        $this->app->bind(RouteServiceContract::class, RouteService::class);
+        $this->app->bind(BookingServiceContract::class, BookingService::class);
+        $this->app->bind(ReviewsServiceContract::class, ReviewsService::class);
         $this->app->bind(PasswordServiceContract::class, PasswordService::class);
+        $this->app->bind(TripDetailServiceContract::class, TripDetailService::class);
         $this->app->bind(UserProfileServiceContract::class, UserProfileService::class);
+        $this->app->bind(UserPublicProfileServiceContract::class, UserPublicProfileService::class);
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);
@@ -64,12 +84,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UpdateTripValidator::class, function ($app) {
             return new UpdateTripValidator(new TripUpdateOwnerRule);
         });
-
-        $this->app->bind(\App\Services\Contracts\BookingService::class, \App\Services\BookingService::class);
-
-        $this->app->bind(\App\Repositories\Contracts\BookingRepository::class, \App\Repositories\BookingRepository::class);
-        $this->app->bind(RouteServiceContract::class, RouteService::class);
-        $this->app->bind(\App\Services\Contracts\TripDetailService::class, \App\Services\TripDetailService::class);
 
         $this->app->bind(ConfirmBookingValidator::class, function ($app) {
             return new ConfirmBookingValidator(
@@ -89,7 +103,7 @@ class AppServiceProvider extends ServiceProvider
             return new CreateBookingValidator(
                 new TripDateRule,
                 new TripRoutesHasSeatsRule,
-                new UserHasNotActiveBookingsForTrip($app->make(\App\Repositories\Contracts\BookingRepository::class))
+                new UserHasNotActiveBookingsForTrip($app->make(BookingRepositoryContract::class))
             );
         });
     }
@@ -107,8 +121,12 @@ class AppServiceProvider extends ServiceProvider
             $parameters,
             $validator
         ) {
-            if (! $parameters || ! Auth::user() || ! $parameters[0]) {
+            if (! $parameters || ! Auth::user()) {
                 return false;
+            }
+
+            if (isset($parameters[1]) && (int) $parameters[1] >= (int) $value) {
+                return true;
             }
 
             $vehicle = Vehicle::whereId($parameters[0])->first();

@@ -34,15 +34,16 @@ export const decodeAuthToken = () => {
 };
 
 export const getAuthUser = (params) => {
-    const decoded = decodeAuthToken();
+    const decoded = decodeAuthToken(),
+        data = { user: {} };
 
     if (_.isEmpty(decoded)) {
-        return { username: 'Guest' };
+        return data;
     }
-    if (_.isEmpty(params)) {
-        return decoded;
-    }
-    return _.pick(decoded, params);
+
+    data.user = _.isEmpty(params) ? decoded : _.pick(decoded, params);
+
+    return data;
 };
 
 export const requireAuth = (nextState, replace) => {

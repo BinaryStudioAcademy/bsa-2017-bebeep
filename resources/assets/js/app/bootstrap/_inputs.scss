@@ -15,6 +15,7 @@
   border-radius: $input-border-radius;
   position: relative;
   margin: 0;
+  text-align: left;
 
   -webkit-box-shadow: 0 0 2px 0 lighten($black, 63%);
   -moz-box-shadow: 0 0 2px 0 lighten($black, 63%);
@@ -25,6 +26,7 @@
     margin-right: $form-input-ico-margin-x;
     display: inline-block;
     font-size: $form-input-circle-height + 2;
+    width: $form-input-circle-height;
     line-height: $form-input-circle-height;
     color: $teal;
     font-family: FontAwesome;
@@ -56,11 +58,11 @@
     }
   }
 
-  &__text > &__text {
+  &__text &__text {
     width: 100%;
   }
 
-  &_focus > &__label,
+  &--focus > &__label,
   &__text:focus + &__label {
     top: $form-input-circle-height / 3;
     font-size: $font-size-xs;
@@ -97,6 +99,19 @@
   .has-danger &:after,
   &.has-danger:after {
     bottom: 2px;
+  }
+
+  &__autocomplete-container {
+    position: absolute;
+    z-index: 1;
+    width: calc(100% + 2px);
+    left: -1px;
+    border: 1px solid $gray-lighter;
+    border-top: none;
+
+    -webkit-box-shadow: 0 1px 2px 0 lighten($black, 63%);
+    -moz-box-shadow: 0 1px 2px 0 lighten($black, 63%);
+    box-shadow: 0 1px 2px 0 lighten($black, 63%);
   }
 }
 

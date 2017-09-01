@@ -210,6 +210,7 @@ class EditTripContainer extends React.Component {
                         from={getCoordinatesFromPlace(this.state.startPoint.place)}
                         to={getCoordinatesFromPlace(this.state.endPoint.place)}
                         endTime={this.setEndTime.bind(this)}
+                        show={true}
                     />
                 </div>
             </div>

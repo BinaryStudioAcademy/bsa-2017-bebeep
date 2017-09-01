@@ -1,0 +1,179 @@
+.driver__comments, .rating-info {
+  position: relative;
+}
+
+.rating-info {
+  min-height: 100px;
+  .preloader {
+    padding-top: 0;
+  }
+}
+
+.loading-placeholder {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  color: #999;
+  font-size: 2.5rem;
+  display: none;
+
+  &_show {
+    display: flex;
+  }
+}
+
+.preloader_active {
+  padding-top: 100px;
+}
+
+.driver {
+  &__profile {
+    padding-right: 10px;
+    &-border {
+      border-left: 1px solid rgba(128, 128, 128, 0.2);
+    }
+  }
+
+  &-avatar {
+    margin-bottom: 20px;
+  }
+
+  &-years {
+    font-weight: 100;
+  }
+
+  &__about {
+    margin-top: 15px;
+    &-me {
+      border-radius: 5px;
+      background-color: rgba(136, 200, 255, 0.27);
+      padding: 20px;
+    }
+  }
+
+  &-name {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  &-additional-info {
+    padding-left: 15px;
+  }
+
+  &-car {
+    border: 1px solid rgba(128, 128, 128, 0.19);
+    width: 230px;
+    height: 140px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+
+    &-block {
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(128, 128, 128, 0.27);
+
+      &__verification-rule {
+
+        margin-bottom: .5rem;
+
+        &--success {
+          color: #5cb85c;
+        }
+        &--error {
+          color: #a94442;
+        }
+
+        i {
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+}
+
+.small-text {
+  font-size: 50%;
+}
+
+.fa-star {
+  color: rgba(241, 199, 31, 0.88) !important;
+  padding-right: 5px;
+}
+.preference {
+  &-green {
+    color: #5cb85c !important;
+    margin-right: 5px;
+  }
+  &-red {
+    color: rgba(199, 44, 21, 0.93) !important;
+    margin-right: 5px;
+  }
+}
+
+.card {
+    &-comment {
+      position:relative;
+    }
+
+    & > .comment-header {
+      &:before, &:after {
+        position: absolute;
+        top: 14px;
+        left: -16px;
+        right: 100%;
+        width: 0;
+        height: 0;
+        display: block;
+        content: " ";
+        border-color: transparent;
+        border-style: solid solid outset;
+        pointer-events: none;
+      }
+      &:after {
+        border-width:7px;
+        border-right-color:#f7f7f7;
+        margin-top:1px;
+        margin-left:2px;
+      }
+      &:before {
+        border-right-color:#ddd;
+        border-width:8px;
+      }
+    }
+}
+
+.user-photo {
+  border-radius: 20%;
+  max-height: 80px;
+  max-width: 80px;
+}
+
+.comment {
+  margin-bottom: 15px;
+}
+
+/* Driver rating styles */
+
+.rating {
+  &__marker {
+    width: 35px;
+    line-height: 1;
+  }
+  &-marker {
+    height:9px;
+    margin: 5px 0;
+  }
+
+  &__progress {
+    width: 180px;
+  }
+  &-progress {
+    height: 9px;
+    margin:8px 0;
+  }
+
+  &__count {
+    margin-left: 20px;
+  }
+}

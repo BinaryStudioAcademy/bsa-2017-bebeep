@@ -4,6 +4,7 @@ namespace App\Criteria\Trips;
 
 use App\User;
 use Carbon\Carbon;
+use App\Models\Booking;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
@@ -20,7 +21,13 @@ class UpcomingDriverTripsCriteria implements CriteriaInterface
     {
         return $model->whereUserId($this->user->id)
             ->where('start_at', '>=', Carbon::now()->toDateTimeString())
-            ->with(['routes', 'vehicle'])
+            ->with(['routes',
+                'vehicle' => function ($query) {
+                    $query->withTrashed();
+                },
+                'bookings' => function ($query) {
+                    $query->where('status', Booking::STATUS_PENDING);
+                }, ])
             ->orderBy('start_at', 'asc')
             ->latest('id');
     }

@@ -1,15 +1,15 @@
 {
   "bookings_list": {
     "my_bookings_header": ["My bookings", "Мої замовлення", "Мои заказы"],
-    "upcoming": ["Upcoming", "Поточні", "Текущие"],
+    "upcoming": ["Upcoming", "Майбутні", "Будущие"],
     "past": ["Past", "Минулі", "Прошлые"],
     "pending": ["pending", "очікує", "ожидает"],
-    "approved": ["approved", "схвалено", "одобрен"],
-    "declined": ["declined", "відсунуто", "отклонен"],
-    "canceled": ["canceled", "відмінено", "отменен"],
+    "approved": ["approved", "підтверджено", "одобрен"],
+    "declined": ["declined", "відхилено", "отклонен"],
+    "canceled": ["canceled", "скасовано", "отменен"],
     "cancel": ["cancel", "відмінити", "отменить"],
-    "cancel_modal_header": ["Cancel booking", "Відмінити букінг", "Отменить поездку"],
-    "no": ["no", "ні", "нет"],
-    "yes": ["yes", "да", "да"]
+    "cancel_modal_header": ["Cancel booking", "Відмінити замовлення", "Отменить поездку"],
+    "no": ["No", "Ні", "Нет"],
+    "yes": ["Yes", "Так", "Да"]
   }
 }

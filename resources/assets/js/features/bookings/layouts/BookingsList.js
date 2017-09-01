@@ -4,7 +4,7 @@ import LangService from 'app/services/LangService';
 import * as lang from '../lang/BookingsList.locale.json';
 import {localize} from 'react-localize-redux';
 import BookingsContainer from '../components/BookingsContainer';
-import { BOOKING_FILTER_PAST, BOOKING_FILTER_UPCOMING } from 'app/services/BookingService';
+import { FILTER_PAST, FILTER_UPCOMING } from 'app/services/BookingService';
 import { Link } from 'react-router';
 
 class BookingsList extends React.Component {
@@ -15,7 +15,7 @@ class BookingsList extends React.Component {
 
     render() {
         const {translate, route} = this.props,
-            filter = route.path === "bookings/past" ? BOOKING_FILTER_PAST : BOOKING_FILTER_UPCOMING;
+            filter = route.path === "bookings/past" ? FILTER_PAST : FILTER_UPCOMING;
 
         return (
             <div>
@@ -23,12 +23,12 @@ class BookingsList extends React.Component {
                 <div>
                     <ul className="nav nav-pills">
                         <li className="nav-item">
-                            <Link to="/bookings" className={"nav-link" + (filter === BOOKING_FILTER_UPCOMING ? " active" : "")}>
+                            <Link to="/bookings" className={"nav-link" + (filter === FILTER_UPCOMING ? " active" : "")}>
                                 {translate('bookings_list.upcoming')}
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/bookings/past" className={"nav-link" + (filter === BOOKING_FILTER_PAST ? " active" : "")}>
+                            <Link to="/bookings/past" className={"nav-link" + (filter === FILTER_PAST ? " active" : "")}>
                                 {translate('bookings_list.past')}
                             </Link>
                         </li>

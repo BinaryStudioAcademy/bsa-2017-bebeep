@@ -9,6 +9,24 @@ const initialState = {
         success: isAuthorized(),
         errors: {},
         httpStatus: 200
+    },
+    profile: {
+        first_name: '',
+        last_name: '',
+        avatar: null
+    },
+    reviews: {
+        given: [],
+        received: [],
+        rating: [0, 0, 0, 0, 0]
+    },
+    entities: {
+        reviews: {
+            byId: {}
+        },
+        users: {
+            byId: {}
+        },
     }
 };
 
@@ -19,7 +37,8 @@ export default function (state = initialState, action) {
                 ...state,
                 register: {
                     success: true,
-                }
+                },
+                profile: action.data.user,
             };
         case actions.LOGIN_SUCCESS:
             return {
@@ -28,7 +47,8 @@ export default function (state = initialState, action) {
                     ...state.login,
                     success: isAuthorized(),
                     httpStatus: 200
-                }
+                },
+                profile: action.data.user,
             };
         case actions.LOGIN_VERIFY_FAILED:
             return {
@@ -65,8 +85,58 @@ export default function (state = initialState, action) {
                 }
             };
 
-        case actions.USER_PROFILE_UPDATE_SUCCESS:
-            return state;
+        case actions.USER_PROFILE_SET_STATE:
+        case actions.USER_PROFILE_UPDATE_STATE:
+            return {
+                ...state,
+                profile: action.data,
+            };
+
+        case actions.USER_AVATAR_UPDATE_STATE:
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    avatar: action.data,
+                }
+            };
+
+        case actions.USER_REVIEWS_SET_GIVEN:
+            return {
+                ...state,
+                reviews: {
+                    ...state.reviews,
+                    given: action.reviews.givenReviews
+                },
+                entities: {
+                    ...state.entities,
+                    users: {
+                        byId: Object.assign(state.entities.users.byId, action.reviews.users),
+                    },
+                    reviews: {
+                        byId: Object.assign(state.entities.reviews.byId, action.reviews.reviews),
+                    }
+                }
+            };
+
+        case actions.USER_REVIEWS_SET_RECEIVED:
+            return {
+                ...state,
+                reviews: {
+                    ...state.reviews,
+                    received: action.reviews.receivedReviews,
+                    rating: action.rating
+                },
+                entities: {
+                    ...state.entities,
+                    users: {
+                        byId: Object.assign(state.entities.users.byId, action.reviews.users),
+                    },
+                    reviews: {
+                        byId: Object.assign(state.entities.reviews.byId, action.reviews.reviews),
+                    }
+                }
+            };
 
         default:
             return state;

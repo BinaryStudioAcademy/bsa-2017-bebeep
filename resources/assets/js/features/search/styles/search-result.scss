@@ -1,7 +1,14 @@
+@import '~app/bootstrap/variables';
+
 .search-result {
 
   &__header {
+    font-size: .9rem;
     background-color: #fff;
+    margin-bottom: 10px;
+    &-count {
+      color: #636262;
+    }
   }
 
   &__sort-container {
@@ -15,6 +22,11 @@
 
   &__pagination {
     background-color: #fff;
-    padding: 10px 0;
+    padding: 15px 0;
+
+    .active a {
+      background-color: #6dcff6 !important;
+      border-color: #6dcff6 !important;
+    }
   }
 }
