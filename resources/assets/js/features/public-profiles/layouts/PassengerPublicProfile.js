@@ -5,7 +5,7 @@ import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import PassengerProfileContainer from '../components/Passenger/PassengerProfileContainer';
 
 import LangService from 'app/services/LangService';
-import * as lang from '../lang/DriverPublicProfile.locale.json';
+import * as lang from '../lang/PublicProfile.locale.json';
 
 class PassengerPublicProfile extends React.Component {
 
