@@ -8,29 +8,33 @@ class BookingStatusModal extends React.Component {
         super(props);
 
         this.state = {
-            isOpenModal: false,
+            isOpen: false,
         };
 
         this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentWillReceiveProps(newProps) {
-        if (this.state.isOpenModal !== newProps.isOpen) {
-            this.setState({ isOpenModal: newProps.isOpen });
+        if (this.state.isOpen !== newProps.isOpen) {
+            this.setState({ isOpen: newProps.isOpen });
         }
     }
 
-    toggleModal() {
-        this.setState({ isOpenModal: !this.state.isOpenModal });
+    closeModal() {
+        this.setState({ isOpen: !this.state.isOpen });
         this.props.onClosed();
     }
 
+    toggleModal() {
+        this.closeModal();
+    }
+
     render() {
-        const { isOpenModal } = this.state,
+        const { isOpen } = this.state,
             { translate, message } = this.props;
 
         return (
-            <Modal isOpen={ isOpenModal } toggle={ this.toggleModal }>
+            <Modal isOpen={ isOpen } toggle={ this.toggleModal }>
                 <ModalHeader className="alert-success" toggle={ this.toggleModal }>
                     { translate('trip_details.booking.header') }
                 </ModalHeader>

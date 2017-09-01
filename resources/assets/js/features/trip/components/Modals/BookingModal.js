@@ -45,6 +45,7 @@ class BookingModal extends React.Component {
     closeModal() {
         const onClosed = this.props.onClosed || (() => {});
         this.setState({ isOpenModal: false });
+        onClosed();
     }
 
     getRouteById(id) {
