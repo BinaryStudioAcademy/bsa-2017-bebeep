@@ -7,11 +7,11 @@ import "../styles/public-profile.scss";
 class ProfileBasicInfo extends React.Component {
 
     render() {
-        const { first_name, last_name, years, img, translate } = this.props;
+        const { first_name, last_name, years, photo, translate } = this.props;
 
         return (
             <div className="text-center">
-                <img src={img ? img : defaultUserPhoto} width="150" height="150" className="rounded-circle driver-avatar" />
+                <img src={photo ? photo : defaultUserPhoto} width="150" height="150" className="rounded-circle driver-avatar" />
                 <h4 className="m-y-2 driver-name">{first_name}&nbsp;{last_name}, <span className="driver-years text-muted">{years} {translate('public_profile.profile_years')}</span></h4>
                 <strong>{translate('public_profile.profile_experience')} </strong> {translate('public_profile.profile_experienced')} <br/>
                 <strong>{translate('public_profile.profile_preferences')} </strong>

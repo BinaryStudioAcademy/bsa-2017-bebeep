@@ -1,41 +1,37 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { localize } from 'react-localize-redux';
+
+import { getDriverProfile } from 'features/public-profiles/actions';
+
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
+
 import Preloader from 'app/components/Preloader';
 import DriverProfile from './DriverProfile';
 import DriverAdditionalInfo from './DriverAdditionalInfo';
-import { publicDriverProfileSetState } from '../../actions';
-import PublicProfileService from 'features/public-profiles/services/PublicProfileService';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getTranslate } from 'react-localize-redux';
-
-import "../../styles/public-profile.scss";
+import "features/public-profiles/styles/public-profile.scss";
 
 class DriverProfileContainer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            preloader: true,
-        }
-    }
 
     componentDidMount() {
-        const { id, publicDriverProfileSetState } = this.props;
+        this.props.getDriverProfile(this.props.id);
+    }
 
-        PublicProfileService.getDriverProfile(id)
-            .then(response => {
-                publicDriverProfileSetState(response);
+    formatActivityStarted() {
+        const { profile, translate } = this.props;
 
-                this.setState({
-                    preloader: false
-                });
-            });
+        profile.activity_started = DateTimeHelper.dateFormatLocale({
+            timestamp: profile.created_at,
+            getTranslate: translate,
+        });
     }
 
     render() {
-        const { profile, translate } = this.props;
+        const { is_fetched, profile, translate } = this.props;
 
-        if (this.state.preloader) {
+        if (!is_fetched) {
             return (
                 <div>
                     <Preloader enable={true}/>
@@ -46,27 +42,31 @@ class DriverProfileContainer extends React.Component {
             );
         }
 
-        console.log(profile);
-
-        return (<div>sdfdsf</div>);
+        this.formatActivityStarted();
 
         return (
             <div className="row">
                 <div className="col-md-8">
-                    <DriverProfile profile={profile}/>
+                    <DriverProfile profile={ profile } />
                 </div>
                 <div className="col-md-4 driver-profile-border">
-                    <DriverAdditionalInfo car={profile.car}/>
+                    <DriverAdditionalInfo
+                        vehicle={ profile.vehicle }
+                        email_is_verified={ profile.email_is_verified }
+                        activity_started={ profile.activity_started }
+                    />
                 </div>
             </div>
         );
     }
 }
 
-export default connect(
-    (state) => ({
+const DriverPublicProfileConnected = connect(
+    state => ({
         profile: state.profile.current_driver_profile,
-        translate: getTranslate(state.locale)
+        is_fetched: state.profile.is_fetched,
     }),
-    (dispatch) => bindActionCreators({ publicDriverProfileSetState }, dispatch)
+    (dispatch) => bindActionCreators({ getDriverProfile }, dispatch)
 )(DriverProfileContainer);
+
+export default localize(DriverPublicProfileConnected, 'locale');

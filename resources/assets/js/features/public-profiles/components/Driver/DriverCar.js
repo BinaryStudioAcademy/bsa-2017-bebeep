@@ -5,17 +5,28 @@ import {defaultCarPhoto} from 'app/services/PhotoService';
 import "../../styles/public-profile.scss";
 
 class DriverProfile extends React.Component {
+
     render() {
-        const { car, translate } = this.props;
+        const { vehicle, translate } = this.props;
 
         return (
             <div className="driver-car-block">
-                <p className="text-left"><strong>{translate('driver_public_profile.driver_car_header')} </strong></p>
+                <p className="text-left">
+                    <strong>{ translate('driver_public_profile.driver_car_header') } </strong>
+                </p>
+
                 <div className="car-logo">
-                    <img src={car.img ? car.img : defaultCarPhoto} className="img-responsive driver-car" />
+                    <img src={vehicle.photo ? vehicle.photo : defaultCarPhoto}
+                        className="img-responsive driver-car" />
                 </div>
-                <span>{translate('driver_public_profile.driver_car_model')}</span><span className="text-muted">{car.model}</span><br/>
-                <span>{translate('driver_public_profile.driver_car_color')}</span><span className="text-muted">{car.color}</span><br/>
+                <span>{ translate('driver_public_profile.driver_car_model') }</span>
+
+                <span className="text-muted">
+                    { `${vehicle.brand} ${vehicle.model}` }
+                </span><br/>
+
+                <span>{ translate('driver_public_profile.driver_car_color') }</span>
+                <span className="text-muted">{ vehicle.color }</span><br/>
             </div>
         );
     }

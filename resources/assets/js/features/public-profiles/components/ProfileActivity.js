@@ -1,11 +1,14 @@
 import React from 'react';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
 
 import "../styles/public-profile.scss";
 
 class DriverProfile extends React.Component {
+
     render() {
-        const { translate } = this.props;
+        const { translate, activity_started } = this.props;
+
+        console.log(activity_started);
 
         return (
             <div className="driver-car-block">

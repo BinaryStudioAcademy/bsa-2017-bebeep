@@ -23,7 +23,7 @@ class DriverProfile extends React.Component {
                     first_name={profile.first_name}
                     last_name={profile.last_name}
                     years={this.getYears()}
-                    img={profile.img}
+                    photo={profile.photo}
                 />
                 <DriverRating />
                 <ProfileAbout

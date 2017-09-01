@@ -2,12 +2,12 @@ import React from 'react';
 import Preloader from 'app/components/Preloader';
 import PassengerProfile from './PassengerProfile';
 import PassengerAdditionalInfo from './PassengerAdditionalInfo';
-import { getPassengerProfile } from '../../actions';
+import { getPassengerProfile } from 'features/public-profiles/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 
-import "../../styles/public-profile.scss";
+import "features/public-profiles/styles/public-profile.scss";
 
 class PassengerProfileContainer extends React.Component {
 
@@ -48,5 +48,5 @@ export default connect(
         is_fetched: state.profile.is_fetched,
         translate: getTranslate(state.locale)
     }),
-    (dispatch) => bindActionCreators({getPassengerProfile}, dispatch)
+    (dispatch) => bindActionCreators({ getPassengerProfile }, dispatch)
 )(PassengerProfileContainer);
