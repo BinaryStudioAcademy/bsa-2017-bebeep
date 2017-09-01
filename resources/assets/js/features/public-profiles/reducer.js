@@ -18,7 +18,7 @@ export default function (state = initialState, action) {
                 ...state,
                 current_passenger_profile: action.profile
             };
-        case actions.PUBLIC_PASSENGER_PROFILE_SET_REQUEST_STATUS:
+        case actions.PUBLIC_PROFILE_SET_REQUEST_STATUS:
             return {
                 ...state,
                 is_fetched: action.status
