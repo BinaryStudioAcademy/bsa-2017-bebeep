@@ -14,7 +14,7 @@ class Elements extends React.Component {
             date: null,
             text: '',
             text2: '',
-            selected: ''
+            selected: 'foo'
         };
     }
 

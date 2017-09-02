@@ -47,6 +47,10 @@ class InputAutocomplete extends React.Component {
                         }
                         renderMenu={(items, value, style) =>
                             <div className="form-input__autocomplete-container autocomplete-box">{items}</div>}
+                        wrapperProps={{
+                            className: "form-input__text"
+                        }}
+                        wrapperStyle={{}}
                         value={value}
                         onChange={onChange}
                         onSelect={onSelected}
