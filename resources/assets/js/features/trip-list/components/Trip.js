@@ -125,9 +125,9 @@ class Trip extends React.Component {
                                 <span className="text-muted"><strong>{translate('trip_list.price')}:</strong> ${trip.price}</span><br/>
                                 <span className="text-muted"><strong>{translate('trip_list.seats')}:</strong> {trip.seats}</span><br/>
                             </div>
-                            <span className="link-style" onClick={this.onClickUsersBtn} >
+                            <span className="link-style"  onClick={this.onClickUsersBtn} >
                                 <i className="trip-detail-icon fa fa-user mr-2" aria-hidden="true" />
-                                Passengers
+                                { translate('trip_list.passengers_link') }
                             </span>
 
                         </div>
