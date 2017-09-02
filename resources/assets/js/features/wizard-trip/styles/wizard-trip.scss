@@ -1,10 +1,141 @@
-@import '../../../app/bootstrap/mixins';
+@import '~app/bootstrap/mixins';
 
 .wizard-trip {
   &__step {
     display: none;
     &--active {
       display: block;
+    }
+  }
+}
+
+.wizard-form {
+  &__btn {
+    margin-left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 11px;
+    padding-right: 11px;
+    letter-spacing: .025em;
+  }
+
+  &__input {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 15px;
+    width: 250px;
+    &_calendar {
+      width: 170px;
+    }
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  &__header {
+    margin-bottom: 35px;
+    color: #fff;
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: .025em;
+    text-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.wizard-steps {
+  &__step {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    font-size: 18px;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #6dcff6;
+    margin-right: 250px;
+    &:last-child {
+      margin-right: 0;
+      &::after {
+        display: none;
+      }
+    }
+    &:hover {
+      text-decoration: none;
+      color: #fff;
+    }
+    &::after {
+      content: "";
+      display: block;
+      height: 1px;
+      width: 260px;
+      background: #6dcff6;
+      position: absolute;
+      left: 25px;
+      top: 50%;
+    }
+    &_active {
+      font-weight: bold;
+      background: #fff;
+      color: #6dcff6;
+      border: 3px solid;
+      &:hover {
+        color: #6dcff6;
+      }
+    }
+  }
+}
+
+.wizard-tabs {
+  &__tab {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px;
+    background: #000;
+    border-radius: 5px;
+    width: 170px;
+    height: 80px;
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: .025em;
+
+    &:hover {
+      text-decoration: none;
+      color: #fff;
+    }
+
+    &:focus {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    &_active {
+      background: #6dcff6;
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 50%;
+        bottom: -11px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 11px 11px 0 11px;
+        border-color: #6dcff6 transparent transparent transparent;
+        transform: translateX(-50%);
+      }
+    }
+
+    img {
+      margin-top: 12px;
+    }
+
+    span {
+      display: block;
+      margin-top: 10px;
     }
   }
 }

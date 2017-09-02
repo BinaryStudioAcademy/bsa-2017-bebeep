@@ -25,26 +25,19 @@ class MainNavigation extends React.Component {
     }
 
     render() {
-        const navClass = !this.state.isNavOpen ? 'collapse' : '';
-        const navLinks = isAuthorized() ? <ForAuthUser /> : <ForGuestUser />;
+        const navClass = !this.state.isNavOpen ? 'collapse' : '',
+            navLinks = isAuthorized() ? <ForAuthUser /> : <ForGuestUser />;
 
         return (
-            <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-              <button className="navbar-toggler navbar-toggler-right" type="button"
-                    data-toggle="collapse" data-target="#navbarToogle"
-                    aria-controls="navbarToogle" aria-expanded="false"
-                    aria-label="Toggle navigation"
-                    onClick={this.toggleNavbar}>
+            <header className="header">
+                <div className="header__container container clearfix">
+                    <IndexLink to="/" className="header__logo logo">
+                        <img src="/template/img/logo.png" alt="BeBeep" />
+                    </IndexLink>
 
-                <span className="navbar-toggler-icon"></span>
-              </button>
-
-              <IndexLink to="/" className="navbar-brand">BeBeep</IndexLink>
-
-              <div className={"navbar-collapse " + navClass} id="navbarToogle">
-                { navLinks }
-              </div>
-            </nav>
+                    { navLinks }
+                </div>
+            </header>
         );
     }
 }

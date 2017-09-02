@@ -5,11 +5,18 @@ import {browserHistory} from 'react-router';
 
 import Input from 'app/components/Input';
 
-import {registerSuccess, userBookingSetState, userFormRoleSetState, userHaveBookingSetState} from 'features/user/actions';
+
+import {
+    registerSuccess,
+    userBookingSetState,
+    userFormRoleSetState,
+    userHaveBookingSetState
+} from 'features/user/actions';
+
 import {simpleRequest} from 'app/services/RequestService';
 import BookingService from 'app/services/BookingService';
 import {RegisterValidate, checkPassengerRole} from 'app/services/UserService';
-import {initSession, destroySession} from 'app/services/AuthService';
+import { initSession, destroySession, getAuthUser } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
 
@@ -82,8 +89,9 @@ class Form extends React.Component {
             simpleRequest.post('/api/user/register', registerData)
                 .then(
                     response => {
-                        registerSuccess();
                         initSession(response.data.token);
+                        registerSuccess(getAuthUser());
+
                         if (hasTripPending) {
                             savePendingTrip(tripPending).then(() => {
                                 completeTrip();

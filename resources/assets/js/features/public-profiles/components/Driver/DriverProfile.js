@@ -1,12 +1,14 @@
 import React from 'react';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
+
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
+
 import ProfileBasicInfo from '../ProfileBasicInfo';
 import DriverRating from './DriverRating';
 import ProfileCommentsList from '../ProfileCommentsList';
 import ProfileAbout from '../ProfileAbout';
-import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
-import "../../styles/public-profile.scss";
+import "features/public-profiles/styles/public-profile.scss";
 
 class DriverProfile extends React.Component {
 
@@ -20,18 +22,17 @@ class DriverProfile extends React.Component {
         return (
             <div className="driver__profile">
                 <ProfileBasicInfo
-                    first_name={profile.first_name}
-                    last_name={profile.last_name}
-                    years={this.getYears()}
-                    img={profile.img}
+                    first_name={ profile.first_name }
+                    last_name={ profile.last_name }
+                    years={ this.getYears() }
+                    photo={ profile.photo }
                 />
-                <DriverRating />
+                <DriverRating driver={profile.id} />
                 <ProfileAbout
-                    about={profile.about_me}
+                    about={ profile.about_me }
                 />
-                <ProfileCommentsList
-                    comments={profile.comments}
-                />
+
+                <ProfileCommentsList driver={profile.id} />
             </div>
         );
     }

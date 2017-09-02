@@ -9,13 +9,12 @@ import './styles/app.scss';
 class App extends React.Component {
 
     render() {
+
         return (
             <div id="application">
                 <MainHeader />
 
-                <div className="main-container container py-4">
-                    {this.props.children}
-                </div>
+                { this.props.children }
             </div>
         )
     }

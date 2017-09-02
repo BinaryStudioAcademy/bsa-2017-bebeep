@@ -1,18 +1,21 @@
 @import '~font-awesome/scss/_variables';
+@import '~app/bootstrap/variables';
 
 .search-trip-item {
-  $borderColor: #bbb;
   $bgColor: #fff;
+  border-radius: 3px;
+
+  &-block {
+    padding: 5px 10px;
+  }
 
   display: block;
   background-color: $bgColor;
-  border-top: 1px solid $borderColor;
-  padding: 10px 0;
+  padding-top: 15px;
+  padding-bottom: 10px;
   color: #272727;
-
-  &:last-child {
-    border-bottom: 1px solid $borderColor;
-  }
+  border: 1px solid rgba(217, 217, 217, 0.73);
+  margin-bottom: 10px;
 
   &:hover {
     background-color: darken($bgColor, 1%);
@@ -22,31 +25,40 @@
   }
 
   &__user-container {
-    border-right: 1px solid $borderColor;
+    padding: 10px 20px;
+    border-right: 1px solid rgba(147, 147, 147, 0.85);
     @media screen and (max-width: 574px) {
       border-right: none;
     }
   }
 
   &__user-photo {
-    width: 72px;
-    height: 72px;
-    margin-right: 10px;
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
     border-radius: 50%;
     float: left;
   }
 
   &__user-name {
+    color: rgba(0, 0, 0, 0.84);
+    letter-spacing: .5px;
+    font-size: 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: bold;
+    font-weight: 600;
+    padding-top: 20px;
   }
 
   &__user-age {
     font-size: .85rem;
     color: #999;
-    margin-top: 6px;
+  }
+
+  &__trip-container {
+    padding-left: 25px;
+    padding-right: 20px;
   }
 
   &__description {
@@ -54,56 +66,70 @@
     float: left;
   }
   &__offer {
+    margin-top: -10px;
     width: 35%;
     float: left;
     text-align: right;
   }
 
-    &__start-date {
+  &__start-date {
+    color: rgba(0, 0, 0, 0.74);
     font-weight: bold;
     font-size: 1.2rem;
   }
 
   &__price {
-    font-size: 1.3rem;
+    color: rgba(0, 0, 0, 0.74);
+    font-size: 2.1rem;
     font-weight: bold;
   }
 
   &__price-currency {
-    font-size: .8rem;
+    padding-left: 5px;
+    font-size: 2.1rem;
   }
 
   &__price-sign {
+    color: #636262;
     font-size: .8rem;
   }
 
   &__free-seats {
     margin-top: 5px;
-    color: #999;
-    font-size: .9rem;
+    color: #636262;
+    font-size: .8rem;
   }
   &__free-seats-text {
     color: #333;
-    font-size: 1.1rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    padding-right: 5px;
   }
 
   &__to,
   &__from {
     font-size: .9rem;
-    color: #777;
+    color: #636262;
+    margin-bottom: 5px;
 
     &-ico {
-      font-size: 1.2rem;
-      font-weight: bold;
+      content: '';
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      margin-right: .5rem;
+      vertical-align: top;
+      background-color: $white;
+      border-radius: 50%;
+      border: 3px solid $teal;
+    }
+
+    &-end {
+      background-color: $teal;
     }
   }
-  &__from-ico {
-    color: #2ab27b;
-  }
 
-  &__to-ico {
-    color: #c12e2a;
-  }
+
   &__route {
     margin-bottom: 10px;
     word-break: break-word;
@@ -112,7 +138,7 @@
       color: #999;
 
       &_selected {
-        color: #232323;
+        color: #636262;;
       }
     }
 

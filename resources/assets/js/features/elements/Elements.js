@@ -1,4 +1,7 @@
 import React from 'react';
+
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
+
 import InputDate from 'app/components/Controls/InputDate';
 import Input from 'app/components/Controls/Input';
 import Select from 'app/components/Controls/Select';
@@ -14,9 +17,10 @@ class Elements extends React.Component {
     }
 
     render() {
-        const {date, text, text2} = this.state;
+        const { date, text, text2 } = this.state;
+
         return (
-            <div>
+            <ContainerWrapper>
                 <div>
                     <button className="btn btn-info btn-lg">Найти</button>
                     <button className="btn btn-info btn-lg disabled">Найти</button>
@@ -55,7 +59,7 @@ class Elements extends React.Component {
                     <option value="1">1 место</option>
                     <option value="2">2 место</option>
                 </Select>
-            </div>
+            </ContainerWrapper>
         );
     }
 }

@@ -1,14 +1,14 @@
 import React from 'react';
-import { IndexRoute, Route, Redirect } from 'react-router';
+import {IndexRoute, Route, Redirect} from 'react-router';
 
 import App from './App';
 import NotFound from './layouts/NotFound';
 
-import { SearchIndex, SearchResult } from '../features/search/layouts';
+import {SearchIndex, SearchResult} from '../features/search/layouts';
 
-import { LoginForm, Logout } from '../features/user/layouts/Login';
+import {LoginForm, Logout} from '../features/user/layouts/Login';
 import PasswordReset from '../features/user/layouts/PasswordReset';
-import { RegisterForm, RegisterSuccess, RegisterVerify } from '../features/user/layouts/Register';
+import {RegisterForm, RegisterSuccess, RegisterVerify} from '../features/user/layouts/Register';
 
 import Dashboard from '../features/user/layouts/Dashboard';
 import {
@@ -22,16 +22,21 @@ import Vehicles from '../features/car/layouts/Vehicles';
 import CreateVehicle from '../features/car/layouts/CreateVehicle';
 import EditVehicle from '../features/car/layouts/EditVehicle';
 
-import { CreateTrip, EditTrip, TripDetails } from '../features/trip/layouts';
+import {CreateTrip, EditTrip, TripDetails} from '../features/trip/layouts';
 import TripsList from '../features/trip-list/layouts/TripsList';
 
 import BookingsList from '../features/bookings/layouts/BookingsList';
 import DriverPublicProfile from '../features/public-profiles/layouts/DriverPublicProfile';
 import PassengerPublicProfile from '../features/public-profiles/layouts/PassengerPublicProfile';
 
+import {
+    ReviewsReceived,
+    ReviewsGiven
+} from '../features/user/layouts/Profile/Reviews';
+
 import Elements from '../features/elements/Elements.js';
 
-import { requireAuth, requireGuest } from '../app/services/AuthService';
+import {requireAuth, requireGuest} from '../app/services/AuthService';
 import LangeService from './services/LangService';
 
 export default (store) => {
@@ -44,7 +49,7 @@ export default (store) => {
     return (
         <Route path="/" component={ App }>
 
-            <Route path="elements" component={Elements} />
+            <Route path="elements" component={Elements}/>
 
             {/* Index page */}
             <IndexRoute component={ SearchIndex }/>
@@ -56,7 +61,9 @@ export default (store) => {
 
                 {/* Vehicle creating and show details */}
                 <Route path="vehicles">
-                    <IndexRoute component={ Vehicles } />
+
+                    <IndexRoute component={ Vehicles }/>
+
                     <Route path="create" component={ CreateVehicle }/>
                     <Route path="edit/:id" component={ EditVehicle }/>
                     {/*<Route path=":id" component={ VehicleDetails } />*/}
@@ -76,8 +83,8 @@ export default (store) => {
                 </Route>
 
                 {/* Bookings - upcomming and pasts */}
-                <Route path="bookings" component={ BookingsList } />
-                <Route path='bookings/past' component={ BookingsList } />
+                <Route path="bookings" component={ BookingsList }/>
+                <Route path='bookings/past' component={ BookingsList }/>
 
                 {/* User dashboard */}
                 <Route path="dashboard">
@@ -90,6 +97,15 @@ export default (store) => {
                         <Route path="general" component={ ProfileGeneral }/>
                         {/* User profile avatar */}
                         <Route path="avatar" component={ ProfileAvatar }/>
+
+                        {/* User reviews */}
+                        <Route path="reviews">
+                            {/* User received reviews */}
+                            <Route path="received" component={ ReviewsReceived }/>
+                            { /*User given reviews */ }
+                            <Route path="given" component={ ReviewsGiven }/>
+                        </Route>
+
                         {/* User profile password */}
                         <Route path="password" component={ ProfilePassword }/>
                     </Route>

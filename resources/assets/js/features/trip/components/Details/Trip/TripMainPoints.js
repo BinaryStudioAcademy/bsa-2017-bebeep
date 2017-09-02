@@ -1,13 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { localize } from 'react-localize-redux';
+import TripMapModal from '../../Modals/TripMapModal';
 
 class TripMainPoints extends React.Component {
 
-    render() {
-        const { translate, startPoint, endPoint } = this.props;
+    /*constructor() {
+        super();
+
+        this.state = {
+            isShowTrip: false
+        };
+
+        this.toggleTrip = this.toggleTrip.bind(this);
+    }
+
+    toggleTrip() {
+        this.setState({isShowTrip: !this.state.isShowTrip});
+    }*/
+
+    renderRouteTitle() {
+        const { startPoint, endPoint } = this.props;
 
         return (
-            <div className="trip-main-points mt-3 mb-4 ml-3">
+            <span>
                 <span className="trip-start-point">
                     { startPoint }
                 </span>
@@ -15,13 +31,30 @@ class TripMainPoints extends React.Component {
                 <span className="trip-end-point">
                     { endPoint }
                 </span>
-                <a href="#" className="trip-main-points__route-map-link ml-3">
-                    <i className="trip-detail-icon fa fa-road mr-2" aria-hidden="true" />
-                    { translate('trip_details.route_map_link') }
-                </a>
+            </span>
+        );
+    }
+
+    render() {
+        const { translate, waypoints } = this.props,
+            routeTitle = this.renderRouteTitle();
+
+        return (
+            <div className="trip-main-points mt-3 mb-4 ml-3">
+                { routeTitle }
+                <TripMapModal className="trip-main-points__route-map-link"
+                    waypoints={ waypoints }
+                    modalHeader={ routeTitle }
+                />
             </div>
         )
     }
 }
+
+TripMainPoints.PropTypes = {
+    startPoint: PropTypes.string.isRequired,
+    endPoint: PropTypes.string.isRequired,
+    waypoints: PropTypes.array.isRequired
+};
 
 export default localize(TripMainPoints, 'locale');

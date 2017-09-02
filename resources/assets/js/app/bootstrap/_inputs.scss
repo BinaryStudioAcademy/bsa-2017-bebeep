@@ -15,6 +15,7 @@
   border-radius: $input-border-radius;
   position: relative;
   margin: 0;
+  text-align: left;
 
   -webkit-box-shadow: 0 0 2px 0 lighten($black, 63%);
   -moz-box-shadow: 0 0 2px 0 lighten($black, 63%);
@@ -25,6 +26,7 @@
     margin-right: $form-input-ico-margin-x;
     display: inline-block;
     font-size: $form-input-circle-height + 2;
+    width: $form-input-circle-height;
     line-height: $form-input-circle-height;
     color: $teal;
     font-family: FontAwesome;
@@ -56,7 +58,7 @@
     }
   }
 
-  &__text > &__text {
+  &__text &__text {
     width: 100%;
   }
 

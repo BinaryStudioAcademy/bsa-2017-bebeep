@@ -80,6 +80,7 @@ class ProfileTest extends JwtTestCase
 
         $response->assertStatus(200)
              ->assertExactJson(['data' => $this->driverData + [
+                'avatar' => null,
                 'about_me' => null,
                 'role_driver' => true,
                 'role_passenger' => false,
@@ -99,6 +100,7 @@ class ProfileTest extends JwtTestCase
 
         $response->assertStatus(200)
              ->assertExactJson(['data' => $this->passengerData + [
+                'avatar' => null,
                 'role_driver' => false,
                 'role_passenger' => true,
                 'can_uncheck_role_driver' => true,
@@ -291,6 +293,7 @@ class ProfileTest extends JwtTestCase
 
         $response->assertStatus(200)
              ->assertExactJson(['data' => $updatedData + [
+                'avatar' => null,
                 'can_uncheck_role_driver' => false,
                 'can_uncheck_role_passenger' => true,
             ]]);

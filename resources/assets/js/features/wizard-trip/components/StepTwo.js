@@ -64,8 +64,8 @@ class StepTwo extends React.Component {
             {translate} = this.props;
 
         return (
-            <div className="row">
-                <div className="col-md-4 col-sm-6">
+            <div>
+                <div className="wizard-form__input">
                     <Input
                         id="price"
                         ico="fa-circle-o"
@@ -74,7 +74,7 @@ class StepTwo extends React.Component {
                         error={errors.price}
                     >{translate('wizard-trip.price_per_seat')}</Input>
                 </div>
-                <div className="col-md-4 col-sm-6">
+                <div className="wizard-form__input">
                     <Input
                         id="seats"
                         value={seats}
@@ -82,9 +82,8 @@ class StepTwo extends React.Component {
                         error={errors.seats}
                     >{translate('wizard-trip.places')}</Input>
                 </div>
-                <div className="col-md-4 col-sm-12">
-                    <Button color="warning" size="lg" role="button" onClick={this.onNext}>{translate('wizard-trip.continue')}</Button>
-                </div>
+
+                <Button className="wizard-form__btn btn btn-warning btn-lg" color="warning" size="lg" role="button" onClick={this.onNext}>{translate('wizard-trip.continue')}</Button>
             </div>
         );
     }

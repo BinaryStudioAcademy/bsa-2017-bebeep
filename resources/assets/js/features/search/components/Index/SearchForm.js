@@ -1,15 +1,13 @@
 import React from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import DatePicker from 'react-datepicker';
 import { browserHistory } from 'react-router';
-import PlacesAutocomplete from 'react-places-autocomplete';
-import { geocodeByAddress } from 'react-places-autocomplete';
 
 import Validator from 'app/services/Validator';
 import { searchIndexRules } from 'app/services/SearchIndex';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
+import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
+import { Button } from 'reactstrap';
 
 import {getTranslate} from 'react-localize-redux';
 import { searchSuccess } from 'features/search/actions';
@@ -22,49 +20,40 @@ class SearchForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            errors: {},
-            startPoint: {
-                address: '',
+            from: {
                 place: null,
-                coordinate: {lan: null, lng: null}
+                address: ''
             },
-            endPoint: {
-                address: '',
+            to: {
                 place: null,
-                coordinate: {lan: null, lng: null}
+                address: ''
             },
-            startDate: null
+            startDate: null,
+            errors: {}
         };
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
-        this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
+
+        this.onSelectedFrom = this.onSelectedFrom.bind(this);
+        this.onSelectedTo = this.onSelectedTo.bind(this);
+        this.onChangeDate = this.onChangeDate.bind(this);
     }
 
-    componentDidMount() {
-        if (this.props.pageType === 'index') {
-            return;
-        }
+    onSelectedFrom(from) {
+        this.setState({from});
+    }
 
-        const { tripDefaultData } = this.props;
+    onSelectedTo(to) {
+        this.setState({to});
+    }
 
-        if (tripDefaultData.from.name) {
-            this.onSelectStartPoint(tripDefaultData.from.name);
-        }
-        if (tripDefaultData.to.name) {
-            this.onSelectEndPoint(tripDefaultData.to.name);
-        }
-        if (tripDefaultData.start_at) {
-            this.setState({
-                startDate: moment(tripDefaultData.start_at, "s"),
-            });
-        }
+    onChangeDate(startDate) {
+        this.setState({startDate});
     }
 
     onClick(e) {
         e.preventDefault();
         const toBeValidated = {
-            from: this.state.startPoint.place,
-            to: this.state.endPoint.place,
+            from: this.state.from.place,
+            to: this.state.to.place,
             start_at: this.state.startDate,
         };
 
@@ -79,12 +68,12 @@ class SearchForm extends React.Component {
 
         const data = {
             from: {
-                name: this.state.startPoint.address,
-                coordinate: getCoordinatesFromPlace(this.state.startPoint.place)
+                name: this.state.from.address,
+                coordinate: getCoordinatesFromPlace(this.state.from.place)
             },
             to: {
-                name: this.state.endPoint.address,
-                coordinate: getCoordinatesFromPlace(this.state.endPoint.place)
+                name: this.state.to.address,
+                coordinate: getCoordinatesFromPlace(this.state.to.place)
             },
             start_at: this.state.startDate ? this.state.startDate.unix() : null
         };
@@ -92,144 +81,44 @@ class SearchForm extends React.Component {
         browserHistory.push('/search');
     }
 
-    onChangeStartPoint(address) {
-        this.setState({
-            startPoint: {address: address}
-        });
-    }
-
-    handleDateChange(date) {
-        this.setState({
-            startDate: date
-        });
-    }
-
-    onChangeEndPoint(address) {
-        this.setState({
-            endPoint: {address: address}
-        });
-    }
-
-    onSelectStartPoint(address) {
-        this.selectGeoPoint('start', address);
-    }
-
-    onSelectEndPoint(address) {
-        this.selectGeoPoint('end', address);
-    }
-
-    selectGeoPoint(type, address) {
-        this.setState({
-            [type + 'Point']: {
-                address: address,
-                place: null
-            }
-        });
-
-        geocodeByAddress(address)
-            .then(results => {
-                this.setState({
-                    [type + 'Point']: {
-                        place: results[0],
-                        address: address,
-                    }
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    [type + 'Point']: {
-                        place: null,
-                        address: address,
-                    }
-                })
-            });
-    }
-
     render() {
-        const { translate } = this.props;
-        const placesCssClasses = {
-            root: 'form-group',
-            input: 'form-control search-input',
-            autocompleteContainer: 'autocomplete-container'
-        };
-
-        const startPointProps = {
-            value: this.state.startPoint.address,
-            onChange: this.onChangeStartPoint,
-            type: 'search',
-            placeholder: translate('search_index.leaving_from'),
-            autoFocus: true
-        };
-
-        const endPointProps = {
-            value: this.state.endPoint.address,
-            onChange: this.onChangeEndPoint,
-            type: 'search',
-            placeholder: translate('search_index.going_to'),
-            autoFocus: false
-        };
-
-        const AutocompleteItem = ({ formattedSuggestion }) => (
-            <div className="suggestion-item">
-                <i className='fa fa-map-marker suggestion-icon' />
-                <strong>{formattedSuggestion.mainText}</strong>{' '}
-                <small className="text-muted">{formattedSuggestion.secondaryText}</small>
-            </div>);
+        const { translate, pageType } = this.props,
+            btnType = pageType !== 'index' ? 'info' : 'warning';
 
         return (
             <form role="form" className="search-form" action="" method="POST">
-                <div className="row py-4 px-2 px-lg-4">
-                    <div className="col-sm-6 col-lg-3">
-                        <div className={"form-group " + (this.state.errors.from ? 'has-danger' : '')}>
-                            <label htmlFor="startPoint" className="sr-only">{translate('search_index.leaving_from_label')}</label>
-                            <PlacesAutocomplete
-                                inputProps={startPointProps}
-                                classNames={placesCssClasses}
-                                onSelect={this.onSelectStartPoint.bind(this)}
-                                onEnterKeyDown={this.onSelectStartPoint.bind(this)}
-                                googleLogo={false}
-                                autocompleteItem={AutocompleteItem}
-                                highlightFirstSuggestion={true}
-                            />
-                        </div>
-                    </div>
-                    <div className="col-sm-6 col-lg-3">
-                        <div className={"form-group " +
-                                (this.state.errors.to ? 'has-danger' : '')}>
-
-                            <label htmlFor="endPoint" className="sr-only">{translate('search_index.going_to_label')}</label>
-                            <PlacesAutocomplete
-                                inputProps={endPointProps}
-                                classNames={placesCssClasses}
-                                onSelect={this.onSelectEndPoint.bind(this)}
-                                onEnterKeyDown={this.onSelectEndPoint.bind(this)}
-                                googleLogo={false}
-                                autocompleteItem={AutocompleteItem}
-                                highlightFirstSuggestion={true}
-                            />
-                        </div>
-                    </div>
-                    <div className="col-sm-6 col-lg-3">
-                        <DatePicker
-                            todayButton={"Today"}
-                            selected={this.state.startDate}
-                            onChange={this.handleDateChange}
-                            placeholderText={translate('search_index.date')}
-                            minDate={moment()}
-                            className={"form-control date-picker " +
-                                (this.state.errors.start_at ? 'picker-error' : '')}
-                            isClearable={true}
-                        />
-                    </div>
-                    <div className="col-sm-6 col-lg-3">
-                        <button type="submit"
-                            className="btn btn-search btn-primary px-5"
-                            onClick={this.onClick.bind(this)}
-                        >
-                            {translate('search_index.find_a_ride')}
-                        </button>
-                    </div>
+                <div className="wizard-form__input">
+                    <InputPlaces
+                        id="trip_from"
+                        ico="fa-circle-o"
+                        onChange={this.onSelectedFrom}
+                        error={this.state.errors.from}
+                    >{translate('search_index.leaving_from_label')}</InputPlaces>
                 </div>
+                <div className="wizard-form__input">
+                    <InputPlaces
+                        id="trip_to"
+                        ico="fa-circle-o"
+                        onChange={this.onSelectedTo}
+                        error={this.state.errors.to}
+                    >{translate('search_index.going_to_label')}</InputPlaces>
+                </div>
+                <div className="wizard-form__input wizard-form__input_calendar">
+                    <InputDate
+                        id="trip_date"
+                        value={this.state.startDate}
+                        onChange={this.onChangeDate}
+                        label={translate('search_index.date')}
+                        error={this.state.errors.start_at}
+                    />
+                </div>
+                <Button className={"wizard-form__btn btn btn-lg btn-" + btnType}
+                    color={btnType}
+                    size="lg"
+                    role="button"
+                    onClick={this.onClick.bind(this)}>
+                        { translate('search_index.find_a_ride') }
+                </Button>
             </form>
         );
     }

@@ -108,6 +108,7 @@ class Trip extends React.Component {
                                    from={startPlace.geometry.location}
                                    to={endPlace.geometry.location}
                                    waypoints={waypoints}
+                                   show={false}
                     >
                         <div className="card-block">
                             <div className="card-text">
@@ -118,14 +119,29 @@ class Trip extends React.Component {
                         </div>
                         <div className="card-footer trip-actions">
                             {this.state.editable ? (
-                                <Link to={'/trip/edit/' + trip.id} className="btn btn-primary">{translate('trip_list.edit')}</Link>
-                            ) : (<span>&nbsp;</span>)}
+                                <Link to={'/trip/edit/' + trip.id} className="btn btn-primary mr-3">
+                                    { translate('trip_list.edit') }
+                                </Link>
+                            ) : ''}
+
                             {this.state.deletable ? (
-                                <button onClick={this.deleteSelf.bind(this)} className="btn btn-danger hover">{translate('trip_list.delete')}</button>
-                            ) : (<span>&nbsp;</span>)}
+                                <button onClick={this.deleteSelf.bind(this)}
+                                    className="btn btn-danger hover"
+                                >
+                                    { translate('trip_list.delete') }
+                                </button>
+                            ) : ''}
+
                             {this.state.isDeleted ? (
-                                <span>{translate('trip_list.deleted_successfully')} &nbsp;<button onClick={this.restoreSelf.bind(this)} className="btn btn-default hover">{translate('trip_list.restore')}</button></span>
-                            ) : (<span>&nbsp;</span>)}
+                                <span>
+                                    { translate('trip_list.deleted_successfully') }
+                                    <button onClick={this.restoreSelf.bind(this)}
+                                        className="btn btn-default hover ml-3"
+                                    >
+                                        { translate('trip_list.restore') }
+                                    </button>
+                                </span>
+                            ) : ''}
                         </div>
                     </DirectionsMap>
                 ) : (<span>&nbsp;</span>)}

@@ -1,11 +1,15 @@
 import React from 'react';
-import PageHeader from '../../../app/components/PageHeader';
-import '../styles/vehicle.scss';
-import '../styles/react-select.scss';
+import { localize } from 'react-localize-redux';
+
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
+import PageHeader from 'app/components/PageHeader';
 import CreateVehicleForm from '../components/Containers/CreateVehicle';
+
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/CreateVehicle.locale.json';
-import { localize } from 'react-localize-redux';
+
+import '../styles/vehicle.scss';
+import '../styles/react-select.scss';
 
 class CreateVehicle extends React.Component {
 
@@ -14,13 +18,13 @@ class CreateVehicle extends React.Component {
     }
 
     render() {
-        const {translate} = this.props;
+        const { translate } = this.props;
 
         return (
-            <div>
+            <ContainerWrapper>
                 <PageHeader header={ translate('vehicle.create_vehicle_header') }/>
                 <CreateVehicleForm/>
-            </div>
+            </ContainerWrapper>
         );
     }
 }

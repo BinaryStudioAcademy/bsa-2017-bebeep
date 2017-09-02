@@ -10,13 +10,14 @@ import { searchSuccess } from 'features/search/actions';
 import TripDetailsService from 'features/trip/services/TripDetailsService';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import Preloader from 'app/components/Preloader';
-import SearchForm from 'features/search/components/Index/SearchForm';
+import SearchForm from 'features/search/components/Result/SearchForm';
 import TripDetailsContainer from '../components/Containers/TripDetailsContainer';
 
 import LangService from 'app/services/LangService';
 import * as LangTripDetails from '../lang/TripDetails.locale.json';
-import * as LangSearchForm from 'features/search/lang/SearchIndex.locale.json';
+import * as LangSearchForm from 'features/search/lang/SearchResult.locale.json';
 
 
 class TripDetails extends React.Component {
@@ -41,7 +42,12 @@ class TripDetails extends React.Component {
                     preloader: false,
                 });
             })
-            .catch(error => {});
+            .catch(error => {
+                this.setState({
+                    preloader: false,
+                });
+                console.error(error);
+            });
     }
 
     componentWillMount() {
@@ -54,7 +60,7 @@ class TripDetails extends React.Component {
             startPoint = details.routes[0].from,
             endPoint = _.last(details.routes).to;
 
-        this.props.searchSuccess({
+        searchSuccess({
             from: {
                 name: startPoint.address,
                 coordinate: {lat: startPoint.lat, lng: startPoint.lng},
@@ -77,8 +83,11 @@ class TripDetails extends React.Component {
 
         return (
             <div>
-                <SearchForm />
-                <TripDetailsContainer details={ details } />
+                <SearchForm redirectToSearch={ true } />
+
+                <ContainerWrapper>
+                    <TripDetailsContainer details={ details } />
+                </ContainerWrapper>
             </div>
         );
     }

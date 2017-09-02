@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Trip;
+use App\Models\Review;
 use App\Models\Booking;
 use App\Models\Vehicle;
 use Spatie\MediaLibrary\Media;
@@ -100,6 +101,22 @@ class User extends Authenticatable implements HasMedia
     public function vehicles()
     {
         return $this->hasMany(Vehicle::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function givenReviews()
+    {
+        return $this->hasMany(Review::class, 'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function receivedReviews()
+    {
+        return $this->hasMany(Review::class, 'driver_id');
     }
 
     /**
