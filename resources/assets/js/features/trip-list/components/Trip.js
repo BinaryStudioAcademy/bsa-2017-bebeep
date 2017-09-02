@@ -6,6 +6,7 @@ import { getTranslate } from 'react-localize-redux';
 import moment from 'moment';
 
 import BookingModal from './_Modals/BookingModal';
+import UsersModal from './_Modals/UsersModal';
 import DirectionsMap from "app/components/DirectionsMap";
 
 import { securedRequest } from 'app/services/RequestService';
@@ -23,14 +24,20 @@ class Trip extends React.Component {
             deletable: this.props.deletable,
             editable: this.props.editable,
             isDeleted: false,
-            modalIsOpen: false
+            modalIsOpen: false,
+            modalUsersIsOpen: false
         };
+        this.onClickUsersBtn = this.onClickUsersBtn.bind(this);
     }
 
     onClick() {
         this.setState({
             modalIsOpen: true
         });
+    }
+
+    onClickUsersBtn() {
+        this.setState({ modalUsersIsOpen: !this.state.modalUsersIsOpen });
     }
 
     getStartDate() {
@@ -90,7 +97,7 @@ class Trip extends React.Component {
             arr.push(routes[id]);
             return arr;
         }, []));
-        const { modalIsOpen } = this.state;
+        const { modalIsOpen, modalUsersIsOpen, text } = this.state;
         const arBookings = _.reduce(trip.bookings, (arr, id) => {
             arr.push(bookings[id]);
             return arr;
@@ -116,6 +123,11 @@ class Trip extends React.Component {
                                 <span className="text-muted"><strong>{translate('trip_list.price')}:</strong> ${trip.price}</span><br/>
                                 <span className="text-muted"><strong>{translate('trip_list.seats')}:</strong> {trip.seats}</span><br/>
                             </div>
+                            <span className={"link-style "} onClick={this.onClickUsersBtn()}>
+                                <i className="trip-detail-icon fa fa-user mr-2" aria-hidden="true" />
+                                Passengers
+                            </span>
+
                         </div>
                         <div className="card-footer trip-actions">
                             {this.state.editable ? (
@@ -151,6 +163,9 @@ class Trip extends React.Component {
                     tripId={ trip.id }
                     isOpen={ modalIsOpen }
                     onClosed={ () => this.state.modalIsOpen = false }
+                />
+                <UsersModal
+                    isOpen={ modalUsersIsOpen }
                 />
             </div>
         )
