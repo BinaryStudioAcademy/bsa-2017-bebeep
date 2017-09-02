@@ -10,6 +10,7 @@ import { searchSuccess } from 'features/search/actions';
 import TripDetailsService from 'features/trip/services/TripDetailsService';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import Preloader from 'app/components/Preloader';
 import SearchForm from 'features/search/components/Result/SearchForm';
 import TripDetailsContainer from '../components/Containers/TripDetailsContainer';
@@ -84,9 +85,9 @@ class TripDetails extends React.Component {
             <div>
                 <SearchForm redirectToSearch={ true } />
 
-                <div className="container">
+                <ContainerWrapper>
                     <TripDetailsContainer details={ details } />
-                </div>
+                </ContainerWrapper>
             </div>
         );
     }

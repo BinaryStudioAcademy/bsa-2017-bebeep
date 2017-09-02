@@ -1,6 +1,7 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import PassengerProfileContainer from '../components/Passenger/PassengerProfileContainer';
 
 import LangService from 'app/services/LangService';
@@ -16,7 +17,9 @@ class PassengerPublicProfile extends React.Component {
         const { translate, params } = this.props;
 
         return (
-            <PassengerProfileContainer id={ params.id }/>
+            <ContainerWrapper>
+                <PassengerProfileContainer id={ params.id } />
+            </ContainerWrapper>
         );
     }
 }

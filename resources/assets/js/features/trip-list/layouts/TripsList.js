@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import PageHeader from 'app/components/PageHeader';
 import TripsListContainer from "../components/TripsListContainer";
 
@@ -59,7 +60,7 @@ class TripsList extends React.Component {
         const { translate, filter } = this.props;
 
         return (
-            <div>
+            <ContainerWrapper>
                 <PageHeader header={translate('trip_list.my_trips_header')}/>
 
                 <ul className="nav nav-pills">
@@ -78,7 +79,7 @@ class TripsList extends React.Component {
                 <br/>
 
                 <TripsListContainer filter={filter} />
-            </div>
+            </ContainerWrapper>
         );
     }
 }
