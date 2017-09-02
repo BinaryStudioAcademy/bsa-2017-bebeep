@@ -5,7 +5,7 @@ import {browserHistory} from 'react-router';
 
 import Input from 'app/components/Input';
 
-import {registerSuccess, userBookingSetState, userFormRoleSetState} from 'features/user/actions';
+import {registerSuccess, userBookingSetState, userFormRoleSetState, userHaveBookingSetState} from 'features/user/actions';
 import {simpleRequest} from 'app/services/RequestService';
 import BookingService from 'app/services/BookingService';
 import {RegisterValidate, checkPassengerRole} from 'app/services/UserService';
@@ -28,17 +28,7 @@ class Form extends React.Component {
             errors: {}
         };
     }
-
-
-    isUserHaveBooking() {
-        const {booking} = this.props;
-
-        if (isNull(booking)) {
-            return false;
-        }
-        return true;
-    }
-
+    
     createBooking() {
         const {tripId, routes, seats} = this.props.booking;
 
@@ -48,6 +38,7 @@ class Form extends React.Component {
         }).then((data) => {
             this.props.userBookingSetState(null);
             this.props.userFormRoleSetState(null);
+            this.props.userHaveBookingSetState(false);
             browserHistory.push('/bookings');
         }).catch((error) => {
 
@@ -98,9 +89,8 @@ class Form extends React.Component {
                                 completeTrip();
                                 browserHistory.push('/trips');
                             });
-                        } else if (this.isUserHaveBooking()) {
+                        } else if (this.props.userHaveBooking) {
                             this.createBooking();
-                            browserHistory.push('/bookings');
                         } else {
                             browserHistory.push('/dashboard');
                         }
@@ -227,12 +217,19 @@ const FormConnected = connect(
         booking: state.user.booking,
         userLogin: state.user.login.success,
         userRole: state.user.isPassenger,
+        userHaveBooking: state.user.userHaveBooking,
         stepWizard: state.tripWizard.step,
         tripPending: state.tripWizard.pendingTrip,
         translate: getTranslate(state.locale)
     }),
     (dispatch) =>
-        bindActionCreators({registerSuccess, completeTrip, userBookingSetState, userFormRoleSetState}, dispatch)
+        bindActionCreators({
+            registerSuccess,
+            completeTrip,
+            userBookingSetState,
+            userFormRoleSetState,
+            userHaveBookingSetState
+        }, dispatch)
 )(Form);
 
 export default FormConnected;

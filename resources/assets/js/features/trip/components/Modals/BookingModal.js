@@ -10,7 +10,7 @@ import SelectItem from './SelectItem';
 
 import BookingService from 'app/services/BookingService';
 import {USER_ROLE_PASSENGER} from 'app/services/UserService';
-import { userBookingSetState, userFormRoleSetState } from 'features/user/actions';
+import { userBookingSetState, userFormRoleSetState, userHaveBookingSetState } from 'features/user/actions';
 
 import 'features/trip/styles/booking_modal.scss';
 
@@ -103,6 +103,7 @@ class BookingModal extends React.Component {
             } else {
                 this.props.userFormRoleSetState(USER_ROLE_PASSENGER);
                 this.props.userBookingSetState({tripId, routes, seats});
+                this.props.userHaveBookingSetState(true);
                 browserHistory.push('/registration');
             }
         }
@@ -248,7 +249,7 @@ const BookingModalConnected = connect(
         userLogin: state.user.login.success
     }),
     (dispatch) =>
-        bindActionCreators({userBookingSetState,userFormRoleSetState}, dispatch)
+        bindActionCreators({userBookingSetState,userFormRoleSetState,userHaveBookingSetState}, dispatch)
 )(BookingModal);
 
 export default localize(BookingModalConnected, 'locale');

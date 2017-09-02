@@ -11,7 +11,8 @@ const initialState = {
         httpStatus: 200
     },
     booking:null,
-    isPassenger:null
+    isPassenger:null,
+    userHaveBooking:false
 };
 
 export default function (state = initialState, action) {
@@ -80,6 +81,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isPassenger: action.data
+            };
+
+        case actions.USER_HAVE_BOOKING_SET_STATE:
+            return {
+                ...state,
+                userHaveBooking: action.data
             };
 
         default:

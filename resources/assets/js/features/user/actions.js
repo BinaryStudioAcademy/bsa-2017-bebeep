@@ -35,6 +35,11 @@ export const userFormRoleSetState = data => ({
     data
 });
 
+export const userHaveBookingSetState = data => ({
+    type: actions.USER_HAVE_BOOKING_SET_STATE,
+    data
+});
+
 function processFailedLoginResponse(response) {
     switch (response.status) {
         case 401:
