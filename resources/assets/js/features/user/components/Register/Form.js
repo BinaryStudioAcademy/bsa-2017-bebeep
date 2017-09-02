@@ -8,6 +8,7 @@ import Input from 'app/components/Input';
 
 import {
     registerSuccess,
+    loginSuccess,
     userBookingSetState,
     userFormRoleSetState,
     userHaveBookingSetState
@@ -66,7 +67,7 @@ class Form extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const {registerSuccess, tripPending, completeTrip} = this.props,
+        const {registerSuccess, loginSuccess, tripPending, completeTrip} = this.props,
             {hasTripPending} = this.state,
             registerData = {
                 first_name: e.target['first_name'].value,
@@ -91,6 +92,7 @@ class Form extends React.Component {
                     response => {
                         initSession(response.data.token);
                         registerSuccess(getAuthUser());
+                        loginSuccess(getAuthUser());
 
                         if (hasTripPending) {
                             savePendingTrip(tripPending).then(() => {
@@ -233,6 +235,7 @@ const FormConnected = connect(
     (dispatch) =>
         bindActionCreators({
             registerSuccess,
+            loginSuccess,
             completeTrip,
             userBookingSetState,
             userFormRoleSetState,
