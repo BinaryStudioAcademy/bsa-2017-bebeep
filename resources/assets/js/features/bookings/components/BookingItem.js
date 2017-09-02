@@ -2,7 +2,7 @@ import React from 'react';
 import { localize } from 'react-localize-redux';
 
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
-import { BOOKING_STATUS_DECLINED, BOOKING_STATUS_CANCELED } from 'app/services/BookingService';
+import { BOOKING_STATUS_DECLINED, BOOKING_STATUS_CANCELED, FILTER_PAST, FILTER_UPCOMING } from 'app/services/BookingService';
 
 import '../styles/booking-item.scss';
 
@@ -35,8 +35,18 @@ class BookingItem extends React.Component {
         );
     }
 
+    renderReviewButton() {
+        const { translate } = this.props;
+
+        return (
+            <button className="btn hover btn-secondary btn-cancel-booking">
+                { translate('bookings_list.leave_review') }
+            </button>
+        );
+    }
+
     render() {
-        const { booking, translate } = this.props,
+        const { booking, translate, filter } = this.props,
             startedAt = this.formatStartAt();
 
         return (
@@ -54,7 +64,7 @@ class BookingItem extends React.Component {
                         { translate(`bookings_list.${booking.status}`) }
                     </span>
 
-                    { this.renderCancelButton() }
+                    { filter === FILTER_PAST ? this.renderReviewButton() : this.renderCancelButton() }
                 </div>
             </div>
         );

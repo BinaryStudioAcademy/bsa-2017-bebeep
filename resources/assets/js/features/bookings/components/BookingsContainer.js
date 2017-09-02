@@ -78,14 +78,14 @@ class BookingsContainer extends React.Component {
 
     render() {
         const {page, limit, preloader} = this.state,
-            {data, meta} = this.props;
+            {data, meta, filter} = this.props;
 
         return (
             <div className="bookings-container">
                 <div className="bookings-container__items">
                     <Preloader enable={preloader} />
                     {data.map(booking => (
-                        <BookingItem key={booking.id} booking={booking} showCancelBookingModal={this.showCancelBookingModal.bind(this)} />
+                        <BookingItem key={booking.id} booking={booking} filter={filter} showCancelBookingModal={this.showCancelBookingModal.bind(this)} />
                     ))}
                 </div>
                 <Pagination
