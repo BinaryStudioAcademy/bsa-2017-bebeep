@@ -21,7 +21,8 @@ class JwtAuth extends BaseMiddleware
         if ($token) {
             try {
                 $user = $this->auth->authenticate($token);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
 
         return $next($request);
