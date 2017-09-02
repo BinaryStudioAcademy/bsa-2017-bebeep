@@ -4,6 +4,7 @@ import ContainerWrapper from 'app/layouts/ContainerWrapper';
 
 import InputDate from 'app/components/Controls/InputDate';
 import Input from 'app/components/Controls/Input';
+import InputAutocomplete from 'app/components/Controls/InputAutocomplete';
 import Select from 'app/components/Controls/Select';
 
 class Elements extends React.Component {
@@ -13,12 +14,13 @@ class Elements extends React.Component {
             date: null,
             text: '',
             text2: '',
+            selected: ''
         };
     }
 
     render() {
-        const { date, text, text2 } = this.state;
-
+        const { date, text, text2, selected } = this.state;
+        console.log(selected);
         return (
             <ContainerWrapper>
                 <div>
@@ -59,6 +61,22 @@ class Elements extends React.Component {
                     <option value="1">1 место</option>
                     <option value="2">2 место</option>
                 </Select>
+
+                <InputAutocomplete
+                    id="autocomplete"
+                    value={selected}
+                    items={[
+                        { name_id: 1, name: 'foo' },
+                        { name_id: 2, name: 'bar' },
+                        { name_id: 3, name: 'baz' },
+                    ]}
+                    onChange={(e) => { this.setState({selected: e.target.value}) }}
+                    onSelected={(value, item) => console.log([value, item])}
+                    transformer={(item) => ({
+                        id: item.name_id,
+                        label: item.name
+                    })}
+                >Brand car</InputAutocomplete>
             </ContainerWrapper>
         );
     }
