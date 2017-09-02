@@ -165,3 +165,13 @@ Route::get('v1/reviews/received', [
     'as' => 'reviews.received',
     'uses' => 'ReviewsController@received',
 ]);
+
+Route::get('v1/brands/{name?}/', ['as' => 'brands.byname', 'uses' => 'Api\Car\CarBrandController@brandsByName']);
+Route::get('v1/brands/{carBrand}/models/{name?}', [
+    'as' => 'brand.models.byname',
+    'uses' => 'Api\Car\CarBrandController@brandModelsByName'
+]);
+Route::get('v1/models/{name?}', [
+    'as' => 'models.byname',
+    'uses' => 'Api\Car\CarBrandController@modelsByName'
+]);

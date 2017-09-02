@@ -19,7 +19,9 @@ class JwtAuth extends BaseMiddleware
         $token = $this->auth->setRequest($request)->getToken();
 
         if ($token) {
-            $user = $this->auth->authenticate($token);
+            try {
+                $user = $this->auth->authenticate($token);
+            } catch (\Exception $e) {}
         }
 
         return $next($request);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Car;
 
+use App\Models\CarBrand;
 use App\Services\CarBrandService;
 use App\Services\CarModelService;
 use App\Http\Controllers\Controller;
@@ -45,5 +46,26 @@ class CarBrandController extends Controller
         } else {
             return response()->json('Not found', 404);
         }
+    }
+
+    public function brandsByName($name = '')
+    {
+        $brands = $this->carBrandService->getByName($name, 100);
+
+        return response()->json($brands);
+    }
+
+    public function brandModelsByName(CarBrand $carBrand, $name = '')
+    {
+        $models = $this->carModelService->getModelByCarBrand($carBrand, $name, 100);
+
+        return response()->json($models);
+    }
+
+    public function modelsByName($name = '')
+    {
+        $models = $this->carModelService->getByName($name, 100);
+
+        return response()->json($models);
     }
 }
