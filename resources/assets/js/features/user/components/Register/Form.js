@@ -100,6 +100,7 @@ class Form extends React.Component {
                             });
                         } else if (this.isUserHaveBooking()) {
                             this.createBooking();
+                            browserHistory.push('/bookings');
                         } else {
                             browserHistory.push('/dashboard');
                         }
