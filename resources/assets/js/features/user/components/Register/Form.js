@@ -98,12 +98,7 @@ class Form extends React.Component {
                                 completeTrip();
                                 browserHistory.push('/trips');
                             });
-
-                        } else {
-                            browserHistory.push('/dashboard');
-                        }
-
-                        if (this.isUserHaveBooking()) {
+                        } else if (this.isUserHaveBooking()) {
                             this.createBooking();
                         } else {
                             browserHistory.push('/dashboard');
