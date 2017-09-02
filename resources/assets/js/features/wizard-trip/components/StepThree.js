@@ -53,7 +53,7 @@ class StepThree extends React.Component {
 
         VehicleData
             .fetchBrand(brand)
-            .then((response) => this.setState({brands: [...brands, response.data]}));
+            .then((response) => this.setState({brands: _.unionBy(brands, response.data.data, 'id')}));
     }
 
     onModelChange(e) {
@@ -64,7 +64,7 @@ class StepThree extends React.Component {
 
         VehicleData
             .fetchModel(model, brand.id)
-            .then((response) => this.setState({models: [...models, response.data]}));
+            .then((response) => this.setState({models: _.unionBy(models, response.data.data, 'id')}));
     }
 
     onBrandSelected (value, item) {
@@ -128,6 +128,7 @@ class StepThree extends React.Component {
                         onChange={this.onBrandChange}
                         error={errors.brand}
 
+                        onFocus={this.onBrandChange}
                         onSelected={this.onBrandSelected}
                         transformer={this.transformBrand}
                         items={brands}
@@ -140,6 +141,7 @@ class StepThree extends React.Component {
                         onChange={this.onModelChange}
                         error={errors.model}
 
+                        onFocus={this.onModelChange}
                         onSelected={this.onModelSelected}
                         transformer={this.transformModel}
                         items={models}

@@ -15,12 +15,14 @@ class InputAutocomplete extends React.Component {
         this.onBlur = this.onBlur.bind(this);
     }
 
-    onFocus() {
+    onFocus(e) {
         this.setState({focused: true});
+        this.props.onFocus && this.props.onFocus(e);
     }
 
     onBlur(e) {
         this.setState({focused: false});
+        this.props.onBlur && this.props.onBlur(e);
     }
 
     render() {

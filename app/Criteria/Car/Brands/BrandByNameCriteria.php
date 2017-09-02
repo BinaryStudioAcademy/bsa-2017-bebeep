@@ -24,6 +24,6 @@ class BrandByNameCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->where('name', 'like', "{$this->name}%")->latest('id_car_mark');
+        return $model->where('name', 'like', "{$this->name}%")->orderBy('name');
     }
 }

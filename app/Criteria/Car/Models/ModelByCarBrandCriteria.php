@@ -30,6 +30,6 @@ class ModelByCarBrandCriteria implements CriteriaInterface
         return $model
             ->whereIdCarMark($this->carBrand->id_car_mark)
             ->where('name', 'like', "{$this->modelName}%")
-            ->latest('id_car_model');
+            ->orderBy('name');
     }
 }
