@@ -15,6 +15,9 @@ validate.extend(validate.validators.datetime, {
     }
 });
 
+export const USER_ROLE_PASSENGER = 1;
+export const USER_ROLE_DRIVER = 2;
+
 export const UserValidator = {
     last_name: (data) => {
         const valid = data.trim() !== "";
@@ -240,12 +243,24 @@ export const PasswordUpdateValidate = (data = {
     return result;
 };
 
+export const checkPassengerRole = (role) =>{
+    return role == USER_ROLE_PASSENGER;
+};
+
+export const checkDriverRole = (role) =>{
+    return role == USER_ROLE_DRIVER;
+};
+
 const UserService = {
     UserValidator,
     VerifyValidator,
     RegisterValidate,
     ProfileValidate,
-    PasswordUpdateValidate
+    PasswordUpdateValidate,
+    USER_ROLE_PASSENGER,
+    USER_ROLE_DRIVER,
+    checkPassengerRole,
+    checkDriverRole
 };
 
 export default UserService;

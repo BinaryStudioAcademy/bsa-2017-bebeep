@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import { localize } from 'react-localize-redux';
 
@@ -6,6 +9,8 @@ import Modal from 'app/components/Modal';
 import SelectItem from './SelectItem';
 
 import BookingService from 'app/services/BookingService';
+import {USER_ROLE_PASSENGER} from 'app/services/UserService';
+import { userBookingSetState, userFormRoleSetState, userHaveBookingSetState } from 'features/user/actions';
 
 import 'features/trip/styles/booking_modal.scss';
 
@@ -81,20 +86,26 @@ class BookingModal extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const { onSuccess, waypoints, tripId } = this.props,
+        const { onSuccess, waypoints, tripId, userLogin } = this.props,
             { start, end, seats, errors } = this.state;
 
         if (_.isEmpty(errors)) {
             const routes = _.slice(_.map(waypoints, 'id'), start, end + 1);
-
-            BookingService.createBooking(tripId, {
+            if(userLogin){
+                BookingService.createBooking(tripId, {
                     routes,
                     seats
                 }).then((data) => {
                     onSuccess();
                     this.closeModal();
                 })
-                .catch((error) => this.setState({ errors: error.response.data }));
+                    .catch((error) => this.setState({ errors: error.response.data }));
+            } else {
+                this.props.userFormRoleSetState(USER_ROLE_PASSENGER);
+                this.props.userBookingSetState({tripId, routes, seats});
+                this.props.userHaveBookingSetState(true);
+                browserHistory.push('/registration');
+            }
         }
     }
 
@@ -236,4 +247,12 @@ BookingModal.PropTypes = {
     onSuccess: PropTypes.func.required
 };
 
-export default localize(BookingModal, 'locale');
+const BookingModalConnected = connect(
+    state => ({
+        userLogin: state.user.login.success
+    }),
+    (dispatch) =>
+        bindActionCreators({userBookingSetState,userFormRoleSetState,userHaveBookingSetState}, dispatch)
+)(BookingModal);
+
+export default localize(BookingModalConnected, 'locale');
