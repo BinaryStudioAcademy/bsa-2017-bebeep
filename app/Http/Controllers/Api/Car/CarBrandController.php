@@ -6,6 +6,8 @@ use App\Models\CarBrand;
 use App\Services\CarBrandService;
 use App\Services\CarModelService;
 use App\Http\Controllers\Controller;
+use App\Transformers\Car\Brands\BrandTransformer;
+use App\Transformers\Car\Models\ModelTransformer;
 
 class CarBrandController extends Controller
 {
@@ -48,24 +50,37 @@ class CarBrandController extends Controller
         }
     }
 
+    /**
+     * @param string $name
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function brandsByName($name = '')
     {
         $brands = $this->carBrandService->getByName($name, 100);
 
-        return response()->json($brands);
+        return fractal()->collection($brands, new BrandTransformer())->respond();
     }
 
+    /**
+     * @param CarBrand $carBrand
+     * @param string $name
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function brandModelsByName(CarBrand $carBrand, $name = '')
     {
         $models = $this->carModelService->getModelByCarBrand($carBrand, $name, 100);
 
-        return response()->json($models);
+        return fractal()->collection($models, new ModelTransformer())->respond();
     }
 
+    /**
+     * @param string $name
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function modelsByName($name = '')
     {
         $models = $this->carModelService->getByName($name, 100);
 
-        return response()->json($models);
+        return fractal()->collection($models, new ModelTransformer())->respond();
     }
 }
