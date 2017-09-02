@@ -2,7 +2,7 @@ import React from 'react';
 import {Modal, ModalHeader, ModalBody} from 'reactstrap';
 import {TripDetailsUsers} from '../../../trip/layouts';
 
-import 'features/trip-list/styles/booking-info.scss';
+// import 'features/trip-list/styles/booking-info.scss';
 
 
 class UsersModal extends React.Component {
