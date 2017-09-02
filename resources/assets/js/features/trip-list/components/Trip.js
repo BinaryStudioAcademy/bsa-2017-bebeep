@@ -38,6 +38,8 @@ class Trip extends React.Component {
 
     onClickUsersBtn() {
         this.setState({ modalUsersIsOpen: !this.state.modalUsersIsOpen });
+        console.log('Click');
+        console.log(this.state.modalUsersIsOpen);
     }
 
     getStartDate() {
@@ -97,7 +99,7 @@ class Trip extends React.Component {
             arr.push(routes[id]);
             return arr;
         }, []));
-        const { modalIsOpen, modalUsersIsOpen, text } = this.state;
+        const { modalIsOpen, modalUsersIsOpen} = this.state;
         const arBookings = _.reduce(trip.bookings, (arr, id) => {
             arr.push(bookings[id]);
             return arr;
@@ -123,7 +125,7 @@ class Trip extends React.Component {
                                 <span className="text-muted"><strong>{translate('trip_list.price')}:</strong> ${trip.price}</span><br/>
                                 <span className="text-muted"><strong>{translate('trip_list.seats')}:</strong> {trip.seats}</span><br/>
                             </div>
-                            <span className={"link-style "} onClick={this.onClickUsersBtn()}>
+                            <span className="link-style" onClick={this.onClickUsersBtn} >
                                 <i className="trip-detail-icon fa fa-user mr-2" aria-hidden="true" />
                                 Passengers
                             </span>
@@ -165,7 +167,9 @@ class Trip extends React.Component {
                     onClosed={ () => this.state.modalIsOpen = false }
                 />
                 <UsersModal
+                    tripId={ trip.id }
                     isOpen={ modalUsersIsOpen }
+                    onClick = {this.onClickUsersBtn}
                 />
             </div>
         )

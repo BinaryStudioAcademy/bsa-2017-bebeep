@@ -1,55 +1,29 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getTranslate } from 'react-localize-redux';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import {Modal, ModalHeader, ModalBody} from 'reactstrap';
+import {TripDetailsUsers} from '../../../trip/layouts';
 
 import 'features/trip-list/styles/booking-info.scss';
 
 
 class UsersModal extends React.Component {
 
-    constructor() {
-        super();
-        this.state = {
-            isOpenModal: false,
-        };
-
-        this.toggleModal = this.toggleModal.bind(this);
-    }
-
-    toggleModal() {
-        this.setState({ isOpenModal: !this.state.isOpenModal });
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (this.state.isOpenModal !== newProps.isOpen) {
-            this.setState({
-                isOpenModal: newProps.isOpen
-            });
-        }
-    }
-
     render() {
-        const { isOpenModal } = this.state;
+        const {isOpen, onClick, tripId} = this.props;
 
         return (
             <span>
 
                 <Modal className="trip-map-modal"
                        size="lg"
-                       isOpen={isOpenModal}
-                       toggle={this.toggleModal()}
+                       isOpen={isOpen}
+                       toggle={onClick}
                 >
-                    <ModalHeader className="trip-map-modal__header" toggle={this.toggleModal()}>
+                    <ModalHeader className="trip-map-modal__header" toggle={onClick}>
                         Passengers in this trip
-                        <i className="trip-detail-icon fa fa-road" aria-hidden="true" />
+                        <i className="trip-detail-icon fa fa-road" aria-hidden="true"/>
                     </ModalHeader>
-
                     <ModalBody className="p-0">
-                        <div className="trip-map-modal__map-container">
-                            There will be users!
-                        </div>
+                        <TripDetailsUsers params={{'id':tripId}}/>
                     </ModalBody>
                 </Modal>
             </span>
