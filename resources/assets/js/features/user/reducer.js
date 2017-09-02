@@ -11,7 +11,7 @@ const initialState = {
         httpStatus: 200
     },
     booking:null,
-    formRole:null
+    isPassenger:null
 };
 
 export default function (state = initialState, action) {
@@ -79,7 +79,7 @@ export default function (state = initialState, action) {
         case actions.USER_ROLE_SET_STATE:
             return {
                 ...state,
-                formRole: action.data
+                isPassenger: action.data
             };
 
         default:

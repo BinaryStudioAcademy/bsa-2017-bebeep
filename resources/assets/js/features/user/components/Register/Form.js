@@ -1,15 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {browserHistory} from 'react-router';
 
 import Input from 'app/components/Input';
 
-import { registerSuccess, userBookingSetState, userFormRoleSetState } from 'features/user/actions';
-import { simpleRequest } from 'app/services/RequestService';
+import {registerSuccess, userBookingSetState, userFormRoleSetState} from 'features/user/actions';
+import {simpleRequest} from 'app/services/RequestService';
 import BookingService from 'app/services/BookingService';
-import { RegisterValidate, checkPassengerRole } from 'app/services/UserService';
-import { initSession, destroySession } from 'app/services/AuthService';
+import {RegisterValidate, checkPassengerRole} from 'app/services/UserService';
+import {initSession, destroySession} from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
 
@@ -30,10 +30,13 @@ class Form extends React.Component {
     }
 
 
-    isUserHaveBooking(){
-        const {booking}=this.props;
+    isUserHaveBooking() {
+        const {booking} = this.props;
 
-        return booking;
+        if (isNull(booking)) {
+            return false;
+        }
+        return true;
     }
 
     createBooking() {
@@ -46,9 +49,9 @@ class Form extends React.Component {
             this.props.userBookingSetState(null);
             this.props.userFormRoleSetState(null);
             browserHistory.push('/bookings');
-        })
-            .catch((error) => {
-            });
+        }).catch((error) => {
+
+        });
     }
 
     componentWillMount() {
@@ -119,7 +122,7 @@ class Form extends React.Component {
     render() {
 
         const {errors, hasTripPending} = this.state,
-            {translate,userRole} = this.props;
+            {translate, userRole} = this.props;
         const passengerCheck = checkPassengerRole(userRole);
 
 
@@ -192,7 +195,7 @@ class Form extends React.Component {
                             </label>
                         </div>
                         <div className="offset-sm-4 col-sm-8">
-                            <div className="form-control-feedback">{ errors.role }</div>
+                            <div className="form-control-feedback">{errors.role}</div>
                         </div>
                     </div>
                     <Input
@@ -227,7 +230,7 @@ const FormConnected = connect(
     state => ({
         booking: state.user.booking,
         userLogin: state.user.login.success,
-        userRole: state.user.formRole,
+        userRole: state.user.isPassenger,
         stepWizard: state.tripWizard.step,
         tripPending: state.tripWizard.pendingTrip,
         translate: getTranslate(state.locale)
