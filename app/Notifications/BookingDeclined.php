@@ -7,12 +7,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Transformers\Notifications\BookingTransformer;
 
-class BookingCreated extends Notification implements ShouldQueue
+class BookingDeclined extends Notification implements ShouldQueue
 {
     use Queueable;
-
     /**
      * @var Booking
      */
@@ -48,11 +46,9 @@ class BookingCreated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->markdown('emails.booking-created')
-            ->subject(__('Notifications/BookingCreated.mail_subject', [
-                'from' => $this->toArray($notifiable)['routes']['from'],
-                'to' => $this->toArray($notifiable)['routes']['to'],
-            ]));
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -63,6 +59,8 @@ class BookingCreated extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
-        return fractal()->item($this->booking, new BookingTransformer())->toArray()['data'];
+        return [
+            //
+        ];
     }
 }

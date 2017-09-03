@@ -7,7 +7,7 @@ use App\Mail\BookingDeclinedEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendBookingDeclinedEmailToPassenger implements ShouldQueue
+class NotifyPassengerAboutDeclinedBooking implements ShouldQueue
 {
     /**
      * Handle the event.

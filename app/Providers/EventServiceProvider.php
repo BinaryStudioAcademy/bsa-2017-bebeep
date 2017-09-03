@@ -9,9 +9,9 @@ use App\Events\BookingDeclined;
 use App\Events\ApprovedBookingCanceled;
 use App\Listeners\SendVerificationEmail;
 use App\Listeners\NotifyDriverAboutBookingCreated;
-use App\Listeners\SendBookingCanceledEmailToDriver;
-use App\Listeners\SendBookingApprovedEmailToPassenger;
-use App\Listeners\SendBookingDeclinedEmailToPassenger;
+use App\Listeners\NotifyDriverAboutCanceledBooking;
+use App\Listeners\NotifyPassengerAboutApprovedBooking;
+use App\Listeners\NotifyPassengerAboutDeclinedBooking;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -29,13 +29,13 @@ class EventServiceProvider extends ServiceProvider
             NotifyDriverAboutBookingCreated::class,
         ],
         BookingDeclined::class => [
-            SendBookingDeclinedEmailToPassenger::class,
+            NotifyPassengerAboutDeclinedBooking::class,
         ],
         BookingApproved::class => [
-            SendBookingApprovedEmailToPassenger::class,
+            NotifyPassengerAboutApprovedBooking::class,
         ],
         ApprovedBookingCanceled::class => [
-            SendBookingCanceledEmailToDriver::class,
+            NotifyDriverAboutCanceledBooking::class,
         ],
         'App\Events\Event' => [
             'App\Listeners\EventListener',
