@@ -87,7 +87,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 });
 
 Route::group([
-    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION]
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
 ], function () {
     Route::resource('v1/car', 'Api\\Car\\CarController');
 });
