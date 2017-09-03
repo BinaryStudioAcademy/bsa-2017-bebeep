@@ -3,11 +3,11 @@
 namespace App\Notifications;
 
 use App\Models\Booking;
-use App\Transformers\Notifications\BookingTransformer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Transformers\Notifications\BookingTransformer;
 
 class BookingCanceled extends Notification implements ShouldQueue
 {

@@ -3,9 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\BookingDeclined;
-use App\Mail\BookingDeclinedEmail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Notifications\BookingDeclined as NotificationBookingDeclined;
 
 class NotifyPassengerAboutDeclinedBooking implements ShouldQueue
 {
@@ -19,6 +18,6 @@ class NotifyPassengerAboutDeclinedBooking implements ShouldQueue
     {
         $user = $event->booking->user;
 
-        Mail::to($user)->send(new BookingDeclinedEmail($event->booking, $event->booking->trip));
+        $user->notify(new NotificationBookingDeclined($event->booking));
     }
 }

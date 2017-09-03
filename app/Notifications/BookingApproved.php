@@ -3,11 +3,11 @@
 namespace App\Notifications;
 
 use App\Models\Booking;
-use App\Transformers\Notifications\BookingTransformer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Transformers\Notifications\BookingTransformer;
 
 class BookingApproved extends Notification implements ShouldQueue
 {
@@ -49,8 +49,8 @@ class BookingApproved extends Notification implements ShouldQueue
         return (new MailMessage)
             ->markdown('emails.booking-approved')
             ->subject(__('Notifications/BookingApproved.mail_subject', [
-                'from' => $this->toArray($notifiable)['from'],
-                'to' => $this->toArray($notifiable)['to'],
+                'from' => $this->toArray($notifiable)['routes']['from'],
+                'to' => $this->toArray($notifiable)['routes']['to'],
             ]));
     }
 
