@@ -46,18 +46,28 @@ class ReviewBookingModal extends React.Component {
         console.log("Review id", this.props.isOpen.id);
     }
 
+    closeModal() {
+        this.props.onClose();
+
+        this.setState({
+            errors: {},
+            rating: 0,
+            review: ""
+        });
+    }
+
     render() {
         const {translate} = this.props;
         const {errors} = this.state;
 
         return (
             <div>
-                <Modal isOpen={this.props.isOpen} onClosed={this.props.onClose}>
+                <Modal isOpen={this.props.isOpen} onClosed={this.closeModal.bind(this)}>
                     <div className="modal-header">
                         <h5 className="modal-title">
                             { translate('bookings_list.leave_review') }
                         </h5>
-                        <button className="close" aria-label="Close" onClick={this.props.onClose}>
+                        <button className="close" aria-label="Close" onClick={this.closeModal.bind(this)}>
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
