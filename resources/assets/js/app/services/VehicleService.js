@@ -140,14 +140,24 @@ export const VehicleValidate = (data = {
 
 export const VehicleData = {
     fetchBrand(name) {
-        return simpleRequest.get(`/api/v1/brands/${name}/`);
+        return simpleRequest.get(`/api/v1/car-brand/`, {
+            params: {
+                search: name,
+                orderBy: 'name'
+            }
+        });
     },
 
     fetchModel(name, brandId) {
         if (brandId > 0) {
-            return simpleRequest.get(`/api/v1/brands/${brandId}/models/${name}`);
+            return simpleRequest.get(`/api/v1/car-brand/${brandId}/models`, {
+                params: {
+                    search: name,
+                    orderBy: 'name'
+                }
+            });
         } else {
-            return simpleRequest.get(`/api/v1/models/${name}/`);
+            return Promise.resolve({ data: { data: [] } });
         }
     }
 };

@@ -1,26 +1,34 @@
-import { securedRequest } from 'app/services/RequestService';
+import { simpleRequest } from 'app/services/RequestService';
 
 export const VehicleService = {
-    getBrandOptions() {
-        return securedRequest.get(`/api/v1/car-brand`)
+    getBrandOptions(name) {
+        return simpleRequest.get(`/api/v1/car-brand`, {
+            params: {
+                search: name
+            }
+        })
             .then((response) => {
-                return response.data;
+                return response.data.data;
             }).then((json) => {
                 return { options: json };
             });
     },
 
-    getModelOptions(id) {
-        return securedRequest.get(`/api/v1/car-brand/${id}/models`)
+    getModelOptions(id, name) {
+        return simpleRequest.get(`/api/v1/car-brand/${id}/models`, {
+            params: {
+                search: name
+            }
+        })
             .then((response) => {
-                return response.data;
+                return response.data.data;
             }).then((json) => {
                 return { options: json };
             });
     },
 
     getColorOptions() {
-        return securedRequest.get(`/api/v1/car-color`)
+        return simpleRequest.get(`/api/v1/car-color`)
             .then((response) => {
                 return response.data;
             }).then((json) => {
@@ -29,7 +37,7 @@ export const VehicleService = {
     },
 
     getBodyOptions() {
-        return securedRequest.get(`/api/v1/car-body`)
+        return simpleRequest.get(`/api/v1/car-body`)
             .then((response) => {
                 return response.data;
             }).then((json) => {

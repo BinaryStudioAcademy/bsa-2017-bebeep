@@ -87,14 +87,15 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 });
 
 Route::group([
-    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION]
 ], function () {
     Route::resource('v1/car', 'Api\\Car\\CarController');
-    Route::resource('v1/car-body', 'Api\\Car\\CarBodyController', ['only' => ['index']]);
-    Route::resource('v1/car-color', 'Api\\Car\\CarColorController', ['only' => ['index']]);
-    Route::resource('v1/car-brand', 'Api\\Car\\CarBrandController', ['only' => ['index']]);
-    Route::get('v1/car-brand/{model}/models', 'Api\\Car\\CarBrandController@getModelByMarkId');
 });
+
+Route::resource('v1/car-body', 'Api\\Car\\CarBodyController', ['only' => ['index']]);
+Route::resource('v1/car-color', 'Api\\Car\\CarColorController', ['only' => ['index']]);
+Route::resource('v1/car-brand', 'Api\\Car\\CarBrandController', ['only' => ['index']]);
+Route::get('v1/car-brand/{carBrand}/models', 'Api\\Car\\CarBrandController@getModelByBrand');
 
 Route::group([
     'prefix' => 'v1/trips',
@@ -164,14 +165,4 @@ Route::get('v1/reviews/received', [
     'middleware' => ['jwt.auth'],
     'as' => 'reviews.received',
     'uses' => 'ReviewsController@received',
-]);
-
-Route::get('v1/brands/{name?}/', ['as' => 'brands.byname', 'uses' => 'Api\Car\CarBrandController@brandsByName']);
-Route::get('v1/brands/{carBrand}/models/{name?}', [
-    'as' => 'brand.models.byname',
-    'uses' => 'Api\Car\CarBrandController@brandModelsByName',
-]);
-Route::get('v1/models/{name?}', [
-    'as' => 'models.byname',
-    'uses' => 'Api\Car\CarBrandController@modelsByName',
 ]);

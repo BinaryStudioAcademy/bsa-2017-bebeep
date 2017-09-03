@@ -28,58 +28,22 @@ class CarBrandController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return $this->carBrandService->getAll();
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getModelByMarkId($id)
-    {
-        if ($this->carModelService->getModelByMarkId($id)->count() !== 0) {
-            return $this->carModelService->getModelByMarkId($id);
-        } else {
-            return response()->json('Not found', 404);
-        }
-    }
-
-    /**
-     * @param string $name
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function brandsByName($name = '')
-    {
-        $brands = $this->carBrandService->getByName($name, 100);
+        $brands = $this->carBrandService->getAll();
 
         return fractal()->collection($brands, new BrandTransformer())->respond();
     }
 
     /**
      * @param CarBrand $carBrand
-     * @param string $name
      * @return \Illuminate\Http\JsonResponse
      */
-    public function brandModelsByName(CarBrand $carBrand, $name = '')
+    public function getModelByBrand(CarBrand $carBrand)
     {
-        $models = $this->carModelService->getModelByCarBrand($carBrand, $name, 100);
-
-        return fractal()->collection($models, new ModelTransformer())->respond();
-    }
-
-    /**
-     * @param string $name
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function modelsByName($name = '')
-    {
-        $models = $this->carModelService->getByName($name, 100);
+        $models = $this->carModelService->getModelByBrand($carBrand);
 
         return fractal()->collection($models, new ModelTransformer())->respond();
     }

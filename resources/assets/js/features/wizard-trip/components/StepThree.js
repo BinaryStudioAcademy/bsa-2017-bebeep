@@ -46,25 +46,24 @@ class StepThree extends React.Component {
     }
 
     onBrandChange(e) {
-        const brand = e.target.value,
-            {brands} = this.state;
+        const brand = e.target.value;
 
         this.setState({brand: { value: e.target.value }});
 
         VehicleData
             .fetchBrand(brand)
-            .then((response) => this.setState({brands: _.unionBy(brands, response.data.data, 'id')}));
+            .then((response) => this.setState({brands: response.data.data}));
     }
 
     onModelChange(e) {
         const model = e.target.value,
-            { brand, models } = this.state;
+            { brand } = this.state;
 
         this.setState({model: { value: e.target.value}});
 
         VehicleData
             .fetchModel(model, brand.id)
-            .then((response) => this.setState({models: _.unionBy(models, response.data.data, 'id')}));
+            .then((response) => this.setState({models:response.data.data}));
     }
 
     onBrandSelected (value, item) {
