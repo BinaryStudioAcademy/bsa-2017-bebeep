@@ -167,7 +167,7 @@ Route::get('v1/reviews/received', [
 ]);
 
 Route::post('v1/reviews', [
-    'middleware' => ['jwt.auth'],
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION],
     'as' => 'review.create',
     'uses' => 'ReviewsController@save'
 ]);
