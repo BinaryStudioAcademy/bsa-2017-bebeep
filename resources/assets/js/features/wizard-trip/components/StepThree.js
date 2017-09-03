@@ -51,7 +51,7 @@ class StepThree extends React.Component {
         this.setState({brand: { value: e.target.value }});
 
         VehicleData
-            .fetchBrand(brand)
+            .getBrands(brand)
             .then((response) => this.setState({brands: response.data.data}));
     }
 
@@ -62,7 +62,7 @@ class StepThree extends React.Component {
         this.setState({model: { value: e.target.value}});
 
         VehicleData
-            .fetchModel(model, brand.id)
+            .getModels(model, brand.id)
             .then((response) => this.setState({models:response.data.data}));
     }
 

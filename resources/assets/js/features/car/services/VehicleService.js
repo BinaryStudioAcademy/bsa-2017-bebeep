@@ -1,12 +1,9 @@
 import { simpleRequest } from 'app/services/RequestService';
+import { VehicleData } from 'app/services/VehicleService'
 
 export const VehicleService = {
     getBrandOptions(name) {
-        return simpleRequest.get(`/api/v1/car-brand`, {
-            params: {
-                search: name
-            }
-        })
+        return VehicleData.getBrands(name)
             .then((response) => {
                 return response.data.data;
             }).then((json) => {
@@ -15,11 +12,7 @@ export const VehicleService = {
     },
 
     getModelOptions(id, name) {
-        return simpleRequest.get(`/api/v1/car-brand/${id}/models`, {
-            params: {
-                search: name
-            }
-        })
+        return VehicleData.getModels(name, id)
             .then((response) => {
                 return response.data.data;
             }).then((json) => {

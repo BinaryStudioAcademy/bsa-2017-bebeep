@@ -139,7 +139,7 @@ export const VehicleValidate = (data = {
 };
 
 export const VehicleData = {
-    fetchBrand(name) {
+    getBrands(name) {
         return simpleRequest.get(`/api/v1/car-brand/`, {
             params: {
                 search: name,
@@ -148,7 +148,7 @@ export const VehicleData = {
         });
     },
 
-    fetchModel(name, brandId) {
+    getModels(name, brandId) {
         if (brandId > 0) {
             return simpleRequest.get(`/api/v1/car-brand/${brandId}/models`, {
                 params: {
