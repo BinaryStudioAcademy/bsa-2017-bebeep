@@ -25,7 +25,7 @@ class CreateReviewRequest extends FormRequest
     {
         return [
             'trip_id' => 'required|integer',
-            'rating' => 'required|integer|min:0|max:5',
+            'rating' => 'required|min:0|max:5',
             'review' => 'required'
         ];
     }
