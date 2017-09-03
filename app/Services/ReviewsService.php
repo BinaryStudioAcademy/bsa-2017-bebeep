@@ -3,22 +3,36 @@
 namespace App\Services;
 
 use App\User;
-use App\Models\Trip;
 use App\Models\Review;
 use App\Repositories\ReviewRepository;
+use App\Repositories\BookingRepository;
+use App\Http\Requests\CreateReviewRequest;
 use App\Criteria\Review\GivenReviewCriteria;
 use App\Criteria\Review\RatingReviewCriteria;
 use App\Criteria\Review\ReceivedReviewCriteria;
-use App\Http\Requests\CreateReviewRequest;
 
 class ReviewsService implements Contracts\ReviewsService
 {
-    /** @var ReviewRepository $reviewRepository */
+    /**
+     * @var ReviewRepository
+     */
     protected $reviewRepository;
 
-    public function __construct(ReviewRepository $reviewRepository)
+    /**
+     * @var BookingRepository
+     */
+    protected $bookingRepository;
+
+    /**
+     * ReviewsService constructor.
+     *
+     * @param ReviewRepository $reviewRepository
+     * @param BookingRepository $bookingRepository
+     */
+    public function __construct(ReviewRepository $reviewRepository, BookingRepository $bookingRepository)
     {
         $this->reviewRepository = $reviewRepository;
+        $this->bookingRepository = $bookingRepository;
     }
 
     public function getGiven(User $user)
@@ -43,7 +57,7 @@ class ReviewsService implements Contracts\ReviewsService
     }
 
     /**
-     * This method save review
+     * This method save review.
      *
      * @param CreateReviewRequest $request
      * @param User $user
@@ -51,15 +65,13 @@ class ReviewsService implements Contracts\ReviewsService
      */
     public function save(CreateReviewRequest $request, User $user)
     {
-        $trip_id = $request->getTripId();
-        $trip = Trip::find($trip_id);
-        $driver_id = $trip->user_id;
+        $booking = $this->bookingRepository->getBookingByTripId($request->getTripId());
 
         $reviewAttributes = [
             'mark' => $request->getRating(),
             'comment' => $request->getReview(),
             'user_id' => $user->id,
-            'driver_id' => $driver_id
+            'driver_id' => $booking->trip->user_id,
         ];
 
         $review = $this->reviewRepository->save(new Review($reviewAttributes));

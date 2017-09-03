@@ -26,12 +26,12 @@ class CreateReviewRequest extends FormRequest
         return [
             'trip_id' => 'required|integer',
             'rating' => 'required|min:0|max:5',
-            'review' => 'required'
+            'review' => 'required',
         ];
     }
 
     /**
-     * Get trip id
+     * Get trip id.
      *
      * @return int
      */
@@ -41,7 +41,7 @@ class CreateReviewRequest extends FormRequest
     }
 
     /**
-     * Get rating
+     * Get rating.
      *
      * @return float
      */
@@ -51,7 +51,7 @@ class CreateReviewRequest extends FormRequest
     }
 
     /**
-     * Get Review
+     * Get Review.
      *
      * @return string
      */

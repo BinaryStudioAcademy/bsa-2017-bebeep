@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateReviewRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CreateReviewRequest;
 use App\Services\Contracts\ReviewsService;
 use App\Transformers\Reviews\ReviewTransformer;
 
@@ -46,7 +46,7 @@ class ReviewsController extends Controller
     }
 
     /**
-     * This method save review
+     * This method save review.
      *
      * @param CreateReviewRequest $request
      * @return \Illuminate\Http\JsonResponse
