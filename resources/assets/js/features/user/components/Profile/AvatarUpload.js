@@ -7,8 +7,7 @@ import AvatarCurrent from './AvatarCurrent';
 
 import UserService from 'features/user/services/UserService';
 
-const AVATAR_WIDTH = 150;
-const AVATAR_HEIGHT = 150;
+const AVATAR_SIZE = 150;
 const AVATAR_MIME_TYPES = 'image/jpeg, image/png';
 const AVATAR_MAX_SIZE_MB = 10;
 
@@ -132,8 +131,8 @@ class AvatarUpload extends React.Component {
                     <div className="col-md-8">
                         <ImageCropper
                             image={ image.preview }
-                            destWidth={ AVATAR_WIDTH }
-                            destHeight={ AVATAR_HEIGHT }
+                            destWidth={ AVATAR_SIZE }
+                            destHeight={ AVATAR_SIZE }
                             toggleShow={ toggleShow }
                             ref={ cropper => { this.onInitCropper(cropper); } }
                         />
@@ -143,6 +142,7 @@ class AvatarUpload extends React.Component {
                 <div className="mt-5">
                     <AvatarCurrent
                         avatar={ avatarCurrent }
+                        destWidth={ AVATAR_SIZE }
                         isDefault={ isDefaultAvatar }
                         onDelete={ this.onDelete }
                     />
