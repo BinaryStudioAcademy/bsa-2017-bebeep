@@ -7,9 +7,9 @@ import AvatarCurrent from './AvatarCurrent';
 
 import UserService from 'features/user/services/UserService';
 
-const AVATAR_WIDTH = 100;
-const AVATAR_HEIGHT = 100;
-const AVATAR_MIME_TYPES = 'image/*';
+const AVATAR_WIDTH = 150;
+const AVATAR_HEIGHT = 150;
+const AVATAR_MIME_TYPES = 'image/jpeg, image/png';
 const AVATAR_MAX_SIZE_MB = 10;
 
 class AvatarUpload extends React.Component {
@@ -115,6 +115,7 @@ class AvatarUpload extends React.Component {
                             fileMaxSizeMb={ AVATAR_MAX_SIZE_MB }
                             onDropAcceptedCustom={ this.onDropAccepted }
                             onDropRejectedCustom={ this.onDropRejected }
+                            customRules={ translate('profile_avatar.custom_rules') }
                         />
 
                         <div className={ "mt-3 text-right" + classShow }>

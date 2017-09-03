@@ -29,7 +29,7 @@ class AvatarCurrent extends React.Component {
                     </figcaption>
                     <img src={ avatar }
                         className="user-current-avatar__image"
-                        alt={ translate('profile_avatar.user_current_avatar') } />
+                        alt={ translate('profile_avatar.current_avatar') } />
                 </figure>
 
                 { this.renderDeleteButton() }
