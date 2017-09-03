@@ -65,7 +65,10 @@ class UserProfileService implements UserProfileServiceContract
         $fileName = str_random(20);
 
         $user->deleteAvatar()
-            ->addMediaFromBase64($request->getAvatar(), User::MEDIA_AVATAR_ALLOWED_MIMETYPES)
+            ->addMediaFromBase64(
+                $request->getAvatar(),
+                User::MEDIA_AVATAR_ALLOWED_MIMETYPES
+            )
             ->usingName($fileName)
             ->usingFileName($fileName)
             ->toMediaCollection(User::MEDIA_AVATARS_COLLECTION);
