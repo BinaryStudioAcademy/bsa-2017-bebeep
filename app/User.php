@@ -23,7 +23,7 @@ class User extends Authenticatable implements HasMediaConversions
     const MEDIA_AVATARS_COLLECTION = 'avatars';
     const MEDIA_AVATAR_ALLOWED_MIMETYPES = 'image/jpeg,image/png';
     const MEDIA_AVATAR_SIZE = 150;
-    const MEDIA_AVATAR_CONVERSION = 'avatar_' . self::MEDIA_AVATAR_SIZE;
+    const MEDIA_AVATAR_CONVERSION = 'avatar_'.self::MEDIA_AVATAR_SIZE;
 
     /**
      * Boot the model.

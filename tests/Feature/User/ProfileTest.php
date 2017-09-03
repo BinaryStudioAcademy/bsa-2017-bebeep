@@ -322,7 +322,8 @@ class ProfileTest extends JwtTestCase
      *
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    private function jsonRequestFromGuest(string $type = 'get') {
+    private function jsonRequestFromGuest(string $type = 'get')
+    {
         return $this->json($this->routes[$type][0], $this->routes[$type][1]);
     }
 

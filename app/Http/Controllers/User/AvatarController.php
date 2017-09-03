@@ -49,7 +49,7 @@ class AvatarController extends Controller
             $avatar = $this->userProfileService->updateAvatar(Auth::user(), $request);
         } catch (FileCannotBeAdded $e) {
             return response()->json([
-                'error' => __('Http/Controllers/User/AvatarController.file_cannot_be_added')
+                'error' => __('Http/Controllers/User/AvatarController.file_cannot_be_added'),
             ], 422);
         }
 
