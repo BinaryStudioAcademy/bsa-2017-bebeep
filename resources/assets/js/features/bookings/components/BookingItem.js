@@ -36,10 +36,10 @@ class BookingItem extends React.Component {
     }
 
     renderReviewButton() {
-        const { showReviewBookingModal, filter, translate } = this.props;
+        const { booking, showReviewBookingModal, translate } = this.props;
 
         return (
-            <button onClick={() => {showReviewBookingModal()}}
+            <button onClick={() => {showReviewBookingModal(booking)}}
                 className="btn hover btn-secondary btn-cancel-booking"
             >
                 { translate('bookings_list.leave_review') }

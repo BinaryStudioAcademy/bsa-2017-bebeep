@@ -86,6 +86,7 @@ class ReviewBookingModal extends React.Component {
                                           id="message-text"
                                           placeholder={ translate('bookings_list.leave_review_placeholder') }
                                           onChange={this.reviewChanged.bind(this)}
+                                          value={this.state.review}
                                 />
                                 <div className="form-control-feedback">{ errors.review }</div>
                             </div>

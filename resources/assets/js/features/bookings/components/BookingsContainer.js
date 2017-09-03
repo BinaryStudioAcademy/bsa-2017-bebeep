@@ -49,9 +49,9 @@ class BookingsContainer extends React.Component {
         });
     }
 
-    showReviewBookingModal() {
+    showReviewBookingModal(booking) {
         this.setState({
-            reviewBookingModal: true
+            reviewBookingModal: booking
         });
     }
 
