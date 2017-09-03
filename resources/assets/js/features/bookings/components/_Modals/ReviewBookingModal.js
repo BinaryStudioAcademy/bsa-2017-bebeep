@@ -43,6 +43,7 @@ class ReviewBookingModal extends React.Component {
 
         console.log("Rating", this.state.rating);
         console.log("Review", this.state.review);
+        console.log("Review id", this.props.isOpen.id);
     }
 
     render() {
