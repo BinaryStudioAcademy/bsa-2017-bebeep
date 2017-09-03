@@ -24,9 +24,20 @@ class CreateReviewRequest extends FormRequest
     public function rules()
     {
         return [
+            'trip_id' => 'required|integer',
             'rating' => 'required|integer|min:0|max:5',
             'review' => 'required'
         ];
+    }
+
+    /**
+     * Get trip id
+     *
+     * @return int
+     */
+    public function getTripId() : int
+    {
+        return $this->get('trip_id');
     }
 
     /**

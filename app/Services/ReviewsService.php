@@ -3,10 +3,13 @@
 namespace App\Services;
 
 use App\User;
+use App\Models\Trip;
+use App\Models\Review;
 use App\Repositories\ReviewRepository;
 use App\Criteria\Review\GivenReviewCriteria;
 use App\Criteria\Review\RatingReviewCriteria;
 use App\Criteria\Review\ReceivedReviewCriteria;
+use App\Http\Requests\CreateReviewRequest;
 
 class ReviewsService implements Contracts\ReviewsService
 {
@@ -37,5 +40,30 @@ class ReviewsService implements Contracts\ReviewsService
 
                 return $rating;
             }, [0, 0, 0, 0, 0]);
+    }
+
+    /**
+     * This method save review
+     *
+     * @param CreateReviewRequest $request
+     * @param User $user
+     * @return Review
+     */
+    public function save(CreateReviewRequest $request, User $user)
+    {
+        $trip_id = $request->getTripId();
+        $trip = Trip::find($trip_id);
+        $driver_id = $trip->user_id;
+
+        $reviewAttributes = [
+            'mark' => $request->getRating(),
+            'comment' => $request->getReview(),
+            'user_id' => $user->id,
+            'driver_id' => $driver_id
+        ];
+
+        $review = $this->reviewRepository->save(new Review($reviewAttributes));
+
+        return $review;
     }
 }

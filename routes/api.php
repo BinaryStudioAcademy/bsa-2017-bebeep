@@ -165,3 +165,9 @@ Route::get('v1/reviews/received', [
     'as' => 'reviews.received',
     'uses' => 'ReviewsController@received',
 ]);
+
+Route::post('v1/reviews', [
+    'middleware' => ['jwt.auth'],
+    'as' => 'review.create',
+    'uses' => 'ReviewsController@save'
+]);

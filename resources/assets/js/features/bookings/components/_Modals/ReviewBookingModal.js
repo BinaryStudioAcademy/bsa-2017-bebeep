@@ -4,6 +4,7 @@ import Modal from 'app/components/Modal';
 import ReactStars from 'react-stars';
 import Validator from 'app/services/Validator';
 import { createReviewRules } from 'app/services/ReviewService';
+import { securedRequest } from 'app/services/RequestService';
 
 class ReviewBookingModal extends React.Component {
 
@@ -24,10 +25,21 @@ class ReviewBookingModal extends React.Component {
         this.setState({review: e.target.value});
     }
 
+    closeModal() {
+        this.props.onClose();
+
+        this.setState({
+            errors: {},
+            rating: 0,
+            review: ""
+        });
+    }
+
     handleSaveClick(e) {
         e.preventDefault();
 
         const data = {
+            trip_id: this.props.isOpen.id,
             rating: this.state.rating,
             review: this.state.review
         };
@@ -41,18 +53,13 @@ class ReviewBookingModal extends React.Component {
 
         this.setState({errors: {}});
 
-        console.log("Rating", this.state.rating);
-        console.log("Review", this.state.review);
-        console.log("Review id", this.props.isOpen.id);
-    }
+        securedRequest.post('/api/v1/reviews', data).then((response) => {
+            this.closeModal();
 
-    closeModal() {
-        this.props.onClose();
-
-        this.setState({
-            errors: {},
-            rating: 0,
-            review: ""
+        }).catch((error) => {
+            this.setState({
+                errors: error.response.data
+            });
         });
     }
 
