@@ -72,6 +72,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TripDetailServiceContract::class, TripDetailService::class);
         $this->app->bind(UserProfileServiceContract::class, UserProfileService::class);
         $this->app->bind(UserPublicProfileServiceContract::class, UserPublicProfileService::class);
+        $this->app->bind(
+            \App\Services\Contracts\NotificationService::class,
+            \App\Services\NotificationService::class
+        );
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);

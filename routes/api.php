@@ -165,3 +165,24 @@ Route::get('v1/reviews/received', [
     'as' => 'reviews.received',
     'uses' => 'ReviewsController@received',
 ]);
+
+Route::group([
+    'prefix' => '/v1/notifications',
+    'middleware' => ['jwt.auth'],
+    'as' => 'notifications.',
+], function () {
+    Route::get('/', [
+        'as' => 'index',
+        'uses' => 'NotificationsController@index'
+    ]);
+
+    Route::patch('/{databaseNotification}', [
+        'read',
+        'uses' => 'NotificationsController@read'
+    ]);
+
+    Route::get('/unread', [
+        'unread',
+        'uses' => 'NotificationsController@getUnread'
+    ]);
+});
