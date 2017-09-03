@@ -26,25 +26,23 @@ class UserProfileService implements UserProfileServiceContract
     /**
      * {@inheritdoc}
      */
-    public function getGeneral(int $userId): User
+    public function getGeneral(User $user): User
     {
-        return $this->userRepository->find($userId);
+        return $user;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAvatar(int $userId): ?string
+    public function getAvatar(User $user): ?string
     {
-        return $this->userRepository
-            ->find($userId)
-            ->getAvatarUrl();
+        return $user->getAvatarUrl();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function updateGeneral(int $userId, UpdateUserProfileRequest $request): User
+    public function updateGeneral(User $user, UpdateUserProfileRequest $request): User
     {
         $attributes = [
             'email' => $request->getEmail(),
@@ -56,36 +54,30 @@ class UserProfileService implements UserProfileServiceContract
             'permissions' => $request->getPermissions(),
         ];
 
-        $this->userRepository->update($attributes, $userId);
-
-        return $this->getGeneral($userId);
+        return $this->userRepository->update($attributes, $user->id);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function updateAvatar(int $userId, UpdateUserAvatarRequest $request): string
+    public function updateAvatar(User $user, UpdateUserAvatarRequest $request): string
     {
-        $user = $this->userRepository->find($userId);
-
         $fileName = str_random(20);
-        $mimeTypes = 'image/*';
 
-        return $user
-            ->deleteAvatar()
-            ->addMediaFromBase64($request->getAvatar(), $mimeTypes)
+        $user->deleteAvatar()
+            ->addMediaFromBase64($request->getAvatar(), User::MEDIA_AVATAR_ALLOWED_MIMETYPES)
             ->usingName($fileName)
             ->usingFileName($fileName)
-            ->toMediaCollection(User::MEDIA_AVATARS_COLLECTION)
-            ->getUrl();
+            ->toMediaCollection(User::MEDIA_AVATARS_COLLECTION);
+
+        return $user->getAvatarUrl();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function deleteAvatar(int $userId): void
+    public function deleteAvatar(User $user): void
     {
-        $user = $this->userRepository->find($userId);
         $user->deleteAvatar();
     }
 }
