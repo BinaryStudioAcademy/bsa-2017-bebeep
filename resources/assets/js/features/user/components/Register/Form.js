@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {browserHistory} from 'react-router';
-
+import {InputDateTime} from 'app/components/Controls/index.js';
 import Input from 'app/components/Input';
-
+import moment from 'moment';
 
 import {
     registerSuccess,
@@ -164,6 +164,19 @@ class Form extends React.Component {
                         required={false}
                         error={errors.birth_date}
                     >{translate('register_form.birth_date')}</Input>
+                    <div className="form-group row">
+                        <label htmlFor='birth_date' className='form-control-label text-muted col-sm-4'>{translate('register_form.birth_date')}</label>
+                        <div className="col-md-8">
+                            <InputDateTime
+                                id="birth_date"
+                                value={moment()}
+                                timeFormat={false}
+                                labelClasses="register-form-label"
+                                wrapperClasses="register-form-birth_date"
+                                error={errors.birth_date}
+                            />
+                        </div>
+                    </div>
                     <div className={"form-group row " + (errors.role ? 'has-danger' : '')}>
                         <div className="col-sm-4">
                             {translate('register_form.role')}

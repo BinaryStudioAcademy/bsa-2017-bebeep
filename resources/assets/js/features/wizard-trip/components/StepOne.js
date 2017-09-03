@@ -92,9 +92,11 @@ class StepOne extends React.Component {
                 }
             }
         });
-
-
     }
+
+    isValidDate(current){
+        return current.isAfter(moment().subtract( 1, 'day' ));
+    };
 
     render() {
         const {start_at, errors} = this.state,
@@ -121,6 +123,9 @@ class StepOne extends React.Component {
                     <InputDateTime
                         id="trip_date"
                         value={start_at}
+                        timeFormat={true}
+                        labelClasses='form-input fa-calendar'
+                        isValidDate={this.isValidDate}
                         onChange={this.onChangeDate}
                         label={translate('wizard-trip.when')}
                         error={errors.start_at}

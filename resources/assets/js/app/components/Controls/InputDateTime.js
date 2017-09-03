@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {localize} from 'react-localize-redux';
 import DateTime from 'react-datetime';
-import moment from 'moment';
 
 import 'app/styles/react-datetime.scss';
 
@@ -33,22 +32,19 @@ class InputDateTime extends React.Component {
         }
     }
 
-    valid(current){
-        return current.isAfter(moment().subtract( 1, 'day' ));
-    };
-
     render() {
-        const { error, value, id, translate, className, label } = this.props,
+        const { error, value, id, translate, className, label, timeFormat, isValidDate, labelClasses, wrapperClasses } = this.props,
             { focused } = this.state;
 
         return (
             <div className={(error ? 'has-danger' : '')} >
-                <label htmlFor={id} className={"form-input fa-calendar" + (value !== null || focused ? ' form-input--focus' : '')}>
-                    <div className="form-input__text">
+                <label htmlFor={id} className={labelClasses + (value !== null || focused ? ' form-input--focus' : '')}>
+                    <div className={"form-input__text " + wrapperClasses}>
                         <DateTime
                             id={id}
-                            isValidDate={this.valid}
                             value={value}
+                            timeFormat={timeFormat}
+                            isValidDate={isValidDate}
                             className={ "form-input__text " + (className || '')}
                             onFocus={this.onFocus}
                             onBlur={this.onBlur}
@@ -67,6 +63,7 @@ class InputDateTime extends React.Component {
 InputDateTime.PropTypes = {
     id: PropTypes.required,
     value: PropTypes.required,
+    timeFormat: PropTypes.required
 };
 
 export default localize(InputDateTime, 'locale');

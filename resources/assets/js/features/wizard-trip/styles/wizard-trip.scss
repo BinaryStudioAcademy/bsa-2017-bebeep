@@ -29,11 +29,6 @@
       &_datetime {
         width: 220px;
       }
-      &-datetimepicker > input {
-        padding: 0;
-        font-size: 1.125rem;
-        border: none;
-      }
     }
     &:first-child {
       margin-left: 0;
@@ -146,4 +141,10 @@
       margin-top: 10px;
     }
   }
+}
+
+.wizard-form__input input {
+  padding: 0;
+  font-size: 1.125rem;
+  border: none;
 }
