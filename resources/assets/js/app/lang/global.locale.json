@@ -20,5 +20,12 @@
       "Сьогодні",
       "Сегодня"
     ]
+  },
+  "datetimepicker": {
+    "set_locale": [
+      "en-gb",
+      "uk",
+      "ru"
+    ]
   }
 }

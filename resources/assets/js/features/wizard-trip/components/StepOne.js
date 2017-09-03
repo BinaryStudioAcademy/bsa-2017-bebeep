@@ -1,5 +1,5 @@
 import React from 'react';
-import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
+import {InputPlaces, InputDateTime} from 'app/components/Controls/index.js';
 import { Button } from 'reactstrap';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -117,13 +117,14 @@ class StepOne extends React.Component {
                         error={errors.to}
                     >{translate('wizard-trip.to')}</InputPlaces>
                 </div>
-                <div className="wizard-form__input wizard-form__input_calendar">
-                    <InputDate
+                <div className="wizard-form__input wizard-form__input_calendar_datetime">
+                    <InputDateTime
                         id="trip_date"
                         value={start_at}
                         onChange={this.onChangeDate}
                         label={translate('wizard-trip.when')}
                         error={errors.start_at}
+                        className="wizard-form__input_calendar-datetimepicker"
                     />
                 </div>
 
