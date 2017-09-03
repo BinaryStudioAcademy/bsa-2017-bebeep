@@ -8,7 +8,7 @@ import AvatarCurrent from './AvatarCurrent';
 import UserService from 'features/user/services/UserService';
 
 const AVATAR_SIZE = 150;
-const AVATAR_MIME_TYPES = 'image/jpeg, image/png';
+const AVATAR_MIME_TYPES = 'image/jpeg,image/png';
 const AVATAR_MAX_SIZE_MB = 10;
 
 class AvatarUpload extends React.Component {
