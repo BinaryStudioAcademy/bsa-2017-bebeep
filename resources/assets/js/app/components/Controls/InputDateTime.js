@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {localize} from 'react-localize-redux';
-import DatePicker from 'react-datepicker';
 import DateTime from 'react-datetime';
 import moment from 'moment';
 
@@ -34,21 +33,26 @@ class InputDateTime extends React.Component {
         }
     }
 
+    valid(current){
+        return current.isAfter(moment().subtract( 1, 'day' ));
+    };
+
     render() {
         const { error, value, id, translate, className, label } = this.props,
-            {focused} = this.state;
+            { focused } = this.state;
 
         return (
             <div className={(error ? 'has-danger' : '')} >
                 <label htmlFor={id} className={"form-input fa-calendar" + (value !== null || focused ? ' form-input--focus' : '')}>
                     <div className="form-input__text">
                         <DateTime
-                            //todayButton={translate('datepicker.today')}
+                            id={id}
+                            isValidDate={this.valid}
                             value={value}
                             className={ "form-input__text " + (className || '')}
-                            id={id}
                             onFocus={this.onFocus}
                             onBlur={this.onBlur}
+                            locale={translate('datetimepicker.set_locale')}
                             {...this.props}
                         />
                     </div>

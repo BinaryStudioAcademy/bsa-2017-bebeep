@@ -9,7 +9,7 @@
   display: none;
   position: absolute;
   width: 250px;
-  padding: 4px;
+  padding: 5px;
   margin-top: 1px;
   z-index: 99999 !important;
   background: #fff;
@@ -46,6 +46,9 @@
 .rdtPicker td {
   cursor: pointer;
 }
+.rdtPicker td.rdtDat {
+  font-weight: 300;
+}
 .rdtPicker td.rdtDay:hover,
 .rdtPicker td.rdtHour:hover,
 .rdtPicker td.rdtMinute:hover,
@@ -54,7 +57,6 @@
   background: #eeeeee;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: 300;
 }
 .rdtPicker td.rdtOld,
 .rdtPicker td.rdtNew {
@@ -87,7 +89,7 @@
 .rdtPicker td.rdtDisabled:hover {
   background: none;
   color: #999999;
-  cursor: not-allowed;
+  cursor: default;
 }
 
 .rdtPicker td span.rdtOld {
@@ -208,8 +210,8 @@ td.rdtYear:hover {
   background: #eee;
 }
 .rdtCounter .rdtCount {
-  height: 20%;
-  font-size: 1.2em;
+  height: 25%;
+  font-size: 1.125em;
 }
 
 .rdtMilli {
