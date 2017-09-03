@@ -8,7 +8,7 @@ use App\Events\BookingApproved;
 use App\Events\BookingDeclined;
 use App\Events\ApprovedBookingCanceled;
 use App\Listeners\SendVerificationEmail;
-use App\Listeners\SendBookingCreatedEmailToDriver;
+use App\Listeners\NotifyDriverAboutBookingCreated;
 use App\Listeners\SendBookingCanceledEmailToDriver;
 use App\Listeners\SendBookingApprovedEmailToPassenger;
 use App\Listeners\SendBookingDeclinedEmailToPassenger;
@@ -26,7 +26,7 @@ class EventServiceProvider extends ServiceProvider
             SendVerificationEmail::class,
         ],
         BookingCreated::class => [
-            SendBookingCreatedEmailToDriver::class,
+            NotifyDriverAboutBookingCreated::class,
         ],
         BookingDeclined::class => [
             SendBookingDeclinedEmailToPassenger::class,
