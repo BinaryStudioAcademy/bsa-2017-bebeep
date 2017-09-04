@@ -3,7 +3,7 @@
 namespace App\Services\Contracts;
 
 use App\User;
-use App\Http\Requests\CreateReviewRequest;
+use App\Services\Requests\CreateReviewRequest;
 
 interface ReviewsService
 {

@@ -6,9 +6,9 @@ use App\User;
 use App\Models\Review;
 use App\Repositories\ReviewRepository;
 use App\Repositories\BookingRepository;
-use App\Http\Requests\CreateReviewRequest;
 use App\Criteria\Review\GivenReviewCriteria;
 use App\Criteria\Review\RatingReviewCriteria;
+use App\Services\Requests\CreateReviewRequest;
 use App\Criteria\Review\ReceivedReviewCriteria;
 
 class ReviewsService implements Contracts\ReviewsService

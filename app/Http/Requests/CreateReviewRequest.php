@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Services\Requests\CreateReviewRequest as CreateReviewRequestInterface;
 
-class CreateReviewRequest extends FormRequest
+class CreateReviewRequest extends FormRequest implements CreateReviewRequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.
