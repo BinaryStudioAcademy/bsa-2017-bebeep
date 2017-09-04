@@ -1,4 +1,5 @@
 import validate from 'validate.js';
+import {simpleRequest} from './RequestService';
 
 export const VehicleConstraints = {
     brand: {
@@ -137,10 +138,35 @@ export const VehicleValidate = (data = {
     return result;
 };
 
+export const VehicleData = {
+    getBrands(name) {
+        return simpleRequest.get(`/api/v1/car-brand/`, {
+            params: {
+                search: name,
+                orderBy: 'name'
+            }
+        });
+    },
+
+    getModels(name, brandId) {
+        if (brandId > 0) {
+            return simpleRequest.get(`/api/v1/car-brand/${brandId}/models`, {
+                params: {
+                    search: name,
+                    orderBy: 'name'
+                }
+            });
+        } else {
+            return Promise.resolve({ data: { data: [] } });
+        }
+    }
+};
+
 const VehicleService = {
     VehicleConstraints,
     VehicleValidator,
     VehicleValidate,
+    VehicleData,
 };
 
 export default VehicleService;

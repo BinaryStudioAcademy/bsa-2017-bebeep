@@ -106,12 +106,29 @@
     z-index: 1;
     width: calc(100% + 2px);
     left: -1px;
+    top: 100%;
     border: 1px solid $gray-lighter;
     border-top: none;
-
+    background-color: $white;
     -webkit-box-shadow: 0 1px 2px 0 lighten($black, 63%);
     -moz-box-shadow: 0 1px 2px 0 lighten($black, 63%);
     box-shadow: 0 1px 2px 0 lighten($black, 63%);
+    max-height: 200px;
+    overflow: auto;
+  }
+}
+
+.autocomplete-box {
+
+  &__item {
+    padding: 5px 10px;
+    font-size: $font-size-base;
+    color: $gray-light;
+
+    &--active {
+      color: $gray-dark;
+      background-color: $gray-lightest;
+    }
   }
 }
 
