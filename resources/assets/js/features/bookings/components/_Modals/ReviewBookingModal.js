@@ -39,7 +39,7 @@ class ReviewBookingModal extends React.Component {
         e.preventDefault();
 
         const data = {
-            trip_id: this.props.isOpen.id,
+            trip_id: this.props.tripId,
             rating: this.state.rating,
             review: this.state.review
         };

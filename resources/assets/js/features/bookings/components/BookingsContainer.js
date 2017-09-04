@@ -20,7 +20,8 @@ class BookingsContainer extends React.Component {
             errors: {},
             preloader: false,
             canceledBooking: null,
-            reviewBookingModal: null
+            reviewBookingModal: null,
+            reviewTripId: null
         };
 
         this.onChangePage = this.onChangePage.bind(this);
@@ -49,9 +50,10 @@ class BookingsContainer extends React.Component {
         });
     }
 
-    showReviewBookingModal(booking) {
+    showReviewBookingModal(tripId) {
         this.setState({
-            reviewBookingModal: booking
+            reviewBookingModal: true,
+            reviewTripId: tripId
         });
     }
 
@@ -116,7 +118,7 @@ class BookingsContainer extends React.Component {
                 />
 
                 <CancelBookingModal isOpen={this.state.canceledBooking} onSubmit={this.cancelBooking.bind(this)} onClose={this.hideCancelBookingModal.bind(this)} />
-                <ReviewBookingModal isOpen={this.state.reviewBookingModal} onClose={this.hideReviewBookingModal.bind(this)} />
+                <ReviewBookingModal isOpen={this.state.reviewBookingModal} onClose={this.hideReviewBookingModal.bind(this)} tripId={this.state.reviewTripId} />
             </div>
         );
     }
