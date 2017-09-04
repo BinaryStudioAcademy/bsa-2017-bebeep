@@ -21,7 +21,7 @@
       "Сегодня"
     ]
   },
-  "notifications": ["Notifications", "Повідомлення", "Уведомления"]
+  "notifications": ["Notifications", "Повідомлення", "Уведомления"],
   "datetimepicker": {
     "set_locale": [
       "en-gb",

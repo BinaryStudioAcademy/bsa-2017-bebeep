@@ -6,8 +6,10 @@ use App\Events\BookingCreated;
 use App\Events\UserRegistered;
 use App\Events\BookingApproved;
 use App\Events\BookingDeclined;
+use App\Events\ReviewOnTripCreated;
 use App\Events\ApprovedBookingCanceled;
 use App\Listeners\SendVerificationEmail;
+use App\Listeners\NotifyDriverAboutTripReview;
 use App\Listeners\NotifyDriverAboutBookingCreated;
 use App\Listeners\NotifyDriverAboutCanceledBooking;
 use App\Listeners\NotifyPassengerAboutApprovedBooking;
@@ -36,6 +38,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ApprovedBookingCanceled::class => [
             NotifyDriverAboutCanceledBooking::class,
+        ],
+        ReviewOnTripCreated::class => [
+            NotifyDriverAboutTripReview::class,
         ],
         'App\Events\Event' => [
             'App\Listeners\EventListener',
