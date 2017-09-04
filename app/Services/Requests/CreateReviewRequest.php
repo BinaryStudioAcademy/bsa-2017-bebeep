@@ -9,5 +9,4 @@ interface CreateReviewRequest
     public function getRating() : float;
 
     public function getReview() : string;
-
 }

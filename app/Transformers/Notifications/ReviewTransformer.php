@@ -18,8 +18,8 @@ class ReviewTransformer extends TransformerAbstract
             'id' => $review->id,
             'mark' => $review->mark,
             'user' => [
-                "id" => $review->user->id,
-                "last_name" => $review->user->last_name,
+                'id' => $review->user->id,
+                'last_name' => $review->user->last_name,
                 'first_name' => $review->user->first_name,
             ],
         ];
