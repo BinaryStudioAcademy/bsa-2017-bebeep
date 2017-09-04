@@ -1,4 +1,6 @@
 import {securedRequest, simpleRequest} from './RequestService';
+import Validator from './Validator';
+import LangService from './LangService';
 
 export const fetchGiven = () => {
     return securedRequest.get('/api/v1/reviews/given');
@@ -51,3 +53,7 @@ export const getRatingStats = (marks) => {
         }
     };
 };
+
+export const createReviewRules = () => ({
+    review: Validator.required(LangService.translate('validate.please_add_a_review')),
+});
