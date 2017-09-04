@@ -6,8 +6,9 @@ import { localize } from 'react-localize-redux';
 
 import Waypoints from './Waypoints';
 import Input from 'app/components/Input';
+import {InputDateTime} from 'app/components/Controls/index.js';
 import { getVehicles } from 'features/car/actions';
-
+import moment from 'moment';
 import LangService from 'app/services/LangService';
 import * as lang from 'features/trip/lang/TripForm.locale.json';
 
@@ -16,6 +17,10 @@ class TripForm extends React.Component {
     componentWillMount() {
         LangService.addTranslation(lang);
         this.props.getVehicles();
+    }
+
+    isValidDate(current) {
+        return current.isAfter(moment().subtract(1, 'day'));
     }
 
     render() {
@@ -81,14 +86,22 @@ class TripForm extends React.Component {
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>
                     </div>
-                    <Input
-                        type="datetime-local"
-                        name="start_at"
-                        id="start_at"
-                        defaultValue={this.props.trip ? this.props.trip.start_at : ''}
-                        required={false}
-                        error={errors.start_at}>{translate('trip_form.trip_start_time')}
-                    </Input>
+                    <div className={ "form-group row " + (errors.start_at ? 'has-danger' : '') }>
+                        <label htmlFor='start_at' className='form-control-label text-muted col-sm-4'>{translate('trip_form.trip_start_time')}</label>
+                        <div className="col-md-8">
+                            <InputDateTime
+                                id="start_at"
+                                isValidDate={this.isValidDate}
+                                timeFormat={true}
+                                defaultValue={this.props.trip ? this.props.trip.start_at : ''}
+                                inputProps={{name: 'start_at'}}
+                                labelClasses="register-form-label"
+                                wrapperClasses="register-form-birth_date"
+                                error={errors.start_at}
+                            />
+                        </div>
+                    </div>
+
 
                     <Waypoints waypoints={this.props.waypoints}
                                placesCssClasses={this.props.placesCssClasses}

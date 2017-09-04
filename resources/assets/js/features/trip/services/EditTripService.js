@@ -13,7 +13,7 @@ const EditTripService = {
     transformData(response) {
         response.start_at = moment.utc(
             response.start_at +`0000`, "YYYY-MM-DD HH:mm:ss Z"
-        ).local().format("YYYY-MM-DDThh:mm");
+        ).local().format("YYYY-MM-DD HH:mm");
 
         response.price = parseInt(response.price);
         return response;

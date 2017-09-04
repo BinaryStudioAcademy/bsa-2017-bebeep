@@ -160,7 +160,7 @@ class Form extends React.Component {
                         required={false}
                         error={errors.phone}
                     >{translate('register_form.phone')}</Input>
-                    <div className="form-group row">
+                    <div className={ "form-group row " + (errors.birth_date ? 'has-danger' : '') }>
                         <label htmlFor='birth_date' className='form-control-label text-muted col-sm-4'>{translate('register_form.birth_date')}</label>
                         <div className="col-md-8">
                             <InputDateTime
@@ -168,7 +168,6 @@ class Form extends React.Component {
                                 isValidDate={this.isValidDate}
                                 timeFormat={false}
                                 inputProps={{name: 'birth_date', placeholder: translate('register_form.birth_date_placeholder')}}
-                                dateFormat="YYYY-MM-DD"
                                 labelClasses="register-form-label"
                                 wrapperClasses="register-form-birth_date"
                                 error={errors.birth_date}

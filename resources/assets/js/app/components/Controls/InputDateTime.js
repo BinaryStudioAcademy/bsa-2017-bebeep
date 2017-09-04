@@ -33,7 +33,7 @@ class InputDateTime extends React.Component {
     }
 
     render() {
-        const { error, value, id, translate, className, label, timeFormat, isValidDate, labelClasses, wrapperClasses, inputProps, dateFormat } = this.props,
+        const { error, value, id, translate, className, label, timeFormat, isValidDate, labelClasses, wrapperClasses, inputProps, defaultValue } = this.props,
             { focused } = this.state;
 
         return (
@@ -46,7 +46,8 @@ class InputDateTime extends React.Component {
                             timeFormat={timeFormat}
                             isValidDate={isValidDate}
                             inputProps={inputProps}
-                            dateFormat={dateFormat}
+                            defaultValue={defaultValue}
+                            dateFormat="YYYY-MM-DD"
                             className={ "form-input__text " + (className || '')}
                             onFocus={this.onFocus}
                             onBlur={this.onBlur}
