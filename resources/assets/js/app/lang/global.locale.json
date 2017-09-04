@@ -22,4 +22,11 @@
     ]
   },
   "notifications": ["Notifications", "Повідомлення", "Уведомления"]
+  "datetimepicker": {
+    "set_locale": [
+      "en-gb",
+      "uk",
+      "ru"
+    ]
+  }
 }

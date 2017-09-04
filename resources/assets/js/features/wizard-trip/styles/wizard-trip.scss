@@ -26,6 +26,14 @@
     width: 250px;
     &_calendar {
       width: 170px;
+      &_datetime {
+        width: 220px;
+      }
+      &-datetimepicker > input {
+        padding: 0;
+        font-size: 1.125rem;
+        border: none;
+      }
     }
     &:first-child {
       margin-left: 0;

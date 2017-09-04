@@ -16,10 +16,10 @@
     "save_avatar": [
       "Save", "Зберегти", "Сохранить"
     ],
-    "user_current_avatar": [
-      "User current avatar",
-      "Поточний аватар користувача",
-      "Текущий аватар пользователя"
+    "custom_rules": [
+      "JPG or PNG.",
+      "JPG або PNG.",
+      "JPG или PNG."
     ]
   }
 }

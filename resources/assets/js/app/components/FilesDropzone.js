@@ -82,12 +82,12 @@ class FilesDropzone extends React.Component {
                     { translate('files_dropzone.drop_or_click_to_select_file_to_upload') }
                 </p>
                 <p className="files-dropzone__rules">
-                    <span className="mr-2">
+                    <span>{ customRules }</span>
+                    <span className="ml-2">
                         { translate('files_dropzone.rule_max_size_mb', {
                             size: fileMaxSizeMb
                         }) }
                     </span>
-                    <span>{ customRules }</span>
                 </p>
             </Dropzone>
         );

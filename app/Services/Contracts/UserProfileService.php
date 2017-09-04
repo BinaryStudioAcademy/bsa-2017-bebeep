@@ -11,38 +11,47 @@ interface UserProfileService
     /**
      * Get the user profile general data.
      *
-     * @param int $userId
+     * @param \App\User $user
      *
      * @return \App\User
      */
-    public function getGeneral(int $userId): User;
+    public function getGeneral(User $user): User;
+
+    /**
+     * Get the user profile avatar.
+     *
+     * @param \App\User $user
+     *
+     * @return string|null
+     */
+    public function getAvatar(User $user): ?string;
 
     /**
      * Update the user profile general data.
      *
-     * @param int $userId
+     * @param \App\User $user
      * @param \App\Services\Requests\UpdateUserProfileRequest $request
      *
      * @return \App\User
      */
-    public function updateGeneral(int $userId, UpdateUserProfileRequest $request): User;
+    public function updateGeneral(User $user, UpdateUserProfileRequest $request): User;
 
     /**
      * Update the user profile avatar.
      *
-     * @param int $userId
+     * @param \App\User $user
      * @param \App\Services\Requests\UpdateUserAvatarRequest $request
      *
      * @return string The avatar image full url
      */
-    public function updateAvatar(int $userId, UpdateUserAvatarRequest $request): string;
+    public function updateAvatar(User $user, UpdateUserAvatarRequest $request): string;
 
     /**
      * Delete the user profile avatar.
      *
-     * @param int $userId
+     * @param \App\User $user
      *
      * @return void
      */
-    public function deleteAvatar(int $userId): void;
+    public function deleteAvatar(User $user): void;
 }
