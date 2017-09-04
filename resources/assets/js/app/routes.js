@@ -51,7 +51,7 @@ export default (store) => {
     LangeService.addTranslation(require('./lang/validate.locale.json'));
 
     return (
-        <Route path="/" component={ App } onEnter={() => {
+        <Route path="/" component={ App } onChange={() => {
             getCountUnread().then((response) => {
                 store.dispatch(setCountUnreadNotifications(response.data));
             });

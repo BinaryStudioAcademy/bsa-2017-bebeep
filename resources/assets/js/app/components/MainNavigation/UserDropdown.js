@@ -4,7 +4,6 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import {connect} from 'react-redux';
 import { getTranslate } from 'react-localize-redux';
 
-
 class UserDropdown extends React.Component {
 
     constructor(props) {
