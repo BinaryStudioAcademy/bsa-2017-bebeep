@@ -38,8 +38,8 @@ class InputDateTime extends React.Component {
 
         return (
             <div className={(error ? 'has-danger' : '')} >
-                <label htmlFor={id} className={labelClasses + (value !== null || focused ? ' form-input--focus' : '')}>
-                    <div className={"form-input__text " + wrapperClasses}>
+                <label htmlFor={id} className={(labelClasses || '') + (value !== null || focused ? ' form-input--focus' : '')}>
+                    <div className={"form-input__text " + (wrapperClasses || '')}>
                         <DateTime
                             id={id}
                             value={value ? value : ''}

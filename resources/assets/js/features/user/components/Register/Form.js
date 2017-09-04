@@ -167,7 +167,7 @@ class Form extends React.Component {
                                 id="birth_date"
                                 isValidDate={this.isValidDate}
                                 timeFormat={false}
-                                inputProps={{name: 'birth_date', placeholder: translate('register_form.birth_date_placeholder')}}
+                                inputProps={{name: 'birth_date'}}
                                 labelClasses="register-form-label"
                                 wrapperClasses="register-form-birth_date"
                                 error={errors.birth_date}

@@ -7,7 +7,6 @@
     "email": ["E-mail", "Ел. адреса", "Эл. адрес"],
     "phone": ["Phone number", "Телефон", "Телефон"],
     "birth_date": ["Birth date", "Дата народження", "Дата рождения"],
-    "birth_date_placeholder": ["yyyy/mm/dd", "рррр/мм/дд", "гггг/мм/дд"],
     "role": ["Role", "Роль", "Роль"],
     "driver": ["driver", "водій", "водитель"],
     "passenger": ["passenger", "пасажир", "пассажир"],
