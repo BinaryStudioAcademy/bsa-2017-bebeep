@@ -2,6 +2,7 @@
   "notifications": {
     "header": ["Notifications", "Повідомлення", "Уведомления"],
     "messages": {
+      "detail": ["Detail ...", "Детальніше ...", "Подробнее ..."],
       "booking_approved": {
         "title": ["Booking approved", "Бронювання підтверджено", "Бронирование подтверждено"],
         "message": [
@@ -19,7 +20,7 @@
         ]
       },
       "booking_declined": {
-        "title": ["Booking declined", "Бронювання відхилено", "Бронированеи отклонено"],
+        "title": ["Booking declined", "Бронювання відхилено", "Бронирование отклонено"],
         "message": [
           "Driver ${first_name} ${last_name} declined your the booking of trip: ${from} - ${to} ${start_at}",
           "Водій ${first_name} ${last_name} відхилив Ваше бронювання подорожі: ${from} - ${to} ${start_at}",

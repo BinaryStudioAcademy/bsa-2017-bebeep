@@ -79,7 +79,9 @@ class NotificationsList extends React.Component {
                                 onlyDate: true,
                                 dateFormat: 'MM.DD.YYYY'
                             }).date
-                        })}</div>), (<Button key="2" size="sm">подробнее ...</Button>)]
+                        })}</div>), (<a key="2" className="btn" href={`/trips/?booking_trip=${notification.data.trip.trip_id}`}>
+                            {translate('notifications.messages.detail')}
+                        </a>)]
                 };
             default:
                 return {
