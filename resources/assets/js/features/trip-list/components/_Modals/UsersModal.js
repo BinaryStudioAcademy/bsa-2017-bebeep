@@ -1,14 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {Modal, ModalHeader, ModalBody} from 'reactstrap';
 import {TripDetailsUsers} from '../../../trip/layouts';
-
-// import 'features/trip-list/styles/booking-info.scss';
-
+import { getTranslate } from 'react-localize-redux';
 
 class UsersModal extends React.Component {
 
     render() {
-        const {isOpen, onClick, tripId} = this.props;
+
+        const {translate, isOpen, onClick, tripId} = this.props;
 
         return (
             <span>
@@ -19,8 +19,8 @@ class UsersModal extends React.Component {
                        toggle={onClick}
                 >
                     <ModalHeader className="trip-map-modal__header" toggle={onClick}>
-                        Passengers in this trip
-                        <i className="trip-detail-icon fa fa-road" aria-hidden="true"/>
+                        {translate('trip_list.passengers_link')}
+                        <i className="trip-detail-icon fa fa-users" aria-hidden="true"/>
                     </ModalHeader>
                     <ModalBody className="p-0">
                         <TripDetailsUsers params={{'id':tripId}}/>
@@ -31,4 +31,8 @@ class UsersModal extends React.Component {
     }
 }
 
-export default (UsersModal);
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale)
+    })
+)(UsersModal);

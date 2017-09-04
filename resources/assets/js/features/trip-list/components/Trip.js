@@ -38,8 +38,6 @@ class Trip extends React.Component {
 
     onClickUsersBtn() {
         this.setState({ modalUsersIsOpen: !this.state.modalUsersIsOpen });
-        console.log('Click');
-        console.log(this.state.modalUsersIsOpen);
     }
 
     getStartDate() {
