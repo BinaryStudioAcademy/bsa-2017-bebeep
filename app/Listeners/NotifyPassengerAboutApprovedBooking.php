@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\BookingApproved;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use \App\Notifications\BookingApproved as NotificationBookingApproved;
+use App\Notifications\BookingApproved as NotificationBookingApproved;
 
 class NotifyPassengerAboutApprovedBooking implements ShouldQueue
 {

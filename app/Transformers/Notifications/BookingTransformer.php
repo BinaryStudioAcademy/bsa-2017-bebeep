@@ -39,7 +39,7 @@ class BookingTransformer extends TransformerAbstract
             'routes' => [
                 'from' => $this->getCity($from),
                 'to' => $this->getCity($to),
-            ]
+            ],
         ];
     }
 

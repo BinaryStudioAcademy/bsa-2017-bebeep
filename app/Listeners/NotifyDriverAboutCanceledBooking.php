@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\ApprovedBookingCanceled;
 use App\Notifications\BookingCanceled;
+use App\Events\ApprovedBookingCanceled;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NotifyDriverAboutCanceledBooking implements ShouldQueue

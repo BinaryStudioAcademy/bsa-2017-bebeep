@@ -173,16 +173,16 @@ Route::group([
 ], function () {
     Route::get('/', [
         'as' => 'index',
-        'uses' => 'NotificationsController@index'
+        'uses' => 'NotificationsController@index',
     ]);
 
     Route::patch('/{databaseNotification}', [
         'read',
-        'uses' => 'NotificationsController@read'
+        'uses' => 'NotificationsController@read',
     ]);
 
     Route::get('/unread', [
         'unread',
-        'uses' => 'NotificationsController@getUnread'
+        'uses' => 'NotificationsController@getUnread',
     ]);
 });

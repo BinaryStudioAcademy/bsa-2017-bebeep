@@ -9,7 +9,7 @@ use Illuminate\Notifications\DatabaseNotification;
 class NotificationService implements Contracts\NotificationService
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getAll(User $user): Collection
     {
@@ -17,7 +17,7 @@ class NotificationService implements Contracts\NotificationService
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function markAsRead(User $user, DatabaseNotification $databaseNotification): bool
     {
@@ -34,11 +34,10 @@ class NotificationService implements Contracts\NotificationService
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function countUnread(User $user): int
     {
         return $user->unreadNotifications->count();
     }
-
 }

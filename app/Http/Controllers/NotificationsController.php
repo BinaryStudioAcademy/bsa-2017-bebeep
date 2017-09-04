@@ -14,7 +14,7 @@ class NotificationsController extends Controller
      */
     private $notificationService;
 
-    function __construct(NotificationService $notificationService)
+    public function __construct(NotificationService $notificationService)
     {
         $this->notificationService = $notificationService;
     }
