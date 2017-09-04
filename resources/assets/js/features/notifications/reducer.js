@@ -7,7 +7,8 @@ const initialState = {
             byId: {},
             allId: []
         }
-    }
+    },
+    countUnread: 0
 };
 
 export default (state = initialState, action) => {
@@ -40,7 +41,13 @@ export default (state = initialState, action) => {
                             }
                         }
                     }
-                }
+                },
+                countUnread: state.countUnread - 1
+            };
+        case actions.NOTIFICATION_SET_COUNT:
+            return {
+                ...state,
+                countUnread: action.count
             };
         default:
             return state;

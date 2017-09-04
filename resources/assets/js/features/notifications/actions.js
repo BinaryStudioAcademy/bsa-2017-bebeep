@@ -17,3 +17,8 @@ export const markAsReadNotification = (id) => ({
     type: actions.NOTIFICATION_MARK_AS_READ,
     id
 });
+
+export const setCountUnreadNotifications = (count) => ({
+    type: actions.NOTIFICATION_SET_COUNT,
+    count
+});
