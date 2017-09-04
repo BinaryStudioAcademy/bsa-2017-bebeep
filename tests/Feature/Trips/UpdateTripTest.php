@@ -7,8 +7,6 @@ use Carbon\Carbon;
 use App\Models\Trip;
 use App\Models\Route;
 use App\Models\Vehicle;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UpdateTripTest extends BaseTripTestCase
 {
