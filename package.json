@@ -31,6 +31,7 @@
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-addons-transition-group": "^15.6.0",
+    "react-autocomplete": "^1.7.1",
     "react-cropper": "^1.0.0",
     "react-datepicker": "^0.53.0",
     "react-datetime": "^2.10.1",

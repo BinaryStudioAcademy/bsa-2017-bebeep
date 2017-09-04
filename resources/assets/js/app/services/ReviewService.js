@@ -31,7 +31,7 @@ export const calcRatingData = (marks) => {
         count: 0,
         byMark: {}
     });
-    const avg = parseFloat(info.sum / info.count * 100) / 100;
+    const avg = info.sum / info.count;
     info['avg'] = isNaN(avg) ? 0 : avg;
     return info;
 };

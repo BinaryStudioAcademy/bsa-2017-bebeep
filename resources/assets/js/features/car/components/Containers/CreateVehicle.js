@@ -17,12 +17,12 @@ class CreateVehicle extends React.Component {
         this.state = {
             errors: {},
             brand: {
-                id_car_mark: null,
+                id: null,
                 name: null
             },
             model: {
-                id_car_model: null,
-                id_car_mark: null,
+                id: null,
+                brand_id: null,
                 name: null,
                 disabled: true
             },
@@ -42,11 +42,11 @@ class CreateVehicle extends React.Component {
     handleBrandChange(data) {
         this.setState({
             brand: {
-                id_car_mark: (data) ? data.id_car_mark : null,
+                id: (data) ? data.id : null,
                 name: (data) ? data.name : null
             },
             model: {
-                id_car_mark: (data) ? data.id_car_mark : null,
+                brand_id: (data) ? data.id : null,
                 disabled: (data) ? false : true
             }
         });
@@ -55,7 +55,7 @@ class CreateVehicle extends React.Component {
     handleModelChange(data) {
         this.setState({
             model: {
-                id_car_model: (data) ? data.id_car_model : null,
+                id: (data) ? data.id : null,
                 name: (data) ? data.name : null
             }
         });
@@ -92,7 +92,7 @@ class CreateVehicle extends React.Component {
     }
 
     getModelLoadOptions = () => {
-        return VehicleService.getModelOptions(this.state.brand.id_car_mark);
+        return VehicleService.getModelOptions(this.state.brand.id);
     };
 
     onSubmit(e) {
