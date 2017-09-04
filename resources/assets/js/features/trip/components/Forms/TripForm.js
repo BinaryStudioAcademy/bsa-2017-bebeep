@@ -90,6 +90,33 @@ class TripForm extends React.Component {
                         error={errors.start_at}>{translate('trip_form.trip_start_time')}
                     </Input>
 
+                    <div className={"form-group row " + (errors.luggage_size ? 'has-danger' : '')}>
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="luggage_size">
+                            {translate('trip_form.luggage_size')}
+                        </label>
+                        <div className="col-sm-8">
+                            <select defaultValue={this.props.trip ? this.props.trip.luggage_size : '2'} name="luggage_size" className="form-control" id="luggage_size">
+                                <option value="0">{translate('trip_form.luggage_size_0')}</option>
+                                <option value="1">{translate('trip_form.luggage_size_1')}</option>
+                                <option value="2">{translate('trip_form.luggage_size_2')}</option>
+                            </select>
+                            <div className="form-control-feedback">{errors.luggage_size}</div>
+                        </div>
+                    </div>
+
+                    <div className="form-group row">
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="is_animals_allowed">
+                            {translate('trip_form.is_animals_allowed')}
+                        </label>
+                        <div className="col-sm-8">
+                            <div className="form-check">
+                                <label className="form-check-label">
+                                    <input className="form-check-input" type="checkbox" id="is_animals_allowed" defaultChecked={this.props.trip ? this.props.trip.is_animals_allowed : false} />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <Waypoints waypoints={this.props.waypoints}
                                placesCssClasses={this.props.placesCssClasses}
                                onWaypointDelete={this.props.onWaypointDelete}

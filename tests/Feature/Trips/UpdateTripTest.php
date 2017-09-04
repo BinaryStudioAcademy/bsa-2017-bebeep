@@ -12,8 +12,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UpdateTripTest extends BaseTripTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     protected $url;
     protected $method = 'PUT';
 
@@ -124,6 +122,8 @@ class UpdateTripTest extends BaseTripTestCase
         $endAt = Carbon::now()->addSeconds(Trip::MIN_DELAY_TO_START_DATE)->addHour(1)->timestamp;
 
         $updatedData = array_merge($trip->toArray(), [
+            'is_animals_allowed' => 0,
+            'luggage_size' => Trip::LUGGAGE_SIZE_MEDIUM,
             'price' => 500.00,
             'start_at' => $startAt,
             'end_at' => $endAt,
@@ -145,6 +145,8 @@ class UpdateTripTest extends BaseTripTestCase
                 'price' => 500,
                 'start_at' => Carbon::createFromTimestampUTC($startAt),
                 'end_at' => Carbon::createFromTimestampUTC($endAt),
+                'is_animals_allowed' => 0,
+                'luggage_size' => Trip::LUGGAGE_SIZE_MEDIUM,
             ]
         );
     }
