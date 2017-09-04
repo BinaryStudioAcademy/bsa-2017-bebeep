@@ -27,12 +27,11 @@ class TripDetailsUsers extends React.Component {
     }
 
     componentDidMount() {
-        const { params, tripDetailsSetState } = this.props;
+        const { params } = this.props;
 
         TripDetailsService.getDetails(params.id)
             .then(response => {
                 this.props.tripDetailsSetState(response);
-                // this.setSearchData();
 
                 this.setState({
                     preloader: false,
