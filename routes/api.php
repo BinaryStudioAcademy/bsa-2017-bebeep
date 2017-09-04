@@ -90,11 +90,12 @@ Route::group([
     'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
 ], function () {
     Route::resource('v1/car', 'Api\\Car\\CarController');
-    Route::resource('v1/car-body', 'Api\\Car\\CarBodyController', ['only' => ['index']]);
-    Route::resource('v1/car-color', 'Api\\Car\\CarColorController', ['only' => ['index']]);
-    Route::resource('v1/car-brand', 'Api\\Car\\CarBrandController', ['only' => ['index']]);
-    Route::get('v1/car-brand/{model}/models', 'Api\\Car\\CarBrandController@getModelByMarkId');
 });
+
+Route::resource('v1/car-body', 'Api\\Car\\CarBodyController', ['only' => ['index']]);
+Route::resource('v1/car-color', 'Api\\Car\\CarColorController', ['only' => ['index']]);
+Route::resource('v1/car-brand', 'Api\\Car\\CarBrandController', ['only' => ['index']]);
+Route::get('v1/car-brand/{carBrand}/models', 'Api\\Car\\CarBrandController@getModelByBrand');
 
 Route::group([
     'prefix' => 'v1/trips',

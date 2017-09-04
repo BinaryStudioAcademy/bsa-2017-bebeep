@@ -19,7 +19,7 @@ class AvatarCurrent extends React.Component {
     }
 
     render() {
-        const { translate, avatar } = this.props;
+        const { translate, avatar, destWidth } = this.props;
 
         return (
             <div className="user-current-avatar">
@@ -29,7 +29,8 @@ class AvatarCurrent extends React.Component {
                     </figcaption>
                     <img src={ avatar }
                         className="user-current-avatar__image"
-                        alt={ translate('profile_avatar.user_current_avatar') } />
+                        alt={ translate('profile_avatar.current_avatar') }
+                        style={{ maxWidth: destWidth }} />
                 </figure>
 
                 { this.renderDeleteButton() }

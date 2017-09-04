@@ -19,6 +19,7 @@ class CarBrandService
     }
 
     /**
+     * @param int $limit
      * @return mixed
      */
     public function getAll()
