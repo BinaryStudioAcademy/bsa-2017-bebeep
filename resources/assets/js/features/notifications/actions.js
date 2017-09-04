@@ -13,7 +13,7 @@ export const setNotifications = (data) => {
         });
 };
 
-export const markAsRead = (id) => ({
+export const markAsReadNotification = (id) => ({
     type: actions.NOTIFICATION_MARK_AS_READ,
     id
 });

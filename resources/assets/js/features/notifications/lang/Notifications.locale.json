@@ -1,5 +1,49 @@
 {
   "notifications": {
-    "header": ["Notifications", "Повідомлення", "Уведомления"]
+    "header": ["Notifications", "Повідомлення", "Уведомления"],
+    "messages": {
+      "booking_approved": {
+        "title": ["Booking approved", "Бронювання підтверджено", "Бронирование подтверждено"],
+        "message": [
+          "Driver ${first_name} ${last_name} approved your the booking of trip: ${from} - ${to} ${start_at}",
+          "Водій ${first_name} ${last_name} підтвердив Ваше бронювання подорожі: ${from} - ${to} ${start_at}",
+          "Водитель ${first_name} ${last_name} подтвердил Ваше бронирование поездки: ${from} - ${to} ${start_at}"
+        ]
+      },
+      "booking_canceled": {
+        "title": ["Booking canceled", "Бронювання відмінено", "Бронирование отменено"],
+        "message": [
+          "Passenger ${first_name} ${last_name} canceled the booking of trip: ${from} - ${to} ${start_at}",
+          "Пасажир ${first_name} ${last_name} відмінив бронювання подорожі: ${from} - ${to} ${start_at}",
+          "Пассажир ${first_name} ${last_name} отменил бронирование поездки: ${from} - ${to} ${start_at}"
+        ]
+      },
+      "booking_declined": {
+        "title": ["Booking declined", "Бронювання відхилено", "Бронированеи отклонено"],
+        "message": [
+          "Driver ${first_name} ${last_name} declined your the booking of trip: ${from} - ${to} ${start_at}",
+          "Водій ${first_name} ${last_name} відхилив Ваше бронювання подорожі: ${from} - ${to} ${start_at}",
+          "Водитель ${first_name} ${last_name} отклонил Ваше бронирование поездки: ${from} - ${to} ${start_at}"
+        ]
+      },
+      "booking_created": {
+        "title": ["Booking created", "Оформлено бронювання", "Оформлено бронирование"],
+        "message1": [
+          "Passenger ${first_name} ${last_name} booked ${seats} seat(s) for trip: ${from} - ${to} ${start_at}",
+          "Пасажир ${first_name} ${last_name} забронював ${seats} місце на подорож: ${from} - ${to} ${start_at}",
+          "Пассажир ${first_name} ${last_name} забронировал ${seats} место на поездку: ${from} - ${to} ${start_at}"
+        ],
+        "message2": [
+          "Passenger ${first_name} ${last_name} booked ${seats} seat(s) for trip: ${from} - ${to} ${start_at}",
+          "Пасажир ${first_name} ${last_name} забронював ${seats} місця на подорож: ${from} - ${to} ${start_at}",
+          "Пассажир ${first_name} ${last_name} забронировал ${seats} места на поездку: ${from} - ${to} ${start_at}"
+        ],
+        "message3": [
+          "Passenger ${first_name} ${last_name} booked ${seats} seat(s) for trip: ${from} - ${to} ${start_at}",
+          "Пасажир ${first_name} ${last_name} забронював ${seats} місць на подорож: ${from} - ${to} ${start_at}",
+          "Пассажир ${first_name} ${last_name} забронировал ${seats} мест на поездку: ${from} - ${to} ${start_at}"
+        ]
+      }
+    }
   }
 }
