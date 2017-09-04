@@ -34,6 +34,10 @@ export const setFilter = (filter, params = {}) => {
             newParams[`filter[${field}][min]`] = filter[field][0];
             newParams[`filter[${field}][max]`] = filter[field][1];
         }
+
+        if (typeof filter[field] === 'string') {
+            newParams[`filter[${field}]`] = filter[field];
+        }
     }
     return Object.assign(params, newParams);
 };
@@ -53,6 +57,12 @@ export const getFilter = () => {
     }
     if (+query["start_at"] > 0) {
         filter['date'] = +query["start_at"];
+    }
+    if (query["filter[animals]"]) {
+        filter['animals'] = query["filter[animals]"];
+    }
+    if (query["filter[luggage]"]) {
+        filter['luggage'] = query["filter[luggage]"];
     }
     return filter;
 };

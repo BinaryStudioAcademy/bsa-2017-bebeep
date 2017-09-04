@@ -38,6 +38,11 @@
     "luggage_size_0": ["Small", "Маленький", "Маленький"],
     "luggage_size_1": ["Medium", "Середній", "Средний"],
     "luggage_size_2": ["Big", "Великий", "Большой"],
-    "is_animals_allowed": ["Animals allowed", "Тварини дозволені", "Животные разрешены"]
+    "is_animals_allowed": ["Animals allowed", "Тварини дозволені", "Животные разрешены"],
+    "additional_conditions": ["Additional conditions", "Додаткові умови", "Дополнительные условия"],
+    "animals": ["Animals", "Тварини", "Животные"],
+    "not_important": ["All", "Все одно", "Все равно"],
+    "allowed": ["Allowed", "Дозволені", "Разрешены"],
+    "forbidden": ["Forbidden", "Заборонені", "Запрещены"]
   }
 }

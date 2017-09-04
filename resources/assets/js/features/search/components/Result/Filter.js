@@ -18,9 +18,12 @@ class Filter extends React.Component {
         this.state = {
             time: [0, 24],
             price: [0, 0],
+            animals: 'null'
         };
         this.timeChange = this.timeChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
+        this.isAnimalsAllowedChange = this.isAnimalsAllowedChange.bind(this);
+        this.luggageChange = this.luggageChange.bind(this);
     }
 
     componentWillMount() {
@@ -36,7 +39,9 @@ class Filter extends React.Component {
         let filter = getFilter();
         this.setState(Object.assign({
             price: props.priceBounds,
-            time: [0, 24]
+            time: [0, 24],
+            animals: 'null',
+            luggage: 'null'
         }, filter));
     }
 
@@ -46,6 +51,14 @@ class Filter extends React.Component {
 
     priceChange(price) {
         setUrl(setFilter({price: price}));
+    }
+
+    isAnimalsAllowedChange(e) {
+        setUrl(setFilter({animals: e.target.value}));
+    }
+
+    luggageChange(e) {
+        setUrl(setFilter({luggage: e.target.value}));
     }
 
     render() {
@@ -88,6 +101,34 @@ class Filter extends React.Component {
                             onAfterChange={this.priceChange}
                             pushable
                         />
+                    </div>
+                </div>
+                <div className="filter__prop">
+                    <div className="filter__prop-name">{translate('search_result.additional_conditions')}</div>
+
+                    <div className="filter__prop-control">
+                        <div className="filter__prop-sign">
+                            {translate('search_result.animals')}
+                        </div>
+
+                        <select name="is_animals_allowed" value={this.state.animals} className="form-control" id="is_animals_allowed" onChange={this.isAnimalsAllowedChange}>
+                            <option value="null">{translate('search_result.not_important')}</option>
+                            <option value="1">{translate('search_result.allowed')}</option>
+                            <option value="0">{translate('search_result.forbidden')}</option>
+                        </select>
+                    </div>
+
+                    <div className="filter__prop-control">
+                        <div className="filter__prop-sign">
+                            {translate('search_result.luggage_size')}
+                        </div>
+
+                        <select name="luggage" value={this.state.luggage} className="form-control" id="luggage" onChange={this.luggageChange}>
+                            <option value="null">{translate('search_result.not_important')}</option>
+                            <option value="0">{translate('search_result.luggage_size_0')}</option>
+                            <option value="1">{translate('search_result.luggage_size_1')}</option>
+                            <option value="2">{translate('search_result.luggage_size_2')}</option>
+                        </select>
                     </div>
                 </div>
             </div>
