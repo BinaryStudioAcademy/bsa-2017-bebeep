@@ -9,7 +9,7 @@ import PageHeader from 'app/components/PageHeader';
 import AvatarUpload from 'features/user/components/Profile/AvatarUpload';
 import StatusModal from 'features/user/components/_Modals/StatusModal';
 
-import { getProfileAvatar, isDefaultProfileAvatar } from 'app/services/PhotoService';
+import { isDefaultProfileAvatar } from 'app/services/PhotoService';
 import LangService from 'app/services/LangService';
 import * as lang from 'features/user/lang/Profile/ProfileAvatar.locale.json';
 
