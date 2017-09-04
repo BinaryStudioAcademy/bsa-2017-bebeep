@@ -55,6 +55,10 @@ export default (store) => {
             getCountUnread().then((response) => {
                 store.dispatch(setCountUnreadNotifications(response.data));
             });
+        }} onEnter={() => {
+            getCountUnread().then((response) => {
+                store.dispatch(setCountUnreadNotifications(response.data));
+            });
         }}>
 
             <Route path="elements" component={Elements}/>
