@@ -26,7 +26,7 @@ class ChangeMarkFieldInReviewsTable extends Migration
     public function down()
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->integer('mark');
+            $table->integer('mark')->change();
         });
     }
 }
