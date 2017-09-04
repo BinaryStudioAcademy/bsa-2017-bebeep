@@ -197,4 +197,14 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
             return 0;
         }
     }
+
+    public function getIsAnimalsAllowed()
+    {
+        return $this->get('is_animals_allowed');
+    }
+
+    public function getLuggageSize()
+    {
+        return $this->get('luggage_size');
+    }
 }

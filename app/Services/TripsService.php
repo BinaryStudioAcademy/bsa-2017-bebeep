@@ -245,6 +245,8 @@ class TripsService
             )
             ->setPrice($request->getMinPrice(), $request->getMaxPrice())
             ->setOrder($request->getSort(), $request->getOrder())
+            ->setIsAnimalsAllowed($request->getIsAnimalsAllowed())
+            ->setLuggageSize($request->getLuggageSize())
             ->paginate($request->getLimit(), $request->getPage() - 1);
 
         $result = $search->getResult();

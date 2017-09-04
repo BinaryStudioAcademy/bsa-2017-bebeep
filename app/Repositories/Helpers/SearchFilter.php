@@ -108,6 +108,36 @@ class SearchFilter
     }
 
     /**
+     * @param $isAnimalsAllowed
+     * @return SearchFilter
+     */
+    public function setIsAnimalsAllowed($isAnimalsAllowed): SearchFilter
+    {
+        if ($isAnimalsAllowed === null) {
+            return $this;
+        }
+
+        $this->query->where("trips.is_animals_allowed", $isAnimalsAllowed);
+
+        return $this;
+    }
+
+    /**
+     * @param $luggageSize
+     * @return SearchFilter
+     */
+    public function setLuggageSize($luggageSize): SearchFilter
+    {
+        if ($luggageSize === null) {
+            return $this;
+        }
+
+        $this->query->where("trips.luggage_size", $luggageSize);
+
+        return $this;
+    }
+
+    /**
      * @param int $limit
      * @param int $offset
      * @return SearchFilter
