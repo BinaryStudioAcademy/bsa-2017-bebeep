@@ -2,7 +2,6 @@
 
 namespace App\Services\Requests;
 
-
 interface CreateReviewRequest
 {
     public function getTripId() : int;
@@ -10,4 +9,5 @@ interface CreateReviewRequest
     public function getRating() : float;
 
     public function getReview() : string;
+
 }
