@@ -34,6 +34,8 @@ import {
     ReviewsGiven
 } from '../features/user/layouts/Profile/Reviews';
 
+import Notifications from 'features/notifications/layouts/Notifications';
+
 import Elements from '../features/elements/Elements.js';
 
 import {requireAuth, requireGuest} from '../app/services/AuthService';
@@ -109,6 +111,9 @@ export default (store) => {
                         {/* User profile password */}
                         <Route path="password" component={ ProfilePassword }/>
                     </Route>
+
+                    {/* Notifications */}
+                    <Route path="notifications" component={ Notifications } />
                 </Route>
 
                 {/* User logout */}

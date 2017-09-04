@@ -4,6 +4,7 @@ import LangService from 'app/services/LangService';
 import {localize} from 'react-localize-redux';
 import PageHeader from 'app/components/PageHeader';
 import NotificationsList from '../components/NotificationsList';
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 
 class Notifications extends React.Component {
 
@@ -15,10 +16,10 @@ class Notifications extends React.Component {
         const {translate} = this.props;
 
         return (
-            <div>
+            <ContainerWrapper>
                 <PageHeader header={translate('notifications.header')} />
                 <NotificationsList />
-            </div>
+            </ContainerWrapper>
         );
     }
 }
