@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {browserHistory} from 'react-router';
-import {InputDateTime} from 'app/components/Controls/index.js';
+import {InputDateTime} from 'app/components/Controls';
 import Input from 'app/components/Input';
 import moment from 'moment';
 

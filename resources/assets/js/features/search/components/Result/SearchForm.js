@@ -7,7 +7,7 @@ import { browserHistory } from 'react-router';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
-import {InputPlaces, InputDateTime} from 'app/components/Controls/index.js';
+import {InputPlaces, InputDateTime} from 'app/components/Controls';
 import moment from 'moment';
 
 import { searchSuccess } from 'features/search/actions';

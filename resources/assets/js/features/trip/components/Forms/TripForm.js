@@ -6,7 +6,7 @@ import { localize } from 'react-localize-redux';
 
 import Waypoints from './Waypoints';
 import Input from 'app/components/Input';
-import {InputDateTime} from 'app/components/Controls/index.js';
+import {InputDateTime} from 'app/components/Controls';
 import { getVehicles } from 'features/car/actions';
 import moment from 'moment';
 import LangService from 'app/services/LangService';
