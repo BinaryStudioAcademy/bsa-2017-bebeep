@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\CarBrand;
 use App\Repositories\CarModelRepository;
+use App\Criteria\Car\Models\ModelByCarBrandCriteria;
 
 class CarModelService
 {
@@ -19,11 +21,14 @@ class CarModelService
     }
 
     /**
-     * @param $id
+     * @param CarBrand $carBrand
+     * @param int $limit
      * @return mixed
      */
-    public function getModelByMarkId($id)
+    public function getModelByBrand(CarBrand $carBrand)
     {
-        return $this->carModelRepository->findWhere(['id_car_mark' => $id]);
+        $this->carModelRepository->pushCriteria(new ModelByCarBrandCriteria($carBrand));
+
+        return $this->carModelRepository->all();
     }
 }

@@ -31,7 +31,7 @@ class UpdateUserAvatarRequest extends FormRequest implements UpdateUserAvatarReq
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getAvatar(): string
     {

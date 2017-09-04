@@ -38,7 +38,9 @@ class AuthUserService
      * Auth service.
      *
      * @param LoginRequest $request
+     *
      * @return mixed
+     *
      * @throws CreateTokenException
      * @throws InvalidCredentialsException
      * @throws UserNotFoundException
@@ -98,6 +100,7 @@ class AuthUserService
      * Set custom claims for JWT Token payload data.
      *
      * @param User $user
+     *
      * @return AuthUserService
      */
     private function setCustomClaims(User $user): self

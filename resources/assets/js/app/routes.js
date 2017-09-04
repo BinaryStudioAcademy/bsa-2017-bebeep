@@ -54,14 +54,16 @@ export default (store) => {
             {/* Index page */}
             <IndexRoute component={ SearchIndex }/>
             {/* Search page */}
-            <Route path="search" component={ SearchResult }/>
+            <Route path="search" component={ SearchResult } />
 
             {/* Routes only for auth users */}
             <Route onEnter={ requireAuth }>
 
                 {/* Vehicle creating and show details */}
                 <Route path="vehicles">
+
                     <IndexRoute component={ Vehicles }/>
+
                     <Route path="create" component={ CreateVehicle }/>
                     <Route path="edit/:id" component={ EditVehicle }/>
                     {/*<Route path=":id" component={ VehicleDetails } />*/}
@@ -74,11 +76,10 @@ export default (store) => {
                     <Route path="past" component={ TripsList }/>
                 </Route>
 
-                {/* Trip details, creating and editing */}
+                {/* Trip creating and editing */}
                 <Route path="trip">
-                    <Route path="create" component={ CreateTrip }/>
-                    <Route path=":id" component={ TripDetails }/>
-                    <Route path="edit/:id" component={ EditTrip }/>
+                    <Route path="create" component={ CreateTrip } />
+                    <Route path="edit/:id" component={ EditTrip } />
                 </Route>
 
                 {/* Bookings - upcomming and pasts */}
@@ -125,6 +126,9 @@ export default (store) => {
                 <Route path="login" component={ LoginForm }/>
                 <Route path="password/reset" component={ PasswordReset }/>
             </Route>
+
+            {/* Trip details. Must stay HERE - conflict with /trip/create */}
+            <Route path="trip/:id" component={ TripDetails } />
 
             {/*Driver public profile*/}
             <Route path="driver/:id" component={ DriverPublicProfile }/>

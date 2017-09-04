@@ -42,4 +42,9 @@ class BookingRepository extends BaseRepository implements Contracts\BookingRepos
             'trip_id' => $trip->id,
         ])->where('status', '!=', Booking::STATUS_DECLINED)->count();
     }
+
+    public function getBookingByTripId($tripId)
+    {
+        return $this->model->where('id', '=', $tripId)->first();
+    }
 }

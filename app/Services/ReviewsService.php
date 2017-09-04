@@ -3,19 +3,36 @@
 namespace App\Services;
 
 use App\User;
+use App\Models\Review;
 use App\Repositories\ReviewRepository;
+use App\Repositories\BookingRepository;
 use App\Criteria\Review\GivenReviewCriteria;
 use App\Criteria\Review\RatingReviewCriteria;
+use App\Services\Requests\CreateReviewRequest;
 use App\Criteria\Review\ReceivedReviewCriteria;
 
 class ReviewsService implements Contracts\ReviewsService
 {
-    /** @var ReviewRepository $reviewRepository */
+    /**
+     * @var ReviewRepository
+     */
     protected $reviewRepository;
 
-    public function __construct(ReviewRepository $reviewRepository)
+    /**
+     * @var BookingRepository
+     */
+    protected $bookingRepository;
+
+    /**
+     * ReviewsService constructor.
+     *
+     * @param ReviewRepository $reviewRepository
+     * @param BookingRepository $bookingRepository
+     */
+    public function __construct(ReviewRepository $reviewRepository, BookingRepository $bookingRepository)
     {
         $this->reviewRepository = $reviewRepository;
+        $this->bookingRepository = $bookingRepository;
     }
 
     public function getGiven(User $user)
@@ -37,5 +54,28 @@ class ReviewsService implements Contracts\ReviewsService
 
                 return $rating;
             }, [0, 0, 0, 0, 0]);
+    }
+
+    /**
+     * This method save review.
+     *
+     * @param CreateReviewRequest $request
+     * @param User $user
+     * @return Review
+     */
+    public function save(CreateReviewRequest $request, User $user)
+    {
+        $booking = $this->bookingRepository->getBookingByTripId($request->getTripId());
+
+        $reviewAttributes = [
+            'mark' => $request->getRating(),
+            'comment' => $request->getReview(),
+            'user_id' => $user->id,
+            'driver_id' => $booking->trip->user_id,
+        ];
+
+        $review = $this->reviewRepository->save(new Review($reviewAttributes));
+
+        return $review;
     }
 }

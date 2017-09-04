@@ -74,6 +74,7 @@
       "you_can_book_seats1": ["You can book ${seats} seat", "Доступно ${seats} місце", "Доступно ${seats} место"],
       "you_can_book_seats2": ["You can book ${seats} seats", "Доступно ${seats} місця", "Доступно ${seats} места"],
       "you_can_book_seats3": ["You can book ${seats} seats", "Доступно ${seats} місць", "Доступно ${seats} мест"]
-    }
+    },
+    "please_add_a_review": ["Please add a review", "Будь ласка, залиште відгук", "Пожалуйста, оставьте отзыв"]
   }
 }
