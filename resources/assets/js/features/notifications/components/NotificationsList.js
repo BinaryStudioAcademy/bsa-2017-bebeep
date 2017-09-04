@@ -38,7 +38,7 @@ class NotificationsList extends React.Component {
                 };
             case "booking_canceled":
                 return {
-                    type: 'warning',
+                    type: 'danger',
                     title: translate(`notifications.messages.${notification.type}.title`),
                     message: translate(`notifications.messages.${notification.type}.message`, {
                         'first_name': notification.data.user.first_name,
@@ -66,7 +66,7 @@ class NotificationsList extends React.Component {
                 };
             case "booking_created":
                 return {
-                    type: 'info',
+                    type: 'warning',
                     title: translate(`notifications.messages.${notification.type}.title`),
                     message: [(<div key="1">{
                         translate(`notifications.messages.${notification.type}.message${LangService.getNumberForm(notification.data.booking.seats)}`, {
@@ -82,6 +82,17 @@ class NotificationsList extends React.Component {
                         })}</div>), (<a key="2" className="btn" href={`/trips/?booking_trip=${notification.data.trip.trip_id}`}>
                             {translate('notifications.messages.detail')}
                         </a>)]
+                };
+            case "review_on_trip_created":
+                return {
+                    type: 'info',
+                    title: translate(`notifications.messages.${notification.type}.title`),
+                    message: translate(`notifications.messages.${notification.type}.message`, {
+                        first_name: notification.data['review']['user']['first_name'],
+                        last_name: notification.data['review']['user']['last_name'],
+                        from: notification.data['trip']['from'],
+                        to: notification.data['trip']['to'],
+                    })
                 };
             default:
                 return {

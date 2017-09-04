@@ -44,6 +44,14 @@
           "Пасажир ${first_name} ${last_name} забронював ${seats} місць на подорож: ${from} - ${to} ${start_at}",
           "Пассажир ${first_name} ${last_name} забронировал ${seats} мест на поездку: ${from} - ${to} ${start_at}"
         ]
+      },
+      "review_on_trip_created": {
+        "title": ["Review created", "Оставили отзыв", "Оставили отзыв"],
+        "message": [
+          "${first_name} ${last_name} leaved <a href=/dashboard/profile/reviews/received target='_blank'>review</a> on your trip: ${from} - ${to}",
+          "${first_name} ${last_name} залишив(-ла) <a href=/dashboard/profile/reviews/received target='_blank'>відгук</a> про вашу подорож: ${from} - ${to}",
+          "${first_name} ${last_name} оставил(а) <a href=/dashboard/profile/reviews/received target='_blank'>отзыв</a> о вашей поездке: ${from} - ${to}"
+        ]
       }
     }
   }
