@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
 import DateTime from 'react-datetime';
 
 import 'app/styles/react-datetime.scss';
@@ -12,12 +12,27 @@ class InputDateTime extends React.Component {
             focused: false
         };
 
+        this.onInitDateTime = this.onInitDateTime.bind(this);
+        this.onLabelClick = this.onLabelClick.bind(this);
         this.onFocus = this.onFocus.bind(this);
         this.onBlur = this.onBlur.bind(this);
     }
 
+    onInitDateTime(dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    onLabelClick(e) {
+        const target = e.target;
+
+        if (target.tagName.toLowerCase() !== 'input') {
+            this.dateTime.openCalendar();
+        }
+    }
+
     onFocus(e) {
-        const {onFocus} = this.props;
+        const { onFocus } = this.props;
+
         this.setState({focused: true});
         if (onFocus) {
             onFocus(e);
@@ -25,7 +40,8 @@ class InputDateTime extends React.Component {
     }
 
     onBlur(e) {
-        const {onBlur} = this.props;
+        const { onBlur } = this.props;
+
         this.setState({focused: false});
         if (onBlur) {
             onBlur(e);
@@ -38,7 +54,11 @@ class InputDateTime extends React.Component {
 
         return (
             <div className={(error ? 'has-danger' : '')} >
-                <label htmlFor={id} className={(labelClasses || '') + (value !== null || focused ? ' form-input--focus' : '')}>
+                <label htmlFor={id}
+                    className={(labelClasses || '') + (
+                        value !== null || focused ? ' form-input--focus' : '')}
+                    onClick={this.onLabelClick}
+                >
                     <div className={"form-input__text " + (wrapperClasses || '')}>
                         <DateTime
                             id={id}
@@ -52,6 +72,7 @@ class InputDateTime extends React.Component {
                             onFocus={this.onFocus}
                             onBlur={this.onBlur}
                             locale={translate('datetimepicker.set_locale')}
+                            ref={ dateTime => { this.onInitDateTime(dateTime) } }
                             {...this.props}
                         />
                     </div>
