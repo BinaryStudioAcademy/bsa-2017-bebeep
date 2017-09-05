@@ -34,28 +34,28 @@ class Notification extends React.Component {
     render() {
         const {translate, date, read, title, type} = this.props,
             {isOpenMessage} = this.state,
-            dateMessage = DateTimeHelper.dateFormatLocale({timestamp: date});
+            dateMessage = DateTimeHelper.dateFormatLocale({timestamp: date}),
+            titleClass = "notification__title notification__state notification__state--" +
+                (type || "default") +
+                (read ? " notification__state--read" : "") +
+                (isOpenMessage ? " notification__title--active" : ""),
+            envelopeClass = "notification__envelope fa" +
+                (read ? " fa-envelope-open-o" : " fa-envelope") +
+                " text-" + (type || "default"),
+            titleTextClass = "notification__title-text" + (read ? " text-muted" : "");
 
         return (
             <div className="w-100 notification">
-                <div className={"notification__title notification__state notification__state--" +
-                        (type || "default") +
-                        (read ? " notification__state--read" : "") +
-                        (isOpenMessage ? " notification__title--active" : "")
-                    }
-                     onClick={this.toggleMessage}
-                >
+                <div className={titleClass} onClick={this.toggleMessage}>
                     <div className="row">
                         <div className="col-sm-3">
                             <small className="text-muted">{dateMessage}</small>
                         </div>
                         <div className="col-sm-8">
-                            <div className={"notification__title-text" + (read ? " text-muted" : "")}>{title}</div>
+                            <div className={titleTextClass}>{title}</div>
                         </div>
                         <div className="col-sm-1 col-2 hidden-xs-down">
-                            <i className={"notification__envelope fa" +
-                                (read ? " fa-envelope-open-o" : " fa-envelope") +
-                                " text-" + (type || "default")}
+                            <i className={envelopeClass}
                             />
                         </div>
                     </div>

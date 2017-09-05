@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use InvalidArgumentException;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Contracts\NotificationService;
+use App\Http\Requests\NotificationStatusRequest;
 use Illuminate\Notifications\DatabaseNotification;
+use App\Exceptions\Notifications\NotBelongUserException;
 use App\Transformers\Notifications\NotificationTransformer;
 
 class NotificationsController extends Controller
@@ -30,16 +33,21 @@ class NotificationsController extends Controller
     }
 
     /**
+     * @param NotificationStatusRequest $request
      * @param DatabaseNotification $databaseNotification
      * @return \Illuminate\Http\JsonResponse
      */
-    public function read(DatabaseNotification $databaseNotification)
+    public function changeStatus(NotificationStatusRequest $request, DatabaseNotification $databaseNotification)
     {
-        if ($this->notificationService->markAsRead(Auth::user(), $databaseNotification)) {
-            return response()->json([], 200);
-        } else {
-            return response()->json([], 404);
+        try {
+            $this->notificationService->changeStatus($request, Auth::user(), $databaseNotification);
+        } catch (InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        } catch (NotBelongUserException $e) {
+            return response()->json(['message' => $e->getMessage()], 403);
         }
+
+        return response()->json([], 200);
     }
 
     /**

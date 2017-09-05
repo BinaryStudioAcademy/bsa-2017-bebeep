@@ -5,9 +5,11 @@ export const getNotifications = () => {
 };
 
 export const markAsRead = (id) => {
-    return securedRequest.patch(`/api/v1/notifications/${id}`);
+    return securedRequest.put(`/api/v1/notifications/${id}/status`, {
+        status: "read"
+    });
 };
 
 export const getCountUnread = () => {
-    return securedRequest.get('/api/v1/notifications/unread');
+    return securedRequest.get('/api/v1/notifications/unread/count');
 };

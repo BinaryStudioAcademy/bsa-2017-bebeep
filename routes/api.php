@@ -177,12 +177,12 @@ Route::group([
         'uses' => 'NotificationsController@index',
     ]);
 
-    Route::patch('/{databaseNotification}', [
+    Route::put('/{databaseNotification}/status', [
         'read',
-        'uses' => 'NotificationsController@read',
+        'uses' => 'NotificationsController@changeStatus',
     ]);
 
-    Route::get('/unread', [
+    Route::get('/unread/count', [
         'unread',
         'uses' => 'NotificationsController@getUnread',
     ]);
