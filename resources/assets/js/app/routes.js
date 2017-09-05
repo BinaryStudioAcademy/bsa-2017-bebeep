@@ -34,9 +34,13 @@ import {
     ReviewsGiven
 } from '../features/user/layouts/Profile/Reviews';
 
+import Notifications from 'features/notifications/layouts/Notifications';
+
 import Elements from '../features/elements/Elements.js';
 
 import {requireAuth, requireGuest} from '../app/services/AuthService';
+import {getCountUnread} from './services/NotificationService';
+import {setCountUnreadNotifications} from 'features/notifications/actions';
 import LangeService from './services/LangService';
 
 export default (store) => {
@@ -47,7 +51,15 @@ export default (store) => {
     LangeService.addTranslation(require('./lang/validate.locale.json'));
 
     return (
-        <Route path="/" component={ App }>
+        <Route path="/" component={ App } onChange={() => {
+            getCountUnread().then((response) => {
+                store.dispatch(setCountUnreadNotifications(response.data));
+            });
+        }} onEnter={() => {
+            getCountUnread().then((response) => {
+                store.dispatch(setCountUnreadNotifications(response.data));
+            });
+        }}>
 
             <Route path="elements" component={Elements}/>
 
@@ -109,6 +121,9 @@ export default (store) => {
                         {/* User profile password */}
                         <Route path="password" component={ ProfilePassword }/>
                     </Route>
+
+                    {/* Notifications */}
+                    <Route path="notifications" component={ Notifications } />
                 </Route>
 
                 {/* User logout */}

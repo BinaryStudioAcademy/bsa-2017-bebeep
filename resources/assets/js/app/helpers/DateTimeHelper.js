@@ -1,5 +1,6 @@
 import moment from 'moment';
 import _ from 'lodash';
+import LangService from '../services/LangService';
 
 const DateTimeHelper = {
 
@@ -72,7 +73,7 @@ const DateTimeHelper = {
 
     dateFormatLocale(data) {
         const dateFormat = this.dateFormat(data.timestamp),
-            getTranslate = data.getTranslate;
+            getTranslate = data.getTranslate || LangService.translate;
 
         return dateFormat.date === 'today'
             ? getTranslate('today', { time: dateFormat.time })

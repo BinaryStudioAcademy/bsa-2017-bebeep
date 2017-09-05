@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { localize } from 'react-localize-redux';
+import {connect} from 'react-redux';
+import { getTranslate } from 'react-localize-redux';
 
 class UserDropdown extends React.Component {
 
@@ -22,7 +23,7 @@ class UserDropdown extends React.Component {
     }
 
     render() {
-        const { user, translate } = this.props,
+        const { user, translate, countNotifications } = this.props,
             userName = `${user.first_name} ${user.last_name}`;
 
         return (
@@ -30,7 +31,7 @@ class UserDropdown extends React.Component {
                 isOpen={ this.state.isDropdownOpen }
                 toggle={ this.toggleUserDropdown }
             >
-                <DropdownToggle caret>
+                <DropdownToggle caret className={(countNotifications ? " has-notification" : "")}>
                     <img src={ user.avatar }
                         alt={ userName }
                         className="header-menu__dropdown--user-menu__avatar"
@@ -51,6 +52,15 @@ class UserDropdown extends React.Component {
                         onClick={this.toggleUserDropdown}
                     >
                         { translate('profile') }
+                    </Link>
+
+                    <Link to="/dashboard/notifications"
+                          className="dropdown-item"
+                          onClick={this.toggleUserDropdown}
+                    >
+                        <span className={(countNotifications ? " has-notification" : "")}>
+                            { translate('notifications') }
+                        </span>
                     </Link>
 
                     <Link to="/bookings"
@@ -91,4 +101,9 @@ class UserDropdown extends React.Component {
     }
 }
 
-export default localize(UserDropdown, 'locale');
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale),
+        countNotifications: state.notifications.countUnread
+    })
+)(UserDropdown);
