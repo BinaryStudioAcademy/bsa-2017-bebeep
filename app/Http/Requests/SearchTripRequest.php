@@ -151,6 +151,25 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     }
 
     /**
+     * @param string $param
+     * @param string $cast
+     * @return mixed|null
+     */
+    public function getFilterParam(string $param, string $cast = 'string')
+    {
+        $filter = $this->getFilter();
+
+        if (empty($filter[$param])) {
+            return null;
+        }
+
+        $value = $filter[$param];
+        settype($value, $cast);
+
+        return $value;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getMinTime(): int
@@ -201,48 +220,32 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     /**
      * @return bool|null
      */
-    public function getIsAnimalsAllowed()
+    public function getIsAnimalsAllowed() : ?bool
     {
-        if (isset($this->getFilter()['animals']) && $this->getFilter()['animals'] !== 'null') {
-            return (bool) $this->getFilter()['animals'];
-        }
-
-        return null;
+        return $this->getFilterParam('animals', 'bool');
     }
 
     /**
-     * @return mixed|null
+     * @return int|null
      */
-    public function getLuggageSize()
+    public function getLuggageSize() : ?int
     {
-        if (isset($this->getFilter()['luggage']) && $this->getFilter()['luggage'] !== 'null') {
-            return $this->getFilter()['luggage'];
-        }
-
-        return null;
+        return $this->getFilterParam('luggage', 'int');
     }
 
     /**
-     * @return mixed|null
+     * @return int|null
      */
-    public function getSeats()
+    public function getSeats() : ?int
     {
-        if (isset($this->getFilter()['seats']) && $this->getFilter()['seats'] !== 'null') {
-            return $this->getFilter()['seats'];
-        }
-
-        return null;
+        return $this->getFilterParam('seats', 'int');
     }
 
     /**
-     * @return mixed|null
+     * @return int|null
      */
-    public function getRating()
+    public function getRating() : ?int
     {
-        if (isset($this->getFilter()['rating']) && $this->getFilter()['rating'] !== 'null') {
-            return $this->getFilter()['rating'];
-        }
-
-        return null;
+        return $this->getFilterParam('rating', 'int');
     }
 }

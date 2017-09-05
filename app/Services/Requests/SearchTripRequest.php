@@ -110,11 +110,11 @@ interface SearchTripRequest
      */
     public function getMaxPrice() : int;
 
-    public function getIsAnimalsAllowed();
+    public function getIsAnimalsAllowed() : ?bool;
 
-    public function getLuggageSize();
+    public function getLuggageSize() : ?int;
 
-    public function getSeats();
+    public function getSeats() : ?int;
 
-    public function getRating();
+    public function getRating() : ?int;
 }

@@ -108,10 +108,10 @@ class SearchFilter
     }
 
     /**
-     * @param $isAnimalsAllowed
+     * @param bool|null $isAnimalsAllowed
      * @return SearchFilter
      */
-    public function setIsAnimalsAllowed($isAnimalsAllowed): SearchFilter
+    public function setIsAnimalsAllowed(?bool $isAnimalsAllowed): SearchFilter
     {
         if ($isAnimalsAllowed === null) {
             return $this;
@@ -123,10 +123,10 @@ class SearchFilter
     }
 
     /**
-     * @param $luggageSize
+     * @param int|null $luggageSize
      * @return SearchFilter
      */
-    public function setLuggageSize($luggageSize): SearchFilter
+    public function setLuggageSize(?int $luggageSize): SearchFilter
     {
         if ($luggageSize === null) {
             return $this;
@@ -138,10 +138,10 @@ class SearchFilter
     }
 
     /**
-     * @param $seats
+     * @param int|null $seats
      * @return SearchFilter
      */
-    public function setSeats($seats): SearchFilter
+    public function setSeats(?int $seats): SearchFilter
     {
         if ($seats === null) {
             return $this;
@@ -154,11 +154,11 @@ class SearchFilter
                 return $route->available_seats;
             })->max();
 
-            if ((int) $seats === 4) {
+            if ($seats === 4) {
                 return $maxAvailableSeats >= 4;
             }
 
-            return $maxAvailableSeats === (int) $seats;
+            return $maxAvailableSeats === $seats;
         })->pluck('id');
 
         $this->query->whereIn('trips.id', $tripIds);
@@ -167,10 +167,10 @@ class SearchFilter
     }
 
     /**
-     * @param $rating
+     * @param int|null $rating
      * @return SearchFilter
      */
-    public function setRating($rating): SearchFilter
+    public function setRating(?int $rating): SearchFilter
     {
         if ($rating === null) {
             return $this;
