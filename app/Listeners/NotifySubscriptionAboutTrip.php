@@ -6,7 +6,7 @@ use App\Events\TripCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
-use App\Services\Contracts\SubscriptionService;
+use App\Services\Contracts\SubscriptionsService;
 use App\Notifications\Subscriptions\TripCreated as NotificationTripCreated;
 
 class NotifySubscriptionAboutTrip implements ShouldQueue
@@ -14,11 +14,11 @@ class NotifySubscriptionAboutTrip implements ShouldQueue
     use InteractsWithQueue;
 
     /**
-     * @var SubscriptionService
+     * @var SubscriptionsService
      */
     private $subscriptionService;
 
-    public function __construct(SubscriptionService $subscriptionService)
+    public function __construct(SubscriptionsService $subscriptionService)
     {
         $this->subscriptionService = $subscriptionService;
     }

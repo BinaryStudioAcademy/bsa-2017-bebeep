@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Trip;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -55,5 +54,13 @@ class Subscription extends Model
     public function trips()
     {
         return $this->hasMany(Trip::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function filters()
+    {
+        return $this->belongsToMany(Filter::class);
     }
 }

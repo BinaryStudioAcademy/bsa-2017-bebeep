@@ -66,6 +66,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(TripRepositoryContract::class, TripRepository::class);
         $this->app->bind(BookingRepositoryContract::class, BookingRepository::class);
+        $this->app->bind(
+            \App\Repositories\Contracts\SubscriptionRepository::class,
+            \App\Repositories\SubscriptionRepository::class
+        );
 
         $this->app->bind(RouteServiceContract::class, RouteService::class);
         $this->app->bind(BookingServiceContract::class, BookingService::class);
