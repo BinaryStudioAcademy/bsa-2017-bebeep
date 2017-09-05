@@ -154,7 +154,7 @@ class GeneralForm extends React.Component {
                                     isValidDate={this.isValidDate}
                                     timeFormat={false}
                                     defaultValue={profile.birth_date}
-                                    inputProps={{name: 'birth_date'}}
+                                    inputProps={{name: 'birth_date', id: 'birth_date'}}
                                     labelClasses="register-form-label"
                                     wrapperClasses="register-form-birth_date"
                                     error={errors.birth_date}

@@ -261,6 +261,7 @@ class SearchForm extends React.Component {
                             <InputDateTime
                                 id="trip_date"
                                 value={date}
+                                inputProps={{name: 'trip_date', id: 'trip_date'}}
                                 timeFormat={false}
                                 onChange={this.dateChange}
                                 isValidDate={this.isValidDate}

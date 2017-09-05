@@ -12,22 +12,8 @@ class InputDateTime extends React.Component {
             focused: false
         };
 
-        this.onInitDateTime = this.onInitDateTime.bind(this);
-        this.onLabelClick = this.onLabelClick.bind(this);
         this.onFocus = this.onFocus.bind(this);
         this.onBlur = this.onBlur.bind(this);
-    }
-
-    onInitDateTime(dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    onLabelClick(e) {
-        const target = e.target;
-
-        if (target.tagName.toLowerCase() !== 'input') {
-            this.dateTime.openCalendar();
-        }
     }
 
     onFocus(e) {
@@ -57,7 +43,6 @@ class InputDateTime extends React.Component {
                 <label htmlFor={id}
                     className={(labelClasses || '') + (
                         value !== null || focused ? ' form-input--focus' : '')}
-                    onClick={this.onLabelClick}
                 >
                     <div className={"form-input__text " + (wrapperClasses || '')}>
                         <DateTime
@@ -72,7 +57,6 @@ class InputDateTime extends React.Component {
                             onFocus={this.onFocus}
                             onBlur={this.onBlur}
                             locale={translate('datetimepicker.set_locale')}
-                            ref={ dateTime => { this.onInitDateTime(dateTime) } }
                             {...this.props}
                         />
                     </div>

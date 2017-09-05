@@ -103,7 +103,7 @@ class TripForm extends React.Component {
                                 isValidDate={this.isValidDate}
                                 timeFormat={true}
                                 defaultValue={this.props.trip ? this.props.trip.start_at : ''}
-                                inputProps={{name: 'start_at'}}
+                                inputProps={{name: 'start_at', id: 'start_at'}}
                                 labelClasses="register-form-label"
                                 wrapperClasses="register-form-birth_date"
                                 error={errors.start_at}

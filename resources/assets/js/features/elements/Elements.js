@@ -32,6 +32,7 @@ class Elements extends React.Component {
                     id="date"
                     value={date}
                     timeFormat={false}
+                    inputProps={{name: 'date', id: 'date'}}
                     onChange={(date) => (this.setState({date}))}
                     labelClasses="form-input fa-calendar"
                     label="Когда"

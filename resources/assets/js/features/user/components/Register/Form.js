@@ -36,7 +36,7 @@ class Form extends React.Component {
             errors: {}
         };
     }
-    
+
     createBooking() {
         const {tripId, routes, seats} = this.props.booking;
 
@@ -167,7 +167,7 @@ class Form extends React.Component {
                                 id="birth_date"
                                 isValidDate={this.isValidDate}
                                 timeFormat={false}
-                                inputProps={{name: 'birth_date'}}
+                                inputProps={{name: 'birth_date', id:'birth_date'}}
                                 labelClasses="register-form-label"
                                 wrapperClasses="register-form-birth_date"
                                 error={errors.birth_date}

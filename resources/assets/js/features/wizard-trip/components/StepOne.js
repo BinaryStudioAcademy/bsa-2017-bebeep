@@ -123,6 +123,7 @@ class StepOne extends React.Component {
                     <InputDateTime
                         id="trip_date"
                         value={start_at}
+                        inputProps={{name: 'trip_date', id:'trip_date'}}
                         timeFormat={true}
                         labelClasses='form-input fa-calendar'
                         isValidDate={this.isValidDate}
