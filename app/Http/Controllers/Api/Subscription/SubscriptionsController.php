@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Api\Subscription;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CreateSubscriptionRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class SubscriptionsController extends Controller
 {
 
     /**
-     * Store a newly created resource in storage.
+     * @param CreateSubscriptionRequest $request
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(CreateSubscriptionRequest $request)
     {
-        //TODO
+        return response()->json($request);
     }
 
 }
