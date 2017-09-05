@@ -1,10 +1,10 @@
 import React from 'react';
-import {Input, InputAutocomplete} from 'app/components/Controls/index.js';
+import { Input, InputAutocomplete } from 'app/components/Controls';
 import { Button } from 'reactstrap';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {addCar} from '../actions';
-import {getTranslate} from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addCar } from '../actions';
+import { getTranslate } from 'react-localize-redux';
 import { VehicleValidate, VehicleData } from 'app/services/VehicleService';
 
 class StepThree extends React.Component {

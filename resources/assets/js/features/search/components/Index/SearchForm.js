@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 import Validator from 'app/services/Validator';
 import { searchIndexRules } from 'app/services/SearchIndex';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
-import {InputPlaces, InputDateTime} from 'app/components/Controls';
+import { InputPlaces, InputDateTime } from 'app/components/Controls';
 import { Button } from 'reactstrap';
 import moment from 'moment';
 

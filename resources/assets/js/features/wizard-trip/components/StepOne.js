@@ -1,11 +1,11 @@
 import React from 'react';
-import {InputPlaces, InputDateTime} from 'app/components/Controls/index.js';
+import { InputPlaces, InputDateTime } from 'app/components/Controls';
 import { Button } from 'reactstrap';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {addLocation} from '../actions';
-import {getTranslate} from 'react-localize-redux';
-import {createTripRules, getStartAndEndTime} from 'app/services/TripService';
+import { bindActionCreators } from 'redux';
+import { addLocation } from '../actions';
+import { getTranslate } from 'react-localize-redux';
+import { createTripRules, getStartAndEndTime } from 'app/services/TripService';
 import Validator from 'app/services/Validator';
 import TripRoute from 'app/helpers/TripRoute';
 import moment from 'moment';

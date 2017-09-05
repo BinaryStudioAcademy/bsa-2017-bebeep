@@ -4,7 +4,7 @@ import { localize } from 'react-localize-redux';
 import Input from 'app/components/Input';
 import Textarea from 'app/components/Textarea';
 
-import {InputDateTime} from 'app/components/Controls/index.js';
+import { InputDateTime } from 'app/components/Controls';
 import moment from 'moment';
 
 import { ProfileValidate } from 'app/services/UserService';
