@@ -127,6 +127,8 @@ class TripsService
             'seats' => $request->getSeats(),
             'start_at' => $request->getStartAt(),
             'end_at' => $request->getEndAt(),
+            'luggage_size' => $request->getLuggageSize(),
+            'is_animals_allowed' => $request->getIsAnimalsAllowed(),
             'user_id' => $user->id,
         ];
 
@@ -186,6 +188,8 @@ class TripsService
             'start_at' => $request->getStartAt(),
             'end_at' => $request->getEndAt(),
             'vehicle_id' => $request->getVehicleId(),
+            'luggage_size' => $request->getLuggageSize(),
+            'is_animals_allowed' => $request->getIsAnimalsAllowed(),
         ];
 
         $result = $this->tripRepository->update($tripAttributes, $trip->id);

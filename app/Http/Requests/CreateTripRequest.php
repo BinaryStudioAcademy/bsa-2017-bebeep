@@ -121,4 +121,20 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     {
         return $this->get('vehicle');
     }
+
+    /**
+     * @return int
+     */
+    public function getLuggageSize(): int
+    {
+        return (int) $this->get('luggage_size');
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsAnimalsAllowed(): bool
+    {
+        return (bool) $this->get('is_animals_allowed');
+    }
 }

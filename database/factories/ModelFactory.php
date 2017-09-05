@@ -48,6 +48,8 @@ $factory->define(App\Models\Trip::class, function (Faker\Generator $faker) {
         'vehicle_id' => 1,
         'seats' => $faker->numberBetween(1, 3),
         'user_id' => 1,
+        'is_animals_allowed' => 1,
+        'luggage_size' => \App\Models\Trip::LUGGAGE_SIZE_BIG,
     ];
 });
 

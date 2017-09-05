@@ -6,7 +6,7 @@ import { localize } from 'react-localize-redux';
 
 import Waypoints from './Waypoints';
 import Input from 'app/components/Input';
-import {InputDateTime} from 'app/components/Controls';
+import { InputDateTime } from 'app/components/Controls';
 import { getVehicles } from 'features/car/actions';
 import moment from 'moment';
 import LangService from 'app/services/LangService';
@@ -25,6 +25,14 @@ class TripForm extends React.Component {
 
     render() {
         const { errors, translate } = this.props;
+        let trip = this.props.trip || {
+            is_animals_allowed: false,
+            luggage_size: 2,
+            vehicle_id: '',
+            price: '',
+            seats: '',
+            start_at: ''
+        };
 
         return (
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
@@ -39,7 +47,7 @@ class TripForm extends React.Component {
                         </label>
                         <div className="col-sm-8">
                             {this.props.vehicles.length > 0 &&
-                                <select defaultValue={this.props.trip ? this.props.trip.vehicle_id : ''} name="vehicle_id" className="form-control" id="vehicle_id">
+                                <select defaultValue={trip.vehicle_id} name="vehicle_id" className="form-control" id="vehicle_id">
                                     {this.props.vehicles.map((vehicle) =>
                                         <option key={vehicle.id} value={vehicle.id}>{vehicle.brand} {vehicle.model}</option>
                                     )}
@@ -52,7 +60,7 @@ class TripForm extends React.Component {
                         type="number"
                         name="price"
                         id="price"
-                        defaultValue={this.props.trip ? this.props.trip.price : ''}
+                        defaultValue={trip.price}
                         required={false}
                         error={errors.price}>{translate('trip_form.price')}
                     </Input>
@@ -60,7 +68,7 @@ class TripForm extends React.Component {
                         type="number"
                         name="seats"
                         id="seats"
-                        defaultValue={this.props.trip ? this.props.trip.seats : ''}
+                        defaultValue={trip.seats}
                         required={false}
                         error={errors.seats}>{translate('trip_form.available_seats')}
                     </Input>
@@ -86,6 +94,7 @@ class TripForm extends React.Component {
                             <div className="form-control-feedback">{this.props.errors.to}</div>
                         </div>
                     </div>
+
                     <div className={ "form-group row " + (errors.start_at ? 'has-danger' : '') }>
                         <label htmlFor='start_at' className='form-control-label text-muted col-sm-4'>{translate('trip_form.trip_start_time')}</label>
                         <div className="col-md-8">
@@ -102,6 +111,32 @@ class TripForm extends React.Component {
                         </div>
                     </div>
 
+                    <div className={"form-group row " + (errors.luggage_size ? 'has-danger' : '')}>
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="luggage_size">
+                            {translate('trip_form.luggage_size')}
+                        </label>
+                        <div className="col-sm-8">
+                            <select defaultValue={trip.luggage_size} name="luggage_size" className="form-control" id="luggage_size">
+                                <option value="0">{translate('trip_form.luggage_size_0')}</option>
+                                <option value="1">{translate('trip_form.luggage_size_1')}</option>
+                                <option value="2">{translate('trip_form.luggage_size_2')}</option>
+                            </select>
+                            <div className="form-control-feedback">{errors.luggage_size}</div>
+                        </div>
+                    </div>
+
+                    <div className="form-group row">
+                        <label className="form-control-label text-muted col-sm-4" htmlFor="is_animals_allowed">
+                            {translate('trip_form.is_animals_allowed')}
+                        </label>
+                        <div className="col-sm-8">
+                            <div className="form-check">
+                                <label className="form-check-label">
+                                    <input className="form-check-input" type="checkbox" id="is_animals_allowed" defaultChecked={trip.is_animals_allowed} />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
                     <Waypoints waypoints={this.props.waypoints}
                                placesCssClasses={this.props.placesCssClasses}
