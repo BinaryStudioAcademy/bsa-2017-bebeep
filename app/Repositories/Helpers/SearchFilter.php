@@ -117,7 +117,7 @@ class SearchFilter
             return $this;
         }
 
-        $this->query->where("trips.is_animals_allowed", $isAnimalsAllowed);
+        $this->query->where('trips.is_animals_allowed', $isAnimalsAllowed);
 
         return $this;
     }
@@ -132,7 +132,7 @@ class SearchFilter
             return $this;
         }
 
-        $this->query->where("trips.luggage_size", $luggageSize);
+        $this->query->where('trips.luggage_size', $luggageSize);
 
         return $this;
     }
@@ -147,9 +147,9 @@ class SearchFilter
             return $this;
         }
 
-        $tripIds = \App\Models\Trip::select(['id', 'seats'])->with(['routes' => function($query) {
+        $tripIds = \App\Models\Trip::select(['id', 'seats'])->with(['routes' => function ($query) {
             return $query->select(['id', 'trip_id'])->with('bookings');
-        }])->get()->filter(function($trip) use ($seats) {
+        }])->get()->filter(function ($trip) use ($seats) {
             $maxAvailableSeats = $trip->routes->map(function ($route) {
                 return $route->available_seats;
             })->max();
@@ -176,13 +176,13 @@ class SearchFilter
             return $this;
         }
 
-        $userIds = \App\User::select(['id'])->with(['receivedReviews' => function($query) {
+        $userIds = \App\User::select(['id'])->with(['receivedReviews' => function ($query) {
             return $query->select(
                 DB::raw('driver_id'),
                 DB::raw('COUNT(*) as reviews_count'),
                 DB::raw('SUM(mark) as reviews_total')
             )->groupBy('driver_id');
-        }])->get()->filter(function($user) use ($rating) {
+        }])->get()->filter(function ($user) use ($rating) {
             if ($user->receivedReviews->count() <= 0) {
                 return false;
             }
