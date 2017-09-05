@@ -10,10 +10,9 @@ import { InputPlaces, InputDateTime } from 'app/components/Controls';
 import { Button } from 'reactstrap';
 import moment from 'moment';
 
-import {getTranslate} from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 import { searchSuccess } from 'features/search/actions';
 
-import 'features/search/styles/react-datepicker.scss';
 import 'features/search/styles/search-index.scss';
 
 class SearchForm extends React.Component {

@@ -3,8 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router';
-import {getTranslate} from 'react-localize-redux';
-import DatePicker from 'react-datepicker';
+import { getTranslate } from 'react-localize-redux';
 import Slider, { Range } from 'rc-slider';
 
 import { setUrl, setFilter, getFilter} from 'features/search/services/SearchService';
