@@ -14,8 +14,8 @@ class BookingTransformer extends TransformerAbstract
      */
     public function transform(Booking $booking)
     {
-        $from = $booking->routes->first()->from;
-        $to = $booking->routes->last()->to;
+        $first = $booking->routes->first();
+        $last = $booking->routes->last();
 
         return [
             'booking' => [
@@ -37,22 +37,30 @@ class BookingTransformer extends TransformerAbstract
                 'start_at' => $booking->trip->start_at->timestamp,
             ],
             'routes' => [
-                'from' => $this->getCity($from),
-                'to' => $this->getCity($to),
+                'from' => $first ? $this->getCity($first->from) : "",
+                'to' => $last ? $this->getCity($last->to) : "",
             ],
         ];
     }
 
     protected function getCity(array $route)
     {
-        return array_reduce(
-            $route['address_components'],
-            function ($address, $component) {
-                return in_array('locality', $component['types'])
-                    ? $component['short_name']
-                    : $address;
-            },
-            $route['formatted_address']
-        );
+        $city = "";
+        if (isset($route['formatted_address'])) {
+            $city = $route['formatted_address'];
+        }
+        if (isset($route['address_components'])) {
+            $city = array_reduce(
+                $route['address_components'],
+                function ($address, $component) {
+                    return in_array('locality', $component['types'])
+                        ? $component['short_name']
+                        : $address;
+                },
+                $route['formatted_address']
+            );
+        }
+
+        return $city;
     }
 }
