@@ -225,7 +225,7 @@ strong {
     position: relative;
 
     &:before {
-        $circle-radius: 5px;
+        $circle-radius: 6px;
 
         content: "";
         width: $circle-radius * 2;
@@ -233,6 +233,7 @@ strong {
         position: absolute;
         top: -$circle-radius;
         left: -$circle-radius;
+        border: 2px solid $white;
         background: $brand-danger;
         border-radius: 50%;
         overflow: visible;
