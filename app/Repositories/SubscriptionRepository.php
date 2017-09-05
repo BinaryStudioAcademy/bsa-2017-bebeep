@@ -14,4 +14,9 @@ class SubscriptionRepository extends BaseRepository implements Contracts\Subscri
     {
         return Subscription::class;
     }
+
+    public function save(Subscription $subscription)
+    {
+        // TODO: Implement save() method.
+    }
 }
