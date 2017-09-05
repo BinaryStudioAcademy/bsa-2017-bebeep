@@ -2,13 +2,13 @@
 
 namespace App\Notifications\Subscriptions;
 
-use App\Models\Trip;
-use App\Transformers\Notifications\SubscriptionTripTransformer;
 use Carbon\Carbon;
+use App\Models\Trip;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Transformers\Notifications\SubscriptionTripTransformer;
 
 class TripCreated extends Notification implements ShouldQueue
 {
