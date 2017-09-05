@@ -104,7 +104,9 @@ class CreateTripContainer extends React.Component {
             seats: e.target['seats'].value,
             from: this.state.startPoint.place,
             to: this.state.endPoint.place,
-            waypoints: this.props.getPlacesFromWaypoints()
+            waypoints: this.props.getPlacesFromWaypoints(),
+            luggage_size: e.target['luggage_size'].value,
+            is_animals_allowed: e.target['is_animals_allowed'].checked
         };
 
         const validated = Validator.validate(createTripRules(), data);
