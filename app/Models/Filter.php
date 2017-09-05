@@ -6,7 +6,7 @@ use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Filters extends Model
+class Filter extends Model
 {
     use SoftDeletes;
 
