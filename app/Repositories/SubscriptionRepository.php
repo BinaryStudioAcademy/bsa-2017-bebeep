@@ -15,8 +15,13 @@ class SubscriptionRepository extends BaseRepository implements Contracts\Subscri
         return Subscription::class;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function save(Subscription $subscription)
     {
-        // TODO: Implement save() method.
+        $subscription->push();
+
+        return $subscription;
     }
 }

@@ -2,12 +2,26 @@
 
 namespace App\Http\Controllers\Api\Subscription;
 
-use App\Http\Requests\CreateSubscriptionRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\SubscriptionsService;
+use App\Http\Requests\CreateSubscriptionRequest;
 
 class SubscriptionsController extends Controller
 {
+    /**
+     * @var SubscriptionsService
+     */
+    private $subscriptionService;
+
+    /**
+     * SubscriptionsService constructor.
+     *
+     * @param SubscriptionsService $subscriptionService
+     */
+    public function __construct(SubscriptionsService $subscriptionService)
+    {
+        $this->subscriptionService = $subscriptionService;
+    }
 
     /**
      * @param CreateSubscriptionRequest $request
@@ -16,7 +30,9 @@ class SubscriptionsController extends Controller
      */
     public function store(CreateSubscriptionRequest $request)
     {
-        return response()->json($request);
+        $subscription = $this->subscriptionService->create($request);
+
+        return response()->json($subscription);
     }
 
 }
