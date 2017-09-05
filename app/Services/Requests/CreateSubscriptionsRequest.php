@@ -1,15 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: PetRich
- * Date: 05.09.2017
- * Time: 19:40
- */
 
 namespace App\Services\Requests;
 
+use Carbon\Carbon;
 
 interface CreateSubscriptionsRequest
 {
-    //  TODO
+    public function getFrom(): array;
+
+    public function getTo(): array;
+
+    public function getFilters(): array;
+
+    public function getStartAt(): Carbon;
+
+    public function getEmail(): string ;
 }
