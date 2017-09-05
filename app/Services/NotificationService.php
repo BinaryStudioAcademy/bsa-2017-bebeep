@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Exceptions\Notifications\NotBelongUserException;
 use App\User;
 use InvalidArgumentException;
 use Illuminate\Support\Collection;
 use Illuminate\Notifications\DatabaseNotification;
 use App\Services\Requests\Notifications\StatusRequest;
+use App\Exceptions\Notifications\NotBelongUserException;
 
 class NotificationService implements Contracts\NotificationService
 {
@@ -31,10 +31,10 @@ class NotificationService implements Contracts\NotificationService
             if ($status->isRead()) {
                 $notification->markAsRead();
             } else {
-                throw new InvalidArgumentException("Invalid status value");
+                throw new InvalidArgumentException('Invalid status value');
             }
         } else {
-            throw new NotBelongUserException("Notification is not belong to user");
+            throw new NotBelongUserException('Notification is not belong to user');
         }
     }
 

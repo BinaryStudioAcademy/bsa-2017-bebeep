@@ -20,7 +20,7 @@ class NotificationStatusRequest extends FormRequest implements StatusRequest
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function isRead(): bool
     {
