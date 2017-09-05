@@ -233,4 +233,16 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
 
         return null;
     }
+
+    /**
+     * @return mixed|null
+     */
+    public function getRating()
+    {
+        if (isset($this->getFilter()['rating']) && $this->getFilter()['rating'] !== 'null') {
+            return $this->getFilter()['rating'];
+        }
+
+        return null;
+    }
 }

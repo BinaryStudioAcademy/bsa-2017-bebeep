@@ -44,6 +44,7 @@
     "not_important": ["All", "Все одно", "Все равно"],
     "allowed": ["Allowed", "Дозволені", "Разрешены"],
     "forbidden": ["Forbidden", "Заборонені", "Запрещены"],
-    "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"]
+    "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"],
+    "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"]
   }
 }

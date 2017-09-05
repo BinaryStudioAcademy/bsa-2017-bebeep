@@ -20,13 +20,15 @@ class Filter extends React.Component {
             price: [0, 0],
             animals: 'null',
             seats: 'null',
-            luggage: 'null'
+            luggage: 'null',
+            rating: 'null'
         };
         this.timeChange = this.timeChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
         this.isAnimalsAllowedChange = this.isAnimalsAllowedChange.bind(this);
         this.luggageChange = this.luggageChange.bind(this);
         this.seatsChange = this.seatsChange.bind(this);
+        this.ratingChange = this.ratingChange.bind(this);
     }
 
     componentWillMount() {
@@ -45,7 +47,8 @@ class Filter extends React.Component {
             time: [0, 24],
             animals: 'null',
             luggage: 'null',
-            seats: 'null'
+            seats: 'null',
+            rating: 'null'
         }, filter));
     }
 
@@ -67,6 +70,10 @@ class Filter extends React.Component {
 
     seatsChange(e) {
         setUrl(setFilter({seats: e.target.value}));
+    }
+
+    ratingChange(e) {
+        setUrl(setFilter({rating: e.target.value}));
     }
 
     render() {
@@ -154,6 +161,23 @@ class Filter extends React.Component {
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">>=4</option>
+                        </select>
+                    </div>
+
+                    <br/>
+
+                    <div className="filter__prop-control">
+                        <div className="filter__prop-sign">
+                            {translate('search_result.driver_rating')}
+                        </div>
+
+                        <select name="rating" value={this.state.rating} className="form-control" id="rating" onChange={this.ratingChange}>
+                            <option value="null">{translate('search_result.not_important')}</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
                         </select>
                     </div>
                 </div>

@@ -167,6 +167,41 @@ class SearchFilter
     }
 
     /**
+     * @param $rating
+     * @return SearchFilter
+     */
+    public function setRating($rating): SearchFilter
+    {
+        if ($rating === null) {
+            return $this;
+        }
+
+        $userIds = \App\User::select(['id'])->with(['receivedReviews' => function($query) {
+            return $query->select(
+                DB::raw('driver_id'),
+                DB::raw('COUNT(*) as reviews_count'),
+                DB::raw('SUM(mark) as reviews_total')
+            )->groupBy('driver_id');
+        }])->get()->filter(function($user) use ($rating) {
+            if ($user->receivedReviews->count() <= 0) {
+                return false;
+            }
+
+            $driverRating = $user->receivedReviews->first()->reviews_total / $user->receivedReviews->first()->reviews_count;
+
+            if ($rating == 5) {
+                return $driverRating >= 5;
+            }
+
+            return $driverRating >= $rating && $driverRating < $rating + 1;
+        })->pluck('id');
+
+        $this->query->whereIn('trips.user_id', $userIds);
+
+        return $this;
+    }
+
+    /**
      * @param int $limit
      * @param int $offset
      * @return SearchFilter

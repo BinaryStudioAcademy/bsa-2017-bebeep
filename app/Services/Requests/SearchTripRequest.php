@@ -115,4 +115,6 @@ interface SearchTripRequest
     public function getLuggageSize();
 
     public function getSeats();
+
+    public function getRating();
 }

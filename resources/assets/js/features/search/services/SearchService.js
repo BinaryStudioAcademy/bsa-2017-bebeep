@@ -67,6 +67,9 @@ export const getFilter = () => {
     if (query["filter[seats]"]) {
         filter['seats'] = query["filter[seats]"];
     }
+    if (query["filter[rating]"]) {
+        filter['rating'] = query["filter[rating]"];
+    }
     return filter;
 };
 
