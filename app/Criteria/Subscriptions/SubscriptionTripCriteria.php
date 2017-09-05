@@ -2,8 +2,8 @@
 
 namespace App\Criteria\Subscriptions;
 
-use App\Models\Trip;
 use Carbon\Carbon;
+use App\Models\Trip;
 use Illuminate\Database\Eloquent\Builder;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
@@ -33,8 +33,6 @@ class SubscriptionTripCriteria implements CriteriaInterface
         $startAt = $this->trip->start_at;
         /** @var Builder $model */
         $query = $model
-            ->select('subscriptions.*')
-            ->leftJoin('filters', 'filters.subscription_id', '=','subscriptions.id')
             ->whereRaw('(SELECT '.
                 $this->haversine(
                     'routes.from_lat',
@@ -72,7 +70,7 @@ class SubscriptionTripCriteria implements CriteriaInterface
      */
     private function haversine(string $startLat, string $startLng, string $endLat, string $endLng): string
     {
-        return 'ROUND(2 * ' . self::EARTH_RADIUS_KM . ' * ASIN(SQRT( '.
+        return 'ROUND(2 * '.self::EARTH_RADIUS_KM.' * ASIN(SQRT( '.
             "POWER(SIN(RADIANS({$startLat} - {$endLat}) / 2), 2) + ".
             "COS(RADIANS({$startLat})) * COS(RADIANS($endLat)) * ".
             "POWER(SIN(RADIANS({$startLng} - $endLng) / 2), 2) ".

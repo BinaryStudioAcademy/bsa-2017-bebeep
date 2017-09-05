@@ -30,8 +30,8 @@ class SubscriptionTripTransformer extends TransformerAbstract
                 'price' => $trip->price,
                 'rating' => $receivedReviews->count() > 0
                     ? $receivedReviews->reduce(function ($rating, Review $review) {
-                          return $rating + $review->mark;
-                      }, 0) / $receivedReviews->count()
+                        return $rating + $review->mark;
+                    }, 0) / $receivedReviews->count()
                     : 0,
             ],
         ];
