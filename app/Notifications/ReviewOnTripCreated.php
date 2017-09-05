@@ -55,9 +55,9 @@ class ReviewOnTripCreated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->markdown("emails.review-on-trip-created", [
-                "from" => $this->toArray($notifiable)['trip']['from'],
-                "to" => $this->toArray($notifiable)['trip']['to']
+            ->markdown('emails.review-on-trip-created', [
+                'from' => $this->toArray($notifiable)['trip']['from'],
+                'to' => $this->toArray($notifiable)['trip']['to'],
             ]);
     }
 

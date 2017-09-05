@@ -37,15 +37,15 @@ class BookingTransformer extends TransformerAbstract
                 'start_at' => $booking->trip->start_at->timestamp,
             ],
             'routes' => [
-                'from' => $first ? $this->getCity($first->from) : "",
-                'to' => $last ? $this->getCity($last->to) : "",
+                'from' => $first ? $this->getCity($first->from) : '',
+                'to' => $last ? $this->getCity($last->to) : '',
             ],
         ];
     }
 
     protected function getCity(array $route)
     {
-        $city = "";
+        $city = '';
         if (isset($route['formatted_address'])) {
             $city = $route['formatted_address'];
         }

@@ -19,14 +19,14 @@ class TripTransformer extends TransformerAbstract
 
         return [
             'id' => $trip->id,
-            'from' => $from ? $this->getCity($from->from) : "",
-            'to' => $to ? $this->getCity($to->to) : "",
+            'from' => $from ? $this->getCity($from->from) : '',
+            'to' => $to ? $this->getCity($to->to) : '',
         ];
     }
 
     protected function getCity(array $route)
     {
-        $city = "";
+        $city = '';
         if (isset($route['formatted_address'])) {
             $city = $route['formatted_address'];
         }
