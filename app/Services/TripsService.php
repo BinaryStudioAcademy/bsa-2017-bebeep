@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\User;
 use App\Models\Trip;
+use App\Events\TripCreated;
 use App\Services\Result\SearchTrip;
 use App\Repositories\TripRepository;
 use App\Repositories\RouteRepository;
@@ -152,6 +153,8 @@ class TripsService
         foreach ($routes as $route) {
             $trip->routes()->create($route);
         }
+
+        event(new TripCreated($trip));
 
         return $trip;
     }

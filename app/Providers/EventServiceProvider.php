@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\TripCreated;
 use App\Events\BookingCreated;
 use App\Events\UserRegistered;
 use App\Events\BookingApproved;
@@ -36,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ApprovedBookingCanceled::class => [
             SendBookingCanceledEmailToDriver::class,
+        ],
+        TripCreated::class => [
+
         ],
         'App\Events\Event' => [
             'App\Listeners\EventListener',
