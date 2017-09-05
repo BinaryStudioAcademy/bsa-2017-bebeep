@@ -3,6 +3,8 @@
 namespace App\Notifications\Subscriptions;
 
 use App\Models\Trip;
+use App\Transformers\Notifications\SubscriptionTripTransformer;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -45,10 +47,23 @@ class TripCreated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $trip = $this->toArray($notifiable);
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->markdown('emails.subscription-email', [
+                'from' => $trip['from'],
+                'to' => $trip['to'],
+                'start_at' => Carbon::createFromTimestamp($trip['start_at'])->format('d.m.Y H:i'),
+                'params' => [
+                    'luggage_size' => $trip['params']['luggage_size'],
+                    'seats' => $trip['params']['seats'],
+                    'animals' => $trip['params']['animals']
+                        ? __('email.subscription.yes')
+                        : __('email.subscription.not'),
+                    'price' => $trip['params']['price'],
+                    'rating' => round($trip['params']['seats'], 2),
+                ],
+            ]);
     }
 
     /**
@@ -59,6 +74,6 @@ class TripCreated extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
-        return $this->trip->toArray();
+        return fractal()->item($this->trip, new SubscriptionTripTransformer())->toArray()['data'];
     }
 }
