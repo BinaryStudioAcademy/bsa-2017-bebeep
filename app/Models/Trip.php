@@ -80,4 +80,12 @@ class Trip extends Model
     {
         return $this->hasMany(Booking::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function subscriptions()
+    {
+        return $this->belongsToMany(Subscription::class);
+    }
 }
