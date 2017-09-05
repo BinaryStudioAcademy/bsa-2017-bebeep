@@ -43,6 +43,7 @@
     "animals": ["Animals", "Тварини", "Животные"],
     "not_important": ["All", "Все одно", "Все равно"],
     "allowed": ["Allowed", "Дозволені", "Разрешены"],
-    "forbidden": ["Forbidden", "Заборонені", "Запрещены"]
+    "forbidden": ["Forbidden", "Заборонені", "Запрещены"],
+    "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"]
   }
 }

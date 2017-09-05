@@ -64,6 +64,9 @@ export const getFilter = () => {
     if (query["filter[luggage]"]) {
         filter['luggage'] = query["filter[luggage]"];
     }
+    if (query["filter[seats]"]) {
+        filter['seats'] = query["filter[seats]"];
+    }
     return filter;
 };
 

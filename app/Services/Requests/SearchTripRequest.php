@@ -113,4 +113,6 @@ interface SearchTripRequest
     public function getIsAnimalsAllowed();
 
     public function getLuggageSize();
+
+    public function getSeats();
 }

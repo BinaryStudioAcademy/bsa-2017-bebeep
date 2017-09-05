@@ -100,7 +100,8 @@ class Result extends React.Component {
             "filter[time][max]": null,
             "filter[date]": null,
             "filter[animals]": null,
-            "filter[luggage]": null
+            "filter[luggage]": null,
+            "filter[seats]": null
         });
     }
 

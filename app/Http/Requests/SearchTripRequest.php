@@ -221,4 +221,16 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
 
         return null;
     }
+
+    /**
+     * @return mixed|null
+     */
+    public function getSeats()
+    {
+        if (isset($this->getFilter()['seats']) && $this->getFilter()['seats'] !== 'null') {
+            return $this->getFilter()['seats'];
+        }
+
+        return null;
+    }
 }

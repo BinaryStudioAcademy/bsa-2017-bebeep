@@ -138,6 +138,35 @@ class SearchFilter
     }
 
     /**
+     * @param $seats
+     * @return SearchFilter
+     */
+    public function setSeats($seats): SearchFilter
+    {
+        if ($seats === null) {
+            return $this;
+        }
+
+        $tripIds = \App\Models\Trip::select(['id', 'seats'])->with(['routes' => function($query) {
+            return $query->select(['id', 'trip_id'])->with('bookings');
+        }])->get()->filter(function($trip) use ($seats) {
+            $maxAvailableSeats = $trip->routes->map(function ($route) {
+                return $route->available_seats;
+            })->max();
+
+            if ((int) $seats === 4) {
+                return $maxAvailableSeats >= 4;
+            }
+
+            return $maxAvailableSeats === (int) $seats;
+        })->pluck('id');
+
+        $this->query->whereIn('trips.id', $tripIds);
+
+        return $this;
+    }
+
+    /**
      * @param int $limit
      * @param int $offset
      * @return SearchFilter

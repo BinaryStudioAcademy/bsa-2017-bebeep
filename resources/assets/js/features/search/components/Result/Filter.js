@@ -18,12 +18,15 @@ class Filter extends React.Component {
         this.state = {
             time: [0, 24],
             price: [0, 0],
-            animals: 'null'
+            animals: 'null',
+            seats: 'null',
+            luggage: 'null'
         };
         this.timeChange = this.timeChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
         this.isAnimalsAllowedChange = this.isAnimalsAllowedChange.bind(this);
         this.luggageChange = this.luggageChange.bind(this);
+        this.seatsChange = this.seatsChange.bind(this);
     }
 
     componentWillMount() {
@@ -41,7 +44,8 @@ class Filter extends React.Component {
             price: props.priceBounds,
             time: [0, 24],
             animals: 'null',
-            luggage: 'null'
+            luggage: 'null',
+            seats: 'null'
         }, filter));
     }
 
@@ -59,6 +63,10 @@ class Filter extends React.Component {
 
     luggageChange(e) {
         setUrl(setFilter({luggage: e.target.value}));
+    }
+
+    seatsChange(e) {
+        setUrl(setFilter({seats: e.target.value}));
     }
 
     render() {
@@ -118,6 +126,8 @@ class Filter extends React.Component {
                         </select>
                     </div>
 
+                    <br/>
+
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
                             {translate('search_result.luggage_size')}
@@ -128,6 +138,22 @@ class Filter extends React.Component {
                             <option value="0">{translate('search_result.luggage_size_0')}</option>
                             <option value="1">{translate('search_result.luggage_size_1')}</option>
                             <option value="2">{translate('search_result.luggage_size_2')}</option>
+                        </select>
+                    </div>
+
+                    <br/>
+
+                    <div className="filter__prop-control">
+                        <div className="filter__prop-sign">
+                            {translate('search_result.free_seats')}
+                        </div>
+
+                        <select name="seats" value={this.state.seats} className="form-control" id="seats" onChange={this.seatsChange}>
+                            <option value="null">{translate('search_result.not_important')}</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">>=4</option>
                         </select>
                     </div>
                 </div>

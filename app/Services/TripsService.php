@@ -247,6 +247,7 @@ class TripsService
             ->setOrder($request->getSort(), $request->getOrder())
             ->setIsAnimalsAllowed($request->getIsAnimalsAllowed())
             ->setLuggageSize($request->getLuggageSize())
+            ->setSeats($request->getSeats())
             ->paginate($request->getLimit(), $request->getPage() - 1);
 
         $result = $search->getResult();
