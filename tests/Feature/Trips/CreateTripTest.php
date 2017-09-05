@@ -142,6 +142,8 @@ class CreateTripTest extends BaseTripTestCase
                 'seats' => $trip['seats'],
                 'vehicle_id' => $trip['vehicle_id'],
                 'user_id' => $user->id,
+                'is_animals_allowed' => 1,
+                'luggage_size' => Trip::LUGGAGE_SIZE_BIG,
             ]
         );
 

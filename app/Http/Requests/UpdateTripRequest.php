@@ -99,4 +99,20 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     {
         return (array) $this->get('waypoints');
     }
+
+    /**
+     * @return int
+     */
+    public function getLuggageSize(): int
+    {
+        return (int) $this->get('luggage_size');
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsAnimalsAllowed(): bool
+    {
+        return (bool) $this->get('is_animals_allowed');
+    }
 }

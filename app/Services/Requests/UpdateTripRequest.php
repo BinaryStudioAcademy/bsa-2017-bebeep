@@ -21,4 +21,8 @@ interface UpdateTripRequest
     public function getTo(): array;
 
     public function getWaypoints(): array;
+
+    public function getLuggageSize(): int;
+
+    public function getIsAnimalsAllowed(): bool;
 }
