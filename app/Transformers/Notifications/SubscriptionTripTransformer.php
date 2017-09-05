@@ -37,7 +37,6 @@ class SubscriptionTripTransformer extends TransformerAbstract
         ];
     }
 
-
     protected function getCity(array $route)
     {
         $city = '';
