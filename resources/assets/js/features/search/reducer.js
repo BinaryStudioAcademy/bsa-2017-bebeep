@@ -9,8 +9,7 @@ const initialState = {
         name: '',
         coordinate: {lat: null, lng: null,}
     },
-    start_at: null,
-    filters: {}
+    start_at: null
 };
 
 export default function (state = initialState, action) {
@@ -26,12 +25,8 @@ export default function (state = initialState, action) {
                     name: action.data.to.name,
                     coordinate: action.data.to.coordinate
                 },
-                start_at: action.data.start_at
-            };
-        case actions.SEARCH_FILTER_UPDATE:
-            return {
-                ...state,
-                filters: action.filters
+                start_at: action.data.start_at,
+
             };
         default:
             return state;

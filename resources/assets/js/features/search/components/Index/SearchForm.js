@@ -10,7 +10,7 @@ import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
 import { Button } from 'reactstrap';
 
 import {getTranslate} from 'react-localize-redux';
-import { searchSuccess} from 'features/search/actions';
+import { searchSuccess } from 'features/search/actions';
 
 import 'features/search/styles/react-datepicker.scss';
 import 'features/search/styles/search-index.scss';
