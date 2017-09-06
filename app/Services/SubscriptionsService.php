@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Filter;
 use App\Models\Trip;
+use App\Models\Subscription;
 use Illuminate\Support\Collection;
 use App\Repositories\Contracts\SubscriptionRepository;
 use App\Criteria\Subscriptions\SubscriptionTripCriteria;
@@ -24,8 +26,17 @@ class SubscriptionsService implements Contracts\SubscriptionsService
      */
     public function getSubscriptionsByTrip(Trip $trip): Collection
     {
-        $subscriptions = $this->subscriptionRepository->getByCriteria(new SubscriptionTripCriteria($trip));
+        $collection = collect($this->subscriptionRepository->getByCriteria(new SubscriptionTripCriteria($trip)));
 
-        return collect($subscriptions);
+        $subscriptions = $collection->filter(function (Subscription $subscription) use ($trip) {
+            /** @var Collection $filters */
+            $filters = $subscription->filters;
+
+            return $filters->reduce(function ($flag, Filter $filter) use ($trip) {
+                return $flag && $trip[$filter->name] == $filter['parameters'];
+            }, true);
+        });
+
+        return $subscriptions;
     }
 }
