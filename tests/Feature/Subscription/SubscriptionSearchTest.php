@@ -6,8 +6,8 @@ use App\User;
 use Carbon\Carbon;
 use App\Models\Trip;
 use App\Models\Route;
-use Tests\JwtTestCase;
 use App\Models\Filter;
+use Tests\JwtTestCase;
 use App\Models\Vehicle;
 use App\Models\Subscription;
 use App\Services\Contracts\SubscriptionsService;
@@ -49,7 +49,7 @@ class SubscriptionSearchTest extends JwtTestCase
                 'to' => json_decode('{"types": ["locality", "political"], "geometry": {"bounds": {"east": 28.75686010000004, "west": 28.590574999999944, "north": 50.3118629, "south": 50.22391}, "location": {"lat": 50.25465, "lng": 28.65866690000007}, "viewport": {"east": 28.75686010000004, "west": 28.590574999999944, "north": 50.3118629, "south": 50.22391}, "location_type": "APPROXIMATE"}, "place_id": "ChIJXTX6K6NkLEcRKeK52aPSSvE", "formatted_address": "Житомир, Житомирская область, Украина, 10001", "address_components": [{"types": ["locality", "political"], "long_name": "Житомир", "short_name": "Житомир"}, {"types": ["administrative_area_level_3", "political"], "long_name": "Житомирский горсовет", "short_name": "Житомирский горсовет"}, {"types": ["administrative_area_level_1", "political"], "long_name": "Житомирская область", "short_name": "Житомирская область"}, {"types": ["country", "political"], "long_name": "Украина", "short_name": "UA"}, {"types": ["postal_code"], "long_name": "10001", "short_name": "10001"}]}'),
                 'to_lat' => 50.25465000,
                 'to_lng' => 28.65866690,
-            ]
+            ],
         ];
     }
 
