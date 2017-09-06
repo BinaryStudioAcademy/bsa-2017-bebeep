@@ -3,11 +3,10 @@
 namespace App\Listeners;
 
 use App\Events\BookingApproved;
-use App\Mail\BookingApprovedEmail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Notifications\BookingApproved as NotificationBookingApproved;
 
-class SendBookingApprovedEmailToPassenger implements ShouldQueue
+class NotifyPassengerAboutApprovedBooking implements ShouldQueue
 {
     /**
      * Handle the event.
@@ -19,6 +18,6 @@ class SendBookingApprovedEmailToPassenger implements ShouldQueue
     {
         $user = $event->booking->user;
 
-        Mail::to($user)->send(new BookingApprovedEmail($event->booking, $event->booking->trip));
+        $user->notify(new NotificationBookingApproved($event->booking));
     }
 }

@@ -109,4 +109,12 @@ interface SearchTripRequest
      * @return int
      */
     public function getMaxPrice() : int;
+
+    public function getIsAnimalsAllowed() : ?bool;
+
+    public function getLuggageSize() : ?int;
+
+    public function getSeats() : ?int;
+
+    public function getRating() : ?int;
 }

@@ -12,6 +12,7 @@ use App\Services\TripDetailService;
 use App\Repositories\TripRepository;
 use App\Services\UserProfileService;
 use Illuminate\Support\Facades\Auth;
+use App\Services\SubscriptionsService;
 use App\Repositories\BookingRepository;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
@@ -41,6 +42,7 @@ use App\Repositories\Contracts\TripRepository as TripRepositoryContract;
 use App\Services\Contracts\TripDetailService as TripDetailServiceContract;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 use App\Repositories\Contracts\BookingRepository as BookingRepositoryContract;
+use App\Services\Contracts\SubscriptionsService as SubscriptionsServiceContract;
 use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
 
 class AppServiceProvider extends ServiceProvider
@@ -71,7 +73,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PasswordServiceContract::class, PasswordService::class);
         $this->app->bind(TripDetailServiceContract::class, TripDetailService::class);
         $this->app->bind(UserProfileServiceContract::class, UserProfileService::class);
+        $this->app->bind(SubscriptionsServiceContract::class, SubscriptionsService::class);
         $this->app->bind(UserPublicProfileServiceContract::class, UserPublicProfileService::class);
+        $this->app->bind(
+            \App\Services\Contracts\NotificationService::class,
+            \App\Services\NotificationService::class
+        );
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);

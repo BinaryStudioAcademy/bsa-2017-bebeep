@@ -2,20 +2,20 @@
 
 namespace App\Listeners;
 
-use Mail;
-use App\Mail\BookingCanceledEmail;
+use App\Notifications\BookingCanceled;
 use App\Events\ApprovedBookingCanceled;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendBookingCanceledEmailToDriver implements ShouldQueue
+class NotifyDriverAboutCanceledBooking implements ShouldQueue
 {
     /**
      * @param ApprovedBookingCanceled $event
      */
     public function handle(ApprovedBookingCanceled $event)
     {
+        /** @var \App\User $driver */
         $driver = $event->booking->trip->user;
 
-        Mail::to($driver)->send(new BookingCanceledEmail($event->booking, $event->booking->trip));
+        $driver->notify(new BookingCanceled($event->booking));
     }
 }
