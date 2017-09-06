@@ -1,4 +1,12 @@
 .register-form {
   max-width: 500px;
   margin: auto;
+  &-birth_date, &-label {
+    width: 100%;
+  }
+}
+
+.register-form-label .rdtPicker {
+  top: 35px;
+  left: 0;
 }
