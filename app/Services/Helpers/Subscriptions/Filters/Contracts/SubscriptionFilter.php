@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Helpers\Subscriptions\Contracts;
+namespace App\Services\Helpers\Subscriptions\Filters\Contracts;
 
 use App\Models\Trip;
 use App\Models\Filter;

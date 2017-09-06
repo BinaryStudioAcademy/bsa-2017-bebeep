@@ -6,7 +6,7 @@ use App\Models\Trip;
 use App\Models\Filter;
 use App\Models\Subscription;
 use Illuminate\Support\Collection;
-use App\Services\Helpers\Subscriptions\Contracts\SubscriptionFilter;
+use App\Services\Helpers\Subscriptions\Filters\Contracts\SubscriptionFilter;
 
 class FilterCollection
 {

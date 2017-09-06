@@ -4,10 +4,12 @@ namespace App\Services;
 
 use App\Models\Trip;
 use App\Models\Subscription;
-use App\Services\Helpers\Subscriptions\FilterCollection;
 use Illuminate\Support\Collection;
 use App\Repositories\Contracts\SubscriptionRepository;
 use App\Criteria\Subscriptions\SubscriptionTripCriteria;
+use App\Services\Helpers\Subscriptions\FilterCollection;
+use App\Services\Helpers\Subscriptions\Filters\EndTimeFilter;
+use App\Services\Helpers\Subscriptions\Filters\StartTimeFilter;
 
 class SubscriptionsService implements Contracts\SubscriptionsService
 {
@@ -29,7 +31,8 @@ class SubscriptionsService implements Contracts\SubscriptionsService
         $collection = collect($this->subscriptionRepository->getByCriteria(new SubscriptionTripCriteria($trip)));
 
         $filterCollection = new FilterCollection(
-            // ... set your filters here
+            new StartTimeFilter(),
+            new EndTimeFilter()
         );
 
         $subscriptions = $collection->filter(function (Subscription $subscription) use ($trip, $filterCollection) {
