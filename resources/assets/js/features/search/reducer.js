@@ -10,14 +10,7 @@ const initialState = {
         coordinate: {lat: null, lng: null,}
     },
     start_at: null,
-    filters: {
-        price: [0, 2000],
-        time: [0, 24],
-        animals: null,
-        luggage: null,
-        seats: null,
-        rating: null
-    }
+    filters: {}
 };
 
 export default function (state = initialState, action) {

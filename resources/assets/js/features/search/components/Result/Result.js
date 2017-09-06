@@ -5,7 +5,6 @@ import TripList from './TripList';
 import Placeholder from './Placeholder';
 import SortPanel from './SortPanel';
 import Preloader from 'app/components/Preloader';
-import SubscribeModal from './_Modals/SubscribeModal';
 import { Pagination } from 'app/components/Pagination';
 import { connect } from 'react-redux';
 import {
@@ -47,7 +46,6 @@ class Result extends React.Component {
         this.onChangePage = this.onChangePage.bind(this);
         this.onSearch = this.onSearch.bind(this);
         this.onClickSubscribe = this.onClickSubscribe.bind(this);
-        this.onClickSend = this.onClickSend.bind(this);
     }
 
     componentWillMount() {
@@ -137,22 +135,14 @@ class Result extends React.Component {
     }
 
     onClickSubscribe() {
-        this.setState({
-            subscribeModalIsOpen: true
-        });
         this.props.setSearchFilters(this.state.filter);
     }
 
-    onClickSend(data) {
-        console.log('subscribe send');
-    }
-
     render() {
-        const {sort, order, page, limit, meta, collection, preloader, subscribeModalIsOpen} = this.state,
+        const {sort, order, page, limit, meta, collection, preloader} = this.state,
             {translate} = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
-        console.log(subscribeModalIsOpen);
         return (
             <div className="search-result">
                 <SearchForm onSearch={this.onSearch} />
@@ -164,7 +154,7 @@ class Result extends React.Component {
                             />
                             <div className="col-md-4 offset-md-2">
                                 <button role="button" className="btn search-block__btn search-result__btn-subscribe" onClick={this.onClickSubscribe}>
-                                    {translate('subscription.subscribe_btn')}
+                                    {translate('search_result.subscribe')}
                                 </button>
                             </div>
                         </div>
@@ -210,11 +200,6 @@ class Result extends React.Component {
                         </div>
                     </div>
                 </div>
-                <SubscribeModal
-                    isOpen={ subscribeModalIsOpen }
-                    onClickSend = {this.onClickSend}
-                    onClosed={ () => this.setState({subscribeModalIsOpen: false})}
-                />
             </div>
         );
     }
