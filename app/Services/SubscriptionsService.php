@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Subscription;
-use App\Http\Requests\DTO\FilterDTO;
 use App\Repositories\SubscriptionRepository;
 use App\Services\Requests\CreateSubscriptionsRequest;
 
@@ -63,16 +62,15 @@ class SubscriptionsService implements Contracts\SubscriptionsService
 
         $subscription = $this->subscriptionRepository->save(new Subscription($subscriptionAttributes));
 
-            foreach ($request->getFilters() as $filter) {
-                $filterAttributes = [
-                    'name' => $filter->getName(),
-                    'parameters' => $filter->getParam(),
-                ];
-                $subscription->filters()->create($filterAttributes);
-            }
+        foreach ($request->getFilters() as $filter) {
+            $filterAttributes = [
+                'name' => $filter->getName(),
+                'parameters' => $filter->getParam(),
+            ];
+            $subscription->filters()->create($filterAttributes);
+        }
 
 
         return $subscription;
     }
-
 }

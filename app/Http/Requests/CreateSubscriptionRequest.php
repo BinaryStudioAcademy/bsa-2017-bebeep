@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Carbon\Carbon;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\DTO\FilterDTO;
+use Illuminate\Foundation\Http\FormRequest;
 use App\Services\Requests\CreateSubscriptionsRequest as CreateSubscriptionsRequestInterface;
 
 class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptionsRequestInterface
@@ -40,7 +40,7 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
      */
     public function getFrom(): array
     {
-        return (array)$this->get('start_point')['from'];
+        return (array) $this->get('start_point')['from'];
     }
 
     /**
@@ -48,7 +48,7 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
      */
     public function getTo(): array
     {
-        return (array)$this->get('end_point')['to'];
+        return (array) $this->get('end_point')['to'];
     }
 
     /**
@@ -57,8 +57,8 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
     public function getFilters(): array
     {
         $filters = [];
-        
-        foreach ($this->get('filters') as $filter){
+
+        foreach ($this->get('filters') as $filter) {
             $dto = new FilterDTO();
             $dto->setName($filter['name']);
             $dto->setParam(json_encode($filter['parameters']));
@@ -116,6 +116,4 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
     {
         return $this->get('end_point')['to_lng'];
     }
-
-
 }

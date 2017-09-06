@@ -38,5 +38,4 @@ class FilterDTO
     {
         $this->param = $param;
     }
-
 }

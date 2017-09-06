@@ -7,14 +7,14 @@ use Carbon\Carbon;
 interface CreateSubscriptionsRequest
 {
     /**
-     * Google object place From
+     * Google object place From.
      *
      * @return array
      */
     public function getFrom(): array;
 
     /**
-     * Google object place To
+     * Google object place To.
      *
      * @return array
      */
@@ -37,7 +37,7 @@ interface CreateSubscriptionsRequest
     /**
      * @return string
      */
-    public function getEmail(): string ;
+    public function getEmail(): string;
 
     /**
      * Latitude 'From' point.
@@ -66,4 +66,5 @@ interface CreateSubscriptionsRequest
      * @return mixed
      */
     public function getToLng() : float;
+
 }
