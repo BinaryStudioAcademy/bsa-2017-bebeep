@@ -40,7 +40,7 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
      */
     public function getFrom(): array
     {
-        return (array) $this->get('start_point')['from'];
+        return (array)$this->get('start_point')['from'];
     }
 
     /**
@@ -48,7 +48,7 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
      */
     public function getTo(): array
     {
-        return (array) $this->get('end_point')['to'];
+        return (array)$this->get('end_point')['to'];
     }
 
     /**
@@ -59,11 +59,12 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
         $filters = [];
 
         foreach ($this->get('filters') as $name => $parameters) {
-            if ($parameters != null){
-                if (is_array($parameters))
+            if ($parameters != null) {
+                if (is_array($parameters)) {
                     $filters[] = new FilterDTO($name, [$parameters]);
-                else
+                } else {
                     $filters[] = new FilterDTO($name, ['value' => $parameters]);
+                }
             }
         }
 

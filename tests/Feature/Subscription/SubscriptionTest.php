@@ -30,7 +30,7 @@ class SubscriptionTest extends JwtTestCase
             'time' => [10, 22],
             'date' => 123456798,
             'luggage' => null,
-            'price' => [300, 1000]
+            'price' => [300, 1000],
         ],
         'start_at' => 12345,
         'email' => 'mail@mail.com',
