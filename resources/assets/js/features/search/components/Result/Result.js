@@ -99,6 +99,10 @@ class Result extends React.Component {
             "filter[time][min]": null,
             "filter[time][max]": null,
             "filter[date]": null,
+            "filter[animals]": null,
+            "filter[luggage]": null,
+            "filter[seats]": null,
+            "filter[rating]": null,
         });
     }
 
