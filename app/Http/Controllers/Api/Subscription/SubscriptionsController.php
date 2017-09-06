@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Subscription;
 
 use App\Models\Subscription;
+use App\Transformers\Subscriptions\SubscriptionTransformer;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Services\Contracts\SubscriptionsService;
@@ -25,7 +26,10 @@ class SubscriptionsController extends Controller
     {
         $subscriptions = $this->subscriptionsService->getByUser(Auth::user());
 
-
+        return fractal()
+            ->collection($subscriptions, new SubscriptionTransformer())
+            ->parseIncludes('filters')
+            ->respond();
     }
 
     public function delete(Subscription $subscription)
