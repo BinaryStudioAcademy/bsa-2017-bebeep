@@ -47,6 +47,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
                 }),
             ],
             'vehicle' => 'required_without:vehicle_id',
+            'reverse_start_at' => 'required_if:is_in_both_directions,greater_than_date_if:is_in_both_directions,'.$this->get('end_at'),
         ];
     }
 
@@ -136,5 +137,21 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     public function getIsAnimalsAllowed(): bool
     {
         return (bool) $this->get('is_animals_allowed');
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsInBothDirections(): bool
+    {
+        return (bool) $this->get('is_in_both_directions');
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getReverseStartAt(): Carbon
+    {
+        return Carbon::createFromTimestampUTC($this->get('reverse_start_at'));
     }
 }
