@@ -23,7 +23,9 @@ class SubscriptionsController extends Controller
 
     public function index()
     {
-        $this->subscriptionsService->getByUser(Auth::user());
+        $subscriptions = $this->subscriptionsService->getByUser(Auth::user());
+
+
     }
 
     public function delete(Subscription $subscription)

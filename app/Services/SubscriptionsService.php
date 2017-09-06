@@ -28,7 +28,9 @@ class SubscriptionsService implements Contracts\SubscriptionsService
 
     public function changeStatus(StatusSubscriptionRequest $request, Subscription $subscription): void
     {
-        // TODO: Implement changeStatus() method.
+        $subscription->is_active = $request->isActive();
+
+        $this->subscriptionRepository->save($subscription);
     }
 
     public function edit(EditSubscriptionRequest $request, Subscription $subscription): void
@@ -38,6 +40,6 @@ class SubscriptionsService implements Contracts\SubscriptionsService
 
     public function delete(Subscription $subscription): void
     {
-        // TODO: Implement delete() method.
+        $this->subscriptionRepository->delete($subscription->id);
     }
 }
