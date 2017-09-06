@@ -65,7 +65,7 @@ class SubscriptionsService implements Contracts\SubscriptionsService
         foreach ($request->getFilters() as $filter) {
             $filterAttributes = [
                 'name' => $filter->getName(),
-                'parameters' => $filter->getParam(),
+                'parameters' => $filter->getParams(),
             ];
             $subscription->filters()->create($filterAttributes);
         }

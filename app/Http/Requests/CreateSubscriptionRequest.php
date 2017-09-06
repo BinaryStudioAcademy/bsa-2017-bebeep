@@ -59,11 +59,7 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
         $filters = [];
 
         foreach ($this->get('filters') as $filter) {
-            $dto = new FilterDTO();
-            $dto->setName($filter['name']);
-            $dto->setParam(json_encode($filter['parameters']));
-
-            $filters[] = $dto;
+            $filters[] = new FilterDTO($filter['name'], $filter['parameters']);
         }
 
         return $filters;
@@ -116,4 +112,5 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
     {
         return $this->get('end_point')['to_lng'];
     }
+
 }

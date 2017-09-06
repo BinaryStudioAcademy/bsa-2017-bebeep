@@ -4,38 +4,42 @@ namespace App\Http\Requests\DTO;
 
 class FilterDTO
 {
-    private $name;
-    private $param;
+    /**
+     * FilterDTO constructor.
+     *
+     * @param string $name
+     * @param array $params
+     */
+    public function __construct(string $name, array $params)
+    {
+        $this->_name = $name;
+        $this->_params = $params;
+    }
 
     /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->_name;
+    }
+
+    /**
+     * @param string $paramName
+     *
      * @return mixed
      */
-    public function getName()
+    public function getParam(string $paramName)
     {
-        return $this->name;
+        return $this->_params[$paramName];
     }
 
     /**
-     * @param mixed $name
+     * @return array
      */
-    public function setName($name)
+    public function getParams(): array
     {
-        $this->name = $name;
+        return $this->_params;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getParam()
-    {
-        return $this->param;
-    }
-
-    /**
-     * @param mixed $param
-     */
-    public function setParam($param)
-    {
-        $this->param = $param;
-    }
 }

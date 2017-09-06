@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -30,10 +29,18 @@ class Filter extends Model
     ];
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'parameters' => 'array',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function subscription()
     {
         return $this->belongsTo(Subscription::class);
     }
+
 }

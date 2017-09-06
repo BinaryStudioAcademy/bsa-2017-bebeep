@@ -12,4 +12,5 @@ interface SubscriptionsService
      * @return mixed
      */
     public function create(CreateSubscriptionsRequest $request);
+
 }

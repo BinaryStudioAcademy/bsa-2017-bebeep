@@ -34,8 +34,8 @@ class Subscription extends Model
     ];
 
     /**
-     * @var array
-     */
+ * @var array
+ */
     protected $casts = [
         'from' => 'array',
         'from_lat' => 'float',
@@ -61,4 +61,5 @@ class Subscription extends Model
     {
         return $this->hasMany(Filter::class);
     }
+
 }
