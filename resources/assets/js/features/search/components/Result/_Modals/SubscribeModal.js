@@ -191,18 +191,21 @@ class SubscribeModal extends React.Component {
                         <div className="col-md-12">
                             <div className="row ml-2">
                                 <div className="col-md-5">
-                                    <label htmlFor="email" className={"form-control-label subscribe-modal__footer-label" + (authClass)}>
+                                    <div className={authClass}>
+                                        <label htmlFor="email" className="form-control-label subscribe-modal__footer-label">
                                         {translate('subscription.enter-email')}
+                                    </label>
                                         <input
                                             type="email"
                                             className="form-control "
                                             id="email"
                                             name="email"
                                             placeholder={translate('subscription.email-placeholder')}
-                                            required />
-                                    </label>
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                                <div className={"col-md-3 offset-md-4" + (isAuth ? '' : " pt-3")}>
+                                <div className={"col-md-3 offset-md-4" + (isAuth ? '' : " pt-4")}>
                                     <Button outline color="success" className="hover" onClick={onClickSend}>{translate('subscription.subscribe_btn')}</Button>
                                 </div>
                             </div>
