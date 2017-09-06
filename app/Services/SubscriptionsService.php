@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Subscription;
-use App\Models\Filter;
 use App\Repositories\SubscriptionRepository;
 use App\Services\Requests\CreateSubscriptionsRequest;
 
@@ -29,13 +28,13 @@ class SubscriptionsService implements Contracts\SubscriptionsService
      *
      * @return \Illuminate\Support\Collection
      */
-     public static function getParamsFromFilters($filters)
+    public static function getParamsFromFilters($filters)
     {
         $params = collect([]);
-        foreach ($filters as $filter){
-            $params->push( [
+        foreach ($filters as $filter) {
+            $params->push([
                 'name' => $filter['name'],
-                'parameters' =>json_encode($filter['parameters']),
+                'parameters' => json_encode($filter['parameters']),
             ]);
         }
 
@@ -67,10 +66,10 @@ class SubscriptionsService implements Contracts\SubscriptionsService
 
         $subscription = $this->subscriptionRepository->save(new Subscription($subscriptionAttributes));
 
-        if (isset($filters)){
+        if (isset($filters)) {
             $filters = self::getParamsFromFilters($filters);
 
-            foreach ($filters as $filter){
+            foreach ($filters as $filter) {
                 $subscription->filters()->create($filter);
             }
         }

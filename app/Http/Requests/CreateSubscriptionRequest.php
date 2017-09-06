@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Services\Requests\CreateSubscriptionsRequest as CreateSubscriptionsRequestInterface;
 
-class CreateSubscriptionRequest extends FormRequest implements  CreateSubscriptionsRequestInterface
+class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptionsRequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -39,7 +39,7 @@ class CreateSubscriptionRequest extends FormRequest implements  CreateSubscripti
      */
     public function getFrom(): array
     {
-        return (array) $this->get('start_point');
+        return (array)$this->get('start_point');
     }
 
     /**
@@ -47,7 +47,7 @@ class CreateSubscriptionRequest extends FormRequest implements  CreateSubscripti
      */
     public function getTo(): array
     {
-        return (array) $this->get('end_point');
+        return (array)$this->get('end_point');
     }
 
     /**
@@ -55,7 +55,7 @@ class CreateSubscriptionRequest extends FormRequest implements  CreateSubscripti
      */
     public function getFilters(): array
     {
-        return (array) $this->get('filters');
+        return (array)$this->get('filters');
     }
 
     /**
@@ -73,4 +73,5 @@ class CreateSubscriptionRequest extends FormRequest implements  CreateSubscripti
     {
         return $this->get('email');
     }
+
 }
