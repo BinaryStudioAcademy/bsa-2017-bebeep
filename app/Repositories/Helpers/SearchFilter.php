@@ -3,6 +3,7 @@
 namespace App\Repositories\Helpers;
 
 use Carbon\Carbon;
+use App\Models\Trip;
 use InvalidArgumentException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -47,13 +48,15 @@ class SearchFilter
      * @param float $toLng
      * @return SearchFilter
      */
-    public function addLocation(float $fromLat, float $fromLng, float $toLat, float $toLng) : SearchFilter
+    public function addLocation(float $fromLat, float $fromLng, float $toLat, float $toLng): SearchFilter
     {
         $this->query
             ->join('routes as routes_from', 'trips.id', '=', 'routes_from.trip_id')
             ->join('routes as routes_to', 'trips.id', '=', 'routes_to.trip_id')
-            ->whereRaw($this->haversine('routes_from.from_lat', 'routes_from.from_lng', $fromLat, $fromLng).' < '.self::DISTANCE_FROM)
-            ->whereRaw($this->haversine('routes_to.to_lat', 'routes_to.to_lng', $toLat, $toLng).' < '.self::DISTANCE_TO);
+            ->whereRaw($this->haversine('routes_from.from_lat', 'routes_from.from_lng', $fromLat,
+                    $fromLng).' < '.self::DISTANCE_FROM)
+            ->whereRaw($this->haversine('routes_to.to_lat', 'routes_to.to_lng', $toLat,
+                    $toLng).' < '.self::DISTANCE_TO);
 
         return $this;
     }
@@ -64,7 +67,7 @@ class SearchFilter
      * @param int $maxHourOffset
      * @return SearchFilter
      */
-    public function addDate(Carbon $date, $minHourOffset = 1, $maxHourOffset = 1) : SearchFilter
+    public function addDate(Carbon $date, $minHourOffset = 1, $maxHourOffset = 1): SearchFilter
     {
         $dayStart = clone $date;
         $dayStart->hour += $minHourOffset > 0 && $minHourOffset < $maxHourOffset ? $minHourOffset - 1 : 0;
@@ -87,7 +90,7 @@ class SearchFilter
      * @param int $max
      * @return SearchFilter
      */
-    public function setPrice(int $min, int $max) : SearchFilter
+    public function setPrice(int $min, int $max): SearchFilter
     {
         $this->maxPrice = $max;
         $this->minPrice = $min;
@@ -100,7 +103,7 @@ class SearchFilter
      * @param string $direction
      * @return SearchFilter
      */
-    public function setOrder(string $order, string $direction = 'asc') : SearchFilter
+    public function setOrder(string $order, string $direction = 'asc'): SearchFilter
     {
         $this->query->orderBy("trips.{$order}", $direction);
 
@@ -147,19 +150,23 @@ class SearchFilter
             return $this;
         }
 
-        $tripIds = \App\Models\Trip::select(['id', 'seats'])->with(['routes' => function ($query) {
-            return $query->select(['id', 'trip_id'])->with('bookings');
-        }])->get()->filter(function ($trip) use ($seats) {
-            $maxAvailableSeats = $trip->routes->map(function ($route) {
-                return $route->available_seats;
-            })->max();
+        $tripIds = Trip::select(['id', 'seats'])
+            ->where('start_at', '>=', Carbon::now()->toDateTimeString())
+            ->with([
+                'routes' => function ($query) {
+                    return $query->select(['id', 'trip_id'])->with('bookings');
+                },
+            ])->get()->filter(function ($trip) use ($seats) {
+                $maxAvailableSeats = $trip->routes->map(function ($route) {
+                    return $route->available_seats;
+                })->max();
 
-            if ($seats === 4) {
-                return $maxAvailableSeats >= 4;
-            }
+                if ($seats === 4) {
+                    return $maxAvailableSeats >= 4;
+                }
 
-            return $maxAvailableSeats === $seats;
-        })->pluck('id');
+                return $maxAvailableSeats === $seats;
+            })->pluck('id');
 
         $this->query->whereIn('trips.id', $tripIds);
 
@@ -176,13 +183,15 @@ class SearchFilter
             return $this;
         }
 
-        $userIds = \App\User::select(['id'])->with(['receivedReviews' => function ($query) {
-            return $query->select(
-                DB::raw('driver_id'),
-                DB::raw('COUNT(*) as reviews_count'),
-                DB::raw('SUM(mark) as reviews_total')
-            )->groupBy('driver_id');
-        }])->get()->filter(function ($user) use ($rating) {
+        $userIds = \App\User::select(['id'])->with([
+            'receivedReviews' => function ($query) {
+                return $query->select(
+                    DB::raw('driver_id'),
+                    DB::raw('COUNT(*) as reviews_count'),
+                    DB::raw('SUM(mark) as reviews_total')
+                )->groupBy('driver_id');
+            },
+        ])->get()->filter(function ($user) use ($rating) {
             if ($user->receivedReviews->count() <= 0) {
                 return false;
             }
@@ -207,7 +216,7 @@ class SearchFilter
      * @return SearchFilter
      * @throws InvalidArgumentException
      */
-    public function paginate(int $limit, int $offset) : SearchFilter
+    public function paginate(int $limit, int $offset): SearchFilter
     {
         if ($limit < 0) {
             throw new InvalidArgumentException("Limit can't be a negative");
@@ -225,7 +234,7 @@ class SearchFilter
     /**
      * @return Collection
      */
-    public function getResult() : Collection
+    public function getResult(): Collection
     {
         $query = (clone $this->query)
             ->addSelect('trips.*')
@@ -247,7 +256,7 @@ class SearchFilter
     /**
      * @return array
      */
-    public function getMetaData() : array
+    public function getMetaData(): array
     {
         $query = clone $this->query;
 
