@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Subscription;
+use App\Http\Requests\DTO\FilterDTO;
 use App\Repositories\SubscriptionRepository;
 use App\Services\Requests\CreateSubscriptionsRequest;
 
@@ -48,31 +49,28 @@ class SubscriptionsService implements Contracts\SubscriptionsService
      */
     public function create(CreateSubscriptionsRequest $request)
     {
-        $start_point = $request->getFrom();
-        $end_point = $request->getTo();
-        $filters = $request->getFilters();
-
         $subscriptionAttributes = [
             'start_at' => $request->getStartAt(),
-            'from' => $start_point['from'],
-            'from_lat' => $start_point['from_lat'],
-            'from_lng' => $start_point['from_lng'],
-            'to' => $end_point['to'],
-            'to_lat' => $end_point['to_lat'],
-            'to_lng' => $end_point['to_lng'],
+            'from' => $request->getFrom(),
+            'from_lat' => $request->getFromLat(),
+            'from_lng' => $request->getFromLng(),
+            'to' => $request->getTo(),
+            'to_lat' => $request->getToLat(),
+            'to_lng' => $request->getToLng(),
             'email' => $request->getEmail(),
             'is_active' => true,
         ];
 
         $subscription = $this->subscriptionRepository->save(new Subscription($subscriptionAttributes));
 
-        if (isset($filters)) {
-            $filters = self::getParamsFromFilters($filters);
-
-            foreach ($filters as $filter) {
-                $subscription->filters()->create($filter);
+            foreach ($request->getFilters() as $filter) {
+                $filterAttributes = [
+                    'name' => $filter->getName(),
+                    'parameters' => $filter->getParam(),
+                ];
+                $subscription->filters()->create($filterAttributes);
             }
-        }
+
 
         return $subscription;
     }

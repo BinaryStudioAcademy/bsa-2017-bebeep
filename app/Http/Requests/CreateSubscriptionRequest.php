@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\DTO\FilterDTO;
 use App\Services\Requests\CreateSubscriptionsRequest as CreateSubscriptionsRequestInterface;
 
 class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptionsRequestInterface
@@ -39,7 +40,7 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
      */
     public function getFrom(): array
     {
-        return (array)$this->get('start_point');
+        return (array)$this->get('start_point')['from'];
     }
 
     /**
@@ -47,7 +48,7 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
      */
     public function getTo(): array
     {
-        return (array)$this->get('end_point');
+        return (array)$this->get('end_point')['to'];
     }
 
     /**
@@ -55,7 +56,17 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
      */
     public function getFilters(): array
     {
-        return (array)$this->get('filters');
+        $filters = [];
+        
+        foreach ($this->get('filters') as $filter){
+            $dto = new FilterDTO();
+            $dto->setName($filter['name']);
+            $dto->setParam(json_encode($filter['parameters']));
+
+            $filters[] = $dto;
+        }
+
+        return $filters;
     }
 
     /**
@@ -73,5 +84,38 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
     {
         return $this->get('email');
     }
+
+    /**
+     * @return float
+     */
+    public function getFromLat(): float
+    {
+        return $this->get('start_point')['from_lat'];
+    }
+
+    /**
+     * @return float
+     */
+    public function getFromLng(): float
+    {
+        return $this->get('start_point')['from_lng'];
+    }
+
+    /**
+     * @return float
+     */
+    public function getToLat(): float
+    {
+        return $this->get('end_point')['to_lat'];
+    }
+
+    /**
+     * @return float
+     */
+    public function getToLng(): float
+    {
+        return $this->get('end_point')['to_lng'];
+    }
+
 
 }
