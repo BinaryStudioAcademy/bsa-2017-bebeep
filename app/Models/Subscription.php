@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Trip;
 use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
@@ -53,4 +52,5 @@ class Subscription extends Model
     {
         return $this->hasMany(Trip::class);
     }
+
 }

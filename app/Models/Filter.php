@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -36,4 +35,5 @@ class Filter extends Model
     {
         return $this->belongsTo(Subscription::class);
     }
+
 }

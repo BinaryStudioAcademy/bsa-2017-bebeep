@@ -7,5 +7,4 @@ use Prettus\Repository\Contracts\RepositoryCriteriaInterface;
 
 interface SubscriptionRepository extends RepositoryInterface, RepositoryCriteriaInterface
 {
-
 }
