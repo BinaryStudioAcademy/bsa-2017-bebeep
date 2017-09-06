@@ -8,8 +8,6 @@ use Illuminate\Support\Collection;
 use App\Repositories\Contracts\SubscriptionRepository;
 use App\Criteria\Subscriptions\SubscriptionTripCriteria;
 use App\Services\Helpers\Subscriptions\FilterCollection;
-use App\Services\Helpers\Subscriptions\Filters\EndTimeFilter;
-use App\Services\Helpers\Subscriptions\Filters\StartTimeFilter;
 
 class SubscriptionsService implements Contracts\SubscriptionsService
 {
@@ -17,10 +15,15 @@ class SubscriptionsService implements Contracts\SubscriptionsService
      * @var SubscriptionRepository
      */
     private $subscriptionRepository;
+    /**
+     * @var FilterCollection
+     */
+    private $filterCollection;
 
-    public function __construct(SubscriptionRepository $subscriptionRepository)
+    public function __construct(SubscriptionRepository $subscriptionRepository, FilterCollection $filterCollection)
     {
         $this->subscriptionRepository = $subscriptionRepository;
+        $this->filterCollection = $filterCollection;
     }
 
     /**
@@ -30,13 +33,8 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     {
         $collection = collect($this->subscriptionRepository->getByCriteria(new SubscriptionTripCriteria($trip)));
 
-        $filterCollection = new FilterCollection(
-            new StartTimeFilter(),
-            new EndTimeFilter()
-        );
-
-        $subscriptions = $collection->filter(function (Subscription $subscription) use ($trip, $filterCollection) {
-            return $filterCollection->isSatisfied($subscription, $trip);
+        $subscriptions = $collection->filter(function (Subscription $subscription) use ($trip) {
+            return $this->filterCollection->isSatisfied($subscription, $trip);
         });
 
         return $subscriptions;

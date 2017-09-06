@@ -33,7 +33,10 @@ use App\Rules\Booking\BookingTripNotExpiredRule;
 use App\Rules\BookingConfirm\BookingTripConfirm;
 use App\Validators\RoutesExistsForTripValidator;
 use App\Rules\Booking\UserHasNotActiveBookingsForTrip;
+use App\Services\Helpers\Subscriptions\FilterCollection;
+use App\Services\Helpers\Subscriptions\Filters\EndTimeFilter;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
+use App\Services\Helpers\Subscriptions\Filters\StartTimeFilter;
 use App\Services\Contracts\RouteService as RouteServiceContract;
 use App\Services\Contracts\BookingService as BookingServiceContract;
 use App\Services\Contracts\ReviewsService as ReviewsServiceContract;
@@ -115,6 +118,13 @@ class AppServiceProvider extends ServiceProvider
                 new TripDateRule,
                 new TripRoutesHasSeatsRule,
                 new UserHasNotActiveBookingsForTrip($app->make(BookingRepositoryContract::class))
+            );
+        });
+
+        $this->app->bind(FilterCollection::class, function ($app) {
+            return new FilterCollection(
+                new StartTimeFilter(),
+                new EndTimeFilter()
             );
         });
     }
