@@ -1,11 +1,7 @@
 import React from 'react';
 
 import ContainerWrapper from 'app/layouts/ContainerWrapper';
-
-import InputDate from 'app/components/Controls/InputDate';
-import Input from 'app/components/Controls/Input';
-import InputAutocomplete from 'app/components/Controls/InputAutocomplete';
-import Select from 'app/components/Controls/Select';
+import { Input, InputAutocomplete, InputDateTime, Select } from 'app/components/Controls';
 
 class Elements extends React.Component {
     constructor() {
@@ -32,12 +28,14 @@ class Elements extends React.Component {
                     <button className="btn btn-warning btn-lg disabled">Продолжить</button>
                 </div>
 
-                <InputDate
+                <InputDateTime
                     id="date"
                     value={date}
+                    timeFormat={false}
+                    inputProps={{name: 'date', id: 'date'}}
                     onChange={(date) => (this.setState({date}))}
+                    labelClasses="form-input fa-calendar"
                     label="Когда"
-                    error="error"
                 />
 
                 <Input
