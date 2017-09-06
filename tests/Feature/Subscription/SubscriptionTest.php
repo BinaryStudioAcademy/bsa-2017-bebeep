@@ -14,30 +14,30 @@ class SubscriptionTest extends JwtTestCase
 
     public $storeData = [
         'start_point' => [
-            'from'=>['from'=>'Стара Вижівка'],
-            'from_lat'=>51.4373666,
-            'from_lng'=>24.436656099999936
+            'from' => ['from' => 'Стара Вижівка'],
+            'from_lat' => 51.4373666,
+            'from_lng' => 24.436656099999936,
         ],
-        'end_point'=>[
-            'to'=>['to'=>'Лісняки'],
-            'to_lat'=>51.3519444,
-            'to_lng'=>24.415277800000013
+        'end_point' => [
+            'to' => ['to' => 'Лісняки'],
+            'to_lat' => 51.3519444,
+            'to_lng' => 24.415277800000013,
         ],
-        'filters'=>[
-            ['id'=>'1','name'=>'filter_name','parameters'=>['from'=>'Стара Вижівка']],
-            ['id'=>'2','name'=>'filter_name_two','parameters'=>['from'=>'Лісняки']]
+        'filters' => [
+            ['id' => '1', 'name' => 'filter_name', 'parameters' => ['from' => 'Стара Вижівка']],
+            ['id' => '2', 'name' => 'filter_name_two', 'parameters' => ['from' => 'Лісняки']]
         ],
-        'start_at'=>12345,
-        'email'=>'mail@mail.com'
+        'start_at' => 12345,
+        'email' => 'mail@mail.com'
     ];
 
     public $fragmentData = [
-        'from'=>['from'=>'Стара Вижівка'],
-        'from_lat'=>51.4373666,
-        'from_lng'=>24.436656099999936,
-        'to'=>['to'=>'Лісняки'],
-        'to_lat'=>51.3519444,
-        'to_lng'=>24.415277800000013,
+        'from' => ['from' => 'Стара Вижівка'],
+        'from_lat' => 51.4373666,
+        'from_lng' => 24.436656099999936,
+        'to' => ['to' => 'Лісняки'],
+        'to_lat' => 51.3519444,
+        'to_lng' => 24.415277800000013,
     ];
 
     public function test_car_store()
