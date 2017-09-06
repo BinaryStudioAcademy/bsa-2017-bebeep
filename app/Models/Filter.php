@@ -28,6 +28,10 @@ class Filter extends Model
         'updated_at',
     ];
 
+    protected $casts = [
+        'parameters' => 'array',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

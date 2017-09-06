@@ -96,3 +96,10 @@ $factory->define(App\Models\Subscription::class, function (Faker\Generator $fake
         'is_active' => true,
     ];
 });
+
+$factory->define(App\Models\Filter::class, function (Faker\Generator $faker) {
+    return [
+        'name' => 'some_filter',
+        'parameters' => json_encode(['value' => 3]),
+    ];
+});
