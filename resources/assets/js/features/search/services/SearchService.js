@@ -29,12 +29,22 @@ export const search = (
  */
 export const setFilter = (filter, params = {}) => {
     let newParams = {};
-    for (let field in filter) {
+
+    Object.keys(filter).forEach(field => {
         if (filter[field] instanceof Array) {
             newParams[`filter[${field}][min]`] = filter[field][0];
             newParams[`filter[${field}][max]`] = filter[field][1];
+            return;
         }
-    }
+
+        if (filter[field]) {
+            newParams[`filter[${field}]`] = filter[field];
+            return;
+        }
+
+        newParams[`filter[${field}]`] = null;
+    });
+
     return Object.assign(params, newParams);
 };
 
@@ -53,6 +63,18 @@ export const getFilter = () => {
     }
     if (+query["start_at"] > 0) {
         filter['date'] = +query["start_at"];
+    }
+    if (query["filter[animals]"]) {
+        filter['animals'] = query["filter[animals]"];
+    }
+    if (query["filter[luggage]"]) {
+        filter['luggage'] = query["filter[luggage]"];
+    }
+    if (query["filter[seats]"]) {
+        filter['seats'] = query["filter[seats]"];
+    }
+    if (query["filter[rating]"]) {
+        filter['rating'] = query["filter[rating]"];
     }
     return filter;
 };

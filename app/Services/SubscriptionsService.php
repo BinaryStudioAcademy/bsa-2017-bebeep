@@ -24,24 +24,6 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     }
 
     /**
-     * @param $filters
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function getParamsFromFilters($filters)
-    {
-        $params = collect([]);
-        foreach ($filters as $filter) {
-            $params->push([
-                'name' => $filter['name'],
-                'parameters' => json_encode($filter['parameters']),
-            ]);
-        }
-
-        return $params;
-    }
-
-    /**
      * @param CreateSubscriptionsRequest $request
      *
      * @return Subscription
@@ -65,7 +47,7 @@ class SubscriptionsService implements Contracts\SubscriptionsService
         foreach ($request->getFilters() as $filter) {
             $filterAttributes = [
                 'name' => $filter->getName(),
-                'parameters' => $filter->getParam(),
+                'parameters' => $filter->getParams(),
             ];
             $subscription->filters()->create($filterAttributes);
         }

@@ -9,7 +9,7 @@ class FilterDTO
      * @param string $name
      * @param $params
      */
-    public function __construct(string $name, string $params)
+    public function __construct(string $name, array $params)
     {
         $this->_name = $name;
         $this->_params = $params;
@@ -24,10 +24,20 @@ class FilterDTO
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getParam(): string
+    public function getParams(): array
     {
         return $this->_params;
+    }
+
+    /**
+     * @param string $paramName
+     *
+     * @return mixed
+     */
+    public function getParam(string $paramName)
+    {
+        return $this->_params[$paramName];
     }
 }

@@ -32,7 +32,7 @@ class Filter extends Model
      * @var array
      */
     protected $casts = [
-        'parameters' => 'string',
+        'parameters' => 'array',
     ];
 
     /**

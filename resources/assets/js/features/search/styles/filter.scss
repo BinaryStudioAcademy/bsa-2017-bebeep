@@ -1,17 +1,5 @@
 @import '~rc-slider/assets/index.css';
 
-.filter__prop-control .react-datepicker {
-  &__close-icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-  }
-  &__input-container {
-    top: -20px;
-  }
-}
-
 .filter {
 
   &__prop:not(:last-child) {
