@@ -98,6 +98,7 @@ class BookingModal extends React.Component {
                 }).then((data) => {
                     onSuccess();
                     this.closeModal();
+                    browserHistory.push('/bookings');
                 })
                     .catch((error) => this.setState({ errors: error.response.data }));
             } else {

@@ -33,6 +33,18 @@
         "От <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}"
       ]
     },
-    "trip_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"]
+    "trip_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"],
+    "luggage_size": ["Luggage Size", "Розмір багажу", "Размер багажа"],
+    "luggage_size_0": ["Small", "Маленький", "Маленький"],
+    "luggage_size_1": ["Medium", "Середній", "Средний"],
+    "luggage_size_2": ["Big", "Великий", "Большой"],
+    "is_animals_allowed": ["Animals allowed", "Тварини дозволені", "Животные разрешены"],
+    "additional_conditions": ["Additional conditions", "Додаткові умови", "Дополнительные условия"],
+    "animals": ["Animals", "Тварини", "Животные"],
+    "not_important": ["All", "Все одно", "Все равно"],
+    "allowed": ["Allowed", "Дозволені", "Разрешены"],
+    "forbidden": ["Forbidden", "Заборонені", "Запрещены"],
+    "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"],
+    "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"]
   }
 }
