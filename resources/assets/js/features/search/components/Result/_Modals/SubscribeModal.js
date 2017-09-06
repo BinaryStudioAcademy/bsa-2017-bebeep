@@ -62,24 +62,20 @@ class SubscribeModal extends React.Component {
 
     render() {
 
-        const {translate, isOpen, onClosed, onClickSend, data} = this.props;
+        const {translate, isOpen, onClosed, onClickSend, data, isAuth} = this.props;
         const {time, price, animals, seats, luggage, rating} = this.state;
-        console.log('time', time);
-        console.log('price', price);
-        console.log('animals', animals);
-        console.log('seats', seats);
-        console.log('luggage', luggage);
+        const authClass = isAuth ? ' subscribe-modal__footer-label-hidden' : '';
 
         return (
             <span>
 
                 <Modal className="subscribe-modal" size="lg" isOpen={isOpen} toggle={onClosed}>
-                    <ModalHeader className="subscribe-modal__header">
+                    <ModalHeader className="subscribe-modal__header" toggle={onClosed}>
                         <i className="subscribe-modal-icon fa fa-rss" aria-hidden="true" title={translate('subscription.info')}/>
                         <span className="subscribe-modal__header-text" title={translate('subscription.info')}>{translate('subscription.subscribe_header')}</span>
                     </ModalHeader>
                     <ModalBody className="p-15">
-                        <div className="subscribe-modal__body-routes mt-2 ml-3 mb-3">
+                        <div className="subscribe-modal__body-routes mt-2 ml-3 mb-4">
                             <div className="subscribe-modal__body-routes-header pb-2">
                                 <i className="subscribe-modal-icon subscribe-modal-icon-big v-align-bottom fa fa-road" aria-hidden="true"></i>
                                 <span className="subscribe-modal__body-routes-title">{translate('subscription.route')}</span>
@@ -89,7 +85,7 @@ class SubscribeModal extends React.Component {
                             <span className="text-muted">{translate('subscription.to')}</span><span>{data.to.name}</span>
                             </div>
                         </div>
-                        <div className="subscribe-modal__body-filters ml-3 mb-3">
+                        <div className="subscribe-modal__body-filters ml-3 mb-5">
                             <div className="subscribe-modal__body-filters-header pb-2">
                                 <i className="subscribe-modal-icon subscribe-modal-icon-big v-align-bottom fa fa-tasks" aria-hidden="true"></i>
                                 <span className="subscribe-modal__body-routes-title">{translate('subscription.filters')}</span>
@@ -100,7 +96,7 @@ class SubscribeModal extends React.Component {
                                         <div className="filter__prop">
                                             <div className="filter__prop-name subscribe-modal-name">{translate('search_result.filter.time-text')}</div>
                                             <div className="filter__prop-control">
-                                                <div className="filter__prop-sign">
+                                                <div className="filter__prop-name subscribe-modal-name">
                                                     {translate('search_result.filter.time-value', {start: time[0], end: time[1]})}
                                                 </div>
                                                 <Range
@@ -115,7 +111,7 @@ class SubscribeModal extends React.Component {
                                         </div>
                                         <div className="filter__prop">
                                             <div className="filter__prop-control">
-                                                <div className="filter__prop-sign">
+                                                <div className="filter__prop-name subscribe-modal-name">
                                                     {translate('search_result.animals')}
                                                 </div>
                                                 <select name="is_animals_allowed" value={animals || ''} className="form-control" id="is_animals_allowed" onChange={this.animalsChange}>
@@ -127,7 +123,7 @@ class SubscribeModal extends React.Component {
                                         </div>
                                         <div className="filter__prop">
                                             <div className="filter__prop-control">
-                                                <div className="filter__prop-sign">
+                                                <div className="filter__prop-name subscribe-modal-name">
                                                     {translate('search_result.luggage_size')}
                                                 </div>
                                                 <select name="luggage" value={luggage || ''} className="form-control" id="luggage" onChange={this.luggageChange}>
@@ -143,7 +139,7 @@ class SubscribeModal extends React.Component {
                                         <div className="filter__prop">
                                             <div className="filter__prop-name subscribe-modal-name">{translate('search_result.filter.price')}</div>
                                             <div className="filter__prop-control">
-                                                <div className="filter__prop-sign">
+                                                <div className="filter__prop-name subscribe-modal-name">
                                                     {translate('search_result.filter.price_range', {start: price[0], end: price[1]})}
                                                 </div>
                                                 <Range
@@ -159,7 +155,7 @@ class SubscribeModal extends React.Component {
                                         </div>
                                         <div className="filter__prop">
                                             <div className="filter__prop-control">
-                                                <div className="filter__prop-sign">
+                                                <div className="filter__prop-name subscribe-modal-name">
                                                     {translate('search_result.free_seats')}
                                                 </div>
                                                 <select name="seats" value={seats || ''} className="form-control" id="seats" onChange={this.seatsChange}>
@@ -173,7 +169,7 @@ class SubscribeModal extends React.Component {
                                         </div>
                                         <div className="filter__prop">
                                             <div className="filter__prop-control">
-                                                <div className="filter__prop-sign">
+                                                <div className="filter__prop-name subscribe-modal-name">
                                                     {translate('search_result.driver_rating')}
                                                 </div>
                                                 <select name="rating" value={rating || ''} className="form-control" id="rating" onChange={this.ratingChange}>
@@ -192,7 +188,25 @@ class SubscribeModal extends React.Component {
                         </div>
                     </ModalBody>
                     <ModalFooter>
-                        <Button className="subscribe-modal__btn search-block__btn hover" onClick={onClickSend}>{translate('subscription.subscribe_btn')}</Button>
+                        <div className="col-md-12">
+                            <div className="row ml-2">
+                                <div className="col-md-5">
+                                    <label htmlFor="email" className={"form-control-label subscribe-modal__footer-label" + (authClass)}>
+                                        {translate('subscription.enter-email')}
+                                        <input
+                                            type="email"
+                                            className="form-control "
+                                            id="email"
+                                            name="email"
+                                            placeholder={translate('subscription.email-placeholder')}
+                                            required />
+                                    </label>
+                                </div>
+                                <div className={"col-md-3 offset-md-4" + (isAuth ? '' : " pt-3")}>
+                                    <Button outline color="success" className="hover" onClick={onClickSend}>{translate('subscription.subscribe_btn')}</Button>
+                                </div>
+                            </div>
+                        </div>
                     </ModalFooter>
                 </Modal>
             </span>
@@ -203,6 +217,7 @@ class SubscribeModal extends React.Component {
 export default connect(
     state => ({
         data: state.search,
+        isAuth: state.user.login.success,
         translate: getTranslate(state.locale)
     })
 )(SubscribeModal);

@@ -11,9 +11,15 @@
     &-routes, &-filters {
       font-size: 1.2rem;
     }
-    &-routes-title {
-      font-weight: 600;
+    &-routes {
+      &-main {
+        font-size: 1.1rem;
+      }
+      &-title {
+        font-weight: 600;
+      }
     }
+
   }
   &__btn {
     padding: 15px 20px;
@@ -21,6 +27,15 @@
     background-color: #f68e56;
     &:hover {
       color: #FFFFFF;
+    }
+  }
+  &__footer {
+    &-label {
+      font-size: 0.9rem;
+      margin-bottom: 0.1rem;
+      &-hidden {
+        display: none;
+      }
     }
   }
   &-icon {
@@ -36,6 +51,8 @@
   &-name {
     font-weight: 400;
     margin-bottom: 0;
+    font-size: 1.1rem;
+    padding-bottom: 0.5rem;
   }
 }
 

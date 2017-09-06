@@ -46,7 +46,7 @@
     "forbidden": ["Forbidden", "Заборонені", "Запрещены"],
     "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"],
     "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"],
-    "more": ["more than ", "більше ", "более"]
+    "more": ["more than ", "більше ", "более "]
   },
   "subscription": {
     "subscribe_btn": ["Subscribe", "Підписатись", "Подписаться"],
@@ -59,6 +59,8 @@
     "from": ["From: ", "Звідки: ", "Откуда: "],
     "to": ["To: ", "Куди: ", "Куда: "],
     "route": ["Route", "Маршрут", "Маршрут"],
-    "filters": ["Additional filters", "Додаткові фільтри", "Дополнительные фильтры"]
+    "filters": ["Additional filters", "Додаткові фільтри", "Дополнительные фильтры"],
+    "enter-email": ["Not registered?", "Не зареєстровані?", "Не зарегистрированы?"],
+    "email-placeholder": ["Enter your email here", "Введіть ваш email", "Введите ваш email"]
   }
 }
