@@ -1,0 +1,67 @@
+@import '~app/bootstrap/variables';
+@import '~font-awesome/scss/variables';
+
+.notification {
+  &-item {
+    padding: 0;
+  }
+
+  &__state {
+    position: relative;
+
+    &--default:before,
+    &:before {
+      $circle-radius: 4px;
+
+      content: "";
+      width: $circle-radius * 2;
+      height: $circle-radius * 2;
+      border-radius: 50%;
+      border: 1px solid $gray-light;
+      background-color: $gray-light;
+
+      position: absolute;
+      top: 50%;
+      margin-top: -$circle-radius;
+      left: $circle-radius;
+    }
+
+    &--success:before {
+      border-color: $brand-success;
+      background-color: $brand-success;
+    }
+    &--warning:before {
+      border-color: $brand-warning;
+      background-color: $brand-warning;
+    }
+    &--info:before {
+      border-color: $brand-info;
+      background-color: $brand-info;
+    }
+    &--danger:before {
+      border-color: $brand-danger;
+      background-color: $brand-danger;
+    }
+    &--primary:before {
+      border-color: $brand-primary;
+      background-color: $brand-primary;
+    }
+    &--read:before {
+      background-color: transparent;
+    }
+  }
+
+  &__title {
+    padding: $list-group-item-padding-y $list-group-item-padding-x;
+    cursor: pointer;
+
+    &--active {
+      background-color: $gray-lightest;
+    }
+  }
+
+  &__text {
+    padding: $spacer;
+    font-size: .95rem;
+  }
+}

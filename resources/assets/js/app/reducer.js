@@ -9,6 +9,7 @@ import search from '../features/search/reducer';
 import bookings from '../features/bookings/reducer';
 import profile from '../features/public-profiles/reducer';
 import tripWizard from 'features/wizard-trip/reducer';
+import notifications from 'features/notifications/reducer';
 
 export default combineReducers({
     user,
@@ -19,5 +20,6 @@ export default combineReducers({
     tripList,
     bookings,
     profile,
-    tripWizard
+    tripWizard,
+    notifications
 });

@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 
 import BookingInfo from '../BookingInfo';
-import Modal from 'app/components/Modal';
+/*import Modal from 'app/components/Modal';*/
+import {Modal} from 'reactstrap';
 
 import { changeBookingStatus } from 'features/trip-list/actions';
 import BookingService, {
@@ -22,13 +23,19 @@ class BookingModal extends React.Component {
         this.state = {
             modalIsOpen: false,
         };
+
+        this.toggleModal = this.toggleModal.bind(this);
+    }
+
+    componentWillMount() {
+        if (this.props.isOpen) {
+            this.toggleModal();
+        }
     }
 
     componentWillReceiveProps(newProps) {
         if (this.state.modalIsOpen !== newProps.isOpen) {
-            this.setState({
-                modalIsOpen: newProps.isOpen
-            });
+            this.toggleModal();
         }
     }
 
@@ -41,21 +48,27 @@ class BookingModal extends React.Component {
                 changeBookingStatus(bookingId, status);
             });
 
-        this.setState({
-            modalIsOpen: false
-        });
+        this.toggleModal();
     }
 
+    toggleModal() {
+        const {modalIsOpen} = this.state;
+        const onClosed = this.props.onClosed || (() => {});
+
+        this.setState({modalIsOpen: !modalIsOpen});
+        if (modalIsOpen) {
+            onClosed();
+        }
+    }
 
     render() {
         const { modalIsOpen } = this.state;
         const { translate, bookings, tripId, count } = this.props;
-        const onClosed = this.props.onClosed || (() => {});
 
         return (
             <div>
                 <Modal isOpen={ modalIsOpen }
-                    onClosed={() => { this.state.modalIsOpen = false; onClosed(); }}
+                    toggle={this.toggleModal}
                 >
                     <div className={ "modal-header booking-back" }>
                         <span>
@@ -75,9 +88,9 @@ class BookingModal extends React.Component {
                         </ul>
                     </div>
                     <div className="modal-footer text-right">
-                        <button className="btn btn-sm btn-booking" role="button" onClick={(e) => {
-                            this.setState({ modalIsOpen: false });
-                        }}>{translate('booking.close_button')}</button>
+                        <button className="btn btn-sm btn-booking" role="button" onClick={this.toggleModal}>
+                            {translate('booking.close_button')}
+                        </button>
                     </div>
                 </Modal>
             </div>
