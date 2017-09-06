@@ -15,7 +15,7 @@ import {
     getCurrentPage,
     getCountResult
 } from 'features/search/services/SearchService';
-import { searchSuccess } from 'features/search/actions';
+import { searchSuccess, setSearchFilters } from 'features/search/actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import {getTranslate} from 'react-localize-redux';
@@ -38,12 +38,14 @@ class Result extends React.Component {
             limit: 10,
             filter: {},
             resetFilter: false,
-            errors: {}
+            errors: {},
+            subscribeModalIsOpen: false,
         };
 
         this.onChangeSort = this.onChangeSort.bind(this);
         this.onChangePage = this.onChangePage.bind(this);
         this.onSearch = this.onSearch.bind(this);
+        this.onClickSubscribe = this.onClickSubscribe.bind(this);
     }
 
     componentWillMount() {
@@ -132,6 +134,10 @@ class Result extends React.Component {
             });
     }
 
+    onClickSubscribe() {
+        this.props.setSearchFilters(this.state.filter);
+    }
+
     render() {
         const {sort, order, page, limit, meta, collection, preloader} = this.state,
             {translate} = this.props,
@@ -146,6 +152,11 @@ class Result extends React.Component {
                             <Filter
                                 priceBounds={meta.priceRange}
                             />
+                            <div className="col-md-4 offset-md-2">
+                                <button role="button" className="btn search-block__btn search-result__btn-subscribe" onClick={this.onClickSubscribe}>
+                                    {translate('search_result.subscribe')}
+                                </button>
+                            </div>
                         </div>
                         <div className="col-md-9">
                             <div className="container">
@@ -199,6 +210,6 @@ const ResultConnected = connect(
         tripData: state.search,
         translate: getTranslate(state.locale)
     }),
-    (dispatch) => bindActionCreators({searchSuccess},dispatch)
+    (dispatch) => bindActionCreators({searchSuccess, setSearchFilters}, dispatch)
 )(Result);
 export default withRouter(ResultConnected);
