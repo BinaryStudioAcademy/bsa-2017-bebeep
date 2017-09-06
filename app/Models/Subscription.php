@@ -57,10 +57,10 @@ class Subscription extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function filters()
     {
-        return $this->belongsToMany(Filter::class);
+        return $this->hasMany(Filter::class);
     }
 }
