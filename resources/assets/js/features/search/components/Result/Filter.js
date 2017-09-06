@@ -18,10 +18,10 @@ class Filter extends React.Component {
         this.state = {
             time: [0, 24],
             price: [0, 0],
-            animals: '',
-            seats: '',
-            luggage: '',
-            rating: ''
+            animals: null,
+            seats: null,
+            luggage: null,
+            rating: null
         };
         this.timeChange = this.timeChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
@@ -45,10 +45,10 @@ class Filter extends React.Component {
         this.setState(Object.assign({
             price: props.priceBounds,
             time: [0, 24],
-            animals: '',
-            luggage: '',
-            seats: '',
-            rating: ''
+            animals: null,
+            luggage: null,
+            seats: null,
+            rating: null
         }, filter));
     }
 
@@ -126,7 +126,7 @@ class Filter extends React.Component {
                             {translate('search_result.animals')}
                         </div>
 
-                        <select name="is_animals_allowed" value={this.state.animals} className="form-control" id="is_animals_allowed" onChange={this.isAnimalsAllowedChange}>
+                        <select name="is_animals_allowed" value={this.state.animals || ''} className="form-control" id="is_animals_allowed" onChange={this.isAnimalsAllowedChange}>
                             <option value="">{translate('search_result.not_important')}</option>
                             <option value="1">{translate('search_result.allowed')}</option>
                             <option value="0">{translate('search_result.forbidden')}</option>
@@ -140,7 +140,7 @@ class Filter extends React.Component {
                             {translate('search_result.luggage_size')}
                         </div>
 
-                        <select name="luggage" value={this.state.luggage} className="form-control" id="luggage" onChange={this.luggageChange}>
+                        <select name="luggage" value={this.state.luggage || ''} className="form-control" id="luggage" onChange={this.luggageChange}>
                             <option value="">{translate('search_result.not_important')}</option>
                             <option value="0">{translate('search_result.luggage_size_0')}</option>
                             <option value="1">{translate('search_result.luggage_size_1')}</option>
@@ -155,7 +155,7 @@ class Filter extends React.Component {
                             {translate('search_result.free_seats')}
                         </div>
 
-                        <select name="seats" value={this.state.seats} className="form-control" id="seats" onChange={this.seatsChange}>
+                        <select name="seats" value={this.state.seats || ''} className="form-control" id="seats" onChange={this.seatsChange}>
                             <option value="">{translate('search_result.not_important')}</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -171,7 +171,7 @@ class Filter extends React.Component {
                             {translate('search_result.driver_rating')}
                         </div>
 
-                        <select name="rating" value={this.state.rating} className="form-control" id="rating" onChange={this.ratingChange}>
+                        <select name="rating" value={this.state.rating || ''} className="form-control" id="rating" onChange={this.ratingChange}>
                             <option value="">{translate('search_result.not_important')}</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
