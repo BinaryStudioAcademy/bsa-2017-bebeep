@@ -38,7 +38,10 @@ class TripForm extends React.Component {
             <form role="form" className="card trip-create-from" action="/api/v1/trips" method="POST"
                   onSubmit={ this.props.onSubmit }>
                 <div className="card-header">
-                    {this.props.trip ? translate('trip_form.edit_trip') : translate('trip_form.create_trip')}
+                    {this.props.trip ?
+                        translate('trip_form.edit_trip') :
+                        translate('trip_form.create_trip')
+                    }
                 </div>
                 <div className="card-block">
                     <div className={"form-group row " + (errors.vehicle_id ? 'has-danger' : '')}>
@@ -49,7 +52,8 @@ class TripForm extends React.Component {
                             {this.props.vehicles.length > 0 &&
                                 <select defaultValue={trip.vehicle_id} name="vehicle_id" className="form-control" id="vehicle_id">
                                     {this.props.vehicles.map((vehicle) =>
-                                        <option key={vehicle.id} value={vehicle.id}>{vehicle.brand} {vehicle.model}</option>
+                                        <option key={vehicle.id} value={vehicle.id}>
+                                            {vehicle.brand} {vehicle.model}</option>
                                     )}
                                 </select>
                             }
@@ -102,7 +106,7 @@ class TripForm extends React.Component {
                                 id="start_at"
                                 isValidDate={this.isValidDate}
                                 timeFormat={true}
-                                defaultValue={this.props.trip ? this.props.trip.start_at : ''}
+                                defaultValue={this.props.trip.start_at}
                                 inputProps={{name: 'start_at', id: 'start_at'}}
                                 labelClasses="register-form-label"
                                 wrapperClasses="register-form-birth_date"
