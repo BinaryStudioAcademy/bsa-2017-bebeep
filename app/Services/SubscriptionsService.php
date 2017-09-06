@@ -69,8 +69,7 @@ class SubscriptionsService implements Contracts\SubscriptionsService
             ];
             $subscription->filters()->create($filterAttributes);
         }
-
-
+        
         return $subscription;
     }
 }
