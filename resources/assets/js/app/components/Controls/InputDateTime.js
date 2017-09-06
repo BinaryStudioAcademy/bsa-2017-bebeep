@@ -35,25 +35,30 @@ class InputDateTime extends React.Component {
     }
 
     render() {
-        const { error, value, id, translate, className, label, timeFormat, isValidDate, labelClasses, wrapperClasses, inputProps, defaultValue } = this.props,
+        const { translate, error, value, id, className, label, timeFormat, isValidDate, labelClasses, wrapperClasses, inputProps, defaultValue } = this.props,
             { focused } = this.state;
 
+        const dateFormat = 'YYYY-MM-DD',
+            errorClass = error ? 'has-danger' : '',
+            labelClass = (labelClasses || '') + (
+                value !== null || focused ? ' form-input--focus' : ''),
+            wrapperClass = 'form-input__text ' + (wrapperClasses || ''),
+            dtValue = value || '',
+            dtClass = 'form-input__text ' + (className || '');
+
         return (
-            <div className={(error ? 'has-danger' : '')} >
-                <label htmlFor={id}
-                    className={(labelClasses || '') + (
-                        value !== null || focused ? ' form-input--focus' : '')}
-                >
-                    <div className={"form-input__text " + (wrapperClasses || '')}>
+            <div className={errorClass} >
+                <label htmlFor={id} className={labelClass}>
+                    <div className={wrapperClass}>
                         <DateTime
                             id={id}
-                            value={value ? value : ''}
+                            value={dtValue}
                             timeFormat={timeFormat}
                             isValidDate={isValidDate}
                             inputProps={inputProps}
                             defaultValue={defaultValue}
-                            dateFormat="YYYY-MM-DD"
-                            className={ "form-input__text " + (className || '')}
+                            dateFormat={dateFormat}
+                            className={dtClass}
                             onFocus={this.onFocus}
                             onBlur={this.onBlur}
                             locale={translate('datetimepicker.set_locale')}
@@ -62,15 +67,27 @@ class InputDateTime extends React.Component {
                     </div>
                     <span className="form-input__label">{label}</span>
                 </label>
-                <div className="form-control-feedback">{ error }</div>
+                <div className="form-control-feedback">{error}</div>
             </div>
         );
     }
 }
 
-InputDateTime.PropTypes = {
-    id: PropTypes.required,
-    timeFormat: PropTypes.required
+InputDateTime.propTypes = {
+    id: PropTypes.string.isRequired,
+    timeFormat: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string,
+    ]),
+    error: PropTypes.string,
+    className: PropTypes.string,
+    label: PropTypes.string,
+    labelClasses: PropTypes.string,
+    wrapperClasses: PropTypes.string,
+    inputProps: PropTypes.object,
+    isValidDate: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
 };
 
 export default localize(InputDateTime, 'locale');
