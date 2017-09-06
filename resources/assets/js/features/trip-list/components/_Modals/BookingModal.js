@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 
 import BookingInfo from '../BookingInfo';
+/*import Modal from 'app/components/Modal';*/
 import {Modal} from 'reactstrap';
 
 import { changeBookingStatus } from 'features/trip-list/actions';

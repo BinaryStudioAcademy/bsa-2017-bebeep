@@ -107,18 +107,18 @@
 
   &__search {
     &-label {
-      padding: 20px 30px 5px 15px;
+      padding: 20px 60px 5px 15px;
       border: none;
     }
 
     &-label-span {
       top: 10px;
       left: 45px;
-      font-size: 0.9rem;
+      font-size: 0.6875rem;;
     }
 
     &-input {
-      font-size: 17px !important;
+      font-size: 1rem;
       box-shadow: none;
       border-radius: 5px;
       padding: 0;
@@ -133,8 +133,3 @@
   }
 
 }
-
-.search-block .react-datepicker__input-container {
-    top: -20px;
-}
-

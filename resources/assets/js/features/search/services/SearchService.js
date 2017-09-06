@@ -57,38 +57,24 @@ export const getFilter = () => {
     let filter = {};
     if (+query["filter[price][min]"] >= 0 && +query["filter[price][max]"] > 0) {
         filter['price'] = [+query["filter[price][min]"], +query["filter[price][max]"]];
-    } else {
-        filter['price'] = [0, 0];
     }
     if (+query["filter[time][min]"] >= 0 && +query["filter[time][max]"] > 0) {
         filter['time'] = [+query["filter[time][min]"], +query["filter[time][max]"]];
-    } else {
-        filter['time'] = [0, 24];
     }
     if (+query["start_at"] > 0) {
         filter['date'] = +query["start_at"];
-    } else {
-        filter['date'] = null;
     }
     if (query["filter[animals]"]) {
         filter['animals'] = query["filter[animals]"];
-    } else {
-        filter['animals'] = null;
     }
     if (query["filter[luggage]"]) {
         filter['luggage'] = query["filter[luggage]"];
-    } else {
-        filter['luggage'] = null;
     }
     if (query["filter[seats]"]) {
         filter['seats'] = query["filter[seats]"];
-    } else {
-        filter['seats'] = null;
     }
     if (query["filter[rating]"]) {
         filter['rating'] = query["filter[rating]"];
-    } else {
-        filter['rating'] = null;
     }
     return filter;
 };

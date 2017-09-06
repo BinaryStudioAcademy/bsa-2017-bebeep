@@ -1,12 +1,12 @@
 import React from 'react';
-import {Input} from 'app/components/Controls/index.js';
+import { Input } from 'app/components/Controls';
 import { Button } from 'reactstrap';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {addSeats} from '../actions';
-import {getTranslate} from 'react-localize-redux';
-import {createTripRules} from 'app/services/TripService';
-import {prepareNumber} from 'app/services/WizardTripService';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addSeats } from '../actions';
+import { getTranslate } from 'react-localize-redux';
+import { createTripRules } from 'app/services/TripService';
+import { prepareNumber } from 'app/services/WizardTripService';
 import Validator from 'app/services/Validator';
 
 class StepTwo extends React.Component {

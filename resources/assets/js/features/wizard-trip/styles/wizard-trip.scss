@@ -21,18 +21,13 @@
 
   &__input {
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
     margin-left: 15px;
     width: 250px;
     &_calendar {
       width: 170px;
       &_datetime {
         width: 220px;
-      }
-      &-datetimepicker > input {
-        padding: 0;
-        font-size: 1.125rem;
-        border: none;
       }
     }
     &:first-child {
@@ -146,4 +141,10 @@
       margin-top: 10px;
     }
   }
+}
+
+.wizard-form__input input {
+  padding: 0;
+  font-size: 1.125rem;
+  border: none;
 }
