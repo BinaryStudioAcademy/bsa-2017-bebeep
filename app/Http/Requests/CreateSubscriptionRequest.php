@@ -59,7 +59,12 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
         $filters = [];
 
         foreach ($this->get('filters') as $name => $parameters) {
-            $filters[] = new FilterDTO($name, [$parameters]);
+            if ($parameters != null){
+                if (is_array($parameters))
+                    $filters[] = new FilterDTO($name, [$parameters]);
+                else
+                    $filters[] = new FilterDTO($name, ['value' => $parameters]);
+            }
         }
 
         return $filters;
