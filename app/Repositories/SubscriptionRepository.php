@@ -14,5 +14,4 @@ class SubscriptionRepository extends BaseRepository implements Contracts\Subscri
     {
         return Subscription::class;
     }
-
 }

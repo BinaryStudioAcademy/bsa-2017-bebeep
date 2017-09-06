@@ -52,5 +52,4 @@ class Subscription extends Model
     {
         return $this->hasMany(Trip::class);
     }
-
 }
