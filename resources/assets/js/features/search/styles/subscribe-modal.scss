@@ -1,0 +1,41 @@
+.subscribe-modal {
+  &__header {
+    &-text {
+      font-size: 1.2rem;
+    }
+  }
+  &__body {
+    &-info-text {
+      font-size: .9rem;
+    }
+    &-routes, &-filters {
+      font-size: 1.2rem;
+    }
+    &-routes-title {
+      font-weight: 600;
+    }
+  }
+  &__btn {
+    padding: 15px 20px;
+    font-size: 0.8em;
+    background-color: #f68e56;
+    &:hover {
+      color: #FFFFFF;
+    }
+  }
+  &-icon {
+    margin-right: .5rem;
+    vertical-align: middle;
+    font-size: 1.3em;
+    color: #6dcff6;
+    &-big {
+      vertical-align: top;
+      font-size: 1.5rem !important;
+    }
+  }
+  &-name {
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+}
+

@@ -46,6 +46,19 @@
     "forbidden": ["Forbidden", "Заборонені", "Запрещены"],
     "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"],
     "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"],
-    "subscribe": ["Subscribe", "Підписатись", "Подписаться"]
+    "more": ["more than ", "більше ", "более"]
+  },
+  "subscription": {
+    "subscribe_btn": ["Subscribe", "Підписатись", "Подписаться"],
+    "subscribe_header": ["Subscription", "Підписка", "Подписка"],
+    "info": [
+      "Subscribe for this route and you will never miss a new trips!",
+      "Підпишіться на цей маршрут і ви ніколи не пропустите нових поїздок!",
+      "Подпишитесь на этот маршрут и вы никогда не пропустите новые поездки!"
+    ],
+    "from": ["From: ", "Звідки: ", "Откуда: "],
+    "to": ["To: ", "Куди: ", "Куда: "],
+    "route": ["Route", "Маршрут", "Маршрут"],
+    "filters": ["Additional filters", "Додаткові фільтри", "Дополнительные фильтры"]
   }
 }
