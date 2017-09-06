@@ -7,13 +7,12 @@ import { browserHistory } from 'react-router';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
-import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
-import DatePicker from 'react-datepicker';
+import { InputPlaces, InputDateTime } from 'app/components/Controls';
 import moment from 'moment';
 
 import { searchSuccess } from 'features/search/actions';
 import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
-import {getTranslate} from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 
 class SearchForm extends React.Component {
 
@@ -181,6 +180,10 @@ class SearchForm extends React.Component {
         onSearch ? onSearch() : null;
     }
 
+    isValidDate(current){
+        return current.isAfter(moment().subtract( 1, 'day' ));
+    };
+
     render() {
         const {tripData, errors, date} = this.state,
             {translate} = this.props,
@@ -255,17 +258,18 @@ class SearchForm extends React.Component {
                             </div>
                         </div>
                         <div className="col-sm-2">
-                            <label className='form-input filter__prop-control-label search-block__search-label fa-calendar'>
-                                <DatePicker
-                                    todayButton={"Today"}
-                                    selected={date}
-                                    onChange={this.dateChange}
-                                    placeholderText={translate('search_result.filter.date_placeholder')}
-                                    minDate={moment()}
-                                    className="form-control filter__prop-datepicker-input"
-                                />
-                                <span className="form-input__label search-block__search-label-span">{translate('search_result.when')}</span>
-                            </label>
+                            <InputDateTime
+                                id="trip_date"
+                                value={date}
+                                inputProps={{name: 'trip_date', id: 'trip_date'}}
+                                timeFormat={false}
+                                onChange={this.dateChange}
+                                isValidDate={this.isValidDate}
+                                labelClasses='form-input fa-calendar search-result-datepicker-label'
+                                label={translate('search_result.when')}
+                                error={errors.start_at}
+                                className="search-result-datepicker"
+                            />
                         </div>
                         <div className="col-sm-3">
                             <button role="button" className="btn search-block__btn" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
