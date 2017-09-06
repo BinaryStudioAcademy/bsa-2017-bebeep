@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Services\Contracts\SubscriptionsService;
 use App\Notifications\Subscriptions\TripCreated as NotificationTripCreated;
 
-class NotifySubscriptionAboutTrip implements ShouldQueue
+class NotifySubscriptionAboutTripCreated implements ShouldQueue
 {
     use InteractsWithQueue;
 
