@@ -151,25 +151,6 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     }
 
     /**
-     * @param string $param
-     * @param string $cast
-     * @return mixed|null
-     */
-    public function getFilterParam(string $param, string $cast = 'string')
-    {
-        $filter = $this->getFilter();
-
-        if (empty($filter[$param])) {
-            return null;
-        }
-
-        $value = $filter[$param];
-        settype($value, $cast);
-
-        return $value;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getMinTime(): int
@@ -247,5 +228,24 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     public function getRating() : ?int
     {
         return $this->getFilterParam('rating', 'int');
+    }
+
+    /**
+     * @param string $param
+     * @param string $cast
+     * @return mixed|null
+     */
+    private function getFilterParam(string $param, string $cast = 'string')
+    {
+        $filter = $this->getFilter();
+
+        if (empty($filter[$param])) {
+            return null;
+        }
+
+        $value = $filter[$param];
+        settype($value, $cast);
+
+        return $value;
     }
 }
