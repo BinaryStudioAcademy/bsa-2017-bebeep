@@ -41,5 +41,4 @@ class FilterDTO
     {
         return $this->_params;
     }
-
 }

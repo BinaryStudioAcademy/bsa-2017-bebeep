@@ -112,5 +112,4 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
     {
         return $this->get('end_point')['to_lng'];
     }
-
 }

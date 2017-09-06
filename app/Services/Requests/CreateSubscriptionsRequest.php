@@ -66,5 +66,4 @@ interface CreateSubscriptionsRequest
      * @return mixed
      */
     public function getToLng() : float;
-
 }

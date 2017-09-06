@@ -34,5 +34,4 @@ class SubscriptionsController extends Controller
 
         return response()->json($subscription);
     }
-
 }

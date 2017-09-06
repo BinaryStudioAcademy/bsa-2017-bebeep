@@ -42,5 +42,4 @@ class Filter extends Model
     {
         return $this->belongsTo(Subscription::class);
     }
-
 }
