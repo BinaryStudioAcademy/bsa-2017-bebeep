@@ -24,8 +24,13 @@ class SubscriptionTest extends JwtTestCase
             'to_lng' => 24.415277800000013,
         ],
         'filters' => [
-            ['id' => '1', 'name' => 'filter_name', 'parameters' => ['from' => 'Стара Вижівка']],
-            ['id' => '2', 'name' => 'filter_name_two', 'parameters' => ['from' => 'Лісняки']],
+            'animals' => 1,
+            'seats' => 2,
+            'rating' => null,
+            'time' => [10, 22],
+            'date' => 123456798,
+            'luggage' => null,
+            'price' => [300, 1000]
         ],
         'start_at' => 12345,
         'email' => 'mail@mail.com',

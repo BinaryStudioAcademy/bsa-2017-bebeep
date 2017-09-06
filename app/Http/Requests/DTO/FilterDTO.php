@@ -6,11 +6,10 @@ class FilterDTO
 {
     /**
      * FilterDTO constructor.
-     *
      * @param string $name
-     * @param array $params
+     * @param $params
      */
-    public function __construct(string $name, array $params)
+    public function __construct(string $name, string $params)
     {
         $this->_name = $name;
         $this->_params = $params;
@@ -25,19 +24,9 @@ class FilterDTO
     }
 
     /**
-     * @param string $paramName
-     *
-     * @return mixed
+     * @return string
      */
-    public function getParam(string $paramName)
-    {
-        return $this->_params[$paramName];
-    }
-
-    /**
-     * @return array
-     */
-    public function getParams(): array
+    public function getParam(): string
     {
         return $this->_params;
     }
