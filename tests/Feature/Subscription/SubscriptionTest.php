@@ -25,10 +25,10 @@ class SubscriptionTest extends JwtTestCase
         ],
         'filters' => [
             ['id' => '1', 'name' => 'filter_name', 'parameters' => ['from' => 'Стара Вижівка']],
-            ['id' => '2', 'name' => 'filter_name_two', 'parameters' => ['from' => 'Лісняки']]
+            ['id' => '2', 'name' => 'filter_name_two', 'parameters' => ['from' => 'Лісняки']],
         ],
         'start_at' => 12345,
-        'email' => 'mail@mail.com'
+        'email' => 'mail@mail.com',
     ];
 
     public $fragmentData = [
@@ -47,5 +47,4 @@ class SubscriptionTest extends JwtTestCase
         $response->assertStatus(200);
         $response->assertJsonFragment($this->fragmentData);
     }
-
 }
