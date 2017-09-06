@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 import moment from 'moment';
 
@@ -28,6 +27,18 @@ class Trip extends React.Component {
             modalUsersIsOpen: false
         };
         this.onClickUsersBtn = this.onClickUsersBtn.bind(this);
+    }
+
+    componentWillMount() {
+        const {trip} = this.props,
+            location = browserHistory.getCurrentLocation(),
+            tripId = location.query['booking_trip'];
+
+        if (trip.id == tripId && trip.bookings.length > 0) {
+            delete(location.query['booking_trip']);
+            browserHistory.replace(location);
+            this.setState({modalIsOpen: true});
+        }
     }
 
     onClick() {
@@ -162,7 +173,7 @@ class Trip extends React.Component {
                     count={ bookingCount }
                     tripId={ trip.id }
                     isOpen={ modalIsOpen }
-                    onClosed={ () => this.state.modalIsOpen = false }
+                    onClosed={ () => this.setState({modalIsOpen: false}) }
                 />
                 <UsersModal
                     tripId={ trip.id }

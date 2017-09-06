@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
+use App\User;
 use App\Events\BookingCreated;
-use App\Mail\BookingCreatedEmail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Notifications\BookingCreated as NotificationBookingCreated;
 
-class SendBookingCreatedEmailToDriver implements ShouldQueue
+class NotifyDriverAboutBookingCreated implements ShouldQueue
 {
     /**
      * Handle the event.
@@ -17,8 +17,9 @@ class SendBookingCreatedEmailToDriver implements ShouldQueue
      */
     public function handle(BookingCreated $event)
     {
+        /** @var User $driver */
         $driver = $event->booking->trip->user;
 
-        Mail::to($driver)->send(new BookingCreatedEmail($event->booking, $event->booking->trip));
+        $driver->notify(new NotificationBookingCreated($event->booking));
     }
 }

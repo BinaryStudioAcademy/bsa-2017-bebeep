@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\User;
 use App\Models\Review;
+use App\Events\ReviewOnTripCreated;
 use App\Repositories\ReviewRepository;
 use App\Repositories\BookingRepository;
 use App\Criteria\Review\GivenReviewCriteria;
@@ -75,6 +76,8 @@ class ReviewsService implements Contracts\ReviewsService
         ];
 
         $review = $this->reviewRepository->save(new Review($reviewAttributes));
+
+        event(new ReviewOnTripCreated($review, $booking->trip));
 
         return $review;
     }
