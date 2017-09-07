@@ -5,6 +5,7 @@ import {getTranslate} from 'react-localize-redux';
 import {setSubscriptions} from '../actions';
 import {getSubscriptions} from 'app/services/SubscriptionService';
 import Preloader from 'app/components/Preloader';
+import SubscriptionItem from './SubscriptionItem';
 
 class SubscriptionList extends React.Component {
     constructor() {
@@ -33,7 +34,7 @@ class SubscriptionList extends React.Component {
                 { preloader
                     ? <Preloader enable={preloader} />
                     : _.map(subscriptions, (id) => (
-                        <div></div>
+                        <SubscriptionItem key={id} id={id} />
                     ))
                 }
 

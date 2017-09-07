@@ -1,0 +1,69 @@
+@import '~app/bootstrap/variables.scss';
+
+.subscription {
+  padding: 5px 10px;
+  border-bottom: 1px solid $gray-lighter;
+  
+  &:last-child {
+    border: none;
+  }
+  &:hover {
+    background-color: $gray-lightest;
+  }
+  &__edit,
+  &__delete,
+  &__restore {
+    cursor: pointer;
+    color: $gray-light;
+  }
+  &__delete:hover {
+    color: $brand-danger;
+  }
+  &__edit:hover {
+    color: $brand-info;
+  }
+}
+
+.round-checkbox {
+  $round-radius: .4rem;
+
+  &__label {
+    margin: 0;
+  }
+
+  &__label:before {
+    content: "";
+    display: block;
+    width: $round-radius * 2;
+    height: $round-radius * 2;
+    border: 2px solid $gray-lighter;
+    background-color: $gray-lighter;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  &__control:checked + &__label:before {
+    background-color: transparent;
+  }
+
+  &__control {
+    display: none;
+  }
+
+  &--success &__label:before {
+    background-color: $brand-success;
+    border-color: $brand-success;
+  }
+  &--warning &__label:before {
+    background-color: $brand-warning;
+    border-color: $brand-warning;
+  }
+  &--danger &__label:before {
+    background-color: $brand-danger;
+    border-color: $brand-danger;
+  }
+  &--info &__label:before {
+    background-color: $brand-info;
+    border-color: $brand-info;
+  }
+}

@@ -8,7 +8,8 @@ export const setSubscriptions = (data) => {
                 return result;
             }, {});
         result.subscriptions[subscription.id] = Object.assign(subscription, {
-            filters: Object.keys(filters)
+            filters: Object.keys(filters),
+            is_deleted: false
         });
 
         result.filters = Object.assign(result.filters, filters);
@@ -20,3 +21,19 @@ export const setSubscriptions = (data) => {
         filters: {}
     });
 };
+
+export const actionChangeSubscriptionStatus = (id, active) => ({
+    type: actions.SUBSCRIPTION_CHANGE_STATUS,
+    id,
+    active
+});
+
+export const actionDeleteSubscription = (id) => ({
+    type: actions.SUBSCRIPTION_DELETE,
+    id
+});
+
+export const actionRestoreSubscription = (id) => ({
+    type: actions.SUBSCRIPTION_RESTORE,
+    id
+});

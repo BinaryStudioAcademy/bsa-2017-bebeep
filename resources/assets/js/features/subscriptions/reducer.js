@@ -38,6 +38,57 @@ export default (state = initialState, action) => {
                     }
                 }
             };
+        case actions.SUBSCRIPTION_CHANGE_STATUS:
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    subscriptions: {
+                        ...state.entities.subscriptions,
+                        byId: {
+                            ...state.entities.subscriptions.byId,
+                            [action.id]: {
+                                ...state.entities.subscriptions.byId[action.id],
+                                is_active: action.active
+                            }
+                        }
+                    }
+                }
+            };
+        case actions.SUBSCRIPTION_DELETE:
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    subscriptions: {
+                        ...state.entities.subscriptions,
+                        byId: {
+                            ...state.entities.subscriptions.byId,
+                            [action.id]: {
+                                ...state.entities.subscriptions.byId[action.id],
+                                is_deleted: true
+                            }
+                        }
+                    }
+                }
+            };
+        case actions.SUBSCRIPTION_RESTORE:
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    subscriptions: {
+                        ...state.entities.subscriptions,
+                        byId: {
+                            ...state.entities.subscriptions.byId,
+                            [action.id]: {
+                                ...state.entities.subscriptions.byId[action.id],
+                                is_deleted: false
+                            }
+                        }
+                    }
+                }
+            };
         default:
             return state;
     }
