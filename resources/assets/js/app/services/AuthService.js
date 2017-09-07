@@ -6,7 +6,8 @@ const storage = localStorage,
     redirect = {
         authPath: 'login',
         rootPath: 'dashboard',
-    };
+    },
+    userProps = ['first_name', 'last_name', 'avatar',];
 
 export const getAuthToken = () => {
     return storage[tokenKeyName];
@@ -33,17 +34,20 @@ export const decodeAuthToken = () => {
     }
 };
 
-export const getAuthUser = (params) => {
-    const decoded = decodeAuthToken(),
-        data = { user: {} };
+export const getSessionData = () => {
+    const decoded = decodeAuthToken();
 
     if (_.isEmpty(decoded)) {
-        return data;
+        return null;
     }
 
-    data.user = _.isEmpty(params) ? decoded : _.pick(decoded, params);
-
-    return data;
+    return _.transform(decoded, function(result, value, key) {
+        if (userProps.indexOf(key) !== -1) {
+            result['user'][key] = value;
+        } else {
+            result['session'][key] = value;
+        }
+    }, { user: {}, session: {}, });
 };
 
 export const requireAuth = (nextState, replace) => {
@@ -69,7 +73,7 @@ const AuthService = {
     isAuthorized,
     initSession,
     destroySession,
-    getAuthUser,
+    getSessionData,
     requireAuth,
     requireGuest,
 };

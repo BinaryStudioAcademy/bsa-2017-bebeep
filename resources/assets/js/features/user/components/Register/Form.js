@@ -17,7 +17,7 @@ import {
 import {simpleRequest} from 'app/services/RequestService';
 import BookingService from 'app/services/BookingService';
 import {RegisterValidate, checkPassengerRole} from 'app/services/UserService';
-import { initSession, destroySession, getAuthUser } from 'app/services/AuthService';
+import { initSession, destroySession, getSessionData } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
 
@@ -92,7 +92,7 @@ class Form extends React.Component {
                     response => {
                         initSession(response.data.token);
                         registerSuccess();
-                        loginSuccess(getAuthUser());
+                        loginSuccess(getSessionData());
 
                         if (hasTripPending) {
                             savePendingTrip(tripPending).then(() => {

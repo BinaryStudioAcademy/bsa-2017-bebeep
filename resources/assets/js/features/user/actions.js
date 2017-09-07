@@ -2,7 +2,7 @@ import * as actions from './actionTypes';
 
 import { UserValidator } from 'app/services/UserService';
 import { simpleRequest, securedRequest } from 'app/services/RequestService';
-import { getAuthToken, getAuthUser, initSession, destroySession } from 'app/services/AuthService';
+import { getAuthToken, getSessionData, initSession, destroySession } from 'app/services/AuthService';
 
 
 export const registerSuccess = () => ({
@@ -92,7 +92,7 @@ export const doLogin = (credentials) => dispatch => {
     })
         .then(response => {
             initSession(response.data.token);
-            dispatch(loginSuccess(getAuthUser()));
+            dispatch(loginSuccess(getSessionData()));
         })
         .catch(error => {
             if (error.response) {
