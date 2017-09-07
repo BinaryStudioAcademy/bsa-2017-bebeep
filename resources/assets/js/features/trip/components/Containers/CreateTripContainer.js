@@ -96,7 +96,7 @@ class CreateTripContainer extends React.Component {
         e.preventDefault();
 
         let time = getStartAndEndTime(e.target['start_at'].value, this.endTime);
-        let roundTime = getStartAndEndTime(e.target['reverse_start_at'].value, this.endTime);
+        let roundTime = e.target['reverse_start_at'] ? getStartAndEndTime(e.target['reverse_start_at'].value, this.endTime) : false;
         let data = {
             vehicle_id: e.target['vehicle_id'].value,
             start_at: time.start_at,
@@ -109,7 +109,7 @@ class CreateTripContainer extends React.Component {
             luggage_size: e.target['luggage_size'].value,
             is_animals_allowed: e.target['is_animals_allowed'].checked,
             is_in_both_directions: e.target['is_in_both_directions'].checked,
-            reverse_start_at: roundTime.start_at
+            reverse_start_at: roundTime ? roundTime.start_at : null
         };
 
         const validated = Validator.validate(createTripRules(), data);

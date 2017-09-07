@@ -193,3 +193,5 @@ Route::post('v1/reviews', [
     'as' => 'review.create',
     'uses' => 'ReviewsController@save',
 ]);
+
+Route::resource('v1/subscription', 'Api\\Subscription\\SubscriptionsController', ['only' => ['store']]);

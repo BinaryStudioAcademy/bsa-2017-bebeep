@@ -82,10 +82,6 @@
     @include transition-duration(.25s);
   }
 
-  & .react-datepicker__month-container {
-    min-width: 230px;
-  }
-
   .has-danger &,
   &.has-danger {
     border-bottom-color: $red;
