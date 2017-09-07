@@ -9,3 +9,8 @@ export const setSearchFilters = filters => ({
     type: actions.SEARCH_FILTER_UPDATE,
     filters
 });
+
+export const updateStartTime = time => ({
+    type: actions.UPDATE_START_TIME,
+    time
+});

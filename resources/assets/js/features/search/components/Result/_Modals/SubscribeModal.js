@@ -26,24 +26,25 @@ class SubscribeModal extends React.Component {
         this.ratingChange = this.ratingChange.bind(this);
     }
 
-    updateFilterData(filter) {
+    updateFilterData(data) {
         this.setState({
-            time: filter.time,
-            animals: filter.animals,
-            luggage: filter.luggage,
-            seats: filter.seats,
-            rating: filter.rating,
+            time: data.filters.time,
+            animals: data.filters.animals,
+            luggage: data.filters.luggage,
+            seats: data.filters.seats,
+            rating: data.filters.rating,
+            start_at: data.start_at
         });
     }
 
     componentWillMount() {
-        let filter = this.props.data.filters;
-        this.updateFilterData(filter);
+        let data = this.props.data;
+        this.updateFilterData(data);
     }
 
     componentWillReceiveProps(nextProps) {
-        let filter = nextProps.data.filters;
-        this.updateFilterData(filter);
+        let data = nextProps.data;
+        this.updateFilterData(data);
     }
 
     animalsChange(e) {
@@ -89,11 +90,10 @@ class SubscribeModal extends React.Component {
     }
 
     render() {
-
         const {translate, isOpen, onClosed, data, isAuth, email} = this.props;
         const {time, price, animals, seats, luggage, rating, requestSendSuccess} = this.state;
         const authClass = (isAuth && email) ? ' subscribe-modal__footer-label-hidden' : '';
-        console.log('requestSendSuccess', requestSendSuccess);
+
         return (
             <span>
 
@@ -119,7 +119,7 @@ class SubscribeModal extends React.Component {
                                 </div>
                                 <div className="subscribe-modal__body-routes-main pl-4">
                                     <span className="text-muted">{translate('subscription.from')}</span><span>{data.from.name}</span><br/>
-                                    <span className="text-muted">{translate('subscription.to')}</span><span>{data.to.name}</span>
+                                    <span className="text-muted">{translate('subscription.to')}</span><span>{data.to.name}</span><br/>
                                 </div>
                             </div>
                             <div className="subscribe-modal__body-filters ml-3 mb-5">
@@ -230,11 +230,7 @@ class SubscribeModal extends React.Component {
                     {(requestSendSuccess) ? ('') : (
                     <ModalFooter>
                         <div className="col-md-12">
-                            <form role="form"
-                                  method="POST"
-                                  action="/api/v1/subscription"
-                                  onSubmit={this.onSubmit.bind(this)}
-                            >
+                            <form role="form" method="POST" action="/api/v1/subscription" onSubmit={this.onSubmit.bind(this)}>
                                 <div className="row ml-2">
                                     <div className="col-md-5">
                                         <div className={authClass}>

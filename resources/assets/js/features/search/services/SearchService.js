@@ -151,12 +151,12 @@ export const getCountResult = (currentPage, lengthData, limit) => {
 export const transformSubscriptionData = (toBeTransformed) => {
     return {
         start_point: {
-            from: {},
+            from: toBeTransformed.data.from.place,
             from_lat: toBeTransformed.data.from.coordinate.lat,
             from_lng: toBeTransformed.data.from.coordinate.lng
         },
         end_point: {
-            to: {},
+            to: toBeTransformed.data.to.place,
             to_lat: toBeTransformed.data.to.coordinate.lat,
             to_lng: toBeTransformed.data.to.coordinate.lng
         },

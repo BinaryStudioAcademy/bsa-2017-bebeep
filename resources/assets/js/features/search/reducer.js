@@ -3,11 +3,13 @@ import * as actions from './actionTypes';
 const initialState = {
     from: {
         name: '',
-        coordinate: {lat: null, lng: null,}
+        coordinate: {lat: null, lng: null,},
+        place: null
     },
     to: {
         name: '',
-        coordinate: {lat: null, lng: null,}
+        coordinate: {lat: null, lng: null,},
+        place: null
     },
     start_at: null,
     filters: {
@@ -27,11 +29,13 @@ export default function (state = initialState, action) {
                 ...state,
                 from: {
                     name: action.data.from.name,
-                    coordinate: action.data.from.coordinate
+                    coordinate: action.data.from.coordinate,
+                    place: action.data.from.place
                 },
                 to: {
                     name: action.data.to.name,
-                    coordinate: action.data.to.coordinate
+                    coordinate: action.data.to.coordinate,
+                    place: action.data.to.place
                 },
                 start_at: action.data.start_at
             };
@@ -39,6 +43,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 filters: action.filters
+            };
+        case actions.UPDATE_START_TIME:
+            return {
+                ...state,
+                start_at: action.time
             };
         default:
             return state;
