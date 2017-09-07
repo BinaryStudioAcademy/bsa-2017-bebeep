@@ -1,5 +1,10 @@
 {
   "subscriptions": {
-    "header": ["My subscriptions", "Мої підписки", "Мои подписки"]
+    "header": ["My subscriptions", "Мої підписки", "Мои подписки"],
+    "activate": ["Activate", "Активувати", "Активировать"],
+    "deactivate": ["Deactivate", "Деактивувати", "Деактивировать"],
+    "edit": ["Edit", "Редагувати", "Редактировать"],
+    "restore": ["Restore", "Відновити", "Восстановть"],
+    "delete": ["Delete", "Видалити", "Удалить"]
   }
 }

@@ -68,7 +68,7 @@ class SubscriptionItem extends React.Component {
                     <div className="col-sm-1 text-left">
                         <div
                             className="subscription__checkbox round-checkbox round-checkbox--info"
-                            title="Active"
+                            title={subscription.is_active ? translate('subscriptions.activate') : translate('subscriptions.deactivate')}
                         >
                             <input
                                 type="checkbox"
@@ -85,36 +85,25 @@ class SubscriptionItem extends React.Component {
                         {DateTimeHelper.dateFormatLocale({timestamp: subscription.start_at_x})}
                     </div>
                     <div className="col-sm-5">
-                        {getCityLocation(subscription.from)} - {getCityLocation(subscription.to)}
+                        {getCityLocation(subscription.from[0])} - {getCityLocation(subscription.to[0])}
                     </div>
                     <div className="col-6 col-sm-1 text-sm-right">
-                        <i className="subscription__edit fa fa-pencil" />
+                        <i className="subscription__edit fa fa-pencil" title={translate('subscriptions.edit')} />
                     </div>
                     <div className="col-6 col-sm-1 text-sm-right">
                         {
                             subscription.is_deleted
-                                ? (<i className="subscription__restore fa fa-undo" onClick={this.onRestore} />)
-                                : (<i className="subscription__delete fa fa-close" onClick={this.onDelete} />)
+                                ? (<i
+                                    className="subscription__restore fa fa-undo"
+                                    title={translate('subscriptions.restore')} onClick={this.onRestore}
+                                />)
+                                : (<i className="subscription__delete fa fa-close"
+                                      onClick={this.onDelete}
+                                      title={translate('subscriptions.delete')}
+                                />)
                         }
                     </div>
                 </div>
-            {/*<div className={mainClass}>
-                {subscription.start_at}
-                <label htmlFor={"subscription-toggle-"+id}>
-                    <input
-                        type="checkbox"
-                        defaultChecked={subscription.is_active}
-                        disabled={subscription.is_deleted}
-                        id={"subscription-toggle-"+id}
-                        onChange={this.onChangeActive}
-                    />
-                </label>
-                {
-                    subscription.is_deleted
-                        ? (<i className="fa fa-undo" onClick={this.onRestore} />)
-                        : (<i className="fa fa-close" onClick={this.onDelete} />)
-                }
-            </div>*/}
             </div>
         );
     }
