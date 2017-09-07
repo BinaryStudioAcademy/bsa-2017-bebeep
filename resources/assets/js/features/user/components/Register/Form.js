@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {browserHistory} from 'react-router';
-
+import {InputDateTime} from 'app/components/Controls';
 import Input from 'app/components/Input';
-
+import moment from 'moment';
 
 import {
     registerSuccess,
@@ -36,7 +36,7 @@ class Form extends React.Component {
             errors: {}
         };
     }
-    
+
     createBooking() {
         const {tripId, routes, seats} = this.props.booking;
 
@@ -113,6 +113,9 @@ class Form extends React.Component {
                 );
         }
     }
+    isValidDate(current) {
+        return current.isBefore(moment());
+    }
 
 
     render() {
@@ -157,15 +160,22 @@ class Form extends React.Component {
                         required={false}
                         error={errors.phone}
                     >{translate('register_form.phone')}</Input>
-                    <Input
-                        type="date"
-                        name="birth_date"
-                        id="birth_date"
-                        required={false}
-                        error={errors.birth_date}
-                    >{translate('register_form.birth_date')}</Input>
+                    <div className={ "form-group row " + (errors.birth_date ? 'has-danger' : '') }>
+                        <label htmlFor='birth_date' className='form-control-label text-muted col-sm-4'>{translate('register_form.birth_date')}</label>
+                        <div className="col-md-8">
+                            <InputDateTime
+                                id="birth_date"
+                                isValidDate={this.isValidDate}
+                                timeFormat={false}
+                                inputProps={{name: 'birth_date', id:'birth_date'}}
+                                labelClasses="register-form-label"
+                                wrapperClasses="register-form-birth_date"
+                                error={errors.birth_date}
+                            />
+                        </div>
+                    </div>
                     <div className={"form-group row " + (errors.role ? 'has-danger' : '')}>
-                        <div className="col-sm-4">
+                        <div className="col-sm-4 text-muted">
                             {translate('register_form.role')}
                         </div>
                         <div className="form-check col-sm-4">

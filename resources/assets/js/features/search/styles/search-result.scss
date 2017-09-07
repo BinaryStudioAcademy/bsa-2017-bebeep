@@ -20,6 +20,19 @@
     min-height: 500px;
   }
 
+  &-datepicker {
+    &-label {
+      padding-right: 0;
+      border: none;
+    }
+  }
+
+  &-datepicker input{
+    padding: 0;
+    font-size: .9rem;
+    border: none;
+  }
+
   &__pagination {
     background-color: #fff;
     padding: 15px 0;
