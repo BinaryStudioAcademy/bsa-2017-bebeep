@@ -1,6 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {FilterSelect} from 'features/search/components/Result/FilterSelect';
+import SeatsDropDown from '../Dropdowns/SeatsDropDown';
+import AnimalsDropDown from '../Dropdowns/AnimalsDropDown';
+import LuggageDropDown from '../Dropdowns/LuggageDropDown';
+import RatingDropDown from '../Dropdowns/RatingDropDown';
 import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import {Range} from 'rc-slider';
 import {getTranslate} from 'react-localize-redux';
@@ -109,29 +112,14 @@ class SubscribeModal extends React.Component {
                                             />
                                         </div>
                                     </div>
-                                    <FilterSelect
-                                        id="animals"
-                                        name="animals"
-                                        title={translate('search_result.animals')}
+                                    <AnimalsDropDown
                                         value={animals}
                                         onChange={this.animalsChange}
-                                    >
-                                        <option value="">{translate('search_result.not_important')}</option>
-                                        <option value="1">{translate('search_result.allowed')}</option>
-                                        <option value="0">{translate('search_result.forbidden')}</option>
-                                    </FilterSelect>
-                                    <FilterSelect
-                                        id="luggage"
-                                        name="luggage"
-                                        title={translate('search_result.luggage_size')}
+                                    />
+                                    <LuggageDropDown
                                         value={luggage}
                                         onChange={this.luggageChange}
-                                    >
-                                        <option value="">{translate('search_result.not_important')}</option>
-                                        <option value="0">{translate('search_result.luggage_size_0')}</option>
-                                        <option value="1">{translate('search_result.luggage_size_1')}</option>
-                                        <option value="2">{translate('search_result.luggage_size_2')}</option>
-                                    </FilterSelect>
+                                    />
                                 </div>
                                 <div className="col-md-6 pr-4">
                                     <div className="filter__prop">
@@ -151,33 +139,14 @@ class SubscribeModal extends React.Component {
                                             />
                                         </div>
                                     </div>
-                                    <FilterSelect
-                                        id="seats"
-                                        name="seats"
-                                        title={translate('search_result.free_seats')}
+                                    <SeatsDropDown
                                         value={seats}
                                         onChange={this.seatsChange}
-                                    >
-                                        <option value="">{translate('search_result.not_important')}</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">{translate('search_result.more')}4</option>
-                                    </FilterSelect>
-                                    <FilterSelect
-                                        id="rating"
-                                        name="rating"
-                                        title={translate('search_result.driver_rating')}
+                                    />
+                                    <RatingDropDown
                                         value={rating}
                                         onChange={this.ratingChange}
-                                    >
-                                        <option value="">{translate('search_result.not_important')}</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </FilterSelect>
+                                    />
                                 </div>
                             </div>
                         </div>
