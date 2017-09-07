@@ -54,11 +54,11 @@ export default (store) => {
         <Route path="/" component={ App } onChange={() => {
             getCountUnread().then((response) => {
                 store.dispatch(setCountUnreadNotifications(response.data));
-            });
+            }).catch((error) => {});
         }} onEnter={() => {
             getCountUnread().then((response) => {
                 store.dispatch(setCountUnreadNotifications(response.data));
-            });
+            }).catch((error) => {});
         }}>
 
             <Route path="elements" component={Elements}/>
