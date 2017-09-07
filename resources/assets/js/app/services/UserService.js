@@ -243,12 +243,12 @@ export const PasswordUpdateValidate = (data = {
     return result;
 };
 
-export const checkPassengerRole = (role) =>{
-    return role == USER_ROLE_PASSENGER;
+export const checkPassengerRole = (role) => {
+    return !!(USER_ROLE_PASSENGER & role);
 };
 
-export const checkDriverRole = (role) =>{
-    return role == USER_ROLE_DRIVER;
+export const checkDriverRole = (role) => {
+    return !!(USER_ROLE_DRIVER & role);
 };
 
 const UserService = {

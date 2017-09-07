@@ -69,14 +69,16 @@ const AuthService = (() => {
             }
         },
 
-        checkPermissions(permissions) {
-            if (!permissions) {
+        checkPermissions(permissions, identically) {
+            if (permissions === undefined || permissions === null) {
                 return true;
             }
 
             const sessionPermissions = store.getState().user.session.permissions;
 
-            return !!(permissions & sessionPermissions);
+            return identically
+                ? permissions === sessionPermissions
+                : !!(permissions & sessionPermissions);
         },
 
         requireAuth(params) {
