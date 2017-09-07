@@ -1,14 +1,14 @@
 import React from 'react';
-import {IndexRoute, Route, Redirect} from 'react-router';
+import { IndexRoute, Route, Redirect } from 'react-router';
 
 import App from './App';
 import NotFound from './layouts/NotFound';
 
-import {SearchIndex, SearchResult} from '../features/search/layouts';
+import { SearchIndex, SearchResult } from '../features/search/layouts';
 
-import {LoginForm, Logout} from '../features/user/layouts/Login';
+import { LoginForm, Logout } from '../features/user/layouts/Login';
 import PasswordReset from '../features/user/layouts/PasswordReset';
-import {RegisterForm, RegisterSuccess, RegisterVerify} from '../features/user/layouts/Register';
+import { RegisterForm, RegisterSuccess, RegisterVerify } from '../features/user/layouts/Register';
 
 import Dashboard from '../features/user/layouts/Dashboard';
 import {
@@ -22,7 +22,7 @@ import Vehicles from '../features/car/layouts/Vehicles';
 import CreateVehicle from '../features/car/layouts/CreateVehicle';
 import EditVehicle from '../features/car/layouts/EditVehicle';
 
-import {CreateTrip, EditTrip, TripDetails} from '../features/trip/layouts';
+import { CreateTrip, EditTrip, TripDetails } from '../features/trip/layouts';
 import TripsList from '../features/trip-list/layouts/TripsList';
 
 import BookingsList from '../features/bookings/layouts/BookingsList';
@@ -38,9 +38,9 @@ import Notifications from 'features/notifications/layouts/Notifications';
 
 import Elements from '../features/elements/Elements.js';
 
-import {requireAuth, requireGuest} from '../app/services/AuthService';
-import {getCountUnread} from './services/NotificationService';
-import {setCountUnreadNotifications} from 'features/notifications/actions';
+import { requireAuth, requireGuest } from '../app/services/AuthService';
+import { getCountUnread } from './services/NotificationService';
+import { setCountUnreadNotifications } from 'features/notifications/actions';
 import LangeService from './services/LangService';
 
 export default (store) => {
