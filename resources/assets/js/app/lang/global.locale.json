@@ -28,5 +28,6 @@
       "uk",
       "ru"
     ]
-  }
+  },
+  "subscriptions": ["Subscriptions", "Підписки", "Подписки"]
 }
