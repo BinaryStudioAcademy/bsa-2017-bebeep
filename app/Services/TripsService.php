@@ -298,7 +298,7 @@ class TripsService
 
         $reverseTripAttributes = array_merge($trip->toArray(), [
             'start_at' => $request->getReverseStartAt(),
-            'end_at' => $request->getReverseStartAt()->addSeconds($originTripTravelTime)
+            'end_at' => $request->getReverseStartAt()->addSeconds($originTripTravelTime),
         ]);
 
         $reverseTrip = $this->tripRepository->save(new Trip($reverseTripAttributes));

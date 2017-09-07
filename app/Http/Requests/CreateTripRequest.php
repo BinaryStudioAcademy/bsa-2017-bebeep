@@ -49,7 +49,6 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
             'vehicle' => 'required_without:vehicle_id',
             'reverse_start_at' => ['required_if:is_in_both_directions,true', 'greater_than_date_if:is_in_both_directions,'.$this->get('end_at')],
         ];
-
     }
 
     /**
