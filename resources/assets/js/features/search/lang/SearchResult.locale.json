@@ -58,6 +58,6 @@
     "enter-email": ["Not registered?", "Не зареєстровані?", "Не зарегистрированы?"],
     "email-placeholder": ["Enter your email here", "Введіть ваш email", "Введите ваш email"],
     "success-great": ["Well done!", "Чудово!", "Отлично!"],
-    "success-text": ["You successfully subscribe fro this route.", "Ви успішно підписались на цей маршрут.", "Вы успешно подписались на этот маршрут."]
+    "success-text": ["You successfully subscribe for this route.", "Ви успішно підписались на цей маршрут.", "Вы успешно подписались на этот маршрут."]
   }
 }
