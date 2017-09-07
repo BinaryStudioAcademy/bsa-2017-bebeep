@@ -7,8 +7,8 @@ use App\Models\Subscription;
 use Illuminate\Support\Collection;
 use App\Services\Requests\CreateSubscriptionsRequest;
 use App\Repositories\Contracts\SubscriptionRepository;
-use App\Services\Helpers\Subscriptions\FilterCollection;
 use App\Criteria\Subscriptions\SubscriptionTripCriteria;
+use App\Services\Helpers\Subscriptions\FilterCollection;
 
 class SubscriptionsService implements Contracts\SubscriptionsService
 {
