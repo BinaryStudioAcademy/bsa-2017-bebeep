@@ -5,9 +5,8 @@ import { simpleRequest, securedRequest } from 'app/services/RequestService';
 import { getAuthToken, getAuthUser, initSession, destroySession } from 'app/services/AuthService';
 
 
-export const registerSuccess = data => ({
+export const registerSuccess = () => ({
     type: actions.USER_REGISTER_SUCCESS,
-    data
 });
 
 export const loginSuccess = data => ({

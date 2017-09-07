@@ -8,7 +8,8 @@ const initialState = {
     login: {
         success: isAuthorized(),
         errors: {},
-        httpStatus: 200
+        httpStatus: 200,
+        permissions: 0,
     },
     booking:null,
     isPassenger:null,
@@ -16,7 +17,7 @@ const initialState = {
     profile: {
         first_name: '',
         last_name: '',
-        avatar: null
+        avatar: null,
     },
     reviews: {
         given: [],
@@ -41,7 +42,6 @@ export default function (state = initialState, action) {
                 register: {
                     success: true,
                 },
-                profile: action.data.user,
             };
         case actions.LOGIN_SUCCESS:
             return {
@@ -49,9 +49,14 @@ export default function (state = initialState, action) {
                 login: {
                     ...state.login,
                     success: isAuthorized(),
-                    httpStatus: 200
+                    httpStatus: 200,
+                    permissions: action.data.user.permissions,
                 },
-                profile: action.data.user,
+                profile: {
+                    first_name: action.data.user.first_name,
+                    last_name: action.data.user.last_name,
+                    avatar: action.data.user.avatar,
+                },
             };
         case actions.LOGIN_VERIFY_FAILED:
             return {
@@ -60,6 +65,7 @@ export default function (state = initialState, action) {
                     ...state.login,
                     success: false,
                     errors: action.data,
+                    permissions: 0,
                 }
             };
         case actions.LOGIN_FAILED_NO_ACTIVATION:
@@ -73,16 +79,32 @@ export default function (state = initialState, action) {
                     success: false,
                     errors: action.response.data,
                     httpStatus: action.response.status,
+                    permissions: 0,
                 }
             };
 
         case actions.LOGOUT_SUCCESS:
+            return {
+                ...state,
+                login: {
+                    ...state.login,
+                    success: false,
+                    errors: {},
+                    httpStatus: 200,
+                    permissions: 0,
+                },
+                profile: {
+                    first_name: '',
+                    last_name: '',
+                    avatar: null,
+                },
+            };
+
         case actions.LOGOUT_FAILED:
             return {
                 ...state,
                 login: {
                     ...state.login,
-                    success: isAuthorized(),
                     errors: action.response.data,
                     httpStatus: action.response.status,
                 }
