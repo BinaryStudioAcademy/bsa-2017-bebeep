@@ -1,21 +1,28 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
 import SearchForm from '../components/Index/SearchForm';
+import WizardTrip from 'features/wizard-trip/layouts/WizardTrip';
+import WizardTab from 'features/wizard-trip/components/WizardTab';
+
+import AuthService from 'app/services/AuthService';
+import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from 'app/services/UserService';
+
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/SearchIndex.locale.json';
-import {localize} from 'react-localize-redux';
-import WizardTrip from 'features/wizard-trip/layouts/WizardTrip'
 
-export const MODE_PASSENGER = 'passenger';
-export const MODE_DRIVER = 'driver';
+class SearchIndex extends React.Component {
 
-export default localize(class SearchIndex extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            mode: MODE_PASSENGER
+            mode: USER_ROLE_PASSENGER,
+            isDriverModeAvailable: this.isDriverModeAvailable(),
         };
+
+        this.setPassengerMode = this.setPassengerMode.bind(this);
+        this.setDriverMode = this.setDriverMode.bind(this);
     }
 
     componentWillMount() {
@@ -23,44 +30,87 @@ export default localize(class SearchIndex extends React.Component {
     }
 
     isPassengerMode() {
-        return this.state.mode === MODE_PASSENGER;
+        return this.state.mode === USER_ROLE_PASSENGER;
     }
 
     isDriverMode() {
-        return this.state.mode === MODE_DRIVER;
+        return this.state.mode === USER_ROLE_DRIVER;
     }
 
-    render() {
-        const {translate} = this.props;
+    isDriverModeAvailable() {
+        return AuthService.checkPermissions(USER_ROLE_DRIVER);
+    }
+
+    setPassengerMode(e) {
+        e.preventDefault();
+
+        this.setState({ mode: USER_ROLE_PASSENGER });
+    }
+
+    setDriverMode(e) {
+        e.preventDefault();
+
+        if (this.state.isDriverModeAvailable) {
+            this.setState({ mode: USER_ROLE_DRIVER });
+        }
+    }
+
+    renderWizardTabs() {
+        const { translate } = this.props,
+            { isDriverModeAvailable } = this.state;
+
         return (
-            <div>
-                <section className="home-slider">
-                    <div className="home-slider__tabs wizard-tabs">
-                        <a href="#" onClick={() => {this.setState({mode: MODE_PASSENGER})}}
-                           className={'wizard-tabs__tab ' + (this.isPassengerMode() ? 'wizard-tabs__tab_active' : '')}
-                        >
-                            <img src="/template/img/welcome-icon1.png" alt=""/>
-                                <span>{translate('search_index.i_am_passenger')}</span>
-                        </a>
-                        <a href="#" onClick={() => {this.setState({mode: MODE_DRIVER})}}
-                           className={'wizard-tabs__tab ' + (this.isDriverMode() ? 'wizard-tabs__tab_active' : '')}
-                        >
-                            <img src="/template/img/welcome-icon2.png" alt=""/>
-                                <span>{translate('search_index.i_am_driver')}</span>
-                        </a>
-                    </div>
-
-                    <div className="home-slider__search wizard-form">
-                        <h2 className="wizard-form__header">
-                            {this.isPassengerMode() ? translate('search_index.find_cheap_ride') : translate('search_index.find_cheap_ride_driver')}
-                        </h2>
-
-                        {this.isPassengerMode() ? (
-                            <SearchForm pageType="index" />
-                        ) : (<WizardTrip />)}
-                    </div>
-                </section>
+            <div className="home-slider__tabs wizard-tabs">
+                <WizardTab
+                    isActive={this.isPassengerMode()}
+                    image="/template/img/welcome-icon1.png"
+                    title={translate('search_index.i_am_passenger')}
+                    onClick={this.setPassengerMode}
+                />
+                <WizardTab
+                    isShow={isDriverModeAvailable}
+                    isActive={this.isDriverMode()}
+                    image="/template/img/welcome-icon2.png"
+                    title={translate('search_index.i_am_driver')}
+                    onClick={this.setDriverMode}
+                />
             </div>
         );
     }
-}, 'locale');
+
+    renderFormHeader() {
+        const { translate } = this.props,
+            header = translate(
+                this.isPassengerMode()
+                ? 'search_index.find_cheap_ride'
+                : 'search_index.find_cheap_ride_driver'
+            );
+
+        return (
+            <h2 className="wizard-form__header">{ header }</h2>
+        );
+    }
+
+    renderFormContent() {
+        return this.isPassengerMode()
+            ? <SearchForm pageType="index" />
+            : <WizardTrip />;
+    }
+
+    render() {
+        const { translate } = this.props;
+
+        return (
+            <section className="home-slider">
+                { this.renderWizardTabs() }
+
+                <div className="home-slider__search wizard-form">
+                    { this.renderFormHeader() }
+                    { this.renderFormContent() }
+                </div>
+            </section>
+        );
+    }
+}
+
+export default localize(SearchIndex, 'locale');
