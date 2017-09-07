@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
+import DateTimeHelper from 'app/helpers/DateTimeHelper';
+import {getCityLocation} from 'app/helpers/TripHelper';
 import {
     changeSubscriptionStatus,
     deleteSubscription,
@@ -80,10 +82,10 @@ class SubscriptionItem extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-4">
-                        20.04.2017 09:00
+                        {DateTimeHelper.dateFormatLocale({timestamp: subscription.start_at_x})}
                     </div>
                     <div className="col-sm-5">
-                        Киев - Львов
+                        {getCityLocation(subscription.from)} - {getCityLocation(subscription.to)}
                     </div>
                     <div className="col-6 col-sm-1 text-sm-right">
                         <i className="subscription__edit fa fa-pencil" />
