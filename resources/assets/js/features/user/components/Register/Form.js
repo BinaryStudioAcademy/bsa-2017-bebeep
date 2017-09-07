@@ -91,7 +91,7 @@ class Form extends React.Component {
                 .then(
                     response => {
                         initSession(response.data.token);
-                        registerSuccess(getAuthUser());
+                        registerSuccess();
                         loginSuccess(getAuthUser());
 
                         if (hasTripPending) {
