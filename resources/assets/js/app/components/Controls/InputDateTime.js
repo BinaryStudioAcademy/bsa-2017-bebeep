@@ -40,7 +40,7 @@ class InputDateTime extends React.Component {
 
         const dateFormat = 'YYYY-MM-DD',
             errorClass = error ? 'has-danger' : '',
-            labelClass = (labelClasses || '') + (
+            labelClass = 'form-input fa-calendar ' + (labelClasses || '') + (
                 value !== null || focused ? ' form-input--focus' : ''),
             wrapperClass = 'form-input__text ' + (wrapperClasses || ''),
             dtValue = value || '',
