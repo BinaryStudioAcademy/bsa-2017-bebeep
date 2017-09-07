@@ -1,6 +1,8 @@
 import jwtDecode from 'jwt-decode';
 import _ from 'lodash';
 
+import { securedRequest } from './RequestService';
+
 const AuthService = (() => {
 
     const storage = localStorage,
@@ -14,6 +16,17 @@ const AuthService = (() => {
     let _this = null,
         store = null,
         loginSuccess = null;
+
+    const getSessionFromServer = () => {
+        securedRequest.get('/api/authentication/me')
+            .then(response => {
+                store.dispatch( loginSuccess(_this.getSessionData(response.data.user)) );
+            })
+            .catch(error => {
+                console.log(error);
+                _this.destroySession();
+            });
+    };
 
     return {
         init(params) {
@@ -51,38 +64,41 @@ const AuthService = (() => {
             }
         },
 
-        getSessionData() {
-            const decoded = _this.decodeAuthToken();
+        getSessionData(userData) {
+            const decoded = _this.decodeAuthToken(),
+                isUserDataEmpty = _.isEmpty(userData);
 
             if (_.isEmpty(decoded)) {
                 return null;
             }
+            if (isUserDataEmpty) {
+                userData = {};
+            }
 
-            return _.transform(decoded, function(result, value, key) {
-                if (userProps.indexOf(key) !== -1) {
+            const data = _.transform(decoded, function(result, value, key) {
+                if (isUserDataEmpty && userProps.indexOf(key) !== -1) {
                     result['user'][key] = value;
                 } else {
                     result['session'][key] = value;
                 }
-            }, { user: {}, session: {}, });
+            }, { user: userData, session: {}, });
+
+            return data;
         },
 
         setSession() {
             if (! _this.isSessionTokenExists()) {
                 return false;
             }
-
-            const token = _this.getSessionToken();
-
-            store.dispatch( loginSuccess(_this.getSessionData()) );
+            getSessionFromServer();
         },
 
         checkPermissions(permissions, identically) {
-            if (permissions === undefined || permissions === null) {
+            const sessionPermissions = store.getState().user.session.permissions;
+
+            if (!sessionPermissions || !permissions) {
                 return true;
             }
-
-            const sessionPermissions = store.getState().user.session.permissions;
 
             return identically
                 ? permissions === sessionPermissions
