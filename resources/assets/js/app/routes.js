@@ -38,10 +38,12 @@ import Notifications from 'features/notifications/layouts/Notifications';
 
 import Elements from '../features/elements/Elements.js';
 
-import { requireAuth, requireGuest } from '../app/services/AuthService';
+import { isAuthorized, getSessionData, requireAuth, requireGuest } from '../app/services/AuthService';
 import { getCountUnread } from './services/NotificationService';
-import { setCountUnreadNotifications } from 'features/notifications/actions';
 import LangeService from './services/LangService';
+
+import { loginSuccess } from 'features/user/actions';
+import { setCountUnreadNotifications } from 'features/notifications/actions';
 
 export default (store) => {
 
@@ -49,6 +51,10 @@ export default (store) => {
 
     LangeService.addTranslation(require('./lang/global.locale.json'));
     LangeService.addTranslation(require('./lang/validate.locale.json'));
+
+    if (isAuthorized()) {
+        store.dispatch( loginSuccess(getSessionData()) );
+    }
 
     return (
         <Route path="/" component={ App } onChange={() => {
