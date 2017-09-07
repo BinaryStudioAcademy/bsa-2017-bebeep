@@ -22,6 +22,15 @@
   &__edit:hover {
     color: $brand-info;
   }
+
+  &--inactive {
+    color: $gray-light;
+  }
+
+  &--deleted {
+    opacity: .9;
+    color: $gray-light;
+  }
 }
 
 .round-checkbox {
@@ -42,10 +51,12 @@
     cursor: pointer;
   }
 
-  &__control:checked + &__label:before {
+  &__control:not(:checked) + &__label:before {
     background-color: transparent;
   }
-
+  &__control:disabled + &__label:before {
+    opacity: .8;
+  }
   &__control {
     display: none;
   }

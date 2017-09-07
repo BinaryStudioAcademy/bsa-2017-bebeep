@@ -61,7 +61,7 @@ class SubscriptionItem extends React.Component {
                 (subscription.is_deleted ? " subscription--deleted" : "");
 
         return (
-            <div className="subscription">
+            <div className={mainClass}>
                 <div className="row">
                     <div className="col-sm-1 text-left">
                         <div
@@ -74,6 +74,7 @@ class SubscriptionItem extends React.Component {
                                 defaultChecked={subscription.is_active}
                                 disabled={subscription.is_deleted}
                                 id={"subscription-toggle-"+id}
+                                onChange={this.onChangeActive}
                             />
                             <label className="round-checkbox__label" htmlFor={"subscription-toggle-"+id} />
                         </div>
@@ -88,7 +89,11 @@ class SubscriptionItem extends React.Component {
                         <i className="subscription__edit fa fa-pencil" />
                     </div>
                     <div className="col-6 col-sm-1 text-sm-right">
-                        <i className="subscription__delete fa fa-close" />
+                        {
+                            subscription.is_deleted
+                                ? (<i className="subscription__restore fa fa-undo" onClick={this.onRestore} />)
+                                : (<i className="subscription__delete fa fa-close" onClick={this.onDelete} />)
+                        }
                     </div>
                 </div>
             {/*<div className={mainClass}>
