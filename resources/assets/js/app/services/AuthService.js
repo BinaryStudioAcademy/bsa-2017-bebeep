@@ -96,7 +96,7 @@ const AuthService = (() => {
         checkPermissions(permissions, identically) {
             const sessionPermissions = store.getState().user.session.permissions;
 
-            if (!permissions) {
+            if (!sessionPermissions || !permissions) {
                 return true;
             }
 

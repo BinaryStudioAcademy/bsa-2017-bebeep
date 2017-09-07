@@ -10,7 +10,7 @@ const initialState = {
         httpStatus: 200,
     },
     session: {
-        isAuthorized: null,
+        isAuthorized: false,
         exp: 0,
         permissions: 0,
     },

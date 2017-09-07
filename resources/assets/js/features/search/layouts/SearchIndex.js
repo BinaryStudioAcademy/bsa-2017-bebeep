@@ -1,12 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { localize } from 'react-localize-redux';
 
 import SearchForm from '../components/Index/SearchForm';
 import WizardTrip from 'features/wizard-trip/layouts/WizardTrip';
 import WizardTab from 'features/wizard-trip/components/WizardTab';
 
-import AuthService from 'app/services/AuthService';
-import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from 'app/services/UserService';
+import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER, checkDriverRole } from 'app/services/UserService';
 
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/SearchIndex.locale.json';
@@ -38,7 +38,7 @@ class SearchIndex extends React.Component {
     }
 
     isDriverModeAvailable() {
-        return AuthService.checkPermissions(USER_ROLE_DRIVER);
+        return checkDriverRole(this.props.sessionPermissions);
     }
 
     setPassengerMode(e) {
@@ -58,6 +58,7 @@ class SearchIndex extends React.Component {
     renderWizardTabs() {
         const { translate } = this.props,
             { isDriverModeAvailable } = this.state;
+            console.log(isDriverModeAvailable);
 
         return (
             <div className="home-slider__tabs wizard-tabs">
@@ -113,4 +114,11 @@ class SearchIndex extends React.Component {
     }
 }
 
-export default localize(SearchIndex, 'locale');
+const SearchIndexConnected = connect(
+    state => ({
+        sessionPermissions: state.user.session.permissions,
+    }),
+    null
+)(SearchIndex);
+
+export default localize(SearchIndexConnected, 'locale');
