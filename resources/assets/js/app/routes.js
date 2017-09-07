@@ -38,23 +38,23 @@ import Notifications from 'features/notifications/layouts/Notifications';
 
 import Elements from '../features/elements/Elements.js';
 
-import { isAuthorized, getSessionData, requireAuth, requireGuest } from '../app/services/AuthService';
+import AuthService from './services/AuthService';
 import { getCountUnread } from './services/NotificationService';
 import LangeService from './services/LangService';
 
 import { loginSuccess } from 'features/user/actions';
 import { setCountUnreadNotifications } from 'features/notifications/actions';
 
+import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from './services/UserService';
+
 export default (store) => {
 
+    AuthService.init({store, loginSuccess});
     LangeService.init(store);
 
+    AuthService.setSession();
     LangeService.addTranslation(require('./lang/global.locale.json'));
     LangeService.addTranslation(require('./lang/validate.locale.json'));
-
-    if (isAuthorized()) {
-        store.dispatch( loginSuccess(getSessionData()) );
-    }
 
     return (
         <Route path="/" component={ App } onChange={() => {
@@ -75,7 +75,10 @@ export default (store) => {
             <Route path="search" component={ SearchResult } />
 
             {/* Routes only for auth users */}
-            <Route onEnter={ requireAuth }>
+            <Route onEnter={ (nextState, replace) => AuthService.requireAuth({
+                route: { nextState, replace },
+                permissions: USER_ROLE_DRIVER,
+            }) }>
 
                 {/* Vehicle creating and show details */}
                 <Route path="vehicles">
@@ -99,10 +102,19 @@ export default (store) => {
                     <Route path="create" component={ CreateTrip } />
                     <Route path="edit/:id" component={ EditTrip } />
                 </Route>
+            </Route>
+
+            <Route onEnter={ (nextState, replace) => AuthService.requireAuth({
+                route: { nextState, replace },
+                permissions: USER_ROLE_PASSENGER,
+            }) }>
 
                 {/* Bookings - upcomming and pasts */}
                 <Route path="bookings" component={ BookingsList }/>
                 <Route path='bookings/past' component={ BookingsList }/>
+            </Route>
+
+            <Route onEnter={ AuthService.requireAuth }>
 
                 {/* User dashboard */}
                 <Route path="dashboard">
@@ -137,7 +149,7 @@ export default (store) => {
             </Route>
 
             {/* Routes only for guest users */}
-            <Route onEnter={ requireGuest }>
+            <Route onEnter={ AuthService.requireGuest }>
                 {/* User registration and email verification */}
                 <Route path="registration" component={ RegisterForm }/>
                 <Route path="registration/success" component={ RegisterSuccess }/>

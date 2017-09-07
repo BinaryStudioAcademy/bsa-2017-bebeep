@@ -1,81 +1,114 @@
 import jwtDecode from 'jwt-decode';
 import _ from 'lodash';
 
-const storage = localStorage,
-    tokenKeyName = 'jwt',
-    redirect = {
-        authPath: 'login',
-        rootPath: 'dashboard',
-    },
-    userProps = ['first_name', 'last_name', 'avatar',];
+const AuthService = (() => {
 
-export const getAuthToken = () => {
-    return storage[tokenKeyName];
-};
+    const storage = localStorage,
+        tokenKeyName = 'jwt',
+        redirect = {
+            authPath: 'login',
+            rootPath: 'dashboard',
+        },
+        userProps = ['first_name', 'last_name', 'avatar',];
 
-export const isAuthorized = () => {
-    return !!getAuthToken();
-};
+    let _this = null,
+        store = null,
+        loginSuccess = null;
 
-export const initSession = (token) => {
-    storage.setItem(tokenKeyName, token);
-};
+    return {
+        init(params) {
+            _this = this;
+            store = params.store;
+            loginSuccess = params.loginSuccess;
+        },
 
-export const destroySession = () => {
-    storage.removeItem(tokenKeyName);
-};
+        getAuthToken() {
+            return storage[tokenKeyName];
+        },
 
-export const decodeAuthToken = () => {
-    try {
-        return jwtDecode(getAuthToken());
+        isAuthorized() {
+            return !!_this.getAuthToken();
+        },
 
-    } catch(error) {
-        return null;
-    }
-};
+        initSession(token) {
+            storage.setItem(tokenKeyName, token);
+        },
 
-export const getSessionData = () => {
-    const decoded = decodeAuthToken();
+        destroySession() {
+            storage.removeItem(tokenKeyName);
+        },
 
-    if (_.isEmpty(decoded)) {
-        return null;
-    }
+        decodeAuthToken() {
+            try {
+                return jwtDecode(_this.getAuthToken());
 
-    return _.transform(decoded, function(result, value, key) {
-        if (userProps.indexOf(key) !== -1) {
-            result['user'][key] = value;
-        } else {
-            result['session'][key] = value;
-        }
-    }, { user: {}, session: {}, });
-};
+            } catch(error) {
+                return null;
+            }
+        },
 
-export const requireAuth = (nextState, replace) => {
-    if (!isAuthorized()) {
-        replace({
-            pathname: '/' + redirect.authPath,
-            state: { nextPathname: nextState.location.pathname }
-        })
-    }
-};
+        getSessionData() {
+            const decoded = _this.decodeAuthToken();
 
-export const requireGuest = (nextState, replace) => {
-    if (isAuthorized()) {
-        replace({
-            pathname: '/' + redirect.rootPath,
-            state: { nextPathname: nextState.location.pathname }
-        })
-    }
-};
+            if (_.isEmpty(decoded)) {
+                return null;
+            }
 
-const AuthService = {
-    getAuthToken,
-    isAuthorized,
-    initSession,
-    destroySession,
-    getSessionData,
-    requireAuth,
-    requireGuest,
-};
+            return _.transform(decoded, function(result, value, key) {
+                if (userProps.indexOf(key) !== -1) {
+                    result['user'][key] = value;
+                } else {
+                    result['session'][key] = value;
+                }
+            }, { user: {}, session: {}, });
+        },
+
+        setSession() {
+            if (_this.isAuthorized()) {
+                store.dispatch( loginSuccess(_this.getSessionData()) );
+            }
+        },
+
+        checkPermissions(permissions) {
+            if (!permissions) {
+                return true;
+            }
+
+            const sessionPermissions = store.getState().user.session.permissions;
+
+            return !!(permissions & sessionPermissions);
+        },
+
+        requireAuth(params) {
+            if (arguments.length !== 1) {
+                params = {
+                    permissions: null,
+                    route: { nextState: arguments[0], replace: arguments[1], },
+                };
+            }
+
+            const { route, permissions } = params;
+
+            if (!_this.isAuthorized() ||
+                !_this.checkPermissions(permissions)
+            ) {
+                route.replace({
+                    pathname: '/' + redirect.authPath,
+                    state: { nextPathname: route.nextState.location.pathname }
+                })
+            }
+        },
+
+        requireGuest(nextState, replace) {
+            if (_this.isAuthorized()) {
+                replace({
+                    pathname: '/' + redirect.rootPath,
+                    state: { nextPathname: nextState.location.pathname }
+                })
+            }
+        },
+
+    };
+})();
 
 export default AuthService;

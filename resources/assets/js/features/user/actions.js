@@ -2,7 +2,7 @@ import * as actions from './actionTypes';
 
 import { UserValidator } from 'app/services/UserService';
 import { simpleRequest, securedRequest } from 'app/services/RequestService';
-import { getAuthToken, getSessionData, initSession, destroySession } from 'app/services/AuthService';
+import AuthService from 'app/services/AuthService';
 
 
 export const registerSuccess = () => ({
@@ -91,12 +91,12 @@ export const doLogin = (credentials) => dispatch => {
         password: credentials.password
     })
         .then(response => {
-            initSession(response.data.token);
-            dispatch(loginSuccess(getSessionData()));
+            AuthService.initSession(response.data.token);
+            dispatch(loginSuccess(AuthService.getSessionData()));
         })
         .catch(error => {
             if (error.response) {
-                destroySession();
+                AuthService.destroySession();
                 dispatch(processFailedLoginResponse(error.response))
             } else {
                 console.error(error);
@@ -116,14 +116,14 @@ export const logoutFailed = response => ({
 });
 
 export const doLogout = (data) => {
-    const token = getAuthToken();
+    const token = AuthService.getAuthToken();
 
     return dispatch => {
         securedRequest.post('/api/user/logout', {
             token: token
         })
             .then(response => {
-                destroySession();
+                AuthService.destroySession();
                 dispatch(logoutSuccess(response))
             })
             .catch(error => {

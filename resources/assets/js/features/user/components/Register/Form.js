@@ -14,15 +14,15 @@ import {
     userHaveBookingSetState
 } from 'features/user/actions';
 
-import {simpleRequest} from 'app/services/RequestService';
+import AuthService from 'app/services/AuthService';
+import { simpleRequest } from 'app/services/RequestService';
 import BookingService from 'app/services/BookingService';
-import {RegisterValidate, checkPassengerRole} from 'app/services/UserService';
-import { initSession, destroySession, getSessionData } from 'app/services/AuthService';
+import { RegisterValidate, checkPassengerRole } from 'app/services/UserService';
 
-import {getTranslate} from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 
-import {STEP_THREE, savePendingTrip, isTripReady} from 'app/services/WizardTripService';
-import {completeTrip} from 'features/wizard-trip/actions';
+import { STEP_THREE, savePendingTrip, isTripReady } from 'app/services/WizardTripService';
+import { completeTrip } from 'features/wizard-trip/actions';
 
 import 'features/user/styles/user_register.scss';
 
@@ -90,9 +90,9 @@ class Form extends React.Component {
             simpleRequest.post('/api/user/register', registerData)
                 .then(
                     response => {
-                        initSession(response.data.token);
+                        AuthService.initSession(response.data.token);
                         registerSuccess();
-                        loginSuccess(getSessionData());
+                        loginSuccess(AuthService.getSessionData());
 
                         if (hasTripPending) {
                             savePendingTrip(tripPending).then(() => {
@@ -108,7 +108,7 @@ class Form extends React.Component {
                 )
                 .catch(error => {
                         this.setState({errors: error.response.data});
-                        destroySession();
+                        AuthService.destroySession();
                     }
                 );
         }

@@ -1,12 +1,11 @@
 import * as actions from './actionTypes';
-import { isAuthorized } from 'app/services/AuthService';
 
 const initialState = {
     register: {
         success: false,
     },
     login: {
-        success: isAuthorized(),
+        success: false,
         errors: {},
         httpStatus: 200,
     },
@@ -51,7 +50,7 @@ export default function (state = initialState, action) {
                 ...state,
                 login: {
                     ...state.login,
-                    success: isAuthorized(),
+                    success: true,
                     httpStatus: 200,
                 },
                 session: action.data.session,

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAuthToken } from './AuthService';
+import AuthService from './AuthService';
 import LangService from './LangService';
 
 const requestParams = {
@@ -14,7 +14,7 @@ const setLangHeaders = (config) => {
 };
 
 const setAuthHeaders = (config) => {
-    config.headers['Authorization'] = 'Bearer ' + getAuthToken(); // TODO: token is GLOBAL STATE
+    config.headers['Authorization'] = 'Bearer ' + AuthService.getAuthToken(); // TODO: token is GLOBAL STATE
     return config;
 };
 
