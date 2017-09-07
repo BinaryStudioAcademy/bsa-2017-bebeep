@@ -143,6 +143,12 @@ class TripForm extends React.Component {
                         </div>
                     </div>
 
+                    <Waypoints waypoints={this.props.waypoints}
+                               placesCssClasses={this.props.placesCssClasses}
+                               onWaypointDelete={this.props.onWaypointDelete}
+                               onWaypointAdd={this.props.onWaypointAdd}
+                    />
+
                     {!trip.id &&
                         <div className="form-group row">
                             <label className="form-control-label text-muted col-sm-4" htmlFor="is_in_both_directions">
@@ -172,12 +178,6 @@ class TripForm extends React.Component {
                             error={errors.reverse_start_at}>{translate('trip_form.reverse_start_at')}
                         </Input>
                     }
-
-                    <Waypoints waypoints={this.props.waypoints}
-                               placesCssClasses={this.props.placesCssClasses}
-                               onWaypointDelete={this.props.onWaypointDelete}
-                               onWaypointAdd={this.props.onWaypointAdd}
-                    />
 
                     <div className="form-group">
                         <div className="text-center">
