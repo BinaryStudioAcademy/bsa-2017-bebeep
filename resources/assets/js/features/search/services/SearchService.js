@@ -178,3 +178,10 @@ export const transformSubscriptionData = (toBeTransformed) => {
         }
     };
 };
+
+export const sendSubscribeRequest = (data) => {
+    return simpleRequest.post('api/v1/subscription', data)
+        .then(
+            response => Promise.resolve(response)
+        );
+};

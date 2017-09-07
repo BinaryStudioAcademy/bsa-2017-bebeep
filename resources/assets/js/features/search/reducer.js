@@ -44,7 +44,7 @@ export default function (state = initialState, action) {
                 ...state,
                 filters: action.filters
             };
-        case actions.UPDATE_START_TIME:
+        case actions.SEARCH_UPDATE_START_TIME:
             return {
                 ...state,
                 start_at: action.time

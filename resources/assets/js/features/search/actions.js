@@ -11,6 +11,6 @@ export const setSearchFilters = filters => ({
 });
 
 export const updateStartTime = time => ({
-    type: actions.UPDATE_START_TIME,
+    type: actions.SEARCH_UPDATE_START_TIME,
     time
 });
