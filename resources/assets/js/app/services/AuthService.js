@@ -40,11 +40,11 @@ const AuthService = (() => {
         },
 
         isAuthorized() {
-            return store.getState().user.login.success || _this.isSessionTokenExists();
+            return store.getState().user.session.isAuthorized || _this.isSessionTokenValid();
         },
 
-        isSessionTokenExists() {
-            return !!_this.getSessionToken();
+        isSessionTokenValid() {
+            return !!_this.decodeAuthToken();
         },
 
         initSession(token) {
@@ -87,7 +87,7 @@ const AuthService = (() => {
         },
 
         setSession() {
-            if (! _this.isSessionTokenExists()) {
+            if (! _this.isSessionTokenValid()) {
                 return false;
             }
             getSessionFromServer();
@@ -96,7 +96,7 @@ const AuthService = (() => {
         checkPermissions(permissions, identically) {
             const sessionPermissions = store.getState().user.session.permissions;
 
-            if (!sessionPermissions || !permissions) {
+            if (!permissions) {
                 return true;
             }
 

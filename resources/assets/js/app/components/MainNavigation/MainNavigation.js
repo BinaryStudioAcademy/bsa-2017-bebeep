@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link, IndexLink } from 'react-router';
 
 import AuthService from 'app/services/AuthService';
@@ -26,7 +28,10 @@ class MainNavigation extends React.Component {
 
     render() {
         const navClass = !this.state.isNavOpen ? 'collapse' : '',
-            navLinks = AuthService.isAuthorized() ? <ForAuthUser /> : <ForGuestUser />;
+            isAuthorized = this.props.isAuthorized;
+
+        const navLinks = null === isAuthorized ? null :
+            (isAuthorized ? <ForAuthUser /> : <ForGuestUser />);
 
         return (
             <header className="header">
@@ -42,4 +47,13 @@ class MainNavigation extends React.Component {
     }
 }
 
-export default MainNavigation;
+const MainNavigationConnected = connect(
+    state => ({
+        isAuthorized: state.user.session.isAuthorized,
+    }),
+    null
+    /*(dispatch) =>
+        bindActionCreators({ MainNavigationSetState, searchSuccess }, dispatch)*/
+)(MainNavigation);
+
+export default MainNavigationConnected;

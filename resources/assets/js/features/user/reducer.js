@@ -10,6 +10,7 @@ const initialState = {
         httpStatus: 200,
     },
     session: {
+        isAuthorized: null,
         exp: 0,
         permissions: 0,
     },
@@ -53,7 +54,10 @@ export default function (state = initialState, action) {
                     success: true,
                     httpStatus: 200,
                 },
-                session: action.data.session,
+                session: {
+                    ...action.data.session,
+                    isAuthorized: true,
+                },
                 profile: {
                     first_name: action.data.user.first_name,
                     last_name: action.data.user.last_name,
@@ -68,10 +72,6 @@ export default function (state = initialState, action) {
                     success: false,
                     errors: action.data,
                 },
-                session: {
-                    exp: 0,
-                    permissions: 0,
-                },
             };
         case actions.LOGIN_FAILED_NO_ACTIVATION:
         case actions.LOGIN_FAILED_NO_USER:
@@ -85,10 +85,6 @@ export default function (state = initialState, action) {
                     errors: action.response.data,
                     httpStatus: action.response.status,
                 },
-                session: {
-                    exp: 0,
-                    permissions: 0,
-                },
             };
 
         case actions.LOGOUT_SUCCESS:
@@ -101,6 +97,7 @@ export default function (state = initialState, action) {
                     httpStatus: 200,
                 },
                 session: {
+                    isAuthorized: false,
                     exp: 0,
                     permissions: 0,
                 },
