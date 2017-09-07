@@ -14,7 +14,7 @@ const setLangHeaders = (config) => {
 };
 
 const setAuthHeaders = (config) => {
-    config.headers['Authorization'] = 'Bearer ' + AuthService.getAuthToken(); // TODO: token is GLOBAL STATE
+    config.headers['Authorization'] = 'Bearer ' + AuthService.getSessionToken();
     return config;
 };
 

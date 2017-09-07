@@ -22,12 +22,16 @@ const AuthService = (() => {
             loginSuccess = params.loginSuccess;
         },
 
-        getAuthToken() {
+        getSessionToken() {
             return storage[tokenKeyName];
         },
 
         isAuthorized() {
-            return !!_this.getAuthToken();
+            return store.getState().user.login.success;
+        },
+
+        isSessionTokenExists() {
+            return !!_this.getSessionToken();
         },
 
         initSession(token) {
@@ -40,7 +44,7 @@ const AuthService = (() => {
 
         decodeAuthToken() {
             try {
-                return jwtDecode(_this.getAuthToken());
+                return jwtDecode(_this.getSessionToken());
 
             } catch(error) {
                 return null;
@@ -64,9 +68,13 @@ const AuthService = (() => {
         },
 
         setSession() {
-            if (_this.isAuthorized()) {
-                store.dispatch( loginSuccess(_this.getSessionData()) );
+            if (! _this.isSessionTokenExists()) {
+                return false;
             }
+
+            const token = _this.getSessionToken();
+
+            store.dispatch( loginSuccess(_this.getSessionData()) );
         },
 
         checkPermissions(permissions, identically) {

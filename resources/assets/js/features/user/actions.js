@@ -116,7 +116,7 @@ export const logoutFailed = response => ({
 });
 
 export const doLogout = (data) => {
-    const token = AuthService.getAuthToken();
+    const token = AuthService.getSessionToken();
 
     return dispatch => {
         securedRequest.post('/api/user/logout', {
