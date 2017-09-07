@@ -20,7 +20,7 @@ class SubscriptionRepository extends BaseRepository implements Contracts\Subscri
      */
     public function save(Subscription $subscription) : Subscription
     {
-        $subscription->save();
+        $subscription->push();
 
         return $subscription;
     }
