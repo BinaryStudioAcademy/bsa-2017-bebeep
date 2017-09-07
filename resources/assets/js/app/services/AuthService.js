@@ -91,8 +91,8 @@ const AuthService = (() => {
 
             const { route, permissions } = params;
 
-            if (!_this.isAuthorized() ||
-                !_this.checkPermissions(permissions)
+            if (! _this.isAuthorized() ||
+                ! _this.checkPermissions(permissions)
             ) {
                 route.replace({
                     pathname: '/' + redirect.authPath,

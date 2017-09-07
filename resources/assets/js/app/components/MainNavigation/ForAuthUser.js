@@ -5,33 +5,35 @@ import { bindActionCreators } from 'redux';
 import { localize } from 'react-localize-redux';
 
 import UserDropdown from './UserDropdown';
+import MainMenuItem from './Items/MainMenuItem';
 import ChangeLocalization from '../ChangeLocalization';
 
+import AuthService from 'app/services/AuthService';
+import { USER_ROLE_DRIVER, USER_ROLE_PASSENGER } from 'app/services/UserService';
 import { getProfileAvatar } from 'app/services/PhotoService';
-
 
 class ForAuthUser extends React.Component {
 
     render() {
-        const { user, translate } = this.props;
+        const { translate, user } = this.props;
+
+        const isDriver = AuthService.checkPermissions(USER_ROLE_DRIVER),
+            isPassenger = AuthService.checkPermissions(USER_ROLE_PASSENGER);
 
         user.avatar = getProfileAvatar(user.avatar);
 
         return (
             <ul className="header__menu header__menu_right header-menu">
-                <li className="header-menu__item">
-                    <Link to="/trip/create" activeClassName="active">
-                        { translate('create_new_trip') }
-                    </Link>
-                </li>
-                <li className="header-menu__item">
-                    <Link to="/trips" activeClassName="active">
-                        { translate('my_trips') }
-                    </Link>
-                </li>
+                <MainMenuItem linkTo="/trip/create" isShow={isDriver}>
+                    { translate('create_new_trip') }
+                </MainMenuItem>
+
+                <MainMenuItem linkTo="/trips" isShow={isDriver}>
+                    { translate('my_trips') }
+                </MainMenuItem>
 
                 <li className="header-menu__item header-menu__item_no-hover header-menu__item--align-stretch">
-                    <UserDropdown user={user} />
+                    <UserDropdown user={user} isDriver={isDriver} isPassenger={isPassenger} />
                 </li>
 
                 <li className="header-menu__item header-menu__item_no-hover header-menu__item_no-space header-menu__item--align-stretch">

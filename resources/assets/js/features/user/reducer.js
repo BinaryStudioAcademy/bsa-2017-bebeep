@@ -126,6 +126,10 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 profile: action.data,
+                session: {
+                    ...state.session,
+                    permissions: action.data.permissions,
+                },
             };
 
         case actions.USER_AVATAR_UPDATE_STATE:
