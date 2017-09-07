@@ -124,10 +124,10 @@ export const doLogout = (data) => {
         })
             .then(response => {
                 AuthService.destroySession();
-                dispatch(logoutSuccess(response))
+                dispatch(logoutSuccess(response));
             })
             .catch(error => {
-                dispatch(logoutFailed(error.response))
+                dispatch(logoutFailed(error.response));
             });
     }
 };
