@@ -142,3 +142,39 @@ export const getCurrentPage = (page, limit, totalSize) => {
 export const getCountResult = (currentPage, lengthData, limit) => {
     return (currentPage - 1) * limit + lengthData;
 };
+
+/**
+ * Transform data for subscription request
+ *
+ * @param toBeTransformed
+ */
+export const transformSubscriptionData = (toBeTransformed) => {
+    return {
+        start_point: {
+            from: {},
+            from_lat: toBeTransformed.data.from.coordinate.lat,
+            from_lng: toBeTransformed.data.from.coordinate.lng
+        },
+        end_point: {
+            to: {},
+            to_lat: toBeTransformed.data.to.coordinate.lat,
+            to_lng: toBeTransformed.data.to.coordinate.lng
+        },
+        start_at: toBeTransformed.data.start_at,
+        email: toBeTransformed.subsEmail,
+        filters: {
+            animals: toBeTransformed.animals,
+            luggage: toBeTransformed.luggage,
+            seats: toBeTransformed.seats,
+            rating: toBeTransformed.rating,
+            price: {
+                from: toBeTransformed.price[0],
+                to: toBeTransformed.price[1]
+            },
+            time: {
+                from: toBeTransformed.time[0],
+                to: toBeTransformed.time[1]
+            }
+        }
+    };
+};

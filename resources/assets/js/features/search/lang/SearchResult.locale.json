@@ -51,16 +51,13 @@
   "subscription": {
     "subscribe_btn": ["Subscribe", "Підписатись", "Подписаться"],
     "subscribe_header": ["Subscription", "Підписка", "Подписка"],
-    "info": [
-      "Subscribe for this route and you will never miss a new trips!",
-      "Підпишіться на цей маршрут і ви ніколи не пропустите нових поїздок!",
-      "Подпишитесь на этот маршрут и вы никогда не пропустите новые поездки!"
-    ],
     "from": ["From: ", "Звідки: ", "Откуда: "],
     "to": ["To: ", "Куди: ", "Куда: "],
     "route": ["Route", "Маршрут", "Маршрут"],
     "filters": ["Additional filters", "Додаткові фільтри", "Дополнительные фильтры"],
     "enter-email": ["Not registered?", "Не зареєстровані?", "Не зарегистрированы?"],
-    "email-placeholder": ["Enter your email here", "Введіть ваш email", "Введите ваш email"]
+    "email-placeholder": ["Enter your email here", "Введіть ваш email", "Введите ваш email"],
+    "success-great": ["Well done!", "Чудово!", "Отлично!"],
+    "success-text": ["You successfully subscribe fro this route.", "Ви успішно підписались на цей маршрут.", "Вы успешно подписались на этот маршрут."]
   }
 }

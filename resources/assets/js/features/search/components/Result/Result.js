@@ -47,7 +47,6 @@ class Result extends React.Component {
         this.onChangePage = this.onChangePage.bind(this);
         this.onSearch = this.onSearch.bind(this);
         this.onClickSubscribe = this.onClickSubscribe.bind(this);
-        this.onClickSend = this.onClickSend.bind(this);
     }
 
     componentWillMount() {
@@ -143,10 +142,6 @@ class Result extends React.Component {
         this.props.setSearchFilters(this.state.filter);
     }
 
-    onClickSend(data) {
-        console.log('subscribe send');
-    }
-
     render() {
         const {sort, order, page, limit, meta, collection, preloader, subscribeModalIsOpen} = this.state,
             {translate} = this.props,
@@ -212,7 +207,6 @@ class Result extends React.Component {
                 </div>
                 <SubscribeModal
                     isOpen={ subscribeModalIsOpen }
-                    onClickSend = {this.onClickSend}
                     onClosed={ () => this.setState({subscribeModalIsOpen: false})}
                 />
             </div>
