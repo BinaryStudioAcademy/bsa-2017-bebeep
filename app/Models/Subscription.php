@@ -61,4 +61,3 @@ class Subscription extends Model
         return $this->hasMany(Filter::class);
     }
 }
-}
