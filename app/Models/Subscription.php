@@ -53,4 +53,12 @@ class Subscription extends Model
     {
         return $this->hasMany(Trip::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function filters()
+    {
+        return $this->hasMany(Filter::class);
+    }
 }

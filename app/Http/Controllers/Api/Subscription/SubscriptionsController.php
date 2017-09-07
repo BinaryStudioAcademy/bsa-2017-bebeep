@@ -35,15 +35,21 @@ class SubscriptionsController extends Controller
     public function delete(Subscription $subscription)
     {
         $this->subscriptionsService->delete($subscription);
+
+        return response()->json([], 200);
     }
 
     public function edit(EditSubscriptionRequest $request, Subscription $subscription)
     {
         $this->subscriptionsService->edit($request, $subscription);
+
+        return response()->json([], 200);
     }
 
     public function status(StatusSubscriptionRequest $request, Subscription $subscription)
     {
         $this->subscriptionsService->changeStatus($request, $subscription);
+
+        return response()->json([], 200);
     }
 }
