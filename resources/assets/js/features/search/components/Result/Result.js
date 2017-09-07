@@ -136,9 +136,7 @@ class Result extends React.Component {
     }
 
     onClickSubscribe() {
-        this.setState({
-            subscribeModalIsOpen: true
-        });
+        this.setState({subscribeModalIsOpen: true});
         this.props.setSearchFilters(this.state.filter);
     }
 
@@ -147,7 +145,7 @@ class Result extends React.Component {
             {translate} = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
-        console.log(subscribeModalIsOpen);
+
         return (
             <div className="search-result">
                 <SearchForm onSearch={this.onSearch} />

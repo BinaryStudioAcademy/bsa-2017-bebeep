@@ -38,13 +38,11 @@ class SubscribeModal extends React.Component {
     }
 
     componentWillMount() {
-        let data = this.props.data;
-        this.updateFilterData(data);
+        this.updateFilterData(this.props.data);
     }
 
     componentWillReceiveProps(nextProps) {
-        let data = nextProps.data;
-        this.updateFilterData(data);
+        this.updateFilterData(nextProps.data);
     }
 
     animalsChange(e) {
@@ -122,7 +120,7 @@ class SubscribeModal extends React.Component {
                                     <span className="text-muted">{translate('subscription.to')}</span><span>{data.to.name}</span><br/>
                                 </div>
                             </div>
-                            <div className="subscribe-modal__body-filters ml-3 mb-5">
+                            <div className="subscribe-modal__body-filters ml-3 mb-3 mr-3">
                                 <div className="subscribe-modal__body-filters-header pb-2">
                                     <i className="subscribe-modal-icon subscribe-modal-icon-big v-align-bottom fa fa-tasks" aria-hidden="true"></i>
                                     <span className="subscribe-modal__body-routes-title">{translate('subscription.filters')}</span>
@@ -147,16 +145,16 @@ class SubscribeModal extends React.Component {
                                                 </div>
                                             </div>
                                             <div className="filter__prop">
-                                                <div className="filter__prop-control">
-                                                    <div className="filter__prop-name subscribe-modal-name">
-                                                        {translate('search_result.animals')}
-                                                    </div>
-                                                    <select name="is_animals_allowed" value={animals || ''} className="form-control" id="is_animals_allowed" onChange={this.animalsChange}>
-                                                        <option value="">{translate('search_result.not_important')}</option>
-                                                        <option value="1">{translate('search_result.allowed')}</option>
-                                                        <option value="0">{translate('search_result.forbidden')}</option>
-                                                    </select>
+                                            <div className="filter__prop-control">
+                                                <div className="filter__prop-name subscribe-modal-name">
+                                                    {translate('search_result.animals')}
                                                 </div>
+                                                <select name="is_animals_allowed" value={animals || ''} className="form-control" id="is_animals_allowed" onChange={this.animalsChange}>
+                                                    <option value="">{translate('search_result.not_important')}</option>
+                                                    <option value="1">{translate('search_result.allowed')}</option>
+                                                    <option value="0">{translate('search_result.forbidden')}</option>
+                                                </select>
+                                            </div>
                                             </div>
                                             <div className="filter__prop">
                                                 <div className="filter__prop-control">
