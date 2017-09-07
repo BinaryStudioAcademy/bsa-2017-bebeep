@@ -2,53 +2,51 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Services\AuthUserService;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use App\Services\AuthSessionService;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Exceptions\Auth\UserNotFoundException;
+use App\Transformers\User\SessionDataTransformer;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class SessionController extends Controller
 {
     /**
-     * @var AuthUserService
+     * @var \App\Services\AuthSessionService
      */
-    private $authUserService;
+    private $authSessionService;
 
     /**
-     * ApiAuthController constructor.
-     *
-     * @param AuthUserService $authUserService
+     * @param \App\Services\AuthSessionService $authSessionService
      */
-    public function __construct(AuthUserService $authUserService)
+    public function __construct(AuthSessionService $authSessionService)
     {
-        $this->authUserService = $authUserService;
+        $this->authSessionService = $authSessionService;
     }
 
-    public function getSessionToken(\Tymon\JWTAuth\JWTAuth $JWTAuth)
+    /**
+     * Get the session user data.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSessionUser()
     {
         try {
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json('', 404);
-            }
+            $user = $this->authSessionService->getUserData();
 
-            $customClaims = [
-                'first_name' => $user->first_name,
-                'last_name' => $user->last_name,
-                'avatar' => $user->getAvatarUrl(),
-                'permissions' => $user->permissions,
-            ];
+            return fractal($user, new SessionDataTransformer())->respond();
 
-            return response()->json(['user' => $customClaims]);
+        } catch (UserNotFoundException $e) {
+            return response()->json([$e->getMessage()], 404);
 
-        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-
+        } catch (TokenExpiredException $e) {
             return response()->json(['token_expired'], $e->getStatusCode());
 
-        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-
+        } catch (TokenInvalidException $e) {
             return response()->json(['token_invalid'], $e->getStatusCode());
 
-        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-
+        } catch (JWTException $e) {
             return response()->json(['token_absent'], $e->getStatusCode());
         }
     }

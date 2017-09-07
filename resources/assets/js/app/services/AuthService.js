@@ -20,10 +20,10 @@ const AuthService = (() => {
     const getSessionFromServer = () => {
         securedRequest.get('/api/authentication/me')
             .then(response => {
-                store.dispatch( loginSuccess(_this.getSessionData(response.data.user)) );
+                const user = response.data.data;
+                store.dispatch( loginSuccess(_this.getSessionData(user)) );
             })
             .catch(error => {
-                console.log(error);
                 _this.destroySession();
             });
     };
@@ -40,7 +40,7 @@ const AuthService = (() => {
         },
 
         isAuthorized() {
-            return store.getState().user.login.success;
+            return store.getState().user.login.success || _this.isSessionTokenExists();
         },
 
         isSessionTokenExists() {
@@ -65,23 +65,23 @@ const AuthService = (() => {
         },
 
         getSessionData(userData) {
-            const decoded = _this.decodeAuthToken(),
-                isUserDataEmpty = _.isEmpty(userData);
+            const decoded = _this.decodeAuthToken();
 
             if (_.isEmpty(decoded)) {
                 return null;
             }
-            if (isUserDataEmpty) {
-                userData = {};
-            }
 
             const data = _.transform(decoded, function(result, value, key) {
-                if (isUserDataEmpty && userProps.indexOf(key) !== -1) {
+                if (userProps.indexOf(key) !== -1) {
                     result['user'][key] = value;
                 } else {
                     result['session'][key] = value;
                 }
-            }, { user: userData, session: {}, });
+            }, { user: {}, session: {}, });
+
+            if (! _.isEmpty(userData)) {
+                data.user = userData;
+            }
 
             return data;
         },

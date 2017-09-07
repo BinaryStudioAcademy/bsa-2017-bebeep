@@ -12,8 +12,7 @@
 */
 
 Route::get('authentication/me', [
-    //'middleware' => 'jwt.auth',
-    'uses' => 'Auth\SessionController@getSessionToken',
+    'uses' => 'Auth\SessionController@getSessionUser',
 ]);
 
 Route::group(['prefix' => 'driver', 'as' => 'driver.'], function () {
