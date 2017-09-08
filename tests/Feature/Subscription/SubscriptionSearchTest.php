@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Subscription;
 
-use App\Services\Helpers\Subscriptions\Filters\Enum\FilterAnimalsEnum;
 use App\User;
 use Carbon\Carbon;
 use App\Models\Trip;
@@ -128,12 +127,12 @@ class SubscriptionSearchTest extends JwtTestCase
 
         $filter = $this->getFilter($subscription, [
             'name' => 'animals',
-            'parameters' => ['value' => FilterAnimalsEnum::ALLOWED],
+            'parameters' => ['value' => 1],
         ]);
 
         $filter2 = $this->getFilter($subscription2, [
             'name' => 'animals',
-            'parameters' => ['value' => FilterAnimalsEnum::DISALLOWED],
+            'parameters' => ['value' => 0],
         ]);
 
         $service = app()->make(SubscriptionsService::class);
