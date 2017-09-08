@@ -1,5 +1,14 @@
-@import "~app/bootstrap/locale/init";
+@import '~app/bootstrap/variables';
+@import '~app/bootstrap/locale/init';
 
+a,
+.link-style {
+    color: darken($teal, 30%);
+
+    &:hover {
+        color: darken($teal, 45%);
+    }
+}
 img {
     max-width: 100%;
     height: auto;
@@ -210,4 +219,24 @@ strong {
 
 .position-relative {
     position: relative;
+}
+
+.has-notification {
+    position: relative;
+
+    &:before {
+        $circle-radius: 6px;
+
+        content: "";
+        width: $circle-radius * 2;
+        height: $circle-radius * 2;
+        position: absolute;
+        top: -$circle-radius;
+        left: -$circle-radius;
+        border: 2px solid $white;
+        background: $brand-danger;
+        border-radius: 50%;
+        overflow: visible;
+        z-index: 1;
+    }
 }

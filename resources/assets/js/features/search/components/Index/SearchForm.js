@@ -6,13 +6,13 @@ import { browserHistory } from 'react-router';
 import Validator from 'app/services/Validator';
 import { searchIndexRules } from 'app/services/SearchIndex';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
-import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
+import { InputPlaces, InputDateTime } from 'app/components/Controls';
 import { Button } from 'reactstrap';
+import moment from 'moment';
 
-import {getTranslate} from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 import { searchSuccess } from 'features/search/actions';
 
-import 'features/search/styles/react-datepicker.scss';
 import 'features/search/styles/search-index.scss';
 
 class SearchForm extends React.Component {
@@ -69,11 +69,13 @@ class SearchForm extends React.Component {
         const data = {
             from: {
                 name: this.state.from.address,
-                coordinate: getCoordinatesFromPlace(this.state.from.place)
+                coordinate: getCoordinatesFromPlace(this.state.from.place),
+                place: this.state.from.place
             },
             to: {
                 name: this.state.to.address,
-                coordinate: getCoordinatesFromPlace(this.state.to.place)
+                coordinate: getCoordinatesFromPlace(this.state.to.place),
+                place: this.state.to.place
             },
             start_at: this.state.startDate ? this.state.startDate.unix() : null
         };
@@ -81,8 +83,13 @@ class SearchForm extends React.Component {
         browserHistory.push('/search');
     }
 
+    isValidDate(current){
+        return current.isAfter(moment().subtract( 1, 'day' ));
+    };
+
     render() {
-        const { translate } = this.props;
+        const { translate, pageType } = this.props,
+            btnType = pageType !== 'index' ? 'info' : 'warning';
 
         return (
             <form role="form" className="search-form" action="" method="POST">
@@ -103,15 +110,26 @@ class SearchForm extends React.Component {
                     >{translate('search_index.going_to_label')}</InputPlaces>
                 </div>
                 <div className="wizard-form__input wizard-form__input_calendar">
-                    <InputDate
+                    <InputDateTime
                         id="trip_date"
                         value={this.state.startDate}
+                        inputProps={{name: 'trip_date', id: 'trip_date'}}
+                        timeFormat={false}
+                        isValidDate={this.isValidDate}
                         onChange={this.onChangeDate}
+                        labelClasses='form-input fa-calendar'
                         label={translate('search_index.date')}
                         error={this.state.errors.start_at}
+                        className="wizard-form__input_calendar-datetimepicker"
                     />
                 </div>
-                <Button className="wizard-form__btn btn btn-warning btn-lg" color="warning" size="lg" role="button" onClick={this.onClick.bind(this)}>{translate('search_index.find_a_ride')}</Button>
+                <Button className={"wizard-form__btn btn btn-lg btn-" + btnType}
+                    color={btnType}
+                    size="lg"
+                    role="button"
+                    onClick={this.onClick.bind(this)}>
+                        { translate('search_index.find_a_ride') }
+                </Button>
             </form>
         );
     }

@@ -29,12 +29,22 @@ export const search = (
  */
 export const setFilter = (filter, params = {}) => {
     let newParams = {};
-    for (let field in filter) {
+
+    Object.keys(filter).forEach(field => {
         if (filter[field] instanceof Array) {
             newParams[`filter[${field}][min]`] = filter[field][0];
             newParams[`filter[${field}][max]`] = filter[field][1];
+            return;
         }
-    }
+
+        if (filter[field]) {
+            newParams[`filter[${field}]`] = filter[field];
+            return;
+        }
+
+        newParams[`filter[${field}]`] = null;
+    });
+
     return Object.assign(params, newParams);
 };
 
@@ -47,12 +57,36 @@ export const getFilter = () => {
     let filter = {};
     if (+query["filter[price][min]"] >= 0 && +query["filter[price][max]"] > 0) {
         filter['price'] = [+query["filter[price][min]"], +query["filter[price][max]"]];
+    } else {
+        filter['price'] = [0, 0];
     }
     if (+query["filter[time][min]"] >= 0 && +query["filter[time][max]"] > 0) {
         filter['time'] = [+query["filter[time][min]"], +query["filter[time][max]"]];
+    } else {
+        filter['time'] = [0, 24];
     }
     if (+query["start_at"] > 0) {
         filter['date'] = +query["start_at"];
+    }
+    if (query["filter[animals]"]) {
+        filter['animals'] = query["filter[animals]"];
+    } else {
+        filter['animals'] = null;
+    }
+    if (query["filter[luggage]"]) {
+        filter['luggage'] = query["filter[luggage]"];
+    } else {
+        filter['luggage'] = null;
+    }
+    if (query["filter[seats]"]) {
+        filter['seats'] = query["filter[seats]"];
+    } else {
+        filter['seats'] = null;
+    }
+    if (query["filter[rating]"]) {
+        filter['rating'] = query["filter[rating]"];
+    } else {
+        filter['rating'] = null;
     }
     return filter;
 };
@@ -61,7 +95,7 @@ export const getFilter = () => {
  * Encode coords for query
  */
 export const encodeCoord = (coord = {lng: null, lat: null}) =>
-    (+coord.lng) + '|' + (+coord.lat);
+(+coord.lng) + '|' + (+coord.lat);
 
 /**
  * Decode coords from query
@@ -107,4 +141,47 @@ export const getCurrentPage = (page, limit, totalSize) => {
 
 export const getCountResult = (currentPage, lengthData, limit) => {
     return (currentPage - 1) * limit + lengthData;
+};
+
+/**
+ * Transform data for subscription request
+ *
+ * @param toBeTransformed
+ */
+export const transformSubscriptionData = (toBeTransformed) => {
+    return {
+        start_point: {
+            from: toBeTransformed.data.from.place,
+            from_lat: toBeTransformed.data.from.coordinate.lat,
+            from_lng: toBeTransformed.data.from.coordinate.lng
+        },
+        end_point: {
+            to: toBeTransformed.data.to.place,
+            to_lat: toBeTransformed.data.to.coordinate.lat,
+            to_lng: toBeTransformed.data.to.coordinate.lng
+        },
+        start_at: toBeTransformed.data.start_at,
+        email: toBeTransformed.subsEmail,
+        filters: {
+            animals: toBeTransformed.animals,
+            luggage: toBeTransformed.luggage,
+            seats: toBeTransformed.seats,
+            rating: toBeTransformed.rating,
+            price: {
+                from: toBeTransformed.price[0],
+                to: toBeTransformed.price[1]
+            },
+            time: {
+                from: toBeTransformed.time[0],
+                to: toBeTransformed.time[1]
+            }
+        }
+    };
+};
+
+export const sendSubscribeRequest = (data) => {
+    return simpleRequest.post('api/v1/subscription', data)
+        .then(
+            response => Promise.resolve(response)
+        );
 };

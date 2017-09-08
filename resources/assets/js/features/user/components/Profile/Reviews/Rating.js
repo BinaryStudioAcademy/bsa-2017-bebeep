@@ -22,7 +22,7 @@ class Rating extends React.Component {
                     <div className="col-sm-6 text-center">
                         <div className="rating-block">
                             <h5>{translate('rating.driver_rating')}</h5>
-                            <h2 className="bold padding-bottom-7"><i className="fa fa-star" aria-hidden="true"></i>{marksStats.avg} <span className="small-text">/ 5</span></h2>
+                            <h2 className="bold padding-bottom-7"><i className="fa fa-star" aria-hidden="true"></i>{marksStats.avg.toFixed(2)} <span className="small-text">/ 5</span></h2>
                         </div>
                     </div>
                     <div className="col-sm-6">

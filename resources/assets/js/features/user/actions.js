@@ -35,6 +35,21 @@ export const userAvatarUpdateState = data => ({
     data
 });
 
+export const userBookingSetState = data => ({
+    type: actions.USER_BOOKING_SET_STATE,
+    data
+});
+
+export const userFormRoleSetState = data => ({
+    type: actions.USER_ROLE_SET_STATE,
+    data
+});
+
+export const userHaveBookingSetState = data => ({
+    type: actions.USER_HAVE_BOOKING_SET_STATE,
+    data
+});
+
 function processFailedLoginResponse(response) {
     switch (response.status) {
         case 401:

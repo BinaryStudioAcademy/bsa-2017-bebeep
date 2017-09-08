@@ -4,6 +4,9 @@ import { localize } from 'react-localize-redux';
 import Input from 'app/components/Input';
 import Textarea from 'app/components/Textarea';
 
+import { InputDateTime } from 'app/components/Controls';
+import moment from 'moment';
+
 import { ProfileValidate } from 'app/services/UserService';
 import UserService from 'features/user/services/UserService';
 
@@ -95,6 +98,10 @@ class GeneralForm extends React.Component {
         this.updateProfileGeneral(data);
     }
 
+    isValidDate(current) {
+        return current.isBefore(moment());
+    }
+
     render() {
         const { errors } = this.state,
             { profile, translate } = this.props;
@@ -139,14 +146,21 @@ class GeneralForm extends React.Component {
                             required={ false }
                             error={ errors.phone }
                         >{translate('profile_general.phone')}</Input>
-                        <Input
-                            type="date"
-                            name="birth_date"
-                            id="birth_date"
-                            defaultValue={ profile.birth_date }
-                            required={ false }
-                            error={ errors.birth_date }
-                        >{translate('profile_general.birth_date')}</Input>
+                        <div className={ "form-group row " + (errors.birth_date ? 'has-danger' : '') }>
+                            <label htmlFor='birth_date' className='form-control-label text-muted col-sm-4'>{translate('profile_general.birth_date')}</label>
+                            <div className="col-md-8">
+                                <InputDateTime
+                                    id="birth_date"
+                                    isValidDate={this.isValidDate}
+                                    timeFormat={false}
+                                    defaultValue={profile.birth_date}
+                                    inputProps={{name: 'birth_date', id: 'birth_date'}}
+                                    labelClasses="register-form-label"
+                                    wrapperClasses="register-form-birth_date"
+                                    error={errors.birth_date}
+                                />
+                            </div>
+                        </div>
 
                         <div className={ "form-group row " + (errors.role ? 'has-danger' : '') }>
                             <div className="col-sm-4">

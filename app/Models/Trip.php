@@ -11,6 +11,9 @@ class Trip extends Model
     use SoftDeletes;
 
     const MIN_DELAY_TO_START_DATE = 3600;
+    const LUGGAGE_SIZE_BIG = 2;
+    const LUGGAGE_SIZE_MEDIUM = 1;
+    const LUGGAGE_SIZE_SMALL = 0;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +27,8 @@ class Trip extends Model
         'end_at',
         'vehicle_id',
         'user_id',
+        'luggage_size',
+        'is_animals_allowed',
     ];
 
     /**
@@ -35,6 +40,13 @@ class Trip extends Model
         'updated_at',
         'start_at',
         'end_at',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'is_animals_allowed' => 'boolean',
     ];
 
     /**
@@ -67,5 +79,13 @@ class Trip extends Model
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function subscriptions()
+    {
+        return $this->belongsToMany(Subscription::class);
     }
 }

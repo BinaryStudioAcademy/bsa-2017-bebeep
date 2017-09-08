@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
-import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
-import DatePicker from 'react-datepicker';
+import { InputPlaces, InputDateTime } from 'app/components/Controls';
 import moment from 'moment';
 
-import { searchSuccess } from 'features/search/actions';
+import { searchSuccess, updateStartTime } from 'features/search/actions';
 import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
-import {getTranslate} from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 
 class SearchForm extends React.Component {
 
@@ -33,7 +33,9 @@ class SearchForm extends React.Component {
     }
 
     dateChange(date) {
-        setUrl({start_at: date ? date.unix() : null});
+        let start_at = date ? date.unix() : null;
+        setUrl({start_at});
+        this.props.updateStartTime(start_at);
     }
 
     componentWillMount() {
@@ -107,6 +109,26 @@ class SearchForm extends React.Component {
             .catch(error => {});
     }
 
+    setDataAndRedirectSearch() {
+        const { tripData } = this.state,
+            { searchSuccess } = this.props;
+
+        const searchData = {
+            from: {
+                name: tripData.from.name,
+                coordinate: tripData.from.coordinate,
+            },
+            to: {
+                name: tripData.to.name,
+                coordinate: tripData.to.coordinate,
+            },
+            start_at: tripData.start_at,
+        };
+
+        searchSuccess(searchData);
+        browserHistory.push('/search');
+    }
+
     onSelectStartPoint(address) {
         this.selectGeoPoint('from', address);
     }
@@ -129,7 +151,7 @@ class SearchForm extends React.Component {
             return;
         }
         const { tripData } = this.state,
-            { onSearch, translate } = this.props,
+            { onSearch, translate, redirectToSearch } = this.props,
             toBeValidated = {
                 from: tripData.from.coordinate,
                 to: tripData.to.coordinate,
@@ -139,8 +161,14 @@ class SearchForm extends React.Component {
                 to: Validator.coordinate(translate('validate.incorrect_going_to_point'))
             },
             validated = Validator.validate(resultValidate, toBeValidated);
+
         if (!validated.valid) {
             this.setState({errors: validated.errors});
+            return;
+        }
+
+        if (redirectToSearch) {
+            this.setDataAndRedirectSearch();
             return;
         }
 
@@ -153,6 +181,10 @@ class SearchForm extends React.Component {
         });
         onSearch ? onSearch() : null;
     }
+
+    isValidDate(current){
+        return current.isAfter(moment().subtract( 1, 'day' ));
+    };
 
     render() {
         const {tripData, errors, date} = this.state,
@@ -228,17 +260,18 @@ class SearchForm extends React.Component {
                             </div>
                         </div>
                         <div className="col-sm-2">
-                            <label className='form-input filter__prop-control-label search-block__search-label fa-calendar'>
-                                <DatePicker
-                                    todayButton={"Today"}
-                                    selected={date}
-                                    onChange={this.dateChange}
-                                    placeholderText={translate('search_result.filter.date_placeholder')}
-                                    minDate={moment()}
-                                    className="form-control filter__prop-datepicker-input"
-                                />
-                                <span className="form-input__label search-block__search-label-span">{translate('search_result.when')}</span>
-                            </label>
+                            <InputDateTime
+                                id="trip_date"
+                                value={date}
+                                inputProps={{name: 'trip_date', id: 'trip_date'}}
+                                timeFormat={false}
+                                onChange={this.dateChange}
+                                isValidDate={this.isValidDate}
+                                labelClasses='form-input fa-calendar search-result-datepicker-label'
+                                label={translate('search_result.when')}
+                                error={errors.start_at}
+                                className="search-result-datepicker"
+                            />
                         </div>
                         <div className="col-sm-3">
                             <button role="button" className="btn search-block__btn" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
@@ -261,7 +294,7 @@ const SearchFormConnect = connect(
         translate: getTranslate(state.locale)
     }),
     dispatch =>
-        bindActionCreators({searchSuccess}, dispatch)
+        bindActionCreators({searchSuccess, updateStartTime}, dispatch)
 )(SearchForm);
 
 export default withRouter(SearchFormConnect);

@@ -31,7 +31,7 @@ class AvatarController extends Controller
      */
     public function show(): JsonResponse
     {
-        $avatar = $this->userProfileService->getAvatar(Auth::user()->id);
+        $avatar = $this->userProfileService->getAvatar(Auth::user());
 
         return response()->json(['avatar' => $avatar]);
     }
@@ -46,9 +46,11 @@ class AvatarController extends Controller
     public function update(UpdateUserAvatarRequest $request): JsonResponse
     {
         try {
-            $avatar = $this->userProfileService->updateAvatar(Auth::user()->id, $request);
+            $avatar = $this->userProfileService->updateAvatar(Auth::user(), $request);
         } catch (FileCannotBeAdded $e) {
-            return response()->json(['error' => __('Http/Controllers/User/AvatarController.file_cannot_be_added')], 422);
+            return response()->json([
+                'error' => __('Http/Controllers/User/AvatarController.file_cannot_be_added'),
+            ], 422);
         }
 
         return response()->json(['avatar' => $avatar]);
@@ -61,7 +63,7 @@ class AvatarController extends Controller
      */
     public function destroy(): JsonResponse
     {
-        $this->userProfileService->deleteAvatar(Auth::user()->id);
+        $this->userProfileService->deleteAvatar(Auth::user());
 
         return response()->json();
     }

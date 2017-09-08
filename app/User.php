@@ -9,10 +9,10 @@ use App\Models\Vehicle;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMediaConversions
 {
     use Notifiable, HasMediaTrait;
 
@@ -21,6 +21,9 @@ class User extends Authenticatable implements HasMedia
     const ADMIN_PERMISSION = 4;
 
     const MEDIA_AVATARS_COLLECTION = 'avatars';
+    const MEDIA_AVATAR_ALLOWED_MIMETYPES = 'image/jpeg,image/png';
+    const MEDIA_AVATAR_SIZE = 150;
+    const MEDIA_AVATAR_CONVERSION = 'avatar_'.self::MEDIA_AVATAR_SIZE;
 
     /**
      * Boot the model.
@@ -189,33 +192,49 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
+     * Register media conversions for the user avatar image.
+     *
+     * @return void
+     */
+    public function registerMediaConversions(): void
+    {
+        $this->addMediaConversion(self::MEDIA_AVATAR_CONVERSION)
+              ->performOnCollections(self::MEDIA_AVATARS_COLLECTION)
+              ->width(self::MEDIA_AVATAR_SIZE)
+              ->height(self::MEDIA_AVATAR_SIZE)
+              ->optimize();
+    }
+
+    /**
      * Get the user avatar media instance.
      *
      * @return \Spatie\MediaLibrary\Media|null
      */
-    public function getAvatar(): ?Media
+    public function getAvatarMedia(): ?Media
     {
         return $this->getFirstMedia(self::MEDIA_AVATARS_COLLECTION);
     }
 
     /**
-     * Get the full url of the user avatar.
+     * Get the user avatar.
      *
      * @param  bool $fullUrl
+     *
      * @return string|null
      */
     public function getAvatarUrl(bool $fullUrl = false): ?string
     {
-        $avatar = $this->getAvatar();
+        $avatar = $this->getAvatarMedia();
 
         if ($avatar === null) {
             return null;
         }
+
         if ($fullUrl) {
-            return $this->getAvatar()->getFullUrl();
+            return $avatar->getFullUrl(self::MEDIA_AVATAR_CONVERSION);
         }
 
-        return $this->getAvatar()->getUrl();
+        return $avatar->getUrl(self::MEDIA_AVATAR_CONVERSION);
     }
 
     /**

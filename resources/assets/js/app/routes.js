@@ -34,9 +34,13 @@ import {
     ReviewsGiven
 } from '../features/user/layouts/Profile/Reviews';
 
+import Notifications from 'features/notifications/layouts/Notifications';
+
 import Elements from '../features/elements/Elements.js';
 
 import {requireAuth, requireGuest} from '../app/services/AuthService';
+import {getCountUnread} from './services/NotificationService';
+import {setCountUnreadNotifications} from 'features/notifications/actions';
 import LangeService from './services/LangService';
 
 export default (store) => {
@@ -47,21 +51,31 @@ export default (store) => {
     LangeService.addTranslation(require('./lang/validate.locale.json'));
 
     return (
-        <Route path="/" component={ App }>
+        <Route path="/" component={ App } onChange={() => {
+            getCountUnread().then((response) => {
+                store.dispatch(setCountUnreadNotifications(response.data));
+            });
+        }} onEnter={() => {
+            getCountUnread().then((response) => {
+                store.dispatch(setCountUnreadNotifications(response.data));
+            });
+        }}>
 
             <Route path="elements" component={Elements}/>
 
             {/* Index page */}
             <IndexRoute component={ SearchIndex }/>
             {/* Search page */}
-            <Route path="search" component={ SearchResult }/>
+            <Route path="search" component={ SearchResult } />
 
             {/* Routes only for auth users */}
             <Route onEnter={ requireAuth }>
 
                 {/* Vehicle creating and show details */}
                 <Route path="vehicles">
+
                     <IndexRoute component={ Vehicles }/>
+
                     <Route path="create" component={ CreateVehicle }/>
                     <Route path="edit/:id" component={ EditVehicle }/>
                     {/*<Route path=":id" component={ VehicleDetails } />*/}
@@ -74,11 +88,10 @@ export default (store) => {
                     <Route path="past" component={ TripsList }/>
                 </Route>
 
-                {/* Trip details, creating and editing */}
+                {/* Trip creating and editing */}
                 <Route path="trip">
-                    <Route path="create" component={ CreateTrip }/>
-                    <Route path=":id" component={ TripDetails }/>
-                    <Route path="edit/:id" component={ EditTrip }/>
+                    <Route path="create" component={ CreateTrip } />
+                    <Route path="edit/:id" component={ EditTrip } />
                 </Route>
 
                 {/* Bookings - upcomming and pasts */}
@@ -108,6 +121,9 @@ export default (store) => {
                         {/* User profile password */}
                         <Route path="password" component={ ProfilePassword }/>
                     </Route>
+
+                    {/* Notifications */}
+                    <Route path="notifications" component={ Notifications } />
                 </Route>
 
                 {/* User logout */}
@@ -125,6 +141,9 @@ export default (store) => {
                 <Route path="login" component={ LoginForm }/>
                 <Route path="password/reset" component={ PasswordReset }/>
             </Route>
+
+            {/* Trip details. Must stay HERE - conflict with /trip/create */}
+            <Route path="trip/:id" component={ TripDetails } />
 
             {/*Driver public profile*/}
             <Route path="driver/:id" component={ DriverPublicProfile }/>

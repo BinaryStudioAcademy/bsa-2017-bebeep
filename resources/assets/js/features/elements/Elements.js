@@ -1,7 +1,7 @@
 import React from 'react';
-import InputDate from 'app/components/Controls/InputDate';
-import Input from 'app/components/Controls/Input';
-import Select from 'app/components/Controls/Select';
+
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
+import { Input, InputAutocomplete, InputDateTime, Select } from 'app/components/Controls';
 
 class Elements extends React.Component {
     constructor() {
@@ -10,13 +10,15 @@ class Elements extends React.Component {
             date: null,
             text: '',
             text2: '',
+            selected: 'foo'
         };
     }
 
     render() {
-        const {date, text, text2} = this.state;
+        const { date, text, text2, selected } = this.state;
+        console.log(selected);
         return (
-            <div>
+            <ContainerWrapper>
                 <div>
                     <button className="btn btn-info btn-lg">Найти</button>
                     <button className="btn btn-info btn-lg disabled">Найти</button>
@@ -26,12 +28,14 @@ class Elements extends React.Component {
                     <button className="btn btn-warning btn-lg disabled">Продолжить</button>
                 </div>
 
-                <InputDate
+                <InputDateTime
                     id="date"
                     value={date}
+                    timeFormat={false}
+                    inputProps={{name: 'date', id: 'date'}}
                     onChange={(date) => (this.setState({date}))}
+                    labelClasses="form-input fa-calendar"
                     label="Когда"
-                    error="error"
                 />
 
                 <Input
@@ -55,7 +59,23 @@ class Elements extends React.Component {
                     <option value="1">1 место</option>
                     <option value="2">2 место</option>
                 </Select>
-            </div>
+
+                <InputAutocomplete
+                    id="autocomplete"
+                    value={selected}
+                    items={[
+                        { name_id: 1, name: 'foo' },
+                        { name_id: 2, name: 'bar' },
+                        { name_id: 3, name: 'baz' },
+                    ]}
+                    onChange={(e) => { this.setState({selected: e.target.value}) }}
+                    onSelected={(value, item) => console.log([value, item])}
+                    transformer={(item) => ({
+                        id: item.name_id,
+                        label: item.name
+                    })}
+                >Brand car</InputAutocomplete>
+            </ContainerWrapper>
         );
     }
 }

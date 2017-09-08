@@ -23,4 +23,12 @@ interface CreateTripRequest
     public function getWaypoints(): array;
 
     public function getVehicle(): array;
+
+    public function getLuggageSize(): int;
+
+    public function getIsAnimalsAllowed(): bool;
+
+    public function getIsInBothDirections(): bool;
+
+    public function getReverseStartAt(): Carbon;
 }

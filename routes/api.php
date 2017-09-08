@@ -90,11 +90,12 @@ Route::group([
     'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
 ], function () {
     Route::resource('v1/car', 'Api\\Car\\CarController');
-    Route::resource('v1/car-body', 'Api\\Car\\CarBodyController', ['only' => ['index']]);
-    Route::resource('v1/car-color', 'Api\\Car\\CarColorController', ['only' => ['index']]);
-    Route::resource('v1/car-brand', 'Api\\Car\\CarBrandController', ['only' => ['index']]);
-    Route::get('v1/car-brand/{model}/models', 'Api\\Car\\CarBrandController@getModelByMarkId');
 });
+
+Route::resource('v1/car-body', 'Api\\Car\\CarBodyController', ['only' => ['index']]);
+Route::resource('v1/car-color', 'Api\\Car\\CarColorController', ['only' => ['index']]);
+Route::resource('v1/car-brand', 'Api\\Car\\CarBrandController', ['only' => ['index']]);
+Route::get('v1/car-brand/{carBrand}/models', 'Api\\Car\\CarBrandController@getModelByBrand');
 
 Route::group([
     'prefix' => 'v1/trips',
@@ -165,3 +166,32 @@ Route::get('v1/reviews/received', [
     'as' => 'reviews.received',
     'uses' => 'ReviewsController@received',
 ]);
+
+Route::group([
+    'prefix' => '/v1/notifications',
+    'middleware' => ['jwt.auth'],
+    'as' => 'notifications.',
+], function () {
+    Route::get('/', [
+        'as' => 'index',
+        'uses' => 'NotificationsController@index',
+    ]);
+
+    Route::put('/{databaseNotification}/status', [
+        'read',
+        'uses' => 'NotificationsController@changeStatus',
+    ]);
+
+    Route::get('/unread/count', [
+        'unread',
+        'uses' => 'NotificationsController@getUnread',
+    ]);
+});
+
+Route::post('v1/reviews', [
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION],
+    'as' => 'review.create',
+    'uses' => 'ReviewsController@save',
+]);
+
+Route::resource('v1/subscription', 'Api\\Subscription\\SubscriptionsController', ['only' => ['store']]);

@@ -14,7 +14,14 @@
       "name": ["Stopover ${n}", "Зупинка ${n}", "Остановка ${n}"],
       "delete": ["Delete", "Видалити", "  Удалить"],
       "add": ["Add stopover", "Додати зупинку", "Добавить остановку"]
-    }
+    },
+    "luggage_size": ["Luggage Size", "Розмір багажу", "Размер багажа"],
+    "luggage_size_0": ["Small", "Маленький", "Маленький"],
+    "luggage_size_1": ["Medium", "Середній", "Средний"],
+    "luggage_size_2": ["Big", "Великий", "Большой"],
+    "is_animals_allowed": ["Animals allowed", "Тварини дозволені", "Животные разрешены"],
+    "is_round_trip": ["Round Trip", "В обидві сторони", "В обе стороны"],
+    "reverse_start_at": ["Rount Trip start time", "Час початку зворотної поїздки", "Время начала обратной поездки"]
   }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Services\Contracts;
 
 use App\User;
+use App\Services\Requests\CreateReviewRequest;
 
 interface ReviewsService
 {
@@ -11,4 +12,6 @@ interface ReviewsService
     public function getReceived(User $user);
 
     public function getRating(User $user);
+
+    public function save(CreateReviewRequest $request, User $user);
 }

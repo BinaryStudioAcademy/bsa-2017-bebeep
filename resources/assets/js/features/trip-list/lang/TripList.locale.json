@@ -10,7 +10,8 @@
     "delete": ["Delete", "Видалити", "Удалить"],
     "restore": ["Restore", "Відновити", "Восстановить"],
     "deleted_successfully": ["Deleted successfully", "Успішно видалено", "Успешно удалено"],
-    "trips_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"]
+    "trips_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"],
+    "passengers_link":["Passengers","Пасажири","Пасажиры"]
   },
   "booking": {
     "seats": ["Number of seats", "Кількість місць", "Количество мест"],

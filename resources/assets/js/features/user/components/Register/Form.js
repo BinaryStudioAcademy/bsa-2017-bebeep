@@ -1,13 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router';
-
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {browserHistory} from 'react-router';
+import {InputDateTime} from 'app/components/Controls';
 import Input from 'app/components/Input';
+import moment from 'moment';
 
-import { registerSuccess } from 'features/user/actions';
-import { simpleRequest } from 'app/services/RequestService';
-import { RegisterValidate } from 'app/services/UserService';
+import {
+    registerSuccess,
+    loginSuccess,
+    userBookingSetState,
+    userFormRoleSetState,
+    userHaveBookingSetState
+} from 'features/user/actions';
+
+import {simpleRequest} from 'app/services/RequestService';
+import BookingService from 'app/services/BookingService';
+import {RegisterValidate, checkPassengerRole} from 'app/services/UserService';
 import { initSession, destroySession, getAuthUser } from 'app/services/AuthService';
 
 import {getTranslate} from 'react-localize-redux';
@@ -28,6 +37,22 @@ class Form extends React.Component {
         };
     }
 
+    createBooking() {
+        const {tripId, routes, seats} = this.props.booking;
+
+        BookingService.createBooking(tripId, {
+            routes,
+            seats
+        }).then((data) => {
+            this.props.userBookingSetState(null);
+            this.props.userFormRoleSetState(null);
+            this.props.userHaveBookingSetState(false);
+            browserHistory.push('/bookings');
+        }).catch((error) => {
+
+        });
+    }
+
     componentWillMount() {
         if (this.props.stepWizard === STEP_THREE) {
             this.setState({hasTripPending: isTripReady(this.props.tripPending)});
@@ -42,7 +67,7 @@ class Form extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const {registerSuccess, tripPending, completeTrip} = this.props,
+        const {registerSuccess, loginSuccess, tripPending, completeTrip} = this.props,
             {hasTripPending} = this.state,
             registerData = {
                 first_name: e.target['first_name'].value,
@@ -67,12 +92,15 @@ class Form extends React.Component {
                     response => {
                         initSession(response.data.token);
                         registerSuccess(getAuthUser());
+                        loginSuccess(getAuthUser());
 
                         if (hasTripPending) {
                             savePendingTrip(tripPending).then(() => {
                                 completeTrip();
                                 browserHistory.push('/trips');
                             });
+                        } else if (this.props.userHaveBooking) {
+                            this.createBooking();
                         } else {
                             browserHistory.push('/dashboard');
                         }
@@ -85,10 +113,17 @@ class Form extends React.Component {
                 );
         }
     }
+    isValidDate(current) {
+        return current.isBefore(moment());
+    }
+
 
     render() {
+
         const {errors, hasTripPending} = this.state,
-            {translate} = this.props;
+            {translate, userRole} = this.props;
+        const passengerCheck = checkPassengerRole(userRole);
+
 
         return (
             <form role="form" className="card register-form" action="/api/user/register" method="POST"
@@ -125,15 +160,22 @@ class Form extends React.Component {
                         required={false}
                         error={errors.phone}
                     >{translate('register_form.phone')}</Input>
-                    <Input
-                        type="date"
-                        name="birth_date"
-                        id="birth_date"
-                        required={false}
-                        error={errors.birth_date}
-                    >{translate('register_form.birth_date')}</Input>
+                    <div className={ "form-group row " + (errors.birth_date ? 'has-danger' : '') }>
+                        <label htmlFor='birth_date' className='form-control-label text-muted col-sm-4'>{translate('register_form.birth_date')}</label>
+                        <div className="col-md-8">
+                            <InputDateTime
+                                id="birth_date"
+                                isValidDate={this.isValidDate}
+                                timeFormat={false}
+                                inputProps={{name: 'birth_date', id:'birth_date'}}
+                                labelClasses="register-form-label"
+                                wrapperClasses="register-form-birth_date"
+                                error={errors.birth_date}
+                            />
+                        </div>
+                    </div>
                     <div className={"form-group row " + (errors.role ? 'has-danger' : '')}>
-                        <div className="col-sm-4">
+                        <div className="col-sm-4 text-muted">
                             {translate('register_form.role')}
                         </div>
                         <div className="form-check col-sm-4">
@@ -154,11 +196,12 @@ class Form extends React.Component {
                                        id="role_passenger"
                                        name="role_passenger"
                                        value="1"
+                                       defaultChecked={passengerCheck}
                                 /> {translate('register_form.passenger')}
                             </label>
                         </div>
                         <div className="offset-sm-4 col-sm-8">
-                            <div className="form-control-feedback">{ errors.role }</div>
+                            <div className="form-control-feedback">{errors.role}</div>
                         </div>
                     </div>
                     <Input
@@ -191,12 +234,23 @@ class Form extends React.Component {
 
 const FormConnected = connect(
     state => ({
+        booking: state.user.booking,
+        userLogin: state.user.login.success,
+        userRole: state.user.isPassenger,
+        userHaveBooking: state.user.userHaveBooking,
         stepWizard: state.tripWizard.step,
         tripPending: state.tripWizard.pendingTrip,
         translate: getTranslate(state.locale)
     }),
     (dispatch) =>
-        bindActionCreators({registerSuccess, completeTrip}, dispatch)
+        bindActionCreators({
+            registerSuccess,
+            loginSuccess,
+            completeTrip,
+            userBookingSetState,
+            userFormRoleSetState,
+            userHaveBookingSetState
+        }, dispatch)
 )(Form);
 
 export default FormConnected;

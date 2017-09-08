@@ -10,6 +10,11 @@
     "cancel": ["cancel", "відмінити", "отменить"],
     "cancel_modal_header": ["Cancel booking", "Відмінити замовлення", "Отменить поездку"],
     "no": ["No", "Ні", "Нет"],
-    "yes": ["Yes", "Так", "Да"]
+    "yes": ["Yes", "Так", "Да"],
+    "leave_review": ["Leave review", "Залишити відгук", "Оставить отзыв"],
+    "leave_review_placeholder": ["Leave review...", "Залишити відгук...", "Оставить отзыв..."],
+    "rating": ["Rating:", "Оцінка:", "Оценка:"],
+    "review": ["Review:", "Відгук:", "Отзыв:"],
+    "btn_save": ["Save", "Зберегти", "Сохранить"]
   }
 }

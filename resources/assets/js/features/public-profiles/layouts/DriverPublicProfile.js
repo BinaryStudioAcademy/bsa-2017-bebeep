@@ -1,6 +1,7 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import DriverProfileContainer from '../components/Driver/DriverProfileContainer';
 
 import LangService from 'app/services/LangService';
@@ -16,7 +17,9 @@ class DriverPublicProfile extends React.Component {
         const { translate, params } = this.props;
 
         return (
-            <DriverProfileContainer id={ params.id }/>
+            <ContainerWrapper>
+                <DriverProfileContainer id={ params.id }/>
+            </ContainerWrapper>
         );
     }
 }

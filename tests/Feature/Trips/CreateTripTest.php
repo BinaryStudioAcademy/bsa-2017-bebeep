@@ -142,6 +142,8 @@ class CreateTripTest extends BaseTripTestCase
                 'seats' => $trip['seats'],
                 'vehicle_id' => $trip['vehicle_id'],
                 'user_id' => $user->id,
+                'is_animals_allowed' => 1,
+                'luggage_size' => Trip::LUGGAGE_SIZE_BIG,
             ]
         );
 
@@ -151,6 +153,74 @@ class CreateTripTest extends BaseTripTestCase
                 'trip_id' => json_decode($response->getContent())->id,
             ]
         );
+    }
+
+    /**
+     * @test
+     */
+    public function user_cant_create_revert_trip_if_start_date_is_before_end_date_of_origin_trip()
+    {
+        $user = $this->getDriverUser();
+        $vehicle = factory(Vehicle::class)->create([
+            'seats' => 4,
+            'user_id' => $user->id,
+        ]);
+
+        $originTrip = $this->getValidTripData($vehicle->id);
+
+        $trip = array_merge($originTrip, [
+            'is_in_both_directions' => true,
+            'reverse_start_at' => $originTrip['start_at'],
+        ]);
+
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);
+        $response->assertStatus(422)->assertJsonStructure(['reverse_start_at']);
+    }
+
+    /**
+     * @test
+     */
+    public function user_cant_create_revert_trip_if_start_date_is_not_present()
+    {
+        $user = $this->getDriverUser();
+        $vehicle = factory(Vehicle::class)->create([
+            'seats' => 4,
+            'user_id' => $user->id,
+        ]);
+
+        $originTrip = $this->getValidTripData($vehicle->id);
+
+        $trip = array_merge($originTrip, [
+            'is_in_both_directions' => true,
+        ]);
+
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);
+        $response->assertStatus(422)->assertJsonStructure(['reverse_start_at']);
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_create_revert_trip_if_all_data_is_valid()
+    {
+        $user = $this->getDriverUser();
+        $vehicle = factory(Vehicle::class)->create([
+            'seats' => 4,
+            'user_id' => $user->id,
+        ]);
+
+        $originTrip = $this->getValidTripData($vehicle->id);
+
+        $trip = array_merge($originTrip, [
+            'is_in_both_directions' => true,
+            'reverse_start_at' => $originTrip['end_at'] + 60,
+        ]);
+
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);
+        $response->assertStatus(200);
+
+        $tripsCount = Trip::whereUserId($user->id)->count();
+        $this->assertEquals(2, $tripsCount);
     }
 
     /**

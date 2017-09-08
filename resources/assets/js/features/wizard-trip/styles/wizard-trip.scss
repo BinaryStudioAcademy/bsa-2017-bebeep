@@ -1,4 +1,4 @@
-@import '../../../app/bootstrap/mixins';
+@import '~app/bootstrap/mixins';
 
 .wizard-trip {
   &__step {
@@ -21,11 +21,14 @@
 
   &__input {
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
     margin-left: 15px;
     width: 250px;
     &_calendar {
       width: 170px;
+      &_datetime {
+        width: 220px;
+      }
     }
     &:first-child {
       margin-left: 0;
@@ -138,4 +141,10 @@
       margin-top: 10px;
     }
   }
+}
+
+.wizard-form__input input {
+  padding: 0;
+  font-size: 1.125rem;
+  border: none;
 }
