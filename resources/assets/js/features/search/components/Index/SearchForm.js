@@ -2,18 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
+import { Button } from 'reactstrap';
+import { getTranslate } from 'react-localize-redux';
+import moment from 'moment';
+
+import { InputPlaces, InputDateTime } from 'app/components/Controls';
 
 import Validator from 'app/services/Validator';
 import { searchIndexRules } from 'app/services/SearchIndex';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
-import { InputPlaces, InputDateTime } from 'app/components/Controls';
-import { Button } from 'reactstrap';
-import moment from 'moment';
 
-import { getTranslate } from 'react-localize-redux';
 import { searchSuccess } from 'features/search/actions';
 
 import 'features/search/styles/search-index.scss';
+
 
 class SearchForm extends React.Component {
 

@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 import _ from 'lodash';
 
@@ -19,9 +21,7 @@ import {
     TripDriver,
     TripVehicle,
 } from '../Details/Trip';
-import {addBookingState} from '../../actions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { addBookingState } from 'features/trip/actions';
 
 import 'features/trip/styles/trip_details.scss';
 
