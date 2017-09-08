@@ -51,15 +51,16 @@ class TripCreated extends Notification implements ShouldQueue
 
         return (new MailMessage)
             ->markdown('emails.subscription-email', [
+                'trip_id' => $trip['trip_id'],
                 'from' => $trip['from'],
                 'to' => $trip['to'],
-                'start_at' => Carbon::createFromTimestamp($trip['start_at'])->format('d.m.Y H:i'),
+                'start_at' => $trip['start_at']->toDateString(),
                 'params' => [
-                    'luggage_size' => __('email.subscription.luggage_size'.$trip['params']['luggage_size']),
-                    'seats' => $trip['params']['seats'] < 4 ? $trip['params']['seats'] : __('email.subscription.more_four'),
+                    'luggage_size' => __('email/subscription.luggage_size'.$trip['params']['luggage_size']),
+                    'seats' => $trip['params']['seats'] < 4 ? $trip['params']['seats'] : __('email/subscription.more_four'),
                     'animals' => $trip['params']['animals']
-                        ? __('email.subscription.yes')
-                        : __('email.subscription.not'),
+                        ? __('email/subscription.yes')
+                        : __('email/subscription.not'),
                     'price' => $trip['params']['price'],
                     'rating' => round($trip['params']['seats'], 2),
                 ],

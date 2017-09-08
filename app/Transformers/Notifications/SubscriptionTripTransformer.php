@@ -24,9 +24,11 @@ class SubscriptionTripTransformer extends TransformerAbstract
                 ->first()['avg'];
 
         return [
+            'trip_id' => $trip->id,
             'from' => $first ? $this->getCity($first->from) : '',
             'to' => $last ? $this->getCity($first->to) : '',
-            'start_at' => $trip->start_at->timestamp,
+            'start_at' => $trip->start_at,
+            'start_at_x' => $trip->start_at->timestamp,
             'params' => [
                 'luggage_size' => $trip->luggage_size,
                 'seats' => $trip->seats,

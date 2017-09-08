@@ -53,7 +53,8 @@ class SubscriptionTripCriteria implements CriteriaInterface
                 'FROM routes '.
                 'WHERE trip_id='.$this->trip->id.' AND trip_id IS NOT NULL) < '.self::DISTANCE_TO
             )
-            ->whereDate('subscriptions.start_at', '=', $startAt->toDateString())
+            ->where('subscriptions.start_at', '<=', $startAt)
+            ->whereRaw('DATE_ADD(subscriptions.start_at, INTERVAL 1 DAY)>=\''.$startAt.'\'')
             ->where('subscriptions.is_active', true);
 
         return $query;

@@ -1,11 +1,11 @@
 @component('mail::message')
 # {{ __('email/subscription.hi')  }}
 
-{{ __('email/subscription.about_trip', [
+{!! __('email/subscription.about_trip', [
     'from' => $from,
     'to' => $to,
     'start_at' => $start_at
-]) }}
+]) !!}
 
 @foreach ($params as $param => $value)
     {{ __('email/subscription.'.$param, ['value' => $value]) }}
