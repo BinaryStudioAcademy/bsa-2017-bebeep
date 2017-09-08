@@ -11,6 +11,7 @@ const initialState = {
     },
     session: {
         isAuthorized: false,
+        token: '',
         exp: 0,
         permissions: 0,
     },
@@ -98,6 +99,7 @@ export default function (state = initialState, action) {
                 },
                 session: {
                     isAuthorized: false,
+                    token: '',
                     exp: 0,
                     permissions: 0,
                 },

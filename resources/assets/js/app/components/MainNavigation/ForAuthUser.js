@@ -8,17 +8,16 @@ import UserDropdown from './UserDropdown';
 import MainMenuItem from './Items/MainMenuItem';
 import ChangeLocalization from '../ChangeLocalization';
 
-import AuthService from 'app/services/AuthService';
-import { USER_ROLE_DRIVER, USER_ROLE_PASSENGER } from 'app/services/UserService';
+import { checkPassengerRole, checkDriverRole } from 'app/services/UserService';
 import { getProfileAvatar } from 'app/services/PhotoService';
 
 class ForAuthUser extends React.Component {
 
     render() {
-        const { translate, user } = this.props;
+        const { translate, user, sessionPermissions } = this.props;
 
-        const isDriver = AuthService.checkPermissions(USER_ROLE_DRIVER),
-            isPassenger = AuthService.checkPermissions(USER_ROLE_PASSENGER);
+        const isDriver = checkDriverRole(sessionPermissions),
+            isPassenger = checkPassengerRole(sessionPermissions);
 
         user.avatar = getProfileAvatar(user.avatar);
 

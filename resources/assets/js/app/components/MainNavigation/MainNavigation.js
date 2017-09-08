@@ -25,9 +25,11 @@ class MainNavigation extends React.Component {
 
     render() {
         const navClass = !this.state.isNavOpen ? 'collapse' : '',
-            isAuthorized = this.props.isAuthorized;
+            { isAuthorized, sessionPermissions } = this.props;
 
-        const navLinks = isAuthorized ? <ForAuthUser /> : <ForGuestUser />;
+        const mainNavigation = isAuthorized
+            ? <ForAuthUser sessionPermissions={sessionPermissions} />
+            : <ForGuestUser />;
 
         return (
             <header className="header">
@@ -36,7 +38,7 @@ class MainNavigation extends React.Component {
                         <img src="/template/img/logo.png" alt="BeBeep" />
                     </IndexLink>
 
-                    { navLinks }
+                    { mainNavigation }
                 </div>
             </header>
         );
@@ -46,6 +48,7 @@ class MainNavigation extends React.Component {
 const MainNavigationConnected = connect(
     state => ({
         isAuthorized: state.user.session.isAuthorized,
+        sessionPermissions: state.user.session.permissions,
     }),
     null
 )(MainNavigation);

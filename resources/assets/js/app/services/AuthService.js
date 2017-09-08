@@ -14,33 +14,24 @@ const AuthService = (() => {
         userProps = ['first_name', 'last_name', 'avatar',];
 
     let _this = null,
-        store = null,
-        loginSuccess = null;
-
-    const getSessionFromServer = () => {
-        securedRequest.get('/api/authentication/me')
-            .then(response => {
-                const user = response.data.data;
-                store.dispatch( loginSuccess(_this.getSessionData(user)) );
-            })
-            .catch(error => {
-                _this.destroySession();
-            });
-    };
+        state = null;
 
     return {
         init(params) {
             _this = this;
-            store = params.store;
-            loginSuccess = params.loginSuccess;
+            state = params.store.getState();
+        },
+
+        getFromState(param) {
+            return state.user.session[param];
         },
 
         getSessionToken() {
-            return storage[tokenKeyName];
+            return _this.getFromState('token') || storage[tokenKeyName];
         },
 
         isAuthorized() {
-            return store.getState().user.session.isAuthorized || _this.isSessionTokenValid();
+            return _this.getFromState('isAuthorized');
         },
 
         isSessionTokenValid() {
@@ -82,30 +73,13 @@ const AuthService = (() => {
             if (! _.isEmpty(userData)) {
                 data.user = userData;
             }
+            data.session.token = _this.getSessionToken();
 
             return data;
         },
 
-        setSession() {
-            const data = _this.getSessionData();
-
-            if (!data) {
-                return false;
-            }
-
-            store.dispatch( loginSuccess(data) );
-            /*
-            NOT WORKED - ASYNC REQUEST
-            if (! _this.isSessionTokenValid()) {
-                return false;
-            }
-            getSessionFromServer();
-            */
-        },
-
         checkPermissions(permissions, identically) {
-            const isAuthorized = store.getState().user.session.isAuthorized,
-                sessionPermissions = store.getState().user.session.permissions;
+            const sessionPermissions = _this.getFromState('permissions');
 
             if (!permissions) {
                 return true;

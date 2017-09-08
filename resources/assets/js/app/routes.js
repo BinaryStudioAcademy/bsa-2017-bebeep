@@ -39,20 +39,19 @@ import Notifications from 'features/notifications/layouts/Notifications';
 import Elements from '../features/elements/Elements.js';
 
 import AuthService from './services/AuthService';
+import { ForAuthUser, ForGuest } from './components/Auth';
+import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from './services/UserService';
+
 import { getCountUnread } from './services/NotificationService';
 import LangeService from './services/LangService';
 
-import { loginSuccess } from 'features/user/actions';
 import { setCountUnreadNotifications } from 'features/notifications/actions';
-
-import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from './services/UserService';
 
 export default (store) => {
 
-    AuthService.init({store, loginSuccess});
+    AuthService.init({store});
     LangeService.init(store);
 
-    AuthService.setSession();
     LangeService.addTranslation(require('./lang/global.locale.json'));
     LangeService.addTranslation(require('./lang/validate.locale.json'));
 
@@ -75,10 +74,11 @@ export default (store) => {
             <Route path="search" component={ SearchResult } />
 
             {/* Routes only for auth users */}
-            <Route onEnter={ (nextState, replace) => AuthService.requireAuth({
+            {/*<Route onEnter={ (nextState, replace) => AuthService.requireAuth({
                 route: { nextState, replace },
                 permissions: USER_ROLE_DRIVER,
-            }) }>
+            }) }>*/}
+            <Route component={ ForAuthUser({ permissions: USER_ROLE_DRIVER }) }>
 
                 {/* Vehicle creating and show details */}
                 <Route path="vehicles">
@@ -104,17 +104,18 @@ export default (store) => {
                 </Route>
             </Route>
 
-            <Route onEnter={ (nextState, replace) => AuthService.requireAuth({
+            <Route component={ ForAuthUser }>
+            {/*<Route onEnter={ (nextState, replace) => AuthService.requireAuth({
                 route: { nextState, replace },
                 permissions: USER_ROLE_PASSENGER,
-            }) }>
+            }) }>*/}
 
                 {/* Bookings - upcomming and pasts */}
                 <Route path="bookings" component={ BookingsList }/>
                 <Route path='bookings/past' component={ BookingsList }/>
             </Route>
 
-            <Route onEnter={ AuthService.requireAuth }>
+            <Route component={ ForAuthUser }>
 
                 {/* User dashboard */}
                 <Route path="dashboard">
@@ -149,7 +150,7 @@ export default (store) => {
             </Route>
 
             {/* Routes only for guest users */}
-            <Route onEnter={ AuthService.requireGuest }>
+            <Route component={ ForGuest }>
                 {/* User registration and email verification */}
                 <Route path="registration" component={ RegisterForm }/>
                 <Route path="registration/success" component={ RegisterSuccess }/>
