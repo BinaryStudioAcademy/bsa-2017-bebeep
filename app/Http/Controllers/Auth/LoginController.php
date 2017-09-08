@@ -39,13 +39,10 @@ class LoginController extends Controller
             $token = $this->authUserService->auth($request);
 
             return response()->json(['token' => $token], 200);
-
         } catch (UserNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], 404);
-
         } catch (InvalidCredentialsException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
-
         } catch (CreateTokenException $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }

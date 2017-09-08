@@ -36,16 +36,12 @@ class SessionController extends Controller
             $user = $this->authSessionService->getUserData();
 
             return fractal($user, new SessionDataTransformer())->respond();
-
         } catch (UserNotFoundException $e) {
             return response()->json([$e->getMessage()], 404);
-
         } catch (TokenExpiredException $e) {
             return response()->json(['token_expired'], $e->getStatusCode());
-
         } catch (TokenInvalidException $e) {
             return response()->json(['token_invalid'], $e->getStatusCode());
-
         } catch (JWTException $e) {
             return response()->json(['token_absent'], $e->getStatusCode());
         }
