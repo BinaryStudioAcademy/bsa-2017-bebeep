@@ -87,16 +87,27 @@ const AuthService = (() => {
         },
 
         setSession() {
+            const data = _this.getSessionData();
+
+            if (!data) {
+                return false;
+            }
+
+            store.dispatch( loginSuccess(data) );
+            /*
+            NOT WORKED - ASYNC REQUEST
             if (! _this.isSessionTokenValid()) {
                 return false;
             }
             getSessionFromServer();
+            */
         },
 
         checkPermissions(permissions, identically) {
-            const sessionPermissions = store.getState().user.session.permissions;
+            const isAuthorized = store.getState().user.session.isAuthorized,
+                sessionPermissions = store.getState().user.session.permissions;
 
-            if (!sessionPermissions || !permissions) {
+            if (!permissions) {
                 return true;
             }
 

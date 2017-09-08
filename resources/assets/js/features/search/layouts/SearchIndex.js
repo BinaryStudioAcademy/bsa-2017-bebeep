@@ -18,7 +18,7 @@ class SearchIndex extends React.Component {
 
         this.state = {
             mode: USER_ROLE_PASSENGER,
-            isDriverModeAvailable: this.isDriverModeAvailable(),
+            isDriverModeAvailable: true,
         };
 
         this.setPassengerMode = this.setPassengerMode.bind(this);
@@ -29,6 +29,10 @@ class SearchIndex extends React.Component {
         LangService.addTranslation(lang);
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({ isDriverModeAvailable: this.isDriverModeAvailable(nextProps) });
+    }
+
     isPassengerMode() {
         return this.state.mode === USER_ROLE_PASSENGER;
     }
@@ -37,8 +41,13 @@ class SearchIndex extends React.Component {
         return this.state.mode === USER_ROLE_DRIVER;
     }
 
-    isDriverModeAvailable() {
-        return checkDriverRole(this.props.sessionPermissions);
+    isDriverModeAvailable(props) {
+        const { isAuthorized, sessionPermissions } = props;
+
+        if (!isAuthorized) {
+            return true;
+        }
+        return checkDriverRole(sessionPermissions);
     }
 
     setPassengerMode(e) {
@@ -58,7 +67,7 @@ class SearchIndex extends React.Component {
     renderWizardTabs() {
         const { translate } = this.props,
             { isDriverModeAvailable } = this.state;
-            console.log(isDriverModeAvailable);
+            //isDriverModeAvailable = this.isDriverModeAvailable();
 
         return (
             <div className="home-slider__tabs wizard-tabs">
@@ -116,9 +125,10 @@ class SearchIndex extends React.Component {
 
 const SearchIndexConnected = connect(
     state => ({
+        isAuthorized: state.user.session.isAuthorized,
         sessionPermissions: state.user.session.permissions,
     }),
-    null
+    null,
 )(SearchIndex);
 
 export default localize(SearchIndexConnected, 'locale');
