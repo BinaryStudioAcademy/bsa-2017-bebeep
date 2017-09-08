@@ -62,17 +62,7 @@ class SubscriptionSearchTest extends JwtTestCase
         $this->getSubscription($this->locations[0]);
         $subscription = $this->getSubscription($this->locations[1]);
 
-        $trip = $this->getTrip([
-                'from' => $subscription->from,
-                'lat' => $subscription->from_lat,
-                'lng' => $subscription->from_lng,
-            ], [
-                'to' => $subscription->to,
-                'lat' => $subscription->to_lat,
-                'lng' => $subscription->to_lng,
-            ],
-            ['start_at' => $subscription->start_at]
-        );
+        $trip = $this->getTripBySubscription($subscription);
 
         $service = app()->make(SubscriptionsService::class);
 
@@ -90,26 +80,12 @@ class SubscriptionSearchTest extends JwtTestCase
     public function it_find_trip_with_time_filter()
     {
         $start_at = Carbon::today();
-        $subscription = $this->getSubscription(array_merge($this->locations[0], [
-            'start_at' => $start_at,
-        ]));
+        $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
 
-        $subscription2 = $this->getSubscription(array_merge($this->locations[0], [
-            'start_at' => $start_at,
-        ]));
+        $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
 
         $start_at->addHours(8);
-        $trip = $this->getTrip([
-                'from' => $subscription->from,
-                'lat' => $subscription->from_lat,
-                'lng' => $subscription->from_lng,
-            ], [
-                'to' => $subscription->to,
-                'lat' => $subscription->to_lat,
-                'lng' => $subscription->to_lng,
-            ],
-            ['start_at' => $start_at]
-        );
+        $trip = $this->getTripBySubscription($subscription, ['start_at' => $start_at]);
 
         $filter = $this->getFilter($subscription, [
             'name' => 'time',
@@ -146,28 +122,9 @@ class SubscriptionSearchTest extends JwtTestCase
         ]));
 
         $start_at->addHours(8);
-        $tripWithAnimals = $this->getTrip([
-                'from' => $subscription->from,
-                'lat' => $subscription->from_lat,
-                'lng' => $subscription->from_lng,
-            ], [
-                'to' => $subscription->to,
-                'lat' => $subscription->to_lat,
-                'lng' => $subscription->to_lng,
-            ],
-            ['is_animals_allowed' => true]
-        );
-        $tripWithoutAnimals = $this->getTrip([
-            'from' => $subscription->from,
-            'lat' => $subscription->from_lat,
-            'lng' => $subscription->from_lng,
-        ], [
-            'to' => $subscription->to,
-            'lat' => $subscription->to_lat,
-            'lng' => $subscription->to_lng,
-        ],
-            ['is_animals_allowed' => false]
-        );
+        $tripWithAnimals = $this->getTripBySubscription($subscription, ['is_animals_allowed' => true]);
+
+        $tripWithoutAnimals = $this->getTripBySubscription($subscription, ['is_animals_allowed' => false]);
 
         $filter = $this->getFilter($subscription, [
             'name' => 'animals',
@@ -207,28 +164,8 @@ class SubscriptionSearchTest extends JwtTestCase
         $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
         $subscription3 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
 
-        $tripSeatsTwo = $this->getTrip([
-                'from' => $subscription->from,
-                'lat' => $subscription->from_lat,
-                'lng' => $subscription->from_lng,
-            ], [
-                'to' => $subscription->to,
-                'lat' => $subscription->to_lat,
-                'lng' => $subscription->to_lng,
-            ],
-            ['seats' => 2, 'start_at' => $start_at]
-        );
-        $tripSeatsFive = $this->getTrip([
-            'from' => $subscription->from,
-            'lat' => $subscription->from_lat,
-            'lng' => $subscription->from_lng,
-        ], [
-            'to' => $subscription->to,
-            'lat' => $subscription->to_lat,
-            'lng' => $subscription->to_lng,
-        ],
-            ['seats' => 5, 'start_at' => $start_at]
-        );
+        $tripSeatsTwo = $this->getTripBySubscription($subscription, ['seats' => 2]);
+        $tripSeatsFive = $this->getTripBySubscription($subscription, ['seats' => 5]);
 
         $this->getFilter($subscription, [
             'name' => 'seats',
@@ -277,28 +214,8 @@ class SubscriptionSearchTest extends JwtTestCase
         $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
         $subscription3 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
 
-        $trip1 = $this->getTrip([
-            'from' => $subscription->from,
-            'lat' => $subscription->from_lat,
-            'lng' => $subscription->from_lng,
-        ], [
-            'to' => $subscription->to,
-            'lat' => $subscription->to_lat,
-            'lng' => $subscription->to_lng,
-        ],
-            ['luggage_size' => 1, 'start_at' => $start_at]
-        );
-        $trip2 = $this->getTrip([
-            'from' => $subscription->from,
-            'lat' => $subscription->from_lat,
-            'lng' => $subscription->from_lng,
-        ], [
-            'to' => $subscription->to,
-            'lat' => $subscription->to_lat,
-            'lng' => $subscription->to_lng,
-        ],
-            ['luggage_size' => 3, 'start_at' => $start_at]
-        );
+        $trip1 = $this->getTripBySubscription($subscription, ['luggage_size' => 1]);
+        $trip2 = $this->getTripBySubscription($subscription, ['luggage_size' => 3]);
 
         $this->getFilter($subscription, [
             'name' => 'luggage',
@@ -338,28 +255,28 @@ class SubscriptionSearchTest extends JwtTestCase
     }
 
     /**
-     * @param $from
-     * @param $to
-     * @param $start_at
+     * @param Subscription $subscription
+     * @param array $params
      * @return Trip
      */
-    public function getTrip($from, $to, array $params = []): Trip
+    public function getTripBySubscription(Subscription $subscription, array $params = []): Trip
     {
         $user = factory(User::class)->create();
         $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
         $trip = factory(Trip::class)->create(array_merge([
             'user_id' => $user->id,
             'vehicle_id' => $vehicle->id,
+            'start_at' => $subscription->start_at
         ], $params));
 
         $route = factory(Route::class)->create([
             'trip_id' => $trip->id,
-            'from' => $from['from'],
-            'from_lat' => $from['lat'],
-            'from_lng' => $from['lng'],
-            'to' => $to['to'],
-            'to_lat' => $to['lat'],
-            'to_lng' => $to['lng'],
+            'from' => $subscription->from,
+            'from_lat' => $subscription->from_lat,
+            'from_lng' => $subscription->from_lng,
+            'to' => $subscription->to,
+            'to_lat' => $subscription->to_lat,
+            'to_lng' => $subscription->to_lng,
         ]);
 
         return $trip;
