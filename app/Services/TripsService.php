@@ -155,6 +155,10 @@ class TripsService
             $trip->routes()->create($route);
         }
 
+        if ($request->getIsInBothDirections()) {
+            $this->createReverseTrip($trip, $request);
+        }
+
         event(new TripCreated($trip));
 
         return $trip;
@@ -288,5 +292,31 @@ class TripsService
         $this->tripRepository->restore($trip);
 
         return $trip;
+    }
+
+    /**
+     * @param Trip $trip
+     * @param CreateTripRequest $request
+     */
+    public function createReverseTrip(Trip $trip, CreateTripRequest $request)
+    {
+        $originTripTravelTime = $trip->end_at->timestamp - $trip->start_at->timestamp;
+
+        $reverseTripAttributes = array_merge($trip->toArray(), [
+            'start_at' => $request->getReverseStartAt(),
+            'end_at' => $request->getReverseStartAt()->addSeconds($originTripTravelTime),
+        ]);
+
+        $reverseTrip = $this->tripRepository->save(new Trip($reverseTripAttributes));
+
+        $routes = self::getRoutesFromWaypoints(
+            $request->getTo(),
+            $request->getFrom(),
+            array_reverse($request->getWaypoints())
+        );
+
+        foreach ($routes as $route) {
+            $reverseTrip->routes()->create($route);
+        }
     }
 }
