@@ -203,9 +203,9 @@ class SubscriptionSearchTest extends JwtTestCase
     public function it_find_trip_with_seats_filter()
     {
         $start_at = Carbon::today();
-        $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => Carbon::now()]));
-        $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => Carbon::now()]));
-        $subscription3 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => Carbon::now()]));
+        $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+        $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+        $subscription3 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
 
         $tripSeatsTwo = $this->getTrip([
                 'from' => $subscription->from,
@@ -216,7 +216,7 @@ class SubscriptionSearchTest extends JwtTestCase
                 'lat' => $subscription->to_lat,
                 'lng' => $subscription->to_lng,
             ],
-            ['seats' => 2, 'start_at' => Carbon::now()]
+            ['seats' => 2, 'start_at' => $start_at]
         );
         $tripSeatsFive = $this->getTrip([
             'from' => $subscription->from,
@@ -227,7 +227,7 @@ class SubscriptionSearchTest extends JwtTestCase
             'lat' => $subscription->to_lat,
             'lng' => $subscription->to_lng,
         ],
-            ['seats' => 5, 'start_at' => Carbon::now()]
+            ['seats' => 5, 'start_at' => $start_at]
         );
 
         $this->getFilter($subscription, [
@@ -265,7 +265,76 @@ class SubscriptionSearchTest extends JwtTestCase
             $this->assertInstanceOf(Subscription::class, $subscription);
             $this->assertContains($subscription->id, $ids);
         });
+    }
 
+    /**
+     * @test
+     */
+    public function it_find_trip_with_luggage_filter()
+    {
+        $start_at = Carbon::today();
+        $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+        $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+        $subscription3 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+
+        $trip1 = $this->getTrip([
+            'from' => $subscription->from,
+            'lat' => $subscription->from_lat,
+            'lng' => $subscription->from_lng,
+        ], [
+            'to' => $subscription->to,
+            'lat' => $subscription->to_lat,
+            'lng' => $subscription->to_lng,
+        ],
+            ['luggage_size' => 1, 'start_at' => $start_at]
+        );
+        $trip2 = $this->getTrip([
+            'from' => $subscription->from,
+            'lat' => $subscription->from_lat,
+            'lng' => $subscription->from_lng,
+        ], [
+            'to' => $subscription->to,
+            'lat' => $subscription->to_lat,
+            'lng' => $subscription->to_lng,
+        ],
+            ['luggage_size' => 3, 'start_at' => $start_at]
+        );
+
+        $this->getFilter($subscription, [
+            'name' => 'luggage',
+            'parameters' => ['value' => 1],
+        ]);
+
+        $this->getFilter($subscription2, [
+            'name' => 'luggage',
+            'parameters' => ['value' => 2],
+        ]);
+
+        $this->getFilter($subscription3, [
+            'name' => 'luggage',
+            'parameters' => ['value' => 3],
+        ]);
+
+        $service = app()->make(SubscriptionsService::class);
+
+        $found1 = $service->getSubscriptionsByTrip($trip1);
+        $this->assertCount(1, $found1);
+        $first = $found1->first();
+        $this->assertInstanceOf(Subscription::class, $first);
+        $this->assertEquals($subscription->id, $first->id);
+
+        $found2 = $service->getSubscriptionsByTrip($trip2);
+
+        $this->assertCount(3, $found2);
+        $ids = [
+            $subscription->id,
+            $subscription2->id,
+            $subscription3->id,
+        ];
+        $found2->each(function ($subscription) use ($ids) {
+            $this->assertInstanceOf(Subscription::class, $subscription);
+            $this->assertContains($subscription->id, $ids);
+        });
     }
 
     /**
