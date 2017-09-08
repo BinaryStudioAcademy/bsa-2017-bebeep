@@ -74,6 +74,7 @@ class SubscriptionBase extends JwtTestCase
             'to_lat' => $to['lat'],
             'to_lng' => $to['lng'],
         ]);
+
         return $trip;
     }
 

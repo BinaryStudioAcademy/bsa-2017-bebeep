@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Subscription;
 
-use App\Models\Filter;
 use App\User;
-use Psy\Util\Json;
+use App\Models\Filter;
 
 class SubscriptionManageTest extends SubscriptionBase
 {
@@ -144,7 +143,7 @@ class SubscriptionManageTest extends SubscriptionBase
             'filters' => [
                 'seats' => 5,
                 'time' => ['from' => 2, 'to' => 16],
-            ]
+            ],
         ])->assertStatus(200);
 
         $this->assertArraySubset([

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\Subscription;
 
 use App\Models\Subscription;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateSubscriptionRequest;
 use App\Services\Contracts\SubscriptionsService;
 use App\Transformers\Subscriptions\SubscriptionTransformer;

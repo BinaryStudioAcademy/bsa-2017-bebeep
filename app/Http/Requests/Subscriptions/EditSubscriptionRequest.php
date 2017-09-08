@@ -5,7 +5,7 @@ namespace App\Http\Requests\Subscriptions;
 use App\Http\Requests\DTO\FilterDTO;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
-use \App\Services\Requests\Subscriptions\EditSubscriptionRequest as ContractEditSubscriptionRequest;
+use App\Services\Requests\Subscriptions\EditSubscriptionRequest as ContractEditSubscriptionRequest;
 
 class EditSubscriptionRequest extends FormRequest implements ContractEditSubscriptionRequest
 {

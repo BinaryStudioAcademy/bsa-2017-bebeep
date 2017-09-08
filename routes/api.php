@@ -197,7 +197,7 @@ Route::post('v1/reviews', [
 Route::group([
     'prefix' => 'v1/subscriptions',
     'middleware' => ['jwt.auth'],
-    'as' => 'subscriptions.'
+    'as' => 'subscriptions.',
 ], function () {
     Route::get('/', [
         'as' => 'index',
