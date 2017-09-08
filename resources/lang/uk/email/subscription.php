@@ -10,6 +10,10 @@ return [
     'rating' => 'рейтинг водія: :value <br>',
     'yes' => 'так',
     'no' => 'ні',
+    'more_four' => 'більше 4',
+    'luggage_size0' => 'маленький',
+    'luggage_size1' => 'середній',
+    'luggage_size2' => 'великий',
     'detail' => 'Детальніше',
-    'thanks' => 'Дякуємо,<br> :name',
+    'thanks' => 'З повагою,<br> :name',
 ];

@@ -10,6 +10,10 @@ return [
     'rating' => 'driver\'s rating: :value <br>',
     'yes' => 'yes',
     'no' => 'no',
+    'more_four' => 'more 4',
+    'luggage_size0' => 'small',
+    'luggage_size1' => 'medium',
+    'luggage_size2' => 'big',
     'detail' => 'Detail',
-    'thanks' => 'Thanks,<br> :name',
+    'thanks' => 'Regards,<br> :name',
 ];

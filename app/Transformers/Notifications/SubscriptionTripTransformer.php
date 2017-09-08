@@ -4,6 +4,7 @@ namespace App\Transformers\Notifications;
 
 use App\Models\Trip;
 use App\Models\Review;
+use Illuminate\Support\Facades\DB;
 use League\Fractal\TransformerAbstract;
 
 class SubscriptionTripTransformer extends TransformerAbstract
@@ -17,7 +18,10 @@ class SubscriptionTripTransformer extends TransformerAbstract
     {
         $first = $trip->routes->first();
         $last = $trip->routes->last();
-        $receivedReviews = collect($trip->user->receivedReviews);
+        $rating = $trip->user
+                ->receivedReviews()
+                ->select(DB::raw('AVG(`mark`) as avg'))
+                ->first()['avg'];
 
         return [
             'from' => $first ? $this->getCity($first->from) : '',
@@ -28,11 +32,7 @@ class SubscriptionTripTransformer extends TransformerAbstract
                 'seats' => $trip->seats,
                 'animals' => $trip->is_animals_allowed,
                 'price' => $trip->price,
-                'rating' => $receivedReviews->count() > 0
-                    ? $receivedReviews->reduce(function ($rating, Review $review) {
-                        return $rating + $review->mark;
-                    }, 0) / $receivedReviews->count()
-                    : 0,
+                'rating' => $rating
             ],
         ];
     }

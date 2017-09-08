@@ -55,8 +55,8 @@ class TripCreated extends Notification implements ShouldQueue
                 'to' => $trip['to'],
                 'start_at' => Carbon::createFromTimestamp($trip['start_at'])->format('d.m.Y H:i'),
                 'params' => [
-                    'luggage_size' => $trip['params']['luggage_size'],
-                    'seats' => $trip['params']['seats'],
+                    'luggage_size' => __('email.subscription.luggage_size'.$trip['params']['luggage_size']),
+                    'seats' => $trip['params']['seats'] < 4 ? $trip['params']['seats'] : __('email.subscription.more_four'),
                     'animals' => $trip['params']['animals']
                         ? __('email.subscription.yes')
                         : __('email.subscription.not'),
