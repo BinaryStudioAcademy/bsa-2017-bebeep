@@ -10,7 +10,7 @@ import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 import { InputPlaces, InputDateTime } from 'app/components/Controls';
 import moment from 'moment';
 
-import { searchSuccess } from 'features/search/actions';
+import { searchSuccess, updateStartTime } from 'features/search/actions';
 import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
 import { getTranslate } from 'react-localize-redux';
 
@@ -33,7 +33,9 @@ class SearchForm extends React.Component {
     }
 
     dateChange(date) {
-        setUrl({start_at: date ? date.unix() : null});
+        let start_at = date ? date.unix() : null;
+        setUrl({start_at});
+        this.props.updateStartTime(start_at);
     }
 
     componentWillMount() {
@@ -292,7 +294,7 @@ const SearchFormConnect = connect(
         translate: getTranslate(state.locale)
     }),
     dispatch =>
-        bindActionCreators({searchSuccess}, dispatch)
+        bindActionCreators({searchSuccess, updateStartTime}, dispatch)
 )(SearchForm);
 
 export default withRouter(SearchFormConnect);

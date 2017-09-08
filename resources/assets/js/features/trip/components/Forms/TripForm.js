@@ -14,14 +14,85 @@ import LangService from 'app/services/LangService';
 import * as lang from 'features/trip/lang/TripForm.locale.json';
 
 class TripForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isInBothDirections: false
+        };
+    }
 
     componentWillMount() {
         LangService.addTranslation(lang);
         this.props.getVehicles();
+
+        this.setState({
+            isInBothDirections: false
+        });
+    }
+
+    toggleInBothDirections() {
+        this.setState({
+            isInBothDirections: !this.state.isInBothDirections
+        });
     }
 
     isValidDate(current) {
         return current.isAfter(moment().subtract(1, 'day'));
+    }
+
+    showInBothDirectionsControl() {
+        const { translate, trip } = this.props;
+
+        if (trip && trip.id) {
+            return '';
+        }
+
+        return (<div className="form-group row">
+            <label className="form-control-label text-muted col-sm-4" htmlFor="is_in_both_directions">
+                {translate('trip_form.is_round_trip')}
+            </label>
+            <div className="col-sm-8">
+                <div className="form-check">
+                    <label className="form-check-label">
+                        <input className="form-check-input" type="checkbox" id="is_in_both_directions"
+                               checked={this.state.isInBothDirections}
+                               name="is_in_both_directions"
+                               onChange={this.toggleInBothDirections.bind(this)}
+                        />
+                    </label>
+                </div>
+            </div>
+        </div>);
+    }
+
+    showReverseStartAtControl() {
+        const { translate, errors } = this.props;
+        let reverseStartAt = '';
+
+        if (!this.state.isInBothDirections) {
+            return '';
+        }
+
+        return (<div className={"form-group row " + (errors.reverse_start_at ? 'has-danger' : '')}>
+            <label className="form-control-label text-muted col-sm-4"
+                   htmlFor="reverse_start_at"
+            >
+                {translate('trip_form.reverse_start_at')}
+            </label>
+            <div className="col-md-8">
+                <InputDateTime
+                    id="reverse_start_at"
+                    isValidDate={this.isValidDate}
+                    timeFormat={true}
+                    defaultValue={reverseStartAt}
+                    inputProps={{name: 'reverse_start_at', id: 'reverse_start_at'}}
+                    labelClasses="register-form-label"
+                    wrapperClasses="register-form-birth_date"
+                    error={errors.reverse_start_at ? errors.reverse_start_at[0] : ''}
+                />
+            </div>
+        </div>);
     }
 
     renderVehiclesList() {
@@ -194,6 +265,9 @@ class TripForm extends React.Component {
                        onWaypointAdd={onWaypointAdd}
                        onWaypointDelete={onWaypointDelete}
                     />
+
+                    {this.showInBothDirectionsControl()}
+                    {this.showReverseStartAtControl()}
 
                     <div className="form-group">
                         <div className="text-center">
