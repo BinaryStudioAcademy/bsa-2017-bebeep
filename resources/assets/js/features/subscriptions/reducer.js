@@ -56,38 +56,14 @@ export default (state = initialState, action) => {
                 }
             };
         case actions.SUBSCRIPTION_DELETE:
+            const index = state.subscriptions.indexOf(action.id);
+
             return {
                 ...state,
-                entities: {
-                    ...state.entities,
-                    subscriptions: {
-                        ...state.entities.subscriptions,
-                        byId: {
-                            ...state.entities.subscriptions.byId,
-                            [action.id]: {
-                                ...state.entities.subscriptions.byId[action.id],
-                                is_deleted: true
-                            }
-                        }
-                    }
-                }
-            };
-        case actions.SUBSCRIPTION_RESTORE:
-            return {
-                ...state,
-                entities: {
-                    ...state.entities,
-                    subscriptions: {
-                        ...state.entities.subscriptions,
-                        byId: {
-                            ...state.entities.subscriptions.byId,
-                            [action.id]: {
-                                ...state.entities.subscriptions.byId[action.id],
-                                is_deleted: false
-                            }
-                        }
-                    }
-                }
+                subscriptions: [
+                    ...state.subscriptions.slice(0, index),
+                    ...state.subscriptions.slice(index + 1)
+                ]
             };
         default:
             return state;

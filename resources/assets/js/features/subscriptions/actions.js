@@ -32,8 +32,3 @@ export const actionDeleteSubscription = (id) => ({
     type: actions.SUBSCRIPTION_DELETE,
     id
 });
-
-export const actionRestoreSubscription = (id) => ({
-    type: actions.SUBSCRIPTION_RESTORE,
-    id
-});

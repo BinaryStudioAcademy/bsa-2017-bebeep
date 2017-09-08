@@ -7,13 +7,11 @@ import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import {getCityLocation} from 'app/helpers/TripHelper';
 import {
     changeSubscriptionStatus,
-    deleteSubscription,
-    restoreSubscription
+    deleteSubscription
 } from 'app/services/SubscriptionService';
 import {
     actionChangeSubscriptionStatus,
-    actionDeleteSubscription,
-    actionRestoreSubscription
+    actionDeleteSubscription
 } from '../actions';
 import '../styles/subscription-item.scss';
 
@@ -23,7 +21,6 @@ class SubscriptionItem extends React.Component {
 
         this.onChangeActive = this.onChangeActive.bind(this);
         this.onDelete = this.onDelete.bind(this);
-        this.onRestore = this.onRestore.bind(this);
     }
 
     getSubscriptionById(id) {
@@ -49,18 +46,12 @@ class SubscriptionItem extends React.Component {
             .then(() => actionDeleteSubscription(id));
     }
 
-    onRestore() {
-        const {id, actionRestoreSubscription} = this.props;
-
-        restoreSubscription(id)
-            .then(() => actionRestoreSubscription(id));
-    }
-
     render() {
         const {translate, id} = this.props,
             subscription = this.getSubscriptionById(id),
             mainClass = "subscription" + (subscription.is_active ? "" : " subscription--inactive") +
-                (subscription.is_deleted ? " subscription--deleted" : "");
+                (subscription.is_deleted ? " subscription--deleted" : ""),
+            date = DateTimeHelper.dateFormat(subscription.start_at_x, {onlyDate: true});
 
         return (
             <div className={mainClass}>
@@ -82,26 +73,19 @@ class SubscriptionItem extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-4">
-                        {DateTimeHelper.dateFormatLocale({timestamp: subscription.start_at_x})}
+                        {date.date}
                     </div>
                     <div className="col-sm-5">
-                        {getCityLocation(subscription.from[0])} - {getCityLocation(subscription.to[0])}
+                        {getCityLocation(subscription.from)} - {getCityLocation(subscription.to)}
                     </div>
                     <div className="col-6 col-sm-1 text-sm-right">
                         <i className="subscription__edit fa fa-pencil" title={translate('subscriptions.edit')} />
                     </div>
                     <div className="col-6 col-sm-1 text-sm-right">
-                        {
-                            subscription.is_deleted
-                                ? (<i
-                                    className="subscription__restore fa fa-undo"
-                                    title={translate('subscriptions.restore')} onClick={this.onRestore}
-                                />)
-                                : (<i className="subscription__delete fa fa-close"
-                                      onClick={this.onDelete}
-                                      title={translate('subscriptions.delete')}
-                                />)
-                        }
+                        <i className="subscription__delete fa fa-close"
+                            onClick={this.onDelete}
+                            title={translate('subscriptions.delete')}
+                        />
                     </div>
                 </div>
             </div>
@@ -121,7 +105,6 @@ export default connect(
     }),
     dispatch => bindActionCreators({
         actionChangeSubscriptionStatus,
-        actionDeleteSubscription,
-        actionRestoreSubscription
+        actionDeleteSubscription
     }, dispatch)
 )(SubscriptionItem);
