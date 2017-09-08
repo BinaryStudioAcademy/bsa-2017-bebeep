@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Subscription;
 
+use App\Models\Filter;
 use App\User;
+use Psy\Util\Json;
 
 class SubscriptionManageTest extends SubscriptionBase
 {
@@ -114,5 +116,55 @@ class SubscriptionManageTest extends SubscriptionBase
         $response = $this->jsonRequestAsUser($user, 'get', $this->getUrlList());
 
         $response->assertJsonStructure(['data' => []]);
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_edit_filters()
+    {
+        $user = factory(User::class)->create();
+        $subscription = $this->getSubscription(array_merge($this->locations[0], [
+            'email' => $user->email,
+        ]));
+
+        $filterSeats = factory(Filter::class)->create([
+            'subscription_id' => $subscription->id,
+            'name' => 'seats',
+            'parameters' => ['value' => '3'],
+        ]);
+
+        $filterTime = factory(Filter::class)->create([
+            'subscription_id' => $subscription->id,
+            'name' => 'time',
+            'parameters' => ['from' => '5', 'to' => '8'],
+        ]);
+
+        $this->jsonRequestAsUser($user, 'patch', $this->getUrlEdit($subscription->id), [
+            'filters' => [
+                $filterSeats->id => [
+                    'name' => 'seats',
+                    'parameters' => ['value' => 5]
+                ],
+                $filterTime->id => [
+                    'name' => 'time',
+                    'parameters' => ['from' => 2, 'to' => 16],
+                ],
+            ]
+        ])->assertStatus(200);
+
+        $this->assertArraySubset([
+            'id' => $filterSeats->id,
+            'parameters' => ['value' => 5],
+            'name' => 'seats',
+            'subscription_id' => $subscription->id,
+        ], Filter::whereId($filterSeats->id)->first()->toArray());
+
+        $this->assertArraySubset([
+            'id' => $filterTime->id,
+            'parameters' => ['from' => 2, 'to' => 16],
+            'name' => 'time',
+            'subscription_id' => $subscription->id,
+        ], Filter::whereId($filterTime->id)->first()->toArray());
     }
 }

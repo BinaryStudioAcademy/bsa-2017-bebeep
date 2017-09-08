@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Models\Filter;
 use App\Models\Subscription;
-use App\Http\Requests\DTO\FilterDTO;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class SubscriptionRepository extends BaseRepository implements Contracts\SubscriptionRepository
@@ -29,18 +29,9 @@ class SubscriptionRepository extends BaseRepository implements Contracts\Subscri
     /**
      * {@inheritdoc}
      */
-    public function setFilters(Subscription $subscription, FilterDTO ...$filters) : Subscription
+    public function setFilters(Subscription $subscription, Filter ...$filters) : Subscription
     {
-        $data = array_reduce(array_keys($filters), function ($result, $id) use ($filters) {
-            $result[$id] = [
-                'name' => $filters[$id]->getName(),
-                'parameters' => $filters[$id]->getParams(),
-            ];
-
-            return $result;
-        }, []);
-
-        $subscription->filters->sync($data);
+        $subscription->filters()->saveMany($filters);
 
         return $subscription;
     }

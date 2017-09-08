@@ -2,8 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Models\Filter;
 use App\Models\Subscription;
-use App\Http\Requests\DTO\FilterDTO;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Prettus\Repository\Contracts\RepositoryCriteriaInterface;
 
@@ -17,8 +17,8 @@ interface SubscriptionRepository extends RepositoryInterface, RepositoryCriteria
 
     /**
      * @param Subscription $subscription
-     * @param FilterDTO[] ...$filters
+     * @param Filter[] ...$filters
      * @return Subscription
      */
-    public function setFilters(Subscription $subscription, FilterDTO ...$filters) : Subscription;
+    public function setFilters(Subscription $subscription, Filter ...$filters) : Subscription;
 }

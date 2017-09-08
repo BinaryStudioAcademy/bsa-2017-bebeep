@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\DTO\FilterDTO;
 use App\User;
 use App\Models\Subscription;
 use Illuminate\Support\Collection;
@@ -50,7 +51,15 @@ class SubscriptionsService implements Contracts\SubscriptionsService
      */
     public function edit(EditSubscriptionRequest $request, Subscription $subscription): Subscription
     {
-        return $this->subscriptionRepository->setFilters($subscription, ...$request->getFilters());
+        /** @var FilterDTO[] $filters */
+        $filters = $request->getFilters();
+
+        $data = $subscription->filters->map(function ($filter) use ($filters) {
+            $filter['parameters'] = $filters[$filter->id]->getParams();
+            return $filter;
+        });
+
+        return $this->subscriptionRepository->setFilters($subscription, ...$data);
     }
 
     /**
