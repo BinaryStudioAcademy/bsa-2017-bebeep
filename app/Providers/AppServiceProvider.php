@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Vehicle;
 use App\Services\Helpers\Subscriptions\Filters\AnimalsFilter;
+use App\Services\Helpers\Subscriptions\Filters\SeatsFilter;
 use App\Services\RouteService;
 use App\Services\BookingService;
 use App\Services\ReviewsService;
@@ -126,7 +127,8 @@ class AppServiceProvider extends ServiceProvider
             return new FilterCollection(
                 new StartTimeFilter(),
                 new EndTimeFilter(),
-                new AnimalsFilter()
+                new AnimalsFilter(),
+                new SeatsFilter()
             );
         });
     }
