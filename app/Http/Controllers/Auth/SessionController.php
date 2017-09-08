@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Transformers\User\SessionDataTransformer;
 
 class SessionController extends Controller
