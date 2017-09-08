@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api\Subscription;
 
 use App\Models\Subscription;
-use App\Transformers\Subscriptions\SubscriptionTransformer;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateSubscriptionRequest;
 use App\Services\Contracts\SubscriptionsService;
+use App\Transformers\Subscriptions\SubscriptionTransformer;
 use App\Http\Requests\Subscriptions\EditSubscriptionRequest;
 use App\Http\Requests\Subscriptions\StatusSubscriptionRequest;
 
@@ -51,5 +52,17 @@ class SubscriptionsController extends Controller
         $this->subscriptionsService->changeStatus($request, $subscription);
 
         return response()->json([], 200);
+    }
+
+    /**
+     * @param CreateSubscriptionRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(CreateSubscriptionRequest $request)
+    {
+        $subscription = $this->subscriptionsService->create($request);
+
+        return response()->json($subscription);
     }
 }

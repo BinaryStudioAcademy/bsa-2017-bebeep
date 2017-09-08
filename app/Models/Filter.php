@@ -29,6 +29,13 @@ class Filter extends Model
     ];
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'parameters' => 'array',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function subscription()

@@ -5,6 +5,7 @@ import TripList from './TripList';
 import Placeholder from './Placeholder';
 import SortPanel from './SortPanel';
 import Preloader from 'app/components/Preloader';
+import SubscribeModal from './_Modals/SubscribeModal';
 import { Pagination } from 'app/components/Pagination';
 import { connect } from 'react-redux';
 import {
@@ -15,7 +16,7 @@ import {
     getCurrentPage,
     getCountResult
 } from 'features/search/services/SearchService';
-import { searchSuccess } from 'features/search/actions';
+import { searchSuccess, setSearchFilters } from 'features/search/actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import {getTranslate} from 'react-localize-redux';
@@ -38,12 +39,14 @@ class Result extends React.Component {
             limit: 10,
             filter: {},
             resetFilter: false,
-            errors: {}
+            errors: {},
+            subscribeModalIsOpen: false,
         };
 
         this.onChangeSort = this.onChangeSort.bind(this);
         this.onChangePage = this.onChangePage.bind(this);
         this.onSearch = this.onSearch.bind(this);
+        this.onClickSubscribe = this.onClickSubscribe.bind(this);
     }
 
     componentWillMount() {
@@ -132,11 +135,17 @@ class Result extends React.Component {
             });
     }
 
+    onClickSubscribe() {
+        this.setState({subscribeModalIsOpen: true});
+        this.props.setSearchFilters(this.state.filter);
+    }
+
     render() {
-        const {sort, order, page, limit, meta, collection, preloader} = this.state,
+        const {sort, order, page, limit, meta, collection, preloader, subscribeModalIsOpen} = this.state,
             {translate} = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
+
         return (
             <div className="search-result">
                 <SearchForm onSearch={this.onSearch} />
@@ -146,6 +155,11 @@ class Result extends React.Component {
                             <Filter
                                 priceBounds={meta.priceRange}
                             />
+                            <div className="col-md-4 offset-md-2">
+                                <button role="button" className="btn search-block__btn search-result__btn-subscribe" onClick={this.onClickSubscribe}>
+                                    {translate('subscription.subscribe_btn')}
+                                </button>
+                            </div>
                         </div>
                         <div className="col-md-9">
                             <div className="container">
@@ -189,6 +203,10 @@ class Result extends React.Component {
                         </div>
                     </div>
                 </div>
+                <SubscribeModal
+                    isOpen={ subscribeModalIsOpen }
+                    onClosed={ () => this.setState({subscribeModalIsOpen: false})}
+                />
             </div>
         );
     }
@@ -199,6 +217,6 @@ const ResultConnected = connect(
         tripData: state.search,
         translate: getTranslate(state.locale)
     }),
-    (dispatch) => bindActionCreators({searchSuccess},dispatch)
+    (dispatch) => bindActionCreators({searchSuccess, setSearchFilters}, dispatch)
 )(Result);
 export default withRouter(ResultConnected);

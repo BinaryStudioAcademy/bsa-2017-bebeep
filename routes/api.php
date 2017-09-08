@@ -219,3 +219,5 @@ Route::group([
         'uses' => 'Api\Subscription\SubscriptionsController@edit',
     ]);
 });
+
+Route::resource('v1/subscription', 'Api\\Subscription\\SubscriptionsController', ['only' => ['store']]);

@@ -162,6 +162,26 @@ class AppServiceProvider extends ServiceProvider
             return (int) $parameters[0] < (int) $value;
         });
 
+        Validator::extend('greater_than_date_if', function (
+            $attribute,
+            $value,
+            $parameters,
+            $validator
+        ) {
+            if (! $parameters || ! $parameters[0] || ! $parameters[1]) {
+                return false;
+            }
+
+            $data = $validator->getData();
+            list($requiredField, $restrictedValue) = $parameters;
+
+            if (empty($data[$requiredField]) || ! $data[$requiredField]) {
+                return true;
+            }
+
+            return (int) $restrictedValue < (int) $value;
+        });
+
         Validator::extend(
             'routes_exists_for_trip',
             RoutesExistsForTripValidator::class,
