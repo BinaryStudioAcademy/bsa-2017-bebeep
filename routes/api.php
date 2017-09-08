@@ -12,6 +12,8 @@
 */
 
 Route::get('authentication/me', [
+    'middleware' => 'jwt.auth',
+    'as' => 'authentication.me',
     'uses' => 'Auth\SessionController@getSessionUser',
 ]);
 
