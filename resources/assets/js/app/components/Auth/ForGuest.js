@@ -42,6 +42,10 @@ export default function(options) {
             console.log(this.state.isAuthorized, 'receive guest');
         }
 
+        componentWillUpdate() {
+            console.log(this.state.isAuthorized, 'update guest');
+        }
+
         redirectTo() {
             const { router, location } = this.props;
 

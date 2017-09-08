@@ -7,10 +7,6 @@ const AuthService = (() => {
 
     const storage = localStorage,
         tokenKeyName = 'jwt',
-        redirect = {
-            authPath: 'login',
-            rootPath: 'dashboard',
-        },
         userProps = ['first_name', 'last_name', 'avatar',];
 
     let _this = null,
@@ -102,47 +98,17 @@ const AuthService = (() => {
         checkPermissions(permissions, identically) {
             const sessionPermissions = _this.getFromState('permissions');
 
-            console.log(permissions);
-            console.log(sessionPermissions);
+            //console.log(permissions, 'my');
+            //console.log(sessionPermissions, 'sess');
 
             if (! permissions || ! sessionPermissions) {
                 return true;
             }
 
             return identically
-                ? sessionPermissions === permissions
-                : !!(sessionPermissions & permissions);
+                ? permissions === sessionPermissions
+                : !!(permissions & sessionPermissions);
         },
-
-        requireAuth(params) {
-            if (arguments.length !== 1) {
-                params = {
-                    permissions: null,
-                    route: { nextState: arguments[0], replace: arguments[1], },
-                };
-            }
-
-            const { route, permissions } = params;
-
-            if (! _this.isAuthorized() ||
-                ! _this.checkPermissions(permissions)
-            ) {
-                route.replace({
-                    pathname: '/' + redirect.authPath,
-                    state: { nextPathname: route.nextState.location.pathname }
-                })
-            }
-        },
-
-        requireGuest(nextState, replace) {
-            if (_this.isAuthorized()) {
-                replace({
-                    pathname: '/' + redirect.rootPath,
-                    state: { nextPathname: nextState.location.pathname }
-                })
-            }
-        },
-
     };
 })();
 

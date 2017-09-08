@@ -4,7 +4,8 @@ import AuthService from 'app/services/AuthService';
 
 export default function(options) {
 
-    const REDIRECT_PATH = 'login';
+    const REDIRECT_PATH_IF_NOT_AUTH_STATUS = 'login',
+        REDIRECT_PATH_IF_NOT_AUTH_PERMS = 'dashboard';
 
     const defaultOptions = {
         component: null,
@@ -34,10 +35,16 @@ export default function(options) {
 
         componentWillMount() {
             const { isAuthorized } = this.state;
-            console.log(isAuthorized, 'mount');
 
             if (! isAuthorized) {
                 this.redirectTo();
+            }
+
+            if (! AuthService.checkPermissions(permissions)) {
+                this.setState({
+                    isAuthorized: false,
+                });
+                this.redirectTo(REDIRECT_PATH_IF_NOT_AUTH_PERMS);
             }
         }
 
@@ -49,11 +56,13 @@ export default function(options) {
             console.log(this.state.isAuthorized, 'update auth');
         }
 
-        redirectTo() {
+        redirectTo(redirectPath) {
             const { router, location } = this.props;
 
+            redirectPath = redirectPath || REDIRECT_PATH_IF_NOT_AUTH_STATUS;
+
             router.replace({
-                pathname: '/' + REDIRECT_PATH,
+                pathname: '/' + redirectPath,
                 state: { nextPathname: location.pathname }
             });
         }

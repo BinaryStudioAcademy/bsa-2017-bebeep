@@ -75,8 +75,7 @@ export default (store) => {
             <Route path="search" component={ SearchResult } />
 
             {/* Routes only for auth users with the driver permission */}
-            {/*<Route component={ ForAuthUser({ permissions: USER_ROLE_DRIVER }) }>*/}
-            <Route component={ ForAuthUser() }>
+            <Route component={ ForAuthUser({ permissions: USER_ROLE_DRIVER }) }>
 
                 {/* Vehicle creating and show details */}
                 <Route path="vehicles">
@@ -101,8 +100,7 @@ export default (store) => {
             </Route>
 
             {/* Routes only for auth users with the passenger permission */}
-            {/*<Route component={ ForAuthUser({ permissions: USER_ROLE_PASSENGER }) }>*/}
-            <Route component={ ForAuthUser() }>
+            <Route component={ ForAuthUser({ permissions: USER_ROLE_PASSENGER }) }>
                 {/* Bookings - upcomming and pasts */}
                 <Route path="bookings" component={ BookingsList } />
                 <Route path='bookings/past' component={ BookingsList } />
