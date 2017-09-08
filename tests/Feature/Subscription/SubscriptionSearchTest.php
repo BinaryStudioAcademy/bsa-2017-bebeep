@@ -150,7 +150,6 @@ class SubscriptionSearchTest extends JwtTestCase
         $first = $found2->first();
         $this->assertInstanceOf(Subscription::class, $first);
         $this->assertEquals($subscription2->id, $first->id);
-
     }
 
     /**
@@ -299,9 +298,7 @@ class SubscriptionSearchTest extends JwtTestCase
         $first = $found2->first();
         $this->assertInstanceOf(Subscription::class, $first);
         $this->assertEquals($subscription2->id, $first->id);
-
     }
-
 
     /**
      * @test
@@ -345,7 +342,7 @@ class SubscriptionSearchTest extends JwtTestCase
         $trip = factory(Trip::class)->create(array_merge([
             'user_id' => $user->id,
             'vehicle_id' => $vehicle->id,
-            'start_at' => $subscription->start_at
+            'start_at' => $subscription->start_at,
         ], $params));
 
         $route = factory(Route::class)->create([

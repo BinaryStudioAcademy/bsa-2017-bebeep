@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
-use App\Services\Helpers\Subscriptions\Filters\EndPriceFilter;
-use App\Services\Helpers\Subscriptions\Filters\StartPriceFilter;
 use App\Services\RouteService;
 use App\Services\BookingService;
 use App\Services\ReviewsService;
@@ -42,8 +40,10 @@ use App\Services\Helpers\Subscriptions\Filters\AnimalsFilter;
 use App\Services\Helpers\Subscriptions\Filters\EndTimeFilter;
 use App\Services\Helpers\Subscriptions\Filters\LuggageFilter;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
+use App\Services\Helpers\Subscriptions\Filters\EndPriceFilter;
 use App\Services\Helpers\Subscriptions\Filters\StartTimeFilter;
 use App\Services\Contracts\RouteService as RouteServiceContract;
+use App\Services\Helpers\Subscriptions\Filters\StartPriceFilter;
 use App\Services\Contracts\BookingService as BookingServiceContract;
 use App\Services\Contracts\ReviewsService as ReviewsServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;

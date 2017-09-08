@@ -3,7 +3,6 @@
 namespace App\Transformers\Notifications;
 
 use App\Models\Trip;
-use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 use League\Fractal\TransformerAbstract;
 
@@ -34,7 +33,7 @@ class SubscriptionTripTransformer extends TransformerAbstract
                 'seats' => $trip->seats,
                 'animals' => $trip->is_animals_allowed,
                 'price' => $trip->price,
-                'rating' => $rating
+                'rating' => $rating,
             ],
         ];
     }

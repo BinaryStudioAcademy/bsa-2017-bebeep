@@ -2,7 +2,6 @@
 
 namespace App\Notifications\Subscriptions;
 
-use Carbon\Carbon;
 use App\Models\Trip;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
