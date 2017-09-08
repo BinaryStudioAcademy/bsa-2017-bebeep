@@ -48,9 +48,9 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     /**
      * {@inheritdoc}
      */
-    public function edit(EditSubscriptionRequest $request, Subscription $subscription): void
+    public function edit(EditSubscriptionRequest $request, Subscription $subscription): Subscription
     {
-        // TODO: Implement edit() method.
+        return $this->subscriptionRepository->setFilters($subscription, ...$request->getFilters());
     }
 
     /**

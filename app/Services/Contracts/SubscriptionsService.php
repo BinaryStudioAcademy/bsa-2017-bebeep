@@ -34,7 +34,7 @@ interface SubscriptionsService
      * @param EditSubscriptionRequest $request
      * @param Subscription $subscription
      */
-    public function edit(EditSubscriptionRequest $request, Subscription $subscription) : void;
+    public function edit(EditSubscriptionRequest $request, Subscription $subscription) : Subscription;
 
     /**
      * @param Subscription $subscription

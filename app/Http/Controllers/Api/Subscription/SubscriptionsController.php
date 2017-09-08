@@ -42,9 +42,12 @@ class SubscriptionsController extends Controller
 
     public function edit(EditSubscriptionRequest $request, Subscription $subscription)
     {
-        $this->subscriptionsService->edit($request, $subscription);
+        $subscription = $this->subscriptionsService->edit($request, $subscription);
 
-        return response()->json([], 200);
+        return fractal()
+            ->item($subscription, new SubscriptionTransformer())
+            ->parseIncludes('filters')
+            ->respond();
     }
 
     public function status(StatusSubscriptionRequest $request, Subscription $subscription)
