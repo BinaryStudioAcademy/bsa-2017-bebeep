@@ -65,6 +65,17 @@ export default (state = initialState, action) => {
                     ...state.subscriptions.slice(index + 1)
                 ]
             };
+        case actions.SUBSCRIPTION_CHANGE_FILTER:
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    filters: {
+                        ...state.entities.filters,
+                        byId: Object.assign(state.entities.filters.byId, action.filters)
+                    }
+                }
+            };
         default:
             return state;
     }

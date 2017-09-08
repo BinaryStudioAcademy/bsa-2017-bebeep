@@ -32,3 +32,8 @@ export const actionDeleteSubscription = (id) => ({
     type: actions.SUBSCRIPTION_DELETE,
     id
 });
+
+export const actionChangeFilter = (filters) => ({
+    type: actions.SUBSCRIPTION_CHANGE_FILTER,
+    filters
+});

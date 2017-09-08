@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import SeatsDropDown from '../Dropdowns/SeatsDropDown';
 import AnimalsDropDown from '../Dropdowns/AnimalsDropDown';
@@ -11,6 +12,7 @@ import {getTranslate} from 'react-localize-redux';
 import {getCityLocation} from 'app/helpers/TripHelper';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import moment from 'moment';
+import {actionChangeFilter} from '../../actions';
 import 'features/search/styles/subscribe-modal.scss';
 
 class SubscribeEditModal extends React.Component {
@@ -42,6 +44,7 @@ class SubscribeEditModal extends React.Component {
 
         this.setState(_.reduce(subscription.filters, (state, filterId) => {
             const filter = filters.byId[filterId];
+
             if (filter.parameters['value']) {
                 state[filter.name] = filter.parameters['value'];
             } else if (filter.parameters['to'] && filter.parameters['from']) {
@@ -85,8 +88,31 @@ class SubscribeEditModal extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
+        const {subscriptions, filters, id, actionChangeFilter, toggle} = this.props,
+            subscription = subscriptions.byId[id],
+            data = _.reduce(subscription.filters, (result, id) => {
+                const filter = filters.byId[id],
+                    value = this.state[filter.name];
 
-        console.log(this.state);
+                if (value) {
+                    if (value.length) {
+                        result[filter.id] = {
+                            ...filter,
+                            parameters: {from: value[0], to: value[1]}
+                        };
+                    } else {
+                        result[filter.id] = {
+                            ...filter,
+                            parameters: {value}
+                        };
+                    }
+                }
+
+                return result;
+            }, {});
+
+        actionChangeFilter(data);
+        toggle();
     }
 
     render() {
@@ -106,7 +132,7 @@ class SubscribeEditModal extends React.Component {
                 <ModalBody>
                     <div className="subscribe-modal__body-routes mt-2 ml-3 mb-4">
                         <div className="subscribe-modal__body-routes-header pb-2">
-                            <i className="subscribe-modal-icon subscribe-modal-icon-big v-align-bottom fa fa-road" aria-hidden="true"></i>
+                            <i className="subscribe-modal-icon subscribe-modal-icon-big v-align-bottom fa fa-road" aria-hidden="true" />
                             <span className="subscribe-modal__body-routes-title">{translate('subscriptions.route')}</span>
                         </div>
                         <div className="subscribe-modal__body-routes-main pl-4">
@@ -208,5 +234,6 @@ export default connect(
         subscriptions: state.subscriptions.entities.subscriptions,
         filters: state.subscriptions.entities.filters,
         translate: getTranslate(state.locale)
-    })
+    }),
+    dispatch => bindActionCreators({actionChangeFilter}, dispatch)
 )(SubscribeEditModal);
