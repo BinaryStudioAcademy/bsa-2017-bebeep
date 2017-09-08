@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use App\Http\Requests\DTO\FilterDTO;
 use App\User;
+use App\Models\Filter;
 use App\Models\Subscription;
 use Illuminate\Support\Collection;
+use App\Http\Requests\DTO\FilterDTO;
 use App\Services\Requests\CreateSubscriptionsRequest;
 use App\Repositories\Contracts\SubscriptionRepository;
 use App\Services\Requests\Subscriptions\EditSubscriptionRequest;
@@ -52,11 +53,21 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     public function edit(EditSubscriptionRequest $request, Subscription $subscription): Subscription
     {
         /** @var FilterDTO[] $filters */
-        $filters = $request->getFilters();
+        $newFilters = collect($request->getFilters());
+        /** @var Collection $filters */
+        $filters = $subscription->filters;
 
-        $data = $subscription->filters->map(function ($filter) use ($filters) {
-            $filter['parameters'] = $filters[$filter->id]->getParams();
-            return $filter;
+        $data = $newFilters->map(function (FilterDTO $filter) use ($filters) {
+            $f = $filters->where('name', $filter->getName())->first();
+            if ($f) {
+                $f->parameters = $filter->getParams();
+            } else {
+                $f = new Filter;
+                $f->name = $filter->getName();
+                $f->parameters = $filter->getParams();
+            }
+
+            return $f;
         });
 
         return $this->subscriptionRepository->setFilters($subscription, ...$data);

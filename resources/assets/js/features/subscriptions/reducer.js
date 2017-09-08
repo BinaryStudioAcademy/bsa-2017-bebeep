@@ -65,14 +65,24 @@ export default (state = initialState, action) => {
                     ...state.subscriptions.slice(index + 1)
                 ]
             };
-        case actions.SUBSCRIPTION_CHANGE_FILTER:
+        case actions.SUBSCRIPTION_EDIT:
             return {
                 ...state,
                 entities: {
                     ...state.entities,
+                    subscriptions: {
+                        ...state.entities.subscriptions,
+                        byId: Object.assign(
+                            state.entities.subscriptions.byId,
+                            action.subscriptions
+                        ),
+                    },
                     filters: {
                         ...state.entities.filters,
-                        byId: Object.assign(state.entities.filters.byId, action.filters)
+                        byId: Object.assign(
+                            state.entities.filters.byId,
+                            action.filters
+                        ),
                     }
                 }
             };

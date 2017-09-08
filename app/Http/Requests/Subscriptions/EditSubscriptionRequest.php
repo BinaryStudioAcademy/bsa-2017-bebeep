@@ -28,8 +28,12 @@ class EditSubscriptionRequest extends FormRequest implements ContractEditSubscri
     {
         $filters = [];
 
-        foreach ($this->get('filters') as $id => $filter) {
-            $filters[$id] = new FilterDTO($filter['name'], $filter['parameters']);
+        foreach ($this->get('filters') as $name => $value) {
+            if (is_array($value)) {
+                $filters[] = new FilterDTO($name, $value);
+            } else {
+                $filters[] = new FilterDTO($name, ['value' => $value]);
+            }
         }
 
         return $filters;

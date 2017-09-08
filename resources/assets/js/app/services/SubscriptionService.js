@@ -13,3 +13,7 @@ export const changeSubscriptionStatus = (id, status) => {
 export const deleteSubscription = (id) => {
     return securedRequest.delete(`/api/v1/subscriptions/${id}/`);
 };
+
+export const editSubscription = (id, data) => {
+    return securedRequest.patch(`/api/v1/subscriptions/${id}/`, data);
+};

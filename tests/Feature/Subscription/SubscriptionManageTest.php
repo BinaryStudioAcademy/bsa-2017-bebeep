@@ -142,14 +142,8 @@ class SubscriptionManageTest extends SubscriptionBase
 
         $this->jsonRequestAsUser($user, 'patch', $this->getUrlEdit($subscription->id), [
             'filters' => [
-                $filterSeats->id => [
-                    'name' => 'seats',
-                    'parameters' => ['value' => 5]
-                ],
-                $filterTime->id => [
-                    'name' => 'time',
-                    'parameters' => ['from' => 2, 'to' => 16],
-                ],
+                'seats' => 5,
+                'time' => ['from' => 2, 'to' => 16],
             ]
         ])->assertStatus(200);
 

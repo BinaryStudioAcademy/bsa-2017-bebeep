@@ -8,8 +8,7 @@ export const setSubscriptions = (data) => {
                 return result;
             }, {});
         result.subscriptions[subscription.id] = Object.assign(subscription, {
-            filters: Object.keys(filters),
-            is_deleted: false
+            filters: Object.keys(filters)
         });
 
         result.filters = Object.assign(result.filters, filters);
@@ -33,7 +32,20 @@ export const actionDeleteSubscription = (id) => ({
     id
 });
 
-export const actionChangeFilter = (filters) => ({
-    type: actions.SUBSCRIPTION_CHANGE_FILTER,
-    filters
-});
+export const editSubscriptions = (data) => {
+    const filters = _.reduce(data.data.filters.data, (result , filter) => {
+        result[filter.id] = filter;
+
+        return result;
+    }, {});
+
+    return {
+        type: actions.SUBSCRIPTION_EDIT,
+        subscriptions: {
+            [data.data.id]: Object.assign(data.data, {
+                filters: Object.keys(filters),
+            })
+        },
+        filters: filters
+    };
+};

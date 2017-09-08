@@ -11,8 +11,9 @@ import {Range} from 'rc-slider';
 import {getTranslate} from 'react-localize-redux';
 import {getCityLocation} from 'app/helpers/TripHelper';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
+import { editSubscription } from 'app/services/SubscriptionService';
 import moment from 'moment';
-import {actionChangeFilter} from '../../actions';
+import {editSubscriptions} from '../../actions';
 import 'features/search/styles/subscribe-modal.scss';
 
 class SubscribeEditModal extends React.Component {
@@ -23,12 +24,14 @@ class SubscribeEditModal extends React.Component {
             from: {},
             to: {},
             start_at: null,
-            price: [0, 2000],
-            time: [0, 24],
-            animals: null,
-            luggage: null,
-            seats: null,
-            rating: null
+            filters: {
+                price: [0, 2000],
+                time: [0, 24],
+                animals: null,
+                luggage: null,
+                seats: null,
+                rating: null
+            }
         };
 
         this.animalsChange = this.animalsChange.bind(this);
@@ -36,6 +39,8 @@ class SubscribeEditModal extends React.Component {
         this.seatsChange = this.seatsChange.bind(this);
         this.ratingChange = this.ratingChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.priceChange = this.priceChange.bind(this);
+        this.timeChange = this.timeChange.bind(this);
     }
 
     updateFilterData(props) {
@@ -46,9 +51,9 @@ class SubscribeEditModal extends React.Component {
             const filter = filters.byId[filterId];
 
             if (filter.parameters['value']) {
-                state[filter.name] = filter.parameters['value'];
+                state.filters[filter.name] = filter.parameters['value'];
             } else if (filter.parameters['to'] && filter.parameters['from']) {
-                state[filter.name] = [
+                state.filters[filter.name] = [
                     filter.parameters['from'],
                     filter.parameters['to']
                 ];
@@ -59,6 +64,7 @@ class SubscribeEditModal extends React.Component {
             from: subscription.from,
             to: subscription.to,
             start_at: moment.unix(subscription.start_at_x),
+            filters: this.state.filters
         }));
     }
 
@@ -71,53 +77,74 @@ class SubscribeEditModal extends React.Component {
     }
 
     animalsChange(e) {
-        this.setState({animals: e.target.value});
+        this.setState({filters: {
+            ...this.state.filters,
+            animals: e.target.value
+        }});
     }
 
     luggageChange(e) {
-        this.setState({luggage: e.target.value});
+        this.setState({filters: {
+            ...this.state.filters,
+            luggage: e.target.value
+        }});
     }
 
     seatsChange(e) {
-        this.setState({seats: e.target.value});
+        this.setState({filters: {
+            ...this.state.filters,
+            seats: e.target.value
+        }});
     }
 
     ratingChange(e) {
-        this.setState({rating: e.target.value});
+        this.setState({filters: {
+            ...this.state.filters,
+            rating: e.target.value
+        }});
+    }
+
+    priceChange(price) {
+        this.setState({filters: {
+            ...this.state.filters,
+            price
+        }});
+    }
+
+    timeChange(time) {
+        this.setState({filters: {
+            ...this.state.filters,
+            time
+        }});
     }
 
     onSubmit(e) {
         e.preventDefault();
-        const {subscriptions, filters, id, actionChangeFilter, toggle} = this.props,
-            subscription = subscriptions.byId[id],
-            data = _.reduce(subscription.filters, (result, id) => {
-                const filter = filters.byId[id],
-                    value = this.state[filter.name];
-
-                if (value) {
-                    if (value.length) {
-                        result[filter.id] = {
-                            ...filter,
-                            parameters: {from: value[0], to: value[1]}
-                        };
+        const {id, editSubscriptions, toggle} = this.props,
+            data = _.reduce(this.state.filters, (result, filter, name) => {
+                if (filter) {
+                    if (filter instanceof Array) {
+                        result[name] = {from: filter[0], to: filter[1]};
                     } else {
-                        result[filter.id] = {
-                            ...filter,
-                            parameters: {value}
-                        };
+                        result[name] = filter;
                     }
                 }
 
                 return result;
             }, {});
 
-        actionChangeFilter(data);
-        toggle();
+        editSubscription(id, {
+            filters: data
+        }).then((response) => {
+            editSubscriptions(response.data);
+            toggle();
+        });
     }
 
     render() {
         const {translate, isOpen, toggle} = this.props,
-            {from, to, start_at, price, time, animals, luggage, seats, rating} = this.state,
+            {from, to, start_at, filters} = this.state,
+            {price, time, animals, luggage, seats, rating} = filters,
             cityFrom = getCityLocation(from),
             cityTo = getCityLocation(to),
             info = `${cityFrom} - ${cityTo}`,
@@ -163,7 +190,7 @@ class SubscribeEditModal extends React.Component {
                                                 max={24}
                                                 allowCross={false}
                                                 value={time}
-                                                onChange={(time) => this.setState({time})}
+                                                onChange={this.timeChange}
                                                 pushable
                                             />
                                         </div>
@@ -190,7 +217,7 @@ class SubscribeEditModal extends React.Component {
                                                 step={10}
                                                 allowCross={false}
                                                 value={price}
-                                                onChange={(price) => this.setState({price})}
+                                                onChange={this.priceChange}
                                                 pushable
                                             />
                                         </div>
@@ -235,5 +262,5 @@ export default connect(
         filters: state.subscriptions.entities.filters,
         translate: getTranslate(state.locale)
     }),
-    dispatch => bindActionCreators({actionChangeFilter}, dispatch)
+    dispatch => bindActionCreators({editSubscriptions}, dispatch)
 )(SubscribeEditModal);
