@@ -98,9 +98,6 @@ const AuthService = (() => {
         checkPermissions(permissions, identically) {
             const sessionPermissions = _this.getFromState('permissions');
 
-            //console.log(permissions, 'my');
-            //console.log(sessionPermissions, 'sess');
-
             if (! permissions || ! sessionPermissions) {
                 return true;
             }

@@ -1,7 +1,7 @@
-import ForAuthUser from './ForAuthUser';
-import ForGuest from './ForGuest';
+import RequireUser from './RequireUser';
+import RequireGuest from './RequireGuest';
 
 export {
-    ForAuthUser,
-    ForGuest,
+    RequireUser,
+    RequireGuest,
 };

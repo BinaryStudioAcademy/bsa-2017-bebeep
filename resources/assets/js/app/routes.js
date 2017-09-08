@@ -39,7 +39,7 @@ import Notifications from 'features/notifications/layouts/Notifications';
 import Elements from '../features/elements/Elements.js';
 
 import AuthService from './services/AuthService';
-import { ForAuthUser, ForGuest } from './components/Auth';
+import { RequireUser, RequireGuest } from './components/Auth';
 import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from './services/UserService';
 
 import { getCountUnread } from './services/NotificationService';
@@ -75,7 +75,7 @@ export default (store) => {
             <Route path="search" component={ SearchResult } />
 
             {/* Routes only for auth users with the driver permission */}
-            <Route component={ ForAuthUser({ permissions: USER_ROLE_DRIVER }) }>
+            <Route component={ RequireUser({ permissions: USER_ROLE_DRIVER }) }>
 
                 {/* Vehicle creating and show details */}
                 <Route path="vehicles">
@@ -100,14 +100,14 @@ export default (store) => {
             </Route>
 
             {/* Routes only for auth users with the passenger permission */}
-            <Route component={ ForAuthUser({ permissions: USER_ROLE_PASSENGER }) }>
+            <Route component={ RequireUser({ permissions: USER_ROLE_PASSENGER }) }>
                 {/* Bookings - upcomming and pasts */}
                 <Route path="bookings" component={ BookingsList } />
-                <Route path='bookings/past' component={ BookingsList } />
+                <Route path="bookings/past" component={ BookingsList } />
             </Route>
 
             {/* Routes only for auth users */}
-            <Route component={ ForAuthUser() }>
+            <Route component={ RequireUser() }>
 
                 {/* User dashboard */}
                 <Route path="dashboard">
@@ -142,7 +142,7 @@ export default (store) => {
             </Route>
 
             {/* Routes only for guest users */}
-            <Route component={ ForGuest() }>
+            <Route component={ RequireGuest() }>
                 {/* User registration and email verification */}
                 <Route path="registration" component={ RegisterForm } />
                 <Route path="registration/success" component={ RegisterSuccess } />
