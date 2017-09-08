@@ -18,25 +18,16 @@ import {
     ProfilePassword
 } from '../features/user/layouts/Profile';
 
-import Vehicles from '../features/car/layouts/Vehicles';
-import CreateVehicle from '../features/car/layouts/CreateVehicle';
-import EditVehicle from '../features/car/layouts/EditVehicle';
+import { ReviewsReceived, ReviewsGiven } from '../features/user/layouts/Profile/Reviews';
+import { DriverPublicProfile, PassengerPublicProfile } from '../features/public-profiles/layouts';
+
+import { Vehicles, CreateVehicle, EditVehicle } from '../features/car/layouts';
 
 import { CreateTrip, EditTrip, TripDetails } from '../features/trip/layouts';
 import TripsList from '../features/trip-list/layouts/TripsList';
 
 import BookingsList from '../features/bookings/layouts/BookingsList';
-import DriverPublicProfile from '../features/public-profiles/layouts/DriverPublicProfile';
-import PassengerPublicProfile from '../features/public-profiles/layouts/PassengerPublicProfile';
-
-import {
-    ReviewsReceived,
-    ReviewsGiven
-} from '../features/user/layouts/Profile/Reviews';
-
 import Notifications from 'features/notifications/layouts/Notifications';
-
-import Elements from '../features/elements/Elements.js';
 
 import AuthService from './services/AuthService';
 import { RequireUser, RequireGuest } from './components/Auth';
@@ -47,6 +38,8 @@ import LangeService from './services/LangService';
 
 import { loginSuccess } from 'features/user/actions';
 import { setCountUnreadNotifications } from 'features/notifications/actions';
+
+import Elements from '../features/elements/Elements';
 
 export default (store) => {
 

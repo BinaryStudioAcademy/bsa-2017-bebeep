@@ -21,7 +21,15 @@ class ForAuthUser extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillMount() {
+        this.setUserRoles();
+    }
+
+    componentWillReceiveProps() {
+        this.setUserRoles();
+    }
+
+    setUserRoles() {
         this.setState({
             isDriver: AuthService.checkPermissions(USER_ROLE_DRIVER),
             isPassenger: AuthService.checkPermissions(USER_ROLE_PASSENGER),
