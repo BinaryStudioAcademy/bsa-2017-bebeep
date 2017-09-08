@@ -13,6 +13,7 @@
         "league/fractal": "^0.16.0",
         "nesbot/carbon": "^1.22",
         "prettus/l5-repository": "^2.6",
+        "rafaelfragoso/haversini-formula": "^1.0",
         "spatie/laravel-fractal": "^4.3",
         "spatie/laravel-medialibrary": "^5.0.0",
         "themsaid/laravel-mail-preview": "^1.2",

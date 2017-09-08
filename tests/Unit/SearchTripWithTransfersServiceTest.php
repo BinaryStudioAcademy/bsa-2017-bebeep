@@ -28,6 +28,7 @@ class SearchTripWithTransfersServiceTest extends TestCase
     {
         $this->createTrip([self::POINT_A, self::POINT_B]);
         $this->createTrip([self::POINT_B, self::POINT_C]);
+        $this->createTrip([self::POINT_B, self::POINT_A, self::POINT_C]);
 
         $service = app()->make(SearchTripsWithTransfersService::class);
         $searchRequest = new SearchTripRequest();
