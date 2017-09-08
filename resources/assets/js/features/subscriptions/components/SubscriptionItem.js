@@ -90,7 +90,7 @@ class SubscriptionItem extends React.Component {
                     <div className="col-sm-1 text-left">
                         <div
                             className="subscription__checkbox round-checkbox round-checkbox--info"
-                            title={subscription.is_active ? translate('subscriptions.activate') : translate('subscriptions.deactivate')}
+                            title={subscription.is_active ? translate('subscriptions.deactivate') : translate('subscriptions.activate')}
                         >
                             <input
                                 type="checkbox"
