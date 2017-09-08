@@ -5,14 +5,14 @@ namespace App\Services\Helpers\Subscriptions\Filters;
 use App\Models\Trip;
 use App\Models\Filter;
 
-class StartTimeFilter implements Contracts\SubscriptionFilter
+class AnimalsFilter implements Contracts\SubscriptionFilter
 {
     /**
      * {@inheritdoc}
      */
     public function support(Filter $filter): bool
     {
-        return $filter->name === 'time';
+        return $filter->name === 'animals';
     }
 
     /**
@@ -21,8 +21,8 @@ class StartTimeFilter implements Contracts\SubscriptionFilter
     public function isSatisfied(Filter $filter, Trip $trip): bool
     {
         $params = $filter->parameters;
-        $startTime = $trip->start_at->startOfDay()->addHours((int) $params['from'])->timestamp;
+        $isAllowed = (int) $params['value'] === Enum\FilterAnimalsEnum::ALLOWED;
 
-        return $trip->start_at->timestamp >= $startTime;
+        return $trip->is_animals_allowed === $isAllowed;
     }
 }

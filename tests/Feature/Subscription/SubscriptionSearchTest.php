@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Subscription;
 
+use App\Services\Helpers\Subscriptions\Filters\Enum\FilterAnimalsEnum;
 use App\User;
 use Carbon\Carbon;
 use App\Models\Trip;
@@ -70,7 +71,7 @@ class SubscriptionSearchTest extends JwtTestCase
                 'lat' => $subscription->to_lat,
                 'lng' => $subscription->to_lng,
             ],
-            $subscription->start_at
+            ['start_at' => $subscription->start_at]
         );
 
         $service = app()->make(SubscriptionsService::class);
@@ -86,12 +87,17 @@ class SubscriptionSearchTest extends JwtTestCase
     /**
      * @test
      */
-    public function it_find_trip_with_filters()
+    public function it_find_trip_with_time_filter()
     {
         $start_at = Carbon::today();
         $subscription = $this->getSubscription(array_merge($this->locations[0], [
             'start_at' => $start_at,
         ]));
+
+        $subscription2 = $this->getSubscription(array_merge($this->locations[0], [
+            'start_at' => $start_at,
+        ]));
+
         $start_at->addHours(8);
         $trip = $this->getTrip([
                 'from' => $subscription->from,
@@ -102,23 +108,17 @@ class SubscriptionSearchTest extends JwtTestCase
                 'lat' => $subscription->to_lat,
                 'lng' => $subscription->to_lng,
             ],
-            $start_at
+            ['start_at' => $start_at]
         );
-        $startTime = $start_at->timestamp - 2 * 60 * 60;
-        $endTime = $start_at->timestamp + 2 * 60 * 60;
 
         $filter = $this->getFilter($subscription, [
             'name' => 'time',
-            'parameters' => ['start' => $startTime, 'end' => $endTime],
+            'parameters' => ['from' => 6, 'to' => 10],
         ]);
 
-        $start_at->addHours(4);
-        $subscription2 = $this->getSubscription(array_merge($this->locations[0], [
-            'start_at' => $start_at,
-        ]));
         $filter2 = $this->getFilter($subscription2, [
             'name' => 'time',
-            'parameters' => ['start' => $startTime + 3 * 60 * 60, 'end' => $endTime + 3 * 60 * 60],
+            'parameters' => ['from' => 11, 'to' => 14],
         ]);
 
         $service = app()->make(SubscriptionsService::class);
@@ -132,20 +132,85 @@ class SubscriptionSearchTest extends JwtTestCase
     }
 
     /**
+     * @test
+     */
+    public function it_find_trip_with_animals_filter()
+    {
+        $start_at = Carbon::today();
+        $subscription = $this->getSubscription(array_merge($this->locations[0], [
+            'start_at' => $start_at,
+        ]));
+
+        $subscription2 = $this->getSubscription(array_merge($this->locations[0], [
+            'start_at' => $start_at,
+        ]));
+
+        $start_at->addHours(8);
+        $tripWithAnimals = $this->getTrip([
+                'from' => $subscription->from,
+                'lat' => $subscription->from_lat,
+                'lng' => $subscription->from_lng,
+            ], [
+                'to' => $subscription->to,
+                'lat' => $subscription->to_lat,
+                'lng' => $subscription->to_lng,
+            ],
+            ['is_animals_allowed' => true]
+        );
+        $tripWithoutAnimals = $this->getTrip([
+            'from' => $subscription->from,
+            'lat' => $subscription->from_lat,
+            'lng' => $subscription->from_lng,
+        ], [
+            'to' => $subscription->to,
+            'lat' => $subscription->to_lat,
+            'lng' => $subscription->to_lng,
+        ],
+            ['is_animals_allowed' => false]
+        );
+
+        $filter = $this->getFilter($subscription, [
+            'name' => 'animals',
+            'parameters' => ['value' => FilterAnimalsEnum::ALLOWED],
+        ]);
+
+        $filter2 = $this->getFilter($subscription2, [
+            'name' => 'animals',
+            'parameters' => ['value' => FilterAnimalsEnum::DISALLOWED],
+        ]);
+
+        $service = app()->make(SubscriptionsService::class);
+
+        $found1 = $service->getSubscriptionsByTrip($tripWithAnimals);
+
+        $this->assertCount(1, $found1);
+        $first = $found1->first();
+        $this->assertInstanceOf(Subscription::class, $first);
+        $this->assertEquals($subscription->id, $first->id);
+
+        $found2 = $service->getSubscriptionsByTrip($tripWithoutAnimals);
+
+        $this->assertCount(1, $found2);
+        $first = $found2->first();
+        $this->assertInstanceOf(Subscription::class, $first);
+        $this->assertEquals($subscription2->id, $first->id);
+
+    }
+
+    /**
      * @param $from
      * @param $to
      * @param $start_at
      * @return Trip
      */
-    public function getTrip($from, $to, $start_at): Trip
+    public function getTrip($from, $to, array $params = []): Trip
     {
         $user = factory(User::class)->create();
         $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
-        $trip = factory(Trip::class)->create([
-            'start_at' => $start_at,
+        $trip = factory(Trip::class)->create(array_merge([
             'user_id' => $user->id,
             'vehicle_id' => $vehicle->id,
-        ]);
+        ], $params));
 
         $route = factory(Route::class)->create([
             'trip_id' => $trip->id,

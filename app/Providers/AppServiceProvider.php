@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
+use App\Services\Helpers\Subscriptions\Filters\AnimalsFilter;
 use App\Services\RouteService;
 use App\Services\BookingService;
 use App\Services\ReviewsService;
@@ -124,7 +125,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FilterCollection::class, function ($app) {
             return new FilterCollection(
                 new StartTimeFilter(),
-                new EndTimeFilter()
+                new EndTimeFilter(),
+                new AnimalsFilter()
             );
         });
     }
