@@ -6,7 +6,8 @@ import SearchForm from '../components/Index/SearchForm';
 import WizardTrip from 'features/wizard-trip/layouts/WizardTrip';
 import WizardTab from 'features/wizard-trip/components/WizardTab';
 
-import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER, checkDriverRole } from 'app/services/UserService';
+import AuthService from 'app/services/AuthService';
+import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from 'app/services/UserService';
 
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/SearchIndex.locale.json';
@@ -27,10 +28,7 @@ class SearchIndex extends React.Component {
 
     componentWillMount() {
         LangService.addTranslation(lang);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({ isDriverModeAvailable: this.isDriverModeAvailable(nextProps) });
+        this.setState({ isDriverModeAvailable: this.isDriverModeAvailable() });
     }
 
     isPassengerMode() {
@@ -41,13 +39,11 @@ class SearchIndex extends React.Component {
         return this.state.mode === USER_ROLE_DRIVER;
     }
 
-    isDriverModeAvailable(props) {
-        const { isAuthorized, sessionPermissions } = props;
-
-        if (!isAuthorized) {
+    isDriverModeAvailable() {
+        if (! AuthService.isAuthorized()) {
             return true;
         }
-        return checkDriverRole(sessionPermissions);
+        return AuthService.checkPermissions(USER_ROLE_DRIVER);
     }
 
     setPassengerMode(e) {
@@ -67,7 +63,6 @@ class SearchIndex extends React.Component {
     renderWizardTabs() {
         const { translate } = this.props,
             { isDriverModeAvailable } = this.state;
-            //isDriverModeAvailable = this.isDriverModeAvailable();
 
         return (
             <div className="home-slider__tabs wizard-tabs">
@@ -123,12 +118,4 @@ class SearchIndex extends React.Component {
     }
 }
 
-const SearchIndexConnected = connect(
-    state => ({
-        isAuthorized: state.user.session.isAuthorized,
-        sessionPermissions: state.user.session.permissions,
-    }),
-    null,
-)(SearchIndex);
-
-export default localize(SearchIndexConnected, 'locale');
+export default localize(SearchIndex, 'locale');
