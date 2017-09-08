@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
+use App\Services\Helpers\Subscriptions\Filters\EndPriceFilter;
+use App\Services\Helpers\Subscriptions\Filters\StartPriceFilter;
 use App\Services\RouteService;
 use App\Services\BookingService;
 use App\Services\ReviewsService;
@@ -132,7 +134,9 @@ class AppServiceProvider extends ServiceProvider
                 new AnimalsFilter(),
                 new SeatsFilter(),
                 new LuggageFilter(),
-                new RatingFilter()
+                new RatingFilter(),
+                new StartPriceFilter(),
+                new EndPriceFilter()
             );
         });
     }

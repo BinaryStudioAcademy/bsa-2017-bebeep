@@ -302,6 +302,37 @@ class SubscriptionSearchTest extends JwtTestCase
 
     }
 
+
+    /**
+     * @test
+     */
+    public function it_find_trip_with_price_filter()
+    {
+        $start_at = Carbon::today();
+        $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+        $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+
+        $trip1 = $this->getTripBySubscription($subscription, ['price' => 10]);
+
+        $this->getFilter($subscription, [
+            'name' => 'price',
+            'parameters' => ['from' => 5, 'to' => 20],
+        ]);
+
+        $this->getFilter($subscription2, [
+            'name' => 'price',
+            'parameters' => ['from' => 15, 'to' => 25],
+        ]);
+
+        $service = app()->make(SubscriptionsService::class);
+
+        $found1 = $service->getSubscriptionsByTrip($trip1);
+        $this->assertCount(1, $found1);
+        $first = $found1->first();
+        $this->assertInstanceOf(Subscription::class, $first);
+        $this->assertEquals($subscription->id, $first->id);
+    }
+
     /**
      * @param Subscription $subscription
      * @param array $params
