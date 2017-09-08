@@ -25,10 +25,10 @@ class MainNavigation extends React.Component {
 
     render() {
         const navClass = !this.state.isNavOpen ? 'collapse' : '',
-            { isAuthorized, sessionPermissions } = this.props;
+            { isAuthorized, user } = this.props;
 
         const mainNavigation = isAuthorized
-            ? <ForAuthUser sessionPermissions={sessionPermissions} />
+            ? <ForAuthUser user={user} />
             : <ForGuestUser />;
 
         return (
@@ -48,7 +48,7 @@ class MainNavigation extends React.Component {
 const MainNavigationConnected = connect(
     state => ({
         isAuthorized: state.user.session.isAuthorized,
-        sessionPermissions: state.user.session.permissions,
+        user: state.user.profile,
     }),
     null
 )(MainNavigation);

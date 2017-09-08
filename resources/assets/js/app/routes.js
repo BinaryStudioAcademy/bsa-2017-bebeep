@@ -45,11 +45,12 @@ import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from './services/UserService';
 import { getCountUnread } from './services/NotificationService';
 import LangeService from './services/LangService';
 
+import { loginSuccess } from 'features/user/actions';
 import { setCountUnreadNotifications } from 'features/notifications/actions';
 
 export default (store) => {
 
-    AuthService.init({store});
+    AuthService.init({ store, loginSuccess });
     LangeService.init(store);
 
     LangeService.addTranslation(require('./lang/global.locale.json'));
@@ -66,35 +67,30 @@ export default (store) => {
             }).catch((error) => {});
         }}>
 
-            <Route path="elements" component={Elements}/>
+            <Route path="elements" component={ Elements } />
 
             {/* Index page */}
-            <IndexRoute component={ SearchIndex }/>
+            <IndexRoute component={ SearchIndex } />
             {/* Search page */}
             <Route path="search" component={ SearchResult } />
 
-            {/* Routes only for auth users */}
-            {/*<Route onEnter={ (nextState, replace) => AuthService.requireAuth({
-                route: { nextState, replace },
-                permissions: USER_ROLE_DRIVER,
-            }) }>*/}
-            <Route component={ ForAuthUser({ permissions: USER_ROLE_DRIVER }) }>
+            {/* Routes only for auth users with the driver permission */}
+            {/*<Route component={ ForAuthUser({ permissions: USER_ROLE_DRIVER }) }>*/}
+            <Route>
 
                 {/* Vehicle creating and show details */}
                 <Route path="vehicles">
-
-                    <IndexRoute component={ Vehicles }/>
-
-                    <Route path="create" component={ CreateVehicle }/>
-                    <Route path="edit/:id" component={ EditVehicle }/>
+                    <IndexRoute component={ Vehicles } />
+                    <Route path="create" component={ CreateVehicle } />
+                    <Route path="edit/:id" component={ EditVehicle } />
                     {/*<Route path=":id" component={ VehicleDetails } />*/}
                 </Route>
 
                 {/* Trips - upcoming and past */}
-                <Redirect from='trips' to='/trips/upcoming'/>
+                <Redirect from="trips" to="/trips/upcoming" />
                 <Route path="trips">
-                    <Route path="upcoming" component={ TripsList }/>
-                    <Route path="past" component={ TripsList }/>
+                    <Route path="upcoming" component={ TripsList } />
+                    <Route path="past" component={ TripsList } />
                 </Route>
 
                 {/* Trip creating and editing */}
@@ -104,41 +100,40 @@ export default (store) => {
                 </Route>
             </Route>
 
-            <Route component={ ForAuthUser }>
-            {/*<Route onEnter={ (nextState, replace) => AuthService.requireAuth({
-                route: { nextState, replace },
-                permissions: USER_ROLE_PASSENGER,
-            }) }>*/}
-
+            {/* Routes only for auth users with the passenger permission */}
+            {/*<Route component={ ForAuthUser({ permissions: USER_ROLE_PASSENGER }) }>*/}
+            <Route>
                 {/* Bookings - upcomming and pasts */}
-                <Route path="bookings" component={ BookingsList }/>
-                <Route path='bookings/past' component={ BookingsList }/>
+                <Route path="bookings" component={ BookingsList } />
+                <Route path='bookings/past' component={ BookingsList } />
             </Route>
 
-            <Route component={ ForAuthUser }>
+            {/* Routes only for auth users */}
+            {/*<Route component={ ForAuthUser() }>*/}
+            <Route>
 
                 {/* User dashboard */}
                 <Route path="dashboard">
-                    <IndexRoute component={ Dashboard }/>
+                    <IndexRoute component={ Dashboard } />
 
                     {/* User profile */}
-                    <Redirect from='profile' to='profile/general'/>
+                    <Redirect from="profile" to="profile/general" />
                     <Route path="profile" component={ ProfileBase }>
                         {/* User profile general */}
-                        <Route path="general" component={ ProfileGeneral }/>
+                        <Route path="general" component={ ProfileGeneral } />
                         {/* User profile avatar */}
-                        <Route path="avatar" component={ ProfileAvatar }/>
+                        <Route path="avatar" component={ ProfileAvatar } />
 
                         {/* User reviews */}
                         <Route path="reviews">
                             {/* User received reviews */}
-                            <Route path="received" component={ ReviewsReceived }/>
+                            <Route path="received" component={ ReviewsReceived } />
                             { /*User given reviews */ }
-                            <Route path="given" component={ ReviewsGiven }/>
+                            <Route path="given" component={ ReviewsGiven } />
                         </Route>
 
                         {/* User profile password */}
-                        <Route path="password" component={ ProfilePassword }/>
+                        <Route path="password" component={ ProfilePassword } />
                     </Route>
 
                     {/* Notifications */}
@@ -146,32 +141,32 @@ export default (store) => {
                 </Route>
 
                 {/* User logout */}
-                <Route path="logout" component={ Logout }/>
+                <Route path="logout" component={ Logout } />
             </Route>
 
             {/* Routes only for guest users */}
-            <Route component={ ForGuest }>
+            <Route component={ ForGuest() }>
                 {/* User registration and email verification */}
-                <Route path="registration" component={ RegisterForm }/>
-                <Route path="registration/success" component={ RegisterSuccess }/>
-                <Route path="verification" component={ RegisterVerify }/>
+                <Route path="registration" component={ RegisterForm } />
+                <Route path="registration/success" component={ RegisterSuccess } />
+                <Route path="verification" component={ RegisterVerify } />
 
                 {/* User login and password reset */}
-                <Route path="login" component={ LoginForm }/>
-                <Route path="password/reset" component={ PasswordReset }/>
+                <Route path="login" component={ LoginForm } />
+                <Route path="password/reset" component={ PasswordReset } />
             </Route>
 
             {/* Trip details. Must stay HERE - conflict with /trip/create */}
             <Route path="trip/:id" component={ TripDetails } />
 
             {/*Driver public profile*/}
-            <Route path="driver/:id" component={ DriverPublicProfile }/>
+            <Route path="driver/:id" component={ DriverPublicProfile } />
 
             {/*Passenger public profile*/}
-            <Route path="passenger/:id" component={ PassengerPublicProfile }/>
+            <Route path="passenger/:id" component={ PassengerPublicProfile } />
 
             {/* Page not found */}
-            <Route path="*" component={ NotFound }/>
+            <Route path="*" component={ NotFound } />
         </Route>
     );
 };

@@ -14,24 +14,45 @@ const AuthService = (() => {
         userProps = ['first_name', 'last_name', 'avatar',];
 
     let _this = null,
-        state = null;
+        store = null,
+        loginSuccess = null;
 
     return {
         init(params) {
             _this = this;
-            state = params.store.getState();
+            store = params.store;
+            loginSuccess = params.loginSuccess;
         },
 
         getFromState(param) {
-            return state.user.session[param];
+            return store.getState().user.session[param];
         },
 
         getSessionToken() {
             return _this.getFromState('token') || storage[tokenKeyName];
         },
 
-        isAuthorized() {
-            return _this.getFromState('isAuthorized');
+        getSessionDataFromServer(onSuccess, onError) {
+            const requestPath = '/api/authentication/me';
+
+            securedRequest.get(requestPath)
+                .then(response => {
+                    const data = response.data.data;
+
+                    store.dispatch( loginSuccess(_this.getSessionData(data)) );
+                    onSuccess();
+                })
+                .catch(error => {
+                    _this.destroySession();
+                    onError();
+                });
+        },
+
+        isAuthorized(permissions, identically) {
+            if (! _this.getFromState('isAuthorized')) {
+                return false;
+            }
+            return _this.checkPermissions(permissions, identically);
         },
 
         isSessionTokenValid() {
@@ -81,13 +102,16 @@ const AuthService = (() => {
         checkPermissions(permissions, identically) {
             const sessionPermissions = _this.getFromState('permissions');
 
-            if (!permissions) {
+            console.log(permissions);
+            console.log(sessionPermissions);
+
+            if (! permissions || ! sessionPermissions) {
                 return true;
             }
 
             return identically
-                ? permissions === sessionPermissions
-                : !!(permissions & sessionPermissions);
+                ? sessionPermissions === permissions
+                : !!(sessionPermissions & permissions);
         },
 
         requireAuth(params) {

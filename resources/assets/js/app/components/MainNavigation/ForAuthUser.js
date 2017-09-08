@@ -1,23 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { localize } from 'react-localize-redux';
 
 import UserDropdown from './UserDropdown';
 import MainMenuItem from './Items/MainMenuItem';
 import ChangeLocalization from '../ChangeLocalization';
 
-import { checkPassengerRole, checkDriverRole } from 'app/services/UserService';
+import AuthService from 'app/services/AuthService';
 import { getProfileAvatar } from 'app/services/PhotoService';
+import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from 'app/services/UserService';
 
 class ForAuthUser extends React.Component {
 
-    render() {
-        const { translate, user, sessionPermissions } = this.props;
+    constructor(props) {
+        super(props);
 
-        const isDriver = checkDriverRole(sessionPermissions),
-            isPassenger = checkPassengerRole(sessionPermissions);
+        this.state = {
+            isDriver: false,
+            isPassenger: false,
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            isDriver: AuthService.checkPermissions(USER_ROLE_DRIVER),
+            isPassenger: AuthService.checkPermissions(USER_ROLE_PASSENGER),
+        });
+    }
+
+    render() {
+        const { translate, user } = this.props,
+            { isDriver, isPassenger } = this.state;
 
         user.avatar = getProfileAvatar(user.avatar);
 
@@ -43,11 +56,4 @@ class ForAuthUser extends React.Component {
     }
 }
 
-const ForAuthUserConnected = connect(
-    (state) => ({
-        user: state.user.profile,
-    }),
-    null
-)(ForAuthUser);
-
-export default localize(ForAuthUserConnected, 'locale');
+export default localize(ForAuthUser, 'locale');
