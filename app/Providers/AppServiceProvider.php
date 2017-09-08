@@ -3,9 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
-use App\Services\Helpers\Subscriptions\Filters\AnimalsFilter;
-use App\Services\Helpers\Subscriptions\Filters\LuggageFilter;
-use App\Services\Helpers\Subscriptions\Filters\SeatsFilter;
 use App\Services\RouteService;
 use App\Services\BookingService;
 use App\Services\ReviewsService;
@@ -37,7 +34,11 @@ use App\Rules\BookingConfirm\BookingTripConfirm;
 use App\Validators\RoutesExistsForTripValidator;
 use App\Rules\Booking\UserHasNotActiveBookingsForTrip;
 use App\Services\Helpers\Subscriptions\FilterCollection;
+use App\Services\Helpers\Subscriptions\Filters\SeatsFilter;
+use App\Services\Helpers\Subscriptions\Filters\RatingFilter;
+use App\Services\Helpers\Subscriptions\Filters\AnimalsFilter;
 use App\Services\Helpers\Subscriptions\Filters\EndTimeFilter;
+use App\Services\Helpers\Subscriptions\Filters\LuggageFilter;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 use App\Services\Helpers\Subscriptions\Filters\StartTimeFilter;
 use App\Services\Contracts\RouteService as RouteServiceContract;
@@ -130,7 +131,8 @@ class AppServiceProvider extends ServiceProvider
                 new EndTimeFilter(),
                 new AnimalsFilter(),
                 new SeatsFilter(),
-                new LuggageFilter()
+                new LuggageFilter(),
+                new RatingFilter()
             );
         });
     }

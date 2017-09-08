@@ -255,6 +255,55 @@ class SubscriptionSearchTest extends JwtTestCase
     }
 
     /**
+     * @test
+     */
+    public function it_find_trip_with_rating_filter()
+    {
+        $start_at = Carbon::today();
+        $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+        $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+
+        $trip1 = $this->getTripBySubscription($subscription);
+        $trip2 = $this->getTripBySubscription($subscription);
+
+        factory(\App\Models\Review::class)->create([
+            'driver_id' => $trip1->user->id,
+            'mark' => 3,
+        ]);
+
+        factory(\App\Models\Review::class)->create([
+            'driver_id' => $trip2->user->id,
+            'mark' => 5,
+        ]);
+
+        $this->getFilter($subscription, [
+            'name' => 'rating',
+            'parameters' => ['value' => 3],
+        ]);
+
+        $this->getFilter($subscription2, [
+            'name' => 'rating',
+            'parameters' => ['value' => 5],
+        ]);
+
+        $service = app()->make(SubscriptionsService::class);
+
+        $found1 = $service->getSubscriptionsByTrip($trip1);
+        $this->assertCount(1, $found1);
+        $first = $found1->first();
+        $this->assertInstanceOf(Subscription::class, $first);
+        $this->assertEquals($subscription->id, $first->id);
+
+        $found2 = $service->getSubscriptionsByTrip($trip2);
+
+        $this->assertCount(1, $found2);
+        $first = $found2->first();
+        $this->assertInstanceOf(Subscription::class, $first);
+        $this->assertEquals($subscription2->id, $first->id);
+
+    }
+
+    /**
      * @param Subscription $subscription
      * @param array $params
      * @return Trip
