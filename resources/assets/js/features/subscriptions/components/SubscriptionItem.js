@@ -13,14 +13,20 @@ import {
     actionChangeSubscriptionStatus,
     actionDeleteSubscription
 } from '../actions';
+import SubscribeEditModal from './_Modals/SubscribeEditModal';
 import '../styles/subscription-item.scss';
 
 class SubscriptionItem extends React.Component {
     constructor() {
         super();
 
+        this.state = {
+            isEditOpen: false
+        };
+
         this.onChangeActive = this.onChangeActive.bind(this);
         this.onDelete = this.onDelete.bind(this);
+        this.onToggleEdit = this.onToggleEdit.bind(this);
     }
 
     getSubscriptionById(id) {
@@ -46,8 +52,13 @@ class SubscriptionItem extends React.Component {
             .then(() => actionDeleteSubscription(id));
     }
 
+    onToggleEdit() {
+        this.setState({isEditOpen: !this.state.isEditOpen});
+    }
+
     render() {
         const {translate, id} = this.props,
+            {isEditOpen} = this.state,
             subscription = this.getSubscriptionById(id),
             mainClass = "subscription" + (subscription.is_active ? "" : " subscription--inactive") +
                 (subscription.is_deleted ? " subscription--deleted" : ""),
@@ -79,7 +90,10 @@ class SubscriptionItem extends React.Component {
                         {getCityLocation(subscription.from)} - {getCityLocation(subscription.to)}
                     </div>
                     <div className="col-6 col-sm-1 text-sm-right">
-                        <i className="subscription__edit fa fa-pencil" title={translate('subscriptions.edit')} />
+                        <i className="subscription__edit fa fa-pencil"
+                           title={translate('subscriptions.edit')}
+                           onClick={this.onToggleEdit}
+                        />
                     </div>
                     <div className="col-6 col-sm-1 text-sm-right">
                         <i className="subscription__delete fa fa-close"
@@ -88,6 +102,11 @@ class SubscriptionItem extends React.Component {
                         />
                     </div>
                 </div>
+                <SubscribeEditModal
+                    id={id}
+                    isOpen={isEditOpen}
+                    toggle={this.onToggleEdit}
+                />
             </div>
         );
     }

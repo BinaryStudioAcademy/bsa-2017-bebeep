@@ -4,7 +4,43 @@
     "activate": ["Activate", "Активувати", "Активировать"],
     "deactivate": ["Deactivate", "Деактивувати", "Деактивировать"],
     "edit": ["Edit", "Редагувати", "Редактировать"],
-    "restore": ["Restore", "Відновити", "Восстановть"],
-    "delete": ["Delete", "Видалити", "Удалить"]
+    "delete": ["Delete", "Видалити", "Удалить"],
+    "subscribe_save": ["Save", "Зберегти", "Сохранить"],
+    "subscribe_cancel": ["Cancel", "Відмінити", "Отменить"],
+    "subscribe_header": ["Change subscription", "Зміна підписки", "Изменение подписки"],
+    "from": ["From: ", "Звідки: ", "Откуда: "],
+    "to": ["To: ", "Куди: ", "Куда: "],
+    "when": ["When: ", "Коли: ", "Когда: "],
+    "route": ["Route", "Маршрут", "Маршрут"],
+    "filters": ["Additional filters", "Додаткові фільтри", "Дополнительные фильтры"],
+
+    "success-great": ["Well done!", "Чудово!", "Отлично!"],
+    "success-text": ["You successfully subscribe for this route.", "Ви успішно підписались на цей маршрут.", "Вы успешно подписались на этот маршрут."],
+
+    "filter": {
+      "date": ["Date", "Дата", "Дата"],
+      "date_placeholder": ["mm/dd/yyyy", "дд.мм.рррр", "дд.мм.гггг"],
+      "time-value": ["${start}h - ${end}h", "${start}ч - ${end}ч", "${start}ч - ${end}ч"],
+      "time-text": ["Time", "Час", "Время"],
+      "price": ["Price", "Ціна", "Цена"],
+      "price_range": [
+        "From <span className='filter__currency'>$</span>${start} to <span className='filter__currency'>$</span>${end}",
+        "Від <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}",
+        "От <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}"
+      ]
+    },
+    "luggage_size": ["Luggage Size", "Розмір багажу", "Размер багажа"],
+    "luggage_size_0": ["Small", "Маленький", "Маленький"],
+    "luggage_size_1": ["Medium", "Середній", "Средний"],
+    "luggage_size_2": ["Big", "Великий", "Большой"],
+    "is_animals_allowed": ["Animals allowed", "Тварини дозволені", "Животные разрешены"],
+    "additional_conditions": ["Additional conditions", "Додаткові умови", "Дополнительные условия"],
+    "animals": ["Animals", "Тварини", "Животные"],
+    "not_important": ["All", "Все одно", "Все равно"],
+    "allowed": ["Allowed", "Дозволені", "Разрешены"],
+    "forbidden": ["Forbidden", "Заборонені", "Запрещены"],
+    "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"],
+    "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"],
+    "more": ["more than ", "більше ", "более "]
   }
 }

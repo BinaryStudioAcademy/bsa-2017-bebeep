@@ -14,6 +14,11 @@ class FilterTransformer extends TransformerAbstract
      */
     public function transform(Filter $filter)
     {
-        return $filter->toArray();
+        return [
+            'id' => $filter->id,
+            'name' => $filter->name,
+            'parameters' => $filter->parameters,
+            'subscription_id' => $filter->subscription_id,
+        ];
     }
 }
