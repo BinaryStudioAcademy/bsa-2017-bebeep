@@ -33,43 +33,15 @@ const AuthService = (() => {
 
             securedRequest.get(requestPath)
                 .then(response => {
-                    const data = response.data.data;
+                    const userData = response.data.data;
 
-                    store.dispatch( loginSuccess(_this.getSessionData(data)) );
+                    store.dispatch( loginSuccess(_this.getSessionData(userData)) );
                     onSuccess();
                 })
                 .catch(error => {
                     _this.destroySession();
                     onError();
                 });
-        },
-
-        isAuthorized(permissions, identically) {
-            if (! _this.getFromState('isAuthorized')) {
-                return false;
-            }
-            return _this.checkPermissions(permissions, identically);
-        },
-
-        isSessionTokenValid() {
-            return !!_this.decodeAuthToken();
-        },
-
-        initSession(token) {
-            storage.setItem(tokenKeyName, token);
-        },
-
-        destroySession() {
-            storage.removeItem(tokenKeyName);
-        },
-
-        decodeAuthToken() {
-            try {
-                return jwtDecode(_this.getSessionToken());
-
-            } catch(error) {
-                return null;
-            }
         },
 
         getSessionData(userData) {
@@ -89,10 +61,39 @@ const AuthService = (() => {
 
             if (! _.isEmpty(userData)) {
                 data.user = userData;
+                data.session.permissions = userData.permissions;
             }
             data.session.token = _this.getSessionToken();
 
             return data;
+        },
+
+        initSession(token) {
+            storage.setItem(tokenKeyName, token);
+        },
+
+        destroySession() {
+            storage.removeItem(tokenKeyName);
+        },
+
+        isAuthorized(permissions, identically) {
+            if (! _this.getFromState('isAuthorized')) {
+                return false;
+            }
+            return _this.checkPermissions(permissions, identically);
+        },
+
+        isSessionTokenValid() {
+            return !!_this.decodeAuthToken();
+        },
+
+        decodeAuthToken() {
+            try {
+                return jwtDecode(_this.getSessionToken());
+
+            } catch(error) {
+                return null;
+            }
         },
 
         checkPermissions(permissions, identically) {

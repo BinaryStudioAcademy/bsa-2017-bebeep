@@ -27,14 +27,6 @@ export class RequireBase extends React.Component {
         }
     }
 
-    componentWillReceiveProps() {
-        console.log(this.state.isAuthorized, 'receive ' + this.state.type);
-    }
-
-    componentWillUpdate() {
-        console.log(this.state.isAuthorized, 'update ' + this.state.type);
-    }
-
     redirectTo(path) {
         const { router, location } = this.props;
 
