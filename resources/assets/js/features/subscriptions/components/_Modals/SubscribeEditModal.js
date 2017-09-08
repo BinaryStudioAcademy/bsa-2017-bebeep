@@ -120,7 +120,7 @@ class SubscribeEditModal extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const {id, editSubscriptions, toggle} = this.props,
+        const {id, editSubscriptions, toggle, onSuccess, onError} = this.props,
             data = _.reduce(this.state.filters, (result, filter, name) => {
                 if (filter) {
                     if (filter instanceof Array) {
@@ -138,6 +138,10 @@ class SubscribeEditModal extends React.Component {
         }).then((response) => {
             editSubscriptions(response.data);
             toggle();
+            onSuccess();
+        }).catch((error) => {
+            console.error(error);
+            onError();
         });
     }
 
@@ -253,7 +257,9 @@ class SubscribeEditModal extends React.Component {
 SubscribeEditModal.PropTypes = {
     isOpen: PropTypes.bool.isRequired,
     toggle: PropTypes.func.isRequired,
-    id: PropTypes.isRequired
+    id: PropTypes.isRequired,
+    onSuccess: PropTypes.func,
+    onError: PropTypes.func,
 };
 
 export default connect(

@@ -21,12 +21,16 @@ class SubscriptionItem extends React.Component {
         super();
 
         this.state = {
-            isEditOpen: false
+            isEditOpen: false,
+            isSuccessEdit: false,
+            isErrorEdit: false
         };
 
         this.onChangeActive = this.onChangeActive.bind(this);
         this.onDelete = this.onDelete.bind(this);
         this.onToggleEdit = this.onToggleEdit.bind(this);
+        this.onSuccessEdit = this.onSuccessEdit.bind(this);
+        this.onErrorEdit = this.onErrorEdit.bind(this);
     }
 
     getSubscriptionById(id) {
@@ -56,12 +60,28 @@ class SubscriptionItem extends React.Component {
         this.setState({isEditOpen: !this.state.isEditOpen});
     }
 
+    onSuccessEdit() {
+        this.setState({isSuccessEdit: true});
+        setTimeout(() => {
+            this.setState({isSuccessEdit: false});
+        }, 2000);
+    }
+
+    onErrorEdit() {
+        this.setState({isErrorEdit: true});
+        setTimeout(() => {
+            this.setState({isErrorEdit: false});
+        }, 2000);
+    }
+
     render() {
         const {translate, id} = this.props,
-            {isEditOpen} = this.state,
+            {isEditOpen, isErrorEdit, isSuccessEdit} = this.state,
             subscription = this.getSubscriptionById(id),
             mainClass = "subscription" + (subscription.is_active ? "" : " subscription--inactive") +
-                (subscription.is_deleted ? " subscription--deleted" : ""),
+                (subscription.is_deleted ? " subscription--deleted" : "") +
+                (isErrorEdit ? " subscription--error" : "") +
+                (isSuccessEdit ? " subscription--success" : ""),
             date = DateTimeHelper.dateFormat(subscription.start_at_x, {onlyDate: true});
 
         return (
@@ -106,6 +126,8 @@ class SubscriptionItem extends React.Component {
                     id={id}
                     isOpen={isEditOpen}
                     toggle={this.onToggleEdit}
+                    onSuccess={this.onSuccessEdit}
+                    onError={this.onErrorEdit}
                 />
             </div>
         );

@@ -1,8 +1,13 @@
 @import '~app/bootstrap/variables.scss';
+@import '~app/bootstrap/mixins';
 
 .subscription {
   padding: 5px 10px;
   border-bottom: 1px solid $gray-lighter;
+  @include transition(box-shadow .25s ease-out);
+  -webkit-box-shadow: 0 0 0 transparent;
+  -moz-box-shadow: 0 0 0 transparent;
+  box-shadow: 0 0 0 transparent;
   
   &:last-child {
     border: none;
@@ -30,6 +35,17 @@
   &--deleted {
     opacity: .9;
     color: $gray-light;
+  }
+
+  &--success {
+    -webkit-box-shadow: 0 0 5px $brand-success;
+    -moz-box-shadow: 0 0 5px $brand-success;
+    box-shadow: 0 0 5px $brand-success;
+  }
+  &--error {
+    -webkit-box-shadow: 0 0 5px $brand-danger;
+    -moz-box-shadow: 0 0 5px $brand-danger;
+    box-shadow: 0 0 5px $brand-danger;
   }
 }
 
