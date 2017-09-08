@@ -38,6 +38,10 @@ export default function(options) {
             }
         }
 
+        componentWillReceiveProps(nextProps) {
+            console.log(this.state.isAuthorized, 'receive guest');
+        }
+
         redirectTo() {
             const { router, location } = this.props;
 
