@@ -1,5 +1,4 @@
 @import '~app/bootstrap/variables';
-@import '~app/bootstrap/locale/init';
 
 a,
 .link-style {
@@ -100,7 +99,7 @@ strong {
     list-style: none;
 
     &__item {
-        padding-left: 50px;
+        margin-left: 3rem;
 
         a.active, &:hover a {
             text-decoration: none;
@@ -116,7 +115,7 @@ strong {
         }
 
         &_no-space {
-            padding-left: 5px;
+            margin-left: .75rem;
         }
 
         a {
@@ -176,7 +175,7 @@ strong {
     }
     .dropdown-toggle {
         height: 100%;
-        padding: .25rem 1rem;
+        padding: .25rem .75rem;
         font-size: 18px;
         font-weight: bold;
     }
@@ -195,21 +194,26 @@ strong {
     &__locale-current {
         display: inline-block;
         vertical-align: middle;
+    }
 
-        @include localesMenuIcons(30);
+    &__locale-icon {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        margin-right: .25rem;
+        vertical-align: bottom;
+
+        &-item {
+            fill: darken($teal, 30%);
+        }
     }
 
     &__locale {
-        padding: 3px 1rem;
         cursor: pointer;
+    }
 
-        &:before {
-            content: '';
-            display: inline-block;
-            margin-right: .75rem;
-        }
-
-        @include localesMenuIcons(12, true);
+    .dropdown-menu {
+        min-width: 8rem;
     }
 }
 
