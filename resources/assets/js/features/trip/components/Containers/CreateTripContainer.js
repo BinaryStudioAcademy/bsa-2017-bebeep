@@ -39,6 +39,8 @@ class CreateTripContainer extends React.Component {
             }
         };
 
+        this.tripEndTime = 0;
+
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
         this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
         this.onSelectStartPoint = this.onSelectStartPoint.bind(this);
@@ -96,16 +98,18 @@ class CreateTripContainer extends React.Component {
     }
 
     setEndTime(time) {
-        this.endTime = time;
+        this.tripEndTime = time;
     }
 
     onSubmit(e) {
         e.preventDefault();
 
-        const form = e.target,
-            tripTime = getStartAndEndTime(form.start_at.value, this.endTime),
+        const { getPlacesFromWaypoints, tripCreateSuccess } = this.props,
+            { startPoint, endPoint } = this.state,
+            form = e.target,
+            tripTime = getStartAndEndTime(form.start_at.value, this.tripEndTime),
             roundTime = form.reverse_start_at
-                ? getStartAndEndTime(form.reverse_start_at.value, this.endTime)
+                ? getStartAndEndTime(form.reverse_start_at.value, this.tripEndTime)
                 : false;
 
         const tripData = {
@@ -114,9 +118,9 @@ class CreateTripContainer extends React.Component {
             end_at: tripTime.end_at,
             price: form.price.value,
             seats: form.seats.value,
-            from: this.state.startPoint.place,
-            to: this.state.endPoint.place,
-            waypoints: this.props.getPlacesFromWaypoints(),
+            from: startPoint.place,
+            to: endPoint.place,
+            waypoints: getPlacesFromWaypoints(),
             luggage_size: form.luggage_size.value,
             is_animals_allowed: form.is_animals_allowed.checked,
             is_in_both_directions: form.is_in_both_directions.checked,
@@ -133,7 +137,7 @@ class CreateTripContainer extends React.Component {
         this.setState({errors: {}});
 
         /*securedRequest.post('/api/v1/trips', tripData).then((response) => {
-            this.props.tripCreateSuccess(response.data);
+            tripCreateSuccess(response.data);
             this.setState({errors: {}});
 
             if (response.status === 200) {
