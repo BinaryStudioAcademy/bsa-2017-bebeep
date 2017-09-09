@@ -5,17 +5,19 @@ import {getAuthToken} from './AuthService';
 const PUSHER_KEY = '93ab4ad70ab16afc1f6d';
 
 const BroadcastService = {
-    Echo: new Echo({
-        broadcaster: 'pusher',
-        key: PUSHER_KEY,
-        cluster: 'eu',
-        encrypted: true,
-        auth: {
-            headers: {
-                'Authorization': 'Bearer ' + getAuthToken()
+    get Echo() {
+        return new Echo({
+            broadcaster: 'pusher',
+            key: PUSHER_KEY,
+            cluster: 'eu',
+            encrypted: true,
+            auth: {
+                headers: {
+                    'Authorization': 'Bearer ' + getAuthToken()
+                }
             }
-        }
-    }),
+        });
+    },
 
     prepareType(type) {
         const newType = type.match(/\\([a-zA-Z]+)$/);

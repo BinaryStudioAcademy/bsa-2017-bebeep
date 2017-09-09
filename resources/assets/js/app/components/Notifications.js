@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
@@ -15,16 +16,25 @@ class Notifications extends React.Component {
     }
 
     componentWillMount() {
-        const {addNotification} = this.props,
-            userId = 2;
+        this.getNotifications(this.props);
+    }
 
-        BroadcastService.Echo.private('App.User.' + userId)
-            .notification((notification) => {
-                addNotification(Object.assign(notification, {
-                    type: BroadcastService.prepareType(notification.type)
-                }));
-                this.setState({notification});
-            });
+    componentWillReceiveProps(nextProps) {
+        this.getNotifications(nextProps);
+    }
+
+    getNotifications(props) {
+        const {addNotification, userId} = props;
+
+        if (userId > 0) {
+            BroadcastService.Echo.private('App.User.' + userId)
+                .notification((notification) => {
+                    addNotification(Object.assign(notification, {
+                        type: BroadcastService.prepareType(notification.type)
+                    }));
+                    this.setState({notification});
+                });
+        }
     }
 
     render() {
@@ -37,6 +47,10 @@ class Notifications extends React.Component {
         );
     }
 }
+
+Notifications.PropTypes = {
+    userId: PropTypes.number.isRequired
+};
 
 export default connect(
     state => ({
