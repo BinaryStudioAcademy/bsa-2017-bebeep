@@ -21,7 +21,7 @@ class Filter extends React.Component {
             seats: null,
             luggage: null,
             rating: null,
-            transfer:null
+            transfer: null
         };
         this.timeChange = this.timeChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
@@ -50,7 +50,7 @@ class Filter extends React.Component {
             luggage: null,
             seats: null,
             rating: null,
-            transfer:null
+            transfer: null
         }, filter));
     }
 
@@ -79,7 +79,9 @@ class Filter extends React.Component {
     }
 
     transferChange(e) {
+        console.log(e.target.value);
         setUrl(setFilter({transfer: e.target.value}));
+        console.log(e.target.value);
     }
 
     render() {
