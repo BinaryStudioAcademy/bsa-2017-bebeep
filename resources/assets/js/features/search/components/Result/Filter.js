@@ -187,6 +187,8 @@ class Filter extends React.Component {
                         </select>
                     </div>
 
+                    <br/>
+
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
                             {translate('search_result.transfer')}
