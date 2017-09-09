@@ -31,7 +31,7 @@ class VehicleItem extends React.Component {
                     </div>
                     <div className="col-md-6">
                         <div className="pull-right">
-                            <button type="button" className="btn btn-danger" data-id={vehicle.id} onClick={this.onClick.bind(this)}>Delete</button>
+                            <button type="button" className="btn hover btn-danger" data-id={vehicle.id} onClick={this.onClick.bind(this)}>Delete</button>
                         </div>
                     </div>
                 </div>
