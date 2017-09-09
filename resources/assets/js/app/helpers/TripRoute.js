@@ -5,7 +5,9 @@ export default class TripRoute {
         this.route = route;
         this.distance = 0;
         this.duration = 0;
+        this.waypointsDurations = {};
 
+        this.calculateWaypointsDurations();
         this.calculateDistanceAndDuration();
     }
 
@@ -49,6 +51,20 @@ export default class TripRoute {
 
     getDuration() {
         return moment.duration(this.duration, 'seconds').humanize();
+    }
+
+    getWaypointsDurations() {
+        return this.waypointsDurations;
+    }
+
+    calculateWaypointsDurations() {
+        if (this.route.legs.length === 1) {
+            return;
+        }
+
+        this.route.legs.forEach((leg, key) => {
+            this.waypointsDurations[key] = leg.duration.value;
+        });
     }
 
     calculateDistanceAndDuration() {

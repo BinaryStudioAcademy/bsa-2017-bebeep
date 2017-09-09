@@ -40,6 +40,7 @@ class CreateTripContainer extends React.Component {
         };
 
         this.tripEndTime = 0;
+        this.waypointsDurations = {};
 
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
         this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
@@ -48,6 +49,7 @@ class CreateTripContainer extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.setEndTime = this.setEndTime.bind(this);
+        this.updateWaypointsDurations = this.updateWaypointsDurations.bind(this);
     }
 
     onChangeStartPoint(address) {
@@ -99,6 +101,11 @@ class CreateTripContainer extends React.Component {
 
     setEndTime(time) {
         this.tripEndTime = time;
+    }
+
+    updateWaypointsDurations(waypointsDurations) {
+        this.waypointsDurations = waypointsDurations;
+        console.log(this.waypointsDurations);
     }
 
     onSubmit(e) {
@@ -194,6 +201,7 @@ class CreateTripContainer extends React.Component {
                         from={getCoordinatesFromPlace(startPoint.place)}
                         to={getCoordinatesFromPlace(endPoint.place)}
                         endTime={this.setEndTime}
+                        updateWaypointsDurations={this.updateWaypointsDurations}
                     />
                 </div>
             </div>
