@@ -79,9 +79,7 @@ class Filter extends React.Component {
     }
 
     transferChange(e) {
-        console.log(e.target.value);
         setUrl(setFilter({transfer: e.target.value}));
-        console.log(e.target.value);
     }
 
     render() {
