@@ -69,11 +69,13 @@ class SearchForm extends React.Component {
         const data = {
             from: {
                 name: this.state.from.address,
-                coordinate: getCoordinatesFromPlace(this.state.from.place)
+                coordinate: getCoordinatesFromPlace(this.state.from.place),
+                place: this.state.from.place
             },
             to: {
                 name: this.state.to.address,
-                coordinate: getCoordinatesFromPlace(this.state.to.place)
+                coordinate: getCoordinatesFromPlace(this.state.to.place),
+                place: this.state.to.place
             },
             start_at: this.state.startDate ? this.state.startDate.unix() : null
         };
