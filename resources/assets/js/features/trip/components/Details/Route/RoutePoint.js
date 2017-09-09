@@ -4,6 +4,10 @@ const BASE_CLASS_NAME = 'trip-routes__point trip-point-icon';
 
 class RoutePoint extends React.Component {
 
+    isShowStartPoint() {
+        return this.props.showStartPoint;
+    }
+
     isShowWayPoint() {
         return this.props.showWayPoint;
     }
@@ -15,8 +19,8 @@ class RoutePoint extends React.Component {
     getClassName() {
         let className = BASE_CLASS_NAME;
 
-        if (this.isShowWayPoint()) {
-            className += ' trip-point-icon--waypoint';
+        if (this.isShowStartPoint()) {
+            className += ' trip-routes__point--start trip-point-icon--start';
         } else if (this.isShowEndPoint()) {
             className += ' trip-routes__point--end trip-point-icon--end';
         }
