@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\User;
+use Carbon\Carbon;
 use App\Models\Trip;
 use App\Services\Result\SearchTrip;
 use App\Repositories\TripRepository;
@@ -55,10 +56,25 @@ class TripsService
         $this->updateTripValidator = $updateTripValidator;
     }
 
-    public static function getRoutesFromWaypoints($startPoint, $endPoint, $waypoints)
-    {
+    /**
+     * Get routes data from the trip waypoints.
+     *
+     * @param \App\Services\Requests\CreateTripRequest $request
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getRoutesFromWaypoints(
+        array $startPoint,
+        array $endPoint,
+        array $waypoints,
+        Carbon $tripStartAt,
+        Carbon $tripEndAt
+    ) {
         $tripWaypoints = collect([$startPoint]);
         $routes = collect([]);
+
+        $startAt = $tripStartAt;
+        $endAt = $tripEndAt;
 
         if (! empty($waypoints)) {
             foreach ($waypoints as $tripWaypoint) {
@@ -78,6 +94,8 @@ class TripsService
                 'to' => $chunk[1],
                 'to_lat' => $chunk[1]['geometry']['location']['lat'],
                 'to_lng' => $chunk[1]['geometry']['location']['lng'],
+                'start_at' => $startAt,
+                'end_at' => $endAt,
             ]);
         }
 
@@ -146,7 +164,9 @@ class TripsService
         $routes = self::getRoutesFromWaypoints(
             $request->getFrom(),
             $request->getTo(),
-            $request->getWaypoints()
+            $request->getWaypoints(),
+            $request->getStartAt(),
+            $request->getEndAt()
         );
 
         foreach ($routes as $route) {
@@ -204,7 +224,9 @@ class TripsService
         $routes = self::getRoutesFromWaypoints(
             $request->getFrom(),
             $request->getTo(),
-            $request->getWaypoints()
+            $request->getWaypoints(),
+            $request->getStartAt(),
+            $request->getEndAt()
         );
 
         foreach ($routes as $route) {
@@ -306,7 +328,9 @@ class TripsService
         $routes = self::getRoutesFromWaypoints(
             $request->getTo(),
             $request->getFrom(),
-            array_reverse($request->getWaypoints())
+            array_reverse($request->getWaypoints()),
+            $reverseTrip->start_at,
+            $reverseTrip->end_at
         );
 
         foreach ($routes as $route) {
