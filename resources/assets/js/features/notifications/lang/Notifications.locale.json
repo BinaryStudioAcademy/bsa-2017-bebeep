@@ -46,7 +46,7 @@
         ]
       },
       "review_on_trip_created": {
-        "title": ["Review created", "Оставили отзыв", "Оставили отзыв"],
+        "title": ["Review created", "Залишили відгук", "Оставили отзыв"],
         "message": [
           "${first_name} ${last_name} leaved <a href=/dashboard/profile/reviews/received target='_blank'>review</a> on your trip: ${from} - ${to}",
           "${first_name} ${last_name} залишив(-ла) <a href=/dashboard/profile/reviews/received target='_blank'>відгук</a> про вашу подорож: ${from} - ${to}",
