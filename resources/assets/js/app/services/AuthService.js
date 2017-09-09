@@ -76,11 +76,8 @@ const AuthService = (() => {
             storage.removeItem(tokenKeyName);
         },
 
-        isAuthorized(permissions, identically) {
-            if (! _this.getFromState('isAuthorized')) {
-                return false;
-            }
-            return _this.checkPermissions(permissions, identically);
+        isAuthorized() {
+            return _this.getFromState('isAuthorized');
         },
 
         isSessionTokenValid() {
@@ -99,7 +96,9 @@ const AuthService = (() => {
         checkPermissions(permissions, identically) {
             const sessionPermissions = _this.getFromState('permissions');
 
-            if (! permissions || ! sessionPermissions) {
+            console.log(sessionPermissions);
+
+            if (! permissions) {
                 return true;
             }
 
