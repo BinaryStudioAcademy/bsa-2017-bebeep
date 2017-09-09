@@ -195,8 +195,8 @@ class Filter extends React.Component {
                         </div>
 
                         <select name="transfer" value={this.state.transfer || ''} className="form-control" id="transfer" onChange={this.transferChange}>
-                            <option value="1">{translate('search_result.transfer1')}</option>
-                            <option value="2">{translate('search_result.transfer2')}</option>
+                            <option value="false">{translate('search_result.transfer1')}</option>
+                            <option value="true">{translate('search_result.transfer2')}</option>
                         </select>
                     </div>
                 </div>
