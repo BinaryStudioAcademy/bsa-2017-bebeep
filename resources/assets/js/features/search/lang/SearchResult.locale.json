@@ -46,7 +46,10 @@
     "forbidden": ["Forbidden", "Заборонені", "Запрещены"],
     "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"],
     "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"],
-    "more": ["more than ", "більше ", "более "]
+    "more": ["more than ", "більше ", "более "],
+    "transfer": ["Transfer", "Пересадки", "Пересадки"],
+    "transfer1": ["without transfers", "без пересадок", "без пересадок"],
+    "transfer2": ["with transfers", "з пересадками", "с пересадками"]
   },
   "subscription": {
     "subscribe_btn": ["Subscribe", "Підписатись", "Подписаться"],

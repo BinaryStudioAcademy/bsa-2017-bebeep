@@ -20,7 +20,8 @@ class Filter extends React.Component {
             animals: null,
             seats: null,
             luggage: null,
-            rating: null
+            rating: null,
+            transfer:null
         };
         this.timeChange = this.timeChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
@@ -28,6 +29,7 @@ class Filter extends React.Component {
         this.luggageChange = this.luggageChange.bind(this);
         this.seatsChange = this.seatsChange.bind(this);
         this.ratingChange = this.ratingChange.bind(this);
+        this.transferChange = this.transferChange.bind(this);
     }
 
     componentWillMount() {
@@ -47,7 +49,8 @@ class Filter extends React.Component {
             animals: null,
             luggage: null,
             seats: null,
-            rating: null
+            rating: null,
+            transfer:null
         }, filter));
     }
 
@@ -73,6 +76,10 @@ class Filter extends React.Component {
 
     ratingChange(e) {
         setUrl(setFilter({rating: e.target.value}));
+    }
+
+    transferChange(e) {
+        setUrl(setFilter({transfer: e.target.value}));
     }
 
     render() {
@@ -177,6 +184,17 @@ class Filter extends React.Component {
                             <option value="3">3</option>
                             <option value="4">4</option>
                             <option value="5">5</option>
+                        </select>
+                    </div>
+
+                    <div className="filter__prop-control">
+                        <div className="filter__prop-sign">
+                            {translate('search_result.transfer')}
+                        </div>
+
+                        <select name="transfer" value={this.state.transfer || ''} className="form-control" id="transfer" onChange={this.transferChange}>
+                            <option value="1">{translate('search_result.transfer1')}</option>
+                            <option value="2">{translate('search_result.transfer2')}</option>
                         </select>
                     </div>
                 </div>
