@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
 import BroadcastService from 'app/services/BroadcastService';
+import {addNotification} from 'features/notifications/actions';
 
 class Notifications extends React.Component {
     constructor() {
@@ -14,10 +15,14 @@ class Notifications extends React.Component {
     }
 
     componentWillMount() {
-        const userId = 2;
+        const {addNotification} = this.props,
+            userId = 2;
 
         BroadcastService.Echo.private('App.User.' + userId)
             .notification((notification) => {
+                addNotification(Object.assign(notification, {
+                    type: BroadcastService.prepareType(notification.type)
+                }));
                 this.setState({notification});
             });
     }
@@ -37,6 +42,6 @@ export default connect(
     state => ({
         translate: getTranslate(state.locale)
     }),
-    dispatch => bindActionCreators({}, dispatch)
+    dispatch => bindActionCreators({addNotification}, dispatch)
 )(Notifications);
 

@@ -49,6 +49,23 @@ export default (state = initialState, action) => {
                 ...state,
                 countUnread: action.count
             };
+        case actions.NOTIFICATION_ADD:
+            return {
+                ...state,
+                notifications: [action.notification.id, ...state.notifications],
+                entities: {
+                    ...state.entities,
+                    notifications: {
+                        ...state.entities.notifications,
+                        byId: {
+                            ...state.entities.notifications.byId,
+                            [action.notification.id]: action.notification
+                        },
+                        allId: [action.notification.id, ...state.entities.notifications.allId]
+                    }
+                },
+                countUnread: state.countUnread + 1
+            };
         default:
             return state;
     }
