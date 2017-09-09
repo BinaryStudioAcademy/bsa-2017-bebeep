@@ -163,7 +163,7 @@ class GeneralForm extends React.Component {
                         </div>
 
                         <div className={ "form-group row " + (errors.role ? 'has-danger' : '') }>
-                            <div className="col-sm-4">
+                            <div className="col-sm-4 text-muted">
                                 {translate('profile_general.role')}
                             </div>
                             <div className="form-check col-sm-4">
