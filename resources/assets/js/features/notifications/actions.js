@@ -27,7 +27,7 @@ export const addNotification = (notification) => {
     return {
         type: actions.NOTIFICATION_ADD,
         notification: Object.assign(notification, {
-            created_at_x: Date.now() / 1000,
+            created_at_x: parseInt(Date.now() / 1000),
             read: false,
         })
     };
