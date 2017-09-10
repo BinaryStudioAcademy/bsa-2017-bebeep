@@ -106,6 +106,7 @@ class Result extends React.Component {
             "filter[luggage]": null,
             "filter[seats]": null,
             "filter[rating]": null,
+            "filter[transfer]": null,
         });
     }
 
