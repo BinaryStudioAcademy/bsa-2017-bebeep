@@ -10,7 +10,7 @@ import { EditableWaypoints } from './EditableWaypoints';
 import DirectionsMap from 'app/components/DirectionsMap';
 
 import Validator from 'app/services/Validator';
-import { securedRequest } from 'app/services/RequestService';
+import CreateTripService from 'features/trip/services/CreateTripService';
 import {
     createTripRules,
     getStartAndEndTime,
@@ -111,6 +111,11 @@ class CreateTripContainer extends React.Component {
         this.waypointsDurations = waypointsDurations;
     }
 
+    setErrors(errors) {
+        errors = errors || {};
+        this.setState({ errors: errors });
+    }
+
     onSubmit(e) {
         e.preventDefault();
 
@@ -147,24 +152,20 @@ class CreateTripContainer extends React.Component {
         const validated = Validator.validate(createTripRules(), tripData);
 
         if (! validated.valid) {
-            this.setState({errors: validated.errors});
+            this.setErrors(validated.errors);
             return;
         }
 
-        this.setState({errors: {}});
+        this.setErrors();
 
-        securedRequest.post('/api/v1/trips', tripData).then((response) => {
-            /*tripCreateSuccess(response.data);
-            this.setState({errors: {}});
-
-            if (response.status === 200) {
+        CreateTripService.sendCreatedTrip(tripData)
+            .then((response) => {
+                tripCreateSuccess(response);
                 browserHistory.push('/trips');
-            }*/
-        }).catch((error) => {
-            this.setState({
-                errors: error.response.data
             })
-        });
+            .catch(error => {
+                this.setErrors(error);
+            });
     }
 
     render() {

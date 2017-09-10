@@ -144,6 +144,11 @@ class EditTripContainer extends React.Component {
         this.waypointsDurations = waypointsDurations;
     }
 
+    setErrors(errors) {
+        errors = errors || {};
+        this.setState({ errors: errors });
+    }
+
     onSubmit(e) {
         e.preventDefault();
 
@@ -174,16 +179,16 @@ class EditTripContainer extends React.Component {
         const validated = Validator.validate(createTripRules(), tripData);
 
         if (! validated.valid) {
-            this.setState({errors: validated.errors});
+            this.setErrors(validated.errors);
             return;
         }
 
-        this.setState({errors: {}});
+        this.setErrors();
 
-        /*EditTripService.sendUpdatedTrip(id, tripData)
+        EditTripService.sendUpdatedTrip(id, tripData)
             .then((response) => {
-                //browserHistory.push('/trips');
-            });*/
+                browserHistory.push('/trips');
+            });
     }
 
     render() {
