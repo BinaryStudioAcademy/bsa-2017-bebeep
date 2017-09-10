@@ -53,7 +53,7 @@ class Notifications extends React.Component {
                 key: notificationData.id,
                 message: messageData.title,
                 title: 'BeBeep',
-                timeout: 5000000,
+                timeout: 5000,
                 onClick: () => {
                     browserHistory.push('/dashboard/notifications')
                 },
@@ -134,4 +134,3 @@ export default connect(
     }),
     dispatch => bindActionCreators({addNotification}, dispatch)
 )(Notifications);
-
