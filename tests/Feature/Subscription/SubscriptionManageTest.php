@@ -38,7 +38,7 @@ class SubscriptionManageTest extends SubscriptionBase
             'email' => $user->email,
         ]));
         $response = $this->jsonRequestAsUser($user, 'put', $this->getUrlStatus($subscription->id), [
-            'status' => false,
+            'is_active' => false,
         ]);
 
         $response->assertStatus(200);

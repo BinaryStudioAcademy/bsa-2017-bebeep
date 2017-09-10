@@ -4,9 +4,9 @@ export const getSubscriptions = () => {
     return securedRequest.get('/api/v1/subscriptions');
 };
 
-export const changeSubscriptionStatus = (id, status) => {
+export const changeSubscriptionStatus = (id, isActive) => {
     return securedRequest.put(`/api/v1/subscriptions/${id}/status`, {
-        status: !!status
+        is_active: !!isActive
     });
 };
 
