@@ -9,6 +9,7 @@ import {Range} from 'rc-slider';
 import {getTranslate} from 'react-localize-redux';
 import {transformSubscriptionData,sendSubscribeRequest} from 'features/search/services/SearchService';
 import 'features/search/styles/subscribe-modal.scss';
+import { getAuthUser } from 'app/services/AuthService';
 
 class SubscribeModal extends React.Component {
 
@@ -195,12 +196,16 @@ class SubscribeModal extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const formEmail = e.target['email'].value,
+
+        const userObj = getAuthUser(),
+            formEmail = e.target['email'].value,
             {email, data} = this.props,
             {time, animals, luggage, seats, rating, price} = this.state;
 
+        let userId = (userObj.user.sub) ? userObj.user.sub : null;
         let subsEmail = formEmail ? formEmail : email;
         let toBeTransformed = {
+            userId,
             time,
             animals,
             luggage,
