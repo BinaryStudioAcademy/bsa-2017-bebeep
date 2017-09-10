@@ -108,21 +108,14 @@ class UpdateTripTest extends BaseTripTestCase
         $user = $this->getDriverUser();
         $vehicle = factory(Vehicle::class)->create(['seats' => 3, 'user_id' => $user->id]);
 
-        $startAt = $this->setValidTripStartTime();
-        $endAt = $this->setValidTripEndTime();
-
         $trip = factory(Trip::class)->create([
             'user_id' => $user->id,
             'vehicle_id' => $vehicle->id,
             'seats' => 3,
             'price' => 200,
-            'start_at' => $startAt,
-            'end_at' => $endAt,
         ]);
         $route = factory(Route::class)->create([
             'trip_id' => $trip->id,
-            'start_at' => $startAt,
-            'end_at' => $endAt,
         ]);
 
         $startAt = $this->setValidTripStartTime();
@@ -170,21 +163,14 @@ class UpdateTripTest extends BaseTripTestCase
         $user = $this->getDriverUser();
         $vehicle = factory(Vehicle::class)->create(['seats' => 3, 'user_id' => $user->id]);
 
-        $startAt = $this->setValidTripStartTime();
-        $endAt = $this->setValidTripEndTime();
-
         $trip = factory(Trip::class)->create([
             'user_id' => $user->id,
             'vehicle_id' => $vehicle->id,
             'seats' => 3,
             'price' => 200,
-            'start_at' => $startAt,
-            'end_at' => $endAt,
         ]);
         factory(Route::class)->create([
             'trip_id' => $trip->id,
-            'start_at' => $startAt,
-            'end_at' => $endAt,
         ]);
 
         $startAt = $this->setValidTripStartTime();
