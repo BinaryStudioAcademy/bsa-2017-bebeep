@@ -127,7 +127,7 @@ class UpdateTripTest extends BaseTripTestCase
             'price' => 500.00,
             'start_at' => $startAt,
             'end_at' => $endAt,
-            'routes_time' => $this->calculateRoutesTime([
+            'routes' => $this->calculateRoutesTime([
                 'start_at' => $startAt,
                 'end_at' => $endAt,
             ], 1),
@@ -188,7 +188,7 @@ class UpdateTripTest extends BaseTripTestCase
             'to' => json_decode('{"types": ["locality", "political"], "geometry": {"bounds": {"east": 36.45581240000001, "west": 36.115837000000056, "north": 50.1053867, "south": 49.883796}, "location": {"lat": 49.9935, "lng": 36.230383000000074}, "viewport": {"east": 36.45581240000001, "west": 36.115837000000056, "north": 50.1053867, "south": 49.883796}, "location_type": "APPROXIMATE"}, "place_id": "ChIJiw-rY5-gJ0ERCr6kGmgYTC0", "formatted_address": "Харьков, Харьковская область, Украина", "address_components": [{"types": ["locality", "political"], "long_name": "Харьков", "short_name": "Харьков"}, {"types": ["administrative_area_level_3", "political"], "long_name": "Харьковский горсовет", "short_name": "Харьковский горсовет"}, {"types": ["administrative_area_level_1", "political"], "long_name": "Харьковская область", "short_name": "Харьковская область"}, {"types": ["country", "political"], "long_name": "Украина", "short_name": "UA"}]}'),
 
             'waypoints' => $this->getValidTripWaypointsData(),
-            'routes_time' => $this->calculateRoutesTime([
+            'routes' => $this->calculateRoutesTime([
                 'start_at' => $startAt,
                 'end_at' => $endAt,
             ]),

@@ -85,11 +85,14 @@ class TripsService
      */
     public static function getRoutesFromWaypoints(array $params)
     {
+        // TODO :: Need to change this code to work with
+        // the collection of Waypoints instances
+
         [
             'from' => $startPoint,
             'to' => $endPoint,
             'waypoints' => $waypoints,
-            'routes_time' => $routesTime,
+            'routes' => $routesTime,
         ] = $params;
 
         $tripWaypoints = collect([$startPoint]);
@@ -190,11 +193,14 @@ class TripsService
 
         $trip = $this->tripRepository->save(new Trip($tripAttributes));
 
+        // TODO :: Need to change this code to work with
+        // the collection of Waypoints instances
+
         $routes = self::getRoutesFromWaypoints([
             'from' => $request->getFrom(),
             'to' => $request->getTo(),
             'waypoints' => $request->getWaypoints(),
-            'routes_time' => $request->getRoutesTime(),
+            'routes' => $request->getRoutesTime(),
         ]);
 
         foreach ($routes as $route) {
@@ -252,11 +258,14 @@ class TripsService
 
         $trip->routes()->delete();
 
+        // TODO :: Need to change this code to work with
+        // the collection of Waypoints instances
+
         $routes = self::getRoutesFromWaypoints([
             'from' => $request->getFrom(),
             'to' => $request->getTo(),
             'waypoints' => $request->getWaypoints(),
-            'routes_time' => $request->getRoutesTime(),
+            'routes' => $request->getRoutesTime(),
         ]);
 
         foreach ($routes as $route) {
@@ -367,16 +376,22 @@ class TripsService
 
         $reverseTrip = $this->tripRepository->save(new Trip($reverseTripAttributes));
 
+        // TODO :: Need to change this code to work with
+        // the collection of Routes instances
+
         $routesTime = $this->getRoutesTimeForReverseTrip(
             $reverseTrip->start_at->timestamp,
             $request->getRoutesTime()
         );
 
+        // TODO :: Need to change this code to work with
+        // the collection of Waypoints instances
+
         $routes = self::getRoutesFromWaypoints([
             'from' => $request->getTo(),
             'to' => $request->getFrom(),
             'waypoints' => array_reverse($request->getWaypoints()),
-            'routes_time' => $routesTime,
+            'routes' => $routesTime,
         ]);
 
         foreach ($routes as $route) {
@@ -396,6 +411,10 @@ class TripsService
         int $startAt,
         array $routesTime
     ): array {
+
+        // TODO :: Need to change this code to work with
+        // the collection of Routes instances
+
         return array_map(function(array $time) use (&$startAt) {
             $duration = $time['end_at'] - $time['start_at'];
 

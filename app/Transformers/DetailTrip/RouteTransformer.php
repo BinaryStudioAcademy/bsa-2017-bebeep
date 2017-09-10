@@ -36,6 +36,8 @@ class RouteTransformer extends TransformerAbstract
                 'short_address' => $route->to['address_components'][0]['short_name'],
                 'address' => $route->to['formatted_address'],
             ],
+            'start_at' => $route->start_at,
+            'end_at' => $route->end_at,
             'reserved_seats' => $route->reservedSeats,
         ];
     }

@@ -171,7 +171,7 @@ class EditTripContainer extends React.Component {
             from: startPoint.place,
             to: endPoint.place,
             waypoints: getPlacesFromWaypoints(),
-            routes_time: routesStartAndEndTime,
+            routes: routesStartAndEndTime,
             luggage_size: form.luggage_size.value,
             is_animals_allowed: form.is_animals_allowed.checked
         };

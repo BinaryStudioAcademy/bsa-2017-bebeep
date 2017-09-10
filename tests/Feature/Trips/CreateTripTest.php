@@ -62,10 +62,10 @@ class CreateTripTest extends BaseTripTestCase
         $response = $this->jsonAsUser($user, ['waypoints' => [1, 2]]);
         $response->assertStatus(422);
 
-        $response = $this->jsonAsUser($user, ['routes_time' => null]);
-        $response->assertStatus(422)->assertJsonStructure(['routes_time' => []]);
+        $response = $this->jsonAsUser($user, ['routes' => null]);
+        $response->assertStatus(422)->assertJsonStructure(['routes' => []]);
 
-        $response = $this->jsonAsUser($user, ['routes_time' => [
+        $response = $this->jsonAsUser($user, ['routes' => [
             'start_XXL' => 'none', 'invalid' => 123
         ]]);
         $response->assertStatus(422);
@@ -251,7 +251,7 @@ class CreateTripTest extends BaseTripTestCase
         $trip = $this->getValidTripData($vehicle->id);
         $trip = array_merge($trip, [
             'waypoints' => $this->getValidTripWaypointsData(),
-            'routes_time' => $this->calculateRoutesTime($trip),
+            'routes' => $this->calculateRoutesTime($trip),
         ]);
 
         $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);

@@ -45,7 +45,7 @@ class BaseTripTestCase extends JwtTestCase
         return array_merge(factory(Trip::class)->make()->toArray(), [
             'end_at' => $endAt,
             'start_at' => $startAt,
-            'routes_time' => [[
+            'routes' => [[
                 'end_at' => $endAt,
                 'start_at' => $startAt,
             ]],
@@ -73,7 +73,7 @@ class BaseTripTestCase extends JwtTestCase
         ])->toArray(), [
             'start_at' => $startAt,
             'end_at' => $endAt,
-            'routes_time' => $this->calculateRoutesTime([
+            'routes' => $this->calculateRoutesTime([
                 'start_at' => $startAt,
                 'end_at' => $endAt,
             ], 1),
