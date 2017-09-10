@@ -117,7 +117,10 @@ class DirectionsMap extends React.Component {
                 });
 
                 endTime(route.getDurationRaw());
-                updateWaypointsDurations(route.getWaypointsDurations());
+
+                if (typeof updateWaypointsDurations === 'function') {
+                    updateWaypointsDurations(route.getWaypointsDurations());
+                }
             }
 
             this.setState({directionRenderQueueIsProcessing: false});
