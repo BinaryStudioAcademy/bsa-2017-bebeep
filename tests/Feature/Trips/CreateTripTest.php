@@ -55,6 +55,20 @@ class CreateTripTest extends BaseTripTestCase
 
         $response = $this->jsonAsUser($user, ['to' => null]);
         $response->assertStatus(422)->assertJsonStructure(['to' => []]);
+
+        $response = $this->jsonAsUser($user, ['waypoints' => 100]);
+        $response->assertStatus(422)->assertJsonStructure(['waypoints' => []]);
+
+        $response = $this->jsonAsUser($user, ['waypoints' => [1, 2]]);
+        $response->assertStatus(422);
+
+        $response = $this->jsonAsUser($user, ['routes_time' => null]);
+        $response->assertStatus(422)->assertJsonStructure(['routes_time' => []]);
+
+        $response = $this->jsonAsUser($user, ['routes_time' => [
+            'start_XXL' => 'none', 'invalid' => 123
+        ]]);
+        $response->assertStatus(422);
     }
 
     /**
@@ -234,11 +248,10 @@ class CreateTripTest extends BaseTripTestCase
             'user_id' => $user->id,
         ]);
 
-        $trip = array_merge($this->getValidTripData($vehicle->id), [
-            'waypoints' => [
-                'from' => json_decode('{"types": ["locality", "political"], "geometry": {"bounds": {"east": 30.825941000000057, "west": 30.239440100000024, "north": 50.590798, "south": 50.213273}, "location": {"lat": 50.4501, "lng": 30.52340000000004}, "viewport": {"east": 30.825941000000057, "west": 30.239440100000024, "north": 50.590798, "south": 50.213273}, "location_type": "APPROXIMATE"}, "place_id": "ChIJBUVa4U7P1EAR_kYBF9IxSXY", "formatted_address": "Киев, Украина, 02000", "address_components": [{"types": ["locality", "political"], "long_name": "Киев", "short_name": "Киев"}, {"types": ["administrative_area_level_2", "political"], "long_name": "город Киев", "short_name": "город Киев"}, {"types": ["country", "political"], "long_name": "Украина", "short_name": "UA"}, {"types": ["postal_code"], "long_name": "02000", "short_name": "02000"}]}'),
-                'to' => json_decode('{"types": ["locality", "political"], "geometry": {"bounds": {"east": 36.45581240000001, "west": 36.115837000000056, "north": 50.1053867, "south": 49.883796}, "location": {"lat": 49.9935, "lng": 36.230383000000074}, "viewport": {"east": 36.45581240000001, "west": 36.115837000000056, "north": 50.1053867, "south": 49.883796}, "location_type": "APPROXIMATE"}, "place_id": "ChIJiw-rY5-gJ0ERCr6kGmgYTC0", "formatted_address": "Харьков, Харьковская область, Украина", "address_components": [{"types": ["locality", "political"], "long_name": "Харьков", "short_name": "Харьков"}, {"types": ["administrative_area_level_3", "political"], "long_name": "Харьковский горсовет", "short_name": "Харьковский горсовет"}, {"types": ["administrative_area_level_1", "political"], "long_name": "Харьковская область", "short_name": "Харьковская область"}, {"types": ["country", "political"], "long_name": "Украина", "short_name": "UA"}]}'),
-            ],
+        $trip = $this->getValidTripData($vehicle->id);
+        $trip = array_merge($trip, [
+            'waypoints' => $this->getValidTripWaypointsData(),
+            'routes_time' => $this->calculateRoutesTime($trip),
         ]);
 
         $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);

@@ -33,6 +33,7 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
             'from' => 'required|array',
             'to' => 'required|array',
             'waypoints' => 'array',
+            'waypoints.*' => 'required_with:waypoints|array',
             'routes_time' => 'required|array',
             'routes_time.*.start_at' => 'required|integer',
             'routes_time.*.end_at' => 'required|integer',
