@@ -5,6 +5,8 @@ import { securedRequest } from 'app/services/RequestService';
 const CreateTripService = {
 
     sendCreatedTrip(data) {
+        const request = '/api/v1/trips';
+
         return securedRequest.post(request, data)
             .then(
                 response => Promise.resolve(response.data),
