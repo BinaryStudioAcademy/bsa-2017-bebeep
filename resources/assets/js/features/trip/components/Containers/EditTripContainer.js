@@ -57,8 +57,7 @@ class EditTripContainer extends React.Component {
     }
 
     componentDidMount() {
-        const { id, addWaypointsFromRoutes } = this.props,
-            { startPoint, endPoint, trip } = this.state;
+        const { id, addWaypointsFromRoutes } = this.props;
 
         EditTripService.getTrip(id)
             .then(response => {
@@ -75,6 +74,8 @@ class EditTripContainer extends React.Component {
                         address: routes[routes.length - 1].to.formatted_address
                     },
                 });
+
+                const { startPoint, endPoint, trip } = this.state;
 
                 this.onSelectStartPoint(startPoint.address);
                 this.onSelectEndPoint(endPoint.address);
@@ -179,10 +180,10 @@ class EditTripContainer extends React.Component {
 
         this.setState({errors: {}});
 
-        EditTripService.sendUpdatedTrip(id, tripData)
+        /*EditTripService.sendUpdatedTrip(id, tripData)
             .then((response) => {
                 //browserHistory.push('/trips');
-            });
+            });*/
     }
 
     render() {
