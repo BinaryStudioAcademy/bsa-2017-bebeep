@@ -3,11 +3,9 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
 import {getNotifications, getMessage} from 'app/services/NotificationService';
-import LangService from 'app/services/LangService';
 import {setNotifications} from '../actions'
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import Notification from './Notifications/Notification';
-import DateTimeHelper from 'app/helpers/DateTimeHelper'
 
 class NotificationsList extends React.Component {
 
