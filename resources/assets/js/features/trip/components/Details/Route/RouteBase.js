@@ -9,6 +9,10 @@ class RouteBase extends React.Component {
         return this.props.showDriver;
     }
 
+    isShowStartPoint() {
+        return this.props.showStartPoint;
+    }
+
     isShowWayPoint() {
         return this.props.showWayPoint;
     }
@@ -80,6 +84,7 @@ class RouteBase extends React.Component {
 
     render() {
         const { route } = this.props,
+            showStartPoint = this.isShowStartPoint(),
             showWayPoint = this.isShowWayPoint();
 
         return (
@@ -87,6 +92,7 @@ class RouteBase extends React.Component {
                 <th scope="row">
                     <RoutePoint
                         location={route.from}
+                        showStartPoint={showStartPoint}
                         showWayPoint={showWayPoint}
                     />
                     { this.renderEndPoint() }

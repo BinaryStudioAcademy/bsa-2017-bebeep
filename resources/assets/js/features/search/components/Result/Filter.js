@@ -88,6 +88,7 @@ class Filter extends React.Component {
 
     render() {
         const { time, price, animals, seats, luggage, rating, transfer } = this.state;
+
         const { priceBounds, translate } = this.props;
 
         return (
@@ -148,6 +149,7 @@ class Filter extends React.Component {
                     value={transfer}
                     onChange={this.transferChange()}
                 />
+
             </div>
         );
     }
