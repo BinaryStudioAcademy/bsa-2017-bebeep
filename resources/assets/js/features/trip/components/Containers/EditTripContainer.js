@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 import { geocodeByAddress } from 'react-places-autocomplete';
 
 import TripForm from '../Forms/TripForm';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
 import { EditableWaypoints } from './EditableWaypoints';
 import DirectionsMap from 'app/components/DirectionsMap';
 
