@@ -52,7 +52,7 @@ class CreateTripContainer extends React.Component {
         this.onSelectEndPoint = this.onSelectEndPoint.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
-        this.setEndTime = this.setEndTime.bind(this);
+        this.setTripEndTime = this.setTripEndTime.bind(this);
         this.updateWaypointsDurations = this.updateWaypointsDurations.bind(this);
     }
 
@@ -103,7 +103,7 @@ class CreateTripContainer extends React.Component {
             });
     }
 
-    setEndTime(time) {
+    setTripEndTime(time) {
         this.tripEndTime = time;
     }
 
@@ -115,8 +115,9 @@ class CreateTripContainer extends React.Component {
         e.preventDefault();
 
         const { getPlacesFromWaypoints, tripCreateSuccess } = this.props,
-            { startPoint, endPoint } = this.state,
-            form = e.target,
+            { startPoint, endPoint } = this.state;
+
+        const form = e.target,
             tripTime = getStartAndEndTime(form.start_at.value, this.tripEndTime),
             roundTime = form.reverse_start_at
                 ? getStartAndEndTime(form.reverse_start_at.value, this.tripEndTime)
@@ -145,7 +146,7 @@ class CreateTripContainer extends React.Component {
 
         const validated = Validator.validate(createTripRules(), tripData);
 
-        if (!validated.valid) {
+        if (! validated.valid) {
             this.setState({errors: validated.errors});
             return;
         }
@@ -209,7 +210,7 @@ class CreateTripContainer extends React.Component {
                         waypoints={convertWaypointsToGoogleWaypoints(waypoints)}
                         from={getCoordinatesFromPlace(startPoint.place)}
                         to={getCoordinatesFromPlace(endPoint.place)}
-                        endTime={this.setEndTime}
+                        endTime={this.setTripEndTime}
                         updateWaypointsDurations={this.updateWaypointsDurations}
                     />
                 </div>
