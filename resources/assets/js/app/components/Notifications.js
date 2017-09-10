@@ -8,10 +8,15 @@ import {getMessage} from 'app/services/NotificationService';
 import {addNotification} from 'features/notifications/actions';
 import Push from 'push.js';
 import {browserHistory} from 'react-router';
+import { NotificationStack } from 'react-notification';
 
 class Notifications extends React.Component {
     constructor() {
         super();
+
+        this.state = {
+            notifications: []
+        };
     }
 
     componentWillMount() {
@@ -42,28 +47,88 @@ class Notifications extends React.Component {
         }
     }
 
-    showNotification(notification) {
-        const messageData = getMessage(notification);
+    showNotification(notificationData) {
+        const messageData = getMessage(notificationData),
+            notification = {
+                key: notificationData.id,
+                message: messageData.title,
+                title: 'BeBeep',
+                timeout: 500000,
+                onClick: () => {
+                    browserHistory.push('/dashboard/notifications')
+                },
+            };
 
-        Push.create("BeBeep", {
-            body: messageData.title,
-            timeout: 4000,
+        Push.create(notification.title, {
+            body: notification.message,
+            timeout: notification.timeout,
             onClick: function () {
-                browserHistory.push('/dashboard/notifications');
+                notification.onClick();
                 window.focus();
                 this.close();
             }
         }).catch(() => {
-            console.info(messageData);
+            this.setState({
+                notifications: [
+                    {
+                        message: notification.message,
+                        title: notification.title,
+                        dismissAfter: notification.timeout,
+                        key: notification.key,
+                        onClick: (data, deactivate) => {
+                            notification.onClick();
+                            this.hideNotification(data.key);
+                            deactivate();
+                        }
+                    },
+                    ...this.state.notifications
+                ]
+            });
+        });
+    }
+
+    hideNotification(key) {
+        this.setState({
+            notifications: _.filter((notification) => {
+                return notification.key !== key;
+            })
         });
     }
 
     render() {
-        const {translate} = this.props;
+        const {translate} = this.props,
+            {notifications} = this.state;
 
         return (
             <div>
-
+                <NotificationStack
+                    notifications={notifications}
+                    onDismiss={notification => {
+                        this.hideNotification(notification.key);
+                    }}
+                    barStyleFactory ={function (index, style, notification) {
+                        return Object.assign(
+                            {},
+                            style,
+                            {
+                                left: 'auto',
+                                right: '-100%',
+                                background: null
+                            }
+                        );
+                    }}
+                    activeBarStyleFactory ={function (index, style, notification) {
+                        return Object.assign(
+                            {},
+                            style,
+                            {
+                                left: 'auto',
+                                right: '1rem',
+                                background: null
+                            }
+                        );
+                    }}
+                />
             </div>
         );
     }
