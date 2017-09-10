@@ -41,25 +41,28 @@
     }
 }
 
-.trip-point-icon:before {
-    content: '';
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    margin-right: .5rem;
-    vertical-align: top;
-    background-color: $white;
-    border-radius: 50%;
-    border: 3px solid $teal;
-}
+.trip-point-icon {
+    &:before {
+        content: '';
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        margin-right: .5rem;
+        vertical-align: top;
+        background-color: $white;
+        border-radius: 50%;
+        border: 2px dashed $teal;
+    }
 
-.trip-point-icon--waypoint:before {
-    border-width: 2px;
-    border-style: dashed;
-}
+    &--start:before,
+    &--end:before {
+        border-width: 3px;
+        border-style: solid;
+    }
 
-.trip-point-icon--end:before {
-    background-color: lighten($teal, 10%);
+    &--end:before {
+        background-color: lighten($teal, 10%);
+    }
 }
 
 .trip-vehicle-image {
@@ -108,11 +111,14 @@
     tbody th {
         width: 16%;
         max-width: 60px;
+        padding: .75rem .5rem .75rem 0;
+        border-top: none;
     }
 
     tbody td {
         width: 9%;
         max-width: 40px;
+        padding: .75rem .5rem;
     }
 
     &__head-icon {
@@ -127,21 +133,25 @@
         height: 100px;
         text-align: left;
         position: relative;
-        top: -30px;
+        top: -21px;
 
         &:before {
             width: 24px;
             height: 24px;
             position: absolute;
             left: 1px;
-            top: -2px;
+            top: -4px;
             z-index: 2;
+        }
+
+        &--start {
+            top: 0;
         }
 
         &--end {
             height: auto;
             position: absolute;
-            bottom: 3px;
+            bottom: 7px;
             top: inherit;
             left: inherit;
         }

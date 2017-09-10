@@ -3,6 +3,7 @@
 namespace App\Services\Contracts;
 
 use App\User;
+use App\Models\Trip;
 use App\Models\Subscription;
 use Illuminate\Support\Collection;
 use App\Services\Requests\CreateSubscriptionsRequest;
@@ -11,6 +12,12 @@ use App\Services\Requests\Subscriptions\StatusSubscriptionRequest;
 
 interface SubscriptionsService
 {
+    /**
+     * @param Trip $trip
+     * @return Collection
+     */
+    public function getSubscriptionsByTrip(Trip $trip) : Collection;
+
     /**
      * @param CreateSubscriptionsRequest $request
      *
