@@ -15,7 +15,6 @@ const TripDetailsService = {
     },
 
     transformData(response) {
-
         response.data.trip.price = parseInt(response.data.trip.price);
 
         this.setDriverAge(response.data);
@@ -36,7 +35,9 @@ const TripDetailsService = {
             route.free_seats = this.getRouteFreeSeats(data.trip.seats, route.reserved_seats);
 
             route.bookings.data = route.bookings.data.map((booking) => {
-                booking.user.data.age = DateTimeHelper.getUserYearsOld(booking.user.data.birth_date);
+                booking.user.data.age = DateTimeHelper.getUserYearsOld(
+                    booking.user.data.birth_date
+                );
                 return booking;
             });
             return route;
@@ -52,7 +53,10 @@ const TripDetailsService = {
             const startPoint = routes[0].from,
                 endPoint = routes[routes.length - 1].to,
                 waypoints = _.reduce(routes.slice(0, -1), (arr, route) => {
-                    const latLng = new google.maps.LatLng(parseFloat(route.to.lat),parseFloat(route.to.lng));
+                    const latLng = new google.maps.LatLng(
+                        parseFloat(route.to.lat),
+                        parseFloat(route.to.lng)
+                    );
                     arr.push({location: latLng, stopover: true});
                     return arr;
                 }, []),
