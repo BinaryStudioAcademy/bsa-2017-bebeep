@@ -58,6 +58,7 @@ class SubscriptionsService implements Contracts\SubscriptionsService
             'to_lat' => $request->getToLat(),
             'to_lng' => $request->getToLng(),
             'email' => $request->getEmail(),
+            'user_id' => $request->getUserId(),
             'is_active' => true,
         ];
 
