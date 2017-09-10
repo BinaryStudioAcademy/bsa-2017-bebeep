@@ -53,7 +53,7 @@ class Notifications extends React.Component {
                 key: notificationData.id,
                 message: messageData.title,
                 title: 'BeBeep',
-                timeout: 500000,
+                timeout: 5000000,
                 onClick: () => {
                     browserHistory.push('/dashboard/notifications')
                 },
@@ -71,10 +71,22 @@ class Notifications extends React.Component {
             this.setState({
                 notifications: [
                     {
-                        message: notification.message,
-                        title: notification.title,
-                        dismissAfter: notification.timeout,
                         key: notification.key,
+                        message: notification.message,
+                        dismissAfter: notification.timeout,
+                        className: 'notification-bar--' + messageData.type,
+                        barStyle: {
+                            left: 'auto',
+                            background: null
+                        },
+                        activeBarStyle: {
+                            left: 'auto'
+                        },
+                        actionStyle: {
+                            padding: 0,
+                            margin: 0
+                        },
+                        action: " ",
                         onClick: (data, deactivate) => {
                             notification.onClick();
                             this.hideNotification(data.key);
@@ -105,28 +117,6 @@ class Notifications extends React.Component {
                     notifications={notifications}
                     onDismiss={notification => {
                         this.hideNotification(notification.key);
-                    }}
-                    barStyleFactory ={function (index, style, notification) {
-                        return Object.assign(
-                            {},
-                            style,
-                            {
-                                left: 'auto',
-                                right: '-100%',
-                                background: null
-                            }
-                        );
-                    }}
-                    activeBarStyleFactory ={function (index, style, notification) {
-                        return Object.assign(
-                            {},
-                            style,
-                            {
-                                left: 'auto',
-                                right: '1rem',
-                                background: null
-                            }
-                        );
                     }}
                 />
             </div>
