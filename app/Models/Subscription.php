@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Subscription extends Model
 {
+    use Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *

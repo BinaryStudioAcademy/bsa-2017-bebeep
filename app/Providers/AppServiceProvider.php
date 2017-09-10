@@ -33,8 +33,17 @@ use App\Rules\Booking\BookingTripNotExpiredRule;
 use App\Rules\BookingConfirm\BookingTripConfirm;
 use App\Validators\RoutesExistsForTripValidator;
 use App\Rules\Booking\UserHasNotActiveBookingsForTrip;
+use App\Services\Helpers\Subscriptions\FilterCollection;
+use App\Services\Helpers\Subscriptions\Filters\SeatsFilter;
+use App\Services\Helpers\Subscriptions\Filters\RatingFilter;
+use App\Services\Helpers\Subscriptions\Filters\AnimalsFilter;
+use App\Services\Helpers\Subscriptions\Filters\EndTimeFilter;
+use App\Services\Helpers\Subscriptions\Filters\LuggageFilter;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
+use App\Services\Helpers\Subscriptions\Filters\EndPriceFilter;
+use App\Services\Helpers\Subscriptions\Filters\StartTimeFilter;
 use App\Services\Contracts\RouteService as RouteServiceContract;
+use App\Services\Helpers\Subscriptions\Filters\StartPriceFilter;
 use App\Services\Contracts\BookingService as BookingServiceContract;
 use App\Services\Contracts\ReviewsService as ReviewsServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
@@ -66,6 +75,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(TripRepositoryContract::class, TripRepository::class);
         $this->app->bind(BookingRepositoryContract::class, BookingRepository::class);
+        $this->app->bind(
+            \App\Repositories\Contracts\SubscriptionRepository::class,
+            \App\Repositories\SubscriptionRepository::class
+        );
 
         $this->app->bind(RouteServiceContract::class, RouteService::class);
         $this->app->bind(BookingServiceContract::class, BookingService::class);
@@ -111,6 +124,19 @@ class AppServiceProvider extends ServiceProvider
                 new TripDateRule,
                 new TripRoutesHasSeatsRule,
                 new UserHasNotActiveBookingsForTrip($app->make(BookingRepositoryContract::class))
+            );
+        });
+
+        $this->app->bind(FilterCollection::class, function ($app) {
+            return new FilterCollection(
+                new StartTimeFilter(),
+                new EndTimeFilter(),
+                new AnimalsFilter(),
+                new SeatsFilter(),
+                new LuggageFilter(),
+                new RatingFilter(),
+                new StartPriceFilter(),
+                new EndPriceFilter()
             );
         });
     }
