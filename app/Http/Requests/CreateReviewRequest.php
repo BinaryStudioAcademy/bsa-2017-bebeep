@@ -55,7 +55,7 @@ class CreateReviewRequest extends FormRequest implements CreateReviewRequestInte
      *
      * @return string
      */
-    public function getReview()
+    public function getReview() : ?string
     {
         return $this->get('review');
     }
