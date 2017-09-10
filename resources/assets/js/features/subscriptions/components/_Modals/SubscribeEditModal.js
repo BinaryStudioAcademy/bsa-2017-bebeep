@@ -1,19 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import SeatsDropDown from '../Dropdowns/SeatsDropDown';
-import AnimalsDropDown from '../Dropdowns/AnimalsDropDown';
-import LuggageDropDown from '../Dropdowns/LuggageDropDown';
-import RatingDropDown from '../Dropdowns/RatingDropDown';
-import {Modal, ModalHeader, ModalBody, ModalFooter, Button, ButtonGroup} from 'reactstrap';
+import moment from 'moment';
 import {Range} from 'rc-slider';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {editSubscriptions} from '../../actions';
 import {getTranslate} from 'react-localize-redux';
 import {getCityLocation} from 'app/helpers/TripHelper';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 import { editSubscription } from 'app/services/SubscriptionService';
-import moment from 'moment';
-import {editSubscriptions} from '../../actions';
+import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
+import SeatsDropDown from 'features/search/components/Result/Dropdowns/SeatsDropDown';
+import RatingDropDown from 'features/search/components/Result/Dropdowns/RatingDropDown';
+import AnimalsDropDown from 'features/search/components/Result/Dropdowns/AnimalsDropDown';
+import LuggageDropDown from 'features/search/components/Result/Dropdowns/LuggageDropDown';
+
 import 'features/search/styles/subscribe-modal.scss';
 
 class SubscribeEditModal extends React.Component {

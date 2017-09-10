@@ -34,19 +34,8 @@
       ]
     },
     "trip_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"],
-    "luggage_size": ["Luggage Size", "Розмір багажу", "Размер багажа"],
-    "luggage_size_0": ["Small", "Маленький", "Маленький"],
-    "luggage_size_1": ["Medium", "Середній", "Средний"],
-    "luggage_size_2": ["Big", "Великий", "Большой"],
-    "is_animals_allowed": ["Animals allowed", "Тварини дозволені", "Животные разрешены"],
     "additional_conditions": ["Additional conditions", "Додаткові умови", "Дополнительные условия"],
-    "animals": ["Animals", "Тварини", "Животные"],
-    "not_important": ["All", "Все одно", "Все равно"],
-    "allowed": ["Allowed", "Дозволені", "Разрешены"],
-    "forbidden": ["Forbidden", "Заборонені", "Запрещены"],
-    "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"],
-    "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"],
-    "more": ["more than ", "більше ", "более "]
+    "is_animals_allowed": ["Animals allowed", "Тварини дозволені", "Животные разрешены"]
   },
   "subscription": {
     "subscribe_btn": ["Subscribe", "Підписатись", "Подписаться"],
@@ -59,5 +48,22 @@
     "email-placeholder": ["Enter your email here", "Введіть ваш email", "Введите ваш email"],
     "success-great": ["Well done!", "Чудово!", "Отлично!"],
     "success-text": ["You successfully subscribe for this route.", "Ви успішно підписались на цей маршрут.", "Вы успешно подписались на этот маршрут."]
+  },
+  "dropdown": {
+    "not_important": ["All", "Все одно", "Все равно"],
+    "luggage": {
+      "name": ["Luggage Size", "Розмір багажу", "Размер багажа"],
+      "size_0": ["Small", "Маленький", "Маленький"],
+      "size_1": ["Medium", "Середній", "Средний"],
+      "size_2": ["Big", "Великий", "Большой"]
+    },
+    "animals": {
+      "name": ["Animals", "Тварини", "Животные"],
+      "allowed": ["Allowed", "Дозволені", "Разрешены"],
+      "forbidden": ["Forbidden", "Заборонені", "Запрещены"]
+    },
+    "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"],
+    "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"],
+    "more": ["more than ", "більше ", "более "]
   }
 }
