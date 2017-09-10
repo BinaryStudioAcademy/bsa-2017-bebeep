@@ -31,12 +31,16 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
         $minStartAt = Carbon::now()->addSeconds(Trip::MIN_DELAY_TO_START_DATE)->timestamp;
 
         return [
-            'price' => 'required',
+            'price' => 'required|numeric',
             'seats' => 'required|integer|min:0|max_seats_from_vehicle:'.$this->get('vehicle_id').','.$this->get('vehicle')['seats'],
             'start_at' => 'required|integer|greater_than_date:'.$minStartAt,
             'end_at' => 'required|integer|greater_than_date:'.$this->get('start_at'),
             'from' => 'required|array',
             'to' => 'required|array',
+            'waypoints' => 'array',
+            'routes_time' => 'required|array',
+            'routes_time.*.start_at' => 'required|integer',
+            'routes_time.*.end_at' => 'required|integer',
             'vehicle_id' => [
                 'required_without:vehicle',
                 'integer',
@@ -52,7 +56,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return float
+     * {@inheritdoc}
      */
     public function getPrice(): float
     {
@@ -60,7 +64,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getSeats(): int
     {
@@ -68,7 +72,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return Carbon
+     * {@inheritdoc}
      */
     public function getStartAt(): Carbon
     {
@@ -76,7 +80,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return Carbon
+     * {@inheritdoc}
      */
     public function getEndAt(): Carbon
     {
@@ -84,7 +88,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getVehicleId(): int
     {
@@ -92,7 +96,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getFrom(): array
     {
@@ -100,7 +104,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getTo(): array
     {
@@ -108,7 +112,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getWaypoints(): array
     {
@@ -116,7 +120,15 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
+     */
+    public function getRoutesTime(): array
+    {
+        return (array) $this->get('routes_time');
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getVehicle(): array
     {
@@ -124,7 +136,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getLuggageSize(): int
     {
@@ -132,7 +144,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function getIsAnimalsAllowed(): bool
     {
@@ -140,7 +152,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function getIsInBothDirections(): bool
     {
@@ -148,7 +160,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return Carbon
+     * {@inheritdoc}
      */
     public function getReverseStartAt(): Carbon
     {
