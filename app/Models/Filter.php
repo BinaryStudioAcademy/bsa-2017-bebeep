@@ -28,9 +28,6 @@ class Filter extends Model
         'updated_at',
     ];
 
-    /**
-     * @var array
-     */
     protected $casts = [
         'parameters' => 'array',
     ];

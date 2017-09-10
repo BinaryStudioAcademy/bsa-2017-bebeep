@@ -10,8 +10,7 @@ interface SubscriptionRepository extends RepositoryInterface, RepositoryCriteria
 {
     /**
      * @param Subscription $subscription
-     *
-     * @return $subscription
+     * @return Subscription
      */
-    public function save(Subscription $subscription);
+    public function save(Subscription $subscription) : Subscription;
 }
