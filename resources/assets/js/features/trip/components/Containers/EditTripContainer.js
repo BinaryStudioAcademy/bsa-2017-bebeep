@@ -44,7 +44,7 @@ class EditTripContainer extends React.Component {
         };
 
         this.tripEndTime = 0;
-        this.waypointsDurations = {};
+        this.waypointsDurations = [];
 
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
         this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
@@ -188,6 +188,9 @@ class EditTripContainer extends React.Component {
         EditTripService.sendUpdatedTrip(id, tripData)
             .then((response) => {
                 browserHistory.push('/trips');
+            })
+            .catch(error => {
+                this.setErrors(error);
             });
     }
 

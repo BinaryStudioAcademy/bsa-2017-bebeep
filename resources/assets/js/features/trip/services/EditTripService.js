@@ -29,7 +29,8 @@ const EditTripService = {
 
         return securedRequest.put(request, data)
             .then(
-                response => Promise.resolve(response.data)
+                response => Promise.resolve(response.data),
+                error => Promise.reject(error.response.data)
             )
     }
 };

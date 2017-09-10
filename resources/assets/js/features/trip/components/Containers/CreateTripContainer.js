@@ -44,7 +44,7 @@ class CreateTripContainer extends React.Component {
         };
 
         this.tripEndTime = 0;
-        this.waypointsDurations = {};
+        this.waypointsDurations = [];
 
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
         this.onChangeEndPoint = this.onChangeEndPoint.bind(this);

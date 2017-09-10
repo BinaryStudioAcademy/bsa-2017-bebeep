@@ -58,10 +58,6 @@ export default class TripRoute {
     }
 
     calculateWaypointsDurations() {
-        /*if (this.route.legs.length === 1) {
-            return;
-        }*/
-
         this.route.legs.forEach((leg, key) => {
             this.waypointsDurations[key] = leg.duration.value;
         });
