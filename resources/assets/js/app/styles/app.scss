@@ -155,10 +155,7 @@ strong {
     }
 
     &__search {
-        max-width: 940px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 100px;
+        margin: 100px 1rem 0;
         text-align: center;
     }
 }
@@ -243,4 +240,8 @@ strong {
         overflow: visible;
         z-index: 1;
     }
+}
+
+#PlacesAutocomplete__root {
+    margin-bottom: 0;
 }
