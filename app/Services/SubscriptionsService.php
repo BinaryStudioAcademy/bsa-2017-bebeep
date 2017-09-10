@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\User;
 use App\Models\Trip;
 use App\Models\Subscription;
 use Illuminate\Support\Collection;
@@ -40,6 +41,21 @@ class SubscriptionsService implements Contracts\SubscriptionsService
         });
 
         return $subscriptions;
+    }
+
+    /**
+     * This method update user id after register
+     *
+     * @param string $email
+     * @param User $user
+     */
+    public function updateUserIdAfterRegister(string $email, User $user)
+    {
+        $isExists = $this->subscriptionRepository->isEmailExists($email);
+
+        if($isExists) {
+            $this->subscriptionRepository->updateUserIdByEmail($email, $user);
+        }
     }
 
     /**

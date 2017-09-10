@@ -18,16 +18,25 @@ class RegisterUserService
     private $userRepository;
 
     /**
+     * @var SubscriptionsService
+     */
+    private $subscriptionsService;
+
+    /**
      * @var array
      */
     private $customClaims = [];
 
     /**
-     * @param \App\Repositories\UserRepository $userRepository
+     * RegisterUserService constructor.
+     *
+     * @param UserRepository $userRepository
+     * @param SubscriptionsService $subscriptionsService
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, SubscriptionsService $subscriptionsService)
     {
         $this->userRepository = $userRepository;
+        $this->subscriptionsService = $subscriptionsService;
     }
 
     /**
@@ -48,6 +57,8 @@ class RegisterUserService
         ];
 
         $user = $this->userRepository->save(new User($attributes));
+
+        $this->subscriptionsService->updateUserIdAfterRegister($request->getEmail(), $user);
 
         event(new UserRegistered($user));
 

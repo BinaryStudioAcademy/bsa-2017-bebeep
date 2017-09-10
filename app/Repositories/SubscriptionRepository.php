@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\User;
 use App\Models\Subscription;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -23,5 +24,28 @@ class SubscriptionRepository extends BaseRepository implements Contracts\Subscri
         $subscription->push();
 
         return $subscription;
+    }
+
+    /**
+     * Check if email exists
+     *
+     * @param string $email
+     * @return bool
+     */
+    public function isEmailExists(string $email) : bool
+    {
+        return $this->model->where('email', $email)->exists();
+    }
+
+    /**
+     * This method update user id by email
+     *
+     * @param string $email
+     * @param User $user
+     * @return bool|null
+     */
+    public function updateUserIdByEmail(string $email, User $user) : ?bool
+    {
+        return $this->model->where('email', $email)->update(['user_id' => $user->getUserId()]);
     }
 }
