@@ -6,7 +6,7 @@ export const getSubscriptions = () => {
 
 export const changeSubscriptionStatus = (id, status) => {
     return securedRequest.put(`/api/v1/subscriptions/${id}/status`, {
-        status: status ? 'activate' : 'deactivate'
+        status: !!status
     });
 };
 

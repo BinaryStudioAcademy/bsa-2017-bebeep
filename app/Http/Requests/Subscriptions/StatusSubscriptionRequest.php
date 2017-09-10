@@ -22,6 +22,6 @@ class StatusSubscriptionRequest extends FormRequest implements ContractStatusSub
 
     public function isActive(): bool
     {
-        return $this->get('status') === 'activate';
+        return (bool) $this->get('status');
     }
 }
