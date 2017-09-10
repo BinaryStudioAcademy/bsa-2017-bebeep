@@ -34,6 +34,14 @@ const TripDetailsService = {
         data.routes.data.map((route) => {
             route.free_seats = this.getRouteFreeSeats(data.trip.seats, route.reserved_seats);
 
+            route.start_time = DateTimeHelper.dateFormat(route.start_at_x, {
+                onlyTime: true,
+            }).time;
+
+            route.end_time = DateTimeHelper.dateFormat(route.end_at_x, {
+                onlyTime: true,
+            }).time;
+
             route.bookings.data = route.bookings.data.map((booking) => {
                 booking.user.data.age = DateTimeHelper.getUserYearsOld(
                     booking.user.data.birth_date
