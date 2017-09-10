@@ -1,5 +1,5 @@
-import Validator from './Validator';
 import moment from 'moment';
+import Validator from './Validator';
 import LangService from './LangService';
 
 export const createTripRules = () => ({
@@ -10,27 +10,42 @@ export const createTripRules = () => ({
     to: Validator.required(LangService.translate('validate.enter_trip_end_point')),
     price: [
         Validator.required(LangService.translate('validate.enter_trip_price')),
-        Validator.greaterThan(1, LangService.translate('validate.trip_price_must_be_greater_than_0'))
+        Validator.greaterThan(1, LangService.translate('validate.trip_price_must_be_greater_than_0')),
     ],
     seats: [
         Validator.required(LangService.translate('validate.enter_trip_seats')),
-        Validator.greaterThan(1, LangService.translate('validate.trip_seats_must_be_greater_than_0'))
-    ]
+        Validator.greaterThan(1, LangService.translate('validate.trip_seats_must_be_greater_than_0')),
+    ],
 });
 
-export const getStartAndEndTime = (start_at, duration) => {
-    if (!start_at) {
+export const getStartAndEndTime = (startAt, duration) => {
+    if (!startAt) {
         return {
             start_at: null,
-            end_at: null
+            end_at: null,
         }
     }
 
-    start_at = moment(start_at).unix();
-    let end_at = start_at + duration;
+    if (isNaN(startAt)) {
+        startAt = moment(startAt).unix();
+    }
+
+    const endAt = startAt + duration;
 
     return {
-        start_at: start_at,
-        end_at: end_at
-    }
+        start_at: startAt,
+        end_at: endAt,
+    };
+};
+
+export const getRoutesStartAndEndTime = (tripStartAt, durations) => {
+    let startAt = tripStartAt;
+
+    return durations.map((duration) => {
+        const waypointTimes = getStartAndEndTime(startAt, duration);
+
+        startAt = waypointTimes.end_at;
+
+        return waypointTimes;
+    });
 };

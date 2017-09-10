@@ -11,7 +11,11 @@ import DirectionsMap from 'app/components/DirectionsMap';
 
 import Validator from 'app/services/Validator';
 import { securedRequest } from 'app/services/RequestService';
-import { createTripRules, getStartAndEndTime } from 'app/services/TripService';
+import {
+    createTripRules,
+    getStartAndEndTime,
+    getRoutesStartAndEndTime
+} from 'app/services/TripService';
 import {
     getCoordinatesFromPlace,
     convertWaypointsToGoogleWaypoints
@@ -105,7 +109,6 @@ class CreateTripContainer extends React.Component {
 
     updateWaypointsDurations(waypointsDurations) {
         this.waypointsDurations = waypointsDurations;
-        console.log(this.waypointsDurations);
     }
 
     onSubmit(e) {
@@ -119,6 +122,11 @@ class CreateTripContainer extends React.Component {
                 ? getStartAndEndTime(form.reverse_start_at.value, this.tripEndTime)
                 : false;
 
+        const routesStartAndEndTime = getRoutesStartAndEndTime(
+            tripTime.start_at,
+            this.waypointsDurations
+        );
+
         const tripData = {
             vehicle_id: form.vehicle_id.value,
             start_at: tripTime.start_at,
@@ -128,6 +136,7 @@ class CreateTripContainer extends React.Component {
             from: startPoint.place,
             to: endPoint.place,
             waypoints: getPlacesFromWaypoints(),
+            routes_time: routesStartAndEndTime,
             luggage_size: form.luggage_size.value,
             is_animals_allowed: form.is_animals_allowed.checked,
             is_in_both_directions: form.is_in_both_directions.checked,
@@ -143,18 +152,18 @@ class CreateTripContainer extends React.Component {
 
         this.setState({errors: {}});
 
-        /*securedRequest.post('/api/v1/trips', tripData).then((response) => {
-            tripCreateSuccess(response.data);
+        securedRequest.post('/api/v1/trips', tripData).then((response) => {
+            /*tripCreateSuccess(response.data);
             this.setState({errors: {}});
 
             if (response.status === 200) {
                 browserHistory.push('/trips');
-            }
+            }*/
         }).catch((error) => {
             this.setState({
                 errors: error.response.data
             })
-        });*/
+        });
     }
 
     render() {
