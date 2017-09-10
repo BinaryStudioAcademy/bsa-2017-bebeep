@@ -11,7 +11,7 @@ class SearchTripsWithTransfersService
 {
     /**
      * @param  SearchTripRequest $request
-     * @return int
+     * @return \Illuminate\Support\Collection
      */
     public function search(SearchTripRequest $request)
     {
@@ -57,7 +57,7 @@ class SearchTripsWithTransfersService
         })->whereNotIn('id', $possibleStartRoutes->pluck('id')->toArray())->get();
 
         $combinator = new RouteCombinationsFinder($possibleStartRoutes, $possibleInnerRoutes, $possibleEndRoutes);
-        $routes = $combinator->find();
+        $routes = $combinator->find(1);
 
         return $routes;
     }
