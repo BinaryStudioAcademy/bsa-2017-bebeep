@@ -10,10 +10,10 @@ use Illuminate\Support\Collection;
 use App\Http\Requests\DTO\FilterDTO;
 use App\Services\Requests\CreateSubscriptionsRequest;
 use App\Repositories\Contracts\SubscriptionRepository;
-use App\Services\Requests\Subscriptions\EditSubscriptionRequest;
-use App\Services\Requests\Subscriptions\StatusSubscriptionRequest;
 use App\Criteria\Subscriptions\SubscriptionTripCriteria;
 use App\Services\Helpers\Subscriptions\FilterCollection;
+use App\Services\Requests\Subscriptions\EditSubscriptionRequest;
+use App\Services\Requests\Subscriptions\StatusSubscriptionRequest;
 
 class SubscriptionsService implements Contracts\SubscriptionsService
 {
