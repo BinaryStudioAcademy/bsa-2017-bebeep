@@ -40,6 +40,7 @@ interface CreateTripRequest
      * @return array
      */
     public function getWaypoints(): array;
+
     // TODO :: Need to change this code so that
     // this method returns the collection of Waypoints instances
 
@@ -47,6 +48,7 @@ interface CreateTripRequest
      * @return array
      */
     public function getRoutesTime(): array;
+
     // TODO :: Need to change this code so that
     // this method returns the collection of Routes instances
 

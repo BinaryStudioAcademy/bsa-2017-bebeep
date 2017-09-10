@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\User;
-use Carbon\Carbon;
 use App\Models\Trip;
 use App\Events\TripCreated;
 use App\Events\TripUpdated;
@@ -415,7 +414,7 @@ class TripsService
         // TODO :: Need to change this code to work with
         // the collection of Routes instances
 
-        return array_map(function(array $time) use (&$startAt) {
+        return array_map(function (array $time) use (&$startAt) {
             $duration = $time['end_at'] - $time['start_at'];
 
             $endAt = $startAt + $duration;

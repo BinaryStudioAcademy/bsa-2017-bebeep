@@ -66,7 +66,8 @@ class CreateTripTest extends BaseTripTestCase
         $response->assertStatus(422)->assertJsonStructure(['routes' => []]);
 
         $response = $this->jsonAsUser($user, ['routes' => [
-            'start_XXL' => 'none', 'invalid' => 123
+            'start_XXL' => 'none',
+            'invalid' => 123,
         ]]);
         $response->assertStatus(422);
     }
