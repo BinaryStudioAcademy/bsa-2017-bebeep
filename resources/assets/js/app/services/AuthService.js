@@ -2,6 +2,13 @@ import jwtDecode from 'jwt-decode';
 import _ from 'lodash';
 
 import { securedRequest } from './RequestService';
+import {
+    setAuthSession,
+    unsetAuthSession,
+    setSessionToken,
+    loginSuccess,
+    logoutSuccess
+} from 'features/user/actions';
 
 const AuthService = (() => {
 
@@ -10,32 +17,83 @@ const AuthService = (() => {
         userProps = ['first_name', 'last_name', 'avatar',];
 
     let _this = null,
-        store = null,
-        loginSuccess = null;
+        store = null;
 
     return {
-        init(params) {
+        init(globalStore) {
             _this = this;
-            store = params.store;
-            loginSuccess = params.loginSuccess;
+            store = globalStore;
+
+            //_this.setSessionTokenToState();
         },
 
         getFromState(param) {
             return store.getState().user.session[param];
         },
 
+        setSessionTokenToState() {
+            const token = storage.getItem(tokenKeyName);
+
+            if (! _this.isSessionTokenValid(token)) {
+                _this.removeSessionTokenFromStorage();
+                return false;
+            }
+
+            store.dispatch(setSessionToken(token));
+
+            return true;
+        },
+
+        setSessionTokenToStorage(token) {
+            storage.setItem(tokenKeyName, token);
+
+            return _this;
+        },
+
+        removeSessionTokenFromStorage() {
+            storage.removeItem(tokenKeyName);
+
+            return _this;
+        },
+
+        initSession(token) {
+            _this.setSessionTokenToStorage(token);
+
+            if (! _this.setSessionTokenToState()) {
+                return false;
+            }
+
+            const sessionData = _this.getSessionData();
+
+            store.dispatch(setAuthSession(sessionData));
+            store.dispatch(loginSuccess());
+        },
+
+        destroySession() {
+            _this.removeSessionTokenFromStorage();
+
+            store.dispatch(unsetAuthSession());
+            store.dispatch(logoutSuccess());
+        },
+
         getSessionToken() {
-            return _this.getFromState('token') || storage[tokenKeyName];
+            return _this.getFromState('token');
         },
 
         getSessionDataFromServer(onSuccess, onError) {
+            onError = onError || onSuccess;
+
             const requestPath = '/api/authentication/me';
 
             securedRequest.get(requestPath)
                 .then(response => {
                     const userData = response.data.data;
 
-                    store.dispatch( loginSuccess(_this.getSessionData(userData)) );
+                    _this.getSessionData(userData)
+
+                    _this.initSession();
+
+                    store.dispatch(loginSuccess());
                     onSuccess();
                 })
                 .catch(error => {
@@ -46,10 +104,6 @@ const AuthService = (() => {
 
         getSessionData(userData) {
             const decoded = _this.decodeAuthToken();
-
-            if (_.isEmpty(decoded)) {
-                return null;
-            }
 
             const data = _.transform(decoded, function(result, value, key) {
                 if (userProps.indexOf(key) !== -1) {
@@ -68,25 +122,19 @@ const AuthService = (() => {
             return data;
         },
 
-        initSession(token) {
-            storage.setItem(tokenKeyName, token);
-        },
-
-        destroySession() {
-            storage.removeItem(tokenKeyName);
-        },
-
         isAuthorized() {
             return _this.getFromState('isAuthorized');
         },
 
-        isSessionTokenValid() {
-            return !!_this.decodeAuthToken();
+        isSessionTokenValid(token) {
+            return !!_this.decodeAuthToken(token);
         },
 
-        decodeAuthToken() {
+        decodeAuthToken(token) {
+            token = token || _this.getSessionToken();
+
             try {
-                return jwtDecode(_this.getSessionToken());
+                return jwtDecode(token);
 
             } catch(error) {
                 return null;
