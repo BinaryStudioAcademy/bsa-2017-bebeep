@@ -1,14 +1,13 @@
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import {getAuthToken} from './AuthService';
-
-const PUSHER_KEY = '93ab4ad70ab16afc1f6d';
+import {PUSHER_API_KEY} from 'app/config.js';
 
 const BroadcastService = {
     get Echo() {
         return new Echo({
             broadcaster: 'pusher',
-            key: PUSHER_KEY,
+            key: PUSHER_API_KEY,
             cluster: 'eu',
             encrypted: true,
             auth: {
