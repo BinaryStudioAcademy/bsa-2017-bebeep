@@ -1,0 +1,19 @@
+.main-page__block {
+  background-color: rgba(204, 204, 204, 0.2);
+  min-height: 250px;
+  padding-top: 20px;
+
+  &-header {
+    padding: 20px;
+    &-text {
+      font-size: 1.7rem;
+      color: #444444;
+    }
+  }
+
+  &-step {
+    padding: 20px;
+    border: 1px solid #4a68ff;
+  }
+
+}

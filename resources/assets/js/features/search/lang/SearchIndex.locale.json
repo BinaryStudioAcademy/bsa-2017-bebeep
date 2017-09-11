@@ -11,5 +11,8 @@
     "i_am_driver": ["I am Driver", "Я водій", "Я водитель"],
     "find_cheap_ride": ["Find a cheap ride!", "Знайти дешеву подорож!", "Найдем дешевые поездки!"],
     "find_cheap_ride_driver": ["Save on gasoline? Go!", "Збережіть на бензині!", "Сэкономим на бензине? Поехали!"]
+  },
+  "main_page_content": {
+    "main-text": ["How does BeBeep work?", "Як працює BeBeep?", "Как работает BeBeep?"]
   }
 }
