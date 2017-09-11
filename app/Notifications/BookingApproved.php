@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use Carbon\Carbon;
 use App\Models\Booking;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
@@ -18,9 +19,9 @@ class BookingApproved extends Notification implements ShouldQueue
     private $booking;
 
     /**
-     * Create a new notification instance.
+     * BookingApproved constructor.
      *
-     * @return void
+     * @param Booking $booking
      */
     public function __construct(Booking $booking)
     {
@@ -46,11 +47,20 @@ class BookingApproved extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $data = $this->toArray($notifiable);
+        $from = $data['routes']['from'];
+        $to = $data['routes']['to'];
+
         return (new MailMessage)
-            ->markdown('emails.booking-approved')
+            ->markdown('emails.booking-approved', [
+                'trip_id' =>$data['trip']['trip_id'],
+                'date' => Carbon::createFromTimestampUTC($data['trip']['start_at']),
+                'from' => $from,
+                'to' => $to,
+            ])
             ->subject(__('Notifications/BookingApproved.mail_subject', [
-                'from' => $this->toArray($notifiable)['routes']['from'],
-                'to' => $this->toArray($notifiable)['routes']['to'],
+                'from' => $from,
+                'to' => $to,
             ]));
     }
 
