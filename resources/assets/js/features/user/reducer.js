@@ -40,6 +40,51 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch(action.type) {
+        case actions.SET_SESSION_TOKEN:
+            return {
+                ...state,
+                session: {
+                    ...state.session,
+                    token: action.data,
+                },
+            };
+        case actions.UNSET_SESSION_TOKEN:
+            return {
+                ...state,
+                session: {
+                    ...state.session,
+                    token: '',
+                },
+            };
+        case actions.SET_AUTH_SESSION:
+            return {
+                ...state,
+                session: {
+                    ...action.data.session,
+                    isAuthorized: true,
+                },
+                profile: {
+                    first_name: action.data.user.first_name,
+                    last_name: action.data.user.last_name,
+                    avatar: action.data.user.avatar,
+                },
+            };
+        case actions.UNSET_AUTH_SESSION:
+            return {
+                ...state,
+                session: {
+                    isAuthorized: false,
+                    token: '',
+                    exp: 0,
+                    permissions: 0,
+                },
+                profile: {
+                    first_name: '',
+                    last_name: '',
+                    avatar: null,
+                },
+            };
+
         case actions.USER_REGISTER_SUCCESS:
             return {
                 ...state,
@@ -54,15 +99,6 @@ export default function (state = initialState, action) {
                     ...state.login,
                     success: true,
                     httpStatus: 200,
-                },
-                session: {
-                    ...action.data.session,
-                    isAuthorized: true,
-                },
-                profile: {
-                    first_name: action.data.user.first_name,
-                    last_name: action.data.user.last_name,
-                    avatar: action.data.user.avatar,
                 },
             };
         case actions.LOGIN_VERIFY_FAILED:
@@ -81,7 +117,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 login: {
-                    ...state.login,
                     success: false,
                     errors: action.response.data,
                     httpStatus: action.response.status,
@@ -92,21 +127,9 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 login: {
-                    ...state.login,
                     success: false,
                     errors: {},
                     httpStatus: 200,
-                },
-                session: {
-                    isAuthorized: false,
-                    token: '',
-                    exp: 0,
-                    permissions: 0,
-                },
-                profile: {
-                    first_name: '',
-                    last_name: '',
-                    avatar: null,
                 },
             };
 

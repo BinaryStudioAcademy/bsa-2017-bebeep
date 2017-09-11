@@ -1,17 +1,34 @@
 import * as actions from './actionTypes';
 
+import AuthService from 'app/services/AuthService';
 import { UserValidator } from 'app/services/UserService';
 import { simpleRequest, securedRequest } from 'app/services/RequestService';
-import AuthService from 'app/services/AuthService';
 
+
+export const setAuthSession = data => ({
+    type: actions.SET_AUTH_SESSION,
+    data
+});
+
+export const unsetAuthSession = () => ({
+    type: actions.UNSET_AUTH_SESSION,
+});
+
+export const setSessionToken = data => ({
+    type: actions.SET_SESSION_TOKEN,
+    data
+});
+
+export const unsetSessionToken = () => ({
+    type: actions.UNSET_SESSION_TOKEN,
+});
 
 export const registerSuccess = () => ({
     type: actions.USER_REGISTER_SUCCESS,
 });
 
-export const loginSuccess = data => ({
+export const loginSuccess = () => ({
     type: actions.LOGIN_SUCCESS,
-    data
 });
 
 export const loginFormFailed = data => ({
@@ -74,6 +91,14 @@ function processFailedLoginResponse(response) {
     }
 }
 
+export const doRegister = (data) => dispatch => {
+    return simpleRequest.post('/api/user/register', data)
+        .then(
+            response => Promise.resolve(response.data),
+            error => Promise.reject(error.response.data)
+        );
+};
+
 export const doLogin = (credentials) => dispatch => {
     const emailValid = UserValidator.email(credentials.email);
     const passwordValid = UserValidator.password(credentials.password);
@@ -92,22 +117,15 @@ export const doLogin = (credentials) => dispatch => {
     })
         .then(response => {
             AuthService.initSession(response.data.token);
-            dispatch(loginSuccess(AuthService.getSessionData()));
         })
         .catch(error => {
-            if (error.response) {
-                AuthService.destroySession();
-                dispatch(processFailedLoginResponse(error.response))
-            } else {
-                console.error(error);
-            }
+            dispatch(processFailedLoginResponse(error.response))
         });
 
 };
 
-export const logoutSuccess = response => ({
+export const logoutSuccess = () => ({
     type: actions.LOGOUT_SUCCESS,
-    response
 });
 
 export const logoutFailed = response => ({
@@ -119,17 +137,14 @@ export const doLogout = (data) => {
     const token = AuthService.getSessionToken();
 
     return dispatch => {
-        securedRequest.post('/api/user/logout', {
-            token: token
-        })
+        securedRequest.post('/api/user/logout', { token })
             .then(response => {
                 AuthService.destroySession();
-                dispatch(logoutSuccess(response));
             })
             .catch(error => {
                 dispatch(logoutFailed(error.response));
             });
-    }
+    };
 };
 
 export const setGivenReviews = (payload) => {
