@@ -214,6 +214,8 @@ class CreateTripContainer extends React.Component {
                         waypoints={convertWaypointsToGoogleWaypoints(waypoints)}
                         from={getCoordinatesFromPlace(startPoint.place)}
                         to={getCoordinatesFromPlace(endPoint.place)}
+                        fromData={ startPoint.place || {} }
+                        toData={ endPoint.place || {} }
                         endTime={this.setTripEndTime}
                         updateWaypointsDurations={this.updateWaypointsDurations}
                     />

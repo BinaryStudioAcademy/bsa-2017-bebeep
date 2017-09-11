@@ -43,6 +43,8 @@ class EditTripContainer extends React.Component {
             },
             tripEndTime: 0,
             waypointsDurations: [],
+            fromData: {},
+            toData: {},
         };
 
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
@@ -72,6 +74,8 @@ class EditTripContainer extends React.Component {
                     endPoint: {
                         address: routes[routes.length - 1].to.formatted_address
                     },
+                    fromData: routes[0].from,
+                    toData: routes[routes.length - 1].to
                 });
 
                 const { startPoint, endPoint, trip } = this.state;
@@ -199,7 +203,7 @@ class EditTripContainer extends React.Component {
 
     render() {
         const { translate, id, waypoints, onWaypointAdd, onWaypointDelete } = this.props,
-            { trip, errors, startPoint, endPoint, notFoundTrip } = this.state;
+            { trip, errors, startPoint, endPoint, notFoundTrip, fromData, toData } = this.state;
 
         const placesCssClasses = {
             root: 'form-group',
@@ -258,6 +262,8 @@ class EditTripContainer extends React.Component {
                         waypoints={convertWaypointsToGoogleWaypoints(waypoints)}
                         from={getCoordinatesFromPlace(startPoint.place)}
                         to={getCoordinatesFromPlace(endPoint.place)}
+                        fromData={fromData}
+                        toData={toData}
                         endTime={this.setTripEndTime}
                         updateWaypointsDurations={this.updateWaypointsDurations}
                     />
