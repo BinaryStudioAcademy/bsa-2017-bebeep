@@ -121,5 +121,10 @@
       margin-left: 30px;
       border: none;
     }
+
+    &-input-start,
+    &-input-end {
+      margin-top: -15px;
+    }
   }
 }
