@@ -20,10 +20,10 @@ class BookingApproved extends Notification implements ShouldQueue
     private $booking;
     private $monthRu = [1 => 'Января', 2 => 'Февраля', 3 => 'Марта', 4 => 'Апреля',
         5 => 'Мая', 6 => 'Июня', 7 => 'Июля', 8 => 'Августа',
-        9 => 'Сентября', 10 => 'Октября', 11 => 'Ноября', 12 => 'Декабря'];
+        9 => 'Сентября', 10 => 'Октября', 11 => 'Ноября', 12 => 'Декабря', ];
     private $monthUa = [1 => 'Січня', 2 => 'Лютого', 3 => 'Березня', 4 => 'Квітня',
         5 => 'Травня', 6 => 'Червня', 7 => 'Липня', 8 => 'Серпня',
-        9 => 'Вересня', 10 => 'Жовтня', 11 => 'Листопада', 12 => 'Грудня'];
+        9 => 'Вересня', 10 => 'Жовтня', 11 => 'Листопада', 12 => 'Грудня', ];
 
     /**
      * BookingApproved constructor.
@@ -102,7 +102,7 @@ class BookingApproved extends Notification implements ShouldQueue
             case 'en': {
                 $date = Carbon::createFromTimestampUTC($data['trip']['start_at'])->format('jS F Y');
                 $time = Carbon::createFromTimestampUTC($data['trip']['start_at'])->format('g:ia');
-                return $date. " at " .$time;
+                return $date.' at '.$time;
             }
                 break;
         }
