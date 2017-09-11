@@ -10,6 +10,7 @@ use App\Services\Requests\CreateSubscriptionsRequest;
 use App\Repositories\Contracts\SubscriptionRepository;
 use App\Criteria\Subscriptions\SubscriptionTripCriteria;
 use App\Services\Helpers\Subscriptions\FilterCollection;
+use App\Exceptions\Subscriptions\SubscriptionEmailExistsException;
 
 class SubscriptionsService implements Contracts\SubscriptionsService
 {
@@ -59,12 +60,20 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     }
 
     /**
-     * @param CreateSubscriptionsRequest $request
+     * This method create subscription
      *
+     * @param CreateSubscriptionsRequest $request
      * @return Subscription
+     * @throws SubscriptionEmailExistsException
      */
     public function create(CreateSubscriptionsRequest $request)
     {
+        $isEmailExists = $this->subscriptionRepository->isEmailExists($request->getEmail());
+
+        if($isEmailExists) {
+            throw new SubscriptionEmailExistsException("This email exists!");
+        }
+
         $subscriptionAttributes = [
             'start_at' => $request->getStartAt(),
             'from' => $request->getFrom(),

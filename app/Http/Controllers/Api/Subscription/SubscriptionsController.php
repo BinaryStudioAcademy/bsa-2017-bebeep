@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Subscription;
 use App\Http\Controllers\Controller;
 use App\Services\SubscriptionsService;
 use App\Http\Requests\CreateSubscriptionRequest;
+use App\Exceptions\Subscriptions\SubscriptionEmailExistsException;
 
 class SubscriptionsController extends Controller
 {
@@ -30,8 +31,11 @@ class SubscriptionsController extends Controller
      */
     public function store(CreateSubscriptionRequest $request)
     {
-        $subscription = $this->subscriptionService->create($request);
-
-        return response()->json($subscription);
+        try {
+            $subscription = $this->subscriptionService->create($request);
+            return response()->json($subscription);
+        } catch (SubscriptionEmailExistsException $e) {
+            return response()->json($e->getMessage(), 403);
+        }
     }
 }

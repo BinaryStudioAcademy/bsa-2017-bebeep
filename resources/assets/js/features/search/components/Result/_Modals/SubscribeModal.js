@@ -222,6 +222,10 @@ class SubscribeModal extends React.Component {
                 if (response.status === 200) {
                     this.setState({requestSendSuccess: true});
                 }
+            }).catch((error) => {
+                if (error.response.status === 403) {
+                    confirm("Confirm email");
+                }
             });
     }
 
