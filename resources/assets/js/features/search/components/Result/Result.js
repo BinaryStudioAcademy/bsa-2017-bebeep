@@ -156,7 +156,7 @@ class Result extends React.Component {
                             <Filter
                                 priceBounds={meta.priceRange}
                             />
-                            <div className="col-md-4 offset-md-2">
+                            <div className="col-md-4 offset-md-2 mb-3">
                                 <button role="button" className="btn search-block__btn search-result__btn-subscribe" onClick={this.onClickSubscribe}>
                                     {translate('subscription.subscribe_btn')}
                                 </button>
