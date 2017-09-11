@@ -380,7 +380,7 @@ class TripsService
 
         $routesTime = $this->getRoutesTimeForReverseTrip(
             $reverseTrip->start_at->timestamp,
-            $request->getRoutesTime()
+            array_reverse($request->getRoutesTime())
         );
 
         // TODO :: Need to change this code to work with
