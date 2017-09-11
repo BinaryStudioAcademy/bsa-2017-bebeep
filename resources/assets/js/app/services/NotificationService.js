@@ -44,7 +44,8 @@ export const getMessage = (notification) => {
                     'start_at': DateTimeHelper.dateFormat(notification.data.trip.start_at, {
                         onlyDate: true,
                         dateFormat: 'MM.DD.YYYY'
-                    }).date})
+                    }).date}),
+                link: `/trip/${notification.data.trip.trip_id}`
             };
         case NOTIFICATION_BOOKING_CANCELED:
             return {
@@ -63,7 +64,8 @@ export const getMessage = (notification) => {
                     'start_at': DateTimeHelper.dateFormat(notification.data.trip.start_at, {
                         onlyDate: true,
                         dateFormat: 'MM.DD.YYYY'
-                    }).date})
+                    }).date}),
+                link: `/trip/${notification.data.trip.trip_id}`
             };
         case NOTIFICATION_BOOKING_DECLINED:
             return {
@@ -82,7 +84,8 @@ export const getMessage = (notification) => {
                     'start_at': DateTimeHelper.dateFormat(notification.data.trip.start_at, {
                         onlyDate: true,
                         dateFormat: 'MM.DD.YYYY'
-                    }).date})
+                    }).date}),
+                link: `/bookings`
             };
         case NOTIFICATION_BOOKING_CREATED:
             return {
@@ -106,7 +109,8 @@ export const getMessage = (notification) => {
                         }).date
                     })}</div>), (<a key="2" className="btn" href={`/trips/?booking_trip=${notification.data.trip.trip_id}`}>
                     {translate('notifications.messages.detail')}
-                </a>)]
+                </a>)],
+                link: `/trips/?booking_trip=${notification.data.trip.trip_id}`
             };
         case NOTIFICATION_REVIEW_ON_TRIP_CREATED:
             return {
@@ -122,7 +126,8 @@ export const getMessage = (notification) => {
                     last_name: notification.data['review']['user']['last_name'],
                     from: notification.data['trip']['from'],
                     to: notification.data['trip']['to'],
-                })
+                }),
+                link: '/dashboard/profile/reviews/received'
             };
         default:
             return {

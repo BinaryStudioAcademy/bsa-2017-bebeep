@@ -4,8 +4,8 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
 import BroadcastService from 'app/services/BroadcastService';
-import {getMessage} from 'app/services/NotificationService';
-import {addNotification} from 'features/notifications/actions';
+import {getMessage, markAsRead} from 'app/services/NotificationService';
+import {addNotification, markAsReadNotification} from 'features/notifications/actions';
 import Push from 'push.js';
 import {browserHistory} from 'react-router';
 import { NotificationStack } from 'react-notification';
@@ -48,15 +48,22 @@ class Notifications extends React.Component {
     }
 
     showNotification(notificationData) {
-        const messageData = getMessage(notificationData),
+        const {markAsReadNotification} = this.props,
+            messageData = getMessage(notificationData),
             notification = {
                 key: notificationData.id,
+                type: notificationData.type,
                 message: messageData.title,
                 title: 'BeBeep',
                 timeout: 5000,
-                onClick: () => {
-                    browserHistory.push('/dashboard/notifications')
-                },
+                onClick: ((id, link) => () => {
+                    if (link) {
+                        markAsRead(id).then(() => markAsReadNotification(id));
+                        browserHistory.push(link);
+                    } else {
+                        browserHistory.push('/dashboard/notifications')
+                    }
+                })(notificationData.id, messageData.link),
             };
 
         Push.create(notification.title, {
@@ -68,34 +75,38 @@ class Notifications extends React.Component {
                 this.close();
             }
         }).catch(() => {
-            this.setState({
-                notifications: [
-                    {
-                        key: notification.key,
-                        message: notification.message,
-                        dismissAfter: notification.timeout,
-                        className: 'notification-bar--' + messageData.type,
-                        barStyle: {
-                            left: 'auto',
-                            background: null
-                        },
-                        activeBarStyle: {
-                            left: 'auto'
-                        },
-                        actionStyle: {
-                            padding: 0,
-                            margin: 0
-                        },
-                        action: " ",
-                        onClick: (data, deactivate) => {
-                            notification.onClick();
-                            this.hideNotification(data.key);
-                            deactivate();
-                        }
+           this.alternativeNotification(notification);
+        });
+    }
+
+    alternativeNotification(notification) {
+        this.setState({
+            notifications: [
+                {
+                    key: notification.key,
+                    message: notification.message,
+                    dismissAfter: notification.timeout,
+                    className: 'notification-bar--' + notification.type,
+                    barStyle: {
+                        left: 'auto',
+                        background: null
                     },
-                    ...this.state.notifications
-                ]
-            });
+                    activeBarStyle: {
+                        left: 'auto'
+                    },
+                    actionStyle: {
+                        padding: 0,
+                        margin: 0
+                    },
+                    action: " ",
+                    onClick: (data, deactivate) => {
+                        notification.onClick();
+                        this.hideNotification(data.key);
+                        deactivate();
+                    }
+                },
+                ...this.state.notifications
+            ]
         });
     }
 
@@ -132,5 +143,5 @@ export default connect(
     state => ({
         translate: getTranslate(state.locale)
     }),
-    dispatch => bindActionCreators({addNotification}, dispatch)
+    dispatch => bindActionCreators({addNotification, markAsReadNotification}, dispatch)
 )(Notifications);
