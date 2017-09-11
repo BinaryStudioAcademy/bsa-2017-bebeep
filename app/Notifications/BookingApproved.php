@@ -102,6 +102,7 @@ class BookingApproved extends Notification implements ShouldQueue
             case 'en': {
                 $date = Carbon::createFromTimestampUTC($data['trip']['start_at'])->format('jS F Y');
                 $time = Carbon::createFromTimestampUTC($data['trip']['start_at'])->format('g:ia');
+                
                 return $date.' at '.$time;
             }
                 break;
