@@ -1,10 +1,14 @@
 import React from 'react';
-import moment from 'moment';
+import SeatsDropDown from 'features/search/components/Result/Dropdowns/SeatsDropDown';
+import AnimalsDropDown from 'features/search/components/Result/Dropdowns/AnimalsDropDown';
+import LuggageDropDown from 'features/search/components/Result/Dropdowns/LuggageDropDown';
+import RatingDropDown from 'features/search/components/Result/Dropdowns/RatingDropDown';
+import TransferDropDown from 'features/search/components/Result/Dropdowns/TransferDropDown';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router';
 import { getTranslate } from 'react-localize-redux';
-import Slider, { Range } from 'rc-slider';
+import { Range } from 'rc-slider';
 
 import { setUrl, setFilter, getFilter} from 'features/search/services/SearchService';
 
@@ -20,7 +24,8 @@ class Filter extends React.Component {
             animals: null,
             seats: null,
             luggage: null,
-            rating: null
+            rating: null,
+            transfer: null
         };
         this.timeChange = this.timeChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
@@ -28,6 +33,7 @@ class Filter extends React.Component {
         this.luggageChange = this.luggageChange.bind(this);
         this.seatsChange = this.seatsChange.bind(this);
         this.ratingChange = this.ratingChange.bind(this);
+        // this.transferChange = this.transferChange.bind(this);
     }
 
     componentWillMount() {
@@ -47,7 +53,8 @@ class Filter extends React.Component {
             animals: null,
             luggage: null,
             seats: null,
-            rating: null
+            rating: null,
+            transfer: null
         }, filter));
     }
 
@@ -75,28 +82,33 @@ class Filter extends React.Component {
         setUrl(setFilter({rating: e.target.value}));
     }
 
+    transferChange(e) {
+        setUrl(setFilter({transfer: e.target.value}));
+    }
+
     render() {
-        const { time, price } = this.state;
+        const { time, price, animals, seats, luggage, rating, transfer } = this.state;
+
         const { priceBounds, translate } = this.props;
 
         return (
             <div className="filter filter-centered">
                 <div className="filter__prop">
-                        <div className="filter__prop-name">{translate('search_result.filter.time-text')}</div>
-                        <div className="filter__prop-control">
-                            <div className="filter__prop-sign">
-                                {translate('search_result.filter.time-value', {start: time[0], end: time[1]})}
-                            </div>
-                            <Range
-                                min={0}
-                                max={24}
-                                allowCross={false}
-                                value={time}
-                                onChange={(time) => this.setState({time})}
-                                onAfterChange={this.timeChange}
-                                pushable
-                            />
+                    <div className="filter__prop-name">{translate('search_result.filter.time-text')}</div>
+                    <div className="filter__prop-control">
+                        <div className="filter__prop-sign">
+                            {translate('search_result.filter.time-value', {start: time[0], end: time[1]})}
                         </div>
+                        <Range
+                            min={0}
+                            max={24}
+                            allowCross={false}
+                            value={time}
+                            onChange={(time) => this.setState({time})}
+                            onAfterChange={this.timeChange}
+                            pushable
+                        />
+                    </div>
                 </div>
                 <div className="filter__prop">
                     <div className="filter__prop-name">{translate('search_result.filter.price')}</div>
@@ -117,69 +129,27 @@ class Filter extends React.Component {
                         />
                     </div>
                 </div>
-                <div className="filter__prop">
-                    <div className="filter__prop-name">{translate('search_result.additional_conditions')}</div>
+                <AnimalsDropDown
+                    value={animals}
+                    onChange={this.isAnimalsAllowedChange}
+                />
+                <LuggageDropDown
+                    value={luggage}
+                    onChange={this.luggageChange}
+                />
+                <SeatsDropDown
+                    value={seats}
+                    onChange={this.seatsChange}
+                />
+                <RatingDropDown
+                    value={rating}
+                    onChange={this.ratingChange}
+                />
+                <TransferDropDown
+                    value={transfer}
+                    onChange={this.transferChange}
+                />
 
-                    <div className="filter__prop-control">
-                        <div className="filter__prop-sign">
-                            {translate('search_result.animals')}
-                        </div>
-
-                        <select name="is_animals_allowed" value={this.state.animals || ''} className="form-control" id="is_animals_allowed" onChange={this.isAnimalsAllowedChange}>
-                            <option value="">{translate('search_result.not_important')}</option>
-                            <option value="1">{translate('search_result.allowed')}</option>
-                            <option value="0">{translate('search_result.forbidden')}</option>
-                        </select>
-                    </div>
-
-                    <br/>
-
-                    <div className="filter__prop-control">
-                        <div className="filter__prop-sign">
-                            {translate('search_result.luggage_size')}
-                        </div>
-
-                        <select name="luggage" value={this.state.luggage || ''} className="form-control" id="luggage" onChange={this.luggageChange}>
-                            <option value="">{translate('search_result.not_important')}</option>
-                            <option value="0">{translate('search_result.luggage_size_0')}</option>
-                            <option value="1">{translate('search_result.luggage_size_1')}</option>
-                            <option value="2">{translate('search_result.luggage_size_2')}</option>
-                        </select>
-                    </div>
-
-                    <br/>
-
-                    <div className="filter__prop-control">
-                        <div className="filter__prop-sign">
-                            {translate('search_result.free_seats')}
-                        </div>
-
-                        <select name="seats" value={this.state.seats || ''} className="form-control" id="seats" onChange={this.seatsChange}>
-                            <option value="">{translate('search_result.not_important')}</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">>=4</option>
-                        </select>
-                    </div>
-
-                    <br/>
-
-                    <div className="filter__prop-control">
-                        <div className="filter__prop-sign">
-                            {translate('search_result.driver_rating')}
-                        </div>
-
-                        <select name="rating" value={this.state.rating || ''} className="form-control" id="rating" onChange={this.ratingChange}>
-                            <option value="">{translate('search_result.not_important')}</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                </div>
             </div>
         );
     }

@@ -55,5 +55,6 @@ export const getRatingStats = (marks) => {
 };
 
 export const createReviewRules = () => ({
-    review: Validator.required(LangService.translate('validate.please_add_a_review')),
+    rating: Validator.greaterThanOrEqual(0, LangService.translate('validate.rating_must_be_greater_than_zero')),
+    //review: Validator.required(LangService.translate('validate.please_add_a_review')),
 });

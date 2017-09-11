@@ -34,6 +34,7 @@ class TripRoutesPassengers extends React.Component {
 
         return routes.map((route, i) => {
             const showDriver = this.isStartPoint(i),
+                showStartPoint = this.isStartPoint(i),
                 showWayPoint = this.isWayPoint(i),
                 showEndPoint = this.isEndPoint(i, routes.length);
 
@@ -43,6 +44,7 @@ class TripRoutesPassengers extends React.Component {
                     route={route}
                     driver={driver}
                     showDriver={showDriver}
+                    showStartPoint={showStartPoint}
                     showWayPoint={showWayPoint}
                     showEndPoint={showEndPoint}
                 />

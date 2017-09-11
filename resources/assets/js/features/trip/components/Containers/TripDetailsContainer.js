@@ -122,7 +122,7 @@ class TripDetailsContainer extends React.Component {
                         waypoints={ routes }
                     />
                 </div>
-                <div className="col-md-8">
+                <div className="col-lg-8">
                     <div className="block-border p-3">
                         <TripMainInfo
                             startPoint={ startPoint.address }
@@ -130,11 +130,11 @@ class TripDetailsContainer extends React.Component {
                             startAt={ trip.start_at_format }
                         />
 
-                        <div className="row mt-4">
-                            <div className="col-md-6">
+                        <div className="row">
+                            <div className="col-md-6 mt-4">
                                 <TripDriver driver={ driver } />
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-md-6 mt-4">
                                 <TripVehicle vehicle={ vehicle } />
                             </div>
                         </div>
@@ -147,7 +147,7 @@ class TripDetailsContainer extends React.Component {
                     />
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-lg-4">
                     <div className="block-border text-center">
 
                         <TripBookingMainInfo
