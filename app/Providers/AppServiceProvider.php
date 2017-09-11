@@ -56,9 +56,11 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->extendValidator();
 
-        \DB::listen(function ($query) {
-            \Log::info($query->sql.' — '.$query->time);
-        });
+        if (config('app.log_queries')) {
+            \DB::listen(function ($query) {
+                \Log::info($query->sql.' — '.$query->time);
+            });
+        }
     }
 
     /**

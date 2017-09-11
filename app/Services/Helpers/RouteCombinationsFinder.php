@@ -13,6 +13,8 @@ class RouteCombinationsFinder
     private $maxTransfers = 1;
     private $result;
 
+    const MAX_DISTANCE_BETWEEN_POINTS = 1;
+
     /**
      * RouteCombinationsFinder constructor.
      * @param Collection $startRoutes
@@ -57,14 +59,14 @@ class RouteCombinationsFinder
             return true;
         }
 
-        if ($routeContainer->endPoint()->minDistanceToAny($this->endRoutesPoints) <= 1) {
+        if ($routeContainer->endPoint()->minDistanceToAny($this->endRoutesPoints) <= self::MAX_DISTANCE_BETWEEN_POINTS) {
             $this->result->push($routeGroup);
 
             return true;
         }
 
         $possibleNextRoutesContainers = $this->innerRoutes->filter(function(RouteContainer $innerRouteContainer) use ($routeContainer) {
-            return $innerRouteContainer->startPoint()->minDistanceToAny(collect([$routeContainer->endPoint()])) <= 1;
+            return $innerRouteContainer->startPoint()->minDistanceToAny(collect([$routeContainer->endPoint()])) <= self::MAX_DISTANCE_BETWEEN_POINTS;
         });
 
         if ($possibleNextRoutesContainers->count() <= 0) {

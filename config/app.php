@@ -39,6 +39,7 @@ return [
     */
 
     'debug' => env('APP_DEBUG', false),
+    'log_queries' => env('LOG_QUERIES', false),
 
     /*
     |--------------------------------------------------------------------------

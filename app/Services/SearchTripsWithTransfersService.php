@@ -75,7 +75,7 @@ class SearchTripsWithTransfersService
                     $distance
                 );
             });
-        })->whereIn('trip_id', $possibleTripsIds)->whereNotIn('id', $possibleStartRoutes->pluck('id')->toArray())->get();
+        })->whereIn('trip_id', $possibleTripsIds)->whereNotIn('id', $possibleStartRoutes->pluck('id')->toArray())->with('trip')->get();
 
         $combinator = new RouteCombinationsFinder($possibleStartRoutes, $possibleInnerRoutes, $possibleEndRoutes);
         $routes = $combinator->find($maxTransfers);
