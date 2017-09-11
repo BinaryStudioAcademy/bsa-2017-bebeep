@@ -211,6 +211,8 @@ class EditTripContainer extends React.Component {
                         waypoints={convertWaypointsToGoogleWaypoints(this.props.waypoints)}
                         from={getCoordinatesFromPlace(this.state.startPoint.place)}
                         to={getCoordinatesFromPlace(this.state.endPoint.place)}
+                        fromData={this.state.endPoint}
+                        toData={this.state.endPoint}
                         endTime={this.setEndTime.bind(this)}
                         show={true}
                     />
