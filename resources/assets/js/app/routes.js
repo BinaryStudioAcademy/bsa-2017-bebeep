@@ -34,13 +34,15 @@ import { RequireUser, RequireGuest } from './components/Auth';
 import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from './services/UserService';
 
 import { getCountUnread } from './services/NotificationService';
-import LangeService from './services/LangService';
-
 import { setCountUnreadNotifications } from 'features/notifications/actions';
+
+import LangeService from './services/LangService';
+import DataStorage from './helpers/DataStorage';
 
 import Elements from '../features/elements/Elements';
 
 export default (store) => {
+    DataStorage.init();
 
     AuthService.init(store);
     LangeService.init(store);

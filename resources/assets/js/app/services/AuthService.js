@@ -1,6 +1,8 @@
 import jwtDecode from 'jwt-decode';
 import _ from 'lodash';
 
+import DataStorage from '../helpers/DataStorage';
+
 import { securedRequest } from './RequestService';
 import {
     setAuthSession,
@@ -12,8 +14,7 @@ import {
 
 const AuthService = (() => {
 
-    const storage = localStorage,
-        tokenKeyName = 'jwt',
+    const tokenKeyName = 'jwt',
         userProps = ['first_name', 'last_name', 'avatar',];
 
     let _this = null,
@@ -32,7 +33,7 @@ const AuthService = (() => {
         },
 
         setSessionTokenToState() {
-            const token = storage.getItem(tokenKeyName);
+            const token = DataStorage.getData(tokenKeyName);
 
             if (! _this.isSessionTokenValid(token)) {
                 _this.removeSessionTokenFromStorage();
@@ -45,13 +46,13 @@ const AuthService = (() => {
         },
 
         setSessionTokenToStorage(token) {
-            storage.setItem(tokenKeyName, token);
+            DataStorage.setData(tokenKeyName, token);
 
             return _this;
         },
 
         removeSessionTokenFromStorage() {
-            storage.removeItem(tokenKeyName);
+            DataStorage.removeData(tokenKeyName);
 
             return _this;
         },
