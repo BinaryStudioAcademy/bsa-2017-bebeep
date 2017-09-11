@@ -234,7 +234,6 @@ class SubscribeModal extends React.Component {
 
         return (
             <span>
-
                 <Modal className="subscribe-modal" size="lg" isOpen={isOpen} toggle={onClosed}>
                     <ModalHeader className="subscribe-modal__header" toggle={onClosed}>
                         <i className="subscribe-modal-icon fa fa-rss" aria-hidden="true" title={translate('subscription.info')}/>
