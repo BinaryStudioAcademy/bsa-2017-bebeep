@@ -40,11 +40,10 @@ class EditTripContainer extends React.Component {
             endPoint: {
                 address: '',
                 place: null,
-            }
+            },
+            tripEndTime: 0,
+            waypointsDurations: [],
         };
-
-        this.tripEndTime = 0;
-        this.waypointsDurations = [];
 
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
         this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
@@ -137,11 +136,15 @@ class EditTripContainer extends React.Component {
     }
 
     setTripEndTime(time) {
-        this.tripEndTime = time;
+        this.setState({
+            tripEndTime: time,
+        });
     }
 
     updateWaypointsDurations(waypointsDurations) {
-        this.waypointsDurations = waypointsDurations;
+        this.setState({
+            waypointsDurations: waypointsDurations,
+        });
     }
 
     setErrors(errors) {
@@ -153,13 +156,13 @@ class EditTripContainer extends React.Component {
         e.preventDefault();
 
         const { id, getPlacesFromWaypoints } = this.props,
-            { startPoint, endPoint } = this.state;
+            { startPoint, endPoint, tripEndTime, waypointsDurations } = this.state;
 
         const form = e.target,
-            tripTime = getStartAndEndTime(form.start_at.value, this.tripEndTime),
+            tripTime = getStartAndEndTime(form.start_at.value, tripEndTime),
             routesStartAndEndTime = getRoutesStartAndEndTime(
                 tripTime.start_at,
-                this.waypointsDurations
+                waypointsDurations
             );
 
         const tripData = {
