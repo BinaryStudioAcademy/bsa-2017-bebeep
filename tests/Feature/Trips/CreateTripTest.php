@@ -59,9 +59,6 @@ class CreateTripTest extends BaseTripTestCase
         $response = $this->jsonAsUser($user, ['waypoints' => 100]);
         $response->assertStatus(422)->assertJsonStructure(['waypoints' => []]);
 
-        $response = $this->jsonAsUser($user, ['waypoints' => [1, 2]]);
-        $response->assertStatus(422);
-
         $response = $this->jsonAsUser($user, ['routes' => null]);
         $response->assertStatus(422)->assertJsonStructure(['routes' => []]);
 
