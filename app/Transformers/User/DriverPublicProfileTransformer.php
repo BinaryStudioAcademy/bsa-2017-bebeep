@@ -31,7 +31,7 @@ class DriverPublicProfileTransformer extends TransformerAbstract
             'id' => $user->id,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
-            'birth_date' => $user->birth_date ? $user->birth_date->timestamp : null,
+            'birth_date' => $user->birth_date ? $user->birth_date->format('Y-m-d') : null,
             'about_me' => $user->about_me,
             'photo' => $user->getAvatarUrl(),
             'vehicle' => $user->vehicle,
