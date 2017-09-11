@@ -3,6 +3,12 @@ import {securedRequest} from './RequestService';
 import LangService from './LangService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper'
 
+export const NOTIFICATION_BOOKING_APPROVED = 'booking_approved';
+export const NOTIFICATION_BOOKING_CANCELED = 'booking_canceled';
+export const NOTIFICATION_BOOKING_DECLINED = 'booking_declined';
+export const NOTIFICATION_BOOKING_CREATED = 'booking_created';
+export const NOTIFICATION_REVIEW_ON_TRIP_CREATED = 'review_on_trip_created';
+
 export const getNotifications = () => {
     return securedRequest.get('/api/v1/notifications');
 };
@@ -21,7 +27,7 @@ export const getMessage = (notification) => {
     const translate = LangService.translate;
 
     switch (notification.type) {
-        case "booking_approved":
+        case NOTIFICATION_BOOKING_APPROVED:
             return {
                 type: 'success',
                 title: translate(
@@ -40,7 +46,7 @@ export const getMessage = (notification) => {
                         dateFormat: 'MM.DD.YYYY'
                     }).date})
             };
-        case "booking_canceled":
+        case NOTIFICATION_BOOKING_CANCELED:
             return {
                 type: 'danger',
                 title: translate(
@@ -59,7 +65,7 @@ export const getMessage = (notification) => {
                         dateFormat: 'MM.DD.YYYY'
                     }).date})
             };
-        case "booking_declined":
+        case NOTIFICATION_BOOKING_DECLINED:
             return {
                 type: 'danger',
                 title: translate(
@@ -78,7 +84,7 @@ export const getMessage = (notification) => {
                         dateFormat: 'MM.DD.YYYY'
                     }).date})
             };
-        case "booking_created":
+        case NOTIFICATION_BOOKING_CREATED:
             return {
                 type: 'warning',
                 title: translate(
@@ -102,7 +108,7 @@ export const getMessage = (notification) => {
                     {translate('notifications.messages.detail')}
                 </a>)]
             };
-        case "review_on_trip_created":
+        case NOTIFICATION_REVIEW_ON_TRIP_CREATED:
             return {
                 type: 'info',
                 title: translate(

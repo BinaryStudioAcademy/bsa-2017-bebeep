@@ -32,7 +32,7 @@ class Notifications extends React.Component {
     getNotifications(props) {
         const {addNotification, userId} = props;
 
-        if (userId > 0) {
+        if (userId) {
             BroadcastService.Echo.private('App.User.' + userId)
                 .notification((notification) => {
                     const data = Object.assign(notification, {

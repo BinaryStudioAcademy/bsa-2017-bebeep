@@ -50,7 +50,7 @@ export const getUserId = () => {
     if (isAuthorized()) {
         return getAuthUser(['id']).user.id;
     } else {
-        return -1;
+        return null;
     }
 };
 
