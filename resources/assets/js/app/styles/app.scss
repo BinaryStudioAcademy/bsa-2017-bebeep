@@ -54,7 +54,7 @@ strong {
 .page-header .h2,
 .page-header .h3,
 .page-header .h4 {
-    margin: 0 .5rem .5rem;
+    margin: 0 0 .5rem;
 }
 
 .main-container {
@@ -119,12 +119,12 @@ strong {
         }
 
         a {
-            color: #939393;
+            color: #7b7b7b;
             border-bottom: 1px solid transparent;
         }
         & > a {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 1rem;
+            font-weight: 600;
             letter-spacing: .025em;
         }
 
@@ -219,6 +219,10 @@ strong {
 
 .form-input_no-border {
     border: none;
+}
+
+.form-group > label {
+    padding-top: 5px;
 }
 
 .position-relative {

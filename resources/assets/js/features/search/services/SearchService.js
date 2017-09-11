@@ -88,6 +88,11 @@ export const getFilter = () => {
     } else {
         filter['rating'] = null;
     }
+    if (query["filter[transfer]"]) {
+        filter['transfer'] = query["filter[transfer]"];
+    } else {
+        filter['transfer'] = null;
+    }
     return filter;
 };
 
@@ -167,6 +172,7 @@ export const transformSubscriptionData = (toBeTransformed) => {
             luggage: toBeTransformed.luggage,
             seats: toBeTransformed.seats,
             rating: toBeTransformed.rating,
+            transfer: toBeTransformed.transfer,
             price: {
                 from: toBeTransformed.price[0],
                 to: toBeTransformed.price[1]
