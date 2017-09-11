@@ -166,21 +166,21 @@ class SearchTripRequest implements SearchTripRequestContract
 
     public function getIsAnimalsAllowed(): ?bool
     {
-        // TODO: Implement getIsAnimalsAllowed() method.
+        return true;
     }
 
     public function getLuggageSize(): ?int
     {
-        // TODO: Implement getLuggageSize() method.
+        return null;
     }
 
     public function getSeats(): ?int
     {
-        // TODO: Implement getSeats() method.
+        return null;
     }
 
     public function getRating(): ?int
     {
-        // TODO: Implement getRating() method.
+        return null;
     }
 }

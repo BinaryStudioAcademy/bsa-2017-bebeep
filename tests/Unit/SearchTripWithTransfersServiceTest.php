@@ -18,13 +18,12 @@ class SearchTripWithTransfersServiceTest extends TestCase
     const POINT_A = [50, 52];
     const POINT_B = [54, 56];
     const POINT_C = [58, 60];
+    const POINT_D = [60, 62];
 
     /**
-     * A basic test example.
-     *
-     * @return void
+     * @test
      */
-    public function testExample()
+    public function case_1()
     {
         $this->createTrip([self::POINT_A, self::POINT_B]);
         $this->createTrip([self::POINT_B, self::POINT_C]);
@@ -38,11 +37,68 @@ class SearchTripWithTransfersServiceTest extends TestCase
         $searchRequest->toLng = self::POINT_C[1];
 
         $possibleRoutes = $service->search($searchRequest);
-        dd($possibleRoutes);
 
-        $this->assertEquals(0, count($possibleRoutes));
+        $this->assertEquals(2, $possibleRoutes->count());
     }
 
+    /**
+     * @test
+     */
+    public function case_2()
+    {
+        $this->createTrips([self::POINT_A, self::POINT_B], 2);
+        $this->createTrips([self::POINT_B, self::POINT_C], 2);
+
+        $service = app()->make(SearchTripsWithTransfersService::class);
+        $searchRequest = new SearchTripRequest();
+        $searchRequest->fromLat = self::POINT_A[0];
+        $searchRequest->fromLng = self::POINT_A[1];
+        $searchRequest->toLat = self::POINT_C[0];
+        $searchRequest->toLng = self::POINT_C[1];
+
+        $possibleRoutes = $service->search($searchRequest);
+
+        $this->assertEquals(4, $possibleRoutes->count());
+    }
+
+    /**
+     * @test
+     */
+    public function case_3()
+    {
+        $this->createTrip([self::POINT_A, self::POINT_D]);
+        $this->createTrip([self::POINT_A, self::POINT_B]);
+        $this->createTrip([self::POINT_B, self::POINT_C]);
+        $this->createTrip([self::POINT_C, self::POINT_D]);
+
+        $service = app()->make(SearchTripsWithTransfersService::class);
+        $searchRequest = new SearchTripRequest();
+        $searchRequest->fromLat = self::POINT_A[0];
+        $searchRequest->fromLng = self::POINT_A[1];
+        $searchRequest->toLat = self::POINT_D[0];
+        $searchRequest->toLng = self::POINT_D[1];
+
+        $possibleRoutes = $service->search($searchRequest, 3);
+        $this->assertEquals(2, $possibleRoutes->count());
+
+        $possibleRoutes = $service->search($searchRequest, 1);
+        $this->assertEquals(1, $possibleRoutes->count());
+    }
+
+    /**
+     * @param $routes
+     * @param $count
+     */
+    private function createTrips($routes, $count) {
+        foreach (range(1, $count) as $item) {
+            $this->createTrip($routes);
+        }
+    }
+
+    /**
+     * @param $routes
+     * @return mixed
+     */
     private function createTrip($routes)
     {
         $driver = factory(User::class)->create([
@@ -65,6 +121,10 @@ class SearchTripWithTransfersServiceTest extends TestCase
         return $trip;
     }
 
+    /**
+     * @param $waypoints
+     * @return \Illuminate\Support\Collection
+     */
     private function getRoutesFromWaypoints($waypoints)
     {
         $tripWaypoints = collect([]);
