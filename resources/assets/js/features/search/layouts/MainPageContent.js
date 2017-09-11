@@ -40,10 +40,10 @@ export default localize(class MainPageContent extends React.Component {
                                 <div className="main-page__block-step-two">
                                     <span className="mb-2">{translate('main_page_content.step-two.main-text')}</span>
                                     <div className="row mt-4">
-                                        <div className="col-md-3">
+                                        <div className="col-md-2">
                                             <i className="fa fa-tasks main-page__block-step-ico" aria-hidden="true"></i>
                                         </div>
-                                        <div className="col-md-9 p-4">
+                                        <div className="col-md-10 pl-3">
                                             <div className="main-page__block-step-two-secondary-text">
                                                 {translate('main_page_content.step-two.secondary-text')}
                                             </div>

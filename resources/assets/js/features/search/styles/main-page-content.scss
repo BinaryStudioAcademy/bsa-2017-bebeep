@@ -14,7 +14,7 @@
 
   &-step {
     padding: 25px 20px;
-    background-color: rgba(247, 247, 247, 0.45);
+    background-color: rgba(247, 247, 247, 0.8);
     border: 1px solid rgba(212, 212, 212, 0.72);
     border-radius: 5px;
     max-height: 160px;
@@ -22,7 +22,7 @@
     color: rgba(66, 66, 66, 0.91);
 
     &-one, &-two, &-three {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 500;
 
       &-secondary-text {
@@ -37,7 +37,7 @@
     }
 
     &-ico {
-      font-size: 2.5rem;
+      font-size: 2.5rem !important;
       color: #6dcff6;
     }
 
