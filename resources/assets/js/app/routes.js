@@ -52,7 +52,6 @@ export default (store) => {
 
     return (
         <Route path="/" component={ App } onChange={() => {
-            console.log(AuthService.isAuthorized(), 2);
             if (! AuthService.isAuthorized()) {
                 return;
             }
