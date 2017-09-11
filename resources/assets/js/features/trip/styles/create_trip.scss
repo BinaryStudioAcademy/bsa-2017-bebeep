@@ -8,6 +8,9 @@
 }
 .trip-create-from {
     font-size: 14px;
+    .form-group {
+        margin-bottom: 0 !important;
+    }
 }
 .trip-create-from .card-footer {
     font-size: 13px;
