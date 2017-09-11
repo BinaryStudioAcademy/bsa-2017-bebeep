@@ -80,7 +80,7 @@ class ReviewBookingModal extends React.Component {
                     </div>
                     <div className="modal-body">
                         <form>
-                            <div className="form-group">
+                            <div className={"form-group " + (errors.rating ? 'has-danger' : '')}>
                                 <div className="row">
                                     <div className="col-sm-4 align-self-center">
                                         <strong>{ translate('bookings_list.rating') } {"(" + this.state.rating + ")"}</strong>
@@ -95,6 +95,7 @@ class ReviewBookingModal extends React.Component {
                                         />
                                     </div>
                                 </div>
+                                <div className="form-control-feedback">{ errors.rating }</div>
                             </div>
                             <div className={"form-group " + (errors.review ? 'has-danger' : '')}>
                                 <label htmlFor="message-text" className="form-control-label">

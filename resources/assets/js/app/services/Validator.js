@@ -44,6 +44,16 @@ export default class Validator
         }
     }
 
+    static greaterThanOrEqual(parameter, errorMessage) {
+        return (value) => {
+            if (validate.isEmpty(value)) {
+                return errorMessage;
+            }
+
+            return value <= parameter ? errorMessage : false;
+        }
+    }
+
     static coordinate(errorMessage) {
         return (value) => {
             const coord = Object.assign({lng: null, lat: null}, value);

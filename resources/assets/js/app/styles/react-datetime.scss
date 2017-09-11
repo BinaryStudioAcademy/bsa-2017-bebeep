@@ -4,21 +4,21 @@
 
 .rdt {
   position: relative;
+  font-size: .9rem;
 }
 .rdtPicker {
   display: none;
   position: absolute;
-  width: 250px;
-  padding: 5px;
-  margin-top: 1px;
+  width: 215px;
+  padding: 3px;
   z-index: 99999 !important;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,.1);
-  border: 1px solid #f9f9f9;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(109, 207, 246, 0.39);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  top: 32px;
+  top: 33px;
   left: -51px;
 }
 .rdtOpen .rdtPicker {
@@ -47,20 +47,23 @@
   cursor: pointer;
 }
 .rdtPicker td.rdtDay {
-  font-weight: 300;
+  font-weight: 400;
+}
+div.rtdDays thead {
+  border-bottom: 1px solid rgba(226, 225, 225, 0.22);
 }
 .rdtPicker td.rdtDay:hover,
 .rdtPicker td.rdtHour:hover,
 .rdtPicker td.rdtMinute:hover,
 .rdtPicker td.rdtSecond:hover,
 .rdtPicker .rdtTimeToggle:hover {
-  background: #eeeeee;
+  background: rgba(109, 207, 246, 0.3);
   border-radius: 5px;
   cursor: pointer;
 }
 .rdtPicker td.rdtOld,
 .rdtPicker td.rdtNew {
-  color: #999999;
+  color: rgba(179, 176, 176, 0.79);
 }
 .rdtPicker td.rdtToday {
   position: relative;
@@ -87,9 +90,11 @@
 }
 .rdtPicker td.rdtDisabled,
 .rdtPicker td.rdtDisabled:hover {
+  padding: 0;
   background: none;
-  color: #999999;
+  color: rgba(179, 176, 176, 0.79);
   cursor: default;
+  font-weight: 300;
 }
 
 .rdtPicker td span.rdtOld {
@@ -107,7 +112,8 @@
 .rdtPicker .dow {
   width: 14.2857%;
   border-bottom: none;
-  font-weight: 400;
+  font-weight: 500;
+  padding: 0;
 }
 .rdtPicker th.rdtSwitch {
   width: 100px;
