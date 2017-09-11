@@ -36,14 +36,13 @@ import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from './services/UserService';
 import { getCountUnread } from './services/NotificationService';
 import LangeService from './services/LangService';
 
-import { loginSuccess } from 'features/user/actions';
 import { setCountUnreadNotifications } from 'features/notifications/actions';
 
 import Elements from '../features/elements/Elements';
 
 export default (store) => {
 
-    AuthService.init({ store, loginSuccess });
+    AuthService.init(store);
     LangeService.init(store);
 
     LangeService.addTranslation(require('./lang/global.locale.json'));
@@ -51,10 +50,17 @@ export default (store) => {
 
     return (
         <Route path="/" component={ App } onChange={() => {
+            if (! AuthService.isAuthorized()) {
+                return;
+            }
             getCountUnread().then((response) => {
                 store.dispatch(setCountUnreadNotifications(response.data));
             }).catch((error) => {});
+
         }} onEnter={() => {
+            if (! AuthService.isAuthorized()) {
+                return;
+            }
             getCountUnread().then((response) => {
                 store.dispatch(setCountUnreadNotifications(response.data));
             }).catch((error) => {});
