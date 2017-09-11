@@ -6,6 +6,7 @@
   &-header {
     padding: 20px;
     &-text {
+      font-weight: 700;
       font-size: 1.7rem;
       color: #444444;
     }
@@ -13,7 +14,48 @@
 
   &-step {
     padding: 20px;
-    border: 1px solid #4a68ff;
+    border: 1px solid rgba(212, 212, 212, 0.28);
+    border-radius: 3px;
+
+    &-one, &-two, &-three {
+      font-size: 1.15rem;
+      font-weight: 500;
+
+      &-secondary-text {
+        font-size: 0.9rem;
+        color: #757474;
+      }
+
+      &-ico {
+        font-size: 2.5rem;
+        position: absolute;
+        top: -10px;
+        color: #6dcff6;
+        font-family: FontAwesome;
+      }
+    }
+
+    &-one {
+      &-secondary-text {
+        padding-top: 10px;
+      }
+      &-ico:after {
+        content: "\f041";
+      }
+    }
+
+    &-two {
+      &-ico:after {
+        content: "\f0ae";
+      }
+    }
+
+    &-three {
+      &-ico:after {
+        content: "\f05d";
+      }
+    }
+
   }
 
 }
