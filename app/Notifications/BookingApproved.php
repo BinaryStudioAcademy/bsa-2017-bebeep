@@ -4,11 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Booking;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Transformers\Notifications\BookingTransformer;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class BookingApproved extends Notification implements ShouldQueue
 {
