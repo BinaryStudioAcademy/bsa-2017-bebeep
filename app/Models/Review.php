@@ -23,7 +23,7 @@ class Review extends Model
      * @var array
      */
     protected $casts = [
-        'mark' => 'integer',
+        'mark' => 'double',
         'comment' => 'string',
     ];
 

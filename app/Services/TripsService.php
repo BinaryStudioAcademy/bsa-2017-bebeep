@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\User;
 use App\Models\Trip;
+use App\Events\TripCreated;
+use App\Events\TripUpdated;
 use App\Services\Result\SearchTrip;
 use App\Repositories\TripRepository;
 use App\Repositories\RouteRepository;
@@ -153,6 +155,12 @@ class TripsService
             $trip->routes()->create($route);
         }
 
+        if ($request->getIsInBothDirections()) {
+            $this->createReverseTrip($trip, $request);
+        }
+
+        event(new TripCreated($trip));
+
         return $trip;
     }
 
@@ -206,6 +214,8 @@ class TripsService
         foreach ($routes as $route) {
             $trip->routes()->create($route);
         }
+
+        event(new TripUpdated($trip));
 
         return $result;
     }
@@ -282,5 +292,31 @@ class TripsService
         $this->tripRepository->restore($trip);
 
         return $trip;
+    }
+
+    /**
+     * @param Trip $trip
+     * @param CreateTripRequest $request
+     */
+    public function createReverseTrip(Trip $trip, CreateTripRequest $request)
+    {
+        $originTripTravelTime = $trip->end_at->timestamp - $trip->start_at->timestamp;
+
+        $reverseTripAttributes = array_merge($trip->toArray(), [
+            'start_at' => $request->getReverseStartAt(),
+            'end_at' => $request->getReverseStartAt()->addSeconds($originTripTravelTime),
+        ]);
+
+        $reverseTrip = $this->tripRepository->save(new Trip($reverseTripAttributes));
+
+        $routes = self::getRoutesFromWaypoints(
+            $request->getTo(),
+            $request->getFrom(),
+            array_reverse($request->getWaypoints())
+        );
+
+        foreach ($routes as $route) {
+            $reverseTrip->routes()->create($route);
+        }
     }
 }

@@ -4,10 +4,19 @@
 
   &__header {
     font-size: .9rem;
-    background-color: #fff;
+    background-color: rgba(230, 229, 229, 0);
     margin-bottom: 10px;
     &-count {
       color: #636262;
+    }
+  }
+
+  &__btn {
+    &-subscribe {
+      margin-top: 20px;
+      padding: 15px 20px;
+      font-size: 0.8em;
+      background-color: #f68e56;
     }
   }
 
@@ -17,7 +26,7 @@
 
   &__item-container {
     position: relative;
-    min-height: 500px;
+    min-height: 600px;
   }
 
   &-datepicker {

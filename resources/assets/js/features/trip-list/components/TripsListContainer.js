@@ -23,7 +23,7 @@ class TripsListContainer extends React.Component {
                     />
                 );
             })
-            : <p>{translate('trip_list.trips_not_found')}</p>;
+            : <p className="pl-3">{translate('trip_list.trips_not_found')}</p>;
 
         return (
             <div className="row">
