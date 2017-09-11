@@ -24,9 +24,9 @@ export default localize(class MainPageContent extends React.Component {
                                     <span className="mb-2">{translate('main_page_content.step-one.main-text')}</span>
                                     <div className="row mt-4">
                                         <div className="col-md-2">
-                                            <div className="main-page__block-step-one-ico"></div>
+                                            <i className="fa fa-map-marker main-page__block-step-ico" aria-hidden="true"></i>
                                         </div>
-                                        <div className="col-md-10 pr-2">
+                                        <div className="col-md-10 pl-0">
                                             <div className="main-page__block-step-one-secondary-text">
                                                 {translate('main_page_content.step-one.secondary-text')}
                                             </div>
@@ -40,10 +40,10 @@ export default localize(class MainPageContent extends React.Component {
                                 <div className="main-page__block-step-two">
                                     <span className="mb-2">{translate('main_page_content.step-two.main-text')}</span>
                                     <div className="row mt-4">
-                                        <div className="col-md-2 pr-0">
-                                            <div className="main-page__block-step-two-ico"></div>
+                                        <div className="col-md-3">
+                                            <i className="fa fa-tasks main-page__block-step-ico" aria-hidden="true"></i>
                                         </div>
-                                        <div className="col-md-10 pl-0">
+                                        <div className="col-md-9 p-4">
                                             <div className="main-page__block-step-two-secondary-text">
                                                 {translate('main_page_content.step-two.secondary-text')}
                                             </div>
@@ -58,7 +58,7 @@ export default localize(class MainPageContent extends React.Component {
                                     <span className="mb-2">{translate('main_page_content.step-three.main-text')}</span>
                                     <div className="row mt-4">
                                         <div className="col-md-2">
-                                            <div className="main-page__block-step-three-ico"></div>
+                                            <i className="fa fa-check-circle-o main-page__block-step-ico" aria-hidden="true"></i>
                                         </div>
                                         <div className="col-md-10 pr-2">
                                             <div className="main-page__block-step-three-secondary-text">
