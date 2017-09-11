@@ -27,10 +27,7 @@ class App extends React.Component {
             return;
         }
 
-        AuthService.getSessionDataFromServer(
-            this.setShowContent,
-            this.setShowContent
-        );
+        AuthService.getSessionDataFromServer(this.setShowContent);
     }
 
     setShowContent() {
