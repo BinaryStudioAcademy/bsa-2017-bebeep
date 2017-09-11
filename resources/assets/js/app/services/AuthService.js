@@ -24,7 +24,7 @@ const AuthService = (() => {
             _this = this;
             store = globalStore;
 
-            //_this.setSessionTokenToState();
+            _this.setSessionTokenToState();
         },
 
         getFromState(param) {
@@ -87,12 +87,9 @@ const AuthService = (() => {
 
             securedRequest.get(requestPath)
                 .then(response => {
-                    const userData = response.data.data;
+                    const sessionData = _this.getSessionData(response.data.data);
 
-                    _this.getSessionData(userData)
-
-                    _this.initSession();
-
+                    store.dispatch(setAuthSession(sessionData));
                     store.dispatch(loginSuccess());
                     onSuccess();
                 })

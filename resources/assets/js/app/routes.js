@@ -50,20 +50,21 @@ export default (store) => {
 
     return (
         <Route path="/" component={ App } onChange={() => {
+            console.log(AuthService.isAuthorized(), 2);
             if (! AuthService.isAuthorized()) {
                 return;
             }
-            getCountUnread().then((response) => {
+            getCountUnread().then(response => {
                 store.dispatch(setCountUnreadNotifications(response.data));
-            }).catch((error) => {});
+            });
 
         }} onEnter={() => {
             if (! AuthService.isAuthorized()) {
                 return;
             }
-            getCountUnread().then((response) => {
+            getCountUnread().then(response => {
                 store.dispatch(setCountUnreadNotifications(response.data));
-            }).catch((error) => {});
+            });
         }}>
 
             <Route path="elements" component={ Elements } />
