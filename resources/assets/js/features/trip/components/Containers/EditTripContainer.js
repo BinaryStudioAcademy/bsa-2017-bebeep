@@ -36,7 +36,9 @@ class EditTripContainer extends React.Component {
             endPoint: {
                 address: '',
                 place: null,
-            }
+            },
+            fromData: {},
+            toData: {}
         };
     }
 
@@ -55,6 +57,8 @@ class EditTripContainer extends React.Component {
                     endPoint: {
                         address: routes[routes.length - 1].to.formatted_address
                     },
+                    fromData: routes[0].from,
+                    toData: routes[routes.length - 1].to
                 });
 
                 this.onSelectStartPoint(this.state.startPoint.address);
@@ -211,6 +215,8 @@ class EditTripContainer extends React.Component {
                         waypoints={convertWaypointsToGoogleWaypoints(this.props.waypoints)}
                         from={getCoordinatesFromPlace(this.state.startPoint.place)}
                         to={getCoordinatesFromPlace(this.state.endPoint.place)}
+                        fromData={this.state.fromData}
+                        toData={this.state.toData}
                         endTime={this.setEndTime.bind(this)}
                         show={true}
                     />
