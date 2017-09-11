@@ -5,13 +5,13 @@ import { UserValidator } from 'app/services/UserService';
 import { simpleRequest, securedRequest } from 'app/services/RequestService';
 
 
-export const setAuthSession = data => ({
-    type: actions.SET_AUTH_SESSION,
+export const setSessionData = data => ({
+    type: actions.SET_SESSION_DATA,
     data
 });
 
-export const unsetAuthSession = () => ({
-    type: actions.UNSET_AUTH_SESSION,
+export const unsetSessionData = () => ({
+    type: actions.UNSET_SESSION_DATA,
 });
 
 export const setSessionToken = data => ({

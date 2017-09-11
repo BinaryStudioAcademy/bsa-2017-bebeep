@@ -56,7 +56,7 @@ export default function (state = initialState, action) {
                     token: '',
                 },
             };
-        case actions.SET_AUTH_SESSION:
+        case actions.SET_SESSION_DATA:
             return {
                 ...state,
                 session: {
@@ -69,7 +69,7 @@ export default function (state = initialState, action) {
                     avatar: action.data.user.avatar,
                 },
             };
-        case actions.UNSET_AUTH_SESSION:
+        case actions.UNSET_SESSION_DATA:
             return {
                 ...state,
                 session: {

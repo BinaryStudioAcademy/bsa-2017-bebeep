@@ -5,106 +5,95 @@ import DataStorage from '../helpers/DataStorage';
 
 import { securedRequest } from './RequestService';
 import {
-    setAuthSession,
-    unsetAuthSession,
+    setSessionData,
+    unsetSessionData,
     setSessionToken,
     loginSuccess,
     logoutSuccess
 } from 'features/user/actions';
 
+
 const AuthService = (() => {
 
-    const tokenKeyName = 'jwt',
-        userProps = ['first_name', 'last_name', 'avatar',];
+    const TOKEN_KEY_NAME = 'session_token',
+        REQUEST_SESSION_DATA = '/api/authentication/me',
+        USER_PROPS = ['first_name', 'last_name', 'avatar',];
 
     let _this = null,
         store = null;
+
+    const getFromState = (param) => {
+        return store.getState().user.session[param];
+    };
+
+    const setSessionDataToState = () => {
+        const token = getSessionTokenFromStorage();
+
+        if (! _this.isSessionTokenValid(token)) {
+            removeSessionTokenFromStorage();
+            return false;
+        }
+
+        store.dispatch(setSessionToken(token));
+
+        const sessionData = _this.getSessionData();
+        store.dispatch(setSessionData(sessionData));
+
+        return true;
+    };
+
+    const setSessionTokenToStorage = (token) => {
+        DataStorage.setData(TOKEN_KEY_NAME, token);
+    };
+
+    const getSessionTokenFromStorage = () => {
+        return DataStorage.getData(TOKEN_KEY_NAME);
+    };
+
+    const removeSessionTokenFromStorage = () => {
+        DataStorage.removeData(TOKEN_KEY_NAME);
+    };
+
+    const decodeSessionToken = (token) => {
+        token = token || _this.getSessionToken();
+        try {
+            return jwtDecode(token);
+
+        } catch(error) {
+            return null;
+        }
+    };
 
     return {
         init(globalStore) {
             _this = this;
             store = globalStore;
 
-            _this.setSessionTokenToState();
-        },
-
-        getFromState(param) {
-            return store.getState().user.session[param];
-        },
-
-        setSessionTokenToState() {
-            const token = DataStorage.getData(tokenKeyName);
-
-            if (! _this.isSessionTokenValid(token)) {
-                _this.removeSessionTokenFromStorage();
-                return false;
-            }
-
-            store.dispatch(setSessionToken(token));
-
-            return true;
-        },
-
-        setSessionTokenToStorage(token) {
-            DataStorage.setData(tokenKeyName, token);
-
-            return _this;
-        },
-
-        removeSessionTokenFromStorage() {
-            DataStorage.removeData(tokenKeyName);
-
-            return _this;
+            setSessionDataToState();
         },
 
         initSession(token) {
-            _this.setSessionTokenToStorage(token);
+            setSessionTokenToStorage(token);
 
-            if (! _this.setSessionTokenToState()) {
+            if (! setSessionDataToState()) {
                 return false;
             }
 
-            const sessionData = _this.getSessionData();
-
-            store.dispatch(setAuthSession(sessionData));
             store.dispatch(loginSuccess());
         },
 
         destroySession() {
-            _this.removeSessionTokenFromStorage();
+            removeSessionTokenFromStorage();
 
-            store.dispatch(unsetAuthSession());
+            store.dispatch(unsetSessionData());
             store.dispatch(logoutSuccess());
         },
 
-        getSessionToken() {
-            return _this.getFromState('token');
-        },
-
-        getSessionDataFromServer(onSuccess, onError) {
-            onError = onError || onSuccess;
-
-            const requestPath = '/api/authentication/me';
-
-            securedRequest.get(requestPath)
-                .then(response => {
-                    const sessionData = _this.getSessionData(response.data.data);
-
-                    store.dispatch(setAuthSession(sessionData));
-                    store.dispatch(loginSuccess());
-                    onSuccess();
-                })
-                .catch(error => {
-                    _this.destroySession();
-                    onError();
-                });
-        },
-
         getSessionData(userData) {
-            const decoded = _this.decodeAuthToken();
+            const decoded = decodeSessionToken();
 
             const data = _.transform(decoded, function(result, value, key) {
-                if (userProps.indexOf(key) !== -1) {
+                if (USER_PROPS.indexOf(key) !== -1) {
                     result['user'][key] = value;
                 } else {
                     result['session'][key] = value;
@@ -120,27 +109,29 @@ const AuthService = (() => {
             return data;
         },
 
+        getSessionDataFromServer(onSuccess, onError) {
+            onError = onError || onSuccess;
+
+            securedRequest.get(REQUEST_SESSION_DATA)
+                .then(response => {
+                    const sessionData = _this.getSessionData(response.data.data);
+
+                    store.dispatch(setSessionData(sessionData));
+                    store.dispatch(loginSuccess());
+                    onSuccess();
+                })
+                .catch(error => {
+                    _this.destroySession();
+                    onError();
+                });
+        },
+
         isAuthorized() {
-            return _this.getFromState('isAuthorized');
-        },
-
-        isSessionTokenValid(token) {
-            return !!_this.decodeAuthToken(token);
-        },
-
-        decodeAuthToken(token) {
-            token = token || _this.getSessionToken();
-
-            try {
-                return jwtDecode(token);
-
-            } catch(error) {
-                return null;
-            }
+            return getFromState('isAuthorized');
         },
 
         checkPermissions(permissions, identically) {
-            const sessionPermissions = _this.getFromState('permissions');
+            const sessionPermissions = getFromState('permissions');
 
             if (! permissions) {
                 return true;
@@ -148,7 +139,15 @@ const AuthService = (() => {
 
             return identically
                 ? permissions === sessionPermissions
-                : !!(permissions & sessionPermissions);
+                : !! (permissions & sessionPermissions);
+        },
+
+        getSessionToken() {
+            return getFromState('token');
+        },
+
+        isSessionTokenValid(token) {
+            return !! decodeSessionToken(token);
         },
     };
 })();
