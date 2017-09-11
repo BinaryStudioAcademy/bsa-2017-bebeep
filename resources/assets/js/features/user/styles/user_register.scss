@@ -4,6 +4,10 @@
   &-birth_date, &-label {
     width: 100%;
   }
+
+  .form-group label {
+    padding-top: 10px;
+  }
 }
 
 .register-form-label .rdtPicker {
