@@ -12,7 +12,7 @@
     "i_am_passenger": ["I am Passenger", "Я пасажир", "Я пассажир"],
     "i_am_driver": ["I am Driver", "Я водій", "Я водитель"],
     "find_cheap_ride": ["Find a cheap ride!", "Знайти дешеву подорож!", "Найдем дешевые поездки!"],
-    "find_cheap_ride_driver": ["Save on gasoline? Go!", "Збережіть на бензині!", "Сэкономим на бензине? Поехали!"]
+    "find_cheap_ride_driver": ["Save on gasoline? Let's go!", "Збережіть на бензині!", "Сэкономим на бензине? Поехали!"]
   },
   "main_page_content": {
     "main-text": ["How does BeBeep work?", "Як працює BeBeep?", "Как работает BeBeep?"],
@@ -24,7 +24,7 @@
       "main-text": ["A lot of incredible offers!", "Безліч неймовірних пропозицій!", "Невероятные предложения!"],
       "secondary-text": [
         "Filter the trips according to different criteria and select the most profitable",
-        "Фільтруйте подорожі за різними критеріями та обирайте найвигідніше",
+        "Фільтруйте подорожі за різними критеріями та обирайте найвигіднішу",
         "Фильтруйте путешествия по различным критериям и выбирайте самое выгодное"]
     },
     "step-three": {
