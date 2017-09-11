@@ -15,10 +15,6 @@
   left: 0;
 }
 
-#PlacesAutocomplete__root {
-  margin-bottom: 0;
-}
-
 .search-input {
   font-size: 14px;
   padding: 10px 20px;
@@ -124,6 +120,11 @@
       padding: 0;
       margin-left: 30px;
       border: none;
+    }
+
+    &-input-start,
+    &-input-end {
+      margin-top: -15px;
     }
   }
 }
