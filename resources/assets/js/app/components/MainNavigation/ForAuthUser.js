@@ -19,12 +19,12 @@ class ForAuthUser extends React.Component {
 
         return (
             <ul className="header__menu header__menu_right header-menu">
-                <li className="header-menu__item">
+                <li className="header-menu__item-trip">
                     <Link to="/trip/create" activeClassName="active">
                         { translate('create_new_trip') }
                     </Link>
                 </li>
-                <li className="header-menu__item">
+                <li className=" header-menu__item-trip">
                     <Link to="/trips" activeClassName="active">
                         { translate('my_trips') }
                     </Link>
