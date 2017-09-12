@@ -2,14 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Models\Route;
 use App\Models\Trip;
 use App\Models\Vehicle;
 use App\Services\SearchTripsWithTransfersService;
 use App\User;
+use Carbon\Carbon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SearchTripWithTransfersServiceTest extends TestCase
 {
@@ -86,20 +84,44 @@ class SearchTripWithTransfersServiceTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function case_4()
+    {
+        $this->createTrip([self::POINT_A, self::POINT_D], Carbon::now()->subHour(1));
+        $this->createTrip([self::POINT_A, self::POINT_B]);
+        $this->createTrip([self::POINT_B, self::POINT_C]);
+        $this->createTrip([self::POINT_C, self::POINT_D]);
+
+        $service = app()->make(SearchTripsWithTransfersService::class);
+        $searchRequest = new SearchTripRequest();
+        $searchRequest->fromLat = self::POINT_A[0];
+        $searchRequest->fromLng = self::POINT_A[1];
+        $searchRequest->toLat = self::POINT_D[0];
+        $searchRequest->toLng = self::POINT_D[1];
+
+        $searchRequest->transfers = 10;
+        $possibleRoutes = $service->search($searchRequest);
+        $this->assertEquals(1, $possibleRoutes->count());
+    }
+
+    /**
      * @param $routes
      * @param $count
+     * @param null $startAt
      */
-    private function createTrips($routes, $count) {
+    private function createTrips($routes, $count, $startAt = null) {
         foreach (range(1, $count) as $item) {
-            $this->createTrip($routes);
+            $this->createTrip($routes, $startAt);
         }
     }
 
     /**
      * @param $routes
+     * @param null $startAt
      * @return mixed
      */
-    private function createTrip($routes)
+    private function createTrip($routes, $startAt = null)
     {
         $driver = factory(User::class)->create([
             'permissions' => User::DRIVER_PERMISSION,
@@ -112,10 +134,14 @@ class SearchTripWithTransfersServiceTest extends TestCase
         $trip = factory(Trip::class)->create([
             'user_id' => $driver->id,
             'vehicle_id' => $vehicle->id,
+            'start_at' => $startAt ?? Carbon::now()->addHour(1)
         ]);
 
-        foreach ($this->getRoutesFromWaypoints($routes) as $route) {
-            $trip->routes()->create($route);
+        foreach ($this->getRoutesFromWaypoints($routes) as $key => $route) {
+            $trip->routes()->create(array_merge($route, [
+                'start_at' => $startAt ?? Carbon::now()->addHour(1),
+                'end_at' => $startAt ? $startAt->addMinutes($key) : Carbon::now()->addHour(2),
+            ]));
         }
 
         return $trip;

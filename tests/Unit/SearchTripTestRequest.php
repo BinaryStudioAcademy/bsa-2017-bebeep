@@ -12,6 +12,7 @@ class SearchTripRequest implements SearchTripRequestContract
     public $toLat;
     public $toLng;
     public $transfers = 1;
+    public $startAt;
 
     /**
      * Latitude 'From' point.
@@ -60,7 +61,7 @@ class SearchTripRequest implements SearchTripRequestContract
      */
     public function getStartAt(): Carbon
     {
-        // TODO: Implement getStartAt() method.
+        return $this->startAt ?? Carbon::now();
     }
 
     /**

@@ -40,14 +40,14 @@ class SearchTripsWithTransfersService
             'from_lng',
             $request->getFromLat(),
             $request->getFromLng()
-        )->whereIn('trip_id', $possibleTripsIds)->get();
+        )->whereIn('trip_id', $possibleTripsIds)->where('start_at', '>', $request->getStartAt())->get();
 
         $possibleEndRoutes = Route::haversine(
             'to_lat',
             'to_lng',
             $request->getToLat(),
             $request->getToLng()
-        )->whereIn('trip_id', $possibleTripsIds)->get();
+        )->whereIn('trip_id', $possibleTripsIds)->where('start_at', '>', $request->getStartAt())->get();
 
         $distance = Distance::toKilometers(
             $request->getFromLat(),
@@ -74,7 +74,10 @@ class SearchTripsWithTransfersService
                     $distance
                 );
             });
-        })->whereIn('trip_id', $possibleTripsIds)->whereNotIn('id', $possibleStartRoutes->pluck('id')->toArray())->with('trip')->get();
+        })->whereIn('trip_id', $possibleTripsIds)
+            ->whereNotIn('id', $possibleStartRoutes->pluck('id')->toArray())
+            ->where('start_at', '>', $request->getStartAt())
+            ->get();
 
         $combinator = new RouteCombinationsFinder($possibleStartRoutes, $possibleInnerRoutes, $possibleEndRoutes);
         $routes = $combinator->find($request->getTransfers() ?? 5);

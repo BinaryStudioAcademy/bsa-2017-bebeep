@@ -9,11 +9,15 @@ class RoutePoint
 {
     private $lat;
     private $lng;
+    private $startAt;
+    private $endAt;
 
-    public function __construct($lat, $lng)
+    public function __construct($lat, $lng, $startAt, $endAt)
     {
         $this->lat = $lat;
         $this->lng = $lng;
+        $this->startAt = $startAt;
+        $this->endAt = $endAt;
     }
 
     /**
@@ -50,5 +54,15 @@ class RoutePoint
     public function getLng()
     {
         return $this->lng;
+    }
+
+    public function getStartAt()
+    {
+        return $this->startAt;
+    }
+
+    public function getEndAt()
+    {
+        return $this->endAt;
     }
 }

@@ -15,12 +15,12 @@ class RouteContainer
 
     public function startPoint()
     {
-        return new RoutePoint($this->route->from_lat, $this->route->from_lng);
+        return new RoutePoint($this->route->from_lat, $this->route->from_lng, $this->route->start_at, $this->route->end_at);
     }
 
     public function endPoint()
     {
-        return new RoutePoint($this->route->to_lat, $this->route->to_lng);
+        return new RoutePoint($this->route->to_lat, $this->route->to_lng, $this->route->start_at, $this->route->end_at);
     }
 
     public function getRoute(): Route

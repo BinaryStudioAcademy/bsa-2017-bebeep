@@ -67,6 +67,8 @@ class RouteCombinationsFinder
 
         $possibleNextRoutesContainers = $this->innerRoutes->filter(function(RouteContainer $innerRouteContainer) use ($routeContainer) {
             return $innerRouteContainer->startPoint()->minDistanceToAny(collect([$routeContainer->endPoint()])) <= self::MAX_DISTANCE_BETWEEN_POINTS;
+        })->filter(function(RouteContainer $innerRouteContainer) use ($routeContainer) {
+            return $innerRouteContainer->startPoint()->getStartAt() >= $routeContainer->endPoint()->getStartAt();
         });
 
         if ($possibleNextRoutesContainers->count() <= 0) {
