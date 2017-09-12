@@ -52,7 +52,7 @@ class Notifications extends React.Component {
             messageData = getMessage(notificationData),
             notification = {
                 key: notificationData.id,
-                type: notificationData.type,
+                type: messageData.type,
                 message: messageData.title,
                 title: 'BeBeep',
                 timeout: 5000,
