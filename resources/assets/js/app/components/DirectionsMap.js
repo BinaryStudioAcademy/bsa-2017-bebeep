@@ -100,6 +100,8 @@ class DirectionsMap extends React.Component {
     }
 
     renderDirection(props) {
+        const { endTime, updateWaypointsDurations } = this.props;
+
         this.setState({directionRenderQueueIsProcessing: true});
 
         this.DirectionsService.route({
@@ -113,7 +115,7 @@ class DirectionsMap extends React.Component {
             };
 
             if (status === google.maps.DirectionsStatus.OK) {
-                let route = new TripRoute(result.routes[0]);
+                const route = new TripRoute(result.routes[0]);
 
                 newState['directions'] = result;
                 newState['distance'] = route.getDistance();
@@ -128,7 +130,11 @@ class DirectionsMap extends React.Component {
                     newState['end_city'] = route.getEndCity();
                 }
 
-                this.props.endTime(route.getDurationRaw());
+                endTime(route.getDurationRaw());
+
+                if (typeof updateWaypointsDurations === 'function') {
+                    updateWaypointsDurations(route.getWaypointsDurations());
+                }
             }
             this.setState(newState);
             this.processDirectionRenderQueue();

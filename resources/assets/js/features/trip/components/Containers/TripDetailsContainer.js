@@ -16,7 +16,7 @@ import {
     TripDriver,
     TripVehicle,
 } from '../Details/Trip';
-import {addBookingState} from '../../actions';
+import {addBookingState} from 'features/trip/actions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 

@@ -24,41 +24,76 @@ use App\Criteria\Trips\UpcomingDriverTripsCriteria;
 
 class TripsService
 {
-    protected $routeRepository;
+    /**
+     * @var \App\Repositories\TripRepository
+     */
     private $tripRepository;
+    /**
+     * @var \App\Repositories\RouteRepository
+     */
+    private $routeRepository;
+    /**
+     * @var \App\Services\CarService
+     */
     private $carService;
-    private $deleteTripValidator;
-    private $restoreTripValidator;
+    /**
+     * @var \App\Validators\UpdateTripValidator
+     */
     private $updateTripValidator;
+    /**
+     * @var \App\Validators\DeleteTripValidator
+     */
+    private $deleteTripValidator;
+    /**
+     * @var \App\Validators\RestoreTripValidator
+     */
+    private $restoreTripValidator;
 
     /**
      * TripsService constructor.
      *
-     * @param TripRepository $tripRepository
-     * @param RouteRepository $routeRepository
-     * @param CarService $carService
-     * @param DeleteTripValidator $deleteTripValidator
-     * @param RestoreTripValidator $restoreTripValidator
-     * @param UpdateTripValidator $updateTripValidator
+     * @param \App\Repositories\TripRepository $tripRepository
+     * @param \App\Repositories\RouteRepository $routeRepository
+     * @param \App\Services\CarService $carService
+     * @param \App\Validators\UpdateTripValidator $updateTripValidator
+     * @param \App\Validators\DeleteTripValidator $deleteTripValidator
+     * @param \App\Validators\RestoreTripValidator $restoreTripValidator
      */
     public function __construct(
         TripRepository $tripRepository,
         RouteRepository $routeRepository,
         CarService $carService,
+        UpdateTripValidator $updateTripValidator,
         DeleteTripValidator $deleteTripValidator,
-        RestoreTripValidator $restoreTripValidator,
-        UpdateTripValidator $updateTripValidator
+        RestoreTripValidator $restoreTripValidator
     ) {
         $this->tripRepository = $tripRepository;
         $this->routeRepository = $routeRepository;
         $this->carService = $carService;
+        $this->updateTripValidator = $updateTripValidator;
         $this->deleteTripValidator = $deleteTripValidator;
         $this->restoreTripValidator = $restoreTripValidator;
-        $this->updateTripValidator = $updateTripValidator;
     }
 
-    public static function getRoutesFromWaypoints($startPoint, $endPoint, $waypoints)
+    /**
+     * Get routes data from the trip waypoints.
+     *
+     * @param array $params
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getRoutesFromWaypoints(array $params)
     {
+        // TODO :: Need to change this code to work with
+        // the collection of Waypoints instances
+
+        [
+            'from' => $startPoint,
+            'to' => $endPoint,
+            'waypoints' => $waypoints,
+            'routes' => $routesTime,
+        ] = $params;
+
         $tripWaypoints = collect([$startPoint]);
         $routes = collect([]);
 
@@ -70,7 +105,7 @@ class TripsService
 
         $tripWaypoints->push($endPoint);
 
-        foreach (range(0, $tripWaypoints->count() - 2) as $iteration) {
+        foreach (range(0, $tripWaypoints->count() - 2) as $key => $iteration) {
             $chunk = $tripWaypoints->slice($iteration, 2)->values();
 
             $routes->push([
@@ -80,6 +115,8 @@ class TripsService
                 'to' => $chunk[1],
                 'to_lat' => $chunk[1]['geometry']['location']['lat'],
                 'to_lng' => $chunk[1]['geometry']['location']['lng'],
+                'start_at' => $routesTime[$key]['start_at'],
+                'end_at' => $routesTime[$key]['end_at'],
             ]);
         }
 
@@ -87,7 +124,9 @@ class TripsService
     }
 
     /**
-     * @param User $user
+     * Get all trips.
+     *
+     * @param \App\User $user
      *
      * @return mixed
      */
@@ -97,7 +136,9 @@ class TripsService
     }
 
     /**
-     * @param User $user
+     * Get upcoming trips.
+     *
+     * @param \App\User $user
      *
      * @return mixed
      */
@@ -107,7 +148,9 @@ class TripsService
     }
 
     /**
-     * @param User $user
+     * Get past trips.
+     *
+     * @param \App\User $user
      *
      * @return mixed
      */
@@ -117,12 +160,14 @@ class TripsService
     }
 
     /**
-     * @param CreateTripRequest $request
-     * @param $user
+     * Create a new trip.
      *
-     * @return Trip
+     * @param \App\Services\Requests\CreateTripRequest $request
+     * @param \App\User $user
+     *
+     * @return \App\Models\Trip
      */
-    public function create(CreateTripRequest $request, $user) : Trip
+    public function create(CreateTripRequest $request, User $user) : Trip
     {
         $tripAttributes = [
             'price' => $request->getPrice(),
@@ -137,19 +182,25 @@ class TripsService
         if ($request->getVehicleId() > 0) {
             $tripAttributes['vehicle_id'] = $request->getVehicleId();
         } else {
-            $tripAttributes['vehicle_id'] = $this->carService->create(new SaveVehicleRequest(
-                $request->getVehicle(),
-                $user
-            ))->id;
+            $tripAttributes['vehicle_id'] = $this->carService->create(
+                new SaveVehicleRequest(
+                    $request->getVehicle(),
+                    $user
+                )
+            )->id;
         }
 
         $trip = $this->tripRepository->save(new Trip($tripAttributes));
 
-        $routes = self::getRoutesFromWaypoints(
-            $request->getFrom(),
-            $request->getTo(),
-            $request->getWaypoints()
-        );
+        // TODO :: Need to change this code to work with
+        // the collection of Waypoints instances
+
+        $routes = self::getRoutesFromWaypoints([
+            'from' => $request->getFrom(),
+            'to' => $request->getTo(),
+            'waypoints' => $request->getWaypoints(),
+            'routes' => $request->getRoutesTime(),
+        ]);
 
         foreach ($routes as $route) {
             $trip->routes()->create($route);
@@ -165,12 +216,14 @@ class TripsService
     }
 
     /**
-     * @param Trip $trip
-     * @param User $user
+     * Show the trip data.
      *
-     * @return mixed
+     * @param \App\Models\Trip $trip
+     * @param \App\User $user
+     *
+     * @return \App\Models\Trip
      */
-    public function show(Trip $trip, User $user)
+    public function show(Trip $trip, User $user) : Trip
     {
         return $this->tripRepository
             ->getByCriteria(new DriverTripByIdCriteria($trip, $user))
@@ -178,19 +231,19 @@ class TripsService
     }
 
     /**
-     * Update trip service.
+     * Update the trip.
      *
-     * @param Trip $trip
-     * @param UpdateTripRequest $request
-     * @param $user
+     * @param \App\Models\Trip $trip
+     * @param \App\Services\Requests\UpdateTripRequest $request
+     * @param \App\User $user
      *
-     * @return mixed
+     * @return \App\Models\Trip
      */
-    public function update(Trip $trip, UpdateTripRequest $request, $user)
+    public function update(Trip $trip, UpdateTripRequest $request, User $user): Trip
     {
         $this->updateTripValidator->validate($trip, $user);
 
-        $tripAttributes = [
+        $attributes = [
             'price' => $request->getPrice(),
             'seats' => $request->getSeats(),
             'start_at' => $request->getStartAt(),
@@ -200,16 +253,19 @@ class TripsService
             'is_animals_allowed' => $request->getIsAnimalsAllowed(),
         ];
 
-        $result = $this->tripRepository->update($tripAttributes, $trip->id);
-        // don't use this way of storing models. Your repository shouldn't know about arrays
+        $trip = $this->tripRepository->updateTrip(new Trip($attributes), $trip->id);
 
         $trip->routes()->delete();
 
-        $routes = self::getRoutesFromWaypoints(
-            $request->getFrom(),
-            $request->getTo(),
-            $request->getWaypoints()
-        );
+        // TODO :: Need to change this code to work with
+        // the collection of Waypoints instances
+
+        $routes = self::getRoutesFromWaypoints([
+            'from' => $request->getFrom(),
+            'to' => $request->getTo(),
+            'waypoints' => $request->getWaypoints(),
+            'routes' => $request->getRoutesTime(),
+        ]);
 
         foreach ($routes as $route) {
             $trip->routes()->create($route);
@@ -217,16 +273,18 @@ class TripsService
 
         event(new TripUpdated($trip));
 
-        return $result;
+        return $trip;
     }
 
     /**
-     * @param Trip $trip
-     * @param $user
+     * Delete the trip.
      *
-     * @return Trip
+     * @param \App\Models\Trip $trip
+     * @param \App\User $user
+     *
+     * @return \App\Models\Trip
      */
-    public function delete(Trip $trip, $user)
+    public function delete(Trip $trip, User $user): Trip
     {
         $this->deleteTripValidator->validate($trip, $user);
         $this->tripRepository->softDelete($trip);
@@ -235,11 +293,13 @@ class TripsService
     }
 
     /**
-     * @param  SearchTripRequest $request
+     * Search for the requested trip.
      *
-     * @return mixed
+     * @param \App\Services\Requests\SearchTripRequest $request
+     *
+     * @return \App\Services\Result\SearchTripCollection
      */
-    public function search(SearchTripRequest $request) : SearchTripCollection
+    public function search(SearchTripRequest $request): SearchTripCollection
     {
         $search = $this->tripRepository->search()
             ->addLocation(
@@ -281,12 +341,14 @@ class TripsService
     }
 
     /**
-     * @param  Trip $trip
-     * @param  User $user
+     * Restore the previously deleted trip.
      *
-     * @return Trip
+     * @param \App\Models\Trip $trip
+     * @param \App\User $user
+     *
+     * @return \App\Models\Trip
      */
-    public function restore(Trip $trip, User $user) : Trip
+    public function restore(Trip $trip, User $user): Trip
     {
         $this->restoreTripValidator->validate($trip, $user);
         $this->tripRepository->restore($trip);
@@ -295,10 +357,14 @@ class TripsService
     }
 
     /**
-     * @param Trip $trip
-     * @param CreateTripRequest $request
+     * Create a new reverse trip.
+     *
+     * @param \App\Models\Trip $trip
+     * @param \App\Services\Requests\CreateTripRequest $request
+     *
+     * @return void
      */
-    public function createReverseTrip(Trip $trip, CreateTripRequest $request)
+    public function createReverseTrip(Trip $trip, CreateTripRequest $request): void
     {
         $originTripTravelTime = $trip->end_at->timestamp - $trip->start_at->timestamp;
 
@@ -309,14 +375,56 @@ class TripsService
 
         $reverseTrip = $this->tripRepository->save(new Trip($reverseTripAttributes));
 
-        $routes = self::getRoutesFromWaypoints(
-            $request->getTo(),
-            $request->getFrom(),
-            array_reverse($request->getWaypoints())
+        // TODO :: Need to change this code to work with
+        // the collection of Routes instances
+
+        $routesTime = $this->getRoutesTimeForReverseTrip(
+            $reverseTrip->start_at->timestamp,
+            array_reverse($request->getRoutesTime())
         );
+
+        // TODO :: Need to change this code to work with
+        // the collection of Waypoints instances
+
+        $routes = self::getRoutesFromWaypoints([
+            'from' => $request->getTo(),
+            'to' => $request->getFrom(),
+            'waypoints' => array_reverse($request->getWaypoints()),
+            'routes' => $routesTime,
+        ]);
 
         foreach ($routes as $route) {
             $reverseTrip->routes()->create($route);
         }
+    }
+
+    /**
+     * Get the routes start and end time for the reverse trip.
+     *
+     * @param int $startAt
+     * @param array $routesTime
+     *
+     * @return array
+     */
+    private function getRoutesTimeForReverseTrip(
+        int $startAt,
+        array $routesTime
+    ): array {
+
+        // TODO :: Need to change this code to work with
+        // the collection of Routes instances
+
+        return array_map(function (array $time) use (&$startAt) {
+            $duration = $time['end_at'] - $time['start_at'];
+
+            $endAt = $startAt + $duration;
+            $newTime = [
+                'start_at' => $startAt,
+                'end_at' => $endAt,
+            ];
+            $startAt = $endAt;
+
+            return $newTime;
+        }, $routesTime);
     }
 }

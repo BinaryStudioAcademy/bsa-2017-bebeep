@@ -114,9 +114,9 @@ class TripsController extends Controller
     public function update(Trip $trip, UpdateTripRequest $request)
     {
         try {
-            $result = $this->tripsService->update($trip, $request, Auth::user());
+            $trip = $this->tripsService->update($trip, $request, Auth::user());
 
-            return response()->json($result, 200);
+            return response()->json($trip, 200);
         } catch (UserCantEditTripException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
