@@ -1,6 +1,6 @@
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
-import { AuthService } from './AuthService';
+import AuthService from './AuthService';
 import { PUSHER_API_KEY } from 'app/config.js';
 
 const BroadcastService = {

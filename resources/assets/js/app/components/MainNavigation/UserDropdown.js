@@ -81,7 +81,7 @@ class UserDropdown extends React.Component {
                         { translate('subscriptions') }
                     </UserDropdownItem>
 
-                    <DropdownItem divider />
+                    { this.renderDivider(isDriver) }
 
                     <UserDropdownItem linkTo="/vehicles"
                         isShow={isDriver}

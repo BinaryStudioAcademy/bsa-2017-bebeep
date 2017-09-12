@@ -41,8 +41,8 @@ class App extends React.Component {
         return !this.state.isShowContent
             ? <Preloader enable={true} />
             : <div>
-                <Notifications userId={AuthService.getUserId()} />
                 {this.props.children}
+                <Notifications userId={AuthService.getUserId()} />
             </div>;
     }
 

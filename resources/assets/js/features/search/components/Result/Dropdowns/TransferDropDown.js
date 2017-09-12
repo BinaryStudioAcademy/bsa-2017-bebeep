@@ -9,13 +9,13 @@ class TransferDropDown extends React.Component {
         return (
             <div className="filter__prop">
                 <div className="filter__prop-control">
-                    <div className="filter__prop-sign">
-                        {translate('search_result.transfer')}
+                    <div className="filter__prop-name subscribe-modal-name">
+                        {translate('dropdown.transfer')}
                     </div>
 
                     <select name="transfer" value={value || ''} className="form-control" id="transfer" onChange={onChange}>
-                        <option value="false">{translate('search_result.transfer1')}</option>
-                        <option value="true">{translate('search_result.transfer2')}</option>
+                        <option value="false">{translate('dropdown.transfer1')}</option>
+                        <option value="true">{translate('dropdown.transfer2')}</option>
                     </select>
                 </div>
             </div>

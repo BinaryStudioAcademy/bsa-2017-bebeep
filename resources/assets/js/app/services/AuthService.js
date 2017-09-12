@@ -85,8 +85,8 @@ const AuthService = (() => {
         destroySession() {
             removeSessionTokenFromStorage();
 
-            store.dispatch(unsetSessionData());
             store.dispatch(logoutSuccess());
+            store.dispatch(unsetSessionData());
         },
 
         getUserId() {
@@ -94,7 +94,6 @@ const AuthService = (() => {
                 return null;
             }
             return getFromState('sub');
-            //return getAuthUser(['id']).user.id;
         },
 
         getSessionData(userData) {
@@ -135,7 +134,8 @@ const AuthService = (() => {
         },
 
         isAuthorized() {
-            return getFromState('isAuthorized');
+            return store.getState().user.login.success;
+            //return getFromState('isAuthorized');
         },
 
         checkPermissions(permissions, identically) {

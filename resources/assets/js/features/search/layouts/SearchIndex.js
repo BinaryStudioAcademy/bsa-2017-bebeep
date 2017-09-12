@@ -67,37 +67,20 @@ class SearchIndex extends React.Component {
             { isDriverModeAvailable } = this.state;
 
         return (
-            <div>
-                <section className="home-slider">
-                    <div className="home-slider__tabs wizard-tabs">
-                        <WizardTab
-                            isActive={this.isPassengerMode()}
-                            image="/template/img/welcome-icon1.png"
-                            title={translate('search_index.i_am_passenger')}
-                            onClick={this.setPassengerMode}
-                        />
-                        <WizardTab
-                            isShow={isDriverModeAvailable}
-                            isActive={this.isDriverMode()}
-                            image="/template/img/welcome-icon2.png"
-                            title={translate('search_index.i_am_driver')}
-                            onClick={this.setDriverMode}
-                        />
-                    </div>
-
-                    <div className="home-slider__search wizard-form">
-                        <h2 className="wizard-form__header">
-                            {this.isPassengerMode()
-                                ? translate('search_index.find_cheap_ride')
-                                : translate('search_index.find_cheap_ride_driver')}
-                        </h2>
-
-                        {this.isPassengerMode()
-                            ? <SearchForm pageType="index" />
-                            : <WizardTrip />}
-                    </div>
-                </section>
-                <MainPageContent />
+            <div className="home-slider__tabs wizard-tabs">
+                <WizardTab
+                    isActive={this.isPassengerMode()}
+                    image="/template/img/welcome-icon1.png"
+                    title={translate('search_index.i_am_passenger')}
+                    onClick={this.setPassengerMode}
+                />
+                <WizardTab
+                    isShow={isDriverModeAvailable}
+                    isActive={this.isDriverMode()}
+                    image="/template/img/welcome-icon2.png"
+                    title={translate('search_index.i_am_driver')}
+                    onClick={this.setDriverMode}
+                />
             </div>
         );
     }
@@ -125,14 +108,18 @@ class SearchIndex extends React.Component {
         const { translate } = this.props;
 
         return (
-            <section className="home-slider">
-                { this.renderWizardTabs() }
+            <div>
+                <section className="home-slider">
+                    { this.renderWizardTabs() }
 
-                <div className="home-slider__search wizard-form">
-                    { this.renderFormHeader() }
-                    { this.renderFormContent() }
-                </div>
-            </section>
+                    <div className="home-slider__search wizard-form">
+                        { this.renderFormHeader() }
+                        { this.renderFormContent() }
+                    </div>
+                </section>
+
+                <MainPageContent />
+            </div>
         );
     }
 }

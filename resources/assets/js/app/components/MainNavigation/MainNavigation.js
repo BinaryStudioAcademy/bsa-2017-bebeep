@@ -47,7 +47,7 @@ class MainNavigation extends React.Component {
 
 const MainNavigationConnected = connect(
     state => ({
-        isAuthorized: state.user.session.isAuthorized,
+        isAuthorized: state.user.login.success,
         user: state.user.profile,
     }),
     null

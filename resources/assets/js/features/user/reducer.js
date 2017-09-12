@@ -10,7 +10,6 @@ const initialState = {
         httpStatus: 200,
     },
     session: {
-        isAuthorized: false,
         token: '',
         exp: 0,
         permissions: 0,
@@ -59,10 +58,7 @@ export default function (state = initialState, action) {
         case actions.SET_SESSION_DATA:
             return {
                 ...state,
-                session: {
-                    ...action.data.session,
-                    isAuthorized: true,
-                },
+                session: action.data.session,
                 profile: {
                     first_name: action.data.user.first_name,
                     last_name: action.data.user.last_name,
@@ -73,7 +69,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 session: {
-                    isAuthorized: false,
                     token: '',
                     exp: 0,
                     permissions: 0,
