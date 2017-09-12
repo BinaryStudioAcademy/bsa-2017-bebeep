@@ -59,7 +59,7 @@ class UserDropdown extends React.Component {
                           onClick={this.toggleUserDropdown}
                     >
                         <span className={(countNotifications ? " has-notification" : "")}>
-                            { translate('notifications') }
+                            { translate('notifications.header') }
                         </span>
                     </Link>
 

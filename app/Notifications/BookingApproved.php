@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Transformers\Notifications\BookingTransformer;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class BookingApproved extends Notification implements ShouldQueue
 {
@@ -43,7 +44,14 @@ class BookingApproved extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'broadcast'];
+    }
+
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'data' => $this->toArray($notifiable),
+        ]);
     }
 
     /**

@@ -46,6 +46,14 @@ export const getAuthUser = (params) => {
     return data;
 };
 
+export const getUserId = () => {
+    if (isAuthorized()) {
+        return getAuthUser(['id']).user.id;
+    } else {
+        return null;
+    }
+};
+
 export const requireAuth = (nextState, replace) => {
     if (!isAuthorized()) {
         replace({
