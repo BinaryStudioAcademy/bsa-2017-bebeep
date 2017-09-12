@@ -66,8 +66,10 @@
     },
     "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"],
     "more": ["more than ", "більше ", "более "],
-    "transfer": ["Transfer", "Пересадки", "Пересадки"],
-    "transfer1": ["Without transfers", "Без пересадок", "Без пересадок"],
-    "transfer2": ["With transfers", "З пересадками", "С пересадками"]
+    "transfer": {
+        "name": ["Transfer", "Пересадки", "Пересадки"],
+        "without": ["Without transfers", "Без пересадок", "Без пересадок"],
+        "with": ["With transfers", "З пересадками", "С пересадками"]
+    }
   }
 }
