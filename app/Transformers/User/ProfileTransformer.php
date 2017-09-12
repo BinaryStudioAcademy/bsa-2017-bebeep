@@ -27,6 +27,7 @@ class ProfileTransformer extends TransformerAbstract
             'birth_date' => $user->birth_date ? $user->birth_date->format('Y-m-d') : null,
             'about_me' => $user->about_me,
             'avatar' => $user->getAvatarUrl(),
+            'permissions' => $user->permissions,
             'role_driver' => $user->isDriver(),
             'role_passenger' => $user->isPassenger(),
             'can_uncheck_role_driver' => ! $user->hasTrip(),
