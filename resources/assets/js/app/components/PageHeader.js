@@ -12,7 +12,7 @@ class PageHeader extends React.Component {
 
         return (
             <header className="page-header">
-                <h1 className="h4">{header}</h1>
+                <h1 className="page-header__header">{header}</h1>
             </header>
         );
     }

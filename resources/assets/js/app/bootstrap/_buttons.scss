@@ -3,6 +3,7 @@
 .btn {
   border-radius: 5px;
   border: none;
+  font-family: $font-family-sans-serif;
 
   -webkit-box-shadow: 0 0 2px lighten($black, 63%);
   -moz-box-shadow: 0 0 2px lighten($black, 63%);
@@ -21,5 +22,5 @@
   text-transform: uppercase;
   font-size: $font-size-lg;
   line-height: 1.777777778em;
-  font-weight: bold;
+  font-weight: 600;
 }

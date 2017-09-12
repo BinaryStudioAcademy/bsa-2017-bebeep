@@ -116,11 +116,20 @@ class TripDetailsContainer extends React.Component {
                         </div>
                     </div>
 
-                    <TripRoutesPassengers
-                        maxSeats={ trip.seats }
-                        driver={ driver }
-                        routes={ routes }
-                    />
+                    <section className="block-border px-3 pt-3 pb-2 mt-4">
+                        <header className="trip-section-header">
+                            <i className="trip-detail-icon fa fa-users mr-3" aria-hidden="true" />
+                            <h3 className="h5 d-inline-block">
+                                { translate('trip_details.routes_passengers.header') }
+                            </h3>
+                        </header>
+
+                        <TripRoutesPassengers
+                            maxSeats={ trip.seats }
+                            driver={ driver }
+                            routes={ routes }
+                        />
+                    </section>
                 </div>
 
                 <div className="col-lg-4">

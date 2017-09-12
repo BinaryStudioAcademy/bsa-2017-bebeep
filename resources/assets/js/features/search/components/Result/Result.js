@@ -27,6 +27,7 @@ class Result extends React.Component {
     constructor() {
         super();
         this.state = {
+            dataLoaded: false,
             collection: [],
             meta: {
                 totalSize: 0,
@@ -115,6 +116,7 @@ class Result extends React.Component {
         search(fromCoord, toCoord, start_at, page, sort, order, limit, filter)
             .then(response => {
                 this.setState({
+                    dataLoaded: true,
                     collection: response.data.data,
                     meta: {
                         totalSize: +response.data.meta.total,
@@ -129,6 +131,7 @@ class Result extends React.Component {
             .catch(error => {
                 if (error.response) {
                     this.setState({
+                        dataLoaded: false,
                         errors: error.response,
                         preloader: false
                     })
@@ -142,8 +145,10 @@ class Result extends React.Component {
     }
 
     render() {
-        const {sort, order, page, limit, meta, collection, preloader, subscribeModalIsOpen} = this.state,
-            {translate} = this.props,
+        const { sort, order, page, limit, meta, collection,
+                dataLoaded, preloader, subscribeModalIsOpen,
+            } = this.state,
+            { translate } = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
 
@@ -192,7 +197,7 @@ class Result extends React.Component {
                                     </div>
                                     <div className="col-sm-6">
                                         <Pagination
-                                            isDisabled={preloader}
+                                            isShow={dataLoaded}
                                             size={meta.totalSize}
                                             page={currentPage}
                                             limit={limit}

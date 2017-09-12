@@ -18,7 +18,6 @@
     "bookings_button": ["New bookings", "Нові бронювання", "Новые бронирования"],
     "bookings_in_pending": ["bookings in pending", "бронювання в очікуванні", "бронирования в ожидании"],
     "accept_button": ["Accept booking", "Підтвердити", "Подтвердить"],
-    "reject_button": ["Reject", "Відхилити", "Отменить"],
-    "close_button": ["Close", "Закрити", "Закрыть"]
+    "reject_button": ["Reject", "Відхилити", "Отменить"]
   }
 }

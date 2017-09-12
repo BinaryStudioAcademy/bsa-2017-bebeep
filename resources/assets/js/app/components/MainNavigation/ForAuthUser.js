@@ -19,22 +19,22 @@ class ForAuthUser extends React.Component {
 
         return (
             <ul className="header__menu header__menu_right header-menu">
-                <li className="header-menu__item-trip">
+                <li className="header-menu__item">
                     <Link to="/trip/create" activeClassName="active">
                         { translate('create_new_trip') }
                     </Link>
                 </li>
-                <li className=" header-menu__item-trip">
+                <li className=" header-menu__item">
                     <Link to="/trips" activeClassName="active">
                         { translate('my_trips') }
                     </Link>
                 </li>
 
-                <li className="header-menu__item header-menu__item_no-hover header-menu__item--align-stretch">
+                <li className="header-menu__item header-menu__item--bigger-margin header-menu__item--align-stretch">
                     <UserDropdown user={user} />
                 </li>
 
-                <li className="header-menu__item header-menu__item_no-hover header-menu__item_no-space header-menu__item--align-stretch">
+                <li className="header-menu__item header-menu__item--smaller-margin header-menu__item--align-stretch">
                     <ChangeLocalization />
                 </li>
             </ul>

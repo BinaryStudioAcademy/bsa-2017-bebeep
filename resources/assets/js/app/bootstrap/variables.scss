@@ -323,7 +323,7 @@ $border-radius-lg:       .3rem !default;
 $border-radius-sm:       .2rem !default;
 
 $component-active-color: $white !default;
-$component-active-bg:    $brand-primary !default;
+$component-active-bg:    darken($teal, 10%) !default;
 
 $caret-width:            .3em !default;
 
@@ -368,7 +368,7 @@ $btn-focus-box-shadow:           0 0 0 2px lighten($black, 63%) !default;
 $btn-active-box-shadow:          none !default;
 
 $btn-primary-color:              $white !default;
-$btn-primary-bg:                 $brand-primary !default;
+$btn-primary-bg:                 darken($teal, 20%) !default;
 $btn-primary-border:             $btn-primary-bg !default;
 
 $btn-secondary-color:            $gray-dark !default;
@@ -712,7 +712,7 @@ $card-spacer-y:            .75rem !default;
 $card-border-width:        1px !default;
 $card-border-radius:       $border-radius !default;
 $card-border-color:        rgba($black,.125) !default;
-$card-border-radius-inner: calc(#{$card-border-radius} - #{$card-border-width}) !default;
+$card-border-radius-inner: 0 !default;
 $card-cap-bg:              $gray-lightest !default;
 $card-bg:                  $white !default;
 

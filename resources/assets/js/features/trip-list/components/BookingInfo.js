@@ -38,14 +38,16 @@ class BookingInfo extends React.Component {
                     <div className="col-md-12 booking-modal-item__buttons">
                         <button className="btn btn-sm hover btn-success booking-modal-item__button"
                             onClick={ onApprove }
+                            title={translate('booking.accept_button')}
                         >
-                            { translate('booking.accept_button') }
+                            <i className="fa fa-check" aria-hidden="true" />
                         </button>
 
                         <button className="btn btn-sm hover btn-danger booking-modal-item__button"
                             onClick={ onDecline }
+                            title={translate('booking.reject_button')}
                         >
-                            { translate('booking.reject_button') }
+                            <i className="fa fa-times" aria-hidden="true" />
                         </button>
                     </div>
                 </div>

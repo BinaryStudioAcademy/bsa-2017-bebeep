@@ -1,6 +1,7 @@
 import React from 'react';
 
 import MainHeader from './components/MainHeader';
+import MainFooter from './components/MainFooter';
 import Notifications from './components/Notifications';
 import {getUserId} from 'app/services/AuthService';
 
@@ -13,10 +14,13 @@ class App extends React.Component {
     render() {
 
         return (
-            <div id="application">
+            <div id="application" className="main-application">
                 <MainHeader />
+
                 <Notifications userId={getUserId()} />
                 { this.props.children }
+
+                <MainFooter />
             </div>
         )
     }

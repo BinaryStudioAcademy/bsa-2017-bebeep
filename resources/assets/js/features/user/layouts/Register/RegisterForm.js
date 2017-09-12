@@ -19,8 +19,10 @@ class RegisterForm extends React.Component {
 
         return (
             <ContainerWrapper>
-                <PageHeader header={ translate('register_form.header_register') } />
-                <Form id={ this.props.params.id } />
+                <section className="form-block-center">
+                    <PageHeader header={ translate('register_form.header_register') } />
+                    <Form id={ this.props.params.id } />
+                </section>
             </ContainerWrapper>
         );
     }

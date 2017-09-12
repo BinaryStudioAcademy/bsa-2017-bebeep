@@ -1,37 +1,48 @@
-.card-header {
-    cursor: pointer;
-}
+@import '~app/bootstrap/variables';
 
 .trip-item {
     margin-bottom: 30px;
-}
 
-.trip-item .card {
-    max-height: 100%;
+    & .card {
+        max-height: 100%;
+    }
+    & .card-header {
+        cursor: pointer;
+    }
 }
 
 .deleted-trip .card {
     border-color: #d9534f;
 }
 
-.badge-red {
-    background-color: rgba(255, 0, 0, 0.86);
-    border-radius: 0.4rem;
-    padding: 0.2em 0.4em;
-    font-size: 78%;
+.show-trip-bookings-btn {
+    padding: 7px 7px 6px 12px;
+    font-size: .85rem;
+    font-weight: 500;
+    cursor: pointer;
+
+    &__bookings-count {
+        margin-left: 12px;
+        padding: 4px 8px 4px 6px;
+        font-size: .8em;
+        border-radius: 50%;
+        background-color: darken($teal, 22%);
+    }
 }
 
 .show-details {
-    transition: opacity 0.25s ease-in-out;
     height: 100%;
+    opacity: 1;
+    transition: opacity .25s ease-in-out;
 }
 
 .hide-details {
-    transition: opacity 0.25s ease-in-out;
     height: 0;
+    opacity: 0;
     overflow: hidden;
+    transition: opacity .25s ease-in-out;
 }
 
-.link-style-users{
+.link-style-users {
     cursor: pointer;
 }

@@ -18,6 +18,7 @@ class BookingsContainer extends React.Component {
             page: 1,
             limit: 10,
             errors: {},
+            dataLoaded: false,
             preloader: false,
             canceledBooking: null,
             isOpenReviewModal: false,
@@ -81,20 +82,26 @@ class BookingsContainer extends React.Component {
 
         BookingService.getBookingsList(filter, page, limit)
             .then(data => {
-                this.setState({preloader: false});
+                this.setState({
+                    dataLoaded: true,
+                    preloader: false,
+                });
                 bookingsGetSuccess(data);
             })
-            .catch(error => this.setState({errors: error, preloader: false}));
+            .catch(error => this.setState({
+                errors: error,
+                preloader: false,
+            }));
     }
 
     onChangePage(page) {
-        this.setState({page});
-        this.getData(this.props, Object.assign(this.state, {page}));
+        this.setState({ page });
+        this.getData(this.props, Object.assign(this.state, { page }));
     }
 
     render() {
-        const {page, limit, preloader} = this.state,
-            {data, meta, filter} = this.props;
+        const { page, limit, dataLoaded, preloader } = this.state,
+            { data, meta, filter } = this.props;
 
         return (
             <div className="bookings-container">
@@ -110,7 +117,7 @@ class BookingsContainer extends React.Component {
                     ))}
                 </div>
                 <Pagination
-                    isDisabled={preloader}
+                    isShow={dataLoaded}
                     size={+meta.total}
                     page={+page}
                     limit={limit}
