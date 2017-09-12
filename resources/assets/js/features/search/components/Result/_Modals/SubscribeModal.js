@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import SeatsDropDown from '../Dropdowns/SeatsDropDown';
+import RatingDropDown from '../Dropdowns/RatingDropDown';
 import AnimalsDropDown from '../Dropdowns/AnimalsDropDown';
 import LuggageDropDown from '../Dropdowns/LuggageDropDown';
-import RatingDropDown from '../Dropdowns/RatingDropDown';
+import ConfirmLoginModal from './ConfirmLoginModal';
 import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import {Range} from 'rc-slider';
 import {getTranslate} from 'react-localize-redux';
@@ -22,7 +23,8 @@ class SubscribeModal extends React.Component {
             luggage: null,
             seats: null,
             rating: null,
-            requestSendSuccess: false
+            requestSendSuccess: false,
+            confirmLoginModalIsOpen: false
         };
         this.animalsChange = this.animalsChange.bind(this);
         this.luggageChange = this.luggageChange.bind(this);
@@ -224,7 +226,7 @@ class SubscribeModal extends React.Component {
                 }
             }).catch((error) => {
                 if (error.response.status === 403) {
-                    confirm("Confirm email");
+                    this.setState({confirmLoginModalIsOpen: true});
                 }
             });
     }
@@ -241,6 +243,11 @@ class SubscribeModal extends React.Component {
                     </ModalHeader>
                     <ModalBody className="p-15">{ this.renderModalBody() }</ModalBody>
                     { this.renderModalFooter() }
+
+                    <ConfirmLoginModal
+                        isOpen={this.state.confirmLoginModalIsOpen}
+                        onClosed={ () => this.setState({confirmLoginModalIsOpen: false})}
+                    />
                 </Modal>
             </span>
         )
