@@ -194,4 +194,30 @@ Route::post('v1/reviews', [
     'uses' => 'ReviewsController@save',
 ]);
 
+Route::group([
+    'prefix' => 'v1/subscriptions',
+    'middleware' => ['jwt.auth'],
+    'as' => 'subscriptions.',
+], function () {
+    Route::get('/', [
+        'as' => 'index',
+        'uses' => 'Api\Subscription\SubscriptionsController@index',
+    ]);
+    Route::put('/{subscription}/status', [
+        'middleware' => 'can:status,subscription',
+        'as' => 'status',
+        'uses' => 'Api\Subscription\SubscriptionsController@status',
+    ]);
+    Route::delete('/{subscription}', [
+        'middleware' => 'can:delete,subscription',
+        'as' => 'delete',
+        'uses' => 'Api\Subscription\SubscriptionsController@delete',
+    ]);
+    Route::patch('/{subscription}', [
+        'middleware' => 'can:edit,subscription',
+        'as' => 'edit',
+        'uses' => 'Api\Subscription\SubscriptionsController@edit',
+    ]);
+});
+
 Route::resource('v1/subscription', 'Api\\Subscription\\SubscriptionsController', ['only' => ['store']]);

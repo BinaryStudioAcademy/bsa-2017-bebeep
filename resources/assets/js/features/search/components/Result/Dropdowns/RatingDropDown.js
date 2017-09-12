@@ -1,8 +1,14 @@
 import React from 'react';
 import {getTranslate} from 'react-localize-redux';
 import {connect} from 'react-redux';
+import LangService from 'app/services/LangService';
+import * as lang from 'features/search/lang/SearchResult.locale.json';
 
 class RatingDropDown extends React.Component {
+    componentWillMount() {
+        LangService.addTranslation(lang);
+    }
+
     render() {
         const { value, translate, onChange} = this.props;
 
@@ -10,10 +16,10 @@ class RatingDropDown extends React.Component {
                 <div className="filter__prop">
                     <div className="filter__prop-control">
                         <div className="filter__prop-name subscribe-modal-name">
-                            {translate('search_result.driver_rating')}
+                            {translate('dropdown.driver_rating')}
                         </div>
                         <select name="rating" value={value || ''} className="form-control" id="rating" onChange={onChange}>
-                            <option value="">{translate('search_result.not_important')}</option>
+                            <option value="">{translate('dropdown.not_important')}</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
