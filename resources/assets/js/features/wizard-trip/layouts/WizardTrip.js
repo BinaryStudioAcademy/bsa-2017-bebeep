@@ -31,7 +31,7 @@ class WizardTrip extends React.Component {
 
         if (nextProps.step === STEP_THREE && isTripReady(tripData)) {
 
-            if (! AuthService.isAuthorized()) {
+            if (!AuthService.isAuthorized()) {
                 browserHistory.push('/registration');
                 return;
             }

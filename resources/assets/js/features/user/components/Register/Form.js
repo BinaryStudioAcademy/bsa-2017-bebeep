@@ -67,7 +67,7 @@ class Form extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (! this.state.hasTripPending && nextProps.stepWizard === STEP_THREE) {
+        if (!this.state.hasTripPending && nextProps.stepWizard === STEP_THREE) {
             this.setState({
                 hasTripPending: isTripReady(nextProps.tripPending),
             });
@@ -100,7 +100,7 @@ class Form extends React.Component {
             },
             validate = RegisterValidate(registerData);
 
-        if (! validate.valid) {
+        if (!validate.valid) {
             this.setState({ errors: validate.errors, });
             return;
         }

@@ -23,7 +23,7 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        if (AuthService.isAuthorized() || ! AuthService.isSessionTokenValid()) {
+        if (AuthService.isAuthorized() || !AuthService.isSessionTokenValid()) {
             this.setShowContent();
             return;
         }

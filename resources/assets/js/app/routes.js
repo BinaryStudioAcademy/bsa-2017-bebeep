@@ -53,7 +53,7 @@ export default (store) => {
 
     return (
         <Route path="/" component={ App } onChange={() => {
-            if (! AuthService.isAuthorized()) {
+            if (!AuthService.isAuthorized()) {
                 return;
             }
             getCountUnread().then(response => {
@@ -61,7 +61,7 @@ export default (store) => {
             });
 
         }} onEnter={() => {
-            if (! AuthService.isAuthorized()) {
+            if (!AuthService.isAuthorized()) {
                 return;
             }
             getCountUnread().then(response => {

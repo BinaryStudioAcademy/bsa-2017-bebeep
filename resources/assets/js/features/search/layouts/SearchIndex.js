@@ -42,7 +42,7 @@ class SearchIndex extends React.Component {
     }
 
     isDriverModeAvailable() {
-        if (! AuthService.isAuthorized()) {
+        if (!AuthService.isAuthorized()) {
             return true;
         }
         return AuthService.checkPermissions(USER_ROLE_DRIVER);

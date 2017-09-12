@@ -6,7 +6,7 @@ class UserDropdownItem extends React.Component {
     render() {
         const { linkTo, isShow, onClick, children } = this.props;
 
-        if (! isShow) {
+        if (!isShow) {
             return null;
         }
 

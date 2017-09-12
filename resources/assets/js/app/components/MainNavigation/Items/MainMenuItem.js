@@ -6,7 +6,7 @@ class MainMenuItem extends React.Component {
     render() {
         const { linkTo, isShow, children } = this.props;
 
-        if (! isShow) {
+        if (!isShow) {
             return null;
         }
 

@@ -31,11 +31,11 @@ export default function(options) {
         componentWillMount() {
             const { isAuthorized, permissions } = this.state;
 
-            if (! isAuthorized) {
+            if (!isAuthorized) {
                 this.redirectTo(REDIRECT_AUTH);
             }
 
-            if (! AuthService.checkPermissions(permissions)) {
+            if (!AuthService.checkPermissions(permissions)) {
                 this.setState({
                     isAuthorized: false,
                 });

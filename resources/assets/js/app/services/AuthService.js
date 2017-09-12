@@ -29,7 +29,7 @@ const AuthService = (() => {
     const setSessionDataToState = () => {
         const token = getSessionTokenFromStorage();
 
-        if (! _this.isSessionTokenValid(token)) {
+        if (!_this.isSessionTokenValid(token)) {
             removeSessionTokenFromStorage();
             return false;
         }
@@ -75,7 +75,7 @@ const AuthService = (() => {
         initSession(token) {
             setSessionTokenToStorage(token);
 
-            if (! setSessionDataToState()) {
+            if (!setSessionDataToState()) {
                 return false;
             }
 
@@ -90,10 +90,10 @@ const AuthService = (() => {
         },
 
         getUserId() {
-            if (! _this.isAuthorized()) {
+            if (!_this.isAuthorized()) {
                 return null;
             }
-            return getFromState('sub');
+            return getFromState('user_id');
         },
 
         getSessionData(userData) {
@@ -101,16 +101,17 @@ const AuthService = (() => {
 
             const data = _.transform(decoded, function(result, value, key) {
                 if (USER_PROPS.indexOf(key) !== -1) {
-                    result['user'][key] = value;
+                    result.user[key] = value;
                 } else {
-                    result['session'][key] = value;
+                    result.session[key] = value;
                 }
             }, { user: {}, session: {}, });
 
-            if (! _.isEmpty(userData)) {
+            if (!_.isEmpty(userData)) {
                 data.user = userData;
                 data.session.permissions = userData.permissions;
             }
+            data.session.user_id = data.session.sub;
             data.session.token = _this.getSessionToken();
 
             return data;
@@ -141,13 +142,13 @@ const AuthService = (() => {
         checkPermissions(permissions, identically) {
             const sessionPermissions = getFromState('permissions');
 
-            if (! permissions) {
+            if (!permissions) {
                 return true;
             }
 
             return identically
                 ? permissions === sessionPermissions
-                : !! (permissions & sessionPermissions);
+                : !!(permissions & sessionPermissions);
         },
 
         getSessionToken() {
@@ -155,7 +156,7 @@ const AuthService = (() => {
         },
 
         isSessionTokenValid(token) {
-            return !! decodeSessionToken(token);
+            return !!decodeSessionToken(token);
         },
     };
 })();
