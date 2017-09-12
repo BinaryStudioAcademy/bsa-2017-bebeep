@@ -19,6 +19,14 @@ const initialState = {
         luggage: null,
         seats: null,
         rating: null
+    },
+    subscription: {
+        email: '',
+        end_point: null,
+        filters: null,
+        start_at: null,
+        start_point: null,
+        user_id: null
     }
 };
 
@@ -48,6 +56,18 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 start_at: action.time
+            };
+        case actions.SUBSCRIPTION_UPDATE:
+            return {
+                ...state,
+                subscription: {
+                    email: action.data.email,
+                    end_point: action.data.end_point,
+                    filters: action.data.filters,
+                    start_at: action.data.start_at,
+                    start_point: action.data.start_point,
+                    user_id: action.data.user_id
+                }
             };
         default:
             return state;

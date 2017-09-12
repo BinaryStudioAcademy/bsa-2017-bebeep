@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
 import SeatsDropDown from '../Dropdowns/SeatsDropDown';
 import RatingDropDown from '../Dropdowns/RatingDropDown';
 import AnimalsDropDown from '../Dropdowns/AnimalsDropDown';
@@ -11,6 +12,7 @@ import {getTranslate} from 'react-localize-redux';
 import {transformSubscriptionData,sendSubscribeRequest} from 'features/search/services/SearchService';
 import 'features/search/styles/subscribe-modal.scss';
 import { getAuthUser } from 'app/services/AuthService';
+import { subscriptionUpdate } from 'features/search/actions';
 
 class SubscribeModal extends React.Component {
 
@@ -221,6 +223,8 @@ class SubscribeModal extends React.Component {
         };
         let requestData = transformSubscriptionData(toBeTransformed);
 
+        this.props.subscriptionUpdate(requestData);
+
         sendSubscribeRequest(requestData).
             then(response => {
                 if (response.status === 200) {
@@ -262,5 +266,6 @@ export default connect(
         isAuth: state.user.login.success,
         email: state.user.profile.email,
         translate: getTranslate(state.locale)
-    })
+    }),
+    (dispatch) => bindActionCreators({subscriptionUpdate}, dispatch)
 )(SubscribeModal);
