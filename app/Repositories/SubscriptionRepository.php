@@ -27,7 +27,7 @@ class SubscriptionRepository extends BaseRepository implements Contracts\Subscri
     }
 
     /**
-     * Check if email exists
+     * Check if email exists.
      *
      * @param string $email
      * @return bool
@@ -38,7 +38,7 @@ class SubscriptionRepository extends BaseRepository implements Contracts\Subscri
     }
 
     /**
-     * This method update user id by email
+     * This method update user id by email.
      *
      * @param string $email
      * @param User $user

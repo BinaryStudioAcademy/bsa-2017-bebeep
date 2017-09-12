@@ -7,7 +7,7 @@ use Carbon\Carbon;
 interface CreateSubscriptionsRequest
 {
     /**
-     * Get user id
+     * Get user id.
      *
      * @return int|null
      */

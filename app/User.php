@@ -249,7 +249,7 @@ class User extends Authenticatable implements HasMediaConversions
     }
 
     /**
-     * Get user id
+     * Get user id.
      *
      * @return int
      */
