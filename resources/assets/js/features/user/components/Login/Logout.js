@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
-import {getTranslate} from 'react-localize-redux';
-import * as actions from 'features/user/actions';
+import { getTranslate } from 'react-localize-redux';
+
+import { doLogout } from 'features/user/actions';
+
 import 'features/user/styles/user.scss';
 
 class Form extends React.Component {
@@ -14,39 +16,41 @@ class Form extends React.Component {
     }
 
     componentWillMount() {
-        this.props.actions.doLogout();
+        this.props.doLogout();
     }
 
     componentDidMount() {
         setTimeout(() => {
-          browserHistory.push('/')
-        }, 5000);
+            browserHistory.push('/');
+        }, 1000);
     }
 
     pickMessage(code) {
-        const {translate} = this.props;
-        if (code != 200) {
-            return (<div>{translate('logout.failed_logout')}</div>);
-        } else {
-            return (<div>{translate('logout.successfully_logout')}</div>);
-        }
+        const { translate } = this.props;
+
+        return (
+            <div>{translate(
+                code !== 200
+                    ? 'logout.failed_logout'
+                    : 'logout.successfully_logout'
+            )}</div>
+        );
     }
 
     render() {
-
-        return ( this.pickMessage(this.props.httpCode) );
+        return this.pickMessage(this.props.httpCode);
     }
 
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch)
-    };
-}
+const LogoutConnected = connect(
+    state => ({
+        errors: state.user.login.errors,
+        httpCode: state.user.login.httpStatus,
+        translate: getTranslate(state.locale),
+    }),
+    (dispatch) =>
+        bindActionCreators({ doLogout }, dispatch)
+)(Form);
 
-export default connect((state) => ({
-    errors: state.user.login.errors,
-    httpCode: state.user.login.httpStatus,
-    translate: getTranslate(state.locale)
-}), mapDispatchToProps)(Form);
+export default LogoutConnected;
