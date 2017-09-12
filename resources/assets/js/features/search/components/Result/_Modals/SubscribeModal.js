@@ -201,7 +201,7 @@ class SubscribeModal extends React.Component {
 
         const userObj = getAuthUser(),
             formEmail = e.target['email'].value,
-            {email, data} = this.props,
+            {isAuth, email, data} = this.props,
             {time, animals, luggage, seats, rating, price} = this.state;
 
         let userId = (userObj.user.sub) ? userObj.user.sub : null;

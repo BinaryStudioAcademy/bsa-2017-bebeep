@@ -1,8 +1,16 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 import Modal from 'app/components/Modal';
+import { browserHistory } from 'react-router';
 
 class ConfirmLoginModal extends React.Component {
+
+    handleClick(e) {
+        e.preventDefault();
+
+        browserHistory.push('/login');
+    }
+
     render() {
         const {translate} = this.props;
 
@@ -19,7 +27,7 @@ class ConfirmLoginModal extends React.Component {
                         <p>{translate('confirm_login.message')}</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-primary">{translate('confirm_login.btn_yes')}</button>
+                        <button type="button" className="btn btn-primary" onClick={this.handleClick.bind(this)}>{translate('confirm_login.btn_yes')}</button>
                         <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.props.onClosed}>{translate('confirm_login.btn_no')}</button>
                     </div>
                 </Modal>
