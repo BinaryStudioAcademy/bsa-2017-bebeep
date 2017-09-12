@@ -2,25 +2,59 @@
 
 namespace App\Http\Controllers\Api\Subscription;
 
+use App\Models\Subscription;
 use App\Http\Controllers\Controller;
-use App\Services\SubscriptionsService;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateSubscriptionRequest;
+use App\Services\Contracts\SubscriptionsService;
+use App\Transformers\Subscriptions\SubscriptionTransformer;
+use App\Http\Requests\Subscriptions\EditSubscriptionRequest;
+use App\Http\Requests\Subscriptions\StatusSubscriptionRequest;
 
 class SubscriptionsController extends Controller
 {
     /**
      * @var SubscriptionsService
      */
-    private $subscriptionService;
+    private $subscriptionsService;
 
-    /**
-     * SubscriptionsService constructor.
-     *
-     * @param SubscriptionsService $subscriptionService
-     */
-    public function __construct(SubscriptionsService $subscriptionService)
+    public function __construct(SubscriptionsService $subscriptionsService)
     {
-        $this->subscriptionService = $subscriptionService;
+        $this->subscriptionsService = $subscriptionsService;
+    }
+
+    public function index()
+    {
+        $subscriptions = $this->subscriptionsService->getByUser(Auth::user());
+
+        return fractal()
+            ->collection($subscriptions, new SubscriptionTransformer())
+            ->parseIncludes('filters')
+            ->respond();
+    }
+
+    public function delete(Subscription $subscription)
+    {
+        $this->subscriptionsService->delete($subscription);
+
+        return response()->json([], 200);
+    }
+
+    public function edit(EditSubscriptionRequest $request, Subscription $subscription)
+    {
+        $subscription = $this->subscriptionsService->edit($request, $subscription);
+
+        return fractal()
+            ->item($subscription, new SubscriptionTransformer())
+            ->parseIncludes('filters')
+            ->respond();
+    }
+
+    public function status(StatusSubscriptionRequest $request, Subscription $subscription)
+    {
+        $this->subscriptionsService->changeStatus($request, $subscription);
+
+        return response()->json([], 200);
     }
 
     /**
@@ -30,7 +64,7 @@ class SubscriptionsController extends Controller
      */
     public function store(CreateSubscriptionRequest $request)
     {
-        $subscription = $this->subscriptionService->create($request);
+        $subscription = $this->subscriptionsService->create($request);
 
         return response()->json($subscription);
     }

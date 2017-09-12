@@ -35,6 +35,7 @@ import {
 } from '../features/user/layouts/Profile/Reviews';
 
 import Notifications from 'features/notifications/layouts/Notifications';
+import Subscriptions from 'features/subscriptions/layouts/Subscriptions';
 
 import Elements from '../features/elements/Elements.js';
 
@@ -124,6 +125,9 @@ export default (store) => {
 
                     {/* Notifications */}
                     <Route path="notifications" component={ Notifications } />
+
+                    {/* Subscriptions */}
+                    <Route path="subscriptions" component={ Subscriptions } />
                 </Route>
 
                 {/* User logout */}

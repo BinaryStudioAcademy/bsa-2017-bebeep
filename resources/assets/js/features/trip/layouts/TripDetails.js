@@ -35,7 +35,7 @@ class TripDetails extends React.Component {
 
         TripDetailsService.getDetails(params.id)
             .then(response => {
-                this.props.tripDetailsSetState(response);
+                tripDetailsSetState(response);
                 this.setSearchData();
 
                 this.setState({
@@ -74,8 +74,8 @@ class TripDetails extends React.Component {
     }
 
     render() {
-        const { details } = this.props;
-        const { preloader } = this.state;
+        const { details } = this.props,
+            { preloader } = this.state;
 
         if (preloader) {
             return (<Preloader enable={true} />);

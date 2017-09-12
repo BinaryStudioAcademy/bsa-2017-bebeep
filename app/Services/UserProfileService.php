@@ -54,7 +54,7 @@ class UserProfileService implements UserProfileServiceContract
             'permissions' => $request->getPermissions(),
         ];
 
-        return $this->userRepository->update($attributes, $user->id);
+        return $this->userRepository->updateUser(new User($attributes), $user->id);
     }
 
     /**

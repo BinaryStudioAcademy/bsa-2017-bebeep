@@ -189,10 +189,7 @@ strong {
     }
 
     &__search {
-        max-width: 940px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 100px;
+        margin: 100px 1rem 0;
         text-align: center;
     }
 }
@@ -255,8 +252,8 @@ strong {
     border: none;
 }
 
-.form-group > label {
-    padding-top: 20px;
+.form-group .form-control-label {
+    padding-top: 5px;
 }
 
 .position-relative {
@@ -281,4 +278,42 @@ strong {
         overflow: visible;
         z-index: 1;
     }
+}
+
+.notification-bar {
+    background-color: $gray-light;
+    z-index: 5;
+    right: -100%;
+
+    &-active {
+        right: 1rem;
+    }
+
+    &-action {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    &--success {
+        background-color: $brand-success;
+    }
+    &--warning {
+        background-color: $brand-warning;
+    }
+    &--info {
+        background-color: $brand-info;
+    }
+    &--danger {
+        background-color: $brand-danger;
+    }
+    &--primary {
+        background-color: $brand-primary;
+    }
+}
+
+#PlacesAutocomplete__root {
+    margin-bottom: 0;
 }

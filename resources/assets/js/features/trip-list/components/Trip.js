@@ -125,6 +125,8 @@ class Trip extends React.Component {
                                    endTime={() => {}}
                                    from={startPlace.geometry.location}
                                    to={endPlace.geometry.location}
+                                   fromData={startPlace}
+                                   toData={endPlace}
                                    waypoints={waypoints}
                                    show={false}
                     >

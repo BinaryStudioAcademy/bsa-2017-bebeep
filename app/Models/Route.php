@@ -19,7 +19,17 @@ class Route extends Model
         'to',
         'to_lat',
         'to_lng',
+        'start_at',
+        'end_at',
         'trip_id',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $dates = [
+        'start_at',
+        'end_at',
     ];
 
     /**
