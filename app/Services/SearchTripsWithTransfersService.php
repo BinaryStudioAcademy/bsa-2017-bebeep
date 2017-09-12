@@ -19,10 +19,9 @@ class SearchTripsWithTransfersService
 
     /**
      * @param  SearchTripRequest $request
-     * @param int $maxTransfers
      * @return \Illuminate\Support\Collection
      */
-    public function search(SearchTripRequest $request, $maxTransfers = 1)
+    public function search(SearchTripRequest $request)
     {
         $possibleTripsIds = $this->tripRepository->search()
             ->initialize()
@@ -78,7 +77,7 @@ class SearchTripsWithTransfersService
         })->whereIn('trip_id', $possibleTripsIds)->whereNotIn('id', $possibleStartRoutes->pluck('id')->toArray())->with('trip')->get();
 
         $combinator = new RouteCombinationsFinder($possibleStartRoutes, $possibleInnerRoutes, $possibleEndRoutes);
-        $routes = $combinator->find($maxTransfers);
+        $routes = $combinator->find($request->getTransfers() ?? 5);
 
         return $routes;
     }

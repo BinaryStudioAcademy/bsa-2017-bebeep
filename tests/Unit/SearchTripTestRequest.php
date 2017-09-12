@@ -11,6 +11,7 @@ class SearchTripRequest implements SearchTripRequestContract
     public $fromLng;
     public $toLat;
     public $toLng;
+    public $transfers = 1;
 
     /**
      * Latitude 'From' point.
@@ -182,5 +183,10 @@ class SearchTripRequest implements SearchTripRequestContract
     public function getRating(): ?int
     {
         return null;
+    }
+
+    public function getTransfers(): ?int
+    {
+        return $this->transfers;
     }
 }

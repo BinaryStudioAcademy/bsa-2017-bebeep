@@ -13,8 +13,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SearchTripWithTransfersServiceTest extends TestCase
 {
-    use DatabaseTransactions, DatabaseMigrations;
-
     const POINT_A = [50, 52];
     const POINT_B = [54, 56];
     const POINT_C = [58, 60];
@@ -78,10 +76,12 @@ class SearchTripWithTransfersServiceTest extends TestCase
         $searchRequest->toLat = self::POINT_D[0];
         $searchRequest->toLng = self::POINT_D[1];
 
-        $possibleRoutes = $service->search($searchRequest, 3);
+        $searchRequest->transfers = 3;
+        $possibleRoutes = $service->search($searchRequest);
         $this->assertEquals(2, $possibleRoutes->count());
 
-        $possibleRoutes = $service->search($searchRequest, 1);
+        $searchRequest->transfers = 1;
+        $possibleRoutes = $service->search($searchRequest);
         $this->assertEquals(1, $possibleRoutes->count());
     }
 
