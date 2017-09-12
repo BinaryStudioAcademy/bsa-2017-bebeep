@@ -16,7 +16,7 @@ interface SubscriptionRepository extends RepositoryInterface, RepositoryCriteria
     public function save(Subscription $subscription) : Subscription;
 
     /**
-     * Check if email exists
+     * Check if email exists.
      *
      * @param string $email
      * @return bool
@@ -24,7 +24,7 @@ interface SubscriptionRepository extends RepositoryInterface, RepositoryCriteria
     public function isEmailExists(string $email) : bool;
 
     /**
-     * This method update user id by email
+     * This method update user id by email.
      *
      * @param string $email
      * @param User $user

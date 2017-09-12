@@ -33,6 +33,7 @@ class SubscriptionsController extends Controller
     {
         try {
             $subscription = $this->subscriptionService->create($request);
+
             return response()->json($subscription);
         } catch (SubscriptionEmailExistsException $e) {
             return response()->json($e->getMessage(), 403);

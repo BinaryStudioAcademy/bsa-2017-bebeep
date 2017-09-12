@@ -45,7 +45,7 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     }
 
     /**
-     * This method update user id after register
+     * This method update user id after register.
      *
      * @param string $email
      * @param User $user
@@ -54,13 +54,13 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     {
         $isExists = $this->subscriptionRepository->isEmailExists($email);
 
-        if($isExists) {
+        if ($isExists) {
             $this->subscriptionRepository->updateUserIdByEmail($email, $user);
         }
     }
 
     /**
-     * This method create subscription
+     * This method create subscription.
      *
      * @param CreateSubscriptionsRequest $request
      * @return Subscription
@@ -71,8 +71,8 @@ class SubscriptionsService implements Contracts\SubscriptionsService
         $userId = $request->getUserId();
         $isEmailExists = $this->subscriptionRepository->isEmailExists($request->getEmail());
 
-        if(is_null($userId) && $isEmailExists) {
-            throw new SubscriptionEmailExistsException("This email exists!");
+        if (is_null($userId) && $isEmailExists) {
+            throw new SubscriptionEmailExistsException('This email exists!');
         }
 
         $subscriptionAttributes = [
