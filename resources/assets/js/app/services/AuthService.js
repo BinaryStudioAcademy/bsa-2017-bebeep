@@ -136,7 +136,6 @@ const AuthService = (() => {
 
         isAuthorized() {
             return store.getState().user.login.success;
-            //return getFromState('isAuthorized');
         },
 
         checkPermissions(permissions, identically) {
