@@ -1,6 +1,7 @@
 import React from 'react';
 
 import SearchForm from '../components/Index/SearchForm';
+import MainPageContent from './MainPageContent';
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/SearchIndex.locale.json';
 import {localize} from 'react-localize-redux';
@@ -60,6 +61,7 @@ export default localize(class SearchIndex extends React.Component {
                         ) : (<WizardTrip />)}
                     </div>
                 </section>
+                <MainPageContent />
             </div>
         );
     }

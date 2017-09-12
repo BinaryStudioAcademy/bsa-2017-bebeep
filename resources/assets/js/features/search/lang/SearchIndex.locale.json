@@ -12,6 +12,27 @@
     "i_am_passenger": ["I am Passenger", "Я пасажир", "Я пассажир"],
     "i_am_driver": ["I am Driver", "Я водій", "Я водитель"],
     "find_cheap_ride": ["Find a cheap ride!", "Знайти дешеву подорож!", "Найдем дешевые поездки!"],
-    "find_cheap_ride_driver": ["Save on gasoline? Go!", "Збережіть на бензині!", "Сэкономим на бензине? Поехали!"]
+    "find_cheap_ride_driver": ["Save on gasoline? Let's go!", "Збережіть на бензині!", "Сэкономим на бензине? Поехали!"]
+  },
+  "main_page_content": {
+    "main-text": ["How does BeBeep work?", "Як працює BeBeep?", "Как работает BeBeep?"],
+    "step-one": {
+      "main-text": ["Going on a trip?", "Вирушаєте у подорож?", "Отправляетесь в путешествие?"],
+      "secondary-text": ["Select a route and trip date", "Оберіть маршрут та дату подорожі", "Выберите маршрут и дату путешествия"]
+    },
+    "step-two": {
+      "main-text": ["A lot of incredible offers!", "Безліч неймовірних пропозицій!", "Невероятные предложения!"],
+      "secondary-text": [
+        "Filter the trips according to different criteria and select the most profitable",
+        "Фільтруйте подорожі за різними критеріями та обирайте найвигіднішу",
+        "Фильтруйте путешествия по различным критериям и выбирайте самое выгодное"]
+    },
+    "step-three": {
+      "main-text": ["Have a nice trip!", "Приємної подорожі!", "Приятного путешествия!"],
+      "secondary-text": [
+        "Book your trip and wait for confirmation from the driver",
+        "Забронюйте подорож та очікуйте підтвердження від водія",
+        "Забронируйте путешествие и ожидайте подтверждения от водителя"]
+    }
   }
 }
