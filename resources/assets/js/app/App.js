@@ -2,6 +2,7 @@ import React from 'react';
 
 import MainHeader from './components/MainHeader';
 import Notifications from './components/Notifications';
+import GeneralChannel from 'features/chat/components/GeneralChannel';
 import {getUserId} from 'app/services/AuthService';
 
 import './bootstrap/bootstrap.scss';
@@ -16,6 +17,7 @@ class App extends React.Component {
             <div id="application">
                 <MainHeader />
                 <Notifications userId={getUserId()} />
+                <GeneralChannel />
                 { this.props.children }
             </div>
         )
