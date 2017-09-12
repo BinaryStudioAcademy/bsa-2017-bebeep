@@ -70,6 +70,13 @@ class UserDropdown extends React.Component {
                         { translate('bookings') }
                     </Link>
 
+                    <Link to="/dashboard/subscriptions"
+                          className="dropdown-item"
+                          onClick={this.toggleUserDropdown}
+                    >
+                        { translate('subscriptions') }
+                    </Link>
+
                     <DropdownItem divider />
 
                     <Link to="/vehicles"
