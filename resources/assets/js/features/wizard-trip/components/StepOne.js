@@ -121,9 +121,9 @@ class StepOne extends React.Component {
                 </div>
                 <div className="wizard-form__input wizard-form__input_calendar_datetime">
                     <InputDateTime
-                        id="trip_date"
+                        id="create_trip_date"
                         value={start_at}
-                        inputProps={{name: 'trip_date', id:'trip_date'}}
+                        inputProps={{name: 'trip_date', id:'create_trip_date'}}
                         timeFormat={true}
                         labelClasses='form-input fa-calendar'
                         isValidDate={this.isValidDate}

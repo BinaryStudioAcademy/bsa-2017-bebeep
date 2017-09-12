@@ -89,6 +89,14 @@ const AuthService = (() => {
             store.dispatch(logoutSuccess());
         },
 
+        getUserId() {
+            if (! _this.isAuthorized()) {
+                return null;
+            }
+            return getFromState('sub');
+            //return getAuthUser(['id']).user.id;
+        },
+
         getSessionData(userData) {
             const decoded = decodeSessionToken();
 

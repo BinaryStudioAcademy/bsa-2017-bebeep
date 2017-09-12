@@ -25,12 +25,7 @@ class DeleteTripTest extends BaseTripTestCase
         $response = $this->jsonAsUser($user);
         $response->assertStatus(404);
 
-        $this->assertDatabaseHas(
-            'trips',
-            [
-                'id' => $trip->id,
-            ]
-        );
+        $this->assertDatabaseHas('trips', ['id' => $trip->id]);
     }
 
     /**
@@ -48,12 +43,7 @@ class DeleteTripTest extends BaseTripTestCase
         $response = $this->jsonAsUser($user);
         $response->assertStatus(422);
 
-        $this->assertDatabaseHas(
-            'trips',
-            [
-                'id' => $trip->id,
-            ]
-        );
+        $this->assertDatabaseHas('trips', ['id' => $trip->id]);
     }
 
     /**
@@ -70,7 +60,10 @@ class DeleteTripTest extends BaseTripTestCase
         $response = $this->jsonAsUser($user);
         $response->assertStatus(200);
 
-        $this->assertDatabaseHas('trips', ['id' => $trip->id, 'deleted_at' => $response->json()['deleted_at']]);
+        $this->assertDatabaseHas('trips', [
+            'id' => $trip->id,
+            'deleted_at' => $response->json()['deleted_at'],
+        ]);
     }
 
     /**
@@ -87,12 +80,7 @@ class DeleteTripTest extends BaseTripTestCase
         $response = $this->jsonAsUser($user);
         $response->assertStatus(403);
 
-        $this->assertDatabaseHas(
-            'trips',
-            [
-                'id' => $trip->id,
-            ]
-        );
+        $this->assertDatabaseHas('trips', ['id' => $trip->id]);
     }
 
     /**

@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { localize } from 'react-localize-redux';
 
 import SearchForm from '../components/Index/SearchForm';
+
 import WizardTrip from 'features/wizard-trip/layouts/WizardTrip';
 import WizardTab from 'features/wizard-trip/components/WizardTab';
+import MainPageContent from './MainPageContent';
 
 import AuthService from 'app/services/AuthService';
 import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from 'app/services/UserService';
@@ -65,20 +67,37 @@ class SearchIndex extends React.Component {
             { isDriverModeAvailable } = this.state;
 
         return (
-            <div className="home-slider__tabs wizard-tabs">
-                <WizardTab
-                    isActive={this.isPassengerMode()}
-                    image="/template/img/welcome-icon1.png"
-                    title={translate('search_index.i_am_passenger')}
-                    onClick={this.setPassengerMode}
-                />
-                <WizardTab
-                    isShow={isDriverModeAvailable}
-                    isActive={this.isDriverMode()}
-                    image="/template/img/welcome-icon2.png"
-                    title={translate('search_index.i_am_driver')}
-                    onClick={this.setDriverMode}
-                />
+            <div>
+                <section className="home-slider">
+                    <div className="home-slider__tabs wizard-tabs">
+                        <WizardTab
+                            isActive={this.isPassengerMode()}
+                            image="/template/img/welcome-icon1.png"
+                            title={translate('search_index.i_am_passenger')}
+                            onClick={this.setPassengerMode}
+                        />
+                        <WizardTab
+                            isShow={isDriverModeAvailable}
+                            isActive={this.isDriverMode()}
+                            image="/template/img/welcome-icon2.png"
+                            title={translate('search_index.i_am_driver')}
+                            onClick={this.setDriverMode}
+                        />
+                    </div>
+
+                    <div className="home-slider__search wizard-form">
+                        <h2 className="wizard-form__header">
+                            {this.isPassengerMode()
+                                ? translate('search_index.find_cheap_ride')
+                                : translate('search_index.find_cheap_ride_driver')}
+                        </h2>
+
+                        {this.isPassengerMode()
+                            ? <SearchForm pageType="index" />
+                            : <WizardTrip />}
+                    </div>
+                </section>
+                <MainPageContent />
             </div>
         );
     }

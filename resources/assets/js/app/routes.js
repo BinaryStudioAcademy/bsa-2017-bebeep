@@ -28,6 +28,7 @@ import TripsList from '../features/trip-list/layouts/TripsList';
 
 import BookingsList from '../features/bookings/layouts/BookingsList';
 import Notifications from 'features/notifications/layouts/Notifications';
+import Subscriptions from 'features/subscriptions/layouts/Subscriptions';
 
 import AuthService from './services/AuthService';
 import { RequireUser, RequireGuest } from './components/Auth';
@@ -136,6 +137,9 @@ export default (store) => {
 
                     {/* Notifications */}
                     <Route path="notifications" component={ Notifications } />
+
+                    {/* Subscriptions */}
+                    <Route path="subscriptions" component={ Subscriptions } />
                 </Route>
 
                 {/* User logout */}

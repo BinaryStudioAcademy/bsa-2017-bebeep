@@ -1,7 +1,8 @@
 import React from 'react';
 
-import MainHeader from './components/MainHeader';
 import Preloader from './components/Preloader';
+import MainHeader from './components/MainHeader';
+import Notifications from './components/Notifications';
 
 import AuthService from './services/AuthService';
 
@@ -39,14 +40,16 @@ class App extends React.Component {
     renderComponent() {
         return !this.state.isShowContent
             ? <Preloader enable={true} />
-            : this.props.children;
+            : <div>
+                <Notifications userId={AuthService.getUserId()} />
+                {this.props.children}
+            </div>;
     }
 
     render() {
         return (
             <div id="application">
                 <MainHeader />
-
                 { this.renderComponent() }
             </div>
         )

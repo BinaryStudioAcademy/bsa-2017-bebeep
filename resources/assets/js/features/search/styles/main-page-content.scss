@@ -1,0 +1,46 @@
+.main-page__block {
+  background-color: rgba(204, 204, 204, 0.32);
+  min-height: 250px;
+  padding: 25px 0;
+
+  &-header {
+    padding: 15px 0;
+    &-text {
+      font-weight: 700;
+      font-size: 1.7rem;
+      color: #444444;
+    }
+  }
+
+  &-step {
+    padding: 25px 20px;
+    background-color: rgba(247, 247, 247, 0.8);
+    border: 1px solid rgba(212, 212, 212, 0.72);
+    border-radius: 7px;
+    max-height: 160px;
+    min-height: 160px;
+    color: rgba(66, 66, 66, 0.91);
+
+    &-one, &-two, &-three {
+      font-size: 1.2rem;
+      font-weight: 500;
+
+      &-secondary-text {
+        font-weight: 400;
+        font-size: 0.9rem;
+        color: #757474;
+      }
+    }
+
+    &-one-secondary-text {
+      padding-top: 10px;
+    }
+
+    &-ico {
+      font-size: 2.5rem !important;
+      color: #6dcff6;
+    }
+
+  }
+
+}

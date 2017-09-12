@@ -106,7 +106,6 @@ class SearchForm extends React.Component {
                 <div className="wizard-form__input">
                     <InputPlaces
                         id="trip_to"
-                        ico="fa-circle-o"
                         onChange={this.onSelectedTo}
                         error={this.state.errors.to}
                     >{translate('search_index.going_to_label')}</InputPlaces>

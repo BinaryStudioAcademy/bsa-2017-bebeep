@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { getTranslate } from 'react-localize-redux';
 
 import UserDropdownItem from './Items/UserDropdownItem';
@@ -62,7 +62,7 @@ class UserDropdown extends React.Component {
                         onClick={this.toggleUserDropdown}
                     >
                         <span className={(countNotifications ? " has-notification" : "")}>
-                            { translate('notifications') }
+                            { translate('notifications.header') }
                         </span>
                     </UserDropdownItem>
 
@@ -73,7 +73,15 @@ class UserDropdown extends React.Component {
                         { translate('bookings') }
                     </UserDropdownItem>
 
-                    { this.renderDivider(isDriver) }
+                    <DropdownItem divider />
+
+                    <UserDropdownItem linkTo="/dashboard/subscriptions"
+                        onClick={this.toggleUserDropdown}
+                    >
+                        { translate('subscriptions') }
+                    </UserDropdownItem>
+
+                    <DropdownItem divider />
 
                     <UserDropdownItem linkTo="/vehicles"
                         isShow={isDriver}
