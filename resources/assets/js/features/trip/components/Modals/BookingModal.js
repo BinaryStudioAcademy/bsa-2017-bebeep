@@ -48,7 +48,8 @@ class BookingModal extends React.Component {
     }
 
     closeModal() {
-        const onClosed = this.props.onClosed || (() => {});
+        const onClosed = this.props.onClosed;
+
         this.setState({ isOpenModal: false });
         onClosed();
     }
@@ -97,7 +98,6 @@ class BookingModal extends React.Component {
                     seats
                 }).then((data) => {
                     onSuccess();
-                    this.closeModal();
                     browserHistory.push('/bookings');
                 })
                     .catch((error) => this.setState({ errors: error.response.data }));
@@ -236,6 +236,11 @@ class BookingModal extends React.Component {
         );
     }
 }
+
+BookingModal.defaultProps = {
+    isOpen: false,
+    onClosed: () => {},
+};
 
 BookingModal.PropTypes = {
     waypoints: PropTypes.array.required,
