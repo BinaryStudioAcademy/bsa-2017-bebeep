@@ -33,7 +33,16 @@ class NotificationsList extends React.Component {
                                     date={notification.created_at_x}
                                     title={message.title}
                                     type={message.type}
-                                >{message.message}</Notification>
+                                >
+                                    <div>{message.message}</div>
+                                    {
+                                        message.link
+                                            ? <a className="btn" href={message.link}>
+                                                {translate('notifications.messages.detail')}
+                                            </a>
+                                            : ''
+                                    }
+                                </Notification>
                             </ListGroupItem>
                         );
                     })}

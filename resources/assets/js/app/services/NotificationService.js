@@ -1,4 +1,3 @@
-import React from 'react';
 import {securedRequest} from './RequestService';
 import LangService from './LangService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper'
@@ -45,7 +44,7 @@ export const getMessage = (notification) => {
                         onlyDate: true,
                         dateFormat: 'MM.DD.YYYY'
                     }).date}),
-                link: `/trip/${notification.data.trip.trip_id}`
+                link: `/bookings`
             };
         case NOTIFICATION_BOOKING_CANCELED:
             return {
@@ -65,7 +64,7 @@ export const getMessage = (notification) => {
                         onlyDate: true,
                         dateFormat: 'MM.DD.YYYY'
                     }).date}),
-                link: `/trip/${notification.data.trip.trip_id}`
+                link: `/bookings`
             };
         case NOTIFICATION_BOOKING_DECLINED:
             return {
@@ -96,8 +95,9 @@ export const getMessage = (notification) => {
                         'to': notification.data.routes.to,
                     }
                 ),
-                message: [(<div key="1">{
-                    translate(`notifications.messages.${notification.type}.message${LangService.getNumberForm(notification.data.booking.seats)}`, {
+                message: translate(
+                    `notifications.messages.${notification.type}.message${LangService.getNumberForm(notification.data.booking.seats)}`,
+                    {
                         'first_name': notification.data.user.first_name,
                         'last_name': notification.data.user.last_name,
                         'seats': notification.data.booking.seats,
@@ -107,9 +107,7 @@ export const getMessage = (notification) => {
                             onlyDate: true,
                             dateFormat: 'MM.DD.YYYY'
                         }).date
-                    })}</div>), (<a key="2" className="btn" href={`/trips/?booking_trip=${notification.data.trip.trip_id}`}>
-                    {translate('notifications.messages.detail')}
-                </a>)],
+                    }),
                 link: `/trips/?booking_trip=${notification.data.trip.trip_id}`
             };
         case NOTIFICATION_REVIEW_ON_TRIP_CREATED:
