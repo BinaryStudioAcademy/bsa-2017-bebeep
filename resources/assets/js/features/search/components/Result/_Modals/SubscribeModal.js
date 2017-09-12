@@ -161,8 +161,10 @@ class SubscribeModal extends React.Component {
 
     renderModalFooter() {
         let {requestSendSuccess} = this.state;
-        const {translate, isAuth, email} = this.props,
-            authClass = (isAuth && email) ? ' subscribe-modal__footer-label-hidden' : '';
+
+        const userObj = getAuthUser(),
+            {translate, isAuth, email} = this.props,
+            authClass = (isAuth && userObj.user.email) ? ' subscribe-modal__footer-label-hidden' : '';
 
         if(!requestSendSuccess) {
             return (
@@ -181,7 +183,7 @@ class SubscribeModal extends React.Component {
                                             id="email"
                                             name="email"
                                             placeholder={translate('subscription.email-placeholder')}
-                                            required={email ? false : 'required'}
+                                            required={(isAuth && userObj.user.email) ? false : 'required'}
                                         />
                                     </div>
                                 </div>
@@ -200,12 +202,12 @@ class SubscribeModal extends React.Component {
         e.preventDefault();
 
         const userObj = getAuthUser(),
-            formEmail = e.target['email'].value,
             {isAuth, email, data} = this.props,
             {time, animals, luggage, seats, rating, price} = this.state;
 
+        let authUserEmail = (userObj.user.email) ? userObj.user.email : null;
         let userId = (userObj.user.sub) ? userObj.user.sub : null;
-        let subsEmail = formEmail ? formEmail : email;
+        let subsEmail = (isAuth && authUserEmail) ? authUserEmail : e.target['email'].value;
         let toBeTransformed = {
             userId,
             time,

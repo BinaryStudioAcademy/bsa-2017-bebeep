@@ -68,9 +68,10 @@ class SubscriptionsService implements Contracts\SubscriptionsService
      */
     public function create(CreateSubscriptionsRequest $request)
     {
+        $userId = $request->getUserId();
         $isEmailExists = $this->subscriptionRepository->isEmailExists($request->getEmail());
 
-        if($isEmailExists) {
+        if(is_null($userId) && $isEmailExists) {
             throw new SubscriptionEmailExistsException("This email exists!");
         }
 
@@ -83,7 +84,7 @@ class SubscriptionsService implements Contracts\SubscriptionsService
             'to_lat' => $request->getToLat(),
             'to_lng' => $request->getToLng(),
             'email' => $request->getEmail(),
-            'user_id' => $request->getUserId(),
+            'user_id' => $userId,
             'is_active' => true,
         ];
 
