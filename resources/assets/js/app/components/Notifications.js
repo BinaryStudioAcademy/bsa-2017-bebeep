@@ -43,6 +43,9 @@ class Notifications extends React.Component {
 
                     addNotification(data);
                     this.showNotification(data);
+                })
+                .listen('Chat\\NewMessage', (e) => {
+                    console.log(e);
                 });
         }
     }

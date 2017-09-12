@@ -221,3 +221,9 @@ Route::group([
 });
 
 Route::resource('v1/subscription', 'Api\\Subscription\\SubscriptionsController', ['only' => ['store']]);
+
+Route::post('v1/users/{user}/messages', [
+    'middleware' => ['jwt.auth'],
+    'as' => 'send.message',
+    'uses' => 'Api\Chat\ChatController@message',
+]);
