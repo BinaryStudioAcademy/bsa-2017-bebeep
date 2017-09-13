@@ -135,8 +135,8 @@ class ProfileTest extends JwtTestCase
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
 
-        $this->createVehicle($user);
-        $this->createTrip($user);
+        $vehicle = $this->createVehicle($user);
+        $this->createTrip($user, ['vehicle_id' => $vehicle->id]);
 
         $response = $this->jsonRequestUserProfile($user);
 
@@ -171,9 +171,9 @@ class ProfileTest extends JwtTestCase
         $user = $this->createPassenger();
         $driver = $this->createDriver();
 
-        $this->createVehicle($driver);
-        $this->createTrip($driver);
-        $this->createBooking($user);
+        $vehicle = $this->createVehicle($driver);
+        $trip = $this->createTrip($driver, ['vehicle_id' => $vehicle->id]);
+        $this->createBooking($user, ['trip_id' => $trip->id]);
 
         $response = $this->jsonRequestUserProfile($user);
 
@@ -258,8 +258,8 @@ class ProfileTest extends JwtTestCase
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
 
-        $this->createVehicle($user);
-        $this->createTrip($user);
+        $vehicle = $this->createVehicle($user);
+        $this->createTrip($user, ['vehicle_id' => $vehicle->id]);
 
         $response = $this->jsonRequestUserProfile($user, 'update', [
             'role_driver' => false,
@@ -275,9 +275,9 @@ class ProfileTest extends JwtTestCase
         $user = $this->createPassenger();
         $driver = $this->createDriver();
 
-        $this->createVehicle($driver);
-        $this->createTrip($driver);
-        $this->createBooking($user);
+        $vehicle = $this->createVehicle($driver);
+        $trip = $this->createTrip($driver, ['vehicle_id' => $vehicle->id]);
+        $this->createBooking($user, ['trip_id' => $trip->id]);
 
         $response = $this->jsonRequestUserProfile($user, 'update', [
             'role_passenger' => false,
@@ -304,8 +304,8 @@ class ProfileTest extends JwtTestCase
         $user = $this->createDriver([
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
-        $this->createVehicle($user);
-        $this->createTrip($user);
+        $vehicle = $this->createVehicle($user);
+        $this->createTrip($user, ['vehicle_id' => $vehicle->id]);
 
         $response = $this->jsonRequestUserProfile($user, 'update', $updatedData);
 
@@ -399,13 +399,14 @@ class ProfileTest extends JwtTestCase
      *
      * @param \App\User $user
      *
-     * @return \App\Models\Trip
+     * @param array $extraData
+     * @return Trip
      */
-    private function createTrip(User $user): Trip
+    private function createTrip(User $user, $extraData = []): Trip
     {
-        return factory(Trip::class)->create([
+        return factory(Trip::class)->create(array_merge([
             'user_id' => $user->id,
-        ]);
+        ], $extraData));
     }
 
     /**
@@ -413,12 +414,13 @@ class ProfileTest extends JwtTestCase
      *
      * @param \App\User $user
      *
-     * @return \App\Models\Booking
+     * @param array $extraData
+     * @return Booking
      */
-    private function createBooking(User $user): Booking
+    private function createBooking(User $user, $extraData = []): Booking
     {
-        return factory(Booking::class)->create([
+        return factory(Booking::class)->create(array_merge([
             'user_id' => $user->id,
-        ]);
+        ], $extraData));
     }
 }

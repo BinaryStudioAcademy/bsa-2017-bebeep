@@ -62,6 +62,18 @@ class SearchFilter
     }
 
     /**
+     * @return $this
+     */
+    public function initialize()
+    {
+        $this->query
+            ->join('routes as routes_from', 'trips.id', '=', 'routes_from.trip_id')
+            ->join('routes as routes_to', 'trips.id', '=', 'routes_to.trip_id');
+
+        return $this;
+    }
+
+    /**
      * @param Carbon $date
      * @param int $minHourOffset
      * @param int $maxHourOffset

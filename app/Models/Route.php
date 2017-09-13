@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Repositories\Helpers\SearchFilter;
 use Illuminate\Database\Eloquent\Model;
 
 class Route extends Model
@@ -81,5 +82,25 @@ class Route extends Model
         }
 
         return $this->trip->seats - $this->reserved_seats;
+    }
+
+    /**
+     * @param $query
+     * @param $startLat
+     * @param $startLng
+     * @param $endLat
+     * @param $endLng
+     * @param int $distance
+     * @return mixed
+     */
+    public function scopeHaversine($query, $startLat, $startLng, $endLat, $endLng, $distance = 20)
+    {
+        return $query->whereRaw(
+            'ROUND(2 * '.SearchFilter::EARTH_RADIUS_KM.' * ASIN(SQRT( '.
+            "POWER(SIN(RADIANS({$startLat} - {$endLat}) / 2), 2) + ".
+            "COS(RADIANS({$startLat})) * COS(RADIANS($endLat)) * ".
+            "POWER(SIN(RADIANS({$startLng} - $endLng) / 2), 2) ".
+            ')), 1) < ' . $distance
+        );
     }
 }

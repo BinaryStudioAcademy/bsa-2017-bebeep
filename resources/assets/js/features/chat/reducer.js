@@ -1,7 +1,13 @@
-import * as actions from './actionsType';
+import * as actions from './actionTypes';
 
 const initialState = {
-    onlineUsers: {}
+    onlineUsers: {},
+    usersId: [],
+    entities: {
+        users: {
+            byId: {}
+        }
+    }
 };
 
 export default (state = initialState, action) => {
@@ -38,6 +44,21 @@ export default (state = initialState, action) => {
                 ...state,
                 onlineUsers: {}
             };
+        case actions.CHAT_SET_USER_LIST:
+            return {
+                ...state,
+                usersId: _.union(state.usersId, action.users),
+                entities: {
+                    ...state.entities,
+                    users: {
+                        byId: {
+                            ...state.entities,
+                            ...action.entities
+                        }
+                    }
+                }
+            };
+
         default:
             return state;
     }

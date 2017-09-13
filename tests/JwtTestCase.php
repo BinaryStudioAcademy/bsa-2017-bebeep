@@ -7,8 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class JwtTestCase extends TestCase
 {
-    use DatabaseMigrations;
-
     protected $user;
 
     /**

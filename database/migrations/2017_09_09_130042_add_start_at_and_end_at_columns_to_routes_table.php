@@ -14,8 +14,8 @@ class AddStartAtAndEndAtColumnsToRoutesTable extends Migration
     public function up()
     {
         Schema::table('routes', function (Blueprint $table) {
-            $table->datetime('start_at')->after('to_lng');
-            $table->datetime('end_at')->after('start_at');
+            $table->datetime('start_at')->nullable()->after('to_lng');
+            $table->datetime('end_at')->nullable()->after('start_at');
         });
     }
 
