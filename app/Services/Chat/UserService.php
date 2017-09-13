@@ -2,6 +2,7 @@
 
 namespace App\Services\Chat;
 
+use App\Criteria\Chat\OthersUserCriteria;
 use App\User;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Collection;
@@ -24,6 +25,6 @@ class UserService implements UserServiceContract
      */
     public function getOthers(User $user): Collection
     {
-        return collect($this->userRepository->findWhere([['id', '<>', $user->id]]));
+        return collect($this->userRepository->getByCriteria(new OthersUserCriteria($user)));
     }
 }
