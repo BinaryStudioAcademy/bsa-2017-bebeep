@@ -7,14 +7,14 @@ use App\Models\Trip;
 use App\Models\Filter;
 use App\Models\Subscription;
 use Illuminate\Support\Collection;
-use App\Repositories\UserRepository;
 use App\Http\Requests\DTO\FilterDTO;
+use App\Repositories\UserRepository;
 use App\Services\Requests\CreateSubscriptionsRequest;
 use App\Repositories\Contracts\SubscriptionRepository;
 use App\Criteria\Subscriptions\SubscriptionTripCriteria;
 use App\Services\Helpers\Subscriptions\FilterCollection;
-use App\Exceptions\Subscriptions\SubscriptionEmailExistsException;
 use App\Services\Requests\Subscriptions\EditSubscriptionRequest;
+use App\Exceptions\Subscriptions\SubscriptionEmailExistsException;
 use App\Services\Requests\Subscriptions\StatusSubscriptionRequest;
 
 class SubscriptionsService implements Contracts\SubscriptionsService

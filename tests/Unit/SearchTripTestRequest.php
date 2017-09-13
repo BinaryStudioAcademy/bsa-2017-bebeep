@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Services\Requests\SearchTripRequest as SearchTripRequestContract;
 use Carbon\Carbon;
+use App\Services\Requests\SearchTripRequest as SearchTripRequestContract;
 
 class SearchTripRequest implements SearchTripRequestContract
 {
