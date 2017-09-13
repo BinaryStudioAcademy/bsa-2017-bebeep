@@ -25,8 +25,8 @@ class UpdateTripTest extends BaseTripTestCase
     public function user_cant_edit_trip_if_trip_id_is_not_correct()
     {
         $user = $this->getDriverUser();
-        factory(Vehicle::class)->create(['user_id' => $user->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id + 1);
 
@@ -61,8 +61,8 @@ class UpdateTripTest extends BaseTripTestCase
     public function user_cant_edit_trip_without_driver_permissions()
     {
         $user = factory(User::class)->create();
-        factory(Vehicle::class)->create(['user_id' => $user->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id);
 
@@ -84,12 +84,12 @@ class UpdateTripTest extends BaseTripTestCase
     {
         $user = $this->getDriverUser();
         $user2 = $this->getDriverUser();
-        factory(Vehicle::class)->create(['user_id' => $user2->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user2->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user2->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user2->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id);
 
-        $response = $this->jsonAsUser($user);
+        $response = $this->jsonAsUser($user, ['vehicle_id' => $vehicle->id]);
         $response->assertStatus(401);
 
         $this->assertDatabaseHas(
