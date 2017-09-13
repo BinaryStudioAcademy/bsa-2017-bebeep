@@ -2,8 +2,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
-import ChatService from 'app/services/ChatService';
-import {addUsersToList} from '../../actions';
+import {fillUsersList} from '../../actions';
 import UserItem from './UserItem';
 import {ListGroup, ListGroupItem} from 'reactstrap';
 import '../../styles/user-list.scss';
@@ -18,12 +17,9 @@ class UserListContainer extends React.Component {
     }
 
     getUserList() {
-        const {addUsersToList} = this.props;
+        const {fillUsersList} = this.props;
 
-        ChatService.getOthersUser()
-            .then((response) => {
-                addUsersToList(response.data);
-            });
+        fillUsersList();
     }
 
     render() {
@@ -50,5 +46,5 @@ export default connect(
         usersId: state.chat.usersId,
         translate: getTranslate(state.locale)
     }),
-    dispatch => bindActionCreators({addUsersToList}, dispatch)
+    dispatch => bindActionCreators({fillUsersList}, dispatch)
 )(UserListContainer);

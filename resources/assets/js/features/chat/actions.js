@@ -1,4 +1,5 @@
 import * as actions from './actionTypes';
+import {securedRequest} from 'app/services/RequestService'
 
 export const addUsersToList = data => {
     return _.reduce(data.data, (result, user) => {
@@ -11,4 +12,13 @@ export const addUsersToList = data => {
         users: [],
         entities: {}
     });
+};
+
+export const fillUsersList = () => dispatch => {
+    securedRequest.get('/api/v1/users/others')
+        .then(response => dispatch(addUsersToList(response.data)))
+        .catch(error => {
+            console.error(error);
+            dispatch(addUsersToList({data: {}}));
+        });
 };
