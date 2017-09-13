@@ -227,3 +227,8 @@ Route::group([
 });
 
 Route::resource('v1/subscription', 'Api\\Subscription\\SubscriptionsController', ['only' => ['store']]);
+
+Route::get('v1/users/others', [
+    'as' => 'users',
+    'uses' => 'Api\Chat\UserController@others'
+]);
