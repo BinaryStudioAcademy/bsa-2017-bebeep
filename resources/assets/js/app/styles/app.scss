@@ -23,7 +23,8 @@ svg {
     height: auto;
 }
 b,
-strong {
+strong,
+th {
     font-weight: 600;
 }
 
@@ -50,6 +51,20 @@ strong {
     vertical-align: bottom;
 }
 
+.container {
+    &--min-height {
+        &-350 {
+            min-height: 350px;
+        }
+        &-400 {
+            min-height: 400px;
+        }
+        &-500 {
+            min-height: 500px;
+        }
+    }
+}
+
 .page-header {
     margin-bottom: 1.5rem;
     border-bottom: 1px solid lighten($black, 90%);
@@ -59,10 +74,6 @@ strong {
         font-size: 1.4rem;
         color: lighten($gray, 5%);
     }
-}
-
-.main-application {
-    min-height: 500px;
 }
 
 .hover:hover {
@@ -242,7 +253,7 @@ strong {
     box-shadow: 0 -5px 5px -5px rgba(51, 51, 51, .21);
 }
 .application-footer {
-    padding-top: 1rem;
+    padding-top: .5rem;
     line-height: 1;
     font-size: .8rem;
 
@@ -299,14 +310,50 @@ strong {
     }
 }
 
+td.table-list-details__cell-for-action {
+    width: 20px;
+}
+
+.table-list-details {
+    th,
+    td {
+        font-size: .95rem;
+
+        &:first-child {
+            padding-left: .75rem;
+        }
+        &:last-child {
+            padding-right: .75rem;
+        }
+    }
+    th {
+        padding: .5rem;
+    }
+    td {
+        padding: .25rem .5rem;
+        vertical-align: middle;
+    }
+    &__image {
+        max-width: 80px;
+
+        svg {
+            margin-top: .5rem;
+        }
+    }
+}
+
 
 .modal-body--min-height {
     min-height: 250px;
 }
 
+th,
+.card-header {
+    background-color: lighten($teal, 26%);
+}
+
 .card-header {
     padding: .75rem 1rem;
-    background-color: lighten($teal, 26%);
 }
 
 .position-relative {

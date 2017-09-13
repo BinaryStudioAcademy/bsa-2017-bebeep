@@ -1,5 +1,14 @@
 {
-  "vehicles": {
-    "vehicles_list_header": ["Vehicles list", "Перелік транспорту", "Список транспорта"]
+  "vehicles_list": {
+    "header": ["Vehicles list", "Перелік транспорту", "Список транспорта"],
+    "options": {
+        "brand": ["Brand", "Бренд", "Бренд"],
+        "model": ["Model", "Модель", "Модель"],
+        "year": ["Year", "Рік", "Год"],
+        "body": ["Body", "Кузов", "Кузов"],
+        "color": ["Color", "Колір", "Цвет"],
+        "seats": ["Seats", "Місць", "Мест"],
+        "photo": ["Photo", "Фото", "Фото"]
+    }
   }
 }

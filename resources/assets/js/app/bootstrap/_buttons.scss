@@ -10,6 +10,10 @@
   box-shadow: 0 0 2px lighten($black, 63%);
 }
 
+.btn--with-icon {
+    padding: 5px 10px;
+}
+
 .btn.disabled,
 .btn:active {
   -webkit-box-shadow: none;
