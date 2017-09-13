@@ -11,10 +11,6 @@ import '../../styles/user-list.scss';
 class UserListContainer extends React.Component {
     constructor() {
         super();
-
-        this.state = {
-            //TODO
-        };
     }
 
     componentWillMount() {
