@@ -89,6 +89,7 @@
     }
   },
   "subscriptions": ["Subscriptions", "Підписки", "Подписки"],
+  "chat": ["Chat", "Чат", "Чат"],
   "app-footer": {
     "copyrights": ["All rights reserved", "Усі права захищені", "Все права защищены"],
     "content": [
