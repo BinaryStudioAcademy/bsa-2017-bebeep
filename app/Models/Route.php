@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Repositories\Helpers\SearchFilter;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\Helpers\SearchFilter;
 
 class Route extends Model
 {
