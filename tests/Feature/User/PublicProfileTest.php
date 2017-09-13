@@ -9,8 +9,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PublicProfileTest extends TestCase
 {
-    use DatabaseMigrations;
-
     /**
      * @test
      */
