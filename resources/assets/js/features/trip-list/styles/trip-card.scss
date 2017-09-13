@@ -7,6 +7,10 @@
         max-height: 100%;
     }
     & .card-header {
+        min-height: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         cursor: pointer;
     }
 }

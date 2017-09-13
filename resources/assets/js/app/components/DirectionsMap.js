@@ -197,7 +197,7 @@ class DirectionsMap extends React.Component {
                     ) : '' }
                 </div>
 
-                <div className={ tripDetailsClass }>
+                <div className={"trip-directions-map " + tripDetailsClass }>
                     <div className="card-block google-map">
                         <GoogleMapContainer
                           containerElement={
@@ -212,7 +212,7 @@ class DirectionsMap extends React.Component {
                     </div>
                   { distance  ?
                     (
-                      <div className="card-footer">
+                      <div className="card-footer google-map-trip-info">
                           <h6>{ translate('directionsmap.trip_info') }</h6>
 
                           <span className="text-muted">{
@@ -231,9 +231,7 @@ class DirectionsMap extends React.Component {
                                 translate('directionsmap.duration') }: </span>
                             { duration }
                       </div>
-                    ) : (
-                      <div />
-                    )
+                    ) : null
                   }
 
                   { this.props.children }

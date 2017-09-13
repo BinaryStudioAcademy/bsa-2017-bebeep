@@ -1,36 +1,94 @@
 import React from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
+
+import { DeleteButton } from 'app/components/Buttons';
 
 class Waypoints extends React.Component {
-    render() {
-        const {translate} = this.props;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            waypointsView: '',
+        };
+    }
+
+    componentWillMount() {
+        const { waypoints } = this.props;
         let waypointsView = '';
 
-        if (this.props.waypoints) {
-            waypointsView = this.props.waypoints.map((point, index) =>
-                <div className="row justify-content-end stopover-row" key={index}>
-                    <label className="form-control-label text-muted col-sm-4 mt-3">{translate('trip_form.stopover.name', {n: index + 1})}</label>
-                    <div className="col-sm-8 text-right mt-3">
-                        <PlacesAutocomplete inputProps={{value: point.value, onChange(address) {point.onChange(address, index)}}}
-                                            classNames={this.props.placesCssClasses}
-                                            onSelect={(address) => {point.onSelect(address, index);}}
-                                            onEnterKeyDown={(address) => {point.onSelect(address, index);}}
-                        />
-                        <a href="#" onClick={(e) => { e.preventDefault(); this.props.onWaypointDelete(index); }}>{translate('trip_form.stopover.delete')}</a>
-                    </div>
-                </div>
+        if (waypoints.length) {
+            waypointsView = waypoints.map((waypoint, index) =>
+                this.renderWaypointView(waypoint, index)
             );
         }
+
+        this.setState({
+            waypointsView,
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const waypoints = nextProps.waypoints;
+        let waypointsView = '';
+
+        if (waypoints.length) {
+            waypointsView = waypoints.map((waypoint, index) =>
+                this.renderWaypointView(waypoint, index)
+            );
+        }
+
+        this.setState({
+            waypointsView,
+        });
+    }
+
+    renderWaypointView(waypoint, index) {
+        const { translate, placesCssClasses, onWaypointDelete } = this.props;
+
+        return (
+            <div className="row align-items-center justify-content-end stopover-row" key={index}>
+                <label className="form-control-label text-muted col-sm-4 mt-3">
+                    {translate('trip_form.stopover.name', {n: index + 1})}
+                </label>
+
+                <div className="col-sm-8 text-right mt-3">
+                    <div className="row no-gutters align-items-center">
+                        <div className="col-10">
+                            <PlacesAutocomplete
+                                inputProps={{
+                                    value: waypoint.value,
+                                    onChange: (address) => {waypoint.onChange(address, index)},
+                                }}
+                                classNames={placesCssClasses}
+                                onSelect={(address) => {waypoint.onSelect(address, index);}}
+                                onEnterKeyDown={(address) => {waypoint.onSelect(address, index);}}
+                            />
+                        </div>
+                        <div className="col-2">
+                            <DeleteButton onClick={() => onWaypointDelete(index)} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    render() {
+        const { translate, onWaypointAdd } = this.props,
+            { waypointsView } = this.state;
 
         return (
             <div>
                 {waypointsView}
                 <div className="form-group text-right">
-                    <a href="#" onClick={this.props.onWaypointAdd}>{translate('trip_form.stopover.add')}</a>
+                    <a href="#" onClick={onWaypointAdd}>
+                        {translate('trip_form.stopover.add')}
+                    </a>
                 </div>
             </div>
-        )
+        );
     }
 }
 

@@ -52,7 +52,7 @@ class TripForm extends React.Component {
             <label className="form-control-label text-muted col-sm-4" htmlFor="is_in_both_directions">
                 {translate('trip_form.is_round_trip')}
             </label>
-            <div className="col-sm-8 mt-3">
+            <div className="col-sm-8">
                 <div className="form-check">
                     <label className="form-check-label">
                         <input className="form-check-input" type="checkbox" id="is_in_both_directions"
@@ -80,7 +80,7 @@ class TripForm extends React.Component {
             >
                 {translate('trip_form.reverse_start_at')}
             </label>
-            <div className="col-md-8 mt-2">
+            <div className="col-md-8">
                 <InputDateTime
                     id="reverse_start_at"
                     isValidDate={this.isValidDate}
@@ -148,7 +148,7 @@ class TripForm extends React.Component {
                         >
                             {translate('trip_form.select_car')}
                         </label>
-                        <div className="col-sm-8 mt-2">
+                        <div className="col-sm-8">
                             {this.renderVehiclesList()}
                             <div className="form-control-feedback">{errors.vehicle_id}</div>
                         </div>
@@ -177,7 +177,7 @@ class TripForm extends React.Component {
                         <label className="form-control-label text-muted col-sm-4">
                             {translate('trip_form.start_point')}
                         </label>
-                        <div className="col-sm-8 mt-3">
+                        <div className="col-sm-8">
                             <PlacesAutocomplete
                                 inputProps={startPoint}
                                 classNames={placesCssClasses}
@@ -191,7 +191,7 @@ class TripForm extends React.Component {
                         <label className="form-control-label text-muted col-sm-4">
                             {translate('trip_form.end_point')}
                         </label>
-                        <div className="col-sm-8 mt-3">
+                        <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={endPoint}
                                 classNames={placesCssClasses}
                                 onSelect={onSelectEndPoint}
@@ -213,7 +213,7 @@ class TripForm extends React.Component {
                         >
                             {translate('trip_form.trip_start_time')}
                         </label>
-                        <div className="col-md-8 mt-3">
+                        <div className="col-md-8">
                             <InputDateTime
                                 id="start_at"
                                 isValidDate={this.isValidDate}
@@ -233,7 +233,7 @@ class TripForm extends React.Component {
                         >
                             {translate('trip_form.luggage_size')}
                         </label>
-                        <div className="col-sm-8 mt-2">
+                        <div className="col-sm-8">
                             <select
                                 name="luggage_size"
                                 id="luggage_size"
@@ -254,7 +254,7 @@ class TripForm extends React.Component {
                         >
                             {translate('trip_form.is_animals_allowed')}
                         </label>
-                        <div className="col-sm-8 mt-3">
+                        <div className="col-sm-8">
                             <div className="form-check">
                                 <label className="form-check-label">
                                     <input type="checkbox"
@@ -269,7 +269,7 @@ class TripForm extends React.Component {
                     {this.showInBothDirectionsControl()}
                     {this.showReverseStartAtControl()}
 
-                    <div className="form-group">
+                    <div className="form-group form-group--last-for-btn">
                         <div className="text-center">
                             <button type="submit" className="btn btn-primary">
                                 {buttonText}</button>

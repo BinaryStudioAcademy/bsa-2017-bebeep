@@ -198,7 +198,7 @@ class Form extends React.Component {
                             {translate('register_form.role')}
                         </div>
                         <div className="col-sm-8 d-flex flex-wrap justify-content-around">
-                            <div className="form-check">
+                            <div className="form-check form-check--with-text">
                                 <label className="form-check-label">
                                     <input
                                         className="form-check-input"
@@ -210,7 +210,7 @@ class Form extends React.Component {
                                     /> {translate('register_form.driver')}
                                 </label>
                             </div>
-                            <div className="form-check">
+                            <div className="form-check form-check--with-text">
                                 <label className="form-check-label">
                                     <input
                                         className="form-check-input"
