@@ -34,9 +34,6 @@ import AuthService from './services/AuthService';
 import { RequireUser, RequireGuest } from './components/Auth';
 import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from './services/UserService';
 
-import { getCountUnread } from './services/NotificationService';
-import { setCountUnreadNotifications } from 'features/notifications/actions';
-
 import LangeService from './services/LangService';
 import DataStorage from './helpers/DataStorage';
 
@@ -52,22 +49,7 @@ export default (store) => {
     LangeService.addTranslation(require('./lang/validate.locale.json'));
 
     return (
-        <Route path="/" component={ App } onChange={() => {
-            if (!AuthService.isAuthorized()) {
-                return;
-            }
-            getCountUnread().then(response => {
-                store.dispatch(setCountUnreadNotifications(response.data));
-            });
-
-        }} onEnter={() => {
-            if (!AuthService.isAuthorized()) {
-                return;
-            }
-            getCountUnread().then(response => {
-                store.dispatch(setCountUnreadNotifications(response.data));
-            });
-        }}>
+        <Route path="/" component={ App }>
 
             <Route path="elements" component={ Elements } />
 
