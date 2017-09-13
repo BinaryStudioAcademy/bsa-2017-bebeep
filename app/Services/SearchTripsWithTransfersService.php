@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Route;
-use App\Repositories\TripRepository;
-use App\Services\Helpers\RouteCombinationsFinder;
-use App\Services\Requests\SearchTripRequest;
 use Carbon\Carbon;
+use App\Models\Route;
 use RFHaversini\Distance;
+use App\Repositories\TripRepository;
+use App\Services\Requests\SearchTripRequest;
+use App\Services\Helpers\RouteCombinationsFinder;
 
 class SearchTripsWithTransfersService
 {
@@ -58,7 +58,7 @@ class SearchTripsWithTransfersService
         $routeGroups = $combinator->find($request->getTransfers() ?? 5);
 
         $sortMethod = $this->searchRequest->getOrder() === 'asc' ? 'sortBy' : 'sortByDesc';
-        $filteredAndSortedRouteGroups = $this->filterByRestrictions($routeGroups)->{$sortMethod}(function($routeGroup) {
+        $filteredAndSortedRouteGroups = $this->filterByRestrictions($routeGroups)->{$sortMethod}(function ($routeGroup) {
             $startRoute = $routeGroup->getRoutes()->first();
 
             if ($this->searchRequest->getSort() === 'price') {
@@ -165,11 +165,11 @@ class SearchTripsWithTransfersService
     private function filterByRestrictions($routeGroups)
     {
         return $routeGroups->filter(function ($routeGroup) {
-            if (!$this->searchRequest->getSeats()) {
+            if (! $this->searchRequest->getSeats()) {
                 return true;
             }
 
-            $filtered = $routeGroup->getRoutes()->filter(function($route) {
+            $filtered = $routeGroup->getRoutes()->filter(function ($route) {
                 $seats = $this->searchRequest->getSeats();
                 $availableSeats = $route->available_seats;
 
@@ -185,11 +185,11 @@ class SearchTripsWithTransfersService
             $minPrice = (int) $this->searchRequest->getMinPrice();
             $maxPrice = (int) $this->searchRequest->getMaxPrice();
 
-            if (!$minPrice && !$maxPrice) {
+            if (! $minPrice && ! $maxPrice) {
                 return true;
             }
 
-            $routeGroupPrice = $routeGroup->getRoutes()->reduce(function($carry, $route) {
+            $routeGroupPrice = $routeGroup->getRoutes()->reduce(function ($carry, $route) {
                 return $carry + $route->trip->price;
             });
 
@@ -204,13 +204,13 @@ class SearchTripsWithTransfersService
     private function getMeta($routeGroups)
     {
         $minPrice = $routeGroups->map(function ($routeGroup) {
-            return $routeGroup->getRoutes()->map(function($route) {
+            return $routeGroup->getRoutes()->map(function ($route) {
                 return $route->trip->price;
             })->min();
         })->min();
 
         $maxPrice = $routeGroups->map(function ($routeGroup) {
-            return $routeGroup->getRoutes()->map(function($route) {
+            return $routeGroup->getRoutes()->map(function ($route) {
                 return $route->trip->price;
             })->max();
         })->max();

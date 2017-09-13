@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\SearchTripsWithTransfersService;
 use App\User;
 use App\Models\Trip;
 use App\Services\TripsService;
@@ -13,6 +12,7 @@ use App\Http\Requests\CreateTripRequest;
 use App\Http\Requests\SearchTripRequest;
 use App\Http\Requests\UpdateTripRequest;
 use App\Http\Requests\GetDriverTripRequest;
+use App\Services\SearchTripsWithTransfersService;
 use App\Exceptions\Trip\UserCantEditTripException;
 use App\Transformers\Search\SearchTripTransformer;
 use App\Transformers\DriverTrip\DriverTripTransformer;

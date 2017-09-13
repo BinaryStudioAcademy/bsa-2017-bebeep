@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Models\Trip;
-use App\Models\Vehicle;
-use App\Services\SearchTripsWithTransfersService;
 use App\User;
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Trip;
+use App\Models\Vehicle;
+use App\Services\SearchTripsWithTransfersService;
 
 class SearchTripWithTransfersServiceTest extends TestCase
 {
@@ -110,7 +110,8 @@ class SearchTripWithTransfersServiceTest extends TestCase
      * @param $count
      * @param null $startAt
      */
-    private function createTrips($routes, $count, $startAt = null) {
+    private function createTrips($routes, $count, $startAt = null)
+    {
         foreach (range(1, $count) as $item) {
             $this->createTrip($routes, $startAt);
         }
@@ -134,7 +135,7 @@ class SearchTripWithTransfersServiceTest extends TestCase
         $trip = factory(Trip::class)->create([
             'user_id' => $driver->id,
             'vehicle_id' => $vehicle->id,
-            'start_at' => $startAt ?? Carbon::now()->addHour(1)
+            'start_at' => $startAt ?? Carbon::now()->addHour(1),
         ]);
 
         foreach ($this->getRoutesFromWaypoints($routes) as $key => $route) {
