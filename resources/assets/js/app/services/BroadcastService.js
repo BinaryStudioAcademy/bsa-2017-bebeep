@@ -1,7 +1,7 @@
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
-import {getAuthToken} from './AuthService';
-import {PUSHER_API_KEY} from 'app/config.js';
+import AuthService from './AuthService';
+import { PUSHER_API_KEY } from 'app/config.js';
 
 const BroadcastService = {
     get Echo() {
@@ -12,7 +12,7 @@ const BroadcastService = {
             encrypted: true,
             auth: {
                 headers: {
-                    'Authorization': 'Bearer ' + getAuthToken()
+                    'Authorization': 'Bearer ' + AuthService.getSessionToken()
                 }
             }
         });

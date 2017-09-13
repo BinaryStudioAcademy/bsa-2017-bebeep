@@ -88,7 +88,7 @@ class TripItem extends React.Component {
                                 <span className="search-trip-item__free-seats-text">
                                     { trip.seats }
                                 </span> {
-                                    translate('search_result.free_seats' + LangService.getNumberForm(
+                                    translate('dropdown.free_seats.count_' + LangService.getNumberForm(
                                         trip.seats
                                 )) }
                             </div>

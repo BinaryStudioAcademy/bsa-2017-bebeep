@@ -82,6 +82,7 @@ class ProfileTest extends JwtTestCase
                 'about_me' => null,
                 'role_driver' => true,
                 'role_passenger' => false,
+                'permissions' => User::DRIVER_PERMISSION,
                 'can_uncheck_role_driver' => true,
                 'can_uncheck_role_passenger' => true,
             ]]);
@@ -101,6 +102,7 @@ class ProfileTest extends JwtTestCase
                 'avatar' => null,
                 'role_driver' => false,
                 'role_passenger' => true,
+                'permissions' => User::PASSENGER_PERMISSION,
                 'can_uncheck_role_driver' => true,
                 'can_uncheck_role_passenger' => true,
             ]]);
@@ -310,6 +312,7 @@ class ProfileTest extends JwtTestCase
         $response->assertStatus(200)
              ->assertExactJson(['data' => $updatedData + [
                 'avatar' => null,
+                'permissions' => User::DRIVER_PERMISSION,
                 'can_uncheck_role_driver' => false,
                 'can_uncheck_role_passenger' => true,
             ]]);

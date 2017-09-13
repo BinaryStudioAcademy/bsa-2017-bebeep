@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { localize } from 'react-localize-redux';
 
 import ContainerWrapper from 'app/layouts/ContainerWrapper';
@@ -18,8 +18,8 @@ class BookingsList extends React.Component {
     }
 
     render() {
-        const {translate, route} = this.props,
-            filter = route.path === "bookings/past" ? FILTER_PAST : FILTER_UPCOMING;
+        const { translate, location } = this.props,
+            filter = location.pathname === '/bookings/past' ? FILTER_PAST : FILTER_UPCOMING;
 
         return (
             <ContainerWrapper>
@@ -45,4 +45,4 @@ class BookingsList extends React.Component {
     }
 }
 
-export default localize(BookingsList, 'locale');
+export default localize(withRouter(BookingsList), 'locale');

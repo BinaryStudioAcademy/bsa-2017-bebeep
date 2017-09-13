@@ -16,7 +16,7 @@ class SeatsDropDown extends React.Component {
                 <div className="filter__prop">
                     <div className="filter__prop-control">
                         <div className="filter__prop-name subscribe-modal-name">
-                            {translate('dropdown.free_seats')}
+                            {translate('dropdown.free_seats.name')}
                         </div>
                         <select name="seats" value={value || ''} className="form-control" id="seats" onChange={onChange}>
                             <option value="">{translate('dropdown.not_important')}</option>
