@@ -41,8 +41,7 @@ class SubscriptionsService implements Contracts\SubscriptionsService
         SubscriptionRepository $subscriptionRepository,
         FilterCollection $filterCollection,
         UserRepository $userRepository
-    )
-    {
+    ) {
         $this->subscriptionRepository = $subscriptionRepository;
         $this->filterCollection = $filterCollection;
         $this->userRepository = $userRepository;
