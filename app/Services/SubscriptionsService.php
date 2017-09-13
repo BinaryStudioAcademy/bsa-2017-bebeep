@@ -6,6 +6,7 @@ use App\User;
 use App\Models\Trip;
 use App\Models\Subscription;
 use Illuminate\Support\Collection;
+use App\Repositories\UserRepository;
 use App\Services\Requests\CreateSubscriptionsRequest;
 use App\Repositories\Contracts\SubscriptionRepository;
 use App\Criteria\Subscriptions\SubscriptionTripCriteria;
@@ -20,14 +21,31 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     private $subscriptionRepository;
 
     /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
      * @var FilterCollection
      */
     private $filterCollection;
 
-    public function __construct(SubscriptionRepository $subscriptionRepository, FilterCollection $filterCollection)
+    /**
+     * SubscriptionsService constructor.
+     *
+     * @param SubscriptionRepository $subscriptionRepository
+     * @param FilterCollection $filterCollection
+     * @param UserRepository $userRepository
+     */
+    public function __construct(
+        SubscriptionRepository $subscriptionRepository,
+        FilterCollection $filterCollection,
+        UserRepository $userRepository
+    )
     {
         $this->subscriptionRepository = $subscriptionRepository;
         $this->filterCollection = $filterCollection;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -69,7 +87,7 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     public function create(CreateSubscriptionsRequest $request)
     {
         $userId = $request->getUserId();
-        $isEmailExists = $this->subscriptionRepository->isEmailExists($request->getEmail());
+        $isEmailExists = $this->userRepository->isEmailExists($request->getEmail());
 
         if (is_null($userId) && $isEmailExists) {
             throw new SubscriptionEmailExistsException('This email exists!');

@@ -36,4 +36,15 @@ class UserRepository extends BaseRepository
     {
         return User::where('email', $email)->first();
     }
+
+    /**
+     * Check if email exists.
+     *
+     * @param string $email
+     * @return bool
+     */
+    public function isEmailExists(string $email) : bool
+    {
+        return $this->model->where('email', $email)->exists();
+    }
 }
