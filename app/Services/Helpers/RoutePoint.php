@@ -2,8 +2,8 @@
 
 namespace App\Services\Helpers;
 
-use Illuminate\Support\Collection;
 use RFHaversini\Distance;
+use Illuminate\Support\Collection;
 
 class RoutePoint
 {

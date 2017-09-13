@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Vehicle;
 
-use App\Models\Vehicle;
 use App\User;
 use Tests\JwtTestCase;
+use App\Models\Vehicle;
 
 class VehicleApiTest extends JwtTestCase
 {
