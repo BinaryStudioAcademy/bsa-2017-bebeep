@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getTranslate} from 'react-localize-redux';
@@ -55,13 +54,10 @@ class GeneralChannel extends React.Component {
     }
 }
 
-GeneralChannel.PropTypes = {
-    isAuthorized: PropTypes.bool.isRequired
-};
-
 export default connect(
     state => ({
-        translate: getTranslate(state.locale)
+        translate: getTranslate(state.locale),
+        isAuthorized: state.user.login.success
     }),
     dispatch => bindActionCreators({setOnlineUsers, setOnline, setOffline, clearUserList}, dispatch)
 )(GeneralChannel);

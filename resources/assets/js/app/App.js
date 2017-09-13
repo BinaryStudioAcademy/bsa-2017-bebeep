@@ -83,7 +83,7 @@ class App extends React.Component {
             : <div>
                 {this.props.children}
                 <Notifications userId={AuthService.getUserId()} />
-                <GeneralChannel isAuthorized={AuthService.isAuthorized()} />
+                <GeneralChannel />
             </div>;
     }
 
