@@ -12,7 +12,7 @@ import {getTranslate} from 'react-localize-redux';
 import {transformSubscriptionData,sendSubscribeRequest} from 'features/search/services/SearchService';
 import 'features/search/styles/subscribe-modal.scss';
 import AuthService from 'app/services/AuthService';
-import { subscriptionUpdate } from 'features/search/actions';
+import { subscriptionUpdate, subscriptionReset } from 'features/search/actions';
 
 class SubscribeModal extends React.Component {
 
@@ -229,6 +229,7 @@ class SubscribeModal extends React.Component {
                 if (response.status === 200) {
                     if(response.data.error !== "This email exists!") {
                         this.setState({requestSendSuccess: true});
+                        this.props.subscriptionReset();
                     } else {
                         this.setState({confirmLoginModalIsOpen: true});
                     }
@@ -268,5 +269,5 @@ export default connect(
         email: state.user.profile.email,
         translate: getTranslate(state.locale)
     }),
-    (dispatch) => bindActionCreators({subscriptionUpdate}, dispatch)
+    (dispatch) => bindActionCreators({subscriptionUpdate, subscriptionReset}, dispatch)
 )(SubscribeModal);
