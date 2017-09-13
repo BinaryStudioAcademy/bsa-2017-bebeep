@@ -96,6 +96,13 @@ const AuthService = (() => {
             return getFromState('user_id');
         },
 
+        getEmail() {
+            if (!_this.isAuthorized()) {
+                return null;
+            }
+            return getFromState('email');
+        },
+
         getSessionData(userData) {
             const decoded = decodeSessionToken();
 

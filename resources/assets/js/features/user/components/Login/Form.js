@@ -15,6 +15,8 @@ import { subscriptionReset } from 'features/search/actions';
 import 'features/user/styles/user.scss';
 import { sendSubscribeRequest } from 'features/search/services/SearchService';
 
+import AuthService from 'app/services/AuthService';
+
 class Form extends React.Component {
 
     constructor(props) {
@@ -44,7 +46,7 @@ class Form extends React.Component {
                     filters: nextProps.subscription.filters,
                     start_at: nextProps.subscription.start_at,
                     start_point: nextProps.subscription.start_point,
-                    user_id: nextProps.user.profile.sub
+                    user_id: AuthService.getUserId()
                 };
 
                 sendSubscribeRequest(subscribeData).

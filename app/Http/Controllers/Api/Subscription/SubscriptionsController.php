@@ -66,7 +66,7 @@ class SubscriptionsController extends Controller
     public function store(CreateSubscriptionRequest $request)
     {
         try {
-            $subscription = $this->subscriptionService->create($request);
+            $subscription = $this->subscriptionsService->create($request);
 
             return response()->json($subscription);
         } catch (SubscriptionEmailExistsException $e) {

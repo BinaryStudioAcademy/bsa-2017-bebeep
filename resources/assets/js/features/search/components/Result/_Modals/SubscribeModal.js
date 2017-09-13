@@ -11,7 +11,7 @@ import {Range} from 'rc-slider';
 import {getTranslate} from 'react-localize-redux';
 import {transformSubscriptionData,sendSubscribeRequest} from 'features/search/services/SearchService';
 import 'features/search/styles/subscribe-modal.scss';
-import { getAuthUser } from 'app/services/AuthService';
+import AuthService from 'app/services/AuthService';
 import { subscriptionUpdate } from 'features/search/actions';
 
 class SubscribeModal extends React.Component {
@@ -164,9 +164,9 @@ class SubscribeModal extends React.Component {
     renderModalFooter() {
         let {requestSendSuccess} = this.state;
 
-        const userObj = getAuthUser(),
+        const userEmail = AuthService.getEmail(),
             {translate, isAuth, email} = this.props,
-            authClass = (isAuth && userObj.user.email) ? ' subscribe-modal__footer-label-hidden' : '';
+            authClass = (isAuth && userEmail) ? ' subscribe-modal__footer-label-hidden' : '';
 
         if(!requestSendSuccess) {
             return (
@@ -185,7 +185,7 @@ class SubscribeModal extends React.Component {
                                             id="email"
                                             name="email"
                                             placeholder={translate('subscription.email-placeholder')}
-                                            required={(isAuth && userObj.user.email) ? false : 'required'}
+                                            required={(isAuth && userEmail) ? false : 'required'}
                                         />
                                     </div>
                                 </div>
@@ -203,13 +203,12 @@ class SubscribeModal extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const userObj = getAuthUser(),
+        const userId = AuthService.getUserId(),
+            userEmail = AuthService.getEmail(),
             {isAuth, email, data} = this.props,
             {time, animals, luggage, seats, rating, price} = this.state;
 
-        let authUserEmail = (userObj.user.email) ? userObj.user.email : null;
-        let userId = (userObj.user.sub) ? userObj.user.sub : null;
-        let subsEmail = (isAuth && authUserEmail) ? authUserEmail : e.target['email'].value;
+        let subsEmail = (isAuth && userEmail) ? userEmail : e.target['email'].value;
         let toBeTransformed = {
             userId,
             time,
