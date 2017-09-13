@@ -276,6 +276,9 @@ strong {
     margin-right: 3px;
 }
 
+.form-control-label {
+    font-size: $font-size-base-smaller;
+}
 .form-group .form-control-label {
     padding-top: .5rem;
 }

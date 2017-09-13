@@ -80,14 +80,14 @@ class Form extends React.Component {
 
                     <div className="card-footer">
                         <div className="row">
-                            <div className="text-right col-6">
+                            <div className="text-right col-5 offset-2">
                                 <button
                                     className="btn btn-primary"
                                     onClick={ this.onSave }>
                                     {translate('login_form.login')}
                                 </button>
                             </div>
-                            <div className="col-6 text-right">
+                            <div className="col-5 d-flex align-items-center">
                                 <a href="#" onClick={(e) => {
                                     e.preventDefault();
                                     this.setState({forgotModalIsOpen: true});
