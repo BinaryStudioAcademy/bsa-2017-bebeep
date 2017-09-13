@@ -1,3 +1,5 @@
+@import '~app/bootstrap/variables';
+
 .subscribe-modal {
   &__header {
     &-text {
@@ -6,7 +8,7 @@
   }
   &__body {
     &-info-text {
-      font-size: .9rem;
+      font-size: $font-size-base-smaller;
     }
     &-routes, &-filters {
       font-size: 1.2rem;

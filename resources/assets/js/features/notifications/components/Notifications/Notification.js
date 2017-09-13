@@ -47,7 +47,7 @@ class Notification extends React.Component {
         return (
             <div className="w-100 notification">
                 <div className={titleClass} onClick={this.toggleMessage}>
-                    <div className="row">
+                    <div className="row notification__container">
                         <div className="col-sm-3">
                             <small className="text-muted">{dateMessage}</small>
                         </div>

@@ -260,15 +260,24 @@ strong {
 
 .form-control {
     width: 100%;
-    font-size: .9rem;
+    font-size: $font-size-base-smaller;
 }
 
 .form-input_no-border {
     border: none;
 }
+.form-check {
+    margin: 0 .5rem .5rem;
+}
+.form-check-label {
+    font-size: .9em;
+}
+.form-check-input {
+    margin-right: 3px;
+}
 
 .form-group .form-control-label {
-    padding-top: 5px;
+    padding-top: .5rem;
 }
 
 .form-block-center {
@@ -281,7 +290,8 @@ strong {
 }
 
 .card-header {
-    padding: .75rem 1rem
+    padding: .75rem 1rem;
+    background-color: lighten($teal, 26%);
 }
 
 .position-relative {

@@ -1,3 +1,5 @@
+@import '~app/bootstrap/variables';
+
 .autocomplete-container {
     position: absolute;
     top: 40px;
@@ -7,7 +9,7 @@
     z-index: 1000;
 }
 .trip-create-from {
-    font-size: .9rem;
+    font-size: $font-size-base-smaller;
     .form-group {
         margin-bottom: 0 !important;
     }

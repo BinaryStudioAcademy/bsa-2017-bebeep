@@ -196,32 +196,34 @@ class Form extends React.Component {
                     </div>
 
                     <div className={"form-group row " + (errors.role ? 'has-danger' : '')}>
-                        <div className="col-sm-4 text-muted">
+                        <div className="col-sm-4 text-muted mb-3">
                             {translate('register_form.role')}
                         </div>
-                        <div className="form-check col-sm-4">
-                            <label className="form-check-label">
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="role_driver"
-                                    name="role_driver"
-                                    value="1"
-                                    defaultChecked={hasTripPending}
-                                /> {translate('register_form.driver')}
-                            </label>
-                        </div>
-                        <div className="form-check col-sm-4">
-                            <label className="form-check-label">
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="role_passenger"
-                                    name="role_passenger"
-                                    value="1"
-                                    defaultChecked={passengerCheck}
-                                /> {translate('register_form.passenger')}
-                            </label>
+                        <div className="col-sm-8 d-flex flex-wrap justify-content-around">
+                            <div className="form-check">
+                                <label className="form-check-label">
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="role_driver"
+                                        name="role_driver"
+                                        value="1"
+                                        defaultChecked={hasTripPending}
+                                    /> {translate('register_form.driver')}
+                                </label>
+                            </div>
+                            <div className="form-check">
+                                <label className="form-check-label">
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="role_passenger"
+                                        name="role_passenger"
+                                        value="1"
+                                        defaultChecked={passengerCheck}
+                                    /> {translate('register_form.passenger')}
+                                </label>
+                            </div>
                         </div>
                         <div className="offset-sm-4 col-sm-8">
                             <div className="form-control-feedback">{errors.role}</div>

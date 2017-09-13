@@ -3,7 +3,7 @@
 .search-result {
 
   &__header {
-    font-size: .9rem;
+    font-size: $font-size-base-smaller;
     background-color: rgba(230, 229, 229, 0);
     margin-bottom: 10px;
     &-count {
