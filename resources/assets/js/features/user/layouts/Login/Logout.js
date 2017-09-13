@@ -18,7 +18,7 @@ class LogoutLayout extends React.Component {
         const { translate } = this.props;
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="container--min-height-350">
                 <PageHeader header={ translate('logout.header_logout') } />
                 <Logout />
             </ContainerWrapper>

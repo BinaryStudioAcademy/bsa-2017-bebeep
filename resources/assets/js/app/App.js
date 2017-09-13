@@ -49,7 +49,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <div id="application" className="main-application">
+            <div id="application">
                 <MainHeader />
                 { this.renderComponent() }
                 <MainFooter />
