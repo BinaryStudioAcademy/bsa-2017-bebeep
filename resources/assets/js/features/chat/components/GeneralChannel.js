@@ -39,7 +39,7 @@ class GeneralChannel extends React.Component {
 
     disconnectChannel(props) {
         const {clearUserList} = props;
-        BroadcastService.Echo.leave('general');
+        BroadcastService.Echo.leave(CHANNEL_GENERAL);
         clearUserList();
     }
 
