@@ -1,6 +1,6 @@
 import React from 'react';
 import TripItem from './TripItem';
-import CompaundTripItem from './CompaundTripItem';
+import CompoundTripWrapper from './CompoundTripWrapper';
 import Placeholder from './Placeholder';
 import PropTypes from 'prop-types';
 import {localize} from 'react-localize-redux';
@@ -12,12 +12,9 @@ class TripList extends React.Component {
     }
 
     compaundTrips(trip){
-        // console.log(trip.routes);
+        console.log(trip.routes);
         if (Array.isArray(trip.routes)){
-            return (trip.routes.map(
-                (value) =>
-                    <CompaundTripItem key={value.id} collection={value}/>
-            ))
+            return <CompoundTripWrapper trip={trip}/>;
         } else {
             return <TripItem key={trip.id} trip={trip} />;
         }
