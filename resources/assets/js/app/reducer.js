@@ -11,6 +11,7 @@ import profile from '../features/public-profiles/reducer';
 import tripWizard from 'features/wizard-trip/reducer';
 import notifications from 'features/notifications/reducer';
 import subscriptions from 'features/subscriptions/reducer';
+import chat from 'features/chat/reducer';
 
 export default combineReducers({
     user,
@@ -23,5 +24,6 @@ export default combineReducers({
     profile,
     tripWizard,
     notifications,
-    subscriptions
+    subscriptions,
+    chat
 });
