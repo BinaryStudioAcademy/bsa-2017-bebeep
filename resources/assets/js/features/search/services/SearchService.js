@@ -88,7 +88,7 @@ export const getFilter = () => {
     } else {
         filter['rating'] = null;
     }
-    if (query["filter[transfer]"]) {
+    if (query["filter[transfers]"]) {
         filter['transfers'] = query["filter[transfers]"];
     } else {
         filter['transfers'] = null;
