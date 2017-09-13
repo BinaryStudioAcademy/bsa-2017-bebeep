@@ -44,6 +44,7 @@ class InputDateTime extends React.Component {
                 value !== null || focused ? ' form-input--focus' : ''),
             wrapperClass = 'form-input__text ' + (wrapperClasses || ''),
             dtValue = value || '',
+            dtDefaultValue = defaultValue || '',
             dtClass = 'form-input__text ' + (className || '');
 
         return (
@@ -51,18 +52,18 @@ class InputDateTime extends React.Component {
                 <label htmlFor={id} className={labelClass}>
                     <div className={wrapperClass}>
                         <DateTime
+                            {...this.props}
                             id={id}
                             value={dtValue}
                             timeFormat={timeFormat}
                             isValidDate={isValidDate}
                             inputProps={inputProps}
-                            defaultValue={defaultValue}
+                            defaultValue={dtDefaultValue}
                             dateFormat={dateFormat}
                             className={dtClass}
                             onFocus={this.onFocus}
                             onBlur={this.onBlur}
                             locale={translate('datetimepicker.set_locale')}
-                            {...this.props}
                         />
                     </div>
                     <span className="form-input__label">{label}</span>

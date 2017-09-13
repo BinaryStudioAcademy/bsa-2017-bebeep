@@ -266,11 +266,13 @@ class SubscriptionSearchTest extends JwtTestCase
 
         factory(\App\Models\Review::class)->create([
             'driver_id' => $trip1->user->id,
+            'user_id' => $trip1->user->id,
             'mark' => 3,
         ]);
 
         factory(\App\Models\Review::class)->create([
             'driver_id' => $trip2->user->id,
+            'user_id' => $trip1->user->id,
             'mark' => 5,
         ]);
 

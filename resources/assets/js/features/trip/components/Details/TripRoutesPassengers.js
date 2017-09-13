@@ -56,7 +56,7 @@ class TripRoutesPassengers extends React.Component {
         const { translate } = this.props;
 
         return (
-            <section className="block-border p-3 mt-4">
+            <section className="block-border px-3 pt-3 pb-2 mt-4">
                 <header className="trip-section-header">
                     <h3 className="h5">
                         { translate('trip_details.routes_passengers.header') }

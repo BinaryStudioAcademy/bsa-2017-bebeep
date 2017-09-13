@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { getTranslate } from 'react-localize-redux';
+
+import UserDropdownItem from './Items/UserDropdownItem';
 
 class UserDropdown extends React.Component {
 
@@ -22,8 +24,12 @@ class UserDropdown extends React.Component {
         });
     }
 
+    renderDivider(isShow) {
+        return isShow ? <DropdownItem divider /> : null;
+    }
+
     render() {
-        const { user, translate, countNotifications } = this.props,
+        const { translate, user, isDriver, isPassenger, countNotifications } = this.props,
             userName = `${user.first_name} ${user.last_name}`;
 
         return (
@@ -40,61 +46,66 @@ class UserDropdown extends React.Component {
                 </DropdownToggle>
 
                 <DropdownMenu right>
-                    <Link to="/dashboard"
-                        className="dropdown-item"
+                    <UserDropdownItem linkTo="/dashboard"
                         onClick={this.toggleUserDropdown}
                     >
                         { translate('dashboard') }
-                    </Link>
+                    </UserDropdownItem>
 
-                    <Link to="/dashboard/profile"
-                        className="dropdown-item"
+                    <UserDropdownItem linkTo="/dashboard/profile"
                         onClick={this.toggleUserDropdown}
                     >
                         { translate('profile') }
-                    </Link>
+                    </UserDropdownItem>
 
-                    <Link to="/dashboard/notifications"
-                          className="dropdown-item"
-                          onClick={this.toggleUserDropdown}
+                    <UserDropdownItem linkTo="/dashboard/notifications"
+                        onClick={this.toggleUserDropdown}
                     >
                         <span className={(countNotifications ? " has-notification" : "")}>
-                            { translate('notifications') }
+                            { translate('notifications.header') }
                         </span>
-                    </Link>
+                    </UserDropdownItem>
 
-                    <Link to="/bookings"
-                        className="dropdown-item"
+                    <UserDropdownItem linkTo="/bookings"
+                        isShow={isPassenger}
                         onClick={this.toggleUserDropdown}
                     >
                         { translate('bookings') }
-                    </Link>
+                    </UserDropdownItem>
 
                     <DropdownItem divider />
 
-                    <Link to="/vehicles"
-                        className="dropdown-item"
+                    <UserDropdownItem linkTo="/dashboard/subscriptions"
+                        onClick={this.toggleUserDropdown}
+                    >
+                        { translate('subscriptions') }
+                    </UserDropdownItem>
+
+                    { this.renderDivider(isDriver) }
+
+                    <UserDropdownItem linkTo="/vehicles"
+                        isShow={isDriver}
                         onClick={this.toggleUserDropdown}
                     >
                         { translate('my_vehicles') }
-                    </Link>
+                    </UserDropdownItem>
 
-                    <Link to="/vehicles/create"
-                        className="dropdown-item"
+                    <UserDropdownItem linkTo="/vehicles/create"
+                        isShow={isDriver}
                         onClick={this.toggleUserDropdown}
                     >
                         { translate('add_vehicle') }
-                    </Link>
+                    </UserDropdownItem>
 
                     <DropdownItem divider />
 
-                    <Link to="/logout"
-                        className="dropdown-item"
+                    <UserDropdownItem linkTo="/logout"
                         onClick={this.toggleUserDropdown}
                     >
                         <i className="fa fa-sign-out fa-fw mr-2" aria-hidden="true" />
                         { translate('logout') }
-                    </Link>
+                    </UserDropdownItem>
+
                 </DropdownMenu>
             </Dropdown>
         );

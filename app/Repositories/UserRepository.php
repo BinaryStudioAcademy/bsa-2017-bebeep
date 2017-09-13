@@ -27,6 +27,19 @@ class UserRepository extends BaseRepository
     }
 
     /**
+     * Update the user data.
+     *
+     * @param \App\User $user
+     * @param int $id
+     *
+     * @return \App\User
+     */
+    public function updateUser(User $user, int $id) : User
+    {
+        return $this->update($user->toArray(), $id);
+    }
+
+    /**
      * Get user by email.
      *
      * @param string $email

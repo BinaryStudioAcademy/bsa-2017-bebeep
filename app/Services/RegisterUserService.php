@@ -119,6 +119,7 @@ class RegisterUserService
             'last_name' => $user->last_name,
             'email' => $user->email,
             'avatar' => $user->getAvatarUrl(),
+            'permissions' => $user->permissions,
         ];
 
         return $this;

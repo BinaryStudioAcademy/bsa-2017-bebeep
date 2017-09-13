@@ -17,20 +17,15 @@ class DeleteTripTest extends BaseTripTestCase
     public function user_can_not_delete_trip_if_trip_id_is_not_correct()
     {
         $user = $this->getDriverUser();
-        factory(Vehicle::class)->create(['user_id' => $user->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id + 1);
 
         $response = $this->jsonAsUser($user);
         $response->assertStatus(404);
 
-        $this->assertDatabaseHas(
-            'trips',
-            [
-                'id' => $trip->id,
-            ]
-        );
+        $this->assertDatabaseHas('trips', ['id' => $trip->id]);
     }
 
     /**
@@ -40,20 +35,15 @@ class DeleteTripTest extends BaseTripTestCase
     {
         $user = $this->getDriverUser();
         $user2 = $this->getDriverUser();
-        factory(Vehicle::class)->create(['user_id' => $user2->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user2->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user2->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user2->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id);
 
         $response = $this->jsonAsUser($user);
         $response->assertStatus(422);
 
-        $this->assertDatabaseHas(
-            'trips',
-            [
-                'id' => $trip->id,
-            ]
-        );
+        $this->assertDatabaseHas('trips', ['id' => $trip->id]);
     }
 
     /**
@@ -62,15 +52,18 @@ class DeleteTripTest extends BaseTripTestCase
     public function user_can_delete_trip()
     {
         $user = $this->getDriverUser();
-        factory(Vehicle::class)->create(['user_id' => $user->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id);
 
         $response = $this->jsonAsUser($user);
         $response->assertStatus(200);
 
-        $this->assertDatabaseHas('trips', ['id' => $trip->id, 'deleted_at' => $response->json()['deleted_at']]);
+        $this->assertDatabaseHas('trips', [
+            'id' => $trip->id,
+            'deleted_at' => $response->json()['deleted_at'],
+        ]);
     }
 
     /**
@@ -79,20 +72,15 @@ class DeleteTripTest extends BaseTripTestCase
     public function user_can_not_delete_trip_without_driver_permissions()
     {
         $user = factory(User::class)->create();
-        factory(Vehicle::class)->create(['user_id' => $user->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id);
 
         $response = $this->jsonAsUser($user);
         $response->assertStatus(403);
 
-        $this->assertDatabaseHas(
-            'trips',
-            [
-                'id' => $trip->id,
-            ]
-        );
+        $this->assertDatabaseHas('trips', ['id' => $trip->id]);
     }
 
     /**

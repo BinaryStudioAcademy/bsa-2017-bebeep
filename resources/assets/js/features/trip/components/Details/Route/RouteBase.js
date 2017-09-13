@@ -32,6 +32,7 @@ class RouteBase extends React.Component {
         return (
             <RoutePoint
                 location={route.to}
+                endTime={route.end_time}
                 showEndPoint={showEndPoint}
             />
         );
@@ -62,7 +63,7 @@ class RouteBase extends React.Component {
                     uniqueKey = `${route.id}-${passenger.id}-${i}`;
 
                 return (
-                    <td key={ uniqueKey }>
+                    <td key={ uniqueKey } className="trip-routes__person-place">
                         <RouteUser
                             type="passenger"
                             uniqueKey={ uniqueKey }
@@ -78,7 +79,7 @@ class RouteBase extends React.Component {
         const freeSeats = this.props.route.free_seats;
 
         return [...Array(freeSeats)].map((n, i) =>
-            <td key={i}></td>
+            <td key={i} className="trip-routes__person-place" />
         );
     }
 
@@ -89,16 +90,17 @@ class RouteBase extends React.Component {
 
         return (
             <tr>
-                <th scope="row">
+                <th scope="row" className="trip-routes__route">
                     <RoutePoint
                         location={route.from}
+                        startTime={route.start_time}
                         showStartPoint={showStartPoint}
                         showWayPoint={showWayPoint}
                     />
                     { this.renderEndPoint() }
                 </th>
 
-                <td className="trip-routes__driver-cell">
+                <td className="trip-routes__person-place trip-routes__person-place--driver">
                     { this.renderDriver() }
                 </td>
 

@@ -1,77 +1,163 @@
 import jwtDecode from 'jwt-decode';
 import _ from 'lodash';
 
-const storage = localStorage,
-    tokenKeyName = 'jwt',
-    redirect = {
-        authPath: 'login',
-        rootPath: 'dashboard',
+import DataStorage from '../helpers/DataStorage';
+
+import { securedRequest } from './RequestService';
+import {
+    setSessionData,
+    unsetSessionData,
+    setSessionToken,
+    loginSuccess,
+    logoutSuccess
+} from 'features/user/actions';
+
+
+const AuthService = (() => {
+
+    const TOKEN_KEY_NAME = 'session_token',
+        REQUEST_SESSION_DATA = '/api/authentication/me',
+        USER_PROPS = ['first_name', 'last_name', 'avatar',];
+
+    let _this = null,
+        store = null;
+
+    const getFromState = (param) => {
+        return store.getState().user.session[param];
     };
 
-export const getAuthToken = () => {
-    return storage[tokenKeyName];
-};
+    const setSessionDataToState = () => {
+        const token = getSessionTokenFromStorage();
 
-export const isAuthorized = () => {
-    return !!getAuthToken();
-};
+        if (!_this.isSessionTokenValid(token)) {
+            removeSessionTokenFromStorage();
+            return false;
+        }
 
-export const initSession = (token) => {
-    storage.setItem(tokenKeyName, token);
-};
+        store.dispatch(setSessionToken(token));
 
-export const destroySession = () => {
-    storage.removeItem(tokenKeyName);
-};
+        const sessionData = _this.getSessionData();
+        store.dispatch(setSessionData(sessionData));
 
-export const decodeAuthToken = () => {
-    try {
-        return jwtDecode(getAuthToken());
+        return true;
+    };
 
-    } catch(error) {
-        return null;
-    }
-};
+    const setSessionTokenToStorage = (token) => {
+        DataStorage.setData(TOKEN_KEY_NAME, token);
+    };
 
-export const getAuthUser = (params) => {
-    const decoded = decodeAuthToken(),
-        data = { user: {} };
+    const getSessionTokenFromStorage = () => {
+        return DataStorage.getData(TOKEN_KEY_NAME);
+    };
 
-    if (_.isEmpty(decoded)) {
-        return data;
-    }
+    const removeSessionTokenFromStorage = () => {
+        DataStorage.removeData(TOKEN_KEY_NAME);
+    };
 
-    data.user = _.isEmpty(params) ? decoded : _.pick(decoded, params);
+    const decodeSessionToken = (token) => {
+        token = token || _this.getSessionToken();
+        try {
+            return jwtDecode(token);
 
-    return data;
-};
+        } catch(error) {
+            return null;
+        }
+    };
 
-export const requireAuth = (nextState, replace) => {
-    if (!isAuthorized()) {
-        replace({
-            pathname: '/' + redirect.authPath,
-            state: { nextPathname: nextState.location.pathname }
-        })
-    }
-};
+    return {
+        init(globalStore) {
+            _this = this;
+            store = globalStore;
 
-export const requireGuest = (nextState, replace) => {
-    if (isAuthorized()) {
-        replace({
-            pathname: '/' + redirect.rootPath,
-            state: { nextPathname: nextState.location.pathname }
-        })
-    }
-};
+            setSessionDataToState();
+        },
 
-const AuthService = {
-    getAuthToken,
-    isAuthorized,
-    initSession,
-    destroySession,
-    getAuthUser,
-    requireAuth,
-    requireGuest,
-};
+        initSession(token) {
+            setSessionTokenToStorage(token);
+
+            if (!setSessionDataToState()) {
+                return false;
+            }
+
+            store.dispatch(loginSuccess());
+        },
+
+        destroySession() {
+            removeSessionTokenFromStorage();
+
+            store.dispatch(logoutSuccess());
+            store.dispatch(unsetSessionData());
+        },
+
+        getUserId() {
+            if (!_this.isAuthorized()) {
+                return null;
+            }
+            return getFromState('user_id');
+        },
+
+        getSessionData(userData) {
+            const decoded = decodeSessionToken();
+
+            const data = _.transform(decoded, function(result, value, key) {
+                if (USER_PROPS.indexOf(key) !== -1) {
+                    result.user[key] = value;
+                } else {
+                    result.session[key] = value;
+                }
+            }, { user: {}, session: {}, });
+
+            if (!_.isEmpty(userData)) {
+                data.user = userData;
+                data.session.permissions = userData.permissions;
+            }
+            data.session.user_id = data.session.sub;
+            data.session.token = _this.getSessionToken();
+
+            return data;
+        },
+
+        getSessionDataFromServer(onSuccess, onError) {
+            onError = onError || onSuccess;
+
+            securedRequest.get(REQUEST_SESSION_DATA)
+                .then(response => {
+                    const sessionData = _this.getSessionData(response.data.data);
+
+                    store.dispatch(setSessionData(sessionData));
+                    store.dispatch(loginSuccess());
+                    onSuccess();
+                })
+                .catch(error => {
+                    _this.destroySession();
+                    onError();
+                });
+        },
+
+        isAuthorized() {
+            return store.getState().user.login.success;
+        },
+
+        checkPermissions(permissions, identically) {
+            const sessionPermissions = getFromState('permissions');
+
+            if (!permissions) {
+                return true;
+            }
+
+            return identically
+                ? permissions === sessionPermissions
+                : !!(permissions & sessionPermissions);
+        },
+
+        getSessionToken() {
+            return getFromState('token');
+        },
+
+        isSessionTokenValid(token) {
+            return !!decodeSessionToken(token);
+        },
+    };
+})();
 
 export default AuthService;

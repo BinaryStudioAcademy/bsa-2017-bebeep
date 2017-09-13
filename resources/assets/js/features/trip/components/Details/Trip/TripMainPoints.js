@@ -5,20 +5,6 @@ import TripMapModal from '../../Modals/TripMapModal';
 
 class TripMainPoints extends React.Component {
 
-    /*constructor() {
-        super();
-
-        this.state = {
-            isShowTrip: false
-        };
-
-        this.toggleTrip = this.toggleTrip.bind(this);
-    }
-
-    toggleTrip() {
-        this.setState({isShowTrip: !this.state.isShowTrip});
-    }*/
-
     renderRouteTitle() {
         const { startPoint, endPoint } = this.props;
 

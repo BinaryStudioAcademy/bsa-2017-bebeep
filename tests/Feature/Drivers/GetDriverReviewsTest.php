@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Trips;
+namespace Tests\Feature\Drivers;
 
 use App\User;
 use App\Models\Review;
@@ -37,7 +37,7 @@ class GetDriverReviewsTest extends JwtTestCase
         $driver2 = $this->getDriverUser();
         factory(Review::class, 5)->create(['user_id' => $passenger->id, 'driver_id' => $driver2->id]);
 
-        $response = $this->json($this->method, $this->getUrl(1));
+        $response = $this->json($this->method, $this->getUrl($driver->id));
         $response->assertStatus(200);
 
         $this->assertCount(10, $response->json()['data']);

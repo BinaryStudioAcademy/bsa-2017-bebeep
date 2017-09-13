@@ -4,14 +4,18 @@ namespace App\Services;
 
 use App\User;
 use App\Models\Trip;
+use App\Models\Filter;
 use App\Models\Subscription;
 use Illuminate\Support\Collection;
 use App\Repositories\UserRepository;
+use App\Http\Requests\DTO\FilterDTO;
 use App\Services\Requests\CreateSubscriptionsRequest;
 use App\Repositories\Contracts\SubscriptionRepository;
 use App\Criteria\Subscriptions\SubscriptionTripCriteria;
 use App\Services\Helpers\Subscriptions\FilterCollection;
 use App\Exceptions\Subscriptions\SubscriptionEmailExistsException;
+use App\Services\Requests\Subscriptions\EditSubscriptionRequest;
+use App\Services\Requests\Subscriptions\StatusSubscriptionRequest;
 
 class SubscriptionsService implements Contracts\SubscriptionsService
 {
@@ -82,6 +86,59 @@ class SubscriptionsService implements Contracts\SubscriptionsService
      * @param CreateSubscriptionsRequest $request
      * @return Subscription
      * @throws SubscriptionEmailExistsException
+     * {@inheritdoc}
+     */
+    public function getByUser(User $user): Collection
+    {
+        return collect($this->subscriptionRepository->findByField('email', $user->email));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function changeStatus(StatusSubscriptionRequest $request, Subscription $subscription): void
+    {
+        $subscription->is_active = $request->isActive();
+
+        $this->subscriptionRepository->save($subscription);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function edit(EditSubscriptionRequest $request, Subscription $subscription): Subscription
+    {
+        /** @var FilterDTO[] $filters */
+        $newFilters = collect($request->getFilters());
+        /** @var Collection $filters */
+        $filters = $subscription->filters;
+
+        $data = $newFilters->map(function (FilterDTO $filter) use ($filters) {
+            $f = $filters->where('name', $filter->getName())->first();
+            if ($f) {
+                $f->parameters = $filter->getParams();
+            } else {
+                $f = new Filter;
+                $f->name = $filter->getName();
+                $f->parameters = $filter->getParams();
+            }
+
+            return $f;
+        });
+
+        return $this->subscriptionRepository->setFilters($subscription, ...$data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(Subscription $subscription): void
+    {
+        $this->subscriptionRepository->delete($subscription->id);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function create(CreateSubscriptionsRequest $request)
     {

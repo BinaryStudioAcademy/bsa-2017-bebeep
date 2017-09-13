@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import LangeService from '../services/LangService';
 import moment from 'moment';
 import TripRoute from '../helpers/TripRoute';
-
+import {getCityLocation} from '../helpers/TripHelper';
 
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap
@@ -27,7 +27,8 @@ class DirectionsMap extends React.Component {
         requestId: null,
         directionRenderQueue: [],
         directionRenderQueueIsProcessing: false,
-        showTripBlock: !!(this.props.show)
+        showTripBlock: !!(this.props.show),
+        hasData: false
     };
 
     constructor(props) {
@@ -38,9 +39,15 @@ class DirectionsMap extends React.Component {
     }
 
     componentWillMount() {
-        if (this.props.needDirection) {
+        this.setState({
+            start_city: getCityLocation(this.props.fromData),
+            end_city: getCityLocation(this.props.toData)
+        });
+
+        if (this.state.showTripBlock && this.props.needDirection) {
             this.renderDirection(this.props);
         }
+
         LangeService.addTranslation(require('../lang/directionsmap.locale.json'));
     }
 
@@ -93,6 +100,8 @@ class DirectionsMap extends React.Component {
     }
 
     renderDirection(props) {
+        const { endTime, updateWaypointsDurations } = this.props;
+
         this.setState({directionRenderQueueIsProcessing: true});
 
         this.DirectionsService.route({
@@ -101,23 +110,33 @@ class DirectionsMap extends React.Component {
             waypoints: props.waypoints || [],
             travelMode: google.maps.TravelMode.DRIVING,
         }, (result, status) => {
+            let newState = {
+                directionRenderQueueIsProcessing: false
+            };
+
             if (status === google.maps.DirectionsStatus.OK) {
-                let route = new TripRoute(result.routes[0]);
+                const route = new TripRoute(result.routes[0]);
 
-                this.setState({
-                    directions: result,
-                    distance: route.getDistance(),
-                    duration: route.getDuration(),
-                    start_address: route.getStartPoint().start_address,
-                    end_address: route.getEndPoint().end_address,
-                    start_city: route.getStartCity(),
-                    end_city: route.getEndCity()
-                });
+                newState['directions'] = result;
+                newState['distance'] = route.getDistance();
+                newState['duration'] = route.getDuration();
+                newState['start_address'] = route.getStartPoint().start_address;
+                newState['end_address'] = route.getEndPoint().end_address;
+                newState['hasData'] = true;
+                if (!this.state.start_city) {
+                    newState['start_city'] = route.getStartCity();
+                }
+                if (!this.state.end_city) {
+                    newState['end_city'] = route.getEndCity();
+                }
 
-                this.props.endTime(route.getDurationRaw());
+                endTime(route.getDurationRaw());
+
+                if (typeof updateWaypointsDurations === 'function') {
+                    updateWaypointsDurations(route.getWaypointsDurations());
+                }
             }
-
-            this.setState({directionRenderQueueIsProcessing: false});
+            this.setState(newState);
             this.processDirectionRenderQueue();
         });
     }
@@ -125,6 +144,10 @@ class DirectionsMap extends React.Component {
     handleClick(e) {
         e.preventDefault();
         this.setState({ showTripBlock: !this.state.showTripBlock });
+
+        if (!this.state.hasData) {
+            this.renderDirection(this.props);
+        }
     }
 
     render() {
@@ -140,7 +163,9 @@ class DirectionsMap extends React.Component {
         } = this.state;
 
         const { translate, title, bookingCount, onClickBooking } = this.props,
-            tripDetailsClass = showTripBlock ? 'show-details' : 'hide-details';
+            tripDetailsClass = showTripBlock ? 'show-details' : 'hide-details',
+            tripIcoClass = 'trip-detail-icon v-align-bottom fa ml-2' +
+                (this.state.directionRenderQueueIsProcessing ? ' fa-circle-o-notch fa-spin fa-fw' : ' fa-road');
 
         return (
             <div className="card">
@@ -164,7 +189,7 @@ class DirectionsMap extends React.Component {
                             <span>{ start_city }</span>
                             <i className="fa fa-long-arrow-right mx-2" aria-hidden="true" />
                             <span>{ end_city }</span>
-                            <i className="trip-detail-icon v-align-bottom fa fa-road ml-2"
+                            <i className={tripIcoClass}
                                 aria-hidden="true" />
                         </div>
                     ) : '' }
