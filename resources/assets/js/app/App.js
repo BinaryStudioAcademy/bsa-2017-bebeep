@@ -3,7 +3,7 @@ import React from 'react';
 import MainHeader from './components/MainHeader';
 import Notifications from './components/Notifications';
 import GeneralChannel from 'features/chat/components/GeneralChannel';
-import {getUserId} from 'app/services/AuthService';
+import {getUserId, isAuthorized} from 'app/services/AuthService';
 
 import './bootstrap/bootstrap.scss';
 import './bootstrap/font-awesome.scss';
@@ -17,7 +17,7 @@ class App extends React.Component {
             <div id="application">
                 <MainHeader />
                 <Notifications userId={getUserId()} />
-                <GeneralChannel />
+                <GeneralChannel isAuthorized={isAuthorized()} />
                 { this.props.children }
             </div>
         )

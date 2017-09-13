@@ -18,3 +18,7 @@ export const setOffline = (user) => ({
     type: actions.CHAT_SET_OFFLINE,
     user
 });
+
+export const clearUserList = () => ({
+    type: actions.CHAT_CLEAR_USER_LIST
+});

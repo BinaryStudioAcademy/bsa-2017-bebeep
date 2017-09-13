@@ -33,6 +33,11 @@ export default (state = initialState, action) => {
                     return result;
                 }, {})
             };
+        case actions.CHAT_CLEAR_USER_LIST:
+            return {
+                ...state,
+                onlineUsers: {}
+            };
         default:
             return state;
     }
