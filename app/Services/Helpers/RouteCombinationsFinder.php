@@ -22,11 +22,20 @@ class RouteCombinationsFinder
      * @param Collection $innerRoutes
      * @param Collection $endRoutes
      */
-    public function __construct(Collection $startRoutes, Collection $innerRoutes, Collection $endRoutes) {
-        $this->startRoutes = $startRoutes->map(function($route) {return new RouteContainer($route);});
-        $this->innerRoutes = $innerRoutes->map(function($route) {return new RouteContainer($route);});
-        $this->endRoutes = $endRoutes->map(function($route) {return new RouteContainer($route);});
-        $this->endRoutesPoints = $this->endRoutes->map(function(RouteContainer $route) {return $route->endPoint();});
+    public function __construct(Collection $startRoutes, Collection $innerRoutes, Collection $endRoutes)
+    {
+        $this->startRoutes = $startRoutes->map(function ($route) {
+            return new RouteContainer($route);
+        });
+        $this->innerRoutes = $innerRoutes->map(function ($route) {
+            return new RouteContainer($route);
+        });
+        $this->endRoutes = $endRoutes->map(function ($route) {
+            return new RouteContainer($route);
+        });
+        $this->endRoutesPoints = $this->endRoutes->map(function (RouteContainer $route) {
+            return $route->endPoint();
+        });
     }
 
     /**
@@ -38,7 +47,7 @@ class RouteCombinationsFinder
         $this->maxTransfers = $maxTransfers;
         $this->result = collect([]);
 
-        $this->startRoutes->each(function(RouteContainer $routeContainer) {
+        $this->startRoutes->each(function (RouteContainer $routeContainer) {
             $routeGroup = new RouteGroup();
 
             $this->addRoutesToRouteGroup($routeGroup, $routeContainer);
@@ -66,9 +75,9 @@ class RouteCombinationsFinder
             return true;
         }
 
-        $possibleNextRoutesContainers = $this->innerRoutes->filter(function(RouteContainer $innerRouteContainer) use ($routeContainer) {
+        $possibleNextRoutesContainers = $this->innerRoutes->filter(function (RouteContainer $innerRouteContainer) use ($routeContainer) {
             return $innerRouteContainer->startPoint()->minDistanceToAny(collect([$routeContainer->endPoint()])) <= self::MAX_DISTANCE_BETWEEN_POINTS;
-        })->filter(function(RouteContainer $innerRouteContainer) use ($routeContainer) {
+        })->filter(function (RouteContainer $innerRouteContainer) use ($routeContainer) {
             return $innerRouteContainer->startPoint()->getStartAt() >= $routeContainer->endPoint()->getStartAt();
         });
 
