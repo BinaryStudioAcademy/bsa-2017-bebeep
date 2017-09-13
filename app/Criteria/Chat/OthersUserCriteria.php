@@ -6,10 +6,6 @@ use App\User;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
-/**
- * Class OthersUserCriteria
- * @package namespace App\Criteria\Chat;
- */
 class OthersUserCriteria implements CriteriaInterface
 {
     /**
@@ -23,7 +19,7 @@ class OthersUserCriteria implements CriteriaInterface
     }
 
     /**
-     * Apply criteria in query repository
+     * Apply criteria in query repository.
      *
      * @param                     $model
      * @param RepositoryInterface $repository

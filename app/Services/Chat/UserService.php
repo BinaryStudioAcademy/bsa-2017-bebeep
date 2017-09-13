@@ -2,10 +2,10 @@
 
 namespace App\Services\Chat;
 
-use App\Criteria\Chat\OthersUserCriteria;
 use App\User;
-use App\Repositories\UserRepository;
 use Illuminate\Support\Collection;
+use App\Repositories\UserRepository;
+use App\Criteria\Chat\OthersUserCriteria;
 use App\Services\Contracts\Chat\UserService as UserServiceContract;
 
 class UserService implements UserServiceContract
@@ -21,7 +21,7 @@ class UserService implements UserServiceContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getOthers(User $user): Collection
     {

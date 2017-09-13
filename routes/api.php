@@ -230,5 +230,5 @@ Route::resource('v1/subscription', 'Api\\Subscription\\SubscriptionsController',
 
 Route::get('v1/users/others', [
     'as' => 'users',
-    'uses' => 'Api\Chat\UserController@others'
+    'uses' => 'Api\Chat\UserController@others',
 ]);
