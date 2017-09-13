@@ -1,0 +1,35 @@
+@import '~app/bootstrap/variables';
+@import '~font-awesome/scss/variables';
+
+.user-item {
+
+  &__status-badge {
+    $badge-radius: 6px;
+
+    width: $badge-radius * 2;
+    height: $badge-radius * 2;
+    border: 1px solid transparent;
+    position: absolute;
+    left: $list-group-item-padding-x / 2;
+    top: 50%;
+    margin-top: -$badge-radius;
+    margin-left: -$badge-radius;
+
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+
+    &--online {
+      background-color: $brand-success;
+    }
+    &--offline {
+      background-color: transparent;
+      border-color: $brand-danger;
+    }
+  }
+  &__name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
