@@ -53,7 +53,11 @@ class Trip extends React.Component {
         });
     }
 
-    onClickPassengersBtn() {
+    onClickPassengersBtn(e) {
+        if (e !== undefined) {
+            e.preventDefault();
+        }
+
         this.setState({
             modalUsersIsOpen: !this.state.modalUsersIsOpen,
         });
@@ -164,20 +168,15 @@ class Trip extends React.Component {
 
                                 <dd className="col-sm-8 trip-card-info__list-value">
                                     {trip.seats}</dd>
-
-                                <dt className="col-sm-4 trip-card-info__list-option pt-2">
-                                    {translate('trip_list.passengers.name')}</dt>
-
-                                <dd className="col-sm-8 trip-card-info__list-value pt-2">
-                                    <div className="link-style link-style-users"
-                                        onClick={this.onClickPassengersBtn}
-                                    >
-                                        <i className="trip-detail-icon fa fa-user mr-2"
-                                            aria-hidden="true" />
-                                        { translate('trip_list.passengers.link') }
-                                    </div>
-                                </dd>
                             </dl>
+
+                            <div className="trip-card-info__passengers-link">
+                                <a href="#" onClick={this.onClickPassengersBtn}>
+                                    <i className="trip-detail-icon fa fa-user mr-2"
+                                        aria-hidden="true" />
+                                    {translate('trip_list.passengers_link')}
+                                </a>
+                            </div>
                         </div>
 
                         <div className="card-footer trip-card__actions">
@@ -216,7 +215,7 @@ class Trip extends React.Component {
                 <UsersModal
                     tripId={ trip.id }
                     isOpen={ modalUsersIsOpen }
-                    onClick = {this.onClickPassengersBtn}
+                    onClick={this.onClickPassengersBtn}
                 />
             </div>
         )

@@ -6,10 +6,7 @@
     "car": ["Car", "Авто", "Авто"],
     "price": ["Price", "Ціна", "Цена"],
     "seats": ["Seats", "Місця для сидіння", "Места для сидения"],
-    "passengers": {
-        "name": ["Passengers", "Пасажири", "Пасажиры"],
-        "link": ["view here", "див. тут", "см. здесь"]
-    },
+    "passengers_link": ["Route and passengers", "Маршрут і пасажири", "Маршрут и пассажиры"],
     "restore": ["Restore", "Відновити", "Восстановить"],
     "deleted_successfully": ["Deleted successfully", "Успішно видалено", "Успешно удалено"],
     "trips_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"]

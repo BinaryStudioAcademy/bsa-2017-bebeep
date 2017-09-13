@@ -24,9 +24,11 @@ svg {
 }
 b,
 strong,
-th,
-dt {
+th {
     font-weight: 600;
+}
+dt {
+    font-weight: 500;
 }
 
 .hide {
@@ -279,7 +281,7 @@ dt {
     border: none;
 }
 .form-check {
-    margin: .5rem;
+    margin: .5rem 1rem;
 
     &--with-text {
         margin-top: 0;

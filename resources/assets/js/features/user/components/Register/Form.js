@@ -197,7 +197,7 @@ class Form extends React.Component {
                         <div className="col-sm-4 text-muted mb-3">
                             {translate('register_form.role')}
                         </div>
-                        <div className="col-sm-8 d-flex flex-wrap justify-content-around">
+                        <div className="col-sm-8 d-flex flex-wrap">
                             <div className="form-check form-check--with-text">
                                 <label className="form-check-label">
                                     <input

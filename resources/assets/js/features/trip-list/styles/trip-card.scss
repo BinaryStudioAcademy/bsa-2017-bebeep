@@ -26,6 +26,17 @@
     }
 }
 
+.trip-card-info {
+    &__passengers-link {
+        margin-top: 1.5rem;
+
+        a {
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+    }
+}
+
 .show-trip-bookings-btn {
     padding: 7px 7px 6px 12px;
     font-size: .85rem;
