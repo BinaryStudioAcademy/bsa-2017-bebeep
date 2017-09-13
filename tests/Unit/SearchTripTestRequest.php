@@ -13,6 +13,8 @@ class SearchTripRequest implements SearchTripRequestContract
     public $toLng;
     public $transfers = 1;
     public $startAt;
+    public $minPrice = 0;
+    public $maxPrice = 99999;
 
     /**
      * Latitude 'From' point.
@@ -155,7 +157,7 @@ class SearchTripRequest implements SearchTripRequestContract
      */
     public function getMinPrice(): int
     {
-        // TODO: Implement getMinPrice() method.
+        return $this->minPrice;
     }
 
     /**
@@ -163,7 +165,7 @@ class SearchTripRequest implements SearchTripRequestContract
      */
     public function getMaxPrice(): int
     {
-        // TODO: Implement getMaxPrice() method.
+        return $this->maxPrice;
     }
 
     public function getIsAnimalsAllowed(): ?bool

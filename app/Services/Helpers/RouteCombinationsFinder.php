@@ -2,6 +2,7 @@
 
 namespace App\Services\Helpers;
 
+use DeepCopy\DeepCopy;
 use Illuminate\Support\Collection;
 
 class RouteCombinationsFinder
@@ -55,7 +56,7 @@ class RouteCombinationsFinder
     {
         $routeGroup->addRoute($routeContainer->getRoute());
 
-        if (count($routeGroup->getRoutes()) > $this->maxTransfers + 1) {
+        if ($routeGroup->getRoutes()->count() > $this->maxTransfers + 1) {
             return true;
         }
 
@@ -76,7 +77,7 @@ class RouteCombinationsFinder
         }
 
         foreach ($possibleNextRoutesContainers as $routesContainer) {
-            $this->addRoutesToRouteGroup(clone $routeGroup, $routesContainer);
+            $this->addRoutesToRouteGroup((new DeepCopy())->copy($routeGroup), $routesContainer);
         }
 
         return true;

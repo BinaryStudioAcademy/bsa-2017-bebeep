@@ -6,11 +6,16 @@ use App\Models\Route;
 
 class RouteGroup
 {
-    private $routes = [];
+    private $routes;
+
+    public function __construct()
+    {
+        $this->routes = collect([]);
+    }
 
     public function addRoute(Route $route)
     {
-        array_push($this->routes, $route->toArray());
+        $this->routes->push($route);
     }
 
     public function getRoutes()
