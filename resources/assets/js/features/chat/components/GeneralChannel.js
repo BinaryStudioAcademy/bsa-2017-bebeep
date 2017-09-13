@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {getTranslate} from 'react-localize-redux';
 import BroadcastService from 'app/services/BroadcastService';
+import {CHANNEL_GENERAL} from 'app/config';
 import {setOnlineUsers, setOnline, setOffline, clearUserList} from '../actions';
 
 class GeneralChannel extends React.Component {
@@ -24,7 +25,7 @@ class GeneralChannel extends React.Component {
         const {isAuthorized, setOnlineUsers, setOnline, setOffline} = props;
 
         if (isAuthorized) {
-            BroadcastService.Echo.join('general')
+            BroadcastService.Echo.join(CHANNEL_GENERAL)
                 .here(users => {
                     setOnlineUsers(users);
                 })
