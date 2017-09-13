@@ -115,7 +115,6 @@
 }
 
 .autocomplete-box {
-
   &__item {
     padding: 5px 10px;
     font-size: $font-size-base;
@@ -126,6 +125,14 @@
       background-color: $gray-lightest;
     }
   }
+}
+
+.trip-form-autocomplete-container {
+    width: 100%;
+    position: absolute;
+    top: 40px;
+    z-index: 1000;
+    border: 1px solid lighten($teal, 7%);
 }
 
 .form-select {

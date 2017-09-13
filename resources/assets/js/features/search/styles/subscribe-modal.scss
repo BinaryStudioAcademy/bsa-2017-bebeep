@@ -33,8 +33,8 @@
   }
   &__footer {
     &-label {
-      font-size: 0.9rem;
-      margin-bottom: 0.1rem;
+      font-size: $font-size-base-smaller;
+      margin-bottom: .1rem;
       &-hidden {
         display: none;
       }

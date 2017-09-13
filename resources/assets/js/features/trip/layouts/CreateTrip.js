@@ -8,7 +8,8 @@ import CreateTripContainer from '../components/Containers/CreateTripContainer';
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/CreateTrip.locale.json';
 
-import '../styles/create_trip.scss';
+import '../styles/trip_form.scss';
+
 
 class CreateTrip extends React.Component {
 

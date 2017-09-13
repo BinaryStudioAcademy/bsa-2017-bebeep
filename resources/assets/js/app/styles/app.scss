@@ -24,7 +24,8 @@ svg {
 }
 b,
 strong,
-th {
+th,
+dt {
     font-weight: 600;
 }
 
@@ -356,7 +357,11 @@ td.table-list-details__cell-for-action {
     min-height: 250px;
 }
 
-.table th,
+.card {
+    font-size: $font-size-base-smaller;
+}
+
+.with-background-teal,
 .card-header {
     background-color: lighten($teal, 26%);
 }

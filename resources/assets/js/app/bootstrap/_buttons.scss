@@ -8,6 +8,10 @@
   -webkit-box-shadow: 0 0 2px lighten($black, 63%);
   -moz-box-shadow: 0 0 2px lighten($black, 63%);
   box-shadow: 0 0 2px lighten($black, 63%);
+
+  &:not(.dropdown-toggle):not(&--with-icon) {
+    font-size: $font-size-base-smaller;
+  }
 }
 
 .btn--with-icon {

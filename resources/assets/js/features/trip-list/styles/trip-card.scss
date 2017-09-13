@@ -1,6 +1,6 @@
 @import '~app/bootstrap/variables';
 
-.trip-item {
+.trip-card {
     margin-bottom: 30px;
 
     & .card {
@@ -13,10 +13,17 @@
         justify-content: space-between;
         cursor: pointer;
     }
-}
 
-.deleted-trip .card {
-    border-color: #d9534f;
+    &--deleted .card {
+        border-color: #d9534f;
+    }
+
+    &__actions {
+        text-align: right;
+    }
+    &__action-btn {
+        margin-left: 1rem;
+    }
 }
 
 .show-trip-bookings-btn {
@@ -32,21 +39,4 @@
         border-radius: 50%;
         background-color: darken($teal, 22%);
     }
-}
-
-.show-details {
-    height: 100%;
-    opacity: 1;
-    transition: opacity .25s ease-in-out;
-}
-
-.hide-details {
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: opacity .25s ease-in-out;
-}
-
-.link-style-users {
-    cursor: pointer;
 }

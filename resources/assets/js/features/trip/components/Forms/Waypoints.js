@@ -48,7 +48,7 @@ class Waypoints extends React.Component {
         const { translate, placesCssClasses, onWaypointDelete } = this.props;
 
         return (
-            <div className="row align-items-center justify-content-end stopover-row" key={index}>
+            <div className="row align-items-center justify-content-end waypoints-element" key={index}>
                 <label className="form-control-label text-muted col-sm-4 mt-3">
                     {translate('trip_form.stopover.name', {n: index + 1})}
                 </label>
@@ -82,7 +82,7 @@ class Waypoints extends React.Component {
         return (
             <div>
                 {waypointsView}
-                <div className="form-group text-right">
+                <div className="form-group text-right waypoints-add-action">
                     <a href="#" onClick={onWaypointAdd}>
                         {translate('trip_form.stopover.add')}
                     </a>
