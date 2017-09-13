@@ -5,7 +5,7 @@
 .user-list-item {
   display: block;
   &:hover {
-    background-color: $gray-lightest;
+    background-color: lighten($orange, 32%);
   }
 }
 
@@ -45,6 +45,7 @@
     }
   }
   &__name {
+    font-size: .95rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
