@@ -100,7 +100,7 @@ class Route extends Model
             "POWER(SIN(RADIANS({$startLat} - {$endLat}) / 2), 2) + ".
             "COS(RADIANS({$startLat})) * COS(RADIANS($endLat)) * ".
             "POWER(SIN(RADIANS({$startLng} - $endLng) / 2), 2) ".
-            ')), 1) < ' . $distance
+            ')), 1) < '.$distance
         );
     }
 }

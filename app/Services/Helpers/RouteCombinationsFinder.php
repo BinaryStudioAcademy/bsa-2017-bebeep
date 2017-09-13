@@ -36,7 +36,7 @@ class RouteCombinationsFinder
         $this->endRoutesPoints = $this->endRoutes->map(function (RouteContainer $route) {
             return $route->endPoint();
         });
-     }
+    }
 
     /**
      * @param int $maxTransfers
