@@ -48,7 +48,7 @@
     display: inline-block;
     border: none;
     vertical-align: sub;
-    font-size: $font-size-lg;
+    font-size: $font-size-base;
     color: $gray;
     font-family: $font-family-base;
     width: calc(100% - #{($form-input-circle-height + $form-input-ico-margin-x + 1)});
