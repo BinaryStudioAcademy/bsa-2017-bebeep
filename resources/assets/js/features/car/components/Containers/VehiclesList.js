@@ -5,13 +5,19 @@ import { bindActionCreators } from 'redux';
 import { localize } from 'react-localize-redux';
 
 import VehicleItem from '../Elements/VehicleItem';
-import { getVehicles } from 'features/car/actions';
+import { getVehicles, deleteVehicle } from 'features/car/actions';
 
 class VehiclesList extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.props.getVehicles();
+        this.onDeleteVehicle = this.onDeleteVehicle.bind(this);
+    }
+
+    onDeleteVehicle(id) {
+        this.props.deleteVehicle(id);
     }
 
     render() {
@@ -20,7 +26,8 @@ class VehiclesList extends React.Component {
         const vehiclesView = (vehicles.length > 0)
             ? vehicles.map(vehicle => {
                 return (
-                    <VehicleItem key={ vehicle.id } vehicle={ vehicle } />
+                    <VehicleItem key={ vehicle.id } vehicle={ vehicle }
+                        onDeleteVehicle={this.onDeleteVehicle} />
                 );
             })
             : null;
@@ -42,7 +49,6 @@ class VehiclesList extends React.Component {
                 </thead>
                 <tbody>
                     { vehiclesView }
-                    { vehiclesView }
                 </tbody>
             </table>
         );
@@ -57,7 +63,7 @@ const VehiclesListConnected = connect(
     state => ({
         vehicles: state.vehicle.vehicles,
     }),
-    dispatch => bindActionCreators({ getVehicles }, dispatch)
+    dispatch => bindActionCreators({ getVehicles, deleteVehicle }, dispatch)
 
 )(VehiclesList);
 

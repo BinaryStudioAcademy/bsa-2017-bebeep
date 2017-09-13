@@ -1,29 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
-import { deleteVehicle } from 'features/car/actions';
+import { DeleteButton } from 'app/components/Buttons';
 import { getVehiclePhoto } from 'app/services/PhotoService';
 
 class VehicleItem extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.onClick = this.onClick.bind(this);
-    }
-
-    onClick(e) {
-        e.preventDefault();
-
-        const carId = e.target.getAttribute('data-id');
-        this.props.deleteVehicle(carId);
-    }
-
     render() {
-        const vehicle = this.props.vehicle;
+        const { vehicle, onDeleteVehicle } = this.props;
 
         return (
             <tr>
@@ -46,14 +31,7 @@ class VehicleItem extends React.Component {
                     </Link>
                 </td>
                 <td className="table-list-details__cell-for-action">
-                    <button type="button"
-                        role="button"
-                        className="btn btn--with-icon btn-danger"
-                        data-id={vehicle.id}
-                        onClick={this.onClick}
-                    >
-                        <i className="fa fa-trash-o" aria-hidden="true" />
-                    </button>
+                    <DeleteButton onClick={() => onDeleteVehicle(vehicle.id)} />
                 </td>
             </tr>
         );
@@ -61,13 +39,8 @@ class VehicleItem extends React.Component {
 }
 
 VehicleItem.propTypes = {
-    vehicle: PropTypes.object,
-    deleteVehicle: PropTypes.func
+    vehicle: PropTypes.object.isRequired,
+    onDeleteVehicle: PropTypes.func.isRequired,
 };
 
-export default connect(
-    state => ({
-        vehicleState: state.vehicle,
-    }),
-    dispatch => bindActionCreators({ deleteVehicle }, dispatch)
-)(VehicleItem);
+export default VehicleItem;
