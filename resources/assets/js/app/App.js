@@ -82,7 +82,7 @@ class App extends React.Component {
             ? <Preloader enable={true} />
             : <div>
                 {this.props.children}
-                <Notifications userId={AuthService.getUserId()} />
+                <Notifications />
                 <GeneralChannel />
             </div>;
     }

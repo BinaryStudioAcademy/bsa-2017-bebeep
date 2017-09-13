@@ -15,20 +15,19 @@ class Notifications extends React.Component {
         super();
 
         this.state = {
-            userId: null,
             notifications: []
         };
     }
 
     componentWillMount() {
-        this.setState({userId: this.props.userId});
         this.getNotifications(this.props.userId);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.userId !== this.state.userId) {
-            this.setState({userId: nextProps.userId});
-            this.getNotifications(nextProps.userId);
+        if (nextProps.isAuthorized !== this.props.isAuthorized) {
+            nextProps.isAuthorized
+                ? this.getNotifications(nextProps.userId)
+                : this.disconnectChannel(this.props.userId);
         }
     }
 
@@ -50,9 +49,11 @@ class Notifications extends React.Component {
                 .listen('Chat\\NewMessage', (e) => {
                     console.log(e);
                 });
-        } else {
-            BroadcastService.Echo.leave('App.User.' + this.state.userId)
         }
+    }
+
+    disconnectChannel(userId) {
+        BroadcastService.Echo.leave('App.User.' + userId)
     }
 
     showNotification(notificationData) {
@@ -149,7 +150,9 @@ Notifications.PropTypes = {
 
 export default connect(
     state => ({
-        translate: getTranslate(state.locale)
+        translate: getTranslate(state.locale),
+        userId: state.user.session.user_id,
+        isAuthorized: state.user.login.success
     }),
     dispatch => bindActionCreators({addNotification, markAsReadNotification}, dispatch)
 )(Notifications);
