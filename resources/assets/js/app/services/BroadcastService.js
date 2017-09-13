@@ -4,25 +4,27 @@ import AuthService from './AuthService';
 import { PUSHER_API_KEY } from 'app/config.js';
 
 const BroadcastService = (() => {
-    let isAuthorized = false,
-        _Echo = null;
+    const _Echo = new Echo({
+            broadcaster: 'pusher',
+            key: PUSHER_API_KEY,
+            cluster: 'eu',
+            encrypt: true,
+            auth: {}
+        });
 
     return {
         get Echo() {
-            if (_Echo === null || AuthService.isAuthorized() !== isAuthorized) {
-                isAuthorized = AuthService.isAuthorized();
-                _Echo = new Echo({
-                    broadcaster: 'pusher',
-                    key: PUSHER_API_KEY,
-                    cluster: 'eu',
-                    encrypt: true,
+            if (AuthService.isAuthorized()) {
+                _Echo.connector.setOptions({
                     auth: {
                         headers: {
-                            'Authorization': 'Bearer ' + AuthService.getSessionToken()
+                            Authorization: 'Bearer ' + AuthService.getSessionToken()
                         }
                     }
                 });
+                _Echo.connector.connect();
             }
+            
             return _Echo;
         },
         prepareType(type) {
