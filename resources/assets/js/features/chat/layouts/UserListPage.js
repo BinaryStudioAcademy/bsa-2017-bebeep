@@ -16,7 +16,7 @@ class UserListPage extends React.Component {
         const {translate} = this.props;
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="container--min-height-350">
                 <PageHeader header={translate('chat.user_list.header')} />
                 <UserListContainer />
             </ContainerWrapper>
