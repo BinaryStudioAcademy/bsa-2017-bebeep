@@ -1,0 +1,62 @@
+@import '~app/bootstrap/variables';
+@import '~font-awesome/scss/variables';
+
+.user-list-item {
+  display: block;
+  &:hover {
+    background-color: $gray-lightest;
+  }
+}
+
+.user-item {
+  color: $gray-dark;
+
+  &:hover,
+  &:focus,
+  &:link {
+    color: $gray-dark;
+    text-decoration: none;
+  }
+
+  &__status-badge {
+    $badge-radius: 6px;
+
+    width: $badge-radius * 2;
+    height: $badge-radius * 2;
+    border: 1px solid transparent;
+    position: absolute;
+    left: $list-group-item-padding-x / 2;
+    top: 50%;
+    margin-top: -$badge-radius;
+    margin-left: -$badge-radius;
+
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+
+    &--online {
+      background-color: $brand-success;
+    }
+    &--offline {
+      background-color: transparent;
+      border-color: $brand-danger;
+    }
+  }
+  &__name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  &__envelope {
+    color: $teal;
+  }
+  &__avatar {
+    max-width: 30px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+
+    &--online {
+      border-color: lighten($brand-success, 5%);
+    }
+  }
+}

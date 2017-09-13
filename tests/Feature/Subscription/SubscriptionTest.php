@@ -3,8 +3,6 @@
 namespace Tests\Feature\Subscription;
 
 use Tests\JwtTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SubscriptionTest extends JwtTestCase
 {
