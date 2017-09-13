@@ -236,6 +236,28 @@ strong {
     }
 }
 
+.application-footer-wrapper {
+    background: #fff;
+    border-top: 1px solid rgba(212, 207, 207, .4);
+    box-shadow: 0 -5px 5px -5px rgba(51, 51, 51, .21);
+}
+.application-footer {
+    padding-top: 1rem;
+    line-height: 1;
+    font-size: .8rem;
+
+    &__copyrights {
+        margin-bottom: 2rem;
+    }
+
+    &__content p {
+        margin-bottom: .5rem;
+    }
+    &__content strong {
+        font-weight: 500;
+    }
+}
+
 .form-input_no-border {
     border: none;
 }
