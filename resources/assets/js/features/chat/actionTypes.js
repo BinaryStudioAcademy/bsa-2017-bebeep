@@ -1,0 +1,1 @@
+export const CHAT_SET_USER_LIST = 'CHAT_SET_USER_LIST';
