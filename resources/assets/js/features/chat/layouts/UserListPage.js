@@ -3,9 +3,10 @@ import * as lang from '../lang/UserList.locale.json';
 import LangService from 'app/services/LangService';
 import {localize} from 'react-localize-redux';
 import UserListContainer from '../components/UserListContainer';
+import PageHeader from 'app/components/PageHeader';
 import ContainerWrapper from 'app/layouts/ContainerWrapper';
 
-class MessagingPage extends React.Component {
+class UserListPage extends React.Component {
 
     componentWillMount() {
         LangService.addTranslation(lang);
@@ -16,12 +17,11 @@ class MessagingPage extends React.Component {
 
         return (
             <ContainerWrapper>
-                <UserListContainer>
-
-                </UserListContainer>
+                <PageHeader header={translate('chat.user_list.header')} />
+                <UserListContainer />
             </ContainerWrapper>
         );
     }
 }
 
-export default localize(MessagingPage, 'locale');
+export default localize(UserListPage, 'locale');

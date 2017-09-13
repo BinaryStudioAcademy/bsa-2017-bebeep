@@ -14,11 +14,10 @@ class UserListContainer extends React.Component {
 
 
     render() {
-        const {translate, user_id} = this.props;
+        const {translate} = this.props;
 
         return (
             <div>
-                <h2>User list</h2>
                 <div className="col-md-8 bg-white ">
 
                 </div>
