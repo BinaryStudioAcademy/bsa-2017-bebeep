@@ -1,4 +1,5 @@
 import * as actions from './actionTypes';
+import {securedRequest} from 'app/services/RequestService'
 
 export const setOnlineUsers = (users) => ({
     type: actions.CHAT_SET_ONLINE_USERS,
@@ -34,4 +35,13 @@ export const addUsersToList = data => {
         users: [],
         entities: {}
     });
+};
+
+export const fillUsersList = () => dispatch => {
+    securedRequest.get('/api/v1/users/others')
+        .then(response => dispatch(addUsersToList(response.data)))
+        .catch(error => {
+            console.error(error);
+            dispatch(addUsersToList({data: {}}));
+        });
 };

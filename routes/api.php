@@ -233,3 +233,8 @@ Route::post('v1/users/{user}/messages', [
     'as' => 'send.message',
     'uses' => 'Api\Chat\ChatController@message',
 ]);
+
+Route::get('v1/users/others', [
+    'as' => 'users',
+    'uses' => 'Api\Chat\UserController@others',
+]);
