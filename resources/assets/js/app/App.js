@@ -53,7 +53,6 @@ class App extends React.Component {
         return (
             <div id="application">
                 <MainHeader />
-                { this.props.children }
                 { this.renderComponent() }
             </div>
         )
