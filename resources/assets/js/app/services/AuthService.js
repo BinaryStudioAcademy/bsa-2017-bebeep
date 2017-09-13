@@ -23,7 +23,10 @@ const AuthService = (() => {
         store = null;
 
     const getFromState = (param) => {
-        return store.getState().user.session[param];
+        if (store) {
+            return store.getState().user.session[param];
+        }
+        return null;
     };
 
     const setSessionDataToState = () => {
@@ -135,7 +138,10 @@ const AuthService = (() => {
         },
 
         isAuthorized() {
-            return store.getState().user.login.success;
+            if (store) {
+                return store.getState().user.login.success;
+            }
+            return null;
         },
 
         checkPermissions(permissions, identically) {
