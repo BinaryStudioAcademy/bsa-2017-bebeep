@@ -23,5 +23,6 @@ Broadcast::channel('general', function ($user) {
             'first_name' => $user->first_name,
         ];
     }
+
     return null;
 });
