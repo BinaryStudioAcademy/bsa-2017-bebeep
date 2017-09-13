@@ -34,7 +34,7 @@ class SearchTripWithTransfersServiceTest extends TestCase
 
         $possibleRoutes = $service->search($searchRequest);
 
-        $this->assertEquals(2, $possibleRoutes->count());
+        $this->assertEquals(2, $possibleRoutes['data']->count());
     }
 
     /**
@@ -54,7 +54,7 @@ class SearchTripWithTransfersServiceTest extends TestCase
 
         $possibleRoutes = $service->search($searchRequest);
 
-        $this->assertEquals(4, $possibleRoutes->count());
+        $this->assertEquals(4, $possibleRoutes['data']->count());
     }
 
     /**
@@ -76,11 +76,11 @@ class SearchTripWithTransfersServiceTest extends TestCase
 
         $searchRequest->transfers = 3;
         $possibleRoutes = $service->search($searchRequest);
-        $this->assertEquals(2, $possibleRoutes->count());
+        $this->assertEquals(2, $possibleRoutes['data']->count());
 
         $searchRequest->transfers = 1;
         $possibleRoutes = $service->search($searchRequest);
-        $this->assertEquals(1, $possibleRoutes->count());
+        $this->assertEquals(1, $possibleRoutes['data']->count());
     }
 
     /**
@@ -102,7 +102,7 @@ class SearchTripWithTransfersServiceTest extends TestCase
 
         $searchRequest->transfers = 10;
         $possibleRoutes = $service->search($searchRequest);
-        $this->assertEquals(1, $possibleRoutes->count());
+        $this->assertEquals(1, $possibleRoutes['data']->count());
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\SearchTripsWithTransfersService;
 use App\User;
 use App\Models\Trip;
 use App\Services\TripsService;
@@ -31,15 +32,22 @@ class TripsController extends Controller
     private $tripDetailService;
 
     /**
+     * @var SearchTripsWithTransfersService
+     */
+    private $searchTripsWithTransfersService;
+
+    /**
      * TripsController constructor.
      *
      * @param TripsService $tripsService
      * @param TripDetailService $tripDetailService
+     * @param SearchTripsWithTransfersService $searchTripsWithTransfersService
      */
-    public function __construct(TripsService $tripsService, TripDetailService $tripDetailService)
+    public function __construct(TripsService $tripsService, TripDetailService $tripDetailService, SearchTripsWithTransfersService $searchTripsWithTransfersService)
     {
         $this->tripsService = $tripsService;
         $this->tripDetailService = $tripDetailService;
+        $this->searchTripsWithTransfersService = $searchTripsWithTransfersService;
     }
 
     /**
@@ -140,11 +148,14 @@ class TripsController extends Controller
 
     /**
      * @param SearchTripRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function search(SearchTripRequest $request)
     {
+        if ($request->getTransfers() >= 1) {
+            return $this->searchTripsWithTransfersService->search($request);
+        }
+
         $trips = $this->tripsService->search($request);
 
         return fractal()

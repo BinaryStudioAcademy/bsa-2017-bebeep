@@ -6,7 +6,7 @@ use App\Models\Route;
 
 class RouteGroup
 {
-    private $routes;
+    public $routes;
 
     public function __construct()
     {

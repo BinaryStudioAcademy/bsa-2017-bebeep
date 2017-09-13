@@ -6,6 +6,7 @@ use App\Models\Route;
 use App\Repositories\TripRepository;
 use App\Services\Helpers\RouteCombinationsFinder;
 use App\Services\Requests\SearchTripRequest;
+use Carbon\Carbon;
 use RFHaversini\Distance;
 
 class SearchTripsWithTransfersService
@@ -21,8 +22,7 @@ class SearchTripsWithTransfersService
 
     /**
      * @param  SearchTripRequest $request
-     * @return \Illuminate\Support\Collection
-     * TODO Price filter, routes must be free check, pagination and sort
+     * @return array
      */
     public function search(SearchTripRequest $request)
     {
@@ -32,7 +32,8 @@ class SearchTripsWithTransfersService
             ->setIsAnimalsAllowed($request->getIsAnimalsAllowed())
             ->setLuggageSize($request->getLuggageSize())
             ->setRating($request->getRating())
-            ->getResult()->pluck('id')->toArray();
+            ->paginate(9999, 0)
+            ->getResult()->pluck('id')->unique()->toArray();
 
         if (count($this->possibleTripsIds) <= 0) {
             return collect([]);
@@ -56,9 +57,25 @@ class SearchTripsWithTransfersService
         $combinator = new RouteCombinationsFinder($possibleStartRoutes, $possibleInnerRoutes, $possibleEndRoutes);
         $routeGroups = $combinator->find($request->getTransfers() ?? 5);
 
-        $routeGroups = $this->filterByRestrictions($routeGroups);
+        $sortMethod = $this->searchRequest->getOrder() === 'asc' ? 'sortBy' : 'sortByDesc';
+        $filteredAndSortedRouteGroups = $this->filterByRestrictions($routeGroups)->{$sortMethod}(function($routeGroup) {
+            $startRoute = $routeGroup->getRoutes()->first();
 
-        return $routeGroups;
+            if ($this->searchRequest->getSort() === 'price') {
+                return $startRoute->trip->price;
+            }
+
+            if ($this->searchRequest->getSort() === 'start_at') {
+                return $startRoute->start_at;
+            }
+
+            return true;
+        });
+
+        return [
+            'data' => $filteredAndSortedRouteGroups->forPage($this->searchRequest->getPage(), $this->searchRequest->getLimit()),
+            'meta' => $this->getMeta($routeGroups),
+        ];
     }
 
     /**
@@ -71,7 +88,7 @@ class SearchTripsWithTransfersService
             'from_lng',
             $this->searchRequest->getFromLat(),
             $this->searchRequest->getFromLng()
-        )->where('start_at', '>', $this->searchRequest->getStartAt())->with(['trip.user', 'bookings'])->get();
+        )->with(['trip.user', 'bookings'])->get();
     }
 
     /**
@@ -84,7 +101,7 @@ class SearchTripsWithTransfersService
             'to_lng',
             $this->searchRequest->getToLat(),
             $this->searchRequest->getToLng()
-        )->where('start_at', '>', $this->searchRequest->getStartAt())->get();
+        )->get();
     }
 
     /**
@@ -113,7 +130,6 @@ class SearchTripsWithTransfersService
                 );
             });
         })->whereNotIn('id', $possibleStartRoutes->pluck('id')->toArray())
-            ->where('start_at', '>', $this->searchRequest->getStartAt())
             ->with(['trip.user', 'bookings'])
             ->get();
     }
@@ -123,7 +139,23 @@ class SearchTripsWithTransfersService
      */
     private function routesQuery()
     {
-        return Route::whereIn('trip_id', $this->possibleTripsIds);
+        $date = $this->searchRequest->getStartAt();
+        $minHourOffset = $this->searchRequest->getMinTime();
+        $maxHourOffset = $this->searchRequest->getMaxTime();
+
+        $dayStart = clone $date;
+        $dayStart->hour += $minHourOffset > 0 && $minHourOffset < $maxHourOffset ? $minHourOffset - 1 : 0;
+
+        $dayEnd = clone $date;
+        $dayEnd->hour += $maxHourOffset < 25 && $minHourOffset < $maxHourOffset ? $maxHourOffset : 24;
+
+        if ($dayStart->timestamp < Carbon::now()->timestamp) {
+            $dayStart = Carbon::now();
+        }
+
+        return Route::whereIn('trip_id', $this->possibleTripsIds)
+            ->where('start_at', '>=', $dayStart)
+            ->where('start_at', '<=', $dayEnd);
     }
 
     /**
@@ -163,5 +195,32 @@ class SearchTripsWithTransfersService
 
             return $routeGroupPrice >= $minPrice && $routeGroupPrice <= $maxPrice;
         });
+    }
+
+    /**
+     * @param $routeGroups
+     * @return array
+     */
+    private function getMeta($routeGroups)
+    {
+        $minPrice = $routeGroups->map(function ($routeGroup) {
+            return $routeGroup->getRoutes()->map(function($route) {
+                return $route->trip->price;
+            })->min();
+        })->min();
+
+        $maxPrice = $routeGroups->map(function ($routeGroup) {
+            return $routeGroup->getRoutes()->map(function($route) {
+                return $route->trip->price;
+            })->max();
+        })->max();
+
+        return [
+            'price' => [
+                'min' => $minPrice,
+                'max' => $maxPrice,
+            ],
+            'total' => $routeGroups->count(),
+        ];
     }
 }

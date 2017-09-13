@@ -73,7 +73,7 @@ class SearchTripRequest implements SearchTripRequestContract
      */
     public function getLimit(): int
     {
-        // TODO: Implement getLimit() method.
+        return 10;
     }
 
     /**
@@ -83,7 +83,7 @@ class SearchTripRequest implements SearchTripRequestContract
      */
     public function getPage(): int
     {
-        // TODO: Implement getPage() method.
+        return 1;
     }
 
     /**
@@ -93,7 +93,7 @@ class SearchTripRequest implements SearchTripRequestContract
      */
     public function getSort(): string
     {
-        // TODO: Implement getSort() method.
+        return 'price';
     }
 
     /**
@@ -103,7 +103,7 @@ class SearchTripRequest implements SearchTripRequestContract
      */
     public function getOrder(): string
     {
-        // TODO: Implement getOrder() method.
+        return 'asc';
     }
 
     /**
@@ -141,7 +141,7 @@ class SearchTripRequest implements SearchTripRequestContract
      */
     public function getMinTime(): int
     {
-        // TODO: Implement getMinTime() method.
+        return 0;
     }
 
     /**
@@ -149,7 +149,7 @@ class SearchTripRequest implements SearchTripRequestContract
      */
     public function getMaxTime(): int
     {
-        // TODO: Implement getMaxTime() method.
+        return 24;
     }
 
     /**
