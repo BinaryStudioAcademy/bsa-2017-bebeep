@@ -8,8 +8,6 @@ import Logout from 'features/user/components/Login/Logout';
 import LangService from 'app/services/LangService';
 import * as lang from 'features/user/lang/Login/Logout.locale.json';
 
-import 'features/user/styles/user.scss';
-
 class LogoutLayout extends React.Component {
 
     componentWillMount() {

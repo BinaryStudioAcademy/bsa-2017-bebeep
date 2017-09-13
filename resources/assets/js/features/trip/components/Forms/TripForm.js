@@ -87,8 +87,8 @@ class TripForm extends React.Component {
                     timeFormat={true}
                     defaultValue={reverseStartAt}
                     inputProps={{name: 'reverse_start_at', id: 'reverse_start_at'}}
-                    labelClasses="register-form-label"
-                    wrapperClasses="register-form-birth_date"
+                    labelClasses="datetimepicker-label"
+                    wrapperClasses="datetimepicker-wrapper"
                     error={errors.reverse_start_at ? errors.reverse_start_at[0] : ''}
                 />
             </div>
@@ -220,8 +220,8 @@ class TripForm extends React.Component {
                                 timeFormat={true}
                                 defaultValue={tripData.start_at}
                                 inputProps={{name: 'start_at', id: 'start_at'}}
-                                labelClasses="register-form-label"
-                                wrapperClasses="register-form-birth_date"
+                                labelClasses="datetimepicker-label"
+                                wrapperClasses="datetimepicker-wrapper"
                                 error={errors.start_at}
                             />
                         </div>

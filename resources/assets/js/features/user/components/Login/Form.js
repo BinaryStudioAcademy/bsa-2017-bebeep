@@ -10,8 +10,6 @@ import PasswordForgotModal from '../_Modals/PasswordForgotModal';
 
 import * as actions from 'features/user/actions';
 
-import 'features/user/styles/user.scss';
-
 class Form extends React.Component {
 
     constructor(props) {

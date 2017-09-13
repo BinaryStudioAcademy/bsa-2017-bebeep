@@ -22,8 +22,6 @@ import BookingService from 'app/services/BookingService';
 import { RegisterValidate, checkPassengerRole } from 'app/services/UserService';
 import { STEP_THREE, savePendingTrip, isTripReady } from 'app/services/WizardTripService';
 
-import 'features/user/styles/user_register.scss';
-
 class Form extends React.Component {
 
     constructor() {
@@ -188,8 +186,8 @@ class Form extends React.Component {
                                 isValidDate={this.isValidDate}
                                 timeFormat={false}
                                 inputProps={{ name: 'birth_date', id: 'birth_date' }}
-                                labelClasses="register-form-label"
-                                wrapperClasses="register-form-birth_date"
+                                labelClasses="datetimepicker-label"
+                                wrapperClasses="datetimepicker-wrapper"
                                 error={errors.birth_date}
                             />
                         </div>

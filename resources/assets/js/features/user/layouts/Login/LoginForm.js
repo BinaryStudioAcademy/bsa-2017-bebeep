@@ -8,8 +8,6 @@ import Form from 'features/user/components/Login/Form';
 import LangService from 'app/services/LangService';
 import * as lang from 'features/user/lang/Login/LoginForm.locale.json';
 
-import 'features/user/styles/user.scss';
-
 class LoginForm extends React.Component {
 
     componentWillMount() {

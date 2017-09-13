@@ -284,6 +284,18 @@ strong {
     max-width: 500px;
     margin: auto;
 }
+.datetimepicker {
+    &-label,
+    &-wrapper {
+        width: 100%;
+    }
+
+    &-wrapper .rdtPicker {
+        top: 35px;
+        left: 0;
+    }
+}
+
 
 .modal-body--min-height {
     min-height: 250px;
