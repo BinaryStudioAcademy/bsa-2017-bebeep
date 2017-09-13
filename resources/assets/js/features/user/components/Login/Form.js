@@ -11,6 +11,7 @@ import PasswordForgotModal from '../_Modals/PasswordForgotModal';
 import * as actions from 'features/user/actions';
 
 import 'features/user/styles/user.scss';
+import { sendSubscribeRequest } from 'features/search/services/SearchService';
 
 class Form extends React.Component {
 
@@ -22,9 +23,35 @@ class Form extends React.Component {
         this.pickErrorMessage = this.pickErrorMessage.bind(this);
     }
 
+    componentDidMount() {
+        const { subscription } = this.props;
+
+        if(subscription) {
+            this.setState({ credentials: { email: subscription.email, password: '' } });
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.success) {
-            browserHistory.push('/dashboard')
+            browserHistory.push('/dashboard');
+
+            if(nextProps.subscription) {
+                let subscribeData = {
+                    email: nextProps.subscription.email,
+                    end_point: nextProps.subscription.end_point,
+                    filters: nextProps.subscription.filters,
+                    start_at: nextProps.subscription.start_at,
+                    start_point: nextProps.subscription.start_point,
+                    user_id: nextProps.user.profile.sub
+                };
+
+                sendSubscribeRequest(subscribeData).
+                    then(response => {
+                        if (response.status === 200) {
+                            console.log("You are subscribed!");
+                        }
+                    });
+            }
         }
     }
 
@@ -112,6 +139,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect((state) => ({
+    user: state.user,
+    subscription: state.search.subscription,
     errors: state.user.login.errors,
     httpCode: state.user.login.httpStatus,
     success: state.user.login.success,

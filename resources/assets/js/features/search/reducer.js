@@ -20,14 +20,7 @@ const initialState = {
         seats: null,
         rating: null
     },
-    subscription: {
-        email: '',
-        end_point: null,
-        filters: null,
-        start_at: null,
-        start_point: null,
-        user_id: null
-    }
+    subscription: null,
 };
 
 export default function (state = initialState, action) {
