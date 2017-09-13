@@ -18,9 +18,21 @@ class UserItem extends React.Component {
             userData = this.getUserData(userId);
 
         return (
-            <div className="user-item">
+            <div className="user-item row">
                 <div className="user-item__status-badge user-item__status-badge--online"></div>
-                <div className="user-item__name">{userData.first_name} {userData.last_name}</div>
+                <div className="col-2 text-center">
+                    <img
+                        src={getProfileAvatar(userData.avatar)}
+                        alt={userData.first_name}
+                        className="user-item__avatar user-item__avatar--online"
+                    />
+                </div>
+                <div className="col-8">
+                    <div className="user-item__name">{userData.first_name} {userData.last_name}</div>
+                </div>
+                <div className="col-2 text-right">
+                    <i className="fa fa-envelope user-item__envelope" />
+                </div>
             </div>
         );
     }
