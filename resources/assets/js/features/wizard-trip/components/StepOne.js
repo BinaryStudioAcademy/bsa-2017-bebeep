@@ -46,7 +46,7 @@ class StepOne extends React.Component {
                 place: to,
                 address: to && to.formatted_address
             },
-            start_at: start_at ? moment(start_at) : start_at
+            start_at: start_at ? moment(start_at) : moment()
         });
     }
 
@@ -73,7 +73,7 @@ class StepOne extends React.Component {
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
                 const route = new TripRoute(result.routes[0]),
-                    time = getStartAndEndTime(this.state.start_at, route.getDurationRaw()),
+                    time = getStartAndEndTime(this.state.start_at.unix(), route.getDurationRaw()),
                     toBeValidated = {
                         from: this.state.from.place,
                         to: this.state.to.place,
