@@ -34,7 +34,7 @@ class VehiclesList extends React.Component {
 
         return (
             <table className="table table-list-details">
-                <thead>
+                <thead className="with-background-teal">
                     <tr>
                         <th>{ translate('vehicles_list.options.brand') }</th>
                         <th>{ translate('vehicles_list.options.model') }</th>

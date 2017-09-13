@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
-import { DeleteButton } from 'app/components/Buttons';
+import { EditButton, DeleteButton } from 'app/components/Buttons';
 import { getVehiclePhoto } from 'app/services/PhotoService';
 
 class VehicleItem extends React.Component {
@@ -24,11 +23,7 @@ class VehicleItem extends React.Component {
                     </div>
                 </td>
                 <td className="table-list-details__cell-for-action">
-                    <Link to={ 'vehicles/edit/' + vehicle.id }
-                        className="btn btn--with-icon btn-success"
-                    >
-                        <i className="fa fa-pencil" aria-hidden="true" />
-                    </Link>
+                    <EditButton pathTo={ 'vehicles/edit/' + vehicle.id } />
                 </td>
                 <td className="table-list-details__cell-for-action">
                     <DeleteButton onClick={() => onDeleteVehicle(vehicle.id)} />
