@@ -15,22 +15,25 @@ class Notifications extends React.Component {
         super();
 
         this.state = {
+            userId: null,
             notifications: []
         };
     }
 
     componentWillMount() {
-        this.getNotifications(this.props);
+        this.setState({userId: this.props.userId});
+        this.getNotifications(this.props.userId);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.userId !== this.props.userId) {
-            this.getNotifications(nextProps);
+        if (nextProps.userId !== this.state.userId) {
+            this.setState({userId: nextProps.userId});
+            this.getNotifications(nextProps.userId);
         }
     }
 
-    getNotifications(props) {
-        const {addNotification, userId} = props;
+    getNotifications(userId) {
+        const {addNotification} = this.props;
 
         if (userId) {
             BroadcastService.Echo.private('App.User.' + userId)
@@ -47,6 +50,8 @@ class Notifications extends React.Component {
                 .listen('Chat\\NewMessage', (e) => {
                     console.log(e);
                 });
+        } else {
+            BroadcastService.Echo.leave('App.User.' + this.state.userId)
         }
     }
 
