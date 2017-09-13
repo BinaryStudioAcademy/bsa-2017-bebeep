@@ -24,7 +24,7 @@ class Form extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.success) {
-            browserHistory.push('/dashboard')
+            browserHistory.push('/dashboard');
         }
     }
 

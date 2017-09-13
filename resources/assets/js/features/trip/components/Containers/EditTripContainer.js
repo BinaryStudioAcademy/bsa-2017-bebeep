@@ -185,7 +185,7 @@ class EditTripContainer extends React.Component {
 
         const validated = Validator.validate(createTripRules(), tripData);
 
-        if (! validated.valid) {
+        if (!validated.valid) {
             this.setErrors(validated.errors);
             return;
         }
@@ -229,7 +229,7 @@ class EditTripContainer extends React.Component {
             );
         }
 
-        if (! trip.id) {
+        if (!trip.id) {
             return (
                 <div className="alert">
                     {translate('edit_trip.loading')}

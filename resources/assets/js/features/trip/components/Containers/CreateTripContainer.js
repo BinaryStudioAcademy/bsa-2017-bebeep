@@ -154,7 +154,7 @@ class CreateTripContainer extends React.Component {
 
         const validated = Validator.validate(createTripRules(), tripData);
 
-        if (! validated.valid) {
+        if (!validated.valid) {
             this.setErrors(validated.errors);
             return;
         }
