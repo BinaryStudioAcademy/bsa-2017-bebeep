@@ -17,8 +17,8 @@ class DeleteTripTest extends BaseTripTestCase
     public function user_can_not_delete_trip_if_trip_id_is_not_correct()
     {
         $user = $this->getDriverUser();
-        factory(Vehicle::class)->create(['user_id' => $user->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id + 1);
 
@@ -35,8 +35,8 @@ class DeleteTripTest extends BaseTripTestCase
     {
         $user = $this->getDriverUser();
         $user2 = $this->getDriverUser();
-        factory(Vehicle::class)->create(['user_id' => $user2->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user2->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user2->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user2->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id);
 
@@ -52,8 +52,8 @@ class DeleteTripTest extends BaseTripTestCase
     public function user_can_delete_trip()
     {
         $user = $this->getDriverUser();
-        factory(Vehicle::class)->create(['user_id' => $user->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id);
 
@@ -72,8 +72,8 @@ class DeleteTripTest extends BaseTripTestCase
     public function user_can_not_delete_trip_without_driver_permissions()
     {
         $user = factory(User::class)->create();
-        factory(Vehicle::class)->create(['user_id' => $user->id]);
-        $trip = factory(Trip::class)->create(['user_id' => $user->id]);
+        $vehicle = factory(Vehicle::class)->create(['user_id' => $user->id]);
+        $trip = factory(Trip::class)->create(['user_id' => $user->id, 'vehicle_id' => $vehicle->id]);
 
         $this->url = $this->getUrl($trip->id);
 
