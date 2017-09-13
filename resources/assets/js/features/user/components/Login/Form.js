@@ -8,7 +8,9 @@ import {getTranslate} from 'react-localize-redux';
 import TextInput from './TextInput';
 import PasswordForgotModal from '../_Modals/PasswordForgotModal';
 
-import * as actions from 'features/user/actions';
+import { doLogin } from 'features/user/actions';
+
+import { subscriptionReset } from 'features/search/actions';
 
 import 'features/user/styles/user.scss';
 import { sendSubscribeRequest } from 'features/search/services/SearchService';
@@ -49,6 +51,7 @@ class Form extends React.Component {
                     then(response => {
                         if (response.status === 200) {
                             console.log("You are subscribed!");
+                            this.props.subscriptionReset();
                         }
                     });
             }
@@ -79,7 +82,7 @@ class Form extends React.Component {
 
     onSave(event) {
         event.preventDefault();
-        this.props.actions.doLogin(this.state.credentials);
+        this.props.doLogin(this.state.credentials);
     }
 
     render() {
@@ -132,17 +135,18 @@ class Form extends React.Component {
 
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch)
-    };
-}
-
-export default connect((state) => ({
-    user: state.user,
-    subscription: state.search.subscription,
-    errors: state.user.login.errors,
-    httpCode: state.user.login.httpStatus,
-    success: state.user.login.success,
-    translate: getTranslate(state.locale)
-}), mapDispatchToProps)(Form);
+export default connect(
+    state => ({
+        user: state.user,
+        subscription: state.search.subscription,
+        errors: state.user.login.errors,
+        httpCode: state.user.login.httpStatus,
+        success: state.user.login.success,
+        translate: getTranslate(state.locale)
+    }),
+    (dispatch) =>
+        bindActionCreators({
+            doLogin,
+            subscriptionReset
+        }, dispatch)
+)(Form);

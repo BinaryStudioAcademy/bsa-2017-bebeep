@@ -62,8 +62,12 @@ export default function (state = initialState, action) {
                     user_id: action.data.user_id
                 }
             };
+        case actions.SUBSCRIPTION_RESET:
+            return {
+                ...state,
+                subscription: null
+            };
         default:
             return state;
     }
-
 }

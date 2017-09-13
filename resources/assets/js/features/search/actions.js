@@ -19,3 +19,7 @@ export const subscriptionUpdate = data => ({
     type: actions.SUBSCRIPTION_UPDATE,
     data
 });
+
+export const subscriptionReset = () => ({
+    type: actions.SUBSCRIPTION_RESET
+});
