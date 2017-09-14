@@ -38,7 +38,9 @@ class CompoundTripItem extends React.Component {
 
         var from = collection.from.address_components;
         var to = collection.to.address_components;
- 
+        var fromName = (from[0].long_name === parseInt(from[0].long_name, 6)) ? from[1].long_name : from[0].long_name;
+        var toName = (to[0].long_name === parseInt(to[0].long_name, 6)) ? to[1].long_name : to[0].long_name;
+
         return (
 
             <Link to={`/trip/${collection.trip.id}`} className="compound-search-trip-item">
@@ -74,11 +76,11 @@ class CompoundTripItem extends React.Component {
 
                             <div className="search-trip-item__from">
                                 <span className="search-trip-item__from-ico"/>
-                                {(from[0].long_name === parseInt(from[0].long_name, 6)) ? from[1].long_name : from[0].long_name}
+                                {fromName}
                             </div>
                             <div className="search-trip-item__to">
                                 <span className="search-trip-item__from-ico search-trip-item__from-end"/>
-                                {(to[0].long_name === parseInt(to[0].long_name, 6)) ? to[1].long_name : to[0].long_name}
+                                {toName}
                             </div>
                         </div>
                         <div className="search-trip-item__offer">
