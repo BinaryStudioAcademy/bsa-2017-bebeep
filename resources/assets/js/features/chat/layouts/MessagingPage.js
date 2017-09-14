@@ -16,7 +16,7 @@ class MessagingPage extends React.Component {
 
         return (
             <ContainerWrapper className="pt-3 pb-0">
-                <MessagingContainer user_id = { this.props.params.id }/>
+                <MessagingContainer user_id={this.props.params.id} />
             </ContainerWrapper>
         );
     }

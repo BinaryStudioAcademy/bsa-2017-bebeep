@@ -1,4 +1,5 @@
 import * as actions from './actionTypes';
+import {MESSAGE_STATUS_RECIEVED, MESSAGE_STATUS_SENT} from './reducer';
 import {securedRequest} from 'app/services/RequestService'
 
 export const setOnlineUsers = (users) => ({
@@ -51,4 +52,30 @@ export const receiveMessage = (message) => {
         type: actions.CHAT_RECEIVE_MESSAGE,
         message
     };
+};
+
+export const addMessagesToChat = (userId, messages) => {
+    return _.reduce(messages.data, (result, message) => {
+        result.push({
+            id: message.id,
+            time: message.created_at_x,
+            text: message.message,
+            status: message.sender_id == userId ? MESSAGE_STATUS_RECIEVED : MESSAGE_STATUS_SENT
+        });
+
+        return result;
+    }, {
+        type: actions.CHAT_SET_USER_MESSAGES,
+        chat: [],
+        userId
+    })
+};
+
+export const getMessagesByUser = (userId) => dispatch => {
+    securedRequest.get(`/api/v1/users/${userId}/messages`)
+        .then(response => dispatch(addMessagesToChat(userId, response.data)))
+        .catch(error => {
+            console.error(error);
+            dispatch(addMessagesToChat(userId, {data: {}}));
+        });
 };

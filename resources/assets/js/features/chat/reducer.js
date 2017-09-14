@@ -86,6 +86,23 @@ export default (state = initialState, action) => {
                     }
                 }
             };
+        case actions.CHAT_SET_USER_MESSAGES:
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    chats: {
+                        ...state.entities.chats,
+                        byUserId: {
+                            ...state.entities.chats.byUserId,
+                            [action.userId]: [
+                                ...state.entities.chats.byUserId[action.userId] || [],
+                                ...action.chat
+                            ]
+                        }
+                    }
+                }
+            };
         default:
             return state;
     }
