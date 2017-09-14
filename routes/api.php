@@ -234,10 +234,10 @@ Route::post('v1/users/{user}/messages', [
     'uses' => 'Api\Chat\ChatController@message',
 ]);
 
-Route::get('v1/messages', [
+Route::get('v1/users/{user}/messages', [
     'middleware' => ['jwt.auth'],
     'as' => 'get.messages',
-    'uses' => 'Api\Chat\ChatController@getMessages',
+    'uses' => 'Api\Chat\ChatController@getChatMessages',
 ]);
 
 Route::get('v1/users/others', [

@@ -13,7 +13,7 @@ interface ChatMessageService
      * @param User $user
      * @return Collection
      */
-    public function getUserMessages(User $user) : Collection;
+    public function getUserMessages(User $recipient, User $sender) : Collection;
 
     /**
      * @param User $sender

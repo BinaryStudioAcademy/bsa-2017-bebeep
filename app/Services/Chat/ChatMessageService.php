@@ -2,6 +2,7 @@
 
 namespace App\Services\Chat;
 
+use App\Criteria\Chat\ChatMessagesCriteria;
 use App\User;
 use App\Models\ChatMessage;
 use Illuminate\Support\Collection;
@@ -24,14 +25,9 @@ class ChatMessageService implements ChatMessageServiceContract
     /**
      * {@inheritdoc}
      */
-    public function getUserMessages(User $user): Collection
+    public function getUserMessages(User $recipient, User $sender): Collection
     {
-        /**
-         * @var Collection $messages
-         */
-        $received = $user->receivedMessages;
-
-        return $received->union($user->sentMessages);
+        return $this->chatMessageRepository->getByCriteria(new ChatMessagesCriteria($recipient, $sender));
     }
 
     /**

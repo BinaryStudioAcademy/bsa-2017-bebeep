@@ -32,11 +32,11 @@ class ChatController extends Controller
         return fractal()->item($chatMessage, new ChatMessageTransformer());
     }
 
-    public function getMessages()
+    public function getChatMessages(User $user)
     {
-        $user = Auth::user();
+        $recipient = Auth::user();
 
-        $messages = $this->chatMessageService->getUserMessages($user);
+        $messages = $this->chatMessageService->getUserMessages($recipient, $user);
 
         return fractal()->collection($messages, new ChatMessageTransformer())->respond();
     }
