@@ -6,6 +6,7 @@ use App\Models\Trip;
 use App\Models\Review;
 use App\Models\Booking;
 use App\Models\Vehicle;
+use App\Models\ChatMessage;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -121,6 +122,22 @@ class User extends Authenticatable implements HasMediaConversions
     public function receivedReviews()
     {
         return $this->hasMany(Review::class, 'driver_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function receivedMessages()
+    {
+        return $this->hasMany(ChatMessage::class, 'recipient_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sentMessages()
+    {
+        return $this->hasMany(ChatMessage::class, 'sender_id');
     }
 
     /**

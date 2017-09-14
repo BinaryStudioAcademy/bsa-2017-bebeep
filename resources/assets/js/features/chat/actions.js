@@ -1,4 +1,5 @@
 import * as actions from './actionTypes';
+import {MESSAGE_STATUS_RECIEVED, MESSAGE_STATUS_SENT} from './reducer';
 import {securedRequest} from 'app/services/RequestService'
 
 export const setOnlineUsers = (users) => ({
@@ -37,11 +38,66 @@ export const addUsersToList = data => {
     });
 };
 
+export const updateMessagesInGlobalState = (data) => ({
+    type: actions.CHAT_SEND_MESSAGE,
+    data
+});
+
+export const sendMessage = (data) => dispatch => {
+    let sendedData = {
+        message: data.text
+    };
+    securedRequest.post('/api/v1/users/' + data.userId + '/messages', sendedData)
+        .then(() => dispatch(updateMessagesInGlobalState(data)));
+};
+
 export const fillUsersList = () => dispatch => {
     securedRequest.get('/api/v1/users/others')
         .then(response => dispatch(addUsersToList(response.data)))
         .catch(error => {
             console.error(error);
             dispatch(addUsersToList({data: {}}));
+        });
+};
+
+export const addUser = (userId) => dispatch => {
+    securedRequest.get(`/api/v1/users/${userId}`)
+        .then(response => dispatch(addUsersToList({data: [response.data.data]})))
+        .catch(error => {
+            console.error(error);
+            dispatch(addUsersToList({data: []}));
+        });
+};
+
+export const receiveMessage = (message) => {
+    return {
+        type: actions.CHAT_RECEIVE_MESSAGE,
+        message
+    };
+};
+
+export const addMessagesToChat = (userId, messages) => {
+    return _.reduce(messages.data, (result, message) => {
+        result.chat.push({
+            id: message.id,
+            time: message.created_at_x,
+            text: message.message,
+            status: message.sender_id == userId ? MESSAGE_STATUS_RECIEVED : MESSAGE_STATUS_SENT
+        });
+
+        return result;
+    }, {
+        type: actions.CHAT_SET_USER_MESSAGES,
+        chat: [],
+        userId
+    })
+};
+
+export const getMessagesByUser = (userId) => dispatch => {
+    securedRequest.get(`/api/v1/users/${userId}/messages`)
+        .then(response => dispatch(addMessagesToChat(userId, response.data)))
+        .catch(error => {
+            console.error(error);
+            dispatch(addMessagesToChat(userId, {data: {}}));
         });
 };

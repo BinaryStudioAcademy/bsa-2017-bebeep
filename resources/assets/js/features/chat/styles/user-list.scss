@@ -9,6 +9,12 @@
   &:hover {
     background-color: lighten($orange, 32%);
   }
+
+  a:link,
+  a:focus,
+  a:hover {
+    text-decoration: none;
+  }
 }
 
 .user-item {

@@ -21,9 +21,9 @@ class SearchTripWithTransfersServiceTest extends TestCase
      */
     public function case_1()
     {
-        $this->createTrip([self::POINT_A, self::POINT_B]);
-        $this->createTrip([self::POINT_B, self::POINT_C]);
-        $this->createTrip([self::POINT_B, self::POINT_A, self::POINT_C]);
+        $this->createTrip([self::POINT_A, self::POINT_B], Carbon::now());
+        $this->createTrip([self::POINT_B, self::POINT_C], Carbon::now()->addHours(10));
+        $this->createTrip([self::POINT_B, self::POINT_A, self::POINT_C], Carbon::now()->addHours(20));
 
         $service = app()->make(SearchTripsWithTransfersService::class);
         $searchRequest = new SearchTripRequest();
@@ -42,8 +42,8 @@ class SearchTripWithTransfersServiceTest extends TestCase
      */
     public function case_2()
     {
-        $this->createTrips([self::POINT_A, self::POINT_B], 2);
-        $this->createTrips([self::POINT_B, self::POINT_C], 2);
+        $this->createTrips([self::POINT_A, self::POINT_B], 2, Carbon::now());
+        $this->createTrips([self::POINT_B, self::POINT_C], 2, Carbon::now()->addHours(10));
 
         $service = app()->make(SearchTripsWithTransfersService::class);
         $searchRequest = new SearchTripRequest();
@@ -62,10 +62,10 @@ class SearchTripWithTransfersServiceTest extends TestCase
      */
     public function case_3()
     {
-        $this->createTrip([self::POINT_A, self::POINT_D]);
-        $this->createTrip([self::POINT_A, self::POINT_B]);
-        $this->createTrip([self::POINT_B, self::POINT_C]);
-        $this->createTrip([self::POINT_C, self::POINT_D]);
+        $this->createTrip([self::POINT_A, self::POINT_D], Carbon::now()->addHours(1));
+        $this->createTrip([self::POINT_A, self::POINT_B], Carbon::now()->addHours(2));
+        $this->createTrip([self::POINT_B, self::POINT_C], Carbon::now()->addHours(3));
+        $this->createTrip([self::POINT_C, self::POINT_D], Carbon::now()->addHours(4));
 
         $service = app()->make(SearchTripsWithTransfersService::class);
         $searchRequest = new SearchTripRequest();
@@ -76,6 +76,7 @@ class SearchTripWithTransfersServiceTest extends TestCase
 
         $searchRequest->transfers = 3;
         $possibleRoutes = $service->search($searchRequest);
+
         $this->assertEquals(2, $possibleRoutes['data']->count());
 
         $searchRequest->transfers = 1;
@@ -89,9 +90,9 @@ class SearchTripWithTransfersServiceTest extends TestCase
     public function case_4()
     {
         $this->createTrip([self::POINT_A, self::POINT_D], Carbon::now()->subHour(1));
-        $this->createTrip([self::POINT_A, self::POINT_B]);
-        $this->createTrip([self::POINT_B, self::POINT_C]);
-        $this->createTrip([self::POINT_C, self::POINT_D]);
+        $this->createTrip([self::POINT_A, self::POINT_B], Carbon::now()->addHours(1));
+        $this->createTrip([self::POINT_B, self::POINT_C], Carbon::now()->addHours(10));
+        $this->createTrip([self::POINT_C, self::POINT_D], Carbon::now()->addHours(20));
 
         $service = app()->make(SearchTripsWithTransfersService::class);
         $searchRequest = new SearchTripRequest();
@@ -108,9 +109,9 @@ class SearchTripWithTransfersServiceTest extends TestCase
     /**
      * @param $routes
      * @param $count
-     * @param null $startAt
+     * @param $startAt
      */
-    private function createTrips($routes, $count, $startAt = null)
+    private function createTrips($routes, $count, $startAt)
     {
         foreach (range(1, $count) as $item) {
             $this->createTrip($routes, $startAt);
@@ -119,10 +120,10 @@ class SearchTripWithTransfersServiceTest extends TestCase
 
     /**
      * @param $routes
-     * @param null $startAt
+     * @param $startAt
      * @return mixed
      */
-    private function createTrip($routes, $startAt = null)
+    private function createTrip($routes, $startAt)
     {
         $driver = factory(User::class)->create([
             'permissions' => User::DRIVER_PERMISSION,
@@ -135,13 +136,13 @@ class SearchTripWithTransfersServiceTest extends TestCase
         $trip = factory(Trip::class)->create([
             'user_id' => $driver->id,
             'vehicle_id' => $vehicle->id,
-            'start_at' => $startAt ?? Carbon::now()->addHour(1),
+            'start_at' => $startAt,
         ]);
 
         foreach ($this->getRoutesFromWaypoints($routes) as $key => $route) {
             $trip->routes()->create(array_merge($route, [
-                'start_at' => $startAt ?? Carbon::now()->addHour(1),
-                'end_at' => $startAt ? $startAt->addMinutes($key) : Carbon::now()->addHour(2),
+                'start_at' => $startAt->addMinutes($key),
+                'end_at' => $startAt->addMinutes($key + 1),
             ]));
         }
 
