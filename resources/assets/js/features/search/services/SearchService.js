@@ -88,10 +88,10 @@ export const getFilter = () => {
     } else {
         filter['rating'] = null;
     }
-    if (query["filter[transfer]"]) {
-        filter['transfer'] = query["filter[transfer]"];
+    if (query["filter[transfers]"]) {
+        filter['transfers'] = query["filter[transfers]"];
     } else {
-        filter['transfer'] = null;
+        filter['transfers'] = null;
     }
     return filter;
 };
