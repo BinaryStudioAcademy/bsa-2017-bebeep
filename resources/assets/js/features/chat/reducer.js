@@ -1,6 +1,7 @@
 import * as actions from './actionTypes';
 
 const initialState = {
+    isUsersAdded: false,
     onlineUsers: {},
     usersId: [],
     entities: {
@@ -47,6 +48,7 @@ export default (state = initialState, action) => {
         case actions.CHAT_SET_USER_LIST:
             return {
                 ...state,
+                isUsersAdded: action.status,
                 usersId: _.union(state.usersId, action.users),
                 entities: {
                     ...state.entities,

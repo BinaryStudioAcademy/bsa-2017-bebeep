@@ -24,7 +24,7 @@ export const clearUserList = () => ({
     type: actions.CHAT_CLEAR_USER_LIST
 });
 
-export const addUsersToList = data => {
+export const addUsersToList = (data, status = false) => {
     return _.reduce(data.data, (result, user) => {
         result.entities[user.id] = user;
         result.users.push(user.id);
@@ -32,16 +32,16 @@ export const addUsersToList = data => {
         return result;
     }, {
         type: actions.CHAT_SET_USER_LIST,
+        status: status,
         users: [],
-        entities: {}
+        entities: {},
     });
 };
 
 export const fillUsersList = () => dispatch => {
     securedRequest.get('/api/v1/users/others')
-        .then(response => dispatch(addUsersToList(response.data)))
+        .then(response => dispatch(addUsersToList(response.data, true)))
         .catch(error => {
-            console.error(error);
             dispatch(addUsersToList({data: {}}));
         });
 };
