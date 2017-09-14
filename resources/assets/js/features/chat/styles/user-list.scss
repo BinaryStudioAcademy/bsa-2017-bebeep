@@ -10,12 +10,10 @@
     background-color: lighten($orange, 32%);
   }
 
-  a {
-    display: block;
-
-    &:hover {
-        text-decoration: none;
-    }
+  a:link,
+  a:focus,
+  a:hover {
+    text-decoration: none;
   }
 }
 

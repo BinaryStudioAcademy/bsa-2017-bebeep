@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 import UserItem from './UserItem';
 import {fillUsersList} from 'features/chat/actions';
-
+import {Link} from 'react-router';
 import 'features/chat/styles/user-list.scss';
 
 class UserListContainer extends React.Component {
@@ -55,7 +55,7 @@ class UserListContainer extends React.Component {
             usersList = this.getUsersSortList();
 
         return (
-            <div>
+            <div className="bg-white">
                 <ListGroup>
                     {usersList.map((user) => (
                         <ListGroupItem key={user.id} className="user-list-item">
