@@ -136,11 +136,6 @@ export default (store) => {
 
                 {/* User logout */}
                 <Route path="logout" component={ Logout } />
-
-                {/* Messaging */}
-                <Route path="messages">
-                    <Route path=":id" component={ MessagingPage } />
-                </Route>
             </Route>
 
             {/* Routes only for guest users */}

@@ -137,7 +137,7 @@ export const getMessage = (notification) => {
                 message: translate(`notifications.messages.${notification.type}.message`, {
                     message: notification.message
                 }),
-                link: `/messages/${notification.sender_id}`
+                link: `/dashboard/messages/${notification.sender_id}`
             };
         default:
             return {

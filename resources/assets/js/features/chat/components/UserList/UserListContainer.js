@@ -33,7 +33,7 @@ class UserListContainer extends React.Component {
                 <ListGroup>
                     {usersId.map((id) => (
                         <ListGroupItem key={id} className="user-list-item" >
-                            <Link to={`/messages/${id}`} >
+                            <Link to={`/dashboard/messages/${id}`} >
                                 <UserItem userId={id} />
                             </Link>
                         </ListGroupItem>
