@@ -227,15 +227,15 @@ class SubscribeModal extends React.Component {
         sendSubscribeRequest(requestData).
             then(response => {
                 if (response.status === 200) {
-                    if(response.data.error !== "This email exists!") {
-                        this.setState({requestSendSuccess: true});
-                        this.props.subscriptionReset();
-                    } else {
+                    this.setState({requestSendSuccess: true});
+                    this.props.subscriptionReset();
+                }
+            }).catch((error) => {
+                if (error.response.status === 422) {
+                    if (error.response.data.errors.email.user_exists === true) {
                         this.setState({confirmLoginModalIsOpen: true});
                     }
                 }
-            }).catch((error) => {
-                console.log("Error:", error);
             });
     }
 

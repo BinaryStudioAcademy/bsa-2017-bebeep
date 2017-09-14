@@ -146,7 +146,7 @@ class SubscriptionsService implements Contracts\SubscriptionsService
         $isEmailExists = $this->userRepository->isEmailExists($request->getEmail());
 
         if (is_null($userId) && $isEmailExists) {
-            throw new SubscriptionEmailExistsException('This email exists!');
+            throw new SubscriptionEmailExistsException('This user exists!');
         }
 
         $subscriptionAttributes = [

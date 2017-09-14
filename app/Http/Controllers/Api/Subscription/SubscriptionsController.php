@@ -70,7 +70,14 @@ class SubscriptionsController extends Controller
 
             return response()->json($subscription);
         } catch (SubscriptionEmailExistsException $e) {
-            return response()->json(['error' => $e->getMessage()]);
+            return response()->json([
+                'errors' => [
+                    'email' => [
+                        'message' => $e->getMessage(),
+                        'user_exists' => true
+                    ]
+                ]
+            ], 422);
         }
     }
 }
