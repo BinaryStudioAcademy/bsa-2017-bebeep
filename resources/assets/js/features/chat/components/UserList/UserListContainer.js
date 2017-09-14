@@ -2,21 +2,44 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
-import {fillUsersList} from '../../actions';
-import UserItem from './UserItem';
 import {ListGroup, ListGroupItem} from 'reactstrap';
-import '../../styles/user-list.scss';
+import _ from 'lodash';
+
+import UserItem from './UserItem';
+import {fillUsersList} from 'features/chat/actions';
+
+import 'features/chat/styles/user-list.scss';
 
 class UserListContainer extends React.Component {
 
     componentWillMount() {
-        this.getUserList();
+        this.getUsersList();
     }
 
-    getUserList() {
-        const {fillUsersList} = this.props;
+    componentWillReceiveProps(nextProps) {
+        const { isUsersAdded, users } = nextProps;
+
+        if (!isUsersAdded) {
+            return;
+        }
+        this.setOnlineStatus(users);
+    }
+
+    getUsersList() {
+        const {fillUsersList, isUsersAdded, users} = this.props;
 
         fillUsersList();
+    }
+
+    setOnlineStatus(users) {
+        const { onlineUsers } = this.props;
+
+        console.log(users);
+        console.log(onlineUsers);
+    }
+
+    getSortUsersList(users) {
+        const sortList = _.sortBy(users, ['first_name', 'last_name']);
     }
 
     render() {
@@ -47,6 +70,7 @@ export default connect(
     state => ({
         isUsersAdded: state.chat.isUsersAdded,
         usersId: state.chat.usersId,
+        onlineUsers: state.chat.onlineUsers,
         users: state.chat.entities.users.byId,
         translate: getTranslate(state.locale)
     }),
