@@ -8,8 +8,6 @@ class MessageList extends React.Component {
 
     render() {
         const {translate, messages, user} = this.props;
-        console.log('message list rendered');
-        console.log('messages', messages);
 
         return (
             <ul className="chat" key={moment()}>

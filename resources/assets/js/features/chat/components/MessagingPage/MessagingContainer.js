@@ -31,7 +31,7 @@ class MessagingContainer extends React.Component {
             text: text,
             time: moment().unix()
         };
-        console.log(data);
+
         sendMessage(data);
         e.target['text'].value = '';
     }

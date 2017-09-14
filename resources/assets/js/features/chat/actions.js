@@ -45,7 +45,7 @@ export const updateMessagesInGlobalState = (data) => ({
 export const sendMessage = (data) => dispatch => {
     dispatch(updateMessagesInGlobalState(data));
     /*securedRequest.post('api/v1/chat', data)
-        .then(response => dispatch(updateMessagesInGlobalState(data)));*/
+        .then(() => dispatch(updateMessagesInGlobalState(data)));*/
 };
 
 export const fillUsersList = () => dispatch => {
