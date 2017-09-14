@@ -55,6 +55,7 @@ export default (state = initialState, action) => {
                 ...state,
                 usersId: _.union(state.usersId, action.users),
                 entities: {
+                    ...state.entities,
                     users: {
                         byId: {
                             ...state.entities.users.byId,
