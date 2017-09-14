@@ -4,11 +4,13 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
 import BroadcastService from 'app/services/BroadcastService';
-import {getMessage, markAsRead} from 'app/services/NotificationService';
+import {getMessage, markAsRead, NOTIFICATION_CHAT_MESSAGE_RECEIVED} from 'app/services/NotificationService';
 import {addNotification, markAsReadNotification} from 'features/notifications/actions';
+import {receiveMessage} from 'features/chat/actions';
 import Push from 'push.js';
 import {browserHistory} from 'react-router';
 import { NotificationStack } from 'react-notification';
+import {NEW_MESSAGE_EVENT} from 'app/config';
 
 class Notifications extends React.Component {
     constructor() {
@@ -32,7 +34,7 @@ class Notifications extends React.Component {
     }
 
     getNotifications(userId) {
-        const {addNotification} = this.props;
+        const {addNotification, receiveMessage} = this.props;
 
         if (userId) {
             BroadcastService.Echo.private('App.User.' + userId)
@@ -44,10 +46,13 @@ class Notifications extends React.Component {
                     });
 
                     addNotification(data);
-                    this.showNotification(data);
+                    this.showNotification(this.getNotificationData(data));
                 })
-                .listen('Chat\\NewMessage', (e) => {
-                    console.log(e);
+                .listen(NEW_MESSAGE_EVENT, (e) => {
+                    this.showNotification(this.getMessageData(Object.assign({}, e.data, {
+                        type: NOTIFICATION_CHAT_MESSAGE_RECEIVED,
+                    })));
+                    receiveMessage(e.data);
                 });
         }
     }
@@ -56,26 +61,54 @@ class Notifications extends React.Component {
         BroadcastService.Echo.leave('App.User.' + userId)
     }
 
-    showNotification(notificationData) {
+    getNotificationData(data) {
         const {markAsReadNotification} = this.props,
-            messageData = getMessage(notificationData),
-            notification = {
-                key: notificationData.id,
-                type: messageData.type,
-                message: messageData.title,
-                title: 'BeBeep',
-                timeout: 5000,
-                onClick: ((id, link) => () => {
-                    if (link) {
-                        markAsRead(id).then(() => markAsReadNotification(id));
-                        browserHistory.push(link);
-                    } else {
-                        browserHistory.push('/dashboard/notifications')
-                    }
-                })(notificationData.id, messageData.link),
-            };
+            messageData = getMessage(data);
+        return {
+            key: data.id,
+            type: messageData.type,
+            message: messageData.title,
+            title: 'BeBeep',
+            timeout: 5000,
+            onClick: ((id, link) => () => {
+                if (link) {
+                    markAsRead(id).then(() => markAsReadNotification(id));
+                    browserHistory.push(link);
+                } else {
+                    browserHistory.push('/dashboard/notifications')
+                }
+            })(data.id, messageData.link),
+        };
+    }
 
-        Push.create(notification.title, {
+    getMessageData(data) {
+        const messageData = getMessage(data);
+        return {
+            key: data.id,
+            type: messageData.type,
+            message: messageData.message.length > 50
+                ? messageData.message.substr(0, 50) + '...'
+                : messageData.message,
+            title: messageData.title,
+            timeout: 5000,
+            onClick: ((id, link) => () => {
+                if (link) {
+                    browserHistory.push(link);
+                } else {
+                    browserHistory.push('/dashboard/notifications')
+                }
+            })(data.id, messageData.link),
+        };
+    }
+
+    showNotification(notification) {
+        this.pushNotification(notification).catch(() => {
+            this.alternativeNotification(notification);
+        });
+    }
+
+    pushNotification(notification) {
+        return Push.create(notification.title, {
             body: notification.message,
             timeout: notification.timeout,
             onClick: function () {
@@ -83,8 +116,6 @@ class Notifications extends React.Component {
                 window.focus();
                 this.close();
             }
-        }).catch(() => {
-           this.alternativeNotification(notification);
         });
     }
 
@@ -154,5 +185,5 @@ export default connect(
         userId: state.user.session.user_id,
         isAuthorized: state.user.login.success
     }),
-    dispatch => bindActionCreators({addNotification, markAsReadNotification}, dispatch)
+    dispatch => bindActionCreators({addNotification, markAsReadNotification, receiveMessage}, dispatch)
 )(Notifications);

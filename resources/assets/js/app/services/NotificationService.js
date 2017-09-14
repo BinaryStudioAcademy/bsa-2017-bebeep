@@ -7,6 +7,7 @@ export const NOTIFICATION_BOOKING_CANCELED = 'booking_canceled';
 export const NOTIFICATION_BOOKING_DECLINED = 'booking_declined';
 export const NOTIFICATION_BOOKING_CREATED = 'booking_created';
 export const NOTIFICATION_REVIEW_ON_TRIP_CREATED = 'review_on_trip_created';
+export const NOTIFICATION_CHAT_MESSAGE_RECEIVED = 'chat_new_message';
 
 export const getNotifications = () => {
     return securedRequest.get('/api/v1/notifications');
@@ -127,11 +128,23 @@ export const getMessage = (notification) => {
                 }),
                 link: '/dashboard/profile/reviews/received'
             };
+        case NOTIFICATION_CHAT_MESSAGE_RECEIVED:
+            return {
+                type: 'info',
+                title: translate(`notifications.messages.${notification.type}.title`, {
+                    'name': notification.sender.data.first_name + ' ' + notification.sender.data.first_name
+                }),
+                message: translate(`notifications.messages.${notification.type}.message`, {
+                    message: notification.message
+                }),
+                link: `/messages/${notification.sender_id}`
+            };
         default:
             return {
                 type: '',
                 title: '',
                 message: '',
+                link: ''
             };
     }
 };

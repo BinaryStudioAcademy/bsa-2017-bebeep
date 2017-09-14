@@ -1,11 +1,17 @@
 import * as actions from './actionTypes';
 
+export const MESSAGE_STATUS_RECIEVED = 'received';
+export const MESSAGE_STATUS_SENT = 'sent';
+
 const initialState = {
     onlineUsers: {},
     usersId: [],
     entities: {
         users: {
             byId: {}
+        },
+        chats: {
+            byUserId: {}
         }
     }
 };
@@ -58,7 +64,28 @@ export default (state = initialState, action) => {
                     }
                 }
             };
-
+        case actions.CHAT_RECEIVE_MESSAGE:
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    chats: {
+                        ...state.entities.chats,
+                        byUserId: {
+                            ...state.entities.chats.byUserId,
+                            [action.message.sender_id]: [
+                                ...state.entities.chats.byUserId[action.message.sender_id] || [],
+                                {
+                                    id: action.message.id,
+                                    time: action.message.created_at_x,
+                                    text: action.message.message,
+                                    status: MESSAGE_STATUS_RECIEVED
+                                }
+                            ]
+                        }
+                    }
+                }
+            };
         default:
             return state;
     }

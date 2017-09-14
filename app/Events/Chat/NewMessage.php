@@ -3,6 +3,7 @@
 namespace App\Events\Chat;
 
 use App\Models\ChatMessage;
+use App\Transformers\Chat\ChatMessageTransformer;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -26,6 +27,11 @@ class NewMessage implements ShouldBroadcast
     public function __construct(ChatMessage $chatMessage)
     {
         $this->chatMessage = $chatMessage;
+    }
+
+    public function broadcastWith()
+    {
+        return fractal()->item($this->chatMessage, new ChatMessageTransformer())->parseIncludes(['sender'])->toArray();
     }
 
     /**

@@ -29,7 +29,7 @@ class ChatController extends Controller
 
         broadcast(new NewMessage($chatMessage));
 
-        return fractal()->item($chatMessage, new ChatMessageTransformer());
+        return fractal()->item($chatMessage, new ChatMessageTransformer())->respond();
     }
 
     public function getChatMessages(User $user)

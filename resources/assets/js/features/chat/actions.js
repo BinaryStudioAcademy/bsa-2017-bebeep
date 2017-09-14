@@ -45,3 +45,10 @@ export const fillUsersList = () => dispatch => {
             dispatch(addUsersToList({data: {}}));
         });
 };
+
+export const receiveMessage = (message) => {
+    return {
+        type: actions.CHAT_RECEIVE_MESSAGE,
+        message
+    };
+};

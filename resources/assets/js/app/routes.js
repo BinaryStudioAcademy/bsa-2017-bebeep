@@ -35,6 +35,8 @@ import AuthService from './services/AuthService';
 import { RequireUser, RequireGuest } from './components/Auth';
 import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from './services/UserService';
 
+import MessagingPage from '../features/chat/layouts/MessagingPage';
+
 import LangeService from './services/LangService';
 import DataStorage from './helpers/DataStorage';
 
@@ -130,6 +132,11 @@ export default (store) => {
 
                 {/* User logout */}
                 <Route path="logout" component={ Logout } />
+
+                {/* Messaging */}
+                <Route path="messages">
+                    <Route path=":id" component={ MessagingPage } />
+                </Route>
             </Route>
 
             {/* Routes only for guest users */}
