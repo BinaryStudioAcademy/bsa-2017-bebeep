@@ -1,6 +1,7 @@
 import React from 'react';
-import {bindActionCreators} from 'redux';
+import {Link} from 'react-router';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {getTranslate} from 'react-localize-redux';
 import {ListGroup, ListGroupItem} from 'reactstrap';
 import _ from 'lodash';
@@ -16,48 +17,44 @@ class UserListContainer extends React.Component {
         this.getUsersList();
     }
 
-    componentWillReceiveProps(nextProps) {
-        const { isUsersAdded, users } = nextProps;
-
-        if (!isUsersAdded) {
-            return;
-        }
-        this.setOnlineStatus(users);
-    }
-
     getUsersList() {
-        const {fillUsersList, isUsersAdded, users} = this.props;
+        const {fillUsersList} = this.props;
 
         fillUsersList();
     }
 
-    setOnlineStatus(users) {
-        const { onlineUsers } = this.props;
+    setOnlineStatus(users, status) {
+        status = status !== undefined ? status : true;
 
-        console.log(users);
-        console.log(onlineUsers);
+        return _.forEach(users, function(user) {
+            user.status = status;
+        });
     }
 
-    getSortUsersList(users) {
-        const sortList = _.sortBy(users, ['first_name', 'last_name']);
+    setSortUsersList(users) {
+        return _.sortBy(users, ['first_name', 'last_name']);
     }
 
     render() {
-        const {translate, isUsersAdded, usersId, users} = this.props;
+        const {translate, usersId, users, onlineUsers} = this.props;
 
-        if (!isUsersAdded) {
-            return null;
-        }
+        const usersOnline = this.setSortUsersList(this.setOnlineStatus(onlineUsers));
+
+        let usersOffline = this.setSortUsersList(this.setOnlineStatus(users, false));
+        usersOffline = _.differenceBy(usersOffline, usersOnline, 'id');
+
+        const usersList = usersOnline.concat(usersOffline);
 
         return (
             <div>
                 <ListGroup>
-                    {usersId.map((id) => (
-                        <ListGroupItem key={id} tag="a"
-                            href={`/messages/${id}`}
+                    {usersList.map((user) => (
+                        <ListGroupItem key={user.id}
                             className="user-list-item"
                         >
-                            <UserItem user={users[id]} />
+                            <Link to={`/messages/${user.id}`}>
+                                <UserItem user={user} />
+                            </Link>
                         </ListGroupItem>
                     ))}
                 </ListGroup>
@@ -68,7 +65,6 @@ class UserListContainer extends React.Component {
 
 export default connect(
     state => ({
-        isUsersAdded: state.chat.isUsersAdded,
         usersId: state.chat.usersId,
         onlineUsers: state.chat.onlineUsers,
         users: state.chat.entities.users.byId,
