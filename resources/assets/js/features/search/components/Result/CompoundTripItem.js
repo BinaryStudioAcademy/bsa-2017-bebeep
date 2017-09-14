@@ -16,7 +16,7 @@ class CompoundTripItem extends React.Component {
         const {collection, translate} = this.props;
 
         return DateTimeHelper.dateFormatLocale({
-            timestamp: moment(collection.start_at).valueOf(),
+            timestamp: moment.utc(collection.start_at, 'YYYY-MM-DD HH:mm:ss').unix(),
             getTranslate: translate,
         });
     }
