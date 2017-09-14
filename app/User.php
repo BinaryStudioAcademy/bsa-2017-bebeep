@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\ChatMessage;
 use App\Models\Trip;
 use App\Models\Review;
 use App\Models\Booking;
@@ -120,6 +121,22 @@ class User extends Authenticatable implements HasMediaConversions
     public function receivedReviews()
     {
         return $this->hasMany(Review::class, 'driver_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function receivedMessages()
+    {
+        return $this->hasMany(ChatMessage::class, 'recipient_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sentMessages()
+    {
+        return $this->hasMany(ChatMessage::class, 'sender_id');
     }
 
     /**
