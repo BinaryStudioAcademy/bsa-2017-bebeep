@@ -24,7 +24,7 @@ class UserListContainer extends React.Component {
     }
 
     setOnlineStatus(users, status) {
-        status = status !== undefined ? status : true;
+        status = status !== undefined ? !!status : true;
 
         return _.forEach(users, function(user) {
             user.status = status;
@@ -35,23 +35,30 @@ class UserListContainer extends React.Component {
         return _.sortBy(users, ['first_name', 'last_name']);
     }
 
-    render() {
-        const {translate, usersId, users, onlineUsers} = this.props;
+    getUsersSortList() {
+        const {users, onlineUsers} = this.props;
 
-        const usersOnline = this.setSortUsersList(this.setOnlineStatus(onlineUsers));
+        const usersOnline = this.setSortUsersList(
+            this.setOnlineStatus(onlineUsers)
+        );
 
-        let usersOffline = this.setSortUsersList(this.setOnlineStatus(users, false));
+        let usersOffline = this.setSortUsersList(
+            this.setOnlineStatus(users, false)
+        );
         usersOffline = _.differenceBy(usersOffline, usersOnline, 'id');
 
-        const usersList = usersOnline.concat(usersOffline);
+        return usersOnline.concat(usersOffline);
+    }
+
+    render() {
+        const {translate} = this.props,
+            usersList = this.getUsersSortList();
 
         return (
             <div>
                 <ListGroup>
                     {usersList.map((user) => (
-                        <ListGroupItem key={user.id}
-                            className="user-list-item"
-                        >
+                        <ListGroupItem key={user.id} className="user-list-item">
                             <Link to={`/messages/${user.id}`}>
                                 <UserItem user={user} />
                             </Link>
@@ -65,7 +72,6 @@ class UserListContainer extends React.Component {
 
 export default connect(
     state => ({
-        usersId: state.chat.usersId,
         onlineUsers: state.chat.onlineUsers,
         users: state.chat.entities.users.byId,
         translate: getTranslate(state.locale)
