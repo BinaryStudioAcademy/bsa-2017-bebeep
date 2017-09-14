@@ -51,10 +51,9 @@ export default (state = initialState, action) => {
                 isUsersAdded: action.status,
                 usersId: _.union(state.usersId, action.users),
                 entities: {
-                    ...state.entities,
                     users: {
                         byId: {
-                            ...state.entities,
+                            ...state.entities.users.byId,
                             ...action.entities
                         }
                     }
