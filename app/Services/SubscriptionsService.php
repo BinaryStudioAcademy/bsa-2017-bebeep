@@ -8,11 +8,13 @@ use App\Models\Filter;
 use App\Models\Subscription;
 use Illuminate\Support\Collection;
 use App\Http\Requests\DTO\FilterDTO;
+use App\Repositories\UserRepository;
 use App\Services\Requests\CreateSubscriptionsRequest;
 use App\Repositories\Contracts\SubscriptionRepository;
 use App\Criteria\Subscriptions\SubscriptionTripCriteria;
 use App\Services\Helpers\Subscriptions\FilterCollection;
 use App\Services\Requests\Subscriptions\EditSubscriptionRequest;
+use App\Exceptions\Subscriptions\SubscriptionEmailExistsException;
 use App\Services\Requests\Subscriptions\StatusSubscriptionRequest;
 
 class SubscriptionsService implements Contracts\SubscriptionsService
@@ -23,14 +25,30 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     private $subscriptionRepository;
 
     /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
      * @var FilterCollection
      */
     private $filterCollection;
 
-    public function __construct(SubscriptionRepository $subscriptionRepository, FilterCollection $filterCollection)
-    {
+    /**
+     * SubscriptionsService constructor.
+     *
+     * @param SubscriptionRepository $subscriptionRepository
+     * @param FilterCollection $filterCollection
+     * @param UserRepository $userRepository
+     */
+    public function __construct(
+        SubscriptionRepository $subscriptionRepository,
+        FilterCollection $filterCollection,
+        UserRepository $userRepository
+    ) {
         $this->subscriptionRepository = $subscriptionRepository;
         $this->filterCollection = $filterCollection;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -48,6 +66,26 @@ class SubscriptionsService implements Contracts\SubscriptionsService
     }
 
     /**
+     * This method update user id after register.
+     *
+     * @param string $email
+     * @param User $user
+     */
+    public function updateUserIdAfterRegister(string $email, User $user)
+    {
+        $isExists = $this->subscriptionRepository->isEmailExists($email);
+
+        if ($isExists) {
+            $this->subscriptionRepository->updateUserIdByEmail($email, $user);
+        }
+    }
+
+    /**
+     * This method create subscription.
+     *
+     * @param CreateSubscriptionsRequest $request
+     * @return Subscription
+     * @throws SubscriptionEmailExistsException
      * {@inheritdoc}
      */
     public function getByUser(User $user): Collection
@@ -104,6 +142,13 @@ class SubscriptionsService implements Contracts\SubscriptionsService
      */
     public function create(CreateSubscriptionsRequest $request)
     {
+        $userId = $request->getUserId();
+        $isEmailExists = $this->userRepository->isEmailExists($request->getEmail());
+
+        if (is_null($userId) && $isEmailExists) {
+            throw new SubscriptionEmailExistsException('This user exists!');
+        }
+
         $subscriptionAttributes = [
             'start_at' => $request->getStartAt(),
             'from' => $request->getFrom(),
@@ -113,6 +158,7 @@ class SubscriptionsService implements Contracts\SubscriptionsService
             'to_lat' => $request->getToLat(),
             'to_lng' => $request->getToLng(),
             'email' => $request->getEmail(),
+            'user_id' => $userId,
             'is_active' => true,
         ];
 

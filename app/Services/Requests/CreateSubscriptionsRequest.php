@@ -7,6 +7,13 @@ use Carbon\Carbon;
 interface CreateSubscriptionsRequest
 {
     /**
+     * Get user id.
+     *
+     * @return int|null
+     */
+    public function getUserId() : ?int;
+
+    /**
      * Google object place From.
      *
      * @return array
