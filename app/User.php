@@ -46,6 +46,7 @@ class User extends Authenticatable implements HasMediaConversions
      * @var array
      */
     protected $fillable = [
+        'id',
         'first_name',
         'last_name',
         'email',
@@ -262,5 +263,15 @@ class User extends Authenticatable implements HasMediaConversions
     public function deleteAvatar(): self
     {
         return $this->clearMediaCollection(self::MEDIA_AVATARS_COLLECTION);
+    }
+
+    /**
+     * Get user id.
+     *
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return (int) ($this->attributes['id']);
     }
 }

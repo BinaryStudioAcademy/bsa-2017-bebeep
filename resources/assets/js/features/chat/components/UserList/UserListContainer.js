@@ -2,12 +2,15 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
-import {fillUsersList} from '../../actions';
-import UserItem from './UserItem';
 import {ListGroup, ListGroupItem} from 'reactstrap';
-import '../../styles/user-list.scss';
+
+import UserItem from './UserItem';
+import {fillUsersList} from 'features/chat/actions';
+
+import 'features/chat/styles/user-list.scss';
 
 class UserListContainer extends React.Component {
+
     constructor() {
         super();
     }
@@ -27,15 +30,16 @@ class UserListContainer extends React.Component {
 
         return (
             <div>
-                <div className="bg-white">
-                    <ListGroup>
-                        {usersId.map((id) => (
-                            <ListGroupItem key={id} tag="a" href={`/messages/${id}`} className="user-list-item">
-                                <UserItem userId={id} />
-                            </ListGroupItem>
-                        ))}
-                    </ListGroup>
-                </div>
+                <ListGroup>
+                    {usersId.map((id) => (
+                        <ListGroupItem key={id} tag="a"
+                            href={`/messages/${id}`}
+                            className="user-list-item"
+                        >
+                            <UserItem userId={id} />
+                        </ListGroupItem>
+                    ))}
+                </ListGroup>
             </div>
         );
     }
