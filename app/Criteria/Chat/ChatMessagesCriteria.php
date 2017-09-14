@@ -42,6 +42,6 @@ class ChatMessagesCriteria implements CriteriaInterface
                 return $query->where('recipient_id', $this->sender->id)
                     ->where('sender_id', $this->recipient->id);
             })
-            ->latest('created_at');
+            ->orderBy('created_at', 'asc');
     }
 }

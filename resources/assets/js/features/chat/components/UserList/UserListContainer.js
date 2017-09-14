@@ -29,11 +29,11 @@ class UserListContainer extends React.Component {
         const {translate, usersId} = this.props;
 
         return (
-            <div>
+            <div className="bg-white">
                 <ListGroup>
                     {usersId.map((id) => (
                         <ListGroupItem key={id} className="user-list-item" >
-                            <Link to={`/messages/${id}`} >
+                            <Link to={`/dashboard/messages/${id}`} >
                                 <UserItem userId={id} />
                             </Link>
                         </ListGroupItem>

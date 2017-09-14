@@ -38,12 +38,34 @@ export const addUsersToList = data => {
     });
 };
 
+export const updateMessagesInGlobalState = (data) => ({
+    type: actions.CHAT_SEND_MESSAGE,
+    data
+});
+
+export const sendMessage = (data) => dispatch => {
+    let sendedData = {
+        message: data.text
+    };
+    securedRequest.post('/api/v1/users/' + data.userId + '/messages', sendedData)
+        .then(() => dispatch(updateMessagesInGlobalState(data)));
+};
+
 export const fillUsersList = () => dispatch => {
     securedRequest.get('/api/v1/users/others')
         .then(response => dispatch(addUsersToList(response.data)))
         .catch(error => {
             console.error(error);
             dispatch(addUsersToList({data: {}}));
+        });
+};
+
+export const addUser = (userId) => dispatch => {
+    securedRequest.get(`/api/v1/users/${userId}`)
+        .then(response => dispatch(addUsersToList({data: [response.data.data]})))
+        .catch(error => {
+            console.error(error);
+            dispatch(addUsersToList({data: []}));
         });
 };
 

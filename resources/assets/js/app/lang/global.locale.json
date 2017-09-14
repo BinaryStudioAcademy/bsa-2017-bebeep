@@ -29,7 +29,7 @@
     ]
   },
   "notifications": {
-    "header": ["Notifications", "Повідомлення", "Уведомления"],
+    "header": ["Notifications", "Сповіщення", "Уведомления"],
     "messages": {
       "detail": ["Detail ...", "Детальніше ...", "Подробнее ..."],
       "booking_approved": {
@@ -93,5 +93,5 @@
     }
   },
   "subscriptions": ["Subscriptions", "Підписки", "Подписки"],
-  "chat": ["Chat", "Чат", "Чат"]
+  "chat": ["Chat", "Повідомлення", "Сообщения"]
 }

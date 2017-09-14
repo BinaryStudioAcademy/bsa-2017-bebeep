@@ -3,7 +3,6 @@ import * as lang from '../lang/Messaging.locale.json';
 import LangService from 'app/services/LangService';
 import {localize} from 'react-localize-redux';
 import MessagingContainer from '../components/MessagingPage/MessagingContainer';
-import ContainerWrapper from 'app/layouts/ContainerWrapper';
 
 class MessagingPage extends React.Component {
 
@@ -15,9 +14,11 @@ class MessagingPage extends React.Component {
         const {translate} = this.props;
 
         return (
-            <ContainerWrapper className="pt-3 pb-0">
-                <MessagingContainer user_id={this.props.params.id} />
-            </ContainerWrapper>
+            <div className="container">
+                <div className="row">
+                    <MessagingContainer userId = { this.props.params.id }/>
+                </div>
+            </div>
         );
     }
 }

@@ -86,6 +86,26 @@ export default (state = initialState, action) => {
                     }
                 }
             };
+        case actions.CHAT_SEND_MESSAGE:
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    chats: {
+                        byUserId: {
+                            ...state.entities.chats.byUserId,
+                            [action.data.userId]: [
+                                ...state.entities.chats.byUserId[action.data.userId],
+                                {
+                                    time: action.data.time,
+                                    text: action.data.text,
+                                    status: 'sent'
+                                }
+                            ]
+                        }
+                    }
+                }
+            };
         case actions.CHAT_SET_USER_MESSAGES:
             return {
                 ...state,
