@@ -18,7 +18,13 @@
 
     "routes_passengers": {
         "header": ["Route and passengers", "Маршрут і пасажири", "Маршрут и пассажиры"],
-        "age_label": ["${ age } y.", "${ age } р.", "${ age } л."]
+        "age_label": ["${ age } y.", "${ age } р.", "${ age } л."],
+        "route_start_time": [
+            "(estimated start time)", "(прибл. час від'їзду)", "(прибл. время отъезда)"
+        ],
+        "route_end_time": [
+            "(estimated end time)", "(прибл. час прибуття)", "(прибл. время прибытия)"
+        ]
     },
 
     "booking_main_info": {
@@ -40,7 +46,14 @@
       "seats": ["Seats", "Місць", "Мест"],
       "free_seats": ["Free seats: ${seats}", "Вільних місць: ${seats}", "Свободных мест: ${seats}"],
       "apply": ["Apply", "Застосувати", "Применить"],
-      "cancel": ["Cancel", "Відмінити", "Отменить"]
+      "cancel": ["Cancel", "Відмінити", "Отменить"],
+      "status": {
+        "success": [
+            "You have successfully booked this trip.",
+            "Ви успішно забронювали цю поїздку.",
+            "Вы успешно забронировали эту поездку."
+        ]
+      }
     }
   }
 }

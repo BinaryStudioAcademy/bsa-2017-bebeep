@@ -26,18 +26,22 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     public function rules()
     {
         return [
-            'price' => 'required',
+            'price' => 'required|numeric',
             'seats' => 'required|integer|min:0',
             'start_at' => 'required|integer',
             'end_at' => 'required|integer',
             'from' => 'required|array',
             'to' => 'required|array',
+            'waypoints' => 'array',
+            'routes' => 'required|array',
+            'routes.*.start_at' => 'required|integer',
+            'routes.*.end_at' => 'required|integer',
             'vehicle_id' => 'required|integer|exists:vehicles,id',
         ];
     }
 
     /**
-     * @return float
+     * {@inheritdoc}
      */
     public function getPrice(): float
     {
@@ -45,7 +49,7 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getSeats(): int
     {
@@ -53,7 +57,7 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     }
 
     /**
-     * @return Carbon
+     * {@inheritdoc}
      */
     public function getStartAt(): Carbon
     {
@@ -61,7 +65,7 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     }
 
     /**
-     * @return Carbon
+     * {@inheritdoc}
      */
     public function getEndAt(): Carbon
     {
@@ -69,7 +73,7 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getVehicleId(): int
     {
@@ -77,7 +81,7 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getFrom(): array
     {
@@ -85,7 +89,7 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getTo(): array
     {
@@ -93,10 +97,40 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getWaypoints(): array
     {
+        // TODO :: Need to change this code so that
+        // this method returns the collection of Waypoints instances
+
         return (array) $this->get('waypoints');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoutesTime(): array
+    {
+        // TODO :: Need to change this code so that
+        // this method returns the collection of Routes instances
+
+        return (array) $this->get('routes');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLuggageSize(): int
+    {
+        return (int) $this->get('luggage_size');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIsAnimalsAllowed(): bool
+    {
+        return (bool) $this->get('is_animals_allowed');
     }
 }

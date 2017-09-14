@@ -11,6 +11,12 @@
 |
 */
 
+Route::get('authentication/me', [
+    'middleware' => 'jwt.auth',
+    'as' => 'authentication.me',
+    'uses' => 'Auth\SessionController@getSessionUser',
+]);
+
 Route::group(['prefix' => 'driver', 'as' => 'driver.'], function () {
     Route::get('{user}/reviews', [
         'as' => 'reviews',
@@ -90,11 +96,12 @@ Route::group([
     'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::DRIVER_PERMISSION],
 ], function () {
     Route::resource('v1/car', 'Api\\Car\\CarController');
-    Route::resource('v1/car-body', 'Api\\Car\\CarBodyController', ['only' => ['index']]);
-    Route::resource('v1/car-color', 'Api\\Car\\CarColorController', ['only' => ['index']]);
-    Route::resource('v1/car-brand', 'Api\\Car\\CarBrandController', ['only' => ['index']]);
-    Route::get('v1/car-brand/{model}/models', 'Api\\Car\\CarBrandController@getModelByMarkId');
 });
+
+Route::resource('v1/car-body', 'Api\\Car\\CarBodyController', ['only' => ['index']]);
+Route::resource('v1/car-color', 'Api\\Car\\CarColorController', ['only' => ['index']]);
+Route::resource('v1/car-brand', 'Api\\Car\\CarBrandController', ['only' => ['index']]);
+Route::get('v1/car-brand/{carBrand}/models', 'Api\\Car\\CarBrandController@getModelByBrand');
 
 Route::group([
     'prefix' => 'v1/trips',
@@ -164,4 +171,70 @@ Route::get('v1/reviews/received', [
     'middleware' => ['jwt.auth'],
     'as' => 'reviews.received',
     'uses' => 'ReviewsController@received',
+]);
+
+Route::group([
+    'prefix' => '/v1/notifications',
+    'middleware' => ['jwt.auth'],
+    'as' => 'notifications.',
+], function () {
+    Route::get('/', [
+        'as' => 'index',
+        'uses' => 'NotificationsController@index',
+    ]);
+
+    Route::put('/{databaseNotification}/status', [
+        'read',
+        'uses' => 'NotificationsController@changeStatus',
+    ]);
+
+    Route::get('/unread/count', [
+        'unread',
+        'uses' => 'NotificationsController@getUnread',
+    ]);
+});
+
+Route::post('v1/reviews', [
+    'middleware' => ['jwt.auth', 'jwt.role:'.\App\User::PASSENGER_PERMISSION],
+    'as' => 'review.create',
+    'uses' => 'ReviewsController@save',
+]);
+
+Route::group([
+    'prefix' => 'v1/subscriptions',
+    'middleware' => ['jwt.auth'],
+    'as' => 'subscriptions.',
+], function () {
+    Route::get('/', [
+        'as' => 'index',
+        'uses' => 'Api\Subscription\SubscriptionsController@index',
+    ]);
+    Route::put('/{subscription}/status', [
+        'middleware' => 'can:status,subscription',
+        'as' => 'status',
+        'uses' => 'Api\Subscription\SubscriptionsController@status',
+    ]);
+    Route::delete('/{subscription}', [
+        'middleware' => 'can:delete,subscription',
+        'as' => 'delete',
+        'uses' => 'Api\Subscription\SubscriptionsController@delete',
+    ]);
+    Route::patch('/{subscription}', [
+        'middleware' => 'can:edit,subscription',
+        'as' => 'edit',
+        'uses' => 'Api\Subscription\SubscriptionsController@edit',
+    ]);
+});
+
+Route::resource('v1/subscription', 'Api\\Subscription\\SubscriptionsController', ['only' => ['store']]);
+
+Route::post('v1/users/{user}/messages', [
+    'middleware' => ['jwt.auth'],
+    'as' => 'send.message',
+    'uses' => 'Api\Chat\ChatController@message',
+]);
+
+Route::get('v1/users/others', [
+    'as' => 'users',
+    'uses' => 'Api\Chat\UserController@others',
 ]);

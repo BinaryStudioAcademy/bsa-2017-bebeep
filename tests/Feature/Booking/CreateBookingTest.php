@@ -126,6 +126,7 @@ class CreateBookingTest extends JwtTestCase
     {
         $data = $this->createTripWithDriver();
         $this->url = $this->getUrl($data['trip']->id);
+        $routeIds = $data['trip']->routes->pluck('id')->toArray();
 
         $someUser = factory(User::class)->create();
         $booking = factory(Booking::class)->create([
@@ -134,11 +135,11 @@ class CreateBookingTest extends JwtTestCase
             'seats' => 1,
         ]);
         $booking->update(['status' => Booking::STATUS_APPROVED]);
-        $booking->routes()->sync([1]);
+        $booking->routes()->sync([$routeIds[0]]);
 
         $user = $this->getPassengerUser();
 
-        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [1, 2], 'seats' => 2]);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => $routeIds, 'seats' => 2]);
         $response->assertStatus(422);
     }
 
@@ -149,6 +150,7 @@ class CreateBookingTest extends JwtTestCase
     {
         $data = $this->createTripWithDriver();
         $this->url = $this->getUrl($data['trip']->id);
+        $routeIds = $data['trip']->routes->pluck('id')->toArray();
 
         $user = $this->getPassengerUser();
 
@@ -157,9 +159,9 @@ class CreateBookingTest extends JwtTestCase
             'user_id' => $user->id,
             'seats' => 1,
         ]);
-        $booking->routes()->sync([1]);
+        $booking->routes()->sync([$routeIds[0]]);
 
-        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [1], 'seats' => 1]);
+        $response = $this->jsonRequestAsUser($user, $this->method, $this->url, ['routes' => [$routeIds[0]], 'seats' => 1]);
         $response->assertStatus(422);
     }
 

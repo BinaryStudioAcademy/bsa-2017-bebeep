@@ -31,6 +31,14 @@ class TripRepository extends BaseRepository implements Contracts\TripRepository
     /**
      * {@inheritdoc}
      */
+    public function updateTrip(Trip $trip, int $id) : Trip
+    {
+        return $this->update($trip->toArray(), $id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function softDelete(Trip $trip)
     {
         $trip->delete();

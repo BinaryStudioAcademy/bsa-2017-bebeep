@@ -1,4 +1,6 @@
 import {securedRequest, simpleRequest} from './RequestService';
+import Validator from './Validator';
+import LangService from './LangService';
 
 export const fetchGiven = () => {
     return securedRequest.get('/api/v1/reviews/given');
@@ -31,7 +33,7 @@ export const calcRatingData = (marks) => {
         count: 0,
         byMark: {}
     });
-    const avg = parseFloat(info.sum / info.count * 100) / 100;
+    const avg = info.sum / info.count;
     info['avg'] = isNaN(avg) ? 0 : avg;
     return info;
 };
@@ -51,3 +53,8 @@ export const getRatingStats = (marks) => {
         }
     };
 };
+
+export const createReviewRules = () => ({
+    rating: Validator.greaterThanOrEqual(0, LangService.translate('validate.rating_must_be_greater_than_zero')),
+    //review: Validator.required(LangService.translate('validate.please_add_a_review')),
+});

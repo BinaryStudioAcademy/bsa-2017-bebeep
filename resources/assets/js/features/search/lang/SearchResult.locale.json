@@ -12,9 +12,6 @@
     "when": ["When", "Коли", "Когда"],
     "price": ["Price", "Ціна", "Цена"],
     "date": ["Date", "Дата", "Дата"],
-    "free_seats1": ["free seat(s)", "вільне місце", "свободное место"],
-    "free_seats2": ["free seat(s)", "вільних місця", "свободных места"],
-    "free_seats3": ["free seat(s)", "вільних місць", "свободных мест"],
     "per_passenger": ["per passenger", "з пасажира", "с пассажира"],
     "years1": ["${age} yrs.", "${age} р.", "${age} г."],
     "years2": ["${age} yrs.", "${age} р.", "${age} г."],
@@ -33,6 +30,46 @@
         "От <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}"
       ]
     },
-    "trip_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"]
+    "trip_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"],
+    "additional_conditions": ["Additional conditions", "Додаткові умови", "Дополнительные условия"]
+  },
+  "subscription": {
+    "subscribe_btn": ["Subscribe", "Підписатись", "Подписаться"],
+    "subscribe_header": ["Subscription", "Підписка", "Подписка"],
+    "from": ["From: ", "Звідки: ", "Откуда: "],
+    "to": ["To: ", "Куди: ", "Куда: "],
+    "route": ["Route", "Маршрут", "Маршрут"],
+    "filters": ["Additional filters", "Додаткові фільтри", "Дополнительные фильтры"],
+    "enter-email": ["Not registered?", "Не зареєстровані?", "Не зарегистрированы?"],
+    "email-placeholder": ["Enter your email here", "Введіть ваш email", "Введите ваш email"],
+    "success-great": ["Well done!", "Чудово!", "Отлично!"],
+    "success-text": ["You successfully subscribe for this route.", "Ви успішно підписались на цей маршрут.", "Вы успешно подписались на этот маршрут."]
+  },
+  "dropdown": {
+    "not_important": ["All", "Все одно", "Все равно"],
+    "luggage": {
+      "name": ["Luggage Size", "Розмір багажу", "Размер багажа"],
+      "size_0": ["Small", "Маленький", "Маленький"],
+      "size_1": ["Medium", "Середній", "Средний"],
+      "size_2": ["Big", "Великий", "Большой"]
+    },
+    "animals": {
+      "name": ["Animals", "Тварини", "Животные"],
+      "allowed": ["Allowed", "Дозволені", "Разрешены"],
+      "forbidden": ["Forbidden", "Заборонені", "Запрещены"]
+    },
+    "free_seats": {
+      "name": ["Free Seats", "Вільних місць", "Свободных мест"],
+      "count_1": ["free seat(s)", "вільне місце", "свободное место"],
+      "count_2": ["free seat(s)", "вільних місця", "свободных места"],
+      "count_3": ["free seat(s)", "вільних місць", "свободных мест"]
+    },
+    "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"],
+    "more": ["more than ", "більше ", "более "],
+    "transfer": {
+        "name": ["Transfer", "Пересадки", "Пересадки"],
+        "without": ["Without transfers", "Без пересадок", "Без пересадок"],
+        "with": ["With transfers", "З пересадками", "С пересадками"]
+    }
   }
 }

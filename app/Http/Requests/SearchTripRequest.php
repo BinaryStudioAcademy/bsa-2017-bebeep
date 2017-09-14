@@ -197,4 +197,63 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
             return 0;
         }
     }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsAnimalsAllowed() : ?bool
+    {
+        return $this->getFilterParam('animals', 'bool');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLuggageSize() : ?int
+    {
+        return $this->getFilterParam('luggage', 'int');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSeats() : ?int
+    {
+        return $this->getFilterParam('seats', 'int');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getRating() : ?int
+    {
+        return $this->getFilterParam('rating', 'int');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTransfers() : ?int
+    {
+        return $this->getFilterParam('transfers', 'int');
+    }
+
+    /**
+     * @param string $param
+     * @param string $cast
+     * @return mixed|null
+     */
+    private function getFilterParam(string $param, string $cast = 'string')
+    {
+        $filter = $this->getFilter();
+
+        if (empty($filter[$param])) {
+            return null;
+        }
+
+        $value = $filter[$param];
+        settype($value, $cast);
+
+        return $value;
+    }
 }

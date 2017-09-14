@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 import moment from 'moment';
 
 import BookingModal from './_Modals/BookingModal';
+import UsersModal from './_Modals/UsersModal';
 import DirectionsMap from "app/components/DirectionsMap";
 
 import { securedRequest } from 'app/services/RequestService';
@@ -23,14 +23,32 @@ class Trip extends React.Component {
             deletable: this.props.deletable,
             editable: this.props.editable,
             isDeleted: false,
-            modalIsOpen: false
+            modalIsOpen: false,
+            modalUsersIsOpen: false
         };
+        this.onClickUsersBtn = this.onClickUsersBtn.bind(this);
+    }
+
+    componentWillMount() {
+        const {trip} = this.props,
+            location = browserHistory.getCurrentLocation(),
+            tripId = location.query['booking_trip'];
+
+        if (trip.id == tripId && trip.bookings.length > 0) {
+            delete(location.query['booking_trip']);
+            browserHistory.replace(location);
+            this.setState({modalIsOpen: true});
+        }
     }
 
     onClick() {
         this.setState({
             modalIsOpen: true
         });
+    }
+
+    onClickUsersBtn() {
+        this.setState({ modalUsersIsOpen: !this.state.modalUsersIsOpen });
     }
 
     getStartDate() {
@@ -90,7 +108,7 @@ class Trip extends React.Component {
             arr.push(routes[id]);
             return arr;
         }, []));
-        const { modalIsOpen } = this.state;
+        const { modalIsOpen, modalUsersIsOpen} = this.state;
         const arBookings = _.reduce(trip.bookings, (arr, id) => {
             arr.push(bookings[id]);
             return arr;
@@ -107,6 +125,8 @@ class Trip extends React.Component {
                                    endTime={() => {}}
                                    from={startPlace.geometry.location}
                                    to={endPlace.geometry.location}
+                                   fromData={startPlace}
+                                   toData={endPlace}
                                    waypoints={waypoints}
                                    show={false}
                     >
@@ -116,6 +136,11 @@ class Trip extends React.Component {
                                 <span className="text-muted"><strong>{translate('trip_list.price')}:</strong> ${trip.price}</span><br/>
                                 <span className="text-muted"><strong>{translate('trip_list.seats')}:</strong> {trip.seats}</span><br/>
                             </div>
+                            <span className="link-style link-style-users"  onClick={this.onClickUsersBtn} >
+                                <i className="trip-detail-icon fa fa-user mr-2" aria-hidden="true" />
+                                { translate('trip_list.passengers_link') }
+                            </span>
+
                         </div>
                         <div className="card-footer trip-actions">
                             {this.state.editable ? (
@@ -150,7 +175,12 @@ class Trip extends React.Component {
                     count={ bookingCount }
                     tripId={ trip.id }
                     isOpen={ modalIsOpen }
-                    onClosed={ () => this.state.modalIsOpen = false }
+                    onClosed={ () => this.setState({modalIsOpen: false}) }
+                />
+                <UsersModal
+                    tripId={ trip.id }
+                    isOpen={ modalUsersIsOpen }
+                    onClick = {this.onClickUsersBtn}
                 />
             </div>
         )

@@ -11,7 +11,9 @@
 |
 */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$TRIP_START_TIME = \Carbon\Carbon::now()->addSeconds(App\Models\Trip::MIN_DELAY_TO_START_DATE);
+
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
@@ -38,20 +40,20 @@ $factory->define(App\Models\Vehicle::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\Trip::class, function (Faker\Generator $faker) {
-    $start = \Carbon\Carbon::now()->addSeconds(App\Models\Trip::MIN_DELAY_TO_START_DATE);
-
+$factory->define(App\Models\Trip::class, function (Faker\Generator $faker) use ($TRIP_START_TIME) {
     return [
         'price' => $faker->numberBetween(1, 1000),
-        'start_at' => $start->toDateTimeString(),
-        'end_at' => $start->addHour(3)->toDateTimeString(),
+        'start_at' => $TRIP_START_TIME->toDateTimeString(),
+        'end_at' => $TRIP_START_TIME->addHour(3)->toDateTimeString(),
         'vehicle_id' => 1,
         'seats' => $faker->numberBetween(1, 3),
         'user_id' => 1,
+        'is_animals_allowed' => 1,
+        'luggage_size' => \App\Models\Trip::LUGGAGE_SIZE_BIG,
     ];
 });
 
-$factory->define(App\Models\Route::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Route::class, function (Faker\Generator $faker) use ($TRIP_START_TIME) {
     return [
         'from' => [json_decode('{"types": ["locality", "political"], "geometry": {"bounds": {"east": 30.825941000000057, "west": 30.239440100000024, "north": 50.590798, "south": 50.213273}, "location": {"lat": 50.4501, "lng": 30.52340000000004}, "viewport": {"east": 30.825941000000057, "west": 30.239440100000024, "north": 50.590798, "south": 50.213273}, "location_type": "APPROXIMATE"}, "place_id": "ChIJBUVa4U7P1EAR_kYBF9IxSXY", "formatted_address": "Киев, Украина, 02000", "address_components": [{"types": ["locality", "political"], "long_name": "Киев", "short_name": "Киев"}, {"types": ["administrative_area_level_2", "political"], "long_name": "город Киев", "short_name": "город Киев"}, {"types": ["country", "political"], "long_name": "Украина", "short_name": "UA"}, {"types": ["postal_code"], "long_name": "02000", "short_name": "02000"}]}')],
         'to' => [json_decode('{"types": ["locality", "political"], "geometry": {"bounds": {"east": 36.45581240000001, "west": 36.115837000000056, "north": 50.1053867, "south": 49.883796}, "location": {"lat": 49.9935, "lng": 36.230383000000074}, "viewport": {"east": 36.45581240000001, "west": 36.115837000000056, "north": 50.1053867, "south": 49.883796}, "location_type": "APPROXIMATE"}, "place_id": "ChIJiw-rY5-gJ0ERCr6kGmgYTC0", "formatted_address": "Харьков, Харьковская область, Украина", "address_components": [{"types": ["locality", "political"], "long_name": "Харьков", "short_name": "Харьков"}, {"types": ["administrative_area_level_3", "political"], "long_name": "Харьковский горсовет", "short_name": "Харьковский горсовет"}, {"types": ["administrative_area_level_1", "political"], "long_name": "Харьковская область", "short_name": "Харьковская область"}, {"types": ["country", "political"], "long_name": "Украина", "short_name": "UA"}]}')],
@@ -60,6 +62,8 @@ $factory->define(App\Models\Route::class, function (Faker\Generator $faker) {
         'from_lng' => $faker->numberBetween(100, 5000) / 100.0,
         'to_lat' => $faker->numberBetween(100, 5000) / 100.0,
         'to_lng' => $faker->numberBetween(100, 5000) / 100.0,
+        'start_at' => $TRIP_START_TIME->toDateTimeString(),
+        'end_at' => $TRIP_START_TIME->addHour(3)->toDateTimeString(),
     ];
 });
 
@@ -78,5 +82,26 @@ $factory->define(App\Models\Review::class, function (Faker\Generator $faker) {
         'mark' => $faker->numberBetween(1, 5),
         'driver_id' => 1,
         'user_id' => 2,
+    ];
+});
+
+$factory->define(App\Models\Subscription::class, function (Faker\Generator $faker) {
+    return [
+        'from' => [json_decode('{"types": ["locality", "political"], "geometry": {"bounds": {"east": 30.825941000000057, "west": 30.239440100000024, "north": 50.590798, "south": 50.213273}, "location": {"lat": 50.4501, "lng": 30.52340000000004}, "viewport": {"east": 30.825941000000057, "west": 30.239440100000024, "north": 50.590798, "south": 50.213273}, "location_type": "APPROXIMATE"}, "place_id": "ChIJBUVa4U7P1EAR_kYBF9IxSXY", "formatted_address": "Киев, Украина, 02000", "address_components": [{"types": ["locality", "political"], "long_name": "Киев", "short_name": "Киев"}, {"types": ["administrative_area_level_2", "political"], "long_name": "город Киев", "short_name": "город Киев"}, {"types": ["country", "political"], "long_name": "Украина", "short_name": "UA"}, {"types": ["postal_code"], "long_name": "02000", "short_name": "02000"}]}')],
+        'to' => [json_decode('{"types": ["locality", "political"], "geometry": {"bounds": {"east": 36.45581240000001, "west": 36.115837000000056, "north": 50.1053867, "south": 49.883796}, "location": {"lat": 49.9935, "lng": 36.230383000000074}, "viewport": {"east": 36.45581240000001, "west": 36.115837000000056, "north": 50.1053867, "south": 49.883796}, "location_type": "APPROXIMATE"}, "place_id": "ChIJiw-rY5-gJ0ERCr6kGmgYTC0", "formatted_address": "Харьков, Харьковская область, Украина", "address_components": [{"types": ["locality", "political"], "long_name": "Харьков", "short_name": "Харьков"}, {"types": ["administrative_area_level_3", "political"], "long_name": "Харьковский горсовет", "short_name": "Харьковский горсовет"}, {"types": ["administrative_area_level_1", "political"], "long_name": "Харьковская область", "short_name": "Харьковская область"}, {"types": ["country", "political"], "long_name": "Украина", "short_name": "UA"}]}')],
+        'start_at' => \Carbon\Carbon::now()->addDay(1),
+        'from_lat' => 50.4501,
+        'from_lng' => 30.52340000000004,
+        'to_lat' => 49.9935,
+        'to_lng' => 36.230383000000074,
+        'email' => $faker->email,
+        'is_active' => true,
+    ];
+});
+
+$factory->define(App\Models\Filter::class, function (Faker\Generator $faker) {
+    return [
+        'name' => 'some_filter',
+        'parameters' => json_encode(['value' => 3]),
     ];
 });

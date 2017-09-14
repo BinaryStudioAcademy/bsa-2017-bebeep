@@ -1,11 +1,15 @@
 import React from 'react';
+import { Link, withRouter } from 'react-router';
+import { localize } from 'react-localize-redux';
+
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import PageHeader from 'app/components/PageHeader';
+import BookingsContainer from '../components/BookingsContainer';
+
+import { FILTER_PAST, FILTER_UPCOMING } from 'app/services/BookingService';
+
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/BookingsList.locale.json';
-import {localize} from 'react-localize-redux';
-import BookingsContainer from '../components/BookingsContainer';
-import { FILTER_PAST, FILTER_UPCOMING } from 'app/services/BookingService';
-import { Link } from 'react-router';
 
 class BookingsList extends React.Component {
 
@@ -14,11 +18,11 @@ class BookingsList extends React.Component {
     }
 
     render() {
-        const {translate, route} = this.props,
-            filter = route.path === "bookings/past" ? FILTER_PAST : FILTER_UPCOMING;
+        const { translate, location } = this.props,
+            filter = location.pathname === '/bookings/past' ? FILTER_PAST : FILTER_UPCOMING;
 
         return (
-            <div>
+            <ContainerWrapper>
                 <PageHeader header={translate('bookings_list.my_bookings_header')} />
                 <div>
                     <ul className="nav nav-pills">
@@ -36,9 +40,9 @@ class BookingsList extends React.Component {
                 </div>
 
                 <BookingsContainer filter={filter} />
-            </div>
+            </ContainerWrapper>
         );
     }
 }
 
-export default localize(BookingsList, 'locale');
+export default localize(withRouter(BookingsList), 'locale');

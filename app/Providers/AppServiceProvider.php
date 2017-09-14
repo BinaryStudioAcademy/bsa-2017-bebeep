@@ -12,6 +12,7 @@ use App\Services\TripDetailService;
 use App\Repositories\TripRepository;
 use App\Services\UserProfileService;
 use Illuminate\Support\Facades\Auth;
+use App\Services\SubscriptionsService;
 use App\Repositories\BookingRepository;
 use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
@@ -32,8 +33,17 @@ use App\Rules\Booking\BookingTripNotExpiredRule;
 use App\Rules\BookingConfirm\BookingTripConfirm;
 use App\Validators\RoutesExistsForTripValidator;
 use App\Rules\Booking\UserHasNotActiveBookingsForTrip;
+use App\Services\Helpers\Subscriptions\FilterCollection;
+use App\Services\Helpers\Subscriptions\Filters\SeatsFilter;
+use App\Services\Helpers\Subscriptions\Filters\RatingFilter;
+use App\Services\Helpers\Subscriptions\Filters\AnimalsFilter;
+use App\Services\Helpers\Subscriptions\Filters\EndTimeFilter;
+use App\Services\Helpers\Subscriptions\Filters\LuggageFilter;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
+use App\Services\Helpers\Subscriptions\Filters\EndPriceFilter;
+use App\Services\Helpers\Subscriptions\Filters\StartTimeFilter;
 use App\Services\Contracts\RouteService as RouteServiceContract;
+use App\Services\Helpers\Subscriptions\Filters\StartPriceFilter;
 use App\Services\Contracts\BookingService as BookingServiceContract;
 use App\Services\Contracts\ReviewsService as ReviewsServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
@@ -41,6 +51,7 @@ use App\Repositories\Contracts\TripRepository as TripRepositoryContract;
 use App\Services\Contracts\TripDetailService as TripDetailServiceContract;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 use App\Repositories\Contracts\BookingRepository as BookingRepositoryContract;
+use App\Services\Contracts\SubscriptionsService as SubscriptionsServiceContract;
 use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
 
 class AppServiceProvider extends ServiceProvider
@@ -53,6 +64,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->extendValidator();
+
+        if (config('app.log_queries')) {
+            \DB::listen(function ($query) {
+                \Log::info($query->sql.' — '.$query->time);
+            });
+        }
     }
 
     /**
@@ -64,6 +81,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(TripRepositoryContract::class, TripRepository::class);
         $this->app->bind(BookingRepositoryContract::class, BookingRepository::class);
+        $this->app->bind(
+            \App\Repositories\Contracts\SubscriptionRepository::class,
+            \App\Repositories\SubscriptionRepository::class
+        );
 
         $this->app->bind(RouteServiceContract::class, RouteService::class);
         $this->app->bind(BookingServiceContract::class, BookingService::class);
@@ -71,7 +92,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PasswordServiceContract::class, PasswordService::class);
         $this->app->bind(TripDetailServiceContract::class, TripDetailService::class);
         $this->app->bind(UserProfileServiceContract::class, UserProfileService::class);
+        $this->app->bind(SubscriptionsServiceContract::class, SubscriptionsService::class);
         $this->app->bind(UserPublicProfileServiceContract::class, UserPublicProfileService::class);
+        $this->app->bind(
+            \App\Services\Contracts\NotificationService::class,
+            \App\Services\NotificationService::class
+        );
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);
@@ -104,6 +130,19 @@ class AppServiceProvider extends ServiceProvider
                 new TripDateRule,
                 new TripRoutesHasSeatsRule,
                 new UserHasNotActiveBookingsForTrip($app->make(BookingRepositoryContract::class))
+            );
+        });
+
+        $this->app->bind(FilterCollection::class, function ($app) {
+            return new FilterCollection(
+                new StartTimeFilter(),
+                new EndTimeFilter(),
+                new AnimalsFilter(),
+                new SeatsFilter(),
+                new LuggageFilter(),
+                new RatingFilter(),
+                new StartPriceFilter(),
+                new EndPriceFilter()
             );
         });
     }
@@ -149,6 +188,26 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return (int) $parameters[0] < (int) $value;
+        });
+
+        Validator::extend('greater_than_date_if', function (
+            $attribute,
+            $value,
+            $parameters,
+            $validator
+        ) {
+            if (! $parameters || ! $parameters[0] || ! $parameters[1]) {
+                return false;
+            }
+
+            $data = $validator->getData();
+            list($requiredField, $restrictedValue) = $parameters;
+
+            if (empty($data[$requiredField]) || ! $data[$requiredField]) {
+                return true;
+            }
+
+            return (int) $restrictedValue < (int) $value;
         });
 
         Validator::extend(

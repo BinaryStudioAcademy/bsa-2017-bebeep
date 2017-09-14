@@ -31,12 +31,16 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
         $minStartAt = Carbon::now()->addSeconds(Trip::MIN_DELAY_TO_START_DATE)->timestamp;
 
         return [
-            'price' => 'required',
+            'price' => 'required|numeric',
             'seats' => 'required|integer|min:0|max_seats_from_vehicle:'.$this->get('vehicle_id').','.$this->get('vehicle')['seats'],
             'start_at' => 'required|integer|greater_than_date:'.$minStartAt,
             'end_at' => 'required|integer|greater_than_date:'.$this->get('start_at'),
             'from' => 'required|array',
             'to' => 'required|array',
+            'waypoints' => 'array',
+            'routes' => 'required|array',
+            'routes.*.start_at' => 'required|integer',
+            'routes.*.end_at' => 'required|integer',
             'vehicle_id' => [
                 'required_without:vehicle',
                 'integer',
@@ -47,11 +51,12 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
                 }),
             ],
             'vehicle' => 'required_without:vehicle_id',
+            'reverse_start_at' => ['required_if:is_in_both_directions,true', 'greater_than_date_if:is_in_both_directions,'.$this->get('end_at')],
         ];
     }
 
     /**
-     * @return float
+     * {@inheritdoc}
      */
     public function getPrice(): float
     {
@@ -59,7 +64,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getSeats(): int
     {
@@ -67,7 +72,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return Carbon
+     * {@inheritdoc}
      */
     public function getStartAt(): Carbon
     {
@@ -75,7 +80,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return Carbon
+     * {@inheritdoc}
      */
     public function getEndAt(): Carbon
     {
@@ -83,7 +88,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getVehicleId(): int
     {
@@ -91,7 +96,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getFrom(): array
     {
@@ -99,7 +104,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getTo(): array
     {
@@ -107,18 +112,64 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getWaypoints(): array
     {
+        // TODO :: Need to change this code so that
+        // this method returns the collection of Waypoints instances
+
         return (array) $this->get('waypoints');
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
+     */
+    public function getRoutesTime(): array
+    {
+        // TODO :: Need to change this code so that
+        // this method returns the collection of Routes instances
+
+        return (array) $this->get('routes');
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getVehicle(): array
     {
         return $this->get('vehicle');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLuggageSize(): int
+    {
+        return (int) $this->get('luggage_size');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIsAnimalsAllowed(): bool
+    {
+        return (bool) $this->get('is_animals_allowed');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIsInBothDirections(): bool
+    {
+        return (bool) $this->get('is_in_both_directions');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getReverseStartAt(): Carbon
+    {
+        return Carbon::createFromTimestampUTC($this->get('reverse_start_at'));
     }
 }

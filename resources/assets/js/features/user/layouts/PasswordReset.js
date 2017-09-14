@@ -2,8 +2,9 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { localize } from 'react-localize-redux';
 
-import Input from 'app/components/Input';
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import PageHeader from 'app/components/PageHeader';
+import Input from 'app/components/Input';
 
 import UserService from '../services/UserService';
 import { UserValidator, VerifyValidator } from 'app/services/UserService';
@@ -63,10 +64,11 @@ class PasswordReset extends React.Component {
     }
 
     render() {
-        const {errors} = this.state,
-            {translate} = this.props;
+        const { errors } = this.state,
+            { translate } = this.props;
+
         return (
-            <div>
+            <ContainerWrapper>
                 <PageHeader header={ translate('password_reset.recover_password') } />
                 <form method="post" action="/api/password/forgot" className="card password-form" onSubmit={this.onSubmit}>
                     <div className="card-header">{translate('password_reset.reset_password_header')}</div>
@@ -100,7 +102,7 @@ class PasswordReset extends React.Component {
                         </div>
                     </div>
                 </form>
-            </div>
+            </ContainerWrapper>
         )
     }
 }

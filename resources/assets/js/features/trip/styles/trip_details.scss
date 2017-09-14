@@ -1,7 +1,6 @@
 @import '~app/bootstrap/variables';
 @import "~bootstrap/scss/mixins/breakpoints";
 
-
 .trip-detail-icon.fa {
     font-size: 1.5em;
     color: $teal;
@@ -20,7 +19,13 @@
     font-size: 1.3em;
 
     &__route-map-link {
+        margin-left: 1rem;
         font-size: .8em;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
 
@@ -36,25 +41,28 @@
     }
 }
 
-.trip-point-icon:before {
-    content: '';
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    margin-right: .5rem;
-    vertical-align: top;
-    background-color: $white;
-    border-radius: 50%;
-    border: 3px solid $teal;
-}
+.trip-point-icon {
+    &:before {
+        content: '';
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        margin-right: .5rem;
+        vertical-align: top;
+        background-color: $white;
+        border-radius: 50%;
+        border: 2px dashed $teal;
+    }
 
-.trip-point-icon--waypoint:before {
-    border-width: 2px;
-    border-style: dashed;
-}
+    &--start:before,
+    &--end:before {
+        border-width: 3px;
+        border-style: solid;
+    }
 
-.trip-point-icon--end:before {
-    background-color: lighten($teal, 10%);
+    &--end:before {
+        background-color: lighten($teal, 10%);
+    }
 }
 
 .trip-vehicle-image {
@@ -82,11 +90,12 @@
 }
 
 .trip-routes {
+    margin-bottom: 56px;
     font-size: .8em;
-    border-bottom: 1px solid $gray-lighter;
 
     th {
-        padding: .5rem;
+        padding: 0;
+        border-top: none;
         text-align: center;
         position: relative;
     }
@@ -95,19 +104,34 @@
         border-bottom: none;
     }
 
+    tr:last-child td {
+        border-bottom: 1px solid $gray-lighter;
+    }
+
+    thead th {
+        padding: .5rem;
+        border-top: 1px solid $gray-lighter;
+    }
     thead th:not(:first-child),
-    tbody td {
+    &__person-place {
         border-left: 1px solid $gray-lighter;
     }
 
-    tbody th {
+    &__route {
         width: 16%;
         max-width: 60px;
+        padding: 0;
+        border-top: none;
     }
 
-    tbody td {
+    &__person-place {
         width: 9%;
         max-width: 40px;
+        padding: .75rem .5rem;
+
+        &--driver {
+            background-color: lighten($teal, 26%);
+        }
     }
 
     &__head-icon {
@@ -119,26 +143,29 @@
     &__point {
         display: block;
         width: 100%;
-        height: 100px;
+        height: 120px;
         text-align: left;
         position: relative;
-        top: -30px;
+        top: -10px;
 
         &:before {
             width: 24px;
             height: 24px;
             position: absolute;
             left: 1px;
-            top: -2px;
+            top: -4px;
             z-index: 2;
         }
 
+        &--start {
+            top: 10px;
+        }
+
         &--end {
-            height: auto;
+            height: 66px;
             position: absolute;
-            bottom: 3px;
-            top: inherit;
-            left: inherit;
+            top: 100%;
+            transform: translateY(-10px);
         }
 
         &:not(&--end):after {
@@ -149,16 +176,26 @@
             background-color: $teal;
             position: absolute;
             left: 12px;
+            top: 0
         }
-    }
 
-    &__point-info {
-        margin-left: 2rem;
-        font-weight: 600;
-    }
+        &-info {
+            margin-left: 2rem;
+            font-weight: normal;
+        }
 
-    &__driver-cell {
-        background-color: lighten($teal, 26%);
+        &-address {
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+        &-time,
+        &-time-note {
+            font-size: .9em;
+        }
+
+        &:not(&--start) &-time:before {
+            content: '~ ';
+        }
     }
 
     &__passenger {
@@ -246,7 +283,23 @@
     }
 }
 
+.modal-dialog .modal-title {
+    font-size: 1.3rem;
+}
+
 .trip-map-modal {
+
+    &__header {
+        button span {
+            font-size: 2.4rem;
+        }
+
+        .trip-detail-icon {
+            margin-left: .5rem;
+            vertical-align: bottom;
+        }
+    }
+
     &__close {
         color: $white;
         position: absolute;
@@ -255,7 +308,7 @@
 
     &__map-container {
         max-height: 100vh;
-        height: 500px;
+        height: 400px;
     }
 
     @include media-breakpoint-down(xs) {

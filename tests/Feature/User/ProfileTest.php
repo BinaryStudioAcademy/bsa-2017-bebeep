@@ -7,7 +7,6 @@ use App\Models\Trip;
 use Tests\JwtTestCase;
 use App\Models\Booking;
 use App\Models\Vehicle;
-use Illuminate\Support\Facades\Artisan;
 
 class ProfileTest extends JwtTestCase
 {
@@ -45,7 +44,6 @@ class ProfileTest extends JwtTestCase
     public function setUp()
     {
         parent::setUp();
-        Artisan::call('migrate:refresh');
 
         $this->routes['get'][] = route('user.profile.show');
         $this->routes['update'][] = route('user.profile.update');
@@ -56,7 +54,7 @@ class ProfileTest extends JwtTestCase
      */
     public function guest_can_not_show_profile()
     {
-        $response = $this->json($this->routes['get'][0], $this->routes['get'][1]);
+        $response = $this->jsonRequestFromGuest();
         $response->assertStatus(400);
     }
 
@@ -65,7 +63,7 @@ class ProfileTest extends JwtTestCase
      */
     public function guest_can_not_update_profile()
     {
-        $response = $this->json($this->routes['update'][0], $this->routes['update'][1]);
+        $response = $this->jsonRequestFromGuest('update');
         $response->assertStatus(400);
     }
 
@@ -74,9 +72,9 @@ class ProfileTest extends JwtTestCase
      */
     public function driver_can_show_profile()
     {
-        $user = $this->createDriver();
+        $user = $this->createDriver($this->driverData);
 
-        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
+        $response = $this->jsonRequestUserProfile($user);
 
         $response->assertStatus(200)
              ->assertExactJson(['data' => $this->driverData + [
@@ -84,6 +82,7 @@ class ProfileTest extends JwtTestCase
                 'about_me' => null,
                 'role_driver' => true,
                 'role_passenger' => false,
+                'permissions' => User::DRIVER_PERMISSION,
                 'can_uncheck_role_driver' => true,
                 'can_uncheck_role_passenger' => true,
             ]]);
@@ -94,15 +93,16 @@ class ProfileTest extends JwtTestCase
      */
     public function passenger_can_show_profile()
     {
-        $user = $this->createPassenger();
+        $user = $this->createPassenger($this->passengerData);
 
-        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
+        $response = $this->jsonRequestUserProfile($user);
 
         $response->assertStatus(200)
              ->assertExactJson(['data' => $this->passengerData + [
                 'avatar' => null,
                 'role_driver' => false,
                 'role_passenger' => true,
+                'permissions' => User::PASSENGER_PERMISSION,
                 'can_uncheck_role_driver' => true,
                 'can_uncheck_role_passenger' => true,
             ]]);
@@ -117,7 +117,7 @@ class ProfileTest extends JwtTestCase
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
 
-        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
+        $response = $this->jsonRequestUserProfile($user);
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
@@ -135,10 +135,10 @@ class ProfileTest extends JwtTestCase
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
 
-        $this->createVehicle($user->id);
-        $this->createTrip($user->id);
+        $vehicle = $this->createVehicle($user);
+        $this->createTrip($user, ['vehicle_id' => $vehicle->id]);
 
-        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
+        $response = $this->jsonRequestUserProfile($user);
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
@@ -154,7 +154,7 @@ class ProfileTest extends JwtTestCase
     {
         $user = $this->createPassenger();
 
-        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
+        $response = $this->jsonRequestUserProfile($user);
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
@@ -171,11 +171,11 @@ class ProfileTest extends JwtTestCase
         $user = $this->createPassenger();
         $driver = $this->createDriver();
 
-        $this->createVehicle($driver->id);
-        $this->createTrip($driver->id);
-        $this->createBooking($user->id);
+        $vehicle = $this->createVehicle($driver);
+        $trip = $this->createTrip($driver, ['vehicle_id' => $vehicle->id]);
+        $this->createBooking($user, ['trip_id' => $trip->id]);
 
-        $response = $this->jsonRequestAsUser($user, $this->routes['get'][0], $this->routes['get'][1]);
+        $response = $this->jsonRequestUserProfile($user);
 
         $response->assertStatus(200)
              ->assertJson(['data' => [
@@ -194,44 +194,58 @@ class ProfileTest extends JwtTestCase
             'email' => 'is_exists@example.com',
         ]);
 
-        $response = $this->jsonUpdateUser($user, []);
+        $response = $this->jsonRequestUserProfile($user, 'update', []);
         $response->assertStatus(422);
 
         // Error - the first_name is required
-        $response = $this->jsonUpdateUser($user, ['first_name' => null]);
+        $response = $this->jsonRequestUserProfile($user, 'update', [
+            'first_name' => null,
+        ]);
         $response->assertStatus(422)->assertJsonStructure(['first_name' => []]);
 
         // Error - the last_name is required
-        $response = $this->jsonUpdateUser($user, ['last_name' => null]);
+        $response = $this->jsonRequestUserProfile($user, 'update', [
+            'last_name' => null,
+        ]);
         $response->assertStatus(422)->assertJsonStructure(['last_name' => []]);
 
         // Error - the email is required
-        $response = $this->jsonUpdateUser($user, ['email' => null]);
+        $response = $this->jsonRequestUserProfile($user, 'update', ['email' => null]);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
 
         // Error - the email is exactly email
-        $response = $this->jsonUpdateUser($user, ['email' => 'Lorem ipsum dolor.']);
+        $response = $this->jsonRequestUserProfile($user, 'update', [
+            'email' => 'Lorem ipsum dolor.',
+        ]);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
 
         // Error - the email is unique
-        $response = $this->jsonUpdateUser($user, ['email' => $userWithExistingEmail->email]);
+        $response = $this->jsonRequestUserProfile($user, 'update', [
+            'email' => $userWithExistingEmail->email,
+        ]);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
 
         // Error - the phone is required
-        $response = $this->jsonUpdateUser($user, ['phone' => null]);
+        $response = $this->jsonRequestUserProfile($user, 'update', ['phone' => null]);
         $response->assertStatus(422)->assertJsonStructure(['phone' => []]);
 
         // Error - the phone has the valid format
-        $response = $this->jsonUpdateUser($user, ['phone' => 'dds1234567']);
+        $response = $this->jsonRequestUserProfile($user, 'update', [
+            'phone' => 'dds1234567',
+        ]);
         $response->assertStatus(422)->assertJsonStructure(['phone' => []]);
 
         // Error - the birth_date has the valid format
-        $response = $this->jsonUpdateUser($user, ['birth_date' => '1984 dfdf 08 -13']);
+        $response = $this->jsonRequestUserProfile($user, 'update', [
+            'birth_date' => '1984 dfdf 08 -13',
+        ]);
         $response->assertStatus(422)->assertJsonStructure(['birth_date' => []]);
 
         // Error - the about_me size is longer
         // than the maximum allowed number of characters
-        $response = $this->jsonUpdateUser($user, ['about_me' => str_random(505)]);
+        $response = $this->jsonRequestUserProfile($user, 'update', [
+            'about_me' => str_random(505),
+        ]);
         $response->assertStatus(422)->assertJsonStructure(['about_me' => []]);
     }
 
@@ -244,10 +258,12 @@ class ProfileTest extends JwtTestCase
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
 
-        $this->createVehicle($user->id);
-        $this->createTrip($user->id);
+        $vehicle = $this->createVehicle($user);
+        $this->createTrip($user, ['vehicle_id' => $vehicle->id]);
 
-        $response = $this->jsonUpdateUser($user, ['role_driver' => false]);
+        $response = $this->jsonRequestUserProfile($user, 'update', [
+            'role_driver' => false,
+        ]);
         $response->assertStatus(422)->assertJsonStructure(['role_driver' => []]);
     }
 
@@ -259,11 +275,13 @@ class ProfileTest extends JwtTestCase
         $user = $this->createPassenger();
         $driver = $this->createDriver();
 
-        $this->createVehicle($driver->id);
-        $this->createTrip($driver->id);
-        $this->createBooking($user->id);
+        $vehicle = $this->createVehicle($driver);
+        $trip = $this->createTrip($driver, ['vehicle_id' => $vehicle->id]);
+        $this->createBooking($user, ['trip_id' => $trip->id]);
 
-        $response = $this->jsonUpdateUser($user, ['role_passenger' => false]);
+        $response = $this->jsonRequestUserProfile($user, 'update', [
+            'role_passenger' => false,
+        ]);
         $response->assertStatus(422)->assertJsonStructure(['role_passenger' => []]);
     }
 
@@ -286,33 +304,50 @@ class ProfileTest extends JwtTestCase
         $user = $this->createDriver([
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
-        $this->createVehicle($user->id);
-        $this->createTrip($user->id);
+        $vehicle = $this->createVehicle($user);
+        $this->createTrip($user, ['vehicle_id' => $vehicle->id]);
 
-        $response = $this->jsonUpdateUser($user, $updatedData);
+        $response = $this->jsonRequestUserProfile($user, 'update', $updatedData);
 
         $response->assertStatus(200)
              ->assertExactJson(['data' => $updatedData + [
                 'avatar' => null,
+                'permissions' => User::DRIVER_PERMISSION,
                 'can_uncheck_role_driver' => false,
                 'can_uncheck_role_passenger' => true,
             ]]);
     }
 
     /**
-     * Send request on the user profile update.
+     * Send request to the user profile from the guest user.
+     *
+     * @param string $type
+     *
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    private function jsonRequestFromGuest(string $type = 'get')
+    {
+        return $this->json($this->routes[$type][0], $this->routes[$type][1]);
+    }
+
+    /**
+     * Send request to the user profile.
      *
      * @param \App\User $user
+     * @param string $type
      * @param array $updatedData
      *
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    private function jsonUpdateUser(User $user, array $updatedData = [])
-    {
+    private function jsonRequestUserProfile(
+        User $user,
+        string $type = 'get',
+        array $updatedData = []
+    ) {
         return $this->jsonRequestAsUser(
             $user,
-            $this->routes['update'][0],
-            $this->routes['update'][1],
+            $this->routes[$type][0],
+            $this->routes[$type][1],
             $updatedData
         );
     }
@@ -321,64 +356,71 @@ class ProfileTest extends JwtTestCase
      * Create a new driver.
      *
      * @param  array $fields
+     *
      * @return \App\User
      */
     private function createDriver(array $fields = []): User
     {
         $fields['permissions'] = $fields['permissions'] ?? User::DRIVER_PERMISSION;
 
-        return factory(User::class)->create(array_merge($this->driverData, $fields));
+        return factory(User::class)->create($fields);
     }
 
     /**
      * Create a new passenger.
      *
      * @param  array $fields
+     *
      * @return \App\User
      */
     private function createPassenger(array $fields = []): User
     {
         $fields['permissions'] = $fields['permissions'] ?? User::PASSENGER_PERMISSION;
 
-        return factory(User::class)->create(array_merge($this->passengerData, $fields));
+        return factory(User::class)->create($fields);
     }
 
     /**
      * Create a new vehicle.
      *
-     * @param  int $userId
+     * @param \App\User $user
+     *
      * @return \App\Models\Vehicle
      */
-    private function createVehicle(int $userId): Vehicle
+    private function createVehicle(User $user): Vehicle
     {
         return factory(Vehicle::class)->create([
-            'user_id' => $userId,
+            'user_id' => $user->id,
         ]);
     }
 
     /**
      * Create a new trip.
      *
-     * @param  int $userId
-     * @return \App\Models\Trip
+     * @param \App\User $user
+     *
+     * @param array $extraData
+     * @return Trip
      */
-    private function createTrip(int $userId): Trip
+    private function createTrip(User $user, $extraData = []): Trip
     {
-        return factory(Trip::class)->create([
-            'user_id' => $userId,
-        ]);
+        return factory(Trip::class)->create(array_merge([
+            'user_id' => $user->id,
+        ], $extraData));
     }
 
     /**
      * Create a new booking.
      *
-     * @param  int $userId
-     * @return \App\Models\Booking
+     * @param \App\User $user
+     *
+     * @param array $extraData
+     * @return Booking
      */
-    private function createBooking(int $userId): Booking
+    private function createBooking(User $user, $extraData = []): Booking
     {
-        return factory(Booking::class)->create([
-            'user_id' => $userId,
-        ]);
+        return factory(Booking::class)->create(array_merge([
+            'user_id' => $user->id,
+        ], $extraData));
     }
 }

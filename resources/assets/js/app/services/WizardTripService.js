@@ -1,12 +1,11 @@
-import {securedRequest} from 'app/services/RequestService';
-import {browserHistory} from 'react-router';
+import { securedRequest } from 'app/services/RequestService';
 
 export const INIT = 0;
 export const STEP_ONE = 1;
 export const STEP_TWO = 2;
 export const STEP_THREE = 3;
 
-export const savePendingTrip  = (tripData) => {
+export const savePendingTrip = (tripData) => {
 
     return securedRequest.post('/api/v1/trips', {
         start_at: tripData.start_at,
@@ -21,19 +20,19 @@ export const savePendingTrip  = (tripData) => {
             model: tripData.model,
             seats: tripData.seats,
         },
+        routes: [{
+            start_at: tripData.start_at,
+            end_at: tripData.end_at
+        }]
     }).then(
-            reponse => {
-                return Promise.resolve(reponse);
-            },
-            error => {
-                console.error(error);
-                return Promise.resolve({});
-            }
+        response => Promise.resolve(response),
+        error => Promise.resolve({})
     );
 };
 
 export const prepareNumber = (value) => {
     const number = value.match(/[0-9]+/);
+
     return number && !isNaN(+number[0]) && +number[0] > 0
         ? +number[0]
         : 0;

@@ -20,6 +20,10 @@
         <testsuite name="VehicleApi">
             <file>./tests/Feature/Vehicle/VehicleApiTest.php</file>
         </testsuite>
+
+        <testsuite name="Subscription">
+            <file>./tests/Feature/Subscription/SubscriptionTest.php</file>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">

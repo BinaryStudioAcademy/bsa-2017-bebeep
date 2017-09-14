@@ -60,6 +60,7 @@ class RegisterUserService
      * @param \App\Services\Requests\VerifyUserRequest $request
      *
      * @return string
+     *
      * @throws \App\Exceptions\User\VerifyException
      */
     public function verify(VerifyUserRequest $request): string
@@ -97,6 +98,7 @@ class RegisterUserService
      * Set custom claims for JWT Token payload data.
      *
      * @param User $user
+     *
      * @return RegisterUserService
      */
     private function setCustomClaims(User $user): self
@@ -105,6 +107,7 @@ class RegisterUserService
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'avatar' => $user->getAvatarUrl(),
+            'permissions' => $user->permissions,
         ];
 
         return $this;

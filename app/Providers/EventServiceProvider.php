@@ -2,16 +2,22 @@
 
 namespace App\Providers;
 
+use App\Events\TripCreated;
+use App\Events\TripUpdated;
 use App\Events\BookingCreated;
 use App\Events\UserRegistered;
 use App\Events\BookingApproved;
 use App\Events\BookingDeclined;
+use App\Events\ReviewOnTripCreated;
 use App\Events\ApprovedBookingCanceled;
 use App\Listeners\SendVerificationEmail;
-use App\Listeners\SendBookingCreatedEmailToDriver;
-use App\Listeners\SendBookingCanceledEmailToDriver;
-use App\Listeners\SendBookingApprovedEmailToPassenger;
-use App\Listeners\SendBookingDeclinedEmailToPassenger;
+use App\Listeners\NotifyDriverAboutTripReview;
+use App\Listeners\NotifyDriverAboutBookingCreated;
+use App\Listeners\NotifyDriverAboutCanceledBooking;
+use App\Listeners\NotifySubscriptionAboutTripCreated;
+use App\Listeners\NotifySubscriptionAboutTripUpdated;
+use App\Listeners\NotifyPassengerAboutApprovedBooking;
+use App\Listeners\NotifyPassengerAboutDeclinedBooking;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -26,16 +32,25 @@ class EventServiceProvider extends ServiceProvider
             SendVerificationEmail::class,
         ],
         BookingCreated::class => [
-            SendBookingCreatedEmailToDriver::class,
+            NotifyDriverAboutBookingCreated::class,
         ],
         BookingDeclined::class => [
-            SendBookingDeclinedEmailToPassenger::class,
+            NotifyPassengerAboutDeclinedBooking::class,
         ],
         BookingApproved::class => [
-            SendBookingApprovedEmailToPassenger::class,
+            NotifyPassengerAboutApprovedBooking::class,
         ],
         ApprovedBookingCanceled::class => [
-            SendBookingCanceledEmailToDriver::class,
+            NotifyDriverAboutCanceledBooking::class,
+        ],
+        ReviewOnTripCreated::class => [
+            NotifyDriverAboutTripReview::class,
+        ],
+        TripCreated::class => [
+            NotifySubscriptionAboutTripCreated::class,
+        ],
+        TripUpdated::class => [
+            NotifySubscriptionAboutTripUpdated::class,
         ],
         'App\Events\Event' => [
             'App\Listeners\EventListener',

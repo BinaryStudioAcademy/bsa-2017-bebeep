@@ -1,11 +1,11 @@
 import React from 'react';
-import {InputPlaces, InputDate} from 'app/components/Controls/index.js';
+import { InputPlaces, InputDateTime } from 'app/components/Controls';
 import { Button } from 'reactstrap';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {addLocation} from '../actions';
-import {getTranslate} from 'react-localize-redux';
-import {createTripRules, getStartAndEndTime} from 'app/services/TripService';
+import { bindActionCreators } from 'redux';
+import { addLocation } from '../actions';
+import { getTranslate } from 'react-localize-redux';
+import { createTripRules, getStartAndEndTime } from 'app/services/TripService';
 import Validator from 'app/services/Validator';
 import TripRoute from 'app/helpers/TripRoute';
 import moment from 'moment';
@@ -46,7 +46,7 @@ class StepOne extends React.Component {
                 place: to,
                 address: to && to.formatted_address
             },
-            start_at: start_at ? moment(start_at) : start_at
+            start_at: start_at ? moment(start_at) : moment()
         });
     }
 
@@ -73,7 +73,7 @@ class StepOne extends React.Component {
         }, (result, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
                 const route = new TripRoute(result.routes[0]),
-                    time = getStartAndEndTime(this.state.start_at, route.getDurationRaw()),
+                    time = getStartAndEndTime(this.state.start_at.unix(), route.getDurationRaw()),
                     toBeValidated = {
                         from: this.state.from.place,
                         to: this.state.to.place,
@@ -92,9 +92,11 @@ class StepOne extends React.Component {
                 }
             }
         });
-
-
     }
+
+    isValidDate(current){
+        return current.isAfter(moment().subtract( 1, 'day' ));
+    };
 
     render() {
         const {start_at, errors} = this.state,
@@ -117,13 +119,18 @@ class StepOne extends React.Component {
                         error={errors.to}
                     >{translate('wizard-trip.to')}</InputPlaces>
                 </div>
-                <div className="wizard-form__input wizard-form__input_calendar">
-                    <InputDate
-                        id="trip_date"
+                <div className="wizard-form__input wizard-form__input_calendar_datetime">
+                    <InputDateTime
+                        id="create_trip_date"
                         value={start_at}
+                        inputProps={{name: 'trip_date', id:'create_trip_date'}}
+                        timeFormat={true}
+                        labelClasses='form-input fa-calendar'
+                        isValidDate={this.isValidDate}
                         onChange={this.onChangeDate}
                         label={translate('wizard-trip.when')}
                         error={errors.start_at}
+                        className="wizard-form__input_calendar-datetimepicker"
                     />
                 </div>
 

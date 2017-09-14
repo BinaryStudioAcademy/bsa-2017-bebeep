@@ -1,7 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link, IndexLink } from 'react-router';
-
-import { isAuthorized } from 'app/services/AuthService';
 
 import ForAuthUser from './ForAuthUser';
 import ForGuestUser from './ForGuestUser';
@@ -26,7 +25,11 @@ class MainNavigation extends React.Component {
 
     render() {
         const navClass = !this.state.isNavOpen ? 'collapse' : '',
-            navLinks = isAuthorized() ? <ForAuthUser /> : <ForGuestUser />;
+            { isAuthorized, user } = this.props;
+
+        const mainNavigation = isAuthorized
+            ? <ForAuthUser user={user} />
+            : <ForGuestUser />;
 
         return (
             <header className="header">
@@ -35,11 +38,19 @@ class MainNavigation extends React.Component {
                         <img src="/template/img/logo.png" alt="BeBeep" />
                     </IndexLink>
 
-                    { navLinks }
+                    { mainNavigation }
                 </div>
             </header>
         );
     }
 }
 
-export default MainNavigation;
+const MainNavigationConnected = connect(
+    state => ({
+        isAuthorized: state.user.login.success,
+        user: state.user.profile,
+    }),
+    null
+)(MainNavigation);
+
+export default MainNavigationConnected;
