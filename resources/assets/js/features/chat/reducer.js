@@ -58,7 +58,7 @@ export default (state = initialState, action) => {
                     ...state.entities,
                     users: {
                         byId: {
-                            ...state.entities,
+                            ...state.entities.users.byId,
                             ...action.entities
                         }
                     }
