@@ -52,7 +52,6 @@ class Form extends React.Component {
                 sendSubscribeRequest(subscribeData).
                     then(response => {
                         if (response.status === 200) {
-                            console.log("You are subscribed!");
                             this.props.subscriptionReset();
                         }
                     });
