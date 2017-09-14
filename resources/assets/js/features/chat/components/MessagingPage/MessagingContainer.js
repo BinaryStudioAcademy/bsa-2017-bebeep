@@ -5,12 +5,17 @@ import {getTranslate} from 'react-localize-redux';
 import {getMessagesByUser} from '../../actions'
 
 class MessagingContainer extends React.Component {
+
+    componentWillMount() {
+        this.props.getMessagesByUser(this.props.user_id);
+    }
+
     render() {
         const {translate, user_id} = this.props;
-        console.log('ok');
+
         return (
             <div>
-                {user_id}
+
             </div>
         );
     }

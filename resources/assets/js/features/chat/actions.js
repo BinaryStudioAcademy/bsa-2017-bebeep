@@ -56,7 +56,7 @@ export const receiveMessage = (message) => {
 
 export const addMessagesToChat = (userId, messages) => {
     return _.reduce(messages.data, (result, message) => {
-        result.push({
+        result.chat.push({
             id: message.id,
             time: message.created_at_x,
             text: message.message,
