@@ -115,10 +115,7 @@ export default (state = initialState, action) => {
                         ...state.entities.chats,
                         byUserId: {
                             ...state.entities.chats.byUserId,
-                            [action.userId]: [
-                                ...state.entities.chats.byUserId[action.userId] || [],
-                                ...action.chat
-                            ]
+                            [action.userId]: action.chat,
                         }
                     }
                 }
