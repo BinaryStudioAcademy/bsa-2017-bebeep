@@ -7,6 +7,7 @@ import {getDriverAvatar} from 'app/services/PhotoService';
 import LangService from 'app/services/LangService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
+import 'features/search/styles/compound-trip-item.scss';
 import 'features/search/styles/search-trip-item.scss';
 
 
@@ -37,10 +38,10 @@ class CompoundTripItem extends React.Component {
 
         var from = collection.from.address_components;
         var to = collection.to.address_components;
-
+ 
         return (
 
-            <Link to={`/trip/${collection.trip.id}`} className="search-trip-item">
+            <Link to={`/trip/${collection.trip.id}`} className="compound-search-trip-item">
                 <div className="row search-trip-item-block">
                     <div className="search-trip-item__user-container col-sm-4">
 
@@ -56,7 +57,7 @@ class CompoundTripItem extends React.Component {
                         </div>
 
                         <div className="search-trip-item__user-age">
-                            {translate('search_result.years1',
+                            {translate('search_result.years3',
                                 {age: DateTimeHelper.getUserYearsOld(collection.trip.user.birth_date)})}
                         </div>
 
