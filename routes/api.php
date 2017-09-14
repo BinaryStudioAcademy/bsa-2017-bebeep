@@ -244,3 +244,8 @@ Route::get('v1/users/others', [
     'as' => 'users',
     'uses' => 'Api\Chat\UserController@others',
 ]);
+
+Route::get('v1/users/{user}', [
+    'as' => 'user',
+    'uses' => 'Api\Chat\UserController@user',
+]);

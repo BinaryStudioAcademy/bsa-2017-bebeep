@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
 import {Link} from 'react-router';
 import MessageList from './MessageList';
-import {sendMessage, getMessagesByUser} from '../../actions';
+import {sendMessage, getMessagesByUser, addUser} from '../../actions';
 import moment from 'moment';
 
 import '../../styles/messaging-page.scss';
@@ -12,7 +12,19 @@ import '../../styles/messaging-page.scss';
 class MessagingContainer extends React.Component {
 
     componentWillMount() {
-        this.props.getMessagesByUser(this.props.userId);
+        this.updateMessages(this.props);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.userId !== this.props.userId) {
+            this.updateMessages(nextProps);
+        }
+    }
+
+    updateMessages(props) {
+        const {getMessagesByUser, userId} = props;
+
+        getMessagesByUser(userId);
     }
 
     getChats(id) {
@@ -21,8 +33,13 @@ class MessagingContainer extends React.Component {
     }
 
     getUsersData(id) {
-        const {usersArr} = this.props;
-        return Object.assign({}, usersArr.byId[id]);
+        const {usersArr, addUser} = this.props,
+            userData = Object.assign({}, usersArr.byId[id]);
+
+        if (_.isEmpty(userData)) {
+            addUser(id)
+        }
+        return userData;
     }
 
     onSendMsg(e) {
@@ -83,5 +100,5 @@ export default connect(
         usersArr: state.chat.entities.users,
         translate: getTranslate(state.locale)
     }),
-    dispatch => (bindActionCreators({sendMessage, getMessagesByUser}, dispatch))
+    dispatch => (bindActionCreators({sendMessage, getMessagesByUser, addUser}, dispatch))
 )(MessagingContainer);

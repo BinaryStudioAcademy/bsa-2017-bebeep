@@ -60,6 +60,15 @@ export const fillUsersList = () => dispatch => {
         });
 };
 
+export const addUser = (userId) => dispatch => {
+    securedRequest.get(`/api/v1/users/${userId}`)
+        .then(response => dispatch(addUsersToList({data: [response.data.data]})))
+        .catch(error => {
+            console.error(error);
+            dispatch(addUsersToList({data: []}));
+        });
+};
+
 export const receiveMessage = (message) => {
     return {
         type: actions.CHAT_RECEIVE_MESSAGE,
