@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -23,6 +24,7 @@ class Subscription extends Model
         'to_lat',
         'to_lng',
         'email',
+        'user_id',
         'is_active',
     ];
 
@@ -62,5 +64,13 @@ class Subscription extends Model
     public function filters()
     {
         return $this->hasMany(Filter::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
