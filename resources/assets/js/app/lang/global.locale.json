@@ -29,7 +29,7 @@
     ]
   },
   "notifications": {
-    "header": ["Notifications", "Повідомлення", "Уведомления"],
+    "header": ["Notifications", "Сповіщення", "Уведомления"],
     "messages": {
       "detail": ["Detail ...", "Детальніше ...", "Подробнее ..."],
       "booking_approved": {
@@ -85,11 +85,15 @@
           "${first_name} ${last_name} залишив(-ла) <a href=/dashboard/profile/reviews/received target='_blank'>відгук</a> про вашу подорож: ${from} - ${to}",
           "${first_name} ${last_name} оставил(а) <a href=/dashboard/profile/reviews/received target='_blank'>отзыв</a> о вашей поездке: ${from} - ${to}"
         ]
+      },
+      "chat_new_message": {
+        "title": ["${name} left message", "${name} залишив повідомлення", "${name} оставил сообщение"],
+        "message": ["${message}", "${message}", "${message}"]
       }
     }
   },
   "subscriptions": ["Subscriptions", "Підписки", "Подписки"],
-  "chat": ["Chat", "Чат", "Чат"],
+  "chat": ["Chat", "Повідомлення", "Сообщения"],
   "app-footer": {
     "copyrights": ["All rights reserved", "Усі права захищені", "Все права защищены"],
     "content": [

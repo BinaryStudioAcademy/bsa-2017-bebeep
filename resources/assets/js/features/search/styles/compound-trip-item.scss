@@ -1,0 +1,35 @@
+@import '~font-awesome/scss/_variables';
+@import '~app/bootstrap/variables';
+
+.compound-trip-item{
+  $style-border: 1px solid rgba(217, 217, 217, 0.73);
+  border-left: 5px solid #6dcff6;
+  border-top: $style-border;
+  border-right: $style-border;
+  border-bottom: $style-border;
+  margin-bottom: 10px;
+}
+
+.compound-search-trip-item {
+  $bgColor: #fff;
+  $style-border: 1px solid rgba(217, 217, 217, 0.73);
+  border-radius: 3px;
+
+  &-block {
+    padding: 5px 10px;
+  }
+
+  display: block;
+  background-color: $bgColor;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  color: #272727;
+  border-bottom: $style-border;
+
+  &:hover {
+    background-color: darken($bgColor, 1%);
+    color: #272727;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}

@@ -18,7 +18,8 @@ const initialState = {
         animals: null,
         luggage: null,
         seats: null,
-        rating: null
+        rating: null,
+        transfers:null,
     },
     subscription: null,
 };
