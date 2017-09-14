@@ -20,8 +20,8 @@ const initialState = {
                 }
             }
         },
-        messages: {
-                byId: {
+        chats: {
+                byUserId: {
                     1: [
                         {
                             time: 1505384989,
@@ -115,6 +115,26 @@ export default (state = initialState, action) => {
                         byId: {
                             ...state.entities,
                             ...action.entities
+                        }
+                    }
+                }
+            };
+        case actions.CHAT_SEND_MESSAGE:
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    chats: {
+                        byUserId: {
+                            ...state.entities.chats.byUserId,
+                            [action.data.userId]: [
+                                ...state.entities.chats.byUserId[action.data.userId],
+                                {
+                                    time: action.data.time,
+                                    text: action.data.text,
+                                    status: 'sent'
+                                }
+                            ]
                         }
                     }
                 }

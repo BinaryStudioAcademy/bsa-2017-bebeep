@@ -37,6 +37,17 @@ export const addUsersToList = data => {
     });
 };
 
+export const updateMessagesInGlobalState = (data) => ({
+    type: actions.CHAT_SEND_MESSAGE,
+    data
+});
+
+export const sendMessage = (data) => dispatch => {
+    dispatch(updateMessagesInGlobalState(data));
+    /*securedRequest.post('api/v1/chat', data)
+        .then(response => dispatch(updateMessagesInGlobalState(data)));*/
+};
+
 export const fillUsersList = () => dispatch => {
     securedRequest.get('/api/v1/users/others')
         .then(response => dispatch(addUsersToList(response.data)))

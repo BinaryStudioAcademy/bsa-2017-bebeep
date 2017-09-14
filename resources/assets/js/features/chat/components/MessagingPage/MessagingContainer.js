@@ -1,17 +1,19 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
 import {Link} from 'react-router';
 import MessageList from './MessageList';
+import {sendMessage} from '../../actions';
+import moment from 'moment';
 
 import '../../styles/messaging-page.scss';
 
 class MessagingContainer extends React.Component {
-
-    getMessagesData(id) {
-        const {messagesArr} = this.props;
-        return messagesArr.byId[id];
+    getChats(id) {
+        const {chats} = this.props;
+        return chats.byUserId[id];
     }
 
     getUsersData(id) {
@@ -19,10 +21,25 @@ class MessagingContainer extends React.Component {
         return Object.assign({}, usersArr.byId[id]);
     }
 
+    onSendMsg(e) {
+        e.preventDefault();
+        const {sendMessage} = this.props,
+            text = e.target['text'].value;
+
+        let data = {
+            userId: this.props.userId,
+            text: text,
+            time: moment().unix()
+        };
+        console.log(data);
+        sendMessage(data);
+        e.target['text'].value = '';
+    }
+
     render() {
         const {translate, userId} = this.props,
             backLink = '/dashboard/users',
-            messages = this.getMessagesData(userId),
+            messages = this.getChats(userId),
             user = this.getUsersData(userId);
 
         return (
@@ -38,14 +55,16 @@ class MessagingContainer extends React.Component {
                             </Link>
                             <span className="pull-right chat-message__header-user-name">{user.first_name}&nbsp;{user.last_name}</span>
                         </div>
-                        <div className="chat-message__body">
+                        <div className="chat-message__body" >
                             <MessageList messages={messages} user={user} />
                         </div>
                         <div className="chat-message__footer">
-                            <div className="input-group">
-                                <input className="form-control border no-shadow chat-message__footer-input" placeholder={translate('chat.type_msg')}/>
-                                <button className="btn btn-success hover chat-message__footer-send-btn" type="button">{translate('chat.send_btn')}</button>
-                            </div>
+                            <form role="form" method="POST" onSubmit={this.onSendMsg.bind(this)}>
+                                <div className="input-group">
+                                    <input id="text" name="text" className="form-control border no-shadow chat-message__footer-input" placeholder={translate('chat.type_msg')} required/>
+                                    <button className="btn btn-success hover chat-message__footer-send-btn" type="submit">{translate('chat.send_btn')}</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -56,8 +75,9 @@ class MessagingContainer extends React.Component {
 
 export default connect(
     state => ({
-        messagesArr: state.chat.entities.messages,
+        chats: state.chat.entities.chats,
         usersArr: state.chat.entities.users,
         translate: getTranslate(state.locale)
-    })
+    }),
+    dispatch => (bindActionCreators({sendMessage}, dispatch))
 )(MessagingContainer);

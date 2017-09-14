@@ -2,7 +2,7 @@
   width: 100%;
   position: relative;
   border-radius: 7px 7px 0 0 ;
-  background-color: rgba(224, 224, 224, 0.2);
+  background-color: rgba(224, 224, 224, 0.1);
 
   &__header {
     height: 50px;
@@ -35,7 +35,7 @@
   }
 
   &__footer {
-    background-color: rgba(224, 224, 224, 0.2);
+    background-color: rgba(224, 224, 224, 0.1);
     position: absolute;
     border: 0;
     left: 0;
@@ -56,7 +56,7 @@
   min-height: 77vh;
   max-height: 77vh;
   overflow: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
 
   &-item {
     transition: all 0.5s linear;
