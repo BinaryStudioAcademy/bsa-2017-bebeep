@@ -2,10 +2,71 @@ import * as actions from './actionTypes';
 
 const initialState = {
     onlineUsers: {},
-    usersId: [],
+    usersId: [1, 2],
     entities: {
         users: {
-            byId: {}
+            byId: {
+                1: {
+                    id: 1,
+                    first_name: 'Ivan',
+                    last_name: 'Ivanov',
+                    avatar: 'https://bootdey.com/img/Content/user_3.jpg'
+                },
+                2: {
+                    id: 2,
+                    first_name: 'Roman',
+                    last_name: 'Romanov',
+                    avatar: 'https://bootdey.com/img/Content/user_2.jpg'
+                }
+            }
+        },
+        chats: {
+                byUserId: {
+                    1: [
+                        {
+                            time: 1505384989,
+                            text: 'some text',
+                            status: 'received'
+                        },
+                        {
+                            time: 1505384991,
+                            text: 'some text2',
+                            status: 'sent'
+                        },
+                        {
+                            time: 1505384993,
+                            text: 'some text3',
+                            status: 'received'
+                        },
+                        {
+                            time: 1505384995,
+                            text: 'some text2',
+                            status: 'sent'
+                        },
+                        {
+                            time: 1505384997,
+                            text: 'some text3',
+                            status: 'received'
+                        },
+                        {
+                            time: 1505384999,
+                            text: 'some text2',
+                            status: 'sent'
+                        }
+                    ],
+                    2: [
+                        {
+                            time: 123456100,
+                            text: 'some text',
+                            status: 'received'
+                        },
+                        {
+                            time: 123456105,
+                            text: 'some text2',
+                            status: 'sent'
+                        }
+                    ]
+                }
         }
     }
 };
@@ -54,6 +115,26 @@ export default (state = initialState, action) => {
                         byId: {
                             ...state.entities,
                             ...action.entities
+                        }
+                    }
+                }
+            };
+        case actions.CHAT_SEND_MESSAGE:
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    chats: {
+                        byUserId: {
+                            ...state.entities.chats.byUserId,
+                            [action.data.userId]: [
+                                ...state.entities.chats.byUserId[action.data.userId],
+                                {
+                                    time: action.data.time,
+                                    text: action.data.text,
+                                    status: 'sent'
+                                }
+                            ]
                         }
                     }
                 }

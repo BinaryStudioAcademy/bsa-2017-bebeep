@@ -30,7 +30,7 @@ class UserListContainer extends React.Component {
                 <div className="bg-white">
                     <ListGroup>
                         {usersId.map((id) => (
-                            <ListGroupItem key={id} tag="a" href={`/messages/${id}`} className="user-list-item">
+                            <ListGroupItem key={id} tag="a" href={`messages/${id}`} className="user-list-item">
                                 <UserItem userId={id} />
                             </ListGroupItem>
                         ))}
