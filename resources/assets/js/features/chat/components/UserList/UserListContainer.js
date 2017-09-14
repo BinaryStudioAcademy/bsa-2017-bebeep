@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 import UserItem from './UserItem';
 import {fillUsersList} from 'features/chat/actions';
-import {Link} from 'react-router';
+
 import 'features/chat/styles/user-list.scss';
 
 class UserListContainer extends React.Component {
@@ -59,7 +59,7 @@ class UserListContainer extends React.Component {
                 <ListGroup>
                     {usersList.map((user) => (
                         <ListGroupItem key={user.id} className="user-list-item">
-                            <Link to={`/messages/${user.id}`}>
+                            <Link to={`/dashboard/messages/${user.id}`}>
                                 <UserItem user={user} />
                             </Link>
                         </ListGroupItem>
