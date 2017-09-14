@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import {Link} from 'react-router';
 import {localize} from 'react-localize-redux';
 
@@ -15,10 +16,20 @@ class CompoundTripItem extends React.Component {
         const {collection, translate} = this.props;
 
         return DateTimeHelper.dateFormatLocale({
-            timestamp: collection.start_at,
+            timestamp: moment(collection.start_at).valueOf(),
             getTranslate: translate,
         });
     }
+
+    numberFreeSeats() {
+        const {collection, translate} = this.props;
+        var seats = 0;
+
+        collection.bookings.map(booking =>
+            seats = seats + booking.seats);
+        return collection.trip.seats-seats;
+    }
+
 
     render() {
         const {collection, translate} = this.props,
@@ -45,14 +56,16 @@ class CompoundTripItem extends React.Component {
                         </div>
 
                         <div className="search-trip-item__user-age">
-
+                            {translate('search_result.years1',
+                                {age: DateTimeHelper.getUserYearsOld(collection.trip.user.birth_date)})}
                         </div>
+
                     </div>
 
                     <div className="search-trip-item__trip-container col-sm-8 clearfix">
                         <div className="search-trip-item__description">
 
-                            <div className="search-trip-item__start-date">{collection.start_at}</div>
+                            <div className="search-trip-item__start-date">{startedAt}</div>
 
                             <div className="search-trip-item__route">
 
@@ -80,11 +93,12 @@ class CompoundTripItem extends React.Component {
 
                             <div className="search-trip-item__free-seats">
                                 <span className="search-trip-item__free-seats-text">
-                                    {collection.trip.seats}
+                                    {this.numberFreeSeats()}
                                 </span> {
                                 translate('dropdown.free_seats.count_' + LangService.getNumberForm(
-                                    collection.trip.seats
+                                    this.numberFreeSeats()
                                 ))}
+
                             </div>
                         </div>
                     </div>

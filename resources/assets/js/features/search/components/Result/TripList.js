@@ -12,9 +12,8 @@ class TripList extends React.Component {
     }
 
     compaundTrips(trip){
-        console.log(trip.routes);
         if (Array.isArray(trip.routes)){
-            return <CompoundTripWrapper trip={trip}/>;
+            return <CompoundTripWrapper key={trip.id} trip={trip}/>;
         } else {
             return <TripItem key={trip.id} trip={trip} />;
         }
