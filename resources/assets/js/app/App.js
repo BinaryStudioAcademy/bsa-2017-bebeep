@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import Preloader from './components/Preloader';
 import MainHeader from './components/MainHeader';
+import MainFooter from './components/MainFooter';
 import Notifications from './components/Notifications';
 import GeneralChannel from 'features/chat/components/GeneralChannel';
 import {getUserId, isAuthorized} from 'app/services/AuthService';
@@ -92,6 +93,7 @@ class App extends React.Component {
             <div id="application">
                 <MainHeader />
                 { this.renderComponent() }
+                <MainFooter />
             </div>
         )
     }
