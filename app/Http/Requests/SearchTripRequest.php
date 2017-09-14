@@ -247,7 +247,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     {
         $filter = $this->getFilter();
 
-        if (!isset($filter[$param])) {
+        if (! isset($filter[$param])) {
             return null;
         }
 
