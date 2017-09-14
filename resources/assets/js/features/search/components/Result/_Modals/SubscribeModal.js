@@ -1,14 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
 import SeatsDropDown from '../Dropdowns/SeatsDropDown';
+import RatingDropDown from '../Dropdowns/RatingDropDown';
 import AnimalsDropDown from '../Dropdowns/AnimalsDropDown';
 import LuggageDropDown from '../Dropdowns/LuggageDropDown';
-import RatingDropDown from '../Dropdowns/RatingDropDown';
+import ConfirmLoginModal from './ConfirmLoginModal';
 import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import {Range} from 'rc-slider';
 import {getTranslate} from 'react-localize-redux';
 import {transformSubscriptionData,sendSubscribeRequest} from 'features/search/services/SearchService';
 import 'features/search/styles/subscribe-modal.scss';
+import AuthService from 'app/services/AuthService';
+import { subscriptionUpdate, subscriptionReset } from 'features/search/actions';
 
 class SubscribeModal extends React.Component {
 
@@ -21,7 +25,8 @@ class SubscribeModal extends React.Component {
             luggage: null,
             seats: null,
             rating: null,
-            requestSendSuccess: false
+            requestSendSuccess: false,
+            confirmLoginModalIsOpen: false
         };
         this.animalsChange = this.animalsChange.bind(this);
         this.luggageChange = this.luggageChange.bind(this);
@@ -158,8 +163,10 @@ class SubscribeModal extends React.Component {
 
     renderModalFooter() {
         let {requestSendSuccess} = this.state;
-        const {translate, isAuth, email} = this.props,
-            authClass = (isAuth && email) ? ' subscribe-modal__footer-label-hidden' : '';
+
+        const userEmail = AuthService.getEmail(),
+            {translate, isAuth, email} = this.props,
+            authClass = (isAuth && userEmail) ? ' subscribe-modal__footer-label-hidden' : '';
 
         if(!requestSendSuccess) {
             return (
@@ -178,7 +185,7 @@ class SubscribeModal extends React.Component {
                                             id="email"
                                             name="email"
                                             placeholder={translate('subscription.email-placeholder')}
-                                            required={email ? false : 'required'}
+                                            required={(isAuth && userEmail) ? false : 'required'}
                                         />
                                     </div>
                                 </div>
@@ -195,12 +202,15 @@ class SubscribeModal extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const formEmail = e.target['email'].value,
-            {email, data} = this.props,
+
+        const userId = AuthService.getUserId(),
+            userEmail = AuthService.getEmail(),
+            {isAuth, email, data} = this.props,
             {time, animals, luggage, seats, rating, price} = this.state;
 
-        let subsEmail = formEmail ? formEmail : email;
+        let subsEmail = (isAuth && userEmail) ? userEmail : e.target['email'].value;
         let toBeTransformed = {
+            userId,
             time,
             animals,
             luggage,
@@ -212,10 +222,19 @@ class SubscribeModal extends React.Component {
         };
         let requestData = transformSubscriptionData(toBeTransformed);
 
+        this.props.subscriptionUpdate(requestData);
+
         sendSubscribeRequest(requestData).
             then(response => {
                 if (response.status === 200) {
                     this.setState({requestSendSuccess: true});
+                    this.props.subscriptionReset();
+                }
+            }).catch((error) => {
+                if (error.response.status === 422) {
+                    if (error.response.data.errors.email.user_exists === true) {
+                        this.setState({confirmLoginModalIsOpen: true});
+                    }
                 }
             });
     }
@@ -225,7 +244,6 @@ class SubscribeModal extends React.Component {
 
         return (
             <span>
-
                 <Modal className="subscribe-modal" size="lg" isOpen={isOpen} toggle={onClosed}>
                     <ModalHeader className="subscribe-modal__header" toggle={onClosed}>
                         <i className="subscribe-modal-icon fa fa-rss" aria-hidden="true" title={translate('subscription.info')}/>
@@ -233,6 +251,11 @@ class SubscribeModal extends React.Component {
                     </ModalHeader>
                     <ModalBody className="p-15">{ this.renderModalBody() }</ModalBody>
                     { this.renderModalFooter() }
+
+                    <ConfirmLoginModal
+                        isOpen={this.state.confirmLoginModalIsOpen}
+                        onClosed={ () => this.setState({confirmLoginModalIsOpen: false})}
+                    />
                 </Modal>
             </span>
         )
@@ -245,5 +268,6 @@ export default connect(
         isAuth: state.user.login.success,
         email: state.user.profile.email,
         translate: getTranslate(state.locale)
-    })
+    }),
+    (dispatch) => bindActionCreators({subscriptionUpdate, subscriptionReset}, dispatch)
 )(SubscribeModal);

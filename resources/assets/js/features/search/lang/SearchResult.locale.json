@@ -45,6 +45,16 @@
     "success-great": ["Well done!", "Чудово!", "Отлично!"],
     "success-text": ["You successfully subscribe for this route.", "Ви успішно підписались на цей маршрут.", "Вы успешно подписались на этот маршрут."]
   },
+  "confirm_login": {
+    "confirm": ["Confirm", "Підтвердити", "Подтвердить"],
+    "message": [
+      "A user with this email address is already registered. Continue after authorization?",
+      "Користувач з таким email зареєстрований. Продовжити після авторизації?",
+      "Пользователь с таким email уже зарегестрирован. Продолжить после авторизации?"
+    ],
+    "btn_yes": ["Yes", "Так", "Да"],
+    "btn_no": ["No", "Ні", "Нет"]
+  },
   "dropdown": {
     "not_important": ["All", "Все одно", "Все равно"],
     "luggage": {
