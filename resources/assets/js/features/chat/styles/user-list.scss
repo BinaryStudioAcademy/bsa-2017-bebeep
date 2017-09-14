@@ -4,6 +4,8 @@
 
 .user-list-item {
   display: block;
+  transition: all .15s;
+
   &:hover {
     background-color: lighten($orange, 32%);
   }
