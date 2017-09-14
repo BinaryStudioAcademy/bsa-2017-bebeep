@@ -47,6 +47,20 @@ strong {
     vertical-align: bottom;
 }
 
+.container {
+    &--min-height {
+        &-350 {
+            min-height: 350px;
+        }
+        &-400 {
+            min-height: 400px;
+        }
+        &-500 {
+            min-height: 500px;
+        }
+    }
+}
+
 .page-header {
     margin-bottom: 1.5rem;
     color: #444;
