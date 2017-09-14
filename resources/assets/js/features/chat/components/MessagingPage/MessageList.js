@@ -6,11 +6,22 @@ import Message from './Message'
 
 class MessageList extends React.Component {
 
+    moveToBottom() {
+        this.chatContainer.scrollTop = this.chatContainer.scrollHeight;
+    }
+    componentDidMount() {
+        this.moveToBottom();
+    }
+
+    componentDidUpdate() {
+        this.moveToBottom();
+    }
+
     render() {
         const {translate, messages, user} = this.props;
 
         return (
-            <ul className="chat" key={moment()}>
+            <ul className="chat" key={moment()} ref={(container) => this.chatContainer = container}>
                  {messages.map((message, i) => {
                      return (
                          <Message key={i} keyId={i} messageData={message} userData={user}/>
