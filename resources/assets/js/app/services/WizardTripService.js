@@ -20,6 +20,10 @@ export const savePendingTrip = (tripData) => {
             model: tripData.model,
             seats: tripData.seats,
         },
+        routes: [{
+            start_at: tripData.start_at,
+            end_at: tripData.end_at
+        }]
     }).then(
         response => Promise.resolve(response),
         error => Promise.resolve({})
