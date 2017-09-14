@@ -81,6 +81,13 @@ class UserDropdown extends React.Component {
                         { translate('subscriptions') }
                     </UserDropdownItem>
 
+
+                    <UserDropdownItem linkTo="/dashboard/users"
+                                      onClick={this.toggleUserDropdown}
+                    >
+                        { translate('chat') }
+                    </UserDropdownItem>
+
                     { this.renderDivider(isDriver) }
 
                     <UserDropdownItem linkTo="/vehicles"

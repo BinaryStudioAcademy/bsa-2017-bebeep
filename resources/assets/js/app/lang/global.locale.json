@@ -88,5 +88,6 @@
       }
     }
   },
-  "subscriptions": ["Subscriptions", "Підписки", "Подписки"]
+  "subscriptions": ["Subscriptions", "Підписки", "Подписки"],
+  "chat": ["Chat", "Чат", "Чат"]
 }

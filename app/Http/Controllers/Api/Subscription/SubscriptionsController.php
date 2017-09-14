@@ -10,6 +10,7 @@ use App\Services\Contracts\SubscriptionsService;
 use App\Transformers\Subscriptions\SubscriptionTransformer;
 use App\Http\Requests\Subscriptions\EditSubscriptionRequest;
 use App\Http\Requests\Subscriptions\StatusSubscriptionRequest;
+use App\Exceptions\Subscriptions\SubscriptionEmailExistsException;
 
 class SubscriptionsController extends Controller
 {
@@ -64,8 +65,19 @@ class SubscriptionsController extends Controller
      */
     public function store(CreateSubscriptionRequest $request)
     {
-        $subscription = $this->subscriptionsService->create($request);
+        try {
+            $subscription = $this->subscriptionsService->create($request);
 
-        return response()->json($subscription);
+            return response()->json($subscription);
+        } catch (SubscriptionEmailExistsException $e) {
+            return response()->json([
+                'errors' => [
+                    'email' => [
+                        'message' => $e->getMessage(),
+                        'user_exists' => true,
+                    ],
+                ],
+            ], 422);
+        }
     }
 }

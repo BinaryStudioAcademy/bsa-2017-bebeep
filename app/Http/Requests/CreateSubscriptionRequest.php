@@ -36,6 +36,14 @@ class CreateSubscriptionRequest extends FormRequest implements CreateSubscriptio
     }
 
     /**
+     * @return int|null
+     */
+    public function getUserId() : ?int
+    {
+        return $this->get('user_id');
+    }
+
+    /**
      * @return array
      */
     public function getFrom(): array

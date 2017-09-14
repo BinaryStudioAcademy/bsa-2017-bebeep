@@ -155,6 +155,7 @@ export const getCountResult = (currentPage, lengthData, limit) => {
  */
 export const transformSubscriptionData = (toBeTransformed) => {
     return {
+        user_id: toBeTransformed.userId,
         start_point: {
             from: toBeTransformed.data.from.place,
             from_lat: toBeTransformed.data.from.coordinate.lat,

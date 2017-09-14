@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import Preloader from './components/Preloader';
 import MainHeader from './components/MainHeader';
 import Notifications from './components/Notifications';
+import GeneralChannel from 'features/chat/components/GeneralChannel';
+import {getUserId, isAuthorized} from 'app/services/AuthService';
 
 import AuthService from './services/AuthService';
 
@@ -22,7 +24,7 @@ class App extends React.Component {
 
         this.state = {
             isShowContent: false,
-        }
+        };
 
         this.onAuthSuccess = this.onAuthSuccess.bind(this);
         this.onAuthError = this.onAuthError.bind(this);
@@ -80,7 +82,8 @@ class App extends React.Component {
             ? <Preloader enable={true} />
             : <div>
                 {this.props.children}
-                <Notifications userId={AuthService.getUserId()} />
+                <Notifications />
+                <GeneralChannel />
             </div>;
     }
 

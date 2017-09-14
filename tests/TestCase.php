@@ -14,7 +14,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        if (!static::$migrationsRun) {
+        if (! static::$migrationsRun) {
             \Artisan::call('migrate:refresh');
             $this->seed('CarBodiesTableSeeder');
             $this->seed('CarColorsTableSeeder');

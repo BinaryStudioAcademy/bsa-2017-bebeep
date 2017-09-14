@@ -1,0 +1,76 @@
+@import '~app/bootstrap/variables';
+@import '~font-awesome/scss/variables';
+@import "~bootstrap/scss/mixins/breakpoints";
+
+.user-list-item {
+  display: block;
+  transition: all .15s;
+
+  &:hover {
+    background-color: lighten($orange, 32%);
+  }
+}
+
+.user-item {
+  color: $gray-dark;
+
+  &:hover,
+  &:focus,
+  &:link {
+    color: $gray-dark;
+    text-decoration: none;
+  }
+
+  &__status-badge {
+    $badge-radius: 6px;
+
+    width: $badge-radius * 2;
+    height: $badge-radius * 2;
+    border: 1px solid transparent;
+    position: absolute;
+    left: $list-group-item-padding-x;
+    top: 50%;
+    margin-top: -$badge-radius;
+    margin-left: -$badge-radius;
+
+    border-radius: 50%;
+
+    &--online {
+      background-color: $brand-success;
+    }
+    &--offline {
+      background-color: $brand-danger;
+    }
+
+    @include media-breakpoint-down(xs) {
+      left: $list-group-item-padding-x / 2;
+    }
+  }
+  &__name {
+    font-size: .95rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  &__envelope {
+    position: absolute;
+    right: 20px;
+    color: $teal;
+
+    @include media-breakpoint-down(xs) {
+      right: $list-group-item-padding-x / 2;
+    }
+  }
+  &__avatar {
+    max-width: 30px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+
+    &--online {
+      border-color: lighten($brand-success, 5%);
+    }
+    &--offline {
+      border-color: lighten($brand-danger, 5%);
+    }
+  }
+}
