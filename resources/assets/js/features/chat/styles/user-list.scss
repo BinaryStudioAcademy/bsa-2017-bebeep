@@ -9,6 +9,14 @@
   &:hover {
     background-color: lighten($orange, 32%);
   }
+
+  a {
+    display: block;
+
+    &:hover {
+        text-decoration: none;
+    }
+  }
 }
 
 .user-item {
