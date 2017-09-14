@@ -43,4 +43,16 @@ class ChatMessageService implements ChatMessageServiceContract
 
         return $this->chatMessageRepository->save($chatMessage);
     }
+
+    /**
+     * Delete user message
+     *
+     * @param User $user
+     * @param ChatMessage $chatMessage
+     * @return int
+     */
+    public function deleteUserMessage(User $user, ChatMessage $chatMessage)
+    {
+        return $this->chatMessageRepository->delete($chatMessage);
+    }
 }

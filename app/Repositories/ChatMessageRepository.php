@@ -17,9 +17,28 @@ class ChatMessageRepository extends BaseRepository implements Contracts\ChatMess
         return ChatMessage::class;
     }
 
+    /**
+     * Save user message
+     *
+     * @param ChatMessage $chatMessage
+     * @return ChatMessage
+     */
     public function save(ChatMessage $chatMessage): ChatMessage
     {
         $chatMessage->save();
+
+        return $chatMessage;
+    }
+
+    /**
+     * Delete user message
+     *
+     * @param ChatMessage $chatMessage
+     * @return ChatMessage
+     */
+    public function deleteUserMessage(ChatMessage $chatMessage)
+    {
+        $chatMessage->delete();
 
         return $chatMessage;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Chat;
 
+use App\Models\ChatMessage;
 use App\User;
 use App\Events\Chat\NewMessage;
 use App\Http\Controllers\Controller;
@@ -28,6 +29,14 @@ class ChatController extends Controller
         $chatMessage = $this->chatMessageService->addMessage($request, $sender, $user);
 
         broadcast(new NewMessage($chatMessage));
+
+        return fractal()->item($chatMessage, new ChatMessageTransformer())->respond();
+    }
+
+    public function destroy(ChatMessage $chatMessage)
+    {
+        $user = Auth::user();
+        $chatMessage = $this->chatMessageService->deleteUserMessage($user, $chatMessage);
 
         return fractal()->item($chatMessage, new ChatMessageTransformer())->respond();
     }
