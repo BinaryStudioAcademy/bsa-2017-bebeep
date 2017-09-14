@@ -10,7 +10,7 @@ import {receiveMessage} from 'features/chat/actions';
 import Push from 'push.js';
 import {browserHistory} from 'react-router';
 import { NotificationStack } from 'react-notification';
-import {NEW_MESSAGE_EVENT} from 'app/config';
+import {NEW_MESSAGE_EVENT, USER_CHANNEL} from 'app/config';
 
 class Notifications extends React.Component {
     constructor() {
@@ -37,7 +37,7 @@ class Notifications extends React.Component {
         const {addNotification, receiveMessage} = this.props;
 
         if (userId) {
-            BroadcastService.Echo.private('App.User.' + userId)
+            BroadcastService.Echo.private(USER_CHANNEL + userId)
                 .notification((notification) => {
                     const data = Object.assign(notification, {
                         type: BroadcastService.prepareType(notification.type),

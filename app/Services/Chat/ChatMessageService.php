@@ -2,10 +2,10 @@
 
 namespace App\Services\Chat;
 
-use App\Criteria\Chat\ChatMessagesCriteria;
 use App\User;
 use App\Models\ChatMessage;
 use Illuminate\Support\Collection;
+use App\Criteria\Chat\ChatMessagesCriteria;
 use App\Services\Requests\Chat\MessageRequest;
 use App\Repositories\Contracts\ChatMessageRepository;
 use App\Services\Contracts\Chat\ChatMessageService as ChatMessageServiceContract;

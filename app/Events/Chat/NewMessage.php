@@ -3,11 +3,11 @@
 namespace App\Events\Chat;
 
 use App\Models\ChatMessage;
-use App\Transformers\Chat\ChatMessageTransformer;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
+use App\Transformers\Chat\ChatMessageTransformer;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 

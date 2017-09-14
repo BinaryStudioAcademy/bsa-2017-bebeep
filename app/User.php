@@ -2,11 +2,11 @@
 
 namespace App;
 
-use App\Models\ChatMessage;
 use App\Models\Trip;
 use App\Models\Review;
 use App\Models\Booking;
 use App\Models\Vehicle;
+use App\Models\ChatMessage;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
