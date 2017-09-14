@@ -1,3 +1,8 @@
 {
-  "messaging_header": ["Message", "Повідомлення", "Сообщения"]
+  "messaging_header": ["Message", "Повідомлення", "Сообщения"],
+  "chat": {
+    "back_btn": ["Back", "Назад", "Назад"],
+    "type_msg": ["Type your message here", "Введіть повідомлення", "Введите сообщение"],
+    "send_btn": ["Send", "Відправити", "Отправить"]
+  }
 }

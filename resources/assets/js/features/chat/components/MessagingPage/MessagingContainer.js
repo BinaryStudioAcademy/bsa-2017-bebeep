@@ -2,28 +2,86 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
-import {getMessagesByUser} from '../../actions'
+import {Link} from 'react-router';
+import MessageList from './MessageList';
+import {sendMessage, getMessagesByUser} from '../../actions';
+import moment from 'moment';
+
+import '../../styles/messaging-page.scss';
 
 class MessagingContainer extends React.Component {
 
     componentWillMount() {
-        this.props.getMessagesByUser(this.props.user_id);
+        this.props.getMessagesByUser(this.props.userId);
+    }
+
+    getChats(id) {
+        const {chats} = this.props;
+        return chats.byUserId[id] || [];
+    }
+
+    getUsersData(id) {
+        const {usersArr} = this.props;
+        return Object.assign({}, usersArr.byId[id]);
+    }
+
+    onSendMsg(e) {
+        e.preventDefault();
+        const {sendMessage} = this.props,
+            text = e.target['text'].value;
+
+        let data = {
+            userId: this.props.userId,
+            text: text,
+            time: moment().unix()
+        };
+
+        sendMessage(data);
+        e.target['text'].value = '';
     }
 
     render() {
-        const {translate, user_id} = this.props;
+        const {translate, userId} = this.props,
+            backLink = '/dashboard/users',
+            messages = this.getChats(userId),
+            user = this.getUsersData(userId);
 
         return (
-            <div>
-
+            <div className="col-md-10 offset-md-1">
+                <div className="row">
+                    <div className="chat-message">
+                        <div className="chat-message__header">
+                            <Link to={backLink} activeClassName="active">
+                                <i className="fa fa-chevron-left chat-message__header-chat-back" aria-hidden="true"></i>
+                                <span className="chat-message__header-chat-back chat-message__header-chat-back-btn">
+                                    {translate('chat.back_btn')}
+                                </span>
+                            </Link>
+                            <span className="pull-right chat-message__header-user-name">{user.first_name}&nbsp;{user.last_name}</span>
+                        </div>
+                        <div className="chat-message__body" >
+                            <MessageList messages={messages} user={user} />
+                        </div>
+                        <div className="chat-message__footer">
+                            <form role="form" method="POST" onSubmit={this.onSendMsg.bind(this)}>
+                                <div className="input-group">
+                                    <input id="text" name="text" className="form-control border no-shadow chat-message__footer-input" placeholder={translate('chat.type_msg')} required/>
+                                    <button className="btn btn-success hover chat-message__footer-send-btn" type="submit">{translate('chat.send_btn')}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        );
+            );
     }
 }
 
 export default connect(
     state => ({
+        chats: state.chat.entities.chats,
+        usersArr: state.chat.entities.users,
         translate: getTranslate(state.locale)
     }),
-    dispatch => bindActionCreators({getMessagesByUser}, dispatch)
+    dispatch => (bindActionCreators({sendMessage, getMessagesByUser}, dispatch))
 )(MessagingContainer);
