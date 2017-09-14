@@ -74,9 +74,9 @@ class SubscriptionsController extends Controller
                 'errors' => [
                     'email' => [
                         'message' => $e->getMessage(),
-                        'user_exists' => true
-                    ]
-                ]
+                        'user_exists' => true,
+                    ],
+                ],
             ], 422);
         }
     }
