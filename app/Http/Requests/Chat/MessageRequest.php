@@ -25,7 +25,7 @@ class MessageRequest extends FormRequest implements MessageRequestContract
     public function rules()
     {
         return [
-            'message' => 'required|string'
+            'message' => 'required|string',
         ];
     }
 

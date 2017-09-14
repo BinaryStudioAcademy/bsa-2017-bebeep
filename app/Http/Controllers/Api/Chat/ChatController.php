@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\Chat;
 
 use App\User;
 use App\Events\Chat\NewMessage;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Chat\ChatMessageService;
 use App\Http\Requests\Chat\MessageRequest;
 use App\Transformers\Chat\ChatMessageTransformer;
