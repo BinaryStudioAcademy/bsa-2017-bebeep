@@ -8,7 +8,6 @@ const BroadcastService = (() => {
             broadcaster: 'pusher',
             key: PUSHER_API_KEY,
             cluster: 'eu',
-            encrypted: true,
             auth: {}
         });
 
