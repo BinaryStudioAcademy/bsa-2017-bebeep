@@ -8,9 +8,6 @@ import {ListGroup, ListGroupItem} from 'reactstrap';
 import '../../styles/user-list.scss';
 
 class UserListContainer extends React.Component {
-    constructor() {
-        super();
-    }
 
     componentWillMount() {
         this.getUserList();
@@ -23,19 +20,24 @@ class UserListContainer extends React.Component {
     }
 
     render() {
-        const {translate, usersId} = this.props;
+        const {translate, isUsersAdded, usersId, users} = this.props;
+
+        if (!isUsersAdded) {
+            return null;
+        }
 
         return (
             <div>
-                <div className="bg-white">
-                    <ListGroup>
-                        {usersId.map((id) => (
-                            <ListGroupItem key={id} tag="a" href={`/messages/${id}`} className="user-list-item">
-                                <UserItem userId={id} />
-                            </ListGroupItem>
-                        ))}
-                    </ListGroup>
-                </div>
+                <ListGroup>
+                    {usersId.map((id) => (
+                        <ListGroupItem key={id} tag="a"
+                            href={`/messages/${id}`}
+                            className="user-list-item"
+                        >
+                            <UserItem user={users[id]} />
+                        </ListGroupItem>
+                    ))}
+                </ListGroup>
             </div>
         );
     }
@@ -43,7 +45,9 @@ class UserListContainer extends React.Component {
 
 export default connect(
     state => ({
+        isUsersAdded: state.chat.isUsersAdded,
         usersId: state.chat.usersId,
+        users: state.chat.entities.users.byId,
         translate: getTranslate(state.locale)
     }),
     dispatch => bindActionCreators({fillUsersList}, dispatch)
