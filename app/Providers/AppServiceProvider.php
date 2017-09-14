@@ -85,6 +85,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\SubscriptionRepository::class,
             \App\Repositories\SubscriptionRepository::class
         );
+        $this->app->bind(
+            \App\Repositories\Contracts\ChatMessageRepository::class,
+            \App\Repositories\ChatMessageRepository::class
+        );
 
         $this->app->bind(RouteServiceContract::class, RouteService::class);
         $this->app->bind(BookingServiceContract::class, BookingService::class);
@@ -97,6 +101,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             \App\Services\Contracts\NotificationService::class,
             \App\Services\NotificationService::class
+        );
+        $this->app->bind(
+            \App\Services\Contracts\Chat\ChatMessageService::class,
+            \App\Services\Chat\ChatMessageService::class
+        );
+        $this->app->bind(
+            \App\Services\Contracts\Chat\UserService::class,
+            \App\Services\Chat\UserService::class
         );
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {

@@ -6,7 +6,7 @@ import {ListGroup, ListGroupItem} from 'reactstrap';
 
 import UserItem from './UserItem';
 import {fillUsersList} from 'features/chat/actions';
-
+import {Link} from 'react-router';
 import 'features/chat/styles/user-list.scss';
 
 class UserListContainer extends React.Component {
@@ -29,14 +29,13 @@ class UserListContainer extends React.Component {
         const {translate, usersId} = this.props;
 
         return (
-            <div>
+            <div className="bg-white">
                 <ListGroup>
                     {usersId.map((id) => (
-                        <ListGroupItem key={id} tag="a"
-                            href={`/messages/${id}`}
-                            className="user-list-item"
-                        >
-                            <UserItem userId={id} />
+                        <ListGroupItem key={id} className="user-list-item" >
+                            <Link to={`/dashboard/messages/${id}`} >
+                                <UserItem userId={id} />
+                            </Link>
                         </ListGroupItem>
                     ))}
                 </ListGroup>
