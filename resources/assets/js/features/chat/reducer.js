@@ -16,7 +16,7 @@ const initialState = {
                     id: 2,
                     first_name: 'Roman',
                     last_name: 'Romanov',
-                    avatar: 'https://bootdey.com/img/Content/user_2.jpg'
+                    avatar: 'https://bootdey.com/img/Content/user_1.jpg'
                 }
             }
         },
@@ -25,44 +25,29 @@ const initialState = {
                     1: [
                         {
                             time: 1505384989,
-                            text: 'some text',
+                            text: 'Hi, how are you?',
                             status: 'received'
                         },
                         {
                             time: 1505384991,
-                            text: 'some text2',
+                            text: 'Hello!',
                             status: 'sent'
-                        },
-                        {
-                            time: 1505384993,
-                            text: 'some text3',
-                            status: 'received'
                         },
                         {
                             time: 1505384995,
-                            text: 'some text2',
-                            status: 'sent'
-                        },
-                        {
-                            time: 1505384997,
-                            text: 'some text3',
-                            status: 'received'
-                        },
-                        {
-                            time: 1505384999,
-                            text: 'some text2',
+                            text: 'Good, thanks!',
                             status: 'sent'
                         }
                     ],
                     2: [
                         {
-                            time: 123456100,
-                            text: 'some text',
+                            time: 1505384991,
+                            text: 'Any text?',
                             status: 'received'
                         },
                         {
-                            time: 123456105,
-                            text: 'some text2',
+                            time: 1505384998,
+                            text: 'Some text here',
                             status: 'sent'
                         }
                     ]
