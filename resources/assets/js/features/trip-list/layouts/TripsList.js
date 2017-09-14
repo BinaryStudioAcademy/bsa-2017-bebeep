@@ -60,7 +60,7 @@ class TripsList extends React.Component {
         const { translate, filter } = this.props;
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="container--min-height-400">
                 <PageHeader header={translate('trip_list.my_trips_header')}/>
 
                 <ul className="nav nav-pills">
