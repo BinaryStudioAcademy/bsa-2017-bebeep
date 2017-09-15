@@ -24,8 +24,6 @@ class TripItem extends React.Component {
         const { trip, translate } = this.props,
             startedAt = this.formatStartAt();
 
-            console.log(trip.driver.data);
-
         return (
             <Link to={`/trip/${trip.id}`} className="search-trip-item">
                 <div className="row search-trip-item-block">
