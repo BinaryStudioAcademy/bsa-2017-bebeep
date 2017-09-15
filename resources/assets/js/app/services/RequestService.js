@@ -9,7 +9,7 @@ const requestParams = {
 };
 
 const setLangHeaders = (config) => {
-    config.headers['User-Language'] = LangService.getActiveLanguage();
+    config.headers['User-Language'] = LangService.getActiveLanguage('code');
     return config;
 };
 

@@ -3,9 +3,22 @@ import moment from 'moment';
 
 import DataStorage from '../helpers/DataStorage';
 
-export const LANG_UA = 'ua';
+export const LANG_UA = 'uk';
 export const LANG_EN = 'en';
 export const LANG_RU = 'ru';
+
+const LANG_DATA = {
+    short_names: {
+        [LANG_UA]: 'ua',
+        [LANG_EN]: 'en',
+        [LANG_RU]: 'ru',
+    },
+    full_names: {
+        [LANG_UA]: 'Українська',
+        [LANG_EN]: 'English',
+        [LANG_RU]: 'Русский',
+    },
+};
 
 const LangService = (() => {
 
@@ -16,8 +29,10 @@ const LangService = (() => {
         init(store) {
             _store = store;
 
-            moment.locale(this.getActiveLanguage());
-            _store.dispatch(Loc.setLanguages(this.languages, this.getActiveLanguage()));
+            moment.locale(this.getActiveLanguage('code'));
+            _store.dispatch(Loc.setLanguages(
+                this.languages, this.getActiveLanguage('code')
+            ));
         },
 
         get languages() {
@@ -25,11 +40,7 @@ const LangService = (() => {
         },
 
         getName(code) {
-            return {
-                [LANG_EN]: 'English',
-                [LANG_UA]: 'Українська',
-                [LANG_RU]: 'Русский',
-            }[code];
+            return LANG_DATA.full_names[code];
         },
 
         setActiveLanguage(code) {
@@ -38,12 +49,28 @@ const LangService = (() => {
             _store.dispatch(Loc.setActiveLanguage(code));
         },
 
-        getActiveLanguage() {
-            return (languages.indexOf(DataStorage.getData('locale')) >=0 &&
+        getActiveLanguage(field) {
+            const code = (languages.indexOf(DataStorage.getData('locale')) >=0 &&
                     DataStorage.getData('locale')
                 )
                 || this.getNavigatorLanguage()
                 || LANG_EN;
+
+            if (field === 'code') {
+                return code;
+            }
+            if (field === 'short_name') {
+                return LANG_DATA.short_names[code];
+            }
+            if (field === 'full_name') {
+                return LANG_DATA.full_names[code];
+            }
+
+            return {
+                code: code,
+                short_name: LANG_DATA.short_names[code],
+                full_name: LANG_DATA.full_names[code],
+            };
         },
 
         getNavigatorLanguage() {

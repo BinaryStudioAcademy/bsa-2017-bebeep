@@ -28,7 +28,7 @@ class ChangeLocalization extends React.Component {
     }
 
     render() {
-        const currentLanguage = LangService.getActiveLanguage(),
+        const currentLanguage = LangService.getActiveLanguage('short_name'),
             languages = LangService.languages;
 
         return (
