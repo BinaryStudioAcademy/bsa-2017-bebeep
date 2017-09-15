@@ -3,6 +3,7 @@
 namespace App\Criteria\Chat;
 
 use App\User;
+use App\Services\Requests\Chat\UsersSearchRequest;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
@@ -12,10 +13,15 @@ class OthersUserCriteria implements CriteriaInterface
      * @var User
      */
     private $user;
+    /**
+     * @var UsersSearchRequest
+     */
+    private $request;
 
-    public function __construct(User $user)
+    public function __construct(UsersSearchRequest $request, User $user)
     {
         $this->user = $user;
+        $this->request = $request;
     }
 
     /**
@@ -28,6 +34,21 @@ class OthersUserCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->where('id', '<>', $this->user->id)->orderBy('first_name');
+        return $model->where('id', '<>', $this->user->id)
+            ->where(function ($query) {
+                if ($this->request->getEmail()) {
+                    $query->orWhere('email', 'like', $this->request->getEmail().'%');
+                }
+                if ($this->request->getFirstName()) {
+                    $query->orWhere('first_name', 'like', $this->request->getFirstName().'%');
+                }
+                if ($this->request->getLastName()) {
+                    $query->orWhere('last_name', 'like', $this->request->getLastName().'%');
+                }
+
+                return $query;
+
+            })
+            ->orderBy('first_name');
     }
 }
