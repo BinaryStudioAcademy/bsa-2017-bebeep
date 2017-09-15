@@ -13,6 +13,7 @@
     "price": ["Price", "Ціна", "Цена"],
     "date": ["Date", "Дата", "Дата"],
     "per_passenger": ["per passenger", "з пасажира", "с пассажира"],
+    "years": ["Age: ${age}", "Вік: ${age}", "Возраст: ${age}"],
     "years1": ["${age} yrs.", "${age} р.", "${age} г."],
     "years2": ["${age} yrs.", "${age} р.", "${age} г."],
     "years3": ["${age} yrs.", "${age} р.", "${age} л."],
