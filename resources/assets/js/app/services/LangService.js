@@ -8,12 +8,12 @@ export const LANG_EN = 'en';
 export const LANG_RU = 'ru';
 
 const LANG_DATA = {
-    short_names: {
+    short_name: {
         [LANG_UA]: 'ua',
         [LANG_EN]: 'en',
         [LANG_RU]: 'ru',
     },
-    full_names: {
+    full_name: {
         [LANG_UA]: 'Українська',
         [LANG_EN]: 'English',
         [LANG_RU]: 'Русский',
@@ -40,7 +40,7 @@ const LangService = (() => {
         },
 
         getName(code) {
-            return LANG_DATA.full_names[code];
+            return LANG_DATA.full_name[code];
         },
 
         setActiveLanguage(code) {
@@ -59,18 +59,20 @@ const LangService = (() => {
             if (field === 'code') {
                 return code;
             }
-            if (field === 'short_name') {
-                return LANG_DATA.short_names[code];
-            }
-            if (field === 'full_name') {
-                return LANG_DATA.full_names[code];
+
+            if (field === undefined) {
+                return {
+                    code: code,
+                    short_name: LANG_DATA.short_name[code],
+                    full_name: LANG_DATA.full_name[code],
+                };
             }
 
-            return {
-                code: code,
-                short_name: LANG_DATA.short_names[code],
-                full_name: LANG_DATA.full_names[code],
-            };
+            if (LANG_DATA[field] === undefined) {
+                return null;
+            }
+
+            return LANG_DATA[field][code];
         },
 
         getNavigatorLanguage() {
