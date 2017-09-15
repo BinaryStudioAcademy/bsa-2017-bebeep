@@ -178,14 +178,9 @@ class Result extends React.Component {
                                     </div>
                                 </div>
                                 <div className="search-result__item-container">
-                                    <Preloader enable={preloader}/>
-                                    {
-                                        preloader
-                                            ? <Placeholder show={true}>{translate('search_result.loading')}</Placeholder>
-                                            : <TripList
-                                            collection={collection}
-                                        />
-                                    }
+                                    <TripList
+                                        collection={collection}
+                                    />
                                 </div>
                                 <div className="row search-result__pagination">
                                     <div className="col-sm-6 align-self-center">

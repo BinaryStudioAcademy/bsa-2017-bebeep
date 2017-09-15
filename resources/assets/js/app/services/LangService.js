@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import DataStorage from '../helpers/DataStorage';
 
-export const LANG_UA = 'uk';
+export const LANG_UA = 'ua';
 export const LANG_EN = 'en';
 export const LANG_RU = 'ru';
 

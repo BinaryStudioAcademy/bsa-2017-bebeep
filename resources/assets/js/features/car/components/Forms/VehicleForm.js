@@ -4,17 +4,29 @@ import NumericInput from 'react-numeric-input';
 import { localize } from 'react-localize-redux';
 
 import LangService from 'app/services/LangService';
-import * as lang from 'features/car/lang/VehicleForm.locale.json';
+import * as VehiclesLang from 'features/car/lang/VehicleForm.locale.json';
+import * as ReactSearchLang from 'app/lang/react_select.locale.json';
 
 class VehicleForm extends React.Component {
+
     componentWillMount() {
-        LangService.addTranslation(lang);
+        LangService.addTranslation(VehiclesLang);
+        LangService.addTranslation(ReactSearchLang);
     }
 
     render() {
-        const {translate} = this.props;
-        const { errors } = this.props;
-        const currentYear = new Date().getFullYear();
+        const { translate, errors } = this.props,
+            currentYear = new Date().getFullYear();
+
+        const REACT_SELECT_PROPS = {
+            addLabelText: translate('react_select.labels.add_label_text'),
+            backspaceToRemoveMessage: translate('react_select.labels.backspace_to_remove'),
+            clearAllText: translate('react_select.labels.clear_all'),
+            clearValueText: translate('react_select.labels.clear_value'),
+            loadingPlaceholder: translate('react_select.labels.loading_state'),
+            noResultsText: translate('react_select.labels.no_results_found'),
+            searchPromptText: translate('react_select.labels.type_to_search'),
+        };
 
         return (
             <form role="form" className="card vehicle-form" method="POST" onSubmit={ this.props.onSubmit }>
@@ -34,6 +46,7 @@ class VehicleForm extends React.Component {
                             loadOptions={ this.props.getBrandOptions }
                             onChange={ this.props.handleBrandChange }
                             clearable={ true }
+                            {...REACT_SELECT_PROPS}
                         />
                         <div className="offset-sm-4 col-sm-8">
                             <div className="form-control-feedback">{ errors.brand }</div>
@@ -55,6 +68,7 @@ class VehicleForm extends React.Component {
                             cache={false}
                             autoload={false}
                             clearable={true}
+                            {...REACT_SELECT_PROPS}
                         />
                         <div className="offset-sm-4 col-sm-8">
                             <div className="form-control-feedback">{ errors.model }</div>
@@ -73,6 +87,7 @@ class VehicleForm extends React.Component {
                             loadOptions={ this.props.getColorOptions }
                             onChange={this.props.handleColorChange}
                             clerable={true}
+                            {...REACT_SELECT_PROPS}
                         />
                         <div className="offset-sm-4 col-sm-8">
                             <div className="form-control-feedback">{ errors.color }</div>
@@ -91,6 +106,7 @@ class VehicleForm extends React.Component {
                             loadOptions={ this.props.getBodyOptions }
                             onChange={this.props.handleBodyChange}
                             clerable={true}
+                            {...REACT_SELECT_PROPS}
                         />
                         <div className="offset-sm-4 col-sm-8">
                             <div className="form-control-feedback">{ errors.body }</div>

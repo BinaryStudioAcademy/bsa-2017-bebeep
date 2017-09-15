@@ -1,0 +1,21 @@
+{
+    "react_select": {
+        "labels": {
+            "add_label_text": [
+                "Add \"${label}\"?",
+                "Додати \"${label}\"?",
+                "Добавить \"${label}\"?"
+            ],
+            "backspace_to_remove": [
+                "Press backspace to remove ${last_label}",
+                "Натисніть backspace, щоб видалити ${last_label}",
+                "Нажмите Backspace, чтобы удалить ${last_label}"
+            ],
+            "clear_all": ["Clear all", "Очистити все", "Очистить все"],
+            "clear_value": ["Clear", "Очистити", "Очистить"],
+            "loading_state": ["Loading...", "Завантаження...", "Загрузка..."],
+            "no_results_found": ["No results found", "Нічого не знайдено", "Ничего не найдено"],
+            "type_to_search": ["Type to search", "Введіть для пошуку", "Введите для поиска"]
+        }
+    }
+}
