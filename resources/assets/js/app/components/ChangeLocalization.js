@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-import LangService from '../services/LangService';
+import LangService, { LANG_PROP_SHORT_NAME } from '../services/LangService';
 
 class ChangeLocalization extends React.Component {
 
@@ -28,7 +28,7 @@ class ChangeLocalization extends React.Component {
     }
 
     render() {
-        const currentLanguage = LangService.getActiveLanguage('short_name'),
+        const currentLanguage = LangService.getActiveLanguage(LANG_PROP_SHORT_NAME),
             languages = LangService.languages;
 
         return (
