@@ -6,12 +6,16 @@ import { isThisIdOfAuthUser } from 'app/services/UserService';
 
 const PATH_TO = '/dashboard/messages/';
 
+export const isEmptyWriteMsgButton = (userId) => {
+    return isThisIdOfAuthUser(userId);
+};
+
 class WriteMsgButton extends React.Component {
 
     render() {
         const { userId } = this.props;
 
-        if (isThisIdOfAuthUser(userId)) {
+        if (isEmptyWriteMsgButton(userId)) {
             return null;
         }
 
