@@ -13,8 +13,6 @@ import { subscriptionReset } from 'features/search/actions';
 import AuthService from 'app/services/AuthService';
 import { sendSubscribeRequest } from 'features/search/services/SearchService';
 
-import 'features/user/styles/user.scss';
-
 
 class Form extends React.Component {
 
