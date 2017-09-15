@@ -18,7 +18,7 @@ class ChatMessageRepository extends BaseRepository implements Contracts\ChatMess
     }
 
     /**
-     * Save user message
+     * Save user message.
      *
      * @param ChatMessage $chatMessage
      * @return ChatMessage
@@ -31,7 +31,7 @@ class ChatMessageRepository extends BaseRepository implements Contracts\ChatMess
     }
 
     /**
-     * Delete user message
+     * Delete user message.
      *
      * @param ChatMessage $message
      * @return ChatMessage
@@ -44,7 +44,7 @@ class ChatMessageRepository extends BaseRepository implements Contracts\ChatMess
     }
 
     /**
-     * Mark message as read
+     * Mark message as read.
      *
      * @param ChatMessage $message
      * @param int $id
