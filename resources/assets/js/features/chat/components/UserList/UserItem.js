@@ -6,13 +6,10 @@ import {getTranslate} from 'react-localize-redux';
 
 import {getProfileAvatar} from 'app/services/PhotoService';
 
-const STATUS_ONLINE = 'online';
-const STATUS_OFFLINE = 'offline';
-
 class UserItem extends React.Component {
 
-    getUserStatus() {
-        return this.props.user.status ? STATUS_ONLINE : STATUS_OFFLINE;
+    renderStatusOnline() {
+        return this.props.user.status ? <span className="user-item__status-online" /> : null;
     }
 
     render() {
@@ -20,17 +17,17 @@ class UserItem extends React.Component {
 
         return (
             <div className="user-item row align-items-center">
-                <div className="col-4 col-sm-3 col-md-2 text-right pr-0">
-                    <span className={"user-item__status-badge user-item__status-badge--" +
-                        this.getUserStatus()} />
-                    <img
-                        src={getProfileAvatar(user.avatar)}
-                        alt={user.first_name}
-                        className={"user-item__avatar user-item__avatar--" +
-                            this.getUserStatus()}
-                    />
+                <div className="col-3 col-md-2">
+                    <div className="user-item__avatar-container">
+                        {this.renderStatusOnline()}
+                        <img
+                            src={getProfileAvatar(user.avatar)}
+                            alt={user.first_name}
+                            className="user-item__avatar"
+                        />
+                    </div>
                 </div>
-                <div className="col-8 col-sm-9 col-md-10">
+                <div className="col-9 col-md-10">
                     <span className="user-item__name">
                         {user.first_name} {user.last_name}</span>
                 </div>
