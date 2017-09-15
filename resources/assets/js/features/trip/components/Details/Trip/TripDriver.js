@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { localize } from 'react-localize-redux';
 
 import TripUserImage from '../TripUserImage';
+import { LinkButton } from 'app/components/Buttons';
 
 
 class TripDriver extends React.Component {
@@ -32,6 +33,10 @@ class TripDriver extends React.Component {
                         <span className="trip-text-label driver-age mt-2">
                             { translate('trip_details.driver.age', {age: driver.age}) }
                         </span>
+
+                        <LinkButton pathTo={"/dashboard/messages/" + driver.id}
+                            iconClassName="fa-envelope"
+                        />
                     </div>
                 </div>
             </section>
