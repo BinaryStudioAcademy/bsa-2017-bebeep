@@ -47,7 +47,6 @@ class OthersUserCriteria implements CriteriaInterface
                 }
 
                 return $query;
-
             })
             ->orderBy('first_name');
     }

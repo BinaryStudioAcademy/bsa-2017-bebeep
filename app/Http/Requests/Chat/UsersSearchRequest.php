@@ -25,7 +25,7 @@ class UsersSearchRequest extends FormRequest implements UsersSearchRequestContra
     public function rules()
     {
         return [
-            'filter' => 'array'
+            'filter' => 'array',
         ];
     }
 
