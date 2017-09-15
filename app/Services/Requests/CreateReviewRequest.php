@@ -6,7 +6,7 @@ interface CreateReviewRequest
 {
     public function getTripId() : int;
 
-    public function getRating() : float;
+    public function getRating() : int;
 
     public function getReview() : ?string;
 }
