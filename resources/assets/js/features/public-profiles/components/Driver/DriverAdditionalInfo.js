@@ -19,7 +19,6 @@ class DriverAdditionalInfo extends React.Component {
                     trips_count={ profile.trips_count }
                     activity_started={ profile.activity_started }
                 />
-
                 <ProfileWriteMessage id={profile.id} />
             </div>
         );
