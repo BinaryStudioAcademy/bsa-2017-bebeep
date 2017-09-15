@@ -1,3 +1,5 @@
+import {browserHistory} from 'react-router';
+
 import * as actions from './actionTypes';
 import {MESSAGE_STATUS_RECIEVED, MESSAGE_STATUS_SENT} from './reducer';
 import {securedRequest} from 'app/services/RequestService'
@@ -100,6 +102,11 @@ export const addMessagesToChat = (userId, messages) => {
 };
 
 export const getMessagesByUser = (userId) => dispatch => {
+    if (AuthService.getUserId() === +userId) {
+        browserHistory.push('/dashboard/users');
+        return false;
+    }
+
     securedRequest.get(`/api/v1/users/${userId}/messages`)
         .then(response => dispatch(addMessagesToChat(userId, response.data)))
         .catch(error => {
