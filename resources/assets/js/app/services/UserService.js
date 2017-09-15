@@ -1,6 +1,7 @@
 import validate from 'validate.js';
 import moment from 'moment';
 import LangService from './LangService';
+import AuthService from './AuthService';
 
 validate.extend(validate.validators.datetime, {
     // The value is guaranteed not to be null or undefined but otherwise it
@@ -255,6 +256,12 @@ export const checkDriverRole = (role, identically) => {
         : !!(USER_ROLE_DRIVER & role);
 };
 
+export const isThisIdOfAuthUser = (userId) => {
+    userId = parseInt(userId, 10);
+
+    return AuthService.getUserId() === userId;
+};
+
 const UserService = {
     UserValidator,
     VerifyValidator,
@@ -264,7 +271,8 @@ const UserService = {
     USER_ROLE_PASSENGER,
     USER_ROLE_DRIVER,
     checkPassengerRole,
-    checkDriverRole
+    checkDriverRole,
+    isThisIdOfAuthUser,
 };
 
 export default UserService;
