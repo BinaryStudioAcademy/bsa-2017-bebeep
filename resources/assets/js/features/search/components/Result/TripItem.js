@@ -24,6 +24,8 @@ class TripItem extends React.Component {
         const { trip, translate } = this.props,
             startedAt = this.formatStartAt();
 
+            console.log(trip.driver.data);
+
         return (
             <Link to={`/trip/${trip.id}`} className="search-trip-item">
                 <div className="row search-trip-item-block">
@@ -41,9 +43,9 @@ class TripItem extends React.Component {
                         </div>
 
                         <div className="search-trip-item__user-age">
-                            { translate('search_result.years' + LangService.getNumberForm(
-                                trip.driver.data.age
-                            ), { age: trip.driver.data.age }) }
+                            { translate('search_result.years1', {
+                                age: DateTimeHelper.getUserYearsOld(trip.driver.data.birth_date)
+                            }) }
                         </div>
                     </div>
 
