@@ -7,13 +7,17 @@ export const LANG_UA = 'uk';
 export const LANG_EN = 'en';
 export const LANG_RU = 'ru';
 
+export const LANG_PROP_CODE = 'code';
+export const LANG_PROP_SHORT_NAME = 'short_name';
+export const LANG_PROP_FULL_NAME = 'full_name';
+
 const LANG_DATA = {
-    short_name: {
+    [LANG_PROP_SHORT_NAME]: {
         [LANG_UA]: 'ua',
         [LANG_EN]: 'en',
         [LANG_RU]: 'ru',
     },
-    full_name: {
+    [LANG_PROP_FULL_NAME]: {
         [LANG_UA]: 'Українська',
         [LANG_EN]: 'English',
         [LANG_RU]: 'Русский',
@@ -29,9 +33,9 @@ const LangService = (() => {
         init(store) {
             _store = store;
 
-            moment.locale(this.getActiveLanguage('code'));
+            moment.locale(this.getActiveLanguage(LANG_PROP_CODE));
             _store.dispatch(Loc.setLanguages(
-                this.languages, this.getActiveLanguage('code')
+                this.languages, this.getActiveLanguage(LANG_PROP_CODE)
             ));
         },
 
@@ -56,15 +60,15 @@ const LangService = (() => {
                 || this.getNavigatorLanguage()
                 || LANG_EN;
 
-            if (field === 'code') {
+            if (field === LANG_PROP_CODE) {
                 return code;
             }
 
             if (field === undefined) {
                 return {
-                    code: code,
-                    short_name: LANG_DATA.short_name[code],
-                    full_name: LANG_DATA.full_name[code],
+                    [LANG_PROP_CODE]: code,
+                    [LANG_PROP_SHORT_NAME]: LANG_DATA.short_name[code],
+                    [LANG_PROP_FULL_NAME]: LANG_DATA.full_name[code],
                 };
             }
 
