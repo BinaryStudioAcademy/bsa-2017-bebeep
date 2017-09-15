@@ -3,7 +3,6 @@
 namespace App\Transformers\Search;
 
 use App\User;
-use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
 
 class DriverTransformer extends TransformerAbstract
