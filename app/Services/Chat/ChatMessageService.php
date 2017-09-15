@@ -45,7 +45,7 @@ class ChatMessageService implements ChatMessageServiceContract
     }
 
     /**
-     * Delete user message
+     * Delete user message.
      *
      * @param ChatMessage $message
      * @return int
@@ -56,7 +56,7 @@ class ChatMessageService implements ChatMessageServiceContract
     }
 
     /**
-     * Mark message as read
+     * Mark message as read.
      *
      * @param ChatMessage $message
      * @return mixed

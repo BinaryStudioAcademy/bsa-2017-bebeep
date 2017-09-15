@@ -42,7 +42,7 @@ class ChatMessage extends Model
     }
 
     /**
-     * Get message id
+     * Get message id.
      *
      * @return int
      */
