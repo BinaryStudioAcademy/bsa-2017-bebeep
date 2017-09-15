@@ -14,14 +14,18 @@ class LinkButton extends React.Component {
     }
 
     renderTooltip() {
-        const { translate, tooltip, id } = this.props;
+        const { translate, tooltip, id, tlpDelay, tlpAutohide, tlpPlacement } = this.props;
 
         if (!tooltip) {
             return null;
         }
 
         return (
-            <UncontrolledTooltip target={id} placement="top">
+            <UncontrolledTooltip target={id}
+                delay={tlpDelay}
+                autohide={tlpAutohide}
+                placement={tlpPlacement}
+            >
                 {translate(`buttons.${id}.tooltip`)}
             </UncontrolledTooltip>
         );
@@ -48,6 +52,9 @@ class LinkButton extends React.Component {
 LinkButton.defaultProps = {
     className: '',
     tooltip: true,
+    tlpDelay: { show: 250, hide: 50 },
+    tlpAutohide: true,
+    tlpPlacement: 'top',
 };
 
 LinkButton.propTypes = {
@@ -56,6 +63,35 @@ LinkButton.propTypes = {
     iconClassName: PropTypes.string.isRequired,
     className: PropTypes.string,
     tooltip: PropTypes.bool,
+
+    // Tooltip props
+
+    // optionally override show/hide delays - default { show: 0, hide: 250 }
+    tlpDelay: PropTypes.oneOfType([
+        PropTypes.shape({ show: PropTypes.number, hide: PropTypes.number }),
+        PropTypes.number
+    ]),
+    // optionally hide tooltip when hovering over tooltip content - default true
+    tlpAutohide: PropTypes.bool,
+    // optionally tooltip placement - default top
+    tlpPlacement: PropTypes.oneOf([
+        'top',
+        'bottom',
+        'left',
+        'right',
+        'top left',
+        'top center',
+        'top right',
+        'right top',
+        'right middle',
+        'right bottom',
+        'bottom right',
+        'bottom center',
+        'bottom left',
+        'left top',
+        'left middle',
+        'left bottom'
+    ]),
 };
 
 export default localize(LinkButton, 'locale');
