@@ -29,6 +29,12 @@ For Windows OS - `winpty docker-compose exec web php artisan <your command>`
 
 ### Frontend part (SPA)
 
+If you are using Windows OS, first of all, install `windows-build-tools` for better compile of native Node modules:  
+
+``` bash
+npm install --global windows-build-tools
+```
+
 Install all javascript packages:  
 
 ``` bash

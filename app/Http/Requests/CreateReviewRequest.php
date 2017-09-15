@@ -25,8 +25,8 @@ class CreateReviewRequest extends FormRequest implements CreateReviewRequestInte
     public function rules()
     {
         return [
-            'trip_id' => 'required|integer',
-            'rating' => 'required|min:0.5|max:5',
+            'trip_id' => 'required|integer|exists:trips,id',
+            'rating' => 'required|integer|min:1|max:5',
         ];
     }
 
@@ -43,17 +43,17 @@ class CreateReviewRequest extends FormRequest implements CreateReviewRequestInte
     /**
      * Get rating.
      *
-     * @return float
+     * @return int
      */
-    public function getRating() : float
+    public function getRating() : int
     {
-        return (float) $this->get('rating');
+        return (int) $this->get('rating');
     }
 
     /**
      * Get Review.
      *
-     * @return string
+     * @return string|null
      */
     public function getReview() : ?string
     {
