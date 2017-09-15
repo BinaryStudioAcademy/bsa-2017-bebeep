@@ -35,7 +35,9 @@ class TripDriver extends React.Component {
                         </span>
 
                         <LinkButton pathTo={"/dashboard/messages/" + driver.id}
+                            id="write_msg_to_user"
                             iconClassName="fa-envelope"
+                            className="mt-3 w-100"
                         />
                     </div>
                 </div>
