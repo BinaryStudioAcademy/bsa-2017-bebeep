@@ -35,8 +35,15 @@ class UserListContainer extends React.Component {
         return _.sortBy(users, ['first_name', 'last_name']);
     }
 
+    getUsers() {
+        const {usersId, users} = this.props;
+
+        return _.map(usersId, (id) => users[id]);
+    }
+
     getUsersSortList() {
-        const {users, onlineUsers} = this.props;
+        const {onlineUsers} = this.props,
+            users = this.getUsers();
 
         const usersOnline = this.setSortUsersList(
             this.setOnlineStatus(onlineUsers)
@@ -73,6 +80,7 @@ class UserListContainer extends React.Component {
 export default connect(
     state => ({
         onlineUsers: state.chat.onlineUsers,
+        usersId: state.chat.usersId,
         users: state.chat.entities.users.byId,
         translate: getTranslate(state.locale)
     }),

@@ -53,7 +53,7 @@ export default (state = initialState, action) => {
         case actions.CHAT_SET_USER_LIST:
             return {
                 ...state,
-                usersId: _.union(state.usersId, action.users),
+                usersId: action.users,
                 entities: {
                     ...state.entities,
                     users: {

@@ -107,3 +107,24 @@ export const getMessagesByUser = (userId) => dispatch => {
             dispatch(addMessagesToChat(userId, {data: {}}));
         });
 };
+
+export const filterUsers = (query) => dispatch => {
+    return new Promise((reject, success) => {
+        securedRequest.get('/api/v1/users/others', {
+            params: {
+                'filter[first_name]': query,
+                'filter[last_name]': query,
+                'filter[email]': query
+            }
+        })
+            .then(response => {
+                success();
+                dispatch(addUsersToList(response.data));
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch(addUsersToList({data: {}}));
+                reject();
+            });
+    });
+};
