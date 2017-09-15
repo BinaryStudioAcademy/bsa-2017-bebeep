@@ -45,7 +45,7 @@ class RouteCombinationsFinder
     public function find($maxTransfers = 1)
     {
         $this->maxTransfers = $maxTransfers;
-        $this->result = collect([]);
+        $this->result = collect();
 
         $this->startRoutes->each(function (RouteContainer $routeContainer) {
             $routeGroup = new RouteGroup();
