@@ -73,6 +73,10 @@
       padding: 15px 0;
       border-bottom: 1px solid rgba(128, 128, 128, 0.27);
 
+      &:last-of-type {
+        border-bottom: none;
+      }
+
       &__verification-rule {
 
         margin-bottom: .5rem;
