@@ -2,7 +2,7 @@
 
 .autocomplete-container {
   position: absolute;
-  font-size: 14px;
+  font-size: $font-size-base-smaller;
   width: 90%;
   background-color: white;
   border: 1px solid #999;
@@ -16,7 +16,7 @@
 }
 
 .search-input {
-  font-size: 14px;
+  font-size: $font-size-base-smaller;
   padding: 10px 20px;
   -webkit-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
   -moz-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
@@ -48,12 +48,8 @@
   color: #6dcff6;
 }
 
-.form-control {
-  width: 100%;
-}
-
 .date-picker {
-  font-size: 14px;
+  font-size: $font-size-base-smaller;
   padding: 10px 15px;
   -webkit-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
   -moz-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.35);
@@ -114,7 +110,7 @@
     }
 
     &-input {
-      font-size: 1rem;
+      font-size: $font-size-base-smaller;
       box-shadow: none;
       border-radius: 5px;
       padding: 0;

@@ -35,6 +35,7 @@ export default function (state = initialState, action) {
 
         case actions.VEHICLE_DELETE_SUCCESS: {
             const vehicleId = parseInt(action.data.vehicleId);
+
             return {
                 ...state,
                 vehicles: state.vehicles.filter((vehicle) => vehicle.id !== vehicleId)

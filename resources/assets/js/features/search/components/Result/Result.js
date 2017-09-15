@@ -5,6 +5,7 @@ import TripList from './TripList';
 import Placeholder from './Placeholder';
 import SortPanel from './SortPanel';
 import Preloader from 'app/components/Preloader';
+import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import SubscribeModal from './_Modals/SubscribeModal';
 import { Pagination } from 'app/components/Pagination';
 import { connect } from 'react-redux';
@@ -150,13 +151,13 @@ class Result extends React.Component {
         return (
             <div className="search-result">
                 <SearchForm onSearch={this.onSearch} />
-                <div className="container">
+                <ContainerWrapper>
                     <div className="row">
                         <div className="col-md-3">
                             <Filter
                                 priceBounds={meta.priceRange}
                             />
-                            <div className="col-md-4 offset-md-2 mb-3">
+                            <div className="text-center">
                                 <button role="button" className="btn search-block__btn search-result__btn-subscribe" onClick={this.onClickSubscribe}>
                                     {translate('subscription.subscribe_btn')}
                                 </button>
@@ -198,7 +199,7 @@ class Result extends React.Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </ContainerWrapper>
                 <SubscribeModal
                     isOpen={ subscribeModalIsOpen }
                     onClosed={ () => this.setState({subscribeModalIsOpen: false})}

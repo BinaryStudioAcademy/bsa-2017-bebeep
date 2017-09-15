@@ -21,7 +21,7 @@ class Vehicles extends React.Component {
 
         return (
             <ContainerWrapper className="container--min-height-350">
-                <PageHeader header={ translate('vehicles.vehicles_list_header') } />
+                <PageHeader header={ translate('vehicles_list.header') } />
                 <VehiclesList />
             </ContainerWrapper>
         )

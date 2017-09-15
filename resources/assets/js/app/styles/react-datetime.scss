@@ -1,10 +1,11 @@
 /*!
  * https://github.com/YouCanBookMe/react-datetime
  */
+@import '~app/bootstrap/variables';
 
 .rdt {
   position: relative;
-  font-size: .9rem;
+  font-size: $font-size-base-smaller;
 }
 .rdtPicker {
   display: none;

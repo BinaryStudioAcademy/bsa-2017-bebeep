@@ -8,7 +8,8 @@ import EditTripContainer from '../components/Containers/EditTripContainer';
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/EditTrip.locale.json';
 
-import '../styles/edit_trip.scss';
+import '../styles/trip_form.scss';
+
 
 class EditTrip extends React.Component {
 

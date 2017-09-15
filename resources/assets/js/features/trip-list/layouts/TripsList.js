@@ -63,7 +63,7 @@ class TripsList extends React.Component {
             <ContainerWrapper className="container--min-height-400">
                 <PageHeader header={translate('trip_list.my_trips_header')}/>
 
-                <ul className="nav nav-pills">
+                <ul className="nav nav-pills mb-4">
                     <li className="nav-item">
                         <Link to="/trips/upcoming" className="nav-link" activeClassName="active">
                             {translate('trip_list.upcoming')}
@@ -75,8 +75,6 @@ class TripsList extends React.Component {
                         </Link>
                     </li>
                 </ul>
-
-                <br/>
 
                 <TripsListContainer filter={filter} />
             </ContainerWrapper>

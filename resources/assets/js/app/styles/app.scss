@@ -10,6 +10,9 @@ a,
     &:hover {
         color: darken($teal, 45%);
     }
+    &:focus {
+        outline: none;
+    }
 }
 img {
     max-width: 100%;
@@ -20,8 +23,12 @@ svg {
     height: auto;
 }
 b,
-strong {
+strong,
+th {
     font-weight: 600;
+}
+dt {
+    font-weight: 500;
 }
 
 .hide {
@@ -63,28 +70,17 @@ strong {
 
 .page-header {
     margin-bottom: 1.5rem;
-    color: #444;
-    border-bottom: 1px solid #ddd;
-}
+    border-bottom: 1px solid lighten($black, 90%);
 
-.page-header .h1,
-.page-header .h2,
-.page-header .h3,
-.page-header .h4 {
-    margin: 0 0 .5rem;
-}
-
-.main-container {
-    margin-top: 5px;
-    background-color: #fff
+    &__header {
+        margin: 0 0 .5rem;
+        font-size: 1.4rem;
+        color: lighten($gray, 5%);
+    }
 }
 
 .hover:hover {
     cursor: pointer;
-}
-
-.bookings {
-    float: right;
 }
 
 .header {
@@ -114,74 +110,39 @@ strong {
     display: flex;
     align-items: center;
     list-style: none;
+    padding-left: 0;
 
     &__item {
-        margin-left: 3rem;
+        margin-left: 1rem;
 
-        &-trip {
-            margin-left: 1rem;
-
-            a {
-                color: #7b7b7b;
-                font-size: 1rem;
-                font-weight: 600;
-                letter-spacing: .025em;
-                padding: 15px;
-                border: 1px solid transparent;
-            }
-
-            a.active, &:hover a {
-                text-decoration: none;
-                border: 1px solid rgba(62, 61, 61, 0.08);
-                color: rgb(62, 61, 61);
-                background-color: rgba(230, 229, 229, 0.36);
-                border-radius: 7px;
-                transition: 0.1s linear;
-            }
-
-            &_no-hover {
-                &:hover a {
-                    padding: 15px;
-                    border: 1px solid transparent;
-                    color: rgba(72, 72, 72, 0.97);
-                }
-            }
-        }
-
-
-        a.active, &:hover a {
-            text-decoration: none;
-            border-bottom: 1px solid;
-            color: #000;
-        }
-
-        &_no-hover {
-            &:hover a {
-                border-bottom: 1px solid transparent;
-                color: #939393;
-            }
-        }
-
-        &_no-space {
-            margin-left: .75rem;
-        }
-
-        a {
-            color: #7b7b7b;
-            border-bottom: 1px solid transparent;
-        }
         & > a {
+            padding: .75rem 1rem;
             font-size: 1rem;
             font-weight: 600;
             letter-spacing: .025em;
+            color: lighten($gray, 10%);
+            border: 1px solid transparent;
         }
 
+        a.active,
+        &:hover > a {
+            text-decoration: none;
+            border: 1px solid rgba(62, 61, 61, .08);
+            color: $white;
+            background-color: rgba(230, 229, 229, .36);
+            background-color: $orange;
+            border-radius: 7px;
+            transition: .1s linear;
+        }
+
+        &--smaller-margin {
+            margin-left: .75rem;
+        }
+        &--bigger-margin {
+            margin-left: 3rem;
+        }
         &--align-stretch {
             align-self: stretch;
-        }
-
-        &:first-child {
-            padding-left: 0;
         }
     }
 }
@@ -210,19 +171,43 @@ strong {
 
 .header-menu__dropdown {
     height: 100%;
+    min-height: 40px;
 
     .dropdown-toggle,
     .dropdown-item {
-        color: #939393;
+        transition: all .2s;
         &:hover {
             text-decoration: none;
+            background-color: lighten($orange, 30%);
+        }
+        &:active,
+        &:focus,
+        .active {
+            background-color: lighten($orange, 25%);
         }
     }
     .dropdown-toggle {
+        color: lighten($gray, 7%);
         height: 100%;
         padding: .25rem .75rem;
-        font-size: 18px;
-        font-weight: bold;
+        font-weight: 600;
+    }
+    &.show > .dropdown-toggle {
+        background-color: lighten($orange, 20%);
+    }
+
+    .dropdown-item {
+        padding: 5px 1.5rem;
+        font-size: .95em;
+        color: lighten($gray, 15%);
+
+        &:hover {
+            color: lighten($gray, 18%);
+        }
+        &:focus,
+        &:active {
+            color: lighten($gray, 10%);
+        }
     }
 
     &--user-menu {
@@ -230,6 +215,9 @@ strong {
             width: 35px;
             margin-right: .5rem;
             border-radius: 50%;
+        }
+        .dropdown-menu {
+            min-width: 220px;
         }
     }
 }
@@ -284,12 +272,104 @@ strong {
     }
 }
 
+.form-control {
+    width: 100%;
+    font-size: $font-size-base-smaller;
+}
+
 .form-input_no-border {
     border: none;
 }
+.form-check {
+    margin: .5rem 1rem;
 
-.form-group .form-control-label {
-    padding-top: 5px;
+    &--with-text {
+        margin-top: 0;
+    }
+}
+.form-check-label {
+    font-size: .9em;
+}
+.form-check-input {
+    margin-right: 3px;
+}
+
+.form-control-label {
+    font-size: $font-size-base-smaller;
+}
+.form-group {
+    &.row {
+        align-items: center;
+    }
+    &--last-for-btn {
+        margin-top: 2rem;
+        margin-bottom: 0;
+    }
+}
+.form-block-center {
+    max-width: 500px;
+    margin: auto;
+}
+.datetimepicker {
+    &-label,
+    &-wrapper {
+        width: 100%;
+    }
+
+    &-wrapper .rdtPicker {
+        top: 35px;
+        left: 0;
+    }
+}
+
+td.table-list-details__cell-for-action {
+    width: 20px;
+}
+
+.table-list-details {
+    th,
+    td {
+        font-size: .95rem;
+
+        &:first-child {
+            padding-left: .75rem;
+        }
+        &:last-child {
+            padding-right: .75rem;
+        }
+    }
+    th {
+        padding: .5rem;
+    }
+    td {
+        padding: .25rem .5rem;
+        vertical-align: middle;
+    }
+    &__image {
+        max-width: 80px;
+
+        svg {
+            margin-top: .5rem;
+        }
+    }
+}
+
+
+.modal-body--min-height {
+    min-height: 250px;
+}
+
+.card {
+    font-size: $font-size-base-smaller;
+}
+
+.with-background-teal,
+.card-header {
+    background-color: lighten($teal, 26%);
+}
+
+.card-header {
+    padding: .75rem 1rem;
 }
 
 .position-relative {

@@ -5,6 +5,7 @@ import { localize } from 'react-localize-redux';
 import ContainerWrapper from './ContainerWrapper';
 import PageHeader from 'app/components/PageHeader';
 
+
 class NotFound extends React.Component {
 
     render() {

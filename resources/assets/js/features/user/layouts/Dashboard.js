@@ -23,9 +23,12 @@ class Dashboard extends React.Component {
             <ContainerWrapper className="container--min-height-350">
                 <section className="page-section">
                     <PageHeader header={ translate('dashboard.header') } />
-                    <p className="text-center">
-                        { translate('dashboard.hello', {username: userName}) }
-                    </p>
+
+                    <div>
+                        <p className="text-center">
+                            { translate('dashboard.hello', {username: userName}) }
+                        </p>
+                    </div>
                 </section>
             </ContainerWrapper>
         )

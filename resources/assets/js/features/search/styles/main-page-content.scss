@@ -1,3 +1,5 @@
+@import '~app/bootstrap/variables';
+
 .main-page__block {
   background-color: rgba(204, 204, 204, 0.32);
   min-height: 250px;
@@ -27,7 +29,7 @@
 
       &-secondary-text {
         font-weight: 400;
-        font-size: 0.9rem;
+        font-size: $font-size-base-smaller;
         color: #757474;
       }
     }

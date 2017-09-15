@@ -208,7 +208,7 @@ class EditTripContainer extends React.Component {
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',
-            autocompleteContainer: 'autocomplete-container text-left'
+            autocompleteContainer: 'trip-form-autocomplete-container text-left'
         };
 
         const startPointProps = {
