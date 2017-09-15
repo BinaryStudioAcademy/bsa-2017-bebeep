@@ -2,8 +2,10 @@ import {browserHistory} from 'react-router';
 
 import * as actions from './actionTypes';
 import {MESSAGE_STATUS_RECIEVED, MESSAGE_STATUS_SENT} from './reducer';
-import {securedRequest} from 'app/services/RequestService'
+
+import {securedRequest} from 'app/services/RequestService';
 import AuthService from 'app/services/AuthService';
+import {isThisIdOfAuthUser} from 'app/services/UserService';
 
 export const setOnlineUsers = (users) => {
     const sessionUserId = AuthService.getUserId();
@@ -102,7 +104,7 @@ export const addMessagesToChat = (userId, messages) => {
 };
 
 export const getMessagesByUser = (userId) => dispatch => {
-    if (AuthService.getUserId() === +userId) {
+    if (isThisIdOfAuthUser(userId)) {
         browserHistory.push('/dashboard/users');
         return false;
     }
