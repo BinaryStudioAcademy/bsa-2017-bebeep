@@ -1,0 +1,7 @@
+{
+    "buttons": {
+        "write_msg_to_user": {
+            "tooltip": ["Write a message", "Написати повідомлення", "Написать сообщение"]
+        }
+    }
+}
