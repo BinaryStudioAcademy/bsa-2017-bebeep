@@ -155,8 +155,8 @@ class GeneralForm extends React.Component {
                                     timeFormat={false}
                                     defaultValue={profile.birth_date}
                                     inputProps={{name: 'birth_date', id: 'birth_date'}}
-                                    labelClasses="register-form-label"
-                                    wrapperClasses="register-form-birth_date"
+                                    labelClasses="datetimepicker-label"
+                                    wrapperClasses="datetimepicker-wrapper"
                                     error={errors.birth_date}
                                 />
                             </div>
@@ -166,30 +166,33 @@ class GeneralForm extends React.Component {
                             <div className="col-sm-4 text-muted">
                                 {translate('profile_general.role')}
                             </div>
-                            <div className="form-check col-sm-4">
-                                <label className="form-check-label">
-                                    <input className="form-check-input"
-                                           type="checkbox"
-                                           id="role_driver"
-                                           name="role_driver"
-                                           value="1"
-                                           defaultChecked={ profile.role_driver }
-                                           onChange={ this.handleRoleChange }
-                                    /> {translate('profile_general.driver')}
-                                </label>
+                            <div className="col-sm-8 d-flex flex-wrap">
+                                <div className="form-check form-check--with-text">
+                                    <label className="form-check-label">
+                                        <input className="form-check-input"
+                                               type="checkbox"
+                                               id="role_driver"
+                                               name="role_driver"
+                                               value="1"
+                                               defaultChecked={ profile.role_driver }
+                                               onChange={ this.handleRoleChange }
+                                        /> {translate('profile_general.driver')}
+                                    </label>
+                                </div>
+                                <div className="form-check form-check--with-text">
+                                    <label className="form-check-label">
+                                        <input className="form-check-input"
+                                               type="checkbox"
+                                               id="role_passenger"
+                                               name="role_passenger"
+                                               value="1"
+                                               defaultChecked={ profile.role_passenger }
+                                               onChange={ this.handleRoleChange }
+                                        /> {translate('profile_general.passenger')}
+                                    </label>
+                                </div>
                             </div>
-                            <div className="form-check col-sm-4">
-                                <label className="form-check-label">
-                                    <input className="form-check-input"
-                                           type="checkbox"
-                                           id="role_passenger"
-                                           name="role_passenger"
-                                           value="1"
-                                           defaultChecked={ profile.role_passenger }
-                                           onChange={ this.handleRoleChange }
-                                    /> {translate('profile_general.passenger')}
-                                </label>
-                            </div>
+
                             <div className="offset-sm-4 col-sm-8">
                                 <div className="form-control-feedback">{ errors.role }</div>
                             </div>

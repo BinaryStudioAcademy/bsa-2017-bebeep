@@ -56,30 +56,22 @@ class TripRoutesPassengers extends React.Component {
         const { translate } = this.props;
 
         return (
-            <section className="block-border px-3 pt-3 pb-2 mt-4">
-                <header className="trip-section-header">
-                    <h3 className="h5">
-                        { translate('trip_details.routes_passengers.header') }
-                    </h3>
-                </header>
+            <div className="table-responsive">
+                <table className="table trip-routes">
+                    <thead>
+                      <tr>
+                        <th />
+                        <th>
+                            <DriverIcon className="trip-routes__head-icon" />
+                        </th>
+                        { this.renderSeatsIcons() }
+                      </tr>
+                    </thead>
 
-                <div className="table-responsive">
-                    <table className="table trip-routes">
-                        <thead>
-                          <tr>
-                            <th />
-                            <th>
-                                <DriverIcon className="trip-routes__head-icon" />
-                            </th>
-                            { this.renderSeatsIcons() }
-                          </tr>
-                        </thead>
-
-                        <tbody>{ this.renderRoutes() }</tbody>
-                    </table>
-                </div>
-            </section>
-        )
+                    <tbody>{ this.renderRoutes() }</tbody>
+                </table>
+            </div>
+        );
     }
 }
 

@@ -6,19 +6,16 @@
     "car": ["Car", "Авто", "Авто"],
     "price": ["Price", "Ціна", "Цена"],
     "seats": ["Seats", "Місця для сидіння", "Места для сидения"],
-    "edit": ["Edit", "Редагувати", "Редактировать"],
-    "delete": ["Delete", "Видалити", "Удалить"],
+    "passengers_link": ["Route and passengers", "Маршрут і пасажири", "Маршрут и пассажиры"],
     "restore": ["Restore", "Відновити", "Восстановить"],
     "deleted_successfully": ["Deleted successfully", "Успішно видалено", "Успешно удалено"],
-    "trips_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"],
-    "passengers_link":["Passengers","Пасажири","Пасажиры"]
+    "trips_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"]
   },
   "booking": {
     "seats": ["Number of seats", "Кількість місць", "Количество мест"],
     "bookings_button": ["New bookings", "Нові бронювання", "Новые бронирования"],
     "bookings_in_pending": ["bookings in pending", "бронювання в очікуванні", "бронирования в ожидании"],
     "accept_button": ["Accept booking", "Підтвердити", "Подтвердить"],
-    "reject_button": ["Reject", "Відхилити", "Отменить"],
-    "close_button": ["Close", "Закрити", "Закрыть"]
+    "reject_button": ["Reject", "Відхилити", "Отменить"]
   }
 }

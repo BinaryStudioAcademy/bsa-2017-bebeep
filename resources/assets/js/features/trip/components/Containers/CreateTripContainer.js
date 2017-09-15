@@ -23,8 +23,6 @@ import {
 
 import { tripCreateSuccess } from 'features/trip/actions';
 
-import 'features/trip/styles/create_trip.scss';
-
 
 class CreateTripContainer extends React.Component {
 
@@ -178,7 +176,7 @@ class CreateTripContainer extends React.Component {
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',
-            autocompleteContainer: 'autocomplete-container text-left'
+            autocompleteContainer: 'trip-form-autocomplete-container text-left'
         };
 
         const startPointProps = {

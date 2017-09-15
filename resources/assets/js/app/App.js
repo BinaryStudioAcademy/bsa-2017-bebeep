@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import Preloader from './components/Preloader';
 import MainHeader from './components/MainHeader';
+import MainFooter from './components/MainFooter';
 import Notifications from './components/Notifications';
 import GeneralChannel from 'features/chat/components/GeneralChannel';
 import {getUserId, isAuthorized} from 'app/services/AuthService';
@@ -79,7 +80,9 @@ class App extends React.Component {
 
     renderComponent() {
         return !this.state.isShowContent
-            ? <Preloader enable={true} />
+            ? <div className="container--min-height-350">
+                <Preloader enable={true} />
+            </div>
             : <div>
                 {this.props.children}
                 <Notifications />
@@ -92,6 +95,7 @@ class App extends React.Component {
             <div id="application">
                 <MainHeader />
                 { this.renderComponent() }
+                <MainFooter />
             </div>
         )
     }

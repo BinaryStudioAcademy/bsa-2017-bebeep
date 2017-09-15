@@ -8,8 +8,6 @@ import Form from 'features/user/components/Login/Form';
 import LangService from 'app/services/LangService';
 import * as lang from 'features/user/lang/Login/LoginForm.locale.json';
 
-import 'features/user/styles/user.scss';
-
 class LoginForm extends React.Component {
 
     componentWillMount() {
@@ -21,8 +19,10 @@ class LoginForm extends React.Component {
 
         return (
             <ContainerWrapper>
-                <PageHeader header={ translate('login_form.header_login') } />
-                <Form />
+                <section className="form-block-center">
+                    <PageHeader header={ translate('login_form.header_login') } />
+                    <Form />
+                </section>
             </ContainerWrapper>
         )
     }

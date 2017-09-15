@@ -3,17 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { localize } from 'react-localize-redux';
 
-import { tripDetailsSetState } from 'features/trip/actions';
-
-import TripDetailsService from 'features/trip/services/TripDetailsService';
-
-import ContainerWrapper from 'app/layouts/ContainerWrapper';
 import Preloader from 'app/components/Preloader';
+import { TripRoutesPassengers } from '../components/Details';
 
-import LangService from 'app/services/LangService';
-import * as LangTripDetails from '../lang/TripDetails.locale.json';
-
-import {TripRoutesPassengers} from '../components/Details';
+import { tripDetailsSetState } from 'features/trip/actions';
+import TripDetailsService from 'features/trip/services/TripDetailsService';
 
 
 class TripDetailsUsers extends React.Component {
@@ -41,42 +35,32 @@ class TripDetailsUsers extends React.Component {
                 this.setState({
                     preloader: false,
                 });
-                console.error(error);
             });
     }
 
-    componentWillMount() {
-        LangService.addTranslation(LangTripDetails);
-    }
-
     render() {
-        const { details } = this.props;
-        const { preloader } = this.state;
+        const { details } = this.props,
+            { preloader } = this.state;
 
         if (preloader) {
-            return (<Preloader enable={true} />);
+            return <Preloader enable={true} />;
         }
 
         return (
-            <div>
-
-                <ContainerWrapper>
-                    <TripRoutesPassengers maxSeats={ details.trip.seats }
-                                          driver={ details.driver }
-                                          routes={ details.routes }
-                    />
-                </ContainerWrapper>
-            </div>
+            <TripRoutesPassengers
+                maxSeats={ details.trip.seats }
+                driver={ details.driver }
+                routes={ details.routes }
+            />
         );
     }
 }
 
 const TripDetailsUsersConnected = connect(
     state => ({
-        details: state.trip.details
+        details: state.trip.details,
     }),
-    (dispatch) =>
-        bindActionCreators({ tripDetailsSetState }, dispatch)
+    dispatch => bindActionCreators({ tripDetailsSetState }, dispatch)
 )(TripDetailsUsers);
 
 export default localize(TripDetailsUsersConnected, 'locale');

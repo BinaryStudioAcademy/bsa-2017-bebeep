@@ -1,15 +1,21 @@
 import * as actions from './actionTypes';
 import {MESSAGE_STATUS_RECIEVED, MESSAGE_STATUS_SENT} from './reducer';
 import {securedRequest} from 'app/services/RequestService'
+import AuthService from 'app/services/AuthService';
 
-export const setOnlineUsers = (users) => ({
-    type: actions.CHAT_SET_ONLINE_USERS,
-    users: _.reduce(users, (result, user) => {
-        result[user.id] = user;
+export const setOnlineUsers = (users) => {
+    const sessionUserId = AuthService.getUserId();
 
-        return result;
-    }, {})
-});
+    return {
+        type: actions.CHAT_SET_ONLINE_USERS,
+        users: _.reduce(users, (result, user) => {
+            if (user.id !== sessionUserId) {
+                result[user.id] = user;
+            }
+            return result;
+        }, {}),
+    };
+};
 
 export const setOnline = (user) => ({
     type: actions.CHAT_SET_ONLINE,

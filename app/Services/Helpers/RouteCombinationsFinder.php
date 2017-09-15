@@ -45,7 +45,7 @@ class RouteCombinationsFinder
     public function find($maxTransfers = 1)
     {
         $this->maxTransfers = $maxTransfers;
-        $this->result = collect([]);
+        $this->result = collect();
 
         $this->startRoutes->each(function (RouteContainer $routeContainer) {
             $routeGroup = new RouteGroup();
@@ -78,7 +78,7 @@ class RouteCombinationsFinder
         $possibleNextRoutesContainers = $this->innerRoutes->filter(function (RouteContainer $innerRouteContainer) use ($routeContainer) {
             return $innerRouteContainer->startPoint()->minDistanceToAny(collect([$routeContainer->endPoint()])) <= self::MAX_DISTANCE_BETWEEN_POINTS;
         })->filter(function (RouteContainer $innerRouteContainer) use ($routeContainer) {
-            return $innerRouteContainer->startPoint()->getStartAt() >= $routeContainer->endPoint()->getStartAt();
+            return $innerRouteContainer->startPoint()->getStartAt() >= $routeContainer->endPoint()->getEndAt();
         });
 
         if ($possibleNextRoutesContainers->count() <= 0) {

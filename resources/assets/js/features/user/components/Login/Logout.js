@@ -6,8 +6,6 @@ import { getTranslate } from 'react-localize-redux';
 
 import { doLogout } from 'features/user/actions';
 
-import 'features/user/styles/user.scss';
-
 class Form extends React.Component {
 
     constructor() {

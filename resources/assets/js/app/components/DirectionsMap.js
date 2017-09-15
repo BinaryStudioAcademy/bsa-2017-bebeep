@@ -7,6 +7,8 @@ import moment from 'moment';
 import TripRoute from '../helpers/TripRoute';
 import {getCityLocation} from '../helpers/TripHelper';
 
+import 'app/styles/directions_map.scss';
+
 const GoogleMapContainer = withGoogleMap(props => (
     <GoogleMap
         defaultZoom={5}
@@ -150,91 +152,119 @@ class DirectionsMap extends React.Component {
         }
     }
 
-    render() {
-        const {
-            start_city,
-            end_city,
-            directions,
-            distance,
-            start_address,
-            end_address,
-            duration,
-            showTripBlock
-        } = this.state;
+    renderBookingButton() {
+        const { translate, bookingCount, onClickBooking } = this.props;
 
-        const { translate, title, bookingCount, onClickBooking } = this.props,
-            tripDetailsClass = showTripBlock ? 'show-details' : 'hide-details',
+        if (!bookingCount) {
+            return null;
+        }
+
+        return (
+            <button type="button"
+                className="btn btn-warning show-trip-bookings-btn"
+                onClick={(e) => { e.stopPropagation(); onClickBooking(); }}
+            >
+                {translate('booking.bookings_button')}
+                <span className="show-trip-bookings-btn__bookings-count">
+                    {bookingCount}
+                </span>
+            </button>
+        );
+    }
+
+    renderStartAndEndTripPoints() {
+        const { start_city, end_city, directionRenderQueueIsProcessing } = this.state,
             tripIcoClass = 'trip-detail-icon v-align-bottom fa ml-2' +
-                (this.state.directionRenderQueueIsProcessing ? ' fa-circle-o-notch fa-spin fa-fw' : ' fa-road');
+                (directionRenderQueueIsProcessing
+                    ? ' fa-circle-o-notch fa-spin fa-fw'
+                    : ' fa-road'
+                );
+
+        if (!start_city || !end_city) {
+            return null;
+        }
+
+        return (
+            <div className="trip-main-points mt-3">
+                <span>{ start_city }</span>
+                <i className="fa fa-long-arrow-right mx-2" aria-hidden="true" />
+                <span>{ end_city }</span>
+                <i className={tripIcoClass} aria-hidden="true" />
+            </div>
+        );
+    }
+
+    renderTripInfo() {
+        const { distance, start_address, end_address, duration } = this.state,
+            { translate } = this.props;
+
+        if (!distance) {
+            return null;
+        }
+
+        return (
+            <div className="card-footer trip-card-info trip-card-info--first">
+                <h6 className="trip-card-info__header">
+                    { translate('directionsmap.trip_info') }
+                </h6>
+
+                <dl className="row trip-card-info__list">
+                    <dt className="col-sm-4 trip-card-info__list-option">
+                        { translate('directionsmap.start_point_address') }</dt>
+
+                    <dd className="col-sm-8 trip-card-info__list-value">
+                        { start_address }</dd>
+
+                    <dt className="col-sm-4 trip-card-info__list-option">
+                        { translate('directionsmap.end_point_address') }</dt>
+
+                    <dd className="col-sm-8 trip-card-info__list-value">
+                        { end_address }</dd>
+
+                    <dt className="col-sm-4 trip-card-info__list-option">
+                        { translate('directionsmap.distance') }</dt>
+
+                    <dd className="col-sm-8 trip-card-info__list-value">
+                        { distance }</dd>
+
+                    <dt className="col-sm-4 trip-card-info__list-option">
+                        { translate('directionsmap.duration') }</dt>
+
+                    <dd className="col-sm-8 trip-card-info__list-value">
+                        { duration }</dd>
+                </dl>
+            </div>
+        );
+    }
+
+    render() {
+        const { directions, showTripBlock } = this.state,
+            { translate, title } = this.props,
+            tripDetailsClass = showTripBlock ? 'show' : 'hide';
 
         return (
             <div className="card">
-                <div className="card-header" onClick={ this.handleClick }>
-                    <span>{ title }</span>
+                <div className="card-header" onClick={this.handleClick}>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <span>{ title }</span>
+                        {this.renderBookingButton()}
+                    </div>
 
-                    { bookingCount  ? (
-                        <button type="button"
-                            className="btn bookings btn-sm btn-primary hover"
-                            onClick={ (e) => { e.stopPropagation(); onClickBooking(); } }
-                        >
-                            { translate('booking.bookings_button') }
-                            <span className="badge badge-red">
-                                { bookingCount }
-                            </span>
-                        </button>
-                    ) : '' }
-
-                    { start_city ? (
-                        <div className="trip-main-points mt-3">
-                            <span>{ start_city }</span>
-                            <i className="fa fa-long-arrow-right mx-2" aria-hidden="true" />
-                            <span>{ end_city }</span>
-                            <i className={tripIcoClass}
-                                aria-hidden="true" />
-                        </div>
-                    ) : '' }
+                    {this.renderStartAndEndTripPoints()}
                 </div>
 
-                <div className={ tripDetailsClass }>
-                    <div className="card-block google-map">
+                <div className={"trip-directions-map trip-directions-map--" + tripDetailsClass }>
+                    <div className="card-block trip-directions-map__google-map">
                         <GoogleMapContainer
-                          containerElement={
-                              <div style={{height: `100%`}}/>
-                          }
-                          mapElement={
-                              <div style={{height: `100%`}}/>
-                          }
-                          center={ this.props.from }
-                          directions={ directions }
+                          containerElement={ <div style={{ height: '100%' }}/> }
+                          mapElement={ <div style={{ height: '100%' }}/> }
+                          center={this.props.from}
+                          directions={directions}
                         />
                     </div>
-                  { distance  ?
-                    (
-                      <div className="card-footer">
-                          <h6>{ translate('directionsmap.trip_info') }</h6>
 
-                          <span className="text-muted">{
-                                translate('directionsmap.start_point_address') }: </span>
-                            { start_address }<br/>
-
-                          <span className="text-muted">{
-                                translate('directionsmap.end_point_address') }: </span>
-                            { end_address }<br/>
-
-                          <span className="text-muted">{
-                                translate('directionsmap.distance') }: </span>
-                            { distance }<br/>
-
-                          <span className="text-muted">{
-                                translate('directionsmap.duration') }: </span>
-                            { duration }
-                      </div>
-                    ) : (
-                      <div />
-                    )
-                  }
-
-                  { this.props.children }
+                    {this.renderTripInfo()}
+                    {this.props.children}
                 </div>
             </div>
         );

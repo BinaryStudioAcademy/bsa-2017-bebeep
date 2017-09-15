@@ -8,7 +8,8 @@ import CreateTripContainer from '../components/Containers/CreateTripContainer';
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/CreateTrip.locale.json';
 
-import '../styles/create_trip.scss';
+import '../styles/trip_form.scss';
+
 
 class CreateTrip extends React.Component {
 
@@ -20,7 +21,7 @@ class CreateTrip extends React.Component {
         const { translate } = this.props;
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="container--min-height-350">
                 <PageHeader header={ translate('create_trip.create_new_trip_header') }/>
                 <CreateTripContainer />
             </ContainerWrapper>

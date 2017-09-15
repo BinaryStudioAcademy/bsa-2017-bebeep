@@ -11,9 +11,9 @@ class TripList extends React.Component {
         super();
     }
 
-    compaundTrips(trip){
+    compaundTrips(trip, index){
         if (Array.isArray(trip.routes)){
-            return <CompoundTripWrapper key={trip.id} trip={trip}/>;
+            return <CompoundTripWrapper key={index} trip={trip}/>;
         } else {
             return <TripItem key={trip.id} trip={trip} />;
         }
@@ -25,7 +25,9 @@ class TripList extends React.Component {
         return (
             <div className="trip-list">
                 <Placeholder show={collection.length === 0}>{translate('search_result.trip_not_found')}</Placeholder>
-                {collection.map(trip =>this.compaundTrips(trip))}
+                {collection.map((trip, index) => {
+                    return this.compaundTrips(trip, index);
+                })}
             </div>
         )
     }
