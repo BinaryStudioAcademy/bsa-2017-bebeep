@@ -30,7 +30,7 @@ class TripDriver extends React.Component {
                             <strong>{ driver.full_name }</strong>
                         </Link>
                         <span className="trip-text-label driver-age mt-2">
-                            { translate('trip_details.driver.age', {age: driver.age}) }
+                            { translate('user.age', {age: driver.age}) }
                         </span>
                     </div>
                 </div>
