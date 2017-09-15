@@ -24,20 +24,19 @@ class BookingsList extends React.Component {
         return (
             <ContainerWrapper>
                 <PageHeader header={translate('bookings_list.my_bookings_header')} />
-                <div>
-                    <ul className="nav nav-pills">
-                        <li className="nav-item">
-                            <Link to="/bookings" className={"nav-link" + (filter === FILTER_UPCOMING ? " active" : "")}>
-                                {translate('bookings_list.upcoming')}
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/bookings/past" className={"nav-link" + (filter === FILTER_PAST ? " active" : "")}>
-                                {translate('bookings_list.past')}
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
+
+                <ul className="nav nav-pills mb-4">
+                    <li className="nav-item">
+                        <Link to="/bookings" className={"nav-link" + (filter === FILTER_UPCOMING ? " active" : "")}>
+                            {translate('bookings_list.upcoming')}
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/bookings/past" className={"nav-link" + (filter === FILTER_PAST ? " active" : "")}>
+                            {translate('bookings_list.past')}
+                        </Link>
+                    </li>
+                </ul>
 
                 <BookingsContainer filter={filter} />
             </ContainerWrapper>

@@ -88,10 +88,10 @@ export const getFilter = () => {
     } else {
         filter['rating'] = null;
     }
-    if (query["filter[transfer]"]) {
-        filter['transfer'] = query["filter[transfer]"];
+    if (query["filter[transfers]"]) {
+        filter['transfers'] = query["filter[transfers]"];
     } else {
-        filter['transfer'] = null;
+        filter['transfers'] = null;
     }
     return filter;
 };
@@ -155,6 +155,7 @@ export const getCountResult = (currentPage, lengthData, limit) => {
  */
 export const transformSubscriptionData = (toBeTransformed) => {
     return {
+        user_id: toBeTransformed.userId,
         start_point: {
             from: toBeTransformed.data.from.place,
             from_lat: toBeTransformed.data.from.coordinate.lat,

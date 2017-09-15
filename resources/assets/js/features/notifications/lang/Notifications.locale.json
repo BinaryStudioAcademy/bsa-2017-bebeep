@@ -6,51 +6,51 @@
       "booking_approved": {
         "title": ["Booking approved", "Бронювання підтверджено", "Бронирование подтверждено"],
         "message": [
-          "Driver ${first_name} ${last_name} approved your the booking of trip: ${from} - ${to} ${start_at}",
-          "Водій ${first_name} ${last_name} підтвердив Ваше бронювання подорожі: ${from} - ${to} ${start_at}",
-          "Водитель ${first_name} ${last_name} подтвердил Ваше бронирование поездки: ${from} - ${to} ${start_at}"
+          "Driver <strong>${first_name} ${last_name}</strong> approved your the booking of trip <strong>${from} - ${to}</strong> at ${start_at}",
+          "Водій <strong>${first_name} ${last_name}</strong> підтвердив Ваше бронювання подорожі <strong>${from} - ${to}</strong> на ${start_at}",
+          "Водитель <strong>${first_name} ${last_name}</strong> подтвердил Ваше бронирование поездки <strong>${from} - ${to}</strong> на ${start_at}"
         ]
       },
       "booking_canceled": {
         "title": ["Booking canceled", "Бронювання відмінено", "Бронирование отменено"],
         "message": [
-          "Passenger ${first_name} ${last_name} canceled the booking of trip: ${from} - ${to} ${start_at}",
-          "Пасажир ${first_name} ${last_name} відмінив бронювання подорожі: ${from} - ${to} ${start_at}",
-          "Пассажир ${first_name} ${last_name} отменил бронирование поездки: ${from} - ${to} ${start_at}"
+          "Passenger <strong>${first_name} ${last_name}</strong> canceled the booking of trip <strong>${from} - ${to}</strong> at ${start_at}",
+          "Пасажир <strong>${first_name} ${last_name}</strong> відмінив бронювання подорожі <strong>${from} - ${to}</strong> на ${start_at}",
+          "Пассажир <strong>${first_name} ${last_name}</strong> отменил бронирование поездки <strong>${from} - ${to}</strong> на ${start_at}"
         ]
       },
       "booking_declined": {
         "title": ["Booking declined", "Бронювання відхилено", "Бронирование отклонено"],
         "message": [
-          "Driver ${first_name} ${last_name} declined your the booking of trip: ${from} - ${to} ${start_at}",
-          "Водій ${first_name} ${last_name} відхилив Ваше бронювання подорожі: ${from} - ${to} ${start_at}",
-          "Водитель ${first_name} ${last_name} отклонил Ваше бронирование поездки: ${from} - ${to} ${start_at}"
+          "Driver <strong>${first_name} ${last_name}</strong> declined your the booking of trip <strong>${from} - ${to}</strong> at ${start_at}",
+          "Водій <strong>${first_name} ${last_name}</strong> відхилив Ваше бронювання подорожі <strong>${from} - ${to}</strong> на ${start_at}",
+          "Водитель <strong>${first_name} ${last_name}</strong> отклонил Ваше бронирование поездки <strong>${from} - ${to}</strong> на ${start_at}"
         ]
       },
       "booking_created": {
         "title": ["Booking created", "Оформлено бронювання", "Оформлено бронирование"],
         "message1": [
-          "Passenger ${first_name} ${last_name} booked ${seats} seat(s) for trip: ${from} - ${to} ${start_at}",
-          "Пасажир ${first_name} ${last_name} забронював ${seats} місце на подорож: ${from} - ${to} ${start_at}",
-          "Пассажир ${first_name} ${last_name} забронировал ${seats} место на поездку: ${from} - ${to} ${start_at}"
+          "Passenger <strong>${first_name} ${last_name}</strong> booked ${seats} seat for the trip <strong>${from} - ${to}</strong> at ${start_at}",
+          "Пасажир <strong>${first_name} ${last_name}</strong> забронював ${seats} місце на подорож <strong>${from} - ${to}</strong> на ${start_at}",
+          "Пассажир <strong>${first_name} ${last_name}</strong> забронировал ${seats} место на поездку <strong>${from} - ${to}</strong> на ${start_at}"
         ],
         "message2": [
-          "Passenger ${first_name} ${last_name} booked ${seats} seat(s) for trip: ${from} - ${to} ${start_at}",
-          "Пасажир ${first_name} ${last_name} забронював ${seats} місця на подорож: ${from} - ${to} ${start_at}",
-          "Пассажир ${first_name} ${last_name} забронировал ${seats} места на поездку: ${from} - ${to} ${start_at}"
+          "Passenger <strong>${first_name} ${last_name}</strong> booked ${seats} seats for the trip <strong>${from} - ${to}</strong> at ${start_at}",
+          "Пасажир <strong>${first_name} ${last_name}</strong> забронював ${seats} місця на подорож <strong>${from} - ${to}</strong> на ${start_at}",
+          "Пассажир <strong>${first_name} ${last_name}</strong> забронировал ${seats} места на поездку <strong>${from} - ${to}</strong> на ${start_at}"
         ],
         "message3": [
-          "Passenger ${first_name} ${last_name} booked ${seats} seat(s) for trip: ${from} - ${to} ${start_at}",
-          "Пасажир ${first_name} ${last_name} забронював ${seats} місць на подорож: ${from} - ${to} ${start_at}",
-          "Пассажир ${first_name} ${last_name} забронировал ${seats} мест на поездку: ${from} - ${to} ${start_at}"
+          "Passenger <strong>${first_name} ${last_name}</strong> booked ${seats} seats for the trip <strong>${from} - ${to}</strong> at ${start_at}",
+          "Пасажир <strong>${first_name} ${last_name}</strong> забронював ${seats} місць на подорож <strong>${from} - ${to}</strong> на ${start_at}",
+          "Пассажир <strong>${first_name} ${last_name}</strong> забронировал ${seats} мест на поездку <strong>${from} - ${to}</strong> на ${start_at}"
         ]
       },
       "review_on_trip_created": {
         "title": ["Review created", "Залишили відгук", "Оставили отзыв"],
         "message": [
-          "${first_name} ${last_name} leaved <a href=/dashboard/profile/reviews/received target='_blank'>review</a> on your trip: ${from} - ${to}",
-          "${first_name} ${last_name} залишив(-ла) <a href=/dashboard/profile/reviews/received target='_blank'>відгук</a> про вашу подорож: ${from} - ${to}",
-          "${first_name} ${last_name} оставил(а) <a href=/dashboard/profile/reviews/received target='_blank'>отзыв</a> о вашей поездке: ${from} - ${to}"
+          "<strong>${first_name} ${last_name}</strong> leaved <a href=/dashboard/profile/reviews/received target='_blank'>the review</a> on your trip: ${from} - ${to}",
+          "<strong>${first_name} ${last_name}</strong> залишив(-ла) <a href=/dashboard/profile/reviews/received target='_blank'>відгук</a> про Вашу подорож: ${from} - ${to}",
+          "<strong>${first_name} ${last_name}</strong> оставил(а) <a href=/dashboard/profile/reviews/received target='_blank'>отзыв</a> о Вашей поездке: ${from} - ${to}"
         ]
       }
     }

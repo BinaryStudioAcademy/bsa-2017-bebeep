@@ -25,7 +25,7 @@ class Filter extends React.Component {
             seats: null,
             luggage: null,
             rating: null,
-            transfer: null
+            transfers: null
         };
         this.timeChange = this.timeChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
@@ -54,7 +54,7 @@ class Filter extends React.Component {
             luggage: null,
             seats: null,
             rating: null,
-            transfer: null
+            transfers: null
         }, filter));
     }
 
@@ -82,12 +82,12 @@ class Filter extends React.Component {
         setUrl(setFilter({rating: e.target.value}));
     }
 
-    transferChange(e) {
-        setUrl(setFilter({transfer: e.target.value}));
+    transfersChange(e) {
+        setUrl(setFilter({transfers: e.target.value}));
     }
 
     render() {
-        const { time, price, animals, seats, luggage, rating, transfer } = this.state;
+        const { time, price, animals, seats, luggage, rating, transfers } = this.state;
 
         const { priceBounds, translate } = this.props;
 
@@ -146,8 +146,8 @@ class Filter extends React.Component {
                     onChange={this.ratingChange}
                 />
                 <TransferDropDown
-                    value={transfer}
-                    onChange={this.transferChange}
+                    value={transfers}
+                    onChange={this.transfersChange}
                 />
 
             </div>

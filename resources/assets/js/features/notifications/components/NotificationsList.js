@@ -37,7 +37,7 @@ class NotificationsList extends React.Component {
                                     <div>{message.message}</div>
                                     {
                                         message.link
-                                            ? <a className="btn" href={message.link}>
+                                            ? <a className="btn btn-primary notification__read-more-btn" href={message.link}>
                                                 {translate('notifications.messages.detail')}
                                             </a>
                                             : ''

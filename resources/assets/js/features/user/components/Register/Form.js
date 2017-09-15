@@ -22,8 +22,6 @@ import BookingService from 'app/services/BookingService';
 import { RegisterValidate, checkPassengerRole } from 'app/services/UserService';
 import { STEP_THREE, savePendingTrip, isTripReady } from 'app/services/WizardTripService';
 
-import 'features/user/styles/user_register.scss';
-
 class Form extends React.Component {
 
     constructor() {
@@ -188,40 +186,42 @@ class Form extends React.Component {
                                 isValidDate={this.isValidDate}
                                 timeFormat={false}
                                 inputProps={{ name: 'birth_date', id: 'birth_date' }}
-                                labelClasses="register-form-label"
-                                wrapperClasses="register-form-birth_date"
+                                labelClasses="datetimepicker-label"
+                                wrapperClasses="datetimepicker-wrapper"
                                 error={errors.birth_date}
                             />
                         </div>
                     </div>
 
                     <div className={"form-group row " + (errors.role ? 'has-danger' : '')}>
-                        <div className="col-sm-4 text-muted">
+                        <div className="col-sm-4 text-muted mb-3">
                             {translate('register_form.role')}
                         </div>
-                        <div className="form-check col-sm-4">
-                            <label className="form-check-label">
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="role_driver"
-                                    name="role_driver"
-                                    value="1"
-                                    defaultChecked={hasTripPending}
-                                /> {translate('register_form.driver')}
-                            </label>
-                        </div>
-                        <div className="form-check col-sm-4">
-                            <label className="form-check-label">
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="role_passenger"
-                                    name="role_passenger"
-                                    value="1"
-                                    defaultChecked={passengerCheck}
-                                /> {translate('register_form.passenger')}
-                            </label>
+                        <div className="col-sm-8 d-flex flex-wrap">
+                            <div className="form-check form-check--with-text">
+                                <label className="form-check-label">
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="role_driver"
+                                        name="role_driver"
+                                        value="1"
+                                        defaultChecked={hasTripPending}
+                                    /> {translate('register_form.driver')}
+                                </label>
+                            </div>
+                            <div className="form-check form-check--with-text">
+                                <label className="form-check-label">
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="role_passenger"
+                                        name="role_passenger"
+                                        value="1"
+                                        defaultChecked={passengerCheck}
+                                    /> {translate('register_form.passenger')}
+                                </label>
+                            </div>
                         </div>
                         <div className="offset-sm-4 col-sm-8">
                             <div className="form-control-feedback">{errors.role}</div>

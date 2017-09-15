@@ -1,10 +1,19 @@
 @import '~app/bootstrap/variables';
 @import '~font-awesome/scss/variables';
+@import "~bootstrap/scss/mixins/breakpoints";
 
 .user-list-item {
   display: block;
+  transition: all .15s;
+
   &:hover {
-    background-color: $gray-lightest;
+    background-color: lighten($orange, 32%);
+  }
+
+  a:link,
+  a:focus,
+  a:hover {
+    text-decoration: none;
   }
 }
 
@@ -25,30 +34,38 @@
     height: $badge-radius * 2;
     border: 1px solid transparent;
     position: absolute;
-    left: $list-group-item-padding-x / 2;
+    left: $list-group-item-padding-x;
     top: 50%;
     margin-top: -$badge-radius;
     margin-left: -$badge-radius;
 
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
     border-radius: 50%;
 
     &--online {
       background-color: $brand-success;
     }
     &--offline {
-      background-color: transparent;
-      border-color: $brand-danger;
+      background-color: $brand-danger;
+    }
+
+    @include media-breakpoint-down(xs) {
+      left: $list-group-item-padding-x / 2;
     }
   }
   &__name {
+    font-size: .95rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
   &__envelope {
+    position: absolute;
+    right: 20px;
     color: $teal;
+
+    @include media-breakpoint-down(xs) {
+      right: $list-group-item-padding-x / 2;
+    }
   }
   &__avatar {
     max-width: 30px;
@@ -57,6 +74,9 @@
 
     &--online {
       border-color: lighten($brand-success, 5%);
+    }
+    &--offline {
+      border-color: lighten($brand-danger, 5%);
     }
   }
 }

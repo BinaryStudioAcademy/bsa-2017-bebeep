@@ -74,8 +74,8 @@ class PasswordForgotModal extends React.Component {
                                 error={errors.email}
                             >{translate('password_forgot_modal.email')}</Input>
                         </div>
-                        <div className="modal-footer text-right">
-                            <button className="btn" onClick={(e) => {
+                        <div className="modal-footer">
+                            <button className="btn btn-warning mr-2" role="button" onClick={(e) => {
                                 e.preventDefault();
                                 this.setState({formIsOpen: false});
                             }}>{translate('password_forgot_modal.cancel')}</button>

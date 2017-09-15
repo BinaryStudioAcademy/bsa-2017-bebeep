@@ -6,6 +6,10 @@
     padding: 0;
   }
 
+  &__container {
+    padding-left: 15px;
+  }
+
   &__state {
     position: relative;
 
@@ -23,7 +27,7 @@
       position: absolute;
       top: 50%;
       margin-top: -$circle-radius;
-      left: $circle-radius;
+      left: 15px;
     }
 
     &--success:before {
@@ -63,5 +67,10 @@
   &__text {
     padding: $spacer;
     font-size: .95rem;
+  }
+
+  &__read-more-btn {
+    margin-top: 1rem;
+    font-size: $font-size-base-smaller;
   }
 }

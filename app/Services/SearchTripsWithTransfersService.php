@@ -36,7 +36,10 @@ class SearchTripsWithTransfersService
             ->getResult()->pluck('id')->unique()->toArray();
 
         if (count($this->possibleTripsIds) <= 0) {
-            return collect([]);
+            return [
+                'data' => [],
+                'meta' => $this->getMeta(collect(), collect()),
+            ];
         }
 
         $possibleStartRoutes = $this->getPossibleStartRoutes();
@@ -73,8 +76,8 @@ class SearchTripsWithTransfersService
         });
 
         return [
-            'data' => $filteredAndSortedRouteGroups->forPage($this->searchRequest->getPage(), $this->searchRequest->getLimit()),
-            'meta' => $this->getMeta($routeGroups),
+            'data' => $filteredAndSortedRouteGroups->forPage($this->searchRequest->getPage(), $this->searchRequest->getLimit())->values(),
+            'meta' => $this->getMeta($routeGroups, $filteredAndSortedRouteGroups),
         ];
     }
 
@@ -122,8 +125,8 @@ class SearchTripsWithTransfersService
                 );
             })->orWhere(function ($query) use ($distanceBetweenStartAndEndPoints) {
                 return $query->haversine(
-                    'from_lat',
-                    'from_lng',
+                    'to_lat',
+                    'to_lng',
                     $this->searchRequest->getToLat(),
                     $this->searchRequest->getToLng(),
                     $distanceBetweenStartAndEndPoints
@@ -199,28 +202,25 @@ class SearchTripsWithTransfersService
 
     /**
      * @param $routeGroups
+     * @param $filteredRouteGroups
      * @return array
      */
-    private function getMeta($routeGroups)
+    private function getMeta($routeGroups, $filteredRouteGroups)
     {
-        $minPrice = $routeGroups->map(function ($routeGroup) {
-            return $routeGroup->getRoutes()->map(function ($route) {
-                return $route->trip->price;
-            })->min();
-        })->min();
+        $routeGroupsPrices = $routeGroups->map(function ($routeGroup) {
+            $routeGroupPrice = $routeGroup->getRoutes()->reduce(function ($carry, $route) {
+                return $carry + $route->trip->price;
+            });
 
-        $maxPrice = $routeGroups->map(function ($routeGroup) {
-            return $routeGroup->getRoutes()->map(function ($route) {
-                return $route->trip->price;
-            })->max();
-        })->max();
+            return $routeGroupPrice;
+        });
 
         return [
             'price' => [
-                'min' => $minPrice,
-                'max' => $maxPrice,
+                'min' => $routeGroupsPrices->min(),
+                'max' => $routeGroupsPrices->max(),
             ],
-            'total' => $routeGroups->count(),
+            'total' => $filteredRouteGroups->count(),
         ];
     }
 }

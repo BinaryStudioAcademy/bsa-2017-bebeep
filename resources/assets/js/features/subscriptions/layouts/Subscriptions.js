@@ -16,7 +16,7 @@ class Subscriptions extends React.Component {
         const {translate} = this.props;
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="container--min-height-400">
                 <PageHeader header={translate('subscriptions.header')}/>
                 <SubscriptionList />
             </ContainerWrapper>

@@ -74,8 +74,14 @@ class BookingModal extends React.Component {
                         <span>
                             <strong>{count}</strong> { translate('booking.bookings_in_pending') }
                         </span>
+                        <button className="btn btn-sm btn-booking"
+                            role="button"
+                            onClick={this.toggleModal}
+                        >
+                            <i className="fa fa-times" aria-hidden="true" />
+                        </button>
                     </div>
-                    <div className="modal-body">
+                    <div className="modal-body trip-bookings-modal">
                         <ul className="list-unstyled">
                             {bookings.map((booking, i) =>
                                 <BookingInfo
@@ -86,11 +92,6 @@ class BookingModal extends React.Component {
                                 />
                             )}
                         </ul>
-                    </div>
-                    <div className="modal-footer text-right">
-                        <button className="btn btn-sm btn-booking" role="button" onClick={this.toggleModal}>
-                            {translate('booking.close_button')}
-                        </button>
                     </div>
                 </Modal>
             </div>
