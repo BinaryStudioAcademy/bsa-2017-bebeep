@@ -13,7 +13,6 @@
     "price": ["Price", "Ціна", "Цена"],
     "date": ["Date", "Дата", "Дата"],
     "per_passenger": ["per passenger", "з пасажира", "с пассажира"],
-    "years": ["Age: ${age}", "Вік: ${age}", "Возраст: ${age}"],
     "today": ["Today", "Сьогодні", "Сегодня"],
     "tomorrow": ["Tomorrow", "Завтра", "Завтра"],
     "filter": {
