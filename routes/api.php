@@ -240,7 +240,7 @@ Route::get('v1/users/{user}/messages', [
     'uses' => 'Api\Chat\ChatController@getChatMessages',
 ]);
 
-Route::delete('v1/users/message/{id}', [
+Route::delete('v1/users/message/{message}', [
     'middleware' => ['jwt.auth'],
     'as' => 'delete.message',
     'uses' => 'Api\Chat\ChatController@destroy',

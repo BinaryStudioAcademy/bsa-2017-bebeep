@@ -33,13 +33,13 @@ class ChatMessageRepository extends BaseRepository implements Contracts\ChatMess
     /**
      * Delete user message
      *
-     * @param ChatMessage $chatMessage
+     * @param ChatMessage $message
      * @return ChatMessage
      */
-    public function deleteUserMessage(ChatMessage $chatMessage)
+    public function deleteUserMessage(ChatMessage $message)
     {
-        $chatMessage->delete();
+        $message->delete();
 
-        return $chatMessage;
+        return $message;
     }
 }
