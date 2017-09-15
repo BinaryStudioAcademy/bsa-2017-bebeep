@@ -5,8 +5,26 @@ import { localize } from 'react-localize-redux';
 import TripUserImage from '../TripUserImage';
 import { LinkButton } from 'app/components/Buttons';
 
+import { isThisIdOfAuthUser } from 'app/services/UserService';
+
 
 class TripDriver extends React.Component {
+
+    renderBtnWriteMessage() {
+        const { driver } = this.props;
+
+        if (isThisIdOfAuthUser(driver.id)) {
+            return null;
+        }
+
+        return (
+            <LinkButton pathTo={"/dashboard/messages/" + driver.id}
+                id="write_msg_to_user"
+                iconClassName="fa-envelope"
+                className="mt-3 w-100"
+            />
+        );
+    }
 
     render() {
         const { driver, translate } = this.props;
@@ -34,11 +52,7 @@ class TripDriver extends React.Component {
                             { translate('trip_details.driver.age', {age: driver.age}) }
                         </span>
 
-                        <LinkButton pathTo={"/dashboard/messages/" + driver.id}
-                            id="write_msg_to_user"
-                            iconClassName="fa-envelope"
-                            className="mt-3 w-100"
-                        />
+                        {this.renderBtnWriteMessage()}
                     </div>
                 </div>
             </section>
