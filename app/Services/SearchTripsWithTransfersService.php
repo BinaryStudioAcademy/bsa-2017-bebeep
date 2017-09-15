@@ -38,7 +38,7 @@ class SearchTripsWithTransfersService
         if (count($this->possibleTripsIds) <= 0) {
             return [
                 'data' => [],
-                'meta' => $this->getMeta(collect([])),
+                'meta' => $this->getMeta(collect(), collect()),
             ];
         }
 
@@ -76,8 +76,8 @@ class SearchTripsWithTransfersService
         });
 
         return [
-            'data' => $filteredAndSortedRouteGroups->forPage($this->searchRequest->getPage(), $this->searchRequest->getLimit()),
-            'meta' => $this->getMeta($routeGroups),
+            'data' => $filteredAndSortedRouteGroups->forPage($this->searchRequest->getPage(), $this->searchRequest->getLimit())->values(),
+            'meta' => $this->getMeta($routeGroups, $filteredAndSortedRouteGroups),
         ];
     }
 
@@ -202,9 +202,10 @@ class SearchTripsWithTransfersService
 
     /**
      * @param $routeGroups
+     * @param $filteredRouteGroups
      * @return array
      */
-    private function getMeta($routeGroups)
+    private function getMeta($routeGroups, $filteredRouteGroups)
     {
         $routeGroupsPrices = $routeGroups->map(function ($routeGroup) {
             $routeGroupPrice = $routeGroup->getRoutes()->reduce(function ($carry, $route) {
@@ -219,7 +220,7 @@ class SearchTripsWithTransfersService
                 'min' => $routeGroupsPrices->min(),
                 'max' => $routeGroupsPrices->max(),
             ],
-            'total' => $routeGroups->count(),
+            'total' => $filteredRouteGroups->count(),
         ];
     }
 }
