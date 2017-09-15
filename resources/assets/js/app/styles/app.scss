@@ -47,6 +47,20 @@ strong {
     vertical-align: bottom;
 }
 
+.container {
+    &--min-height {
+        &-350 {
+            min-height: 350px;
+        }
+        &-400 {
+            min-height: 400px;
+        }
+        &-500 {
+            min-height: 500px;
+        }
+    }
+}
+
 .page-header {
     margin-bottom: 1.5rem;
     color: #444;
@@ -245,6 +259,28 @@ strong {
 
     .dropdown-menu {
         min-width: 8rem;
+    }
+}
+
+.application-footer-wrapper {
+    background: #fff;
+    border-top: 1px solid rgba(212, 207, 207, .4);
+    box-shadow: 0 -5px 5px -5px rgba(51, 51, 51, .21);
+}
+.application-footer {
+    padding-top: .5rem;
+    line-height: 1;
+    font-size: .8rem;
+
+    &__copyrights {
+        margin-bottom: 2rem;
+    }
+
+    &__content p {
+        margin-bottom: .5rem;
+    }
+    &__content strong {
+        font-weight: 500;
     }
 }
 

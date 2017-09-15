@@ -93,5 +93,13 @@
     }
   },
   "subscriptions": ["Subscriptions", "Підписки", "Подписки"],
-  "chat": ["Chat", "Повідомлення", "Сообщения"]
+  "chat": ["Chat", "Повідомлення", "Сообщения"],
+  "app-footer": {
+    "copyrights": ["All rights reserved", "Усі права захищені", "Все права защищены"],
+    "content": [
+        "<p><strong>BeBeep</strong> — your reliable assistant in finding common trips. We unite drivers and passengers on the road, for long-distance trips at cheaper prices.</p><p>With <strong>BeBeep</strong> your next trip will be profitable and convenient!</p>",
+        "<p><strong>BeBeep</strong> — Ваш надійний помічник у пошуку спільних подорожей. Ми об’єднуємо водіїв і пасажирів, яким по дорозі, для міжміських подорожей за дешевшими цінами.</p><p>З <strong>BeBeep</strong> Ваша наступна подорож буде вигідною та зручною!</p>",
+        "<p><strong>BeBeep</strong> — Ваш надежный помощник в поиске общих поездок. Мы объединяем водителей и пассажиров, которым по дороге, для междугородных поездок по более дешевым ценам.</p><p>С <strong>BeBeep</strong> Ваша следующая поездка будет выгодной и удобной!</p>"
+    ]
+  }
 }

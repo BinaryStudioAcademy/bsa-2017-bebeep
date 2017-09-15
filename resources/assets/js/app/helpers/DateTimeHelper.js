@@ -105,9 +105,16 @@ const DateTimeHelper = {
         return moment().diff(date, 'years');
     },
 
+    getCurrentDateTime(format) {
+        const defaultFormat = 'ddd DD MMM, H:mm';
+        format = format || defaultFormat;
+
+        return moment().format(format);
+    },
+
     getTimeForChat(date) {
         return moment.unix(date).format("DD MMM YYYY HH:mm");
-    }
+    },
 
 };
 

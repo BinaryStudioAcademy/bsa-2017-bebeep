@@ -11,7 +11,7 @@ class NotFound extends React.Component {
         const { translate } = this.props;
 
         return (
-            <ContainerWrapper className="text-center">
+            <ContainerWrapper className="text-center container--min-height-350">
                 <PageHeader header={ translate('page_not_found') } />
 
                 <Link to="/">{ translate('go_to_home_page') }</Link>

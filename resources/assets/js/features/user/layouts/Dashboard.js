@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
             userName = `${user.first_name} ${user.last_name}`;
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="container--min-height-350">
                 <section className="page-section">
                     <PageHeader header={ translate('dashboard.header') } />
                     <p className="text-center">

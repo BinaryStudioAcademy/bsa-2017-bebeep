@@ -20,7 +20,7 @@ class CreateTrip extends React.Component {
         const { translate } = this.props;
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="container--min-height-350">
                 <PageHeader header={ translate('create_trip.create_new_trip_header') }/>
                 <CreateTripContainer />
             </ContainerWrapper>
