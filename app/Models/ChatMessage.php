@@ -7,12 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChatMessage extends Model
 {
+    /**
+     * @var array
+     */
     protected $fillable = [
         'id',
         'message',
         'is_read',
         'sender_id',
         'recipient_id',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'is_read' => 'boolean',
     ];
 
     /**

@@ -48,4 +48,11 @@ class ChatController extends Controller
 
         return response()->json($result);
     }
+
+    public function markAsRead(ChatMessage $message)
+    {
+        $result = $this->chatMessageService->markAsRead($message);
+
+        return response()->json($result);
+    }
 }

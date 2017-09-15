@@ -246,7 +246,7 @@ Route::delete('v1/users/message/{message}', [
     'uses' => 'Api\Chat\ChatController@destroy',
 ]);
 
-Route::post('v1/user/{user}/message/{id}/read', [
+Route::put('v1/users/message/{message}', [
     'middleware' => ['jwt.auth'],
     'as' => 'read.messages',
     'uses' => 'Api\Chat\ChatController@markAsRead',

@@ -54,4 +54,19 @@ class ChatMessageService implements ChatMessageServiceContract
     {
         return $this->chatMessageRepository->deleteUserMessage($message);
     }
+
+    /**
+     * Mark message as read
+     *
+     * @param ChatMessage $message
+     * @return mixed
+     */
+    public function markAsRead(ChatMessage $message)
+    {
+        $attributes = [
+            'is_read' => true,
+        ];
+
+        return $this->chatMessageRepository->markMessageAsRead(new ChatMessage($attributes), $message->getMessageId());
+    }
 }
