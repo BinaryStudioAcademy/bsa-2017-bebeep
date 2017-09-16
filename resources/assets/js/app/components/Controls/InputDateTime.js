@@ -5,6 +5,8 @@ import DateTime from 'react-datetime';
 
 import 'app/styles/react-datetime.scss';
 
+export const VIEW_MODE_YEARS = 'years';
+
 class InputDateTime extends React.Component {
     constructor() {
         super();
