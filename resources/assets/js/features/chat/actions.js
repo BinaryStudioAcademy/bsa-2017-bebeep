@@ -127,6 +127,7 @@ export const filterUsers = (query) => dispatch => {
     return new Promise((reject, success) => {
         query = query.trim();
         if (!query) {
+            success();
             return;
         }
 
