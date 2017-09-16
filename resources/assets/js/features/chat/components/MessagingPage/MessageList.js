@@ -18,13 +18,19 @@ class MessageList extends React.Component {
     }
 
     render() {
-        const {translate, messages, user} = this.props;
+        const {translate, messages, user, onDelete} = this.props;
 
         return (
             <ul className="chat" key={moment()} ref={(container) => this.chatContainer = container}>
                  {messages.map((message, i) => {
                      return (
-                         <Message key={i} keyId={i} messageData={message} userData={user}/>
+                         <Message
+                             key={i}
+                             keyId={i}
+                             messageData={message}
+                             userData={user}
+                             onDeleteMessage={ onDelete(message.id) }
+                         />
                      );
                  })}
             </ul>

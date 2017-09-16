@@ -25,6 +25,7 @@ class MessagingContainer extends React.Component {
         const {getMessagesByUser, userId} = props;
 
         getMessagesByUser(userId);
+        console.log('messages updated');
     }
 
     getChats(id) {
@@ -57,6 +58,11 @@ class MessagingContainer extends React.Component {
         e.target['text'].value = '';
     }
 
+    onDeleteMessage(id) {
+        console.log('deleted from message container', id);
+        this.updateMessages(this.props);
+    }
+
     render() {
         const {translate, userId} = this.props,
             backLink = '/dashboard/users',
@@ -77,7 +83,11 @@ class MessagingContainer extends React.Component {
                             <span className="pull-right chat-message__header-user-name">{user.first_name}&nbsp;{user.last_name}</span>
                         </div>
                         <div className="chat-message__body" >
-                            <MessageList messages={messages} user={user} />
+                            <MessageList
+                                messages={messages}
+                                user={user}
+                                onDelete={(id) => this.onDeleteMessage(id)}
+                            />
                         </div>
                         <div className="chat-message__footer">
                             <form role="form" method="POST" onSubmit={this.onSendMsg.bind(this)}>
