@@ -4,7 +4,7 @@ import { localize } from 'react-localize-redux';
 import Input from 'app/components/Input';
 import Textarea from 'app/components/Textarea';
 
-import { InputDateTime } from 'app/components/Controls';
+import InputDateTime, { VIEW_MODE_YEARS } from 'app/components/Controls/InputDateTime';
 import moment from 'moment';
 
 import { ProfileValidate } from 'app/services/UserService';
@@ -153,7 +153,7 @@ class GeneralForm extends React.Component {
                                     id="birth_date"
                                     isValidDate={this.isValidDate}
                                     timeFormat={false}
-                                    viewMode="years"
+                                    viewMode={VIEW_MODE_YEARS}
                                     defaultValue={profile.birth_date}
                                     inputProps={{name: 'birth_date', id: 'birth_date'}}
                                     labelClasses="datetimepicker-label"
