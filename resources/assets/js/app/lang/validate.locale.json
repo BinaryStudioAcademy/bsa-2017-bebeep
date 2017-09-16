@@ -84,6 +84,6 @@
     "car_year_is_required": ["Car year is required", "Рік випуску - обов'язкове поле", "Год выпуска - обязательное поле"],
     "car_year_must_be_less_than_or_equal_to_current_year": ["Car year must be less than or equal to current year", "Рік випуску автомобіля повинен бути менше чи рівним поточному року", "Год выпуска автомобиля должен быть меньше или равным текущему году"],
     "car_seats_is_required": ["Car seats is required", "К-сть місць в автомобілі - обов'язкове поле", "Кол-во мест в автомобиле - обязательное поле"],
-    "car_seats_must_be_a_valid_number": ["Car seats must be a valid number", "К-сть місць должно быть корректным числом", "Кол-во мест должно быть корректным числом"]
+    "car_seats_must_be_a_valid_number": ["Car seats must be a valid number", "К-сть місць повинна бути коректним числом", "Кол-во мест должно быть корректным числом"]
   }
 }
