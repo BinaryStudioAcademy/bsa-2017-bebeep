@@ -99,10 +99,6 @@ class TripForm extends React.Component {
         const { vehicles, trip } = this.props,
             defaultValue = trip ? trip.vehicle_id : '';
 
-        if (vehicles.length <= 0) {
-            return null;
-        }
-
         return (
             <select name="vehicle_id"
                 id="vehicle_id"
