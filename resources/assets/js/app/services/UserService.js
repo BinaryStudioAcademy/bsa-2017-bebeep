@@ -272,7 +272,7 @@ const UserService = {
     USER_ROLE_DRIVER,
     checkPassengerRole,
     checkDriverRole,
-    isThisIdOfAuthUser
+    isThisIdOfAuthUser,
 };
 
 export default UserService;
