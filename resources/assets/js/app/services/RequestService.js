@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AuthService from './AuthService';
-import LangService from './LangService';
+import LangService, { LANG_PROP_CODE } from './LangService';
 
 const requestParams = {
     headers: {
@@ -9,7 +9,7 @@ const requestParams = {
 };
 
 const setLangHeaders = (config) => {
-    config.headers['User-Language'] = LangService.getActiveLanguage();
+    config.headers['User-Language'] = LangService.getActiveLanguage(LANG_PROP_CODE);
     return config;
 };
 
