@@ -97,9 +97,10 @@ export default (state = initialState, action) => {
                             [action.data.userId]: [
                                 ...state.entities.chats.byUserId[action.data.userId],
                                 {
+                                    id: action.data.id,
                                     time: action.data.time,
                                     text: action.data.text,
-                                    status: 'sent'
+                                    status: MESSAGE_STATUS_SENT
                                 }
                             ]
                         }

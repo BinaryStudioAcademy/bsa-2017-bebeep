@@ -58,7 +58,10 @@ export const sendMessage = (data) => dispatch => {
         message: data.text
     };
     securedRequest.post('/api/v1/users/' + data.userId + '/messages', sendedData)
-        .then(() => dispatch(updateMessagesInGlobalState(data)));
+        .then((response) => {
+            data.id = response.data.data.id;
+            dispatch(updateMessagesInGlobalState(data));
+        });
 };
 
 export const fillUsersList = () => dispatch => {
