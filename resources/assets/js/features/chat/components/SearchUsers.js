@@ -12,6 +12,8 @@ class SearchUsers extends React.Component {
         this.state = {
             preloader: false
         };
+
+        this.filterUsers = this.filterUsers.bind(this);
     }
 
     filterUsers(e) {
@@ -28,17 +30,20 @@ class SearchUsers extends React.Component {
     render() {
         const {translate} = this.props,
             {preloader} = this.state,
-            icoClass = "search-users__ico fa" + (preloader ? " fa-circle-o-notch fa-spin" : " fa-search");
+            icoClass = "search-users__icon fa" + (
+                preloader ? " fa-circle-o-notch fa-spin" : " fa-search"
+            );
 
         return (
-            <div className="search-users">
-                <input
-                    type="text"
-                    className="search-users__input"
+            <div className="input-group search-users">
+                <div className="input-group-addon search-users__icon-wrapper">
+                    <i className={icoClass} />
+                </div>
+                <input type="text"
+                    className="form-control search-users__input"
                     placeholder={translate('chat.user_list.search_placeholder')}
-                    onChange={this.filterUsers.bind(this)}
+                    onChange={this.filterUsers}
                 />
-                <i className={icoClass} />
             </div>
         );
     }
