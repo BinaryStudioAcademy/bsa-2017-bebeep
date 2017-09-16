@@ -42,7 +42,7 @@ class UserListContainer extends React.Component {
     }
 
     getUsersSortList() {
-        const {onlineUsers, searchMode} = this.props,
+        const {onlineUsers} = this.props,
             users = this.getUsers();
 
         let usersOnline = this.setSortUsersList(
@@ -53,9 +53,6 @@ class UserListContainer extends React.Component {
             this.setOnlineStatus(users, false)
         );
 
-        if (searchMode) {
-            usersOnline = _.intersectionBy(usersOnline, usersOffline, 'id');
-        }
         usersOffline = _.differenceBy(usersOffline, usersOnline, 'id');
 
         return usersOnline.concat(usersOffline);
@@ -86,7 +83,6 @@ export default connect(
         onlineUsers: state.chat.onlineUsers,
         usersId: state.chat.usersId,
         users: state.chat.entities.users.byId,
-        searchMode: state.chat.searchMode,
         translate: getTranslate(state.locale)
     }),
     dispatch => bindActionCreators({fillUsersList}, dispatch)
