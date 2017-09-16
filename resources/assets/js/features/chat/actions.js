@@ -31,6 +31,12 @@ export const setOffline = (user) => ({
     user
 });
 
+export const setSearchMode = (status) => ({
+    type: actions.CHAT_SET_SEARCH_MODE,
+    status
+});
+
+
 export const clearUserList = () => ({
     type: actions.CHAT_CLEAR_USER_LIST
 });
