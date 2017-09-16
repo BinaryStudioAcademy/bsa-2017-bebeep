@@ -58,11 +58,6 @@ class MessagingContainer extends React.Component {
         e.target['text'].value = '';
     }
 
-    onDeleteMessage(id) {
-        console.log('deleted from message container', id);
-        this.updateMessages(this.props);
-    }
-
     render() {
         const {translate, userId} = this.props,
             backLink = '/dashboard/users',
@@ -86,7 +81,6 @@ class MessagingContainer extends React.Component {
                             <MessageList
                                 messages={messages}
                                 user={user}
-                                onDelete={(id) => this.onDeleteMessage(id)}
                             />
                         </div>
                         <div className="chat-message__footer">
