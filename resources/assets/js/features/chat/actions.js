@@ -68,6 +68,8 @@ export const sendMessage = (data) => dispatch => {
 };
 
 export const fillUsersList = () => dispatch => {
+    dispatch(setSearchMode(false));
+
     securedRequest.get('/api/v1/users/others')
         .then(response => dispatch(addUsersToList(response.data)))
         .catch(error => {
@@ -123,10 +125,14 @@ export const getMessagesByUser = (userId) => dispatch => {
         });
 };
 
-export const filterUsers = (query) => dispatch => {
+export const filterUsers = (rawQuery) => dispatch => {
     return new Promise((reject, success) => {
-        query = query.trim();
-        if (!query) {
+        const query = rawQuery.trim();
+
+        if (!query.length) {
+            if (!rawQuery.length) {
+                dispatch(fillUsersList());
+            }
             success();
             return;
         }
