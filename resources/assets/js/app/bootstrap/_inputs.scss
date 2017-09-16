@@ -64,7 +64,7 @@
 
   &--focus > &__label,
   &__text:focus + &__label {
-    top: $form-input-circle-height / 3;
+    top: $form-input-circle-height / 4;
     font-size: $font-size-xs;
   }
 

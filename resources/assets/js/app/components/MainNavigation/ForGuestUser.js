@@ -11,7 +11,7 @@ class ForGuestUser extends React.Component {
         const { translate } = this.props;
 
         return (
-            <ul className="header__menu header__menu_right header-menu">
+            <ul className="header__menu header-menu">
                 <li className="header-menu__item">
                     <Link to="/login" activeClassName="active">
                         { translate('login') }

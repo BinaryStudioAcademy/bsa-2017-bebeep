@@ -90,6 +90,7 @@ class ReviewBookingModal extends React.Component {
                                             id="rating"
                                             count={5}
                                             size={30}
+                                            half={false}
                                             value={this.state.rating}
                                             onChange={this.ratingChanged.bind(this)}
                                         />

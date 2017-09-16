@@ -225,7 +225,7 @@ class SearchForm extends React.Component {
                     <div className="row search-block-centered">
                         <div className="col-sm-3 offset-md-1">
                             <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
-                                <label className='form-input search-block__search-label fa-circle-o'>
+                                <label className='form-input form-input--focus search-block__search-label fa-circle-o'>
                                     <PlacesAutocomplete
                                         inputProps={startPointProps}
                                         classNames={startPlaceCssClasses}
@@ -243,7 +243,7 @@ class SearchForm extends React.Component {
                         </div>
                         <div className="col-sm-3">
                             <div className={"form-group" + (errors.to ? ' has-danger' : '')}>
-                                <label className='form-input search-block__search-label fa-circle'>
+                                <label className='form-input form-input--focus search-block__search-label fa-circle'>
                                     <PlacesAutocomplete
                                         inputProps={endPointProps}
                                         classNames={endPlaceCssClasses}
@@ -267,7 +267,7 @@ class SearchForm extends React.Component {
                                 timeFormat={false}
                                 onChange={this.dateChange}
                                 isValidDate={this.isValidDate}
-                                labelClasses='form-input fa-calendar search-result-datepicker-label'
+                                labelClasses='form-input form-input--focus fa-calendar search-result-datepicker-label'
                                 label={translate('search_result.when')}
                                 error={errors.start_at}
                                 className="search-result-datepicker"

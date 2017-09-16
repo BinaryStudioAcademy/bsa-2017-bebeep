@@ -30,6 +30,10 @@ class UserController extends Controller
 
     public function user(User $user)
     {
+        if (Auth::user()->id === $user->id) {
+            return response()->json('', 422);
+        }
+
         return fractal()->item($user, new UserTransformer())->respond();
     }
 }
