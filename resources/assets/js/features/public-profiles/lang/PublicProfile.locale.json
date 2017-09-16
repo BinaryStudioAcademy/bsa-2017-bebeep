@@ -41,7 +41,9 @@
     "profile_activity": ["Member activity", "Активність користувача", "Активность пользователя"],
     "profile_activity_rides": ["Rides: ", "Поїздок: ", "Поездок: "],
     "profile_activity_online": ["Last online: ", "Востаннє онлайн: ", "Последний онлайн: "],
-    "profile_activity_member_since": ["Member since: ", "Користувач з: ", "Пользователь с: "]
+    "profile_activity_member_since": ["Member since: ", "Користувач з: ", "Пользователь с: "],
+
+    "write_message": ["Write a message", "Написати повідомлення", "Написать сообщение"]
   },
 
   "driver_public_profile": {
