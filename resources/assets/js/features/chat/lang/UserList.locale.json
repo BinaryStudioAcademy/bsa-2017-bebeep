@@ -2,7 +2,11 @@
   "chat": {
     "user_list": {
       "header": ["User list", "Список користувачів", "Список пользователей"],
-      "search_placeholder": ["Enter name, surname or e-mail", "Введіть ім'я, фамілію або e-mail", "Введите имя, фамилию или e-mail"]
+      "search_placeholder": [
+        "Enter the name, surname or e-mail",
+        "Введіть ім'я, прізвище або e-mail",
+        "Введите имя, фамилию или e-mail"
+      ]
     }
   }
 }
