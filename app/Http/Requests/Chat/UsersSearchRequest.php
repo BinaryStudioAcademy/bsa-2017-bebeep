@@ -52,4 +52,9 @@ class UsersSearchRequest extends FormRequest implements UsersSearchRequestContra
     {
         return $this->get('filter')['last_name'] ?? '';
     }
+
+    public function areNamesParamsIdentical(): bool
+    {
+        return $this->getFirstName() === $this->getLastName();
+    }
 }
