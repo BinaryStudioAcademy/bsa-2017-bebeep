@@ -177,6 +177,8 @@ dt {
         }
     }
     .dropdown-toggle {
+        display: flex;
+        align-items: center;
         color: lighten($gray, 7%);
         height: 100%;
         padding: .25rem .75rem;
@@ -213,11 +215,6 @@ dt {
 }
 
 .header-locales-menu {
-
-    &__locale-current {
-        display: inline-block;
-        vertical-align: middle;
-    }
 
     &__locale-icon {
         display: inline-block;
