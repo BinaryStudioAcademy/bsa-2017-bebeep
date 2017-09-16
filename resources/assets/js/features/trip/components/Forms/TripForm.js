@@ -19,10 +19,8 @@ class TripForm extends React.Component {
     constructor(props) {
         super(props);
 
-        const { vehicles } = this.props;
-
         this.state = {
-            disableTripCreate: !vehicles.length,
+            disableTripCreate: true,
             isInBothDirections: false,
         };
     }
@@ -32,7 +30,13 @@ class TripForm extends React.Component {
         this.props.getVehicles();
 
         this.setState({
-            isInBothDirections: false
+            isInBothDirections: false,
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            disableTripCreate: !nextProps.vehicles.length,
         });
     }
 
@@ -104,7 +108,9 @@ class TripForm extends React.Component {
         const { translate, vehicles, trip } = this.props,
             defaultValue = trip ? trip.vehicle_id : '';
 
-        return !vehicles.length
+        const { disableTripCreate } = this.state;
+
+        return disableTripCreate
             ? (
                 <AlertWarning>
                     {translate('create_trip.no_vehicles.main_msg')}<br/>
