@@ -110,7 +110,7 @@ class TripForm extends React.Component {
                     {translate('create_trip.no_vehicles.main_msg')}<br/>
                     <Link to="/vehicles/create">
                         {translate('create_trip.no_vehicles.add_link_msg')}
-                    </Link> {translate('create_trip.no_vehicles.after_link_msg')}
+                    </Link>{translate('create_trip.no_vehicles.after_link_msg')}
                 </AlertWarning>
             ) : (
                 <select name="vehicle_id"
