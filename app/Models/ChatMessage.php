@@ -52,7 +52,7 @@ class ChatMessage extends Model
     }
 
     /**
-     * Get sender id
+     * Get sender id.
      *
      * @return int
      */
@@ -62,7 +62,7 @@ class ChatMessage extends Model
     }
 
     /**
-     * Get recipient id
+     * Get recipient id.
      *
      * @return int
      */
