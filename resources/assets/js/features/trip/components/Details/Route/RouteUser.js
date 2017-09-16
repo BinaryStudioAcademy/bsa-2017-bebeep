@@ -27,10 +27,7 @@ class RouteUser extends React.Component {
                         <strong>{ _.truncate(user.full_name, {'length': 10}) }</strong>
                     </span>
                     <span className="trip-text-label mt-1">
-                        { translate(
-                            'trip_details.routes_passengers.age_label',
-                            { age: user.age }
-                        ) }
+                        { translate('user.age', { age: user.age }) }
                     </span>
                 </div>
             </div>

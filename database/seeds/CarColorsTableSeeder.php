@@ -21,60 +21,57 @@ class CarColorsTableSeeder extends Seeder
                 'color' => 'Black',
             ],
             2 => [
-                'color' => 'Black',
-            ],
-            3 => [
                 'color' => 'Bronze',
             ],
-            4 => [
+            3 => [
                 'color' => 'Brown',
             ],
-            5 => [
+            4 => [
                 'color' => 'Golden',
             ],
-            6 => [
+            5 => [
                 'color' => 'Green',
             ],
-            7 => [
+            6 => [
                 'color' => 'Gray',
             ],
-            8 => [
+            7 => [
                 'color' => 'Orange',
             ],
-            9 => [
+            8 => [
                 'color' => 'Magnolia',
             ],
-            10 => [
+            9 => [
                 'color' => 'Pink',
             ],
-            11 => [
+            10 => [
                 'color' => 'Purple',
             ],
-            12 => [
+            11 => [
                 'color' => 'Red',
             ],
-            13 => [
+            12 => [
                 'color' => 'Silver',
             ],
-            14 => [
+            13 => [
                 'color' => 'White',
             ],
-            15 => [
+            14 => [
                 'color' => 'Yellow',
             ],
-            16 => [
+            15 => [
                 'color' => 'Blue',
             ],
-            17 => [
+            16 => [
                 'color' => 'Vishnevye',
             ],
-            18 => [
+            17 => [
                 'color' => 'Safari',
             ],
-            19 => [
+            18 => [
                 'color' => 'Pomegranate',
             ],
-            20 => [
+            19 => [
                 'color' => 'Asphalt',
             ],
         ]);
