@@ -119,11 +119,27 @@ export const getMessagesByUser = (userId) => dispatch => {
 
 export const filterUsers = (query) => dispatch => {
     return new Promise((reject, success) => {
+        query = query.trim();
+        if (!query) {
+            return;
+        }
+
+        const queryParams = query.split(' '),
+            firstPart = queryParams.shift();
+
+        let lastName = queryParams.join(' '),
+            email = '';
+
+        if (!lastName) {
+            lastName = firstPart;
+            email = firstPart;
+        }
+
         securedRequest.get('/api/v1/users/others', {
             params: {
-                'filter[first_name]': query,
-                'filter[last_name]': query,
-                'filter[email]': query
+                'filter[first_name]': firstPart,
+                'filter[last_name]': lastName,
+                'filter[email]': email,
             }
         })
             .then(response => {
