@@ -105,6 +105,7 @@ dt {
         margin-left: 1rem;
 
         & > a {
+            display: block;
             padding: .75rem 1rem;
             font-size: 1rem;
             font-weight: 600;
@@ -114,7 +115,7 @@ dt {
         }
 
         a.active,
-        &:hover > a {
+        & > a:hover {
             text-decoration: none;
             border: 1px solid rgba(62, 61, 61, .08);
             color: $white;
