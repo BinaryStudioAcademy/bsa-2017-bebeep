@@ -29,16 +29,25 @@ class UsersSearchRequest extends FormRequest implements UsersSearchRequestContra
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getEmail(): string
     {
         return $this->get('filter')['email'] ?? '';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFirstName(): string
     {
         return $this->get('filter')['first_name'] ?? '';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getLastName(): string
     {
         return $this->get('filter')['last_name'] ?? '';
