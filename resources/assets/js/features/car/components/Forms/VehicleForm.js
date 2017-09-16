@@ -120,13 +120,13 @@ class VehicleForm extends React.Component {
                                           name="year"
                                           placeholder={ translate('vehicle_form.car_year_placeholder') }
                                           min={1980}
-                                          max={this.currentYear}
+                                          max={currentYear}
                                           value={this.props.year}
                                           onChange={this.props.handleYearChange}
                             />
-                            <div className="offset-sm-4 col-sm-8">
-                                <div className="form-control-feedback">{ errors.year }</div>
-                            </div>
+                        </div>
+                        <div className="offset-sm-4 col-sm-8">
+                            <div className="form-control-feedback">{ errors.year }</div>
                         </div>
                     </div>
 
