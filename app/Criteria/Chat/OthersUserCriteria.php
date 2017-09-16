@@ -34,7 +34,17 @@ class OthersUserCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->where('id', '<>', $this->user->id)
+        $queryBuilder = $model->where('id', '<>', $this->user->id);
+
+        if (!$this->request->areNamesParamsIdentical()) {
+            return $queryBuilder->where([
+                ['first_name', 'like', $this->request->getFirstName().'%'],
+                ['last_name', 'like', $this->request->getLastName().'%'],
+            ])
+            ->orderBy('first_name');
+        }
+
+        return $queryBuilder
             ->where(function ($query) {
                 if ($this->request->getEmail()) {
                     $query->orWhere('email', 'like', $this->request->getEmail().'%');
