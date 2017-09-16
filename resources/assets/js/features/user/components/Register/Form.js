@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router';
 import { getTranslate } from 'react-localize-redux';
 import moment from 'moment';
 
-import { InputDateTime } from 'app/components/Controls';
+import InputDateTime, { VIEW_MODE_YEARS } from 'app/components/Controls/InputDateTime';
 import Input from 'app/components/Input';
 
 import {
@@ -185,7 +185,7 @@ class Form extends React.Component {
                                 id="birth_date"
                                 isValidDate={this.isValidDate}
                                 timeFormat={false}
-                                viewMode="years"
+                                viewMode={VIEW_MODE_YEARS}
                                 inputProps={{ name: 'birth_date', id: 'birth_date' }}
                                 labelClasses="datetimepicker-label"
                                 wrapperClasses="datetimepicker-wrapper"
