@@ -185,6 +185,7 @@ class Form extends React.Component {
                                 id="birth_date"
                                 isValidDate={this.isValidDate}
                                 timeFormat={false}
+                                viewMode="years"
                                 inputProps={{ name: 'birth_date', id: 'birth_date' }}
                                 labelClasses="datetimepicker-label"
                                 wrapperClasses="datetimepicker-wrapper"
