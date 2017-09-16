@@ -55,8 +55,7 @@ class ChatMessageService implements ChatMessageServiceContract
      */
     public function deleteUserMessage(User $user, ChatMessage $message)
     {
-        if($message->getSenderId() != $user->getUserId() && $message->getRecipientId() != $user->getUserId())
-        {
+        if($message->getSenderId() != $user->getUserId() && $message->getRecipientId() != $user->getUserId()) {
             throw new MessageNotBelongToUserException("This message doesn't belong to current user");
         }
 
@@ -66,14 +65,20 @@ class ChatMessageService implements ChatMessageServiceContract
     /**
      * Mark message as read.
      *
+     * @param User $user
      * @param ChatMessage $message
      * @return mixed
+     * @throws MessageNotBelongToUserException
      */
-    public function markAsRead(ChatMessage $message)
+    public function markAsRead(User $user, ChatMessage $message)
     {
         $attributes = [
             'is_read' => true,
         ];
+
+        if($message->getRecipientId() != $user->getUserId()) {
+            throw new MessageNotBelongToUserException("This message doesn't belong to current user");
+        }
 
         return $this->chatMessageRepository->markMessageAsRead(new ChatMessage($attributes), $message->getMessageId());
     }

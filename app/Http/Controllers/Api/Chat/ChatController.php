@@ -57,8 +57,13 @@ class ChatController extends Controller
 
     public function markAsRead(ChatMessage $message)
     {
-        $result = $this->chatMessageService->markAsRead($message);
+        $currentUser = Auth::user();
 
-        return response()->json($result);
+        try {
+            $result = $this->chatMessageService->markAsRead($currentUser, $message);
+            return response()->json($result);
+        } catch (MessageNotBelongToUserException $e) {
+            return response()->json($e->getMessage(), 401);
+        }
     }
 }
