@@ -25,7 +25,6 @@ class MessageList extends React.Component {
 
         ChatService.deleteMessage(id)
             .then(response => {
-                console.log(response);
                 if(response.status === 200) {
                     getMessagesByUser(user.id);
                 }
