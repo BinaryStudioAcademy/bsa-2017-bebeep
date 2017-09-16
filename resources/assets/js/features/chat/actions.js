@@ -73,7 +73,6 @@ export const fillUsersList = () => dispatch => {
     securedRequest.get('/api/v1/users/others')
         .then(response => dispatch(addUsersToList(response.data)))
         .catch(error => {
-            console.error(error);
             dispatch(addUsersToList({data: {}}));
         });
 };
@@ -82,7 +81,6 @@ export const addUser = (userId) => dispatch => {
     securedRequest.get(`/api/v1/users/${userId}`)
         .then(response => dispatch(addUsersToList({data: [response.data.data]})))
         .catch(error => {
-            console.error(error);
             dispatch(addUsersToList({data: []}));
         });
 };
@@ -120,7 +118,6 @@ export const getMessagesByUser = (userId) => dispatch => {
     securedRequest.get(`/api/v1/users/${userId}/messages`)
         .then(response => dispatch(addMessagesToChat(userId, response.data)))
         .catch(error => {
-            console.error(error);
             dispatch(addMessagesToChat(userId, {data: {}}));
         });
 };
@@ -161,7 +158,6 @@ export const filterUsers = (rawQuery) => dispatch => {
                 dispatch(setSearchMode(true));
             })
             .catch(error => {
-                console.error(error);
                 dispatch(addUsersToList({data: {}}));
                 dispatch(setSearchMode(false));
                 reject();
