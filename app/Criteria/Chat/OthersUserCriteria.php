@@ -37,7 +37,7 @@ class OthersUserCriteria implements CriteriaInterface
         return $model->where('id', '<>', $this->user->id)
             ->where(function ($query) {
                 if ($this->request->getEmail()) {
-                    $query->orWhere('email', '=', $this->request->getEmail());
+                    $query->orWhere('email', 'like', $this->request->getEmail().'%');
                 }
                 if ($this->request->getFirstName()) {
                     $query->orWhere('first_name', 'like', $this->request->getFirstName().'%');
