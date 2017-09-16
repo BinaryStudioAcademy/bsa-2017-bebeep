@@ -152,10 +152,12 @@ export const filterUsers = (query) => dispatch => {
             .then(response => {
                 success();
                 dispatch(addUsersToList(response.data));
+                dispatch(setSearchMode(true));
             })
             .catch(error => {
                 console.error(error);
                 dispatch(addUsersToList({data: {}}));
+                dispatch(setSearchMode(false));
                 reject();
             });
     });
