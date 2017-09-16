@@ -153,6 +153,7 @@ class GeneralForm extends React.Component {
                                     id="birth_date"
                                     isValidDate={this.isValidDate}
                                     timeFormat={false}
+                                    viewMode="years"
                                     defaultValue={profile.birth_date}
                                     inputProps={{name: 'birth_date', id: 'birth_date'}}
                                     labelClasses="datetimepicker-label"
