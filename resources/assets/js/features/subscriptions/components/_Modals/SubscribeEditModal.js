@@ -141,7 +141,6 @@ class SubscribeEditModal extends React.Component {
             toggle();
             onSuccess();
         }).catch((error) => {
-            console.error(error);
             onError();
         });
     }
