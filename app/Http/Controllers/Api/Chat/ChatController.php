@@ -49,6 +49,7 @@ class ChatController extends Controller
 
         try {
             $result = $this->chatMessageService->deleteUserMessage($currentUser, $message);
+
             return response()->json($result);
         } catch (MessageNotBelongToUserException $e) {
             return response()->json($e->getMessage(), 401);
@@ -61,6 +62,7 @@ class ChatController extends Controller
 
         try {
             $result = $this->chatMessageService->markAsRead($currentUser, $message);
+
             return response()->json($result);
         } catch (MessageNotBelongToUserException $e) {
             return response()->json($e->getMessage(), 401);
