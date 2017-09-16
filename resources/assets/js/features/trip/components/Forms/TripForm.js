@@ -101,14 +101,16 @@ class TripForm extends React.Component {
     }
 
     renderVehiclesList() {
-        const { vehicles, trip } = this.props,
+        const { translate, vehicles, trip } = this.props,
             defaultValue = trip ? trip.vehicle_id : '';
 
         return !vehicles.length
             ? (
                 <AlertWarning>
-                    У Вас ще немає в наявності жодного авто.<br/>
-                    <Link to="/vehicles/create">Додайте нове авто</Link> та подорожуйте!
+                    {translate('create_trip.no_vehicles.main_msg')}<br/>
+                    <Link to="/vehicles/create">
+                        {translate('create_trip.no_vehicles.add_link_msg')}
+                    </Link> {translate('create_trip.no_vehicles.after_link_msg')}
                 </AlertWarning>
             ) : (
                 <select name="vehicle_id"
