@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use App\Criteria\Chat\ChatMessagesCriteria;
 use App\Services\Requests\Chat\MessageRequest;
 use App\Repositories\Contracts\ChatMessageRepository;
+use App\Exceptions\Messages\MessageNotBelongToUserException;
 use App\Services\Contracts\Chat\ChatMessageService as ChatMessageServiceContract;
 
 class ChatMessageService implements ChatMessageServiceContract
@@ -47,11 +48,18 @@ class ChatMessageService implements ChatMessageServiceContract
     /**
      * Delete user message.
      *
+     * @param User $user
      * @param ChatMessage $message
-     * @return int
+     * @return mixed
+     * @throws MessageNotBelongToUserException
      */
-    public function deleteUserMessage(ChatMessage $message)
+    public function deleteUserMessage(User $user, ChatMessage $message)
     {
+        if($message->getSenderId() != $user->getUserId() && $message->getRecipientId() != $user->getUserId())
+        {
+            throw new MessageNotBelongToUserException("This message doesn't belong to current user");
+        }
+
         return $this->chatMessageRepository->deleteUserMessage($message);
     }
 

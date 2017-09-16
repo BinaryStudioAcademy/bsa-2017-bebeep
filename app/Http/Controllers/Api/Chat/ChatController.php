@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\Chat\ChatMessageService;
 use App\Http\Requests\Chat\MessageRequest;
 use App\Transformers\Chat\ChatMessageTransformer;
+use App\Exceptions\Messages\MessageNotBelongToUserException;
 
 class ChatController extends Controller
 {
@@ -44,9 +45,14 @@ class ChatController extends Controller
 
     public function destroy(ChatMessage $message)
     {
-        $result = $this->chatMessageService->deleteUserMessage($message);
+        $currentUser = Auth::user();
 
-        return response()->json($result);
+        try {
+            $result = $this->chatMessageService->deleteUserMessage($currentUser, $message);
+            return response()->json($result);
+        } catch (MessageNotBelongToUserException $e) {
+            return response()->json($e->getMessage(), 401);
+        }
     }
 
     public function markAsRead(ChatMessage $message)

@@ -50,4 +50,24 @@ class ChatMessage extends Model
     {
         return (int) ($this->attributes['id']);
     }
+
+    /**
+     * Get sender id
+     *
+     * @return int
+     */
+    public function getSenderId() : int
+    {
+        return (int) ($this->attributes['sender_id']);
+    }
+
+    /**
+     * Get recipient id
+     *
+     * @return int
+     */
+    public function getRecipientId() : int
+    {
+        return (int) ($this->attributes['recipient_id']);
+    }
 }
