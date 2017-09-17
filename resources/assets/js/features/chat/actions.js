@@ -7,9 +7,6 @@ import {securedRequest} from 'app/services/RequestService';
 import AuthService from 'app/services/AuthService';
 import {isThisIdOfAuthUser} from 'app/services/UserService';
 
-export const ALL_QUERY_MODE = 'all';
-export const EMAIL_QUERY_MODE = 'email';
-
 export const setOnlineUsers = (users) => {
     const sessionUserId = AuthService.getUserId();
 
@@ -117,48 +114,6 @@ export const getMessagesByUser = (userId) => dispatch => {
         });
 };
 
-const getSearchQueryParams = (query) => {
-    const queryMode = query.indexOf('@') !== -1
-        ? EMAIL_QUERY_MODE
-        : ALL_QUERY_MODE;
-
-    console.log(queryMode);
-
-    let queryParams = {
-        first_name: '',
-        last_name: '',
-        email: '',
-    };
-
-    if (queryMode === EMAIL_QUERY_MODE) {
-        queryParams.email = query;
-    }
-
-    const querySplit = query.split(' ');
-
-    queryParams.first_name = querySplit.shift();
-    queryParams.last_name = queryParams.join(' ');
-
-    if (!queryParams.last_name) {
-        queryParams.last_name = queryParams.first_name;
-        queryParams.email = queryParams.first_name;
-    }
-
-    return prepareSearchParamsToRequest(queryParams);
-};
-
-const prepareSearchParamsToRequest = (params) => {
-    console.log(params);
-    let result = {};
-
-    for (let key in params) {
-        result[`filter[${key}]`] = params[key];
-    }
-
-    return result;
-};
-
-
 export const filterUsers = (query) => dispatch => {
     return new Promise((success, reject) => {
         query = query.trim();
@@ -168,21 +123,30 @@ export const filterUsers = (query) => dispatch => {
             return;
         }
 
-        const queryParams = getSearchQueryParams(query);
+        const queryParams = query.split(' '),
+            firstPart = queryParams.shift();
+
+        let lastName = queryParams.join(' '),
+            email = '';
+
+        if (!lastName) {
+            lastName = firstPart;
+            email = firstPart;
+        }
 
         securedRequest.get('/api/v1/users/others', {
-            params: queryParams,
+            params: {
+                'filter[first_name]': firstPart,
+                'filter[last_name]': lastName,
+                'filter[email]': email,
+            }
         })
             .then(response => {
-                success({
-                    data: response.data.data,
-                    meta: {
-                        query,
-                        queryMode,
-                    }
-                });
+                success(response.data.data);
+                //dispatch(addUsersToList(response.data));
             })
             .catch(error => {
+                //dispatch(addUsersToList({data: {}}));
                 reject(error);
             });
     });

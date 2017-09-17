@@ -15,7 +15,6 @@ class UserTransformer extends TransformerAbstract
             'id' => $user->id,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
-            'email' => $user->email,
             'permissions' => $user->permissions,
             'birth_date' => $user->birth_date,
             'birth_date_x' => $birthDate->timestamp ?? null,
