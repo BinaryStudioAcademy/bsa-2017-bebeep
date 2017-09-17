@@ -38,7 +38,7 @@ class OthersUserCriteria implements CriteriaInterface
 
         if (! $this->request->areNamesParamsIdentical()) {
             return $queryBuilder->where([
-                ['first_name', 'like', $this->request->getFirstName().'%'],
+                ['first_name', '=', $this->request->getFirstName()],
                 ['last_name', 'like', $this->request->getLastName().'%'],
             ])
             ->orderBy('first_name');
