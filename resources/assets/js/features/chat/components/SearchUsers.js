@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {getTranslate} from 'react-localize-redux';
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 
-import {filterUsers} from '../actions';
+import {filterUsers, ALL_QUERY_MODE, EMAIL_QUERY_MODE} from '../actions';
 import {getProfileAvatar} from 'app/services/PhotoService';
 
 import '../styles/search-users.scss';
@@ -19,27 +19,39 @@ class SearchUsers extends React.Component {
         this.state = {
             preloader: false,
             options: [],
+            meta: {
+                query: '',
+                queryMode: '',
+            },
         };
 
         this.filterUsers = this.filterUsers.bind(this);
+        this.setSearchLabelKey = this.setSearchLabelKey.bind(this);
         this.renderMenuItemChildren = this.renderMenuItemChildren.bind(this);
         this.onSearchResultItemClick = this.onSearchResultItemClick.bind(this);
     }
 
     filterUsers(query) {
-        this.setState({preloader: true});
+        this.setState({
+            preloader: true,
+        });
 
         this.props.filterUsers(query)
             .then(response => {
                 this.setState({
                     preloader: false,
-                    options: response,
+                    options: response.data,
+                    meta: response.meta,
                 });
             })
             .catch(error => {
                 this.setState({
                     preloader: false,
                     options: [],
+                    meta: {
+                        query: '',
+                        queryMode: '',
+                    },
                 });
             });
     }
@@ -64,6 +76,13 @@ class SearchUsers extends React.Component {
         );
     }
 
+    setSearchLabelKey(user) {
+        if (this.state.meta.queryMode === EMAIL_QUERY_MODE) {
+            return `${user.email}`;
+        }
+        return `${user.first_name} ${user.last_name}`;
+    }
+
     render() {
         const { translate } = this.props,
             { preloader, options } = this.state,
@@ -84,8 +103,8 @@ class SearchUsers extends React.Component {
             <AsyncTypeahead
                 options={options}
                 className="bootstrap-typeahead"
-                filterBy={['first_name', 'last_name']}
-                labelKey={option => `${option.first_name} ${option.last_name}`}
+                filterBy={['first_name', 'last_name', 'email']}
+                labelKey={user => this.setSearchLabelKey(user)}
                 onSearch={this.filterUsers}
                 placeholder={translate('chat.user_list.search_placeholder')}
                 renderMenuItemChildren={this.renderMenuItemChildren}
@@ -95,6 +114,7 @@ class SearchUsers extends React.Component {
                 multiple={false}
                 useCache={false}
                 delay={200}
+                ref={ typeahead => { this.typeahead = typeahead; } }
             />
         );
     }
