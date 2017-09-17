@@ -12,8 +12,8 @@
   &:before {
     content: $fa-var-search;
     font-family: FontAwesome;
+    width: 15px;
     margin-right: 1rem;
-    max-width: 15px;
   }
 
   &--loading:before {
@@ -25,11 +25,18 @@
   .rbt-input {
     flex: 1;
   }
+  a.disabled,
+  &__user-link {
+    font-size: $font-size-base-smaller;
+  }
+  .rbt-menu {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 
   &__user-link {
     display: block;
     padding: 5px 1.5rem;
-    font-size: .9rem;
     color: #444;
     transition: all .15s;
 
