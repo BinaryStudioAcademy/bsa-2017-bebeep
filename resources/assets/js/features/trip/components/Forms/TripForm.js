@@ -20,7 +20,7 @@ class TripForm extends React.Component {
         super(props);
 
         this.state = {
-            disableTripCreate: true,
+            disableTripCreate: false,
             isInBothDirections: false,
         };
     }
@@ -35,9 +35,13 @@ class TripForm extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            disableTripCreate: !nextProps.vehicles.length,
-        });
+        const { vehiclesAreLoaded, vehicles } = nextProps;
+
+        if (vehiclesAreLoaded && !vehicles.length) {
+            this.setState({
+                disableTripCreate: true,
+            });
+        }
     }
 
     toggleInBothDirections() {
@@ -305,6 +309,7 @@ class TripForm extends React.Component {
 const TripFormConnected = connect(
     state => ({
         vehicles: state.vehicle.vehicles,
+        vehiclesAreLoaded: state.vehicle.vehiclesAreLoaded,
     }),
     (dispatch) => bindActionCreators({getVehicles}, dispatch)
 )(TripForm);
