@@ -26,6 +26,16 @@
   }
 
   &__user-link {
-    padding: 3px 1.5rem;
+    display: block;
+    padding: 5px 1.5rem;
+    font-size: .9rem;
+    color: #444;
+    transition: all .15s;
+
+    &:hover {
+      background-color: hsla(23, 87%, 93%, 1);
+      background-color: lighten($orange, 28%);
+      color: #222;
+    }
   }
 }
