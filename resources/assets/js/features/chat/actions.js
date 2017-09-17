@@ -31,12 +31,6 @@ export const setOffline = (user) => ({
     user
 });
 
-export const setSearchMode = (status) => ({
-    type: actions.CHAT_SET_SEARCH_MODE,
-    status
-});
-
-
 export const clearUserList = () => ({
     type: actions.CHAT_CLEAR_USER_LIST
 });
@@ -68,8 +62,6 @@ export const sendMessage = (data) => dispatch => {
 };
 
 export const fillUsersList = () => dispatch => {
-    dispatch(setSearchMode(false));
-
     securedRequest.get('/api/v1/users/others')
         .then(response => dispatch(addUsersToList(response.data)))
         .catch(error => {
@@ -124,12 +116,9 @@ export const getMessagesByUser = (userId) => dispatch => {
 
 export const filterUsers = (rawQuery) => dispatch => {
     return new Promise((reject, success) => {
-        const query = rawQuery.trim();
+        query = query.trim();
 
         if (!query.length) {
-            if (!rawQuery.length) {
-                dispatch(fillUsersList());
-            }
             success();
             return;
         }
@@ -155,11 +144,9 @@ export const filterUsers = (rawQuery) => dispatch => {
             .then(response => {
                 success();
                 dispatch(addUsersToList(response.data));
-                dispatch(setSearchMode(true));
             })
             .catch(error => {
                 dispatch(addUsersToList({data: {}}));
-                dispatch(setSearchMode(false));
                 reject();
             });
     });

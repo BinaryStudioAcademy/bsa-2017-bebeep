@@ -4,7 +4,6 @@ export const MESSAGE_STATUS_RECIEVED = 'received';
 export const MESSAGE_STATUS_SENT = 'sent';
 
 const initialState = {
-    searchMode: false,
     onlineUsers: {},
     usersId: [],
     entities: {
@@ -120,11 +119,6 @@ export default (state = initialState, action) => {
                         }
                     }
                 }
-            };
-        case actions.CHAT_SET_SEARCH_MODE:
-            return {
-                ...state,
-                searchMode: action.status,
             };
         default:
             return state;
