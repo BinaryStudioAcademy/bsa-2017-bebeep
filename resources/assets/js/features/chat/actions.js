@@ -38,6 +38,11 @@ export const clearUserList = () => ({
     type: actions.CHAT_CLEAR_USER_LIST
 });
 
+export const setUserListToNoActive = status => ({
+    type: actions.CHAT_SET_USER_LIST_NO_ACTIVE,
+    status,
+});
+
 export const addUsersToList = data => {
     return _.reduce(data.data, (result, user) => {
         result.entities[user.id] = user;
