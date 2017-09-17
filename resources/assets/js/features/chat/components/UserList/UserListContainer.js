@@ -63,7 +63,7 @@ class UserListContainer extends React.Component {
             usersList = this.getUsersSortList();
 
         return (
-            <div className="bg-white">
+            <div>
                 <ListGroup>
                     {usersList.map((user) => (
                         <ListGroupItem key={user.id} className="user-list-item">
