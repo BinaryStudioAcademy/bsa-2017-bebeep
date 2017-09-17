@@ -59,8 +59,7 @@ class UserListContainer extends React.Component {
     }
 
     render() {
-        const {translate} = this.props,
-            {usersListNoActive} = this.state,
+        const {translate, usersListNoActive} = this.props,
             usersList = this.getUsersSortList(),
             listNoActiveClass = usersListNoActive
                 ? 'user-list-group--noactive'
