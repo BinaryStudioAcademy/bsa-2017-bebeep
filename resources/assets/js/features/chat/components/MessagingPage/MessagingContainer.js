@@ -4,13 +4,21 @@ import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
 import {Link} from 'react-router';
 import MessageList from './MessageList';
-import {sendMessage, getMessagesByUser, addUser} from '../../actions';
+import {sendMessage, getMessagesByUser, addUser} from 'features/chat/actions';
 import {USER_ROLE_PASSENGER, USER_ROLE_DRIVER} from 'app/services/UserService';
 import moment from 'moment';
 
-import '../../styles/messaging-page.scss';
+import 'features/chat/styles/messaging-page.scss';
+
+const BACK_LINK = '/dashboard/users';
 
 class MessagingContainer extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.onSendMsg = this.onSendMsg.bind(this);
+    }
 
     componentWillMount() {
         this.updateMessages(this.props);
@@ -30,6 +38,7 @@ class MessagingContainer extends React.Component {
 
     getChats(id) {
         const {chats} = this.props;
+
         return chats.byUserId[id] || [];
     }
 
@@ -38,32 +47,35 @@ class MessagingContainer extends React.Component {
             userData = Object.assign({}, usersArr.byId[id]);
 
         if (_.isEmpty(userData)) {
-            addUser(id)
+            addUser(id);
         }
+
         return userData;
     }
 
     onSendMsg(e) {
         e.preventDefault();
-        const {sendMessage} = this.props,
-            text = e.target['text'].value;
 
-        let data = {
-            userId: this.props.userId,
-            text: text,
-            time: moment().unix()
+        const {userId, sendMessage} = this.props,
+            form = e.target,
+            text = form.text.value;
+
+        const data = {
+            userId,
+            text,
+            time: moment().unix(),
         };
 
         sendMessage(data);
-        e.target['text'].value = '';
+        form.text.value = '';
     }
 
     render() {
-        let link;
         const {translate, userId} = this.props,
-            backLink = '/dashboard/users',
             messages = this.getChats(userId),
             user = this.getUsersData(userId);
+
+        let link = '';
 
         if (user.permissions === USER_ROLE_DRIVER) {
             link = `/driver/${user.id}`;
@@ -76,7 +88,7 @@ class MessagingContainer extends React.Component {
                 <div className="row">
                     <div className="chat-message">
                         <div className="chat-message__header">
-                            <Link to={backLink} className="chat-message__header-chat-back">
+                            <Link to={BACK_LINK} className="chat-message__header-chat-back">
                                 <i className="fa fa-chevron-left mr-2"
                                     aria-hidden="true" />
                                 <span className="chat-message__header-chat-back-btn">
@@ -95,7 +107,7 @@ class MessagingContainer extends React.Component {
                         </div>
 
                         <div className="chat-message__footer">
-                            <form role="form" method="POST" onSubmit={this.onSendMsg.bind(this)}>
+                            <form role="form" method="POST" onSubmit={this.onSendMsg}>
                                 <div className="input-group">
                                     <input id="text"
                                         name="text"
@@ -123,7 +135,7 @@ export default connect(
     state => ({
         chats: state.chat.entities.chats,
         usersArr: state.chat.entities.users,
-        translate: getTranslate(state.locale)
+        translate: getTranslate(state.locale),
     }),
     dispatch => (bindActionCreators({sendMessage, getMessagesByUser, addUser}, dispatch))
 )(MessagingContainer);
