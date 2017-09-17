@@ -43,6 +43,11 @@
   position: relative;
   width: 100%;
 }
+
+.Select.form-control-danger > .Select-control {
+  border: 1px solid #d9534f;
+}
+
 .Select-control:hover {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 }
