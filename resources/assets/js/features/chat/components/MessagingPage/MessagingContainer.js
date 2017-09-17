@@ -104,8 +104,11 @@ class MessagingContainer extends React.Component {
                                         required
                                     />
                                     <button type="submit"
-                                        className="btn btn-success hover chat-message__footer-send-btn"
-                                    >{translate('chat.send_btn')}</button>
+                                        role="button"
+                                        className="btn btn-success chat-message__footer-send-btn"
+                                    >
+                                        <i className="fa fa-paper-plane-o" aria-hidden="true" />
+                                    </button>
                                 </div>
                             </form>
                         </div>
