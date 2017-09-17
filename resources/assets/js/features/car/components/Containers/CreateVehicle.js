@@ -8,7 +8,9 @@ import VehicleForm from '../Forms/VehicleForm';
 import { VehicleValidate } from 'app/services/VehicleService';
 import { securedRequest } from 'app/services/RequestService';
 import { VehicleService } from 'features/car/services/VehicleService';
-import { vehicleCreateSuccess } from 'features/car/actions';
+import { vehicleCreateSuccess, getVehiclesData } from 'features/car/actions';
+
+import { simpleRequest } from 'app/services/RequestService';
 
 class CreateVehicle extends React.Component {
     constructor(props) {
@@ -37,6 +39,15 @@ class CreateVehicle extends React.Component {
             seats: null,
             year: new Date().getFullYear()
         };
+    }
+
+    //TODO:fix it
+    componentWillMount() {
+        simpleRequest.get('/api/v1/car-brand/').then((response) => {
+            this.props.getVehiclesData(response.data.data);
+        });
+
+        //this.props.getVehiclesData(VehicleService.getBrandOptions);
     }
 
     handleBrandChange(data) {
@@ -138,7 +149,7 @@ class CreateVehicle extends React.Component {
                 body={ this.state.body }
                 year={ this.state.year }
                 seats={ this.state.seats }
-                getBrandOptions={ VehicleService.getBrandOptions }
+                getBrandOptions={ this.props.vehicle.form_items.brands }
                 getModelLoadOptions={ this.getModelLoadOptions }
                 getColorOptions={ VehicleService.getColorOptions }
                 getBodyOptions={ VehicleService.getBodyOptions }
@@ -154,7 +165,10 @@ class CreateVehicle extends React.Component {
     }
 }
 
+//TODO:fix it
 export default connect(
-    null,
-    (dispatch) => bindActionCreators({ vehicleCreateSuccess }, dispatch)
+    state => ({
+        vehicle: state.vehicle,
+    }),
+    (dispatch) => bindActionCreators({ vehicleCreateSuccess, getVehiclesData }, dispatch)
 )(CreateVehicle);

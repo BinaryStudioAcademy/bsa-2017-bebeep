@@ -36,14 +36,14 @@ class VehicleForm extends React.Component {
                 <div className="card-block">
                     <div className={ "form-group row " + (errors.brand ? 'has-danger' : '') }>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="brand">{ translate('vehicle_form.car_brand') }</label>
-                        <Select.Async
+                        <Select
                             name="brand"
                             placeholder={ translate('vehicle_form.car_brand_placeholder') }
                             value={ this.props.brand.name }
                             valueKey="name"
                             labelKey="name"
                             className={ "col-sm-8 " + (errors.brand ? 'form-control-danger' : '')}
-                            loadOptions={ this.props.getBrandOptions }
+                            options={ this.props.getBrandOptions }
                             onChange={ this.props.handleBrandChange }
                             clearable={ true }
                             {...REACT_SELECT_PROPS}

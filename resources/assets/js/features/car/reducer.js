@@ -1,6 +1,13 @@
 import * as actions from './actionTypes';
 
 const initialState = {
+    //TODO:fix it
+    form_items: {
+        brands: [],
+        models: [],
+        colors: [],
+        body: []
+    },
     vehicles: [],
     brand: {
         id_car_mark: null,
@@ -66,6 +73,15 @@ export default function (state = initialState, action) {
                 seats: null,
                 year: null
             };
+        }
+
+        case actions.GET_VEHICLES_DATA: {
+            return {
+                ...state,
+                form_items: {
+                    brands: action.data
+                }
+            }
         }
 
         default: {

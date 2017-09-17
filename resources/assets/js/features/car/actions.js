@@ -16,6 +16,11 @@ export const vehicleDeleteSuccess = data => ({
     data
 });
 
+//TODO: fix it
+export const getVehiclesData = data => ({
+    type: actions.GET_VEHICLES_DATA,
+    data
+});
 
 export const getVehicles = () => dispatch => {
     securedRequest.get('/api/v1/car')

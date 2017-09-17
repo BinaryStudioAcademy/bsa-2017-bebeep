@@ -2,13 +2,12 @@ import { simpleRequest } from 'app/services/RequestService';
 import { VehicleData } from 'app/services/VehicleService'
 
 export const VehicleService = {
-    getBrandOptions(name) {
-        return VehicleData.getBrands(name)
-            .then((response) => {
-                return response.data.data;
-            }).then((json) => {
-                return { options: json };
-            });
+
+    //TODO: fix it
+    getBrandOptions() {
+        simpleRequest.get('/api/v1/car-brand/').then((response) => {
+            return response.data;
+        })
     },
 
     getModelOptions(id, name) {
