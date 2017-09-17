@@ -79,7 +79,7 @@ class UserDropdown extends React.Component {
                         { translate('bookings') }
                     </UserDropdownItem>
 
-                    <DropdownItem divider />
+                    {/*<DropdownItem divider />*/}
 
                     <UserDropdownItem linkTo="/dashboard/subscriptions"
                         onClick={this.toggleUserDropdown}
