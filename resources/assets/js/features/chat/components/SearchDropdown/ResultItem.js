@@ -13,13 +13,8 @@ class ResultItem extends React.Component {
         return (
             <li>
                 <Link to={`/dashboard/messages/${user.id}`} className="search-users__user-link">
-                    <img
+                    <img className="search-users__user-avatar"
                         src={getProfileAvatar(user.avatar)}
-                        style={{
-                            width: '30px',
-                            marginRight: '10px',
-                            borderRadius: '50%',
-                        }}
                     />
                     <span>{user.first_name} {user.last_name}</span>
                 </Link>
