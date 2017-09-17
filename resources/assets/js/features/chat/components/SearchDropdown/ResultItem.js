@@ -12,7 +12,9 @@ class ResultItem extends React.Component {
 
         return (
             <li>
-                <Link to={`/dashboard/messages/${user.id}`} className="search-users__user-link">
+                <Link to={`/dashboard/messages/${user.id}`}
+                    className="dropdown-item search-users__user-link"
+                >
                     <img className="search-users__user-avatar"
                         src={getProfileAvatar(user.avatar)}
                     />
