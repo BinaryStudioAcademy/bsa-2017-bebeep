@@ -66,8 +66,6 @@ class MessagingContainer extends React.Component {
             DRIVER_PERMISSIONS = 2,
             PASSENGER_PERMISSIONS = 1;
 
-        console.log('user',user);
-
         if (user.permissions === DRIVER_PERMISSIONS) {
             link = `/driver/${user.id}`;
         } else if (user.permissions === PASSENGER_PERMISSIONS) {
