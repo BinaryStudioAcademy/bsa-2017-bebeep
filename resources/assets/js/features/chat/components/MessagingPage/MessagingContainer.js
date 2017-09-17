@@ -17,6 +17,10 @@ class MessagingContainer extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            msgSending: false,
+        };
+
         this.onSendMsg = this.onSendMsg.bind(this);
     }
 
@@ -56,7 +60,13 @@ class MessagingContainer extends React.Component {
     onSendMsg(e) {
         e.preventDefault();
 
-        const {userId, sendMessage} = this.props,
+        const _this = this;
+
+        _this.setState({
+            msgSending: true,
+        });
+
+        const {userId, sendMessage} = _this.props,
             form = e.target,
             text = form.text.value;
 
@@ -67,13 +77,23 @@ class MessagingContainer extends React.Component {
         };
 
         sendMessage(data);
+
         form.text.value = '';
+
+        setTimeout(() => {
+            _this.setState({
+                msgSending: false,
+            });
+        }, 400);
     }
 
     render() {
         const {translate, userId} = this.props,
             messages = this.getChats(userId),
-            user = this.getUsersData(userId);
+            user = this.getUsersData(userId),
+            btnSendActiveClass = this.state.msgSending
+                ? 'chat-message__footer-send-btn--sending'
+                : '';
 
         let link = '';
 
@@ -117,9 +137,10 @@ class MessagingContainer extends React.Component {
                                     />
                                     <button type="submit"
                                         role="button"
-                                        className="btn btn-success chat-message__footer-send-btn"
+                                        className={"btn btn-success chat-message__footer-send-btn " +
+                                            btnSendActiveClass}
                                     >
-                                        <i className="fa fa-paper-plane-o chat-message__footer-send-icon" aria-hidden="true" />
+                                        <i className="fa fa-paper-plane-o chat-message__footer-send-btn-icon" aria-hidden="true" />
                                     </button>
                                 </div>
                             </form>

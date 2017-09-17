@@ -48,14 +48,14 @@
     &-send-btn {
       margin: .5rem !important;
       border-radius: .25rem !important;
-    }
 
-    &-send-icon {
-      transition: all .3s;
-    }
+      &-icon {
+        transition: all .3s;
+      }
 
-    &-send-btn:active &-send-icon {
-      transform: translate(2px, -2px);
+      &--sending &-icon {
+        transform: translate(2px, -2px);
+      }
     }
   }
 }
