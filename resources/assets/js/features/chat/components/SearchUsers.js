@@ -40,6 +40,7 @@ class SearchUsers extends React.Component {
 
         this.onSearchFocus = this.onSearchFocus.bind(this);
         this.onSearchBlur = this.onSearchBlur.bind(this);
+        this.onSearchInputChange = this.onSearchInputChange.bind(this);
     }
 
     filterUsers(query) {
@@ -79,6 +80,14 @@ class SearchUsers extends React.Component {
         }, 200);
     }
 
+    onSearchInputChange() {
+        const { usersListNoActive, setUserListToNoActive } = this.props;
+
+        if (usersListNoActive === false) {
+            setUserListToNoActive(true);
+        }
+    }
+
     setSearchLabelKey(user) {
         if (this.state.meta.queryMode === EMAIL_QUERY_MODE) {
             return `${user.email}`;
@@ -111,6 +120,7 @@ class SearchUsers extends React.Component {
                 onSearch={this.filterUsers}
                 onFocus={this.onSearchFocus}
                 onBlur={this.onSearchBlur}
+                onInputChange={this.onSearchInputChange}
                 placeholder={translate('chat.search.placeholder')}
                 promptText={translate('chat.search.dropdown_prompt')}
                 searchText={translate('chat.search.dropdown_search')}
@@ -123,6 +133,7 @@ class SearchUsers extends React.Component {
 
 export default connect(
     state => ({
+        usersListNoActive: state.chat.usersListNoActive,
         translate: getTranslate(state.locale),
     }),
     dispatch => bindActionCreators({filterUsers, setUserListToNoActive}, dispatch)
