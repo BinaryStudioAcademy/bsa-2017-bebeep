@@ -12,7 +12,7 @@ import '../styles/search-users.scss';
 
 const SEARCH_TYPEAHEAD_CONFIG = {
     filterBy: ['first_name', 'last_name', 'email'],
-    maxResults: 2,
+    maxResults: 50,
     minLength: 1,
     useCache: false,
 };
