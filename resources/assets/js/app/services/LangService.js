@@ -3,9 +3,26 @@ import moment from 'moment';
 
 import DataStorage from '../helpers/DataStorage';
 
-export const LANG_UA = 'ua';
+export const LANG_UA = 'uk';
 export const LANG_EN = 'en';
 export const LANG_RU = 'ru';
+
+export const LANG_PROP_CODE = 'code';
+export const LANG_PROP_SHORT_NAME = 'short_name';
+export const LANG_PROP_FULL_NAME = 'full_name';
+
+const LANG_DATA = {
+    [LANG_PROP_SHORT_NAME]: {
+        [LANG_UA]: 'ua',
+        [LANG_EN]: 'en',
+        [LANG_RU]: 'ru',
+    },
+    [LANG_PROP_FULL_NAME]: {
+        [LANG_UA]: 'Українська',
+        [LANG_EN]: 'English',
+        [LANG_RU]: 'Русский',
+    },
+};
 
 const LangService = (() => {
 
@@ -16,8 +33,10 @@ const LangService = (() => {
         init(store) {
             _store = store;
 
-            moment.locale(this.getActiveLanguage());
-            _store.dispatch(Loc.setLanguages(this.languages, this.getActiveLanguage()));
+            moment.locale(this.getActiveLanguage(LANG_PROP_CODE));
+            _store.dispatch(Loc.setLanguages(
+                this.languages, this.getActiveLanguage(LANG_PROP_CODE)
+            ));
         },
 
         get languages() {
@@ -25,11 +44,7 @@ const LangService = (() => {
         },
 
         getName(code) {
-            return {
-                [LANG_EN]: 'English',
-                [LANG_UA]: 'Українська',
-                [LANG_RU]: 'Русский',
-            }[code];
+            return LANG_DATA.full_name[code];
         },
 
         setActiveLanguage(code) {
@@ -38,12 +53,30 @@ const LangService = (() => {
             _store.dispatch(Loc.setActiveLanguage(code));
         },
 
-        getActiveLanguage() {
-            return (languages.indexOf(DataStorage.getData('locale')) >=0 &&
+        getActiveLanguage(field) {
+            const code = (languages.indexOf(DataStorage.getData('locale')) >=0 &&
                     DataStorage.getData('locale')
                 )
                 || this.getNavigatorLanguage()
                 || LANG_EN;
+
+            if (field === LANG_PROP_CODE) {
+                return code;
+            }
+
+            if (field === undefined) {
+                return {
+                    [LANG_PROP_CODE]: code,
+                    [LANG_PROP_SHORT_NAME]: LANG_DATA.short_name[code],
+                    [LANG_PROP_FULL_NAME]: LANG_DATA.full_name[code],
+                };
+            }
+
+            if (LANG_DATA[field] === undefined) {
+                return null;
+            }
+
+            return LANG_DATA[field][code];
         },
 
         getNavigatorLanguage() {

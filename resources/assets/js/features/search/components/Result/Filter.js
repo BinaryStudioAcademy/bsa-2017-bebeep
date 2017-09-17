@@ -114,7 +114,9 @@ class Filter extends React.Component {
                     <div className="filter__prop-name">{translate('search_result.filter.price')}</div>
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
-                            {translate('search_result.filter.price_range', {start: price[0],end: price[1]})}
+                            {translate('search_result.filter.price_range', {
+                                start: priceBounds[0], end: priceBounds[1]
+                            })}
                         </div>
                         <Range
                             min={priceBounds[0]}
