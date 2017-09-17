@@ -76,14 +76,14 @@ class MessagingContainer extends React.Component {
                 <div className="row">
                     <div className="chat-message">
                         <div className="chat-message__header">
-                            <Link to={backLink} className="chat-messsage__header-chat-back">
-                                <i className="fa fa-chevron-left chat-message__header-chat-back-icon"
+                            <Link to={backLink} className="chat-message__header-chat-back">
+                                <i className="fa fa-chevron-left mr-2"
                                     aria-hidden="true" />
                                 <span className="chat-message__header-chat-back-btn">
                                     {translate('chat.back_btn')}
                                 </span>
                             </Link>
-                            <span className="pull-right chat-message__header-user-name">
+                            <span className="chat-message__header-user-name">
                                 <Link to={link}>
                                     {user.first_name}&nbsp;{user.last_name}
                                 </Link>
