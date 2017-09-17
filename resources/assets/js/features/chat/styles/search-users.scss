@@ -27,6 +27,12 @@ $search-users-icon-width: 15px;
 
   .rbt-input {
     flex: 1;
+
+    & > div,
+    & > div > div,
+    .rbt-input-main {
+        width: 100% !important;
+    }
   }
 
   .rbt-menu {
