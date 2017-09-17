@@ -2,26 +2,30 @@
 @import '~font-awesome/scss/variables';
 
 .search-users {
+  display: flex;
   margin-top: 2rem;
   border-bottom: 2px solid $list-group-border-color;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 
-  &__icon-wrapper {
-    padding: $input-padding-x;
-    padding-left: $list-group-item-padding-x;
-    background-color: $white;
-    border-bottom-left-radius: 0;
-  }
-
-  &__icon {
+  &:before {
+    content: $fa-var-search;
+    font-family: FontAwesome;
+    margin-right: 1rem;
     max-width: 15px;
   }
 
-  &__input {
-    border-left: 0;
-    border-bottom-right-radius: 0;
+  &--loading:before {
+    content: $fa-var-circle-o-notch;
+    -webkit-animation: fa-spin 1.5s infinite linear;
+    animation: fa-spin 1.5s infinite linear;
+  }
 
-    &:focus {
-        border-color: $input-border-color;
-    }
+  .rbt-input {
+    flex: 1;
+  }
+
+  &__user-link {
+    padding: 3px 1.5rem;
   }
 }
