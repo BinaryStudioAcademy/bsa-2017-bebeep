@@ -107,7 +107,7 @@ class MessagingContainer extends React.Component {
                                         role="button"
                                         className="btn btn-success chat-message__footer-send-btn"
                                     >
-                                        <i className="fa fa-paper-plane-o" aria-hidden="true" />
+                                        <i className="fa fa-paper-plane-o chat-message__footer-send-icon" aria-hidden="true" />
                                     </button>
                                 </div>
                             </form>
