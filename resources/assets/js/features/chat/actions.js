@@ -117,13 +117,12 @@ export const getMessagesByUser = (userId) => dispatch => {
         });
 };
 
-const getSearchQueryParams = (query) => {
-    const queryMode = query.indexOf('@') !== -1
-        ? EMAIL_QUERY_MODE
-        : ALL_QUERY_MODE;
+/**
+ *** START ***
+ * Search users logic
+ */
 
-    console.log(queryMode);
-
+const getSearchQueryParams = (query, queryMode) => {
     let queryParams = {
         first_name: '',
         last_name: '',
@@ -132,12 +131,13 @@ const getSearchQueryParams = (query) => {
 
     if (queryMode === EMAIL_QUERY_MODE) {
         queryParams.email = query;
+        return prepareSearchParamsToRequest(queryParams);
     }
 
     const querySplit = query.split(' ');
 
     queryParams.first_name = querySplit.shift();
-    queryParams.last_name = queryParams.join(' ');
+    queryParams.last_name = querySplit.join(' ');
 
     if (!queryParams.last_name) {
         queryParams.last_name = queryParams.first_name;
@@ -148,7 +148,6 @@ const getSearchQueryParams = (query) => {
 };
 
 const prepareSearchParamsToRequest = (params) => {
-    console.log(params);
     let result = {};
 
     for (let key in params) {
@@ -157,7 +156,6 @@ const prepareSearchParamsToRequest = (params) => {
 
     return result;
 };
-
 
 export const filterUsers = (query) => dispatch => {
     return new Promise((success, reject) => {
@@ -168,7 +166,11 @@ export const filterUsers = (query) => dispatch => {
             return;
         }
 
-        const queryParams = getSearchQueryParams(query);
+        const queryMode = query.indexOf('@') !== -1
+            ? EMAIL_QUERY_MODE
+            : ALL_QUERY_MODE;
+
+        const queryParams = getSearchQueryParams(query, queryMode);
 
         securedRequest.get('/api/v1/users/others', {
             params: queryParams,
@@ -187,3 +189,8 @@ export const filterUsers = (query) => dispatch => {
             });
     });
 };
+
+/**
+ *** END ***
+ * Search users logic
+ */
