@@ -59,8 +59,9 @@ class CompoundTripItem extends React.Component {
                         </div>
 
                         <div className="search-trip-item__user-age">
-                            {translate('search_result.years3',
-                                {age: DateTimeHelper.getUserYearsOld(collection.trip.user.birth_date)})}
+                            {translate('user.age', {
+                                age: DateTimeHelper.getUserYearsOld(collection.trip.user.birth_date)
+                            })}
                         </div>
 
                     </div>
