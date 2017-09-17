@@ -6,7 +6,7 @@ import {AsyncTypeahead, Menu, menuItemContainer} from 'react-bootstrap-typeahead
 import _ from 'lodash';
 
 import ResultItem from './SearchDropdown/ResultItem';
-import {filterUsers, EMAIL_QUERY_MODE} from '../actions';
+import {filterUsers, setUserListToNoActive, EMAIL_QUERY_MODE} from '../actions';
 
 import '../styles/search-users.scss';
 
@@ -67,13 +67,16 @@ class SearchUsers extends React.Component {
             });
     }
 
-    onSearchFocus (e) {
-        const value = e.target.value;
-        console.log(e.target.value);
+    onSearchFocus() {
+        this.props.setUserListToNoActive(true);
     }
 
-    onSearchBlur(e) {
-        console.log(e.target);
+    onSearchBlur() {
+        const _this = this;
+
+        setTimeout(() => {
+            _this.props.setUserListToNoActive(false);
+        }, 200);
     }
 
     setSearchLabelKey(user) {
@@ -122,5 +125,5 @@ export default connect(
     state => ({
         translate: getTranslate(state.locale),
     }),
-    dispatch => bindActionCreators({filterUsers}, dispatch)
+    dispatch => bindActionCreators({filterUsers, setUserListToNoActive}, dispatch)
 )(SearchUsers);
