@@ -42,10 +42,16 @@ class UserDropdown extends React.Component {
                         alt={ userName }
                         className="header-menu__dropdown--user-menu__avatar"
                     />
-                    <span>{ userName }</span>
+
                 </DropdownToggle>
 
                 <DropdownMenu right>
+
+                    <span className="dropdown-item-signed"> { translate('signed') }</span>
+                    <span className="dropdown-item"><b> { userName} </b></span>
+
+                    <DropdownItem divider />
+
                     <UserDropdownItem linkTo="/dashboard"
                         onClick={this.toggleUserDropdown}
                     >
@@ -79,13 +85,6 @@ class UserDropdown extends React.Component {
                         onClick={this.toggleUserDropdown}
                     >
                         { translate('subscriptions') }
-                    </UserDropdownItem>
-
-
-                    <UserDropdownItem linkTo="/dashboard/users"
-                                      onClick={this.toggleUserDropdown}
-                    >
-                        { translate('chat') }
                     </UserDropdownItem>
 
                     { this.renderDivider(isDriver) }
