@@ -1,11 +1,33 @@
 {
   "chat": {
     "user_list": {
-      "header": ["User list", "Список користувачів", "Список пользователей"],
-      "search_placeholder": [
+      "header": ["User list", "Список користувачів", "Список пользователей"]
+    },
+    "search": {
+      "placeholder": [
         "Enter the name, surname or e-mail",
         "Введіть ім'я, прізвище або e-mail",
         "Введите имя, фамилию или e-mail"
+      ],
+      "dropdown_prompt": [
+        "Enter to search...",
+        "Введіть для пошуку...",
+        "Введите для поиска..."
+      ],
+      "dropdown_search": [
+        "Searching...",
+        "Пошук...",
+        "Поиск..."
+      ],
+      "no_results_found": [
+        "No results found",
+        "Нічого не знайдено",
+        "Ничего не найдено"
+      ],
+      "pagination_text": [
+        "More results...",
+        "Ще результати...",
+        "Еще результаты..."
       ]
     }
   }
