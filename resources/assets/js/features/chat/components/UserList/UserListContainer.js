@@ -60,11 +60,15 @@ class UserListContainer extends React.Component {
 
     render() {
         const {translate} = this.props,
-            usersList = this.getUsersSortList();
+            {usersListNoActive} = this.state,
+            usersList = this.getUsersSortList(),
+            listNoActiveClass = usersListNoActive
+                ? 'user-list-group--noactive'
+                : '';
 
         return (
             <div className="mb-5">
-                <ListGroup className="user-list-group user-list-group--noactive">
+                <ListGroup className={"user-list-group " + listNoActiveClass}>
                     {usersList.map((user) => (
                         <ListGroupItem key={user.id} className="user-list-item">
                             <Link to={`/dashboard/messages/${user.id}`}>
@@ -83,7 +87,8 @@ export default connect(
         onlineUsers: state.chat.onlineUsers,
         usersId: state.chat.usersId,
         users: state.chat.entities.users.byId,
-        translate: getTranslate(state.locale)
+        usersListNoActive: state.chat.usersListNoActive,
+        translate: getTranslate(state.locale),
     }),
     dispatch => bindActionCreators({fillUsersList}, dispatch)
 )(UserListContainer);
