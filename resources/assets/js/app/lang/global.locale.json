@@ -14,6 +14,9 @@
   "tomorrow": ["Tomorrow - ${time}", "Завтра - ${time}", "Завтра - ${time}"],
   "today": ["Today - ${time}", "Сьогодні - ${time}", "Сегодня - ${time}"],
   "bookings": ["Bookings", "Замовлення", "Заказы"],
+  "user": {
+    "age": ["Age: ${age}", "Вік: ${age}", "Возраст: ${age}"]
+  },
   "datepicker": {
     "today": [
       "Today",
@@ -100,6 +103,13 @@
         "<p><strong>BeBeep</strong> — your reliable assistant in finding common trips. We unite drivers and passengers on the road, for long-distance trips at cheaper prices.</p><p>With <strong>BeBeep</strong> your next trip will be profitable and convenient!</p>",
         "<p><strong>BeBeep</strong> — Ваш надійний помічник у пошуку спільних подорожей. Ми об’єднуємо водіїв і пасажирів, яким по дорозі, для міжміських подорожей за дешевшими цінами.</p><p>З <strong>BeBeep</strong> Ваша наступна подорож буде вигідною та зручною!</p>",
         "<p><strong>BeBeep</strong> — Ваш надежный помощник в поиске общих поездок. Мы объединяем водителей и пассажиров, которым по дороге, для междугородных поездок по более дешевым ценам.</p><p>С <strong>BeBeep</strong> Ваша следующая поездка будет выгодной и удобной!</p>"
+    ]
+  },
+  "errors": {
+    "5xx_internal_server": [
+      "Something went wrong. Please try later.",
+      "Что-то пошло не так. Пожалуйста, попробуйте позже.",
+      "Щось пішло не так. Будь ласка, спробуйте пізніше."
     ]
   }
 }

@@ -7,8 +7,7 @@
     "start_time": ["Trip start time", "Час початку подорожі", "Время начала поездки"],
 
     "driver": {
-      "header": ["Driver", "Водій", "Водитель"],
-      "age": ["Age: ${ age }", "Вік: ${ age }", "Возраст: ${ age }"]
+      "header": ["Driver", "Водій", "Водитель"]
     },
 
     "vehicle": {
@@ -18,7 +17,6 @@
 
     "routes_passengers": {
         "header": ["Route and passengers", "Маршрут і пасажири", "Маршрут и пассажиры"],
-        "age_label": ["${ age } y.", "${ age } р.", "${ age } л."],
         "route_start_time": [
             "(estimated start time)", "(прибл. час від'їзду)", "(прибл. время отъезда)"
         ],

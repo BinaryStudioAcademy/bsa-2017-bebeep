@@ -43,7 +43,7 @@ class ForAuthUser extends React.Component {
         user.avatar = getProfileAvatar(user.avatar);
 
         return (
-            <ul className="header__menu header__menu_right header-menu">
+            <ul className="header__menu header-menu">
                 <MainMenuItem linkTo="/trip/create" isShow={isDriver}>
                     { translate('create_new_trip') }
                 </MainMenuItem>

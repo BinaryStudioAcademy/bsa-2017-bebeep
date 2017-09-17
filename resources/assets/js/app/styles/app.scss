@@ -85,24 +85,12 @@ dt {
 
 .header {
     background: #fff;
-    padding: 30px 0;
+    padding: 1rem 0;
     border-bottom: 1px solid rgba(212, 207, 207, 0.24);
     box-shadow: 0 5px 5px -5px rgba(51, 51, 51, 0.21);
 
-    &__logo {
-        float: left;
-    }
-
     &__menu {
         margin-bottom: 0;
-
-        &_left {
-            float: left;
-        }
-
-        &_right {
-            float: right;
-        }
     }
 }
 
@@ -110,13 +98,15 @@ dt {
     display: flex;
     align-items: center;
     list-style: none;
+    margin-left: auto;
     padding-left: 0;
 
     &__item {
         margin-left: 1rem;
 
         & > a {
-            padding: .75rem 1rem;
+            display: block;
+            padding: .5rem 1rem;
             font-size: 1rem;
             font-weight: 600;
             letter-spacing: .025em;
@@ -125,7 +115,7 @@ dt {
         }
 
         a.active,
-        &:hover > a {
+        & > a:hover {
             text-decoration: none;
             border: 1px solid rgba(62, 61, 61, .08);
             color: $white;
@@ -187,6 +177,8 @@ dt {
         }
     }
     .dropdown-toggle {
+        display: flex;
+        align-items: center;
         color: lighten($gray, 7%);
         height: 100%;
         padding: .25rem .75rem;
@@ -223,11 +215,6 @@ dt {
 }
 
 .header-locales-menu {
-
-    &__locale-current {
-        display: inline-block;
-        vertical-align: middle;
-    }
 
     &__locale-icon {
         display: inline-block;

@@ -41,9 +41,7 @@ class TripItem extends React.Component {
                         </div>
 
                         <div className="search-trip-item__user-age">
-                            { translate('search_result.years' + LangService.getNumberForm(
-                                trip.driver.data.age
-                            ), { age: trip.driver.data.age }) }
+                            { translate('user.age', { age: trip.driver.data.age }) }
                         </div>
                     </div>
 

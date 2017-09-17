@@ -33,7 +33,7 @@ class MainNavigation extends React.Component {
 
         return (
             <header className="header">
-                <div className="header__container container clearfix">
+                <div className="header__container container d-flex align-items-center">
                     <IndexLink to="/" className="header__logo logo">
                         <img src="/template/img/logo.png" alt="BeBeep" />
                     </IndexLink>
