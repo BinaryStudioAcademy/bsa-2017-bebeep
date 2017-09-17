@@ -3,22 +3,22 @@
 @import "~bootstrap/scss/mixins/breakpoints";
 
 .user-list-group {
-    position: relative;
+  position: relative;
 
-    &:before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        transition: all .2s;
-    }
+  &:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: all .2s;
+  }
 
-    &--noactive:before {
-        z-index: 2;
-        background-color: rgba($white, .7);
-    }
+  &--noactive:before {
+    z-index: 2;
+    background-color: rgba($white, .7);
+  }
 }
 
 .user-list-item {
