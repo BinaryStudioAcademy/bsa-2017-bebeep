@@ -20,7 +20,7 @@ class SearchUsers extends React.Component {
         super(props);
 
         this.state = {
-            preloader: false,
+            searchLoading: false,
             foundUsers: [],
             meta: {
                 query: '',
@@ -29,26 +29,27 @@ class SearchUsers extends React.Component {
         };
 
         this.filterUsers = this.filterUsers.bind(this);
-        this.setSearchLabelKey = this.setSearchLabelKey.bind(this);
+
         this.renderMenu = this.renderMenu.bind(this);
+        this.setSearchLabelKey = this.setSearchLabelKey.bind(this);
     }
 
     filterUsers(query) {
         this.setState({
-            preloader: true,
+            searchLoading: true,
         });
 
         this.props.filterUsers(query)
             .then(response => {
                 this.setState({
-                    preloader: false,
+                    searchLoading: false,
                     foundUsers: response.data,
                     meta: response.meta,
                 });
             })
             .catch(error => {
                 this.setState({
-                    preloader: false,
+                    searchLoading: false,
                     foundUsers: [],
                     meta: {
                         query: '',
@@ -77,28 +78,17 @@ class SearchUsers extends React.Component {
 
     render() {
         const { translate } = this.props,
-            { preloader, foundUsers } = this.state,
-            icoClass = "search-users__icon fa" + (
-                preloader ? " fa-circle-o-notch fa-spin" : " fa-search"
-            );
-
-        /*<div className="input-group-addon search-users__icon-wrapper">
-                    <i className={icoClass} />
-                </div>
-                <input type="text"
-                    className="form-control search-users__input"
-                    placeholder={translate('chat.user_list.search_placeholder')}
-                    onChange={this.filterUsers}
-                />*/
+            { searchLoading, foundUsers } = this.state,
+            loadingClass = searchLoading ? 'search-users--loading' : '';
 
         return (
             <AsyncTypeahead
                 options={foundUsers}
-                className="bootstrap-typeahead search-users"
+                className={"bootstrap-typeahead search-users " + loadingClass}
                 filterBy={['first_name', 'last_name', 'email']}
                 labelKey={user => this.setSearchLabelKey(user)}
-                onSearch={this.filterUsers}
                 renderMenu={this.renderMenu}
+                onSearch={this.filterUsers}
                 minLength={1}
                 useCache={false}
                 delay={200}
