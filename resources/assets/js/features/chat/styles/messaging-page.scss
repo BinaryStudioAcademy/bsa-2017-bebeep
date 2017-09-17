@@ -40,11 +40,9 @@
   }
 
   &__footer {
+    padding: .5rem .25rem;
+    border-top: 2px solid #ddd;
     background-color: rgba(224, 224, 224, 0.1);
-    position: absolute;
-    border: 0;
-    left: 0;
-    min-width: 100%;
 
     &-input, &-send-btn {
       border-radius: 25px !important;
