@@ -7,8 +7,7 @@ import { getProfileAvatar } from 'app/services/PhotoService';
 class ResultItem extends React.Component {
 
     render() {
-        const {option, onSearchResultItemClick} = this.props,
-            user = option;
+        const user = this.props.option;
 
         return (
             <li>
