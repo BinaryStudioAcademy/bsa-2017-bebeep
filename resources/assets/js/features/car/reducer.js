@@ -2,6 +2,7 @@ import * as actions from './actionTypes';
 
 const initialState = {
     vehicles: [],
+    vehiclesAreLoaded: false,
     brand: {
         id_car_mark: null,
         name: null
@@ -29,6 +30,7 @@ export default function (state = initialState, action) {
         case actions.VEHICLE_GET_ALL_SUCCESS: {
             return {
                 ...state,
+                vehiclesAreLoaded: true,
                 vehicles: action.vehicles
             };
         }
