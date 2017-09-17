@@ -44,9 +44,10 @@
     border-top: 2px solid #ddd;
     background-color: rgba(224, 224, 224, 0.1);
 
-    &-input, &-send-btn {
-      border-radius: 25px !important;
-      margin: 10px !important;
+    &-input,
+    &-send-btn {
+      margin: .5rem !important;
+      border-radius: .25rem !important;
     }
   }
 }
