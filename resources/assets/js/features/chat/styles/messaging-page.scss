@@ -9,7 +9,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.5rem;
-    color: #505050;
+    font-weight: 500;
     border-bottom: 2px solid #ddd;
 
     @media screen and (max-width: 660px) {
@@ -17,16 +17,12 @@
     }
 
     &-chat-back {
-      font-size: 1.7rem;
-      position: absolute;
-      top: 13px;
-      left: 20px;
+      display: flex;
+      align-items: center;
       color: #505050;
 
       @media screen and (max-width: 660px) {
         font-size: 1rem !important;
-        top: 17px;
-        left: 25px;
       }
 
       &:hover {
@@ -35,20 +31,11 @@
 
       &-btn {
         font-size: 1.1rem;
-        left: 45px;
-        font-weight: 500;
 
         @media screen and (max-width: 660px) {
           font-size: .9rem !important;
-          top: 16px;
         }
       }
-    }
-
-    &-user-name {
-      margin: 15px 20px 0;
-      color: #505050;
-      font-weight: 500;
     }
   }
 
