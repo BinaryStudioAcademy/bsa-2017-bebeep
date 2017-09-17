@@ -16,7 +16,8 @@ class ResultItem extends React.Component {
                     <img className="search-users__user-avatar"
                         src={getProfileAvatar(user.avatar)}
                     />
-                    <span>{user.first_name} {user.last_name}</span>
+                    <span className="search-users__user-name">
+                        {user.first_name} {user.last_name}</span>
                 </Link>
             </li>
         );
