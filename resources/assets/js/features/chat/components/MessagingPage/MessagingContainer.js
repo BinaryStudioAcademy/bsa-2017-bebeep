@@ -76,33 +76,43 @@ class MessagingContainer extends React.Component {
                 <div className="row">
                     <div className="chat-message">
                         <div className="chat-message__header">
-                            <Link to={backLink} activeClassName="active">
-                                <i className="fa fa-chevron-left chat-message__header-chat-back" aria-hidden="true"></i>
-                                <span className="chat-message__header-chat-back chat-message__header-chat-back-btn">
+                            <Link to={backLink} className="chat-messsage__header-chat-back">
+                                <i className="fa fa-chevron-left chat-message__header-chat-back-icon"
+                                    aria-hidden="true" />
+                                <span className="chat-message__header-chat-back-btn">
                                     {translate('chat.back_btn')}
                                 </span>
                             </Link>
                             <span className="pull-right chat-message__header-user-name">
-                                <Link to={link} >
+                                <Link to={link}>
                                     {user.first_name}&nbsp;{user.last_name}
                                 </Link>
                             </span>
                         </div>
-                        <div className="chat-message__body" >
+
+                        <div className="chat-message__body">
                             <MessageList messages={messages} user={user} />
                         </div>
+
                         <div className="chat-message__footer">
                             <form role="form" method="POST" onSubmit={this.onSendMsg.bind(this)}>
                                 <div className="input-group">
-                                    <input id="text" name="text" className="form-control border no-shadow chat-message__footer-input" placeholder={translate('chat.type_msg')} required/>
-                                    <button className="btn btn-success hover chat-message__footer-send-btn" type="submit">{translate('chat.send_btn')}</button>
+                                    <input id="text"
+                                        name="text"
+                                        className="form-control border no-shadow chat-message__footer-input"
+                                        placeholder={translate('chat.type_msg')}
+                                        required
+                                    />
+                                    <button type="submit"
+                                        className="btn btn-success hover chat-message__footer-send-btn"
+                                    >{translate('chat.send_btn')}</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            );
+        );
     }
 }
 
