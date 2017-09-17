@@ -114,8 +114,8 @@ export const getMessagesByUser = (userId) => dispatch => {
         });
 };
 
-export const filterUsers = (rawQuery) => dispatch => {
-    return new Promise((reject, success) => {
+export const filterUsers = (query) => dispatch => {
+    return new Promise((success, reject) => {
         query = query.trim();
 
         if (!query.length) {
@@ -142,12 +142,12 @@ export const filterUsers = (rawQuery) => dispatch => {
             }
         })
             .then(response => {
-                success();
-                dispatch(addUsersToList(response.data));
+                success(response.data.data);
+                //dispatch(addUsersToList(response.data));
             })
             .catch(error => {
-                dispatch(addUsersToList({data: {}}));
-                reject();
+                //dispatch(addUsersToList({data: {}}));
+                reject(error);
             });
     });
 };
