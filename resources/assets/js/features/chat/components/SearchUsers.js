@@ -6,15 +6,13 @@ import {AsyncTypeahead, Menu, menuItemContainer} from 'react-bootstrap-typeahead
 import _ from 'lodash';
 
 import ResultItem from './SearchDropdown/ResultItem';
-
-import {filterUsers, ALL_QUERY_MODE, EMAIL_QUERY_MODE} from '../actions';
-import {getProfileAvatar} from 'app/services/PhotoService';
+import {filterUsers, EMAIL_QUERY_MODE} from '../actions';
 
 import '../styles/search-users.scss';
 
 const SEARCH_TYPEAHEAD_CONFIG = {
     filterBy: ['first_name', 'last_name', 'email'],
-    maxResults: 100,
+    maxResults: 2,
     minLength: 1,
     useCache: false,
 };
@@ -39,6 +37,9 @@ class SearchUsers extends React.Component {
 
         this.renderMenu = this.renderMenu.bind(this);
         this.setSearchLabelKey = this.setSearchLabelKey.bind(this);
+
+        this.onSearchFocus = this.onSearchFocus.bind(this);
+        this.onSearchBlur = this.onSearchBlur.bind(this);
     }
 
     filterUsers(query) {
@@ -64,6 +65,15 @@ class SearchUsers extends React.Component {
                     },
                 });
             });
+    }
+
+    onSearchFocus (e) {
+        const value = e.target.value;
+        console.log(e.target.value);
+    }
+
+    onSearchBlur(e) {
+        console.log(e.target);
     }
 
     setSearchLabelKey(user) {
@@ -96,6 +106,8 @@ class SearchUsers extends React.Component {
                 labelKey={user => this.setSearchLabelKey(user)}
                 renderMenu={this.renderMenu}
                 onSearch={this.filterUsers}
+                onFocus={this.onSearchFocus}
+                onBlur={this.onSearchBlur}
                 placeholder={translate('chat.search.placeholder')}
                 promptText={translate('chat.search.dropdown_prompt')}
                 searchText={translate('chat.search.dropdown_search')}
