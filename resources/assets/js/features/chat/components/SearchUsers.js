@@ -12,6 +12,13 @@ import {getProfileAvatar} from 'app/services/PhotoService';
 
 import '../styles/search-users.scss';
 
+const SEARCH_TYPEAHEAD_CONFIG = {
+    filterBy: ['first_name', 'last_name', 'email'],
+    maxResults: 100,
+    minLength: 1,
+    useCache: false,
+};
+
 const TypeaheadResultItem = menuItemContainer(ResultItem);
 
 class SearchUsers extends React.Component {
@@ -83,16 +90,12 @@ class SearchUsers extends React.Component {
 
         return (
             <AsyncTypeahead
+                {...SEARCH_TYPEAHEAD_CONFIG}
                 options={foundUsers}
                 className={"bootstrap-typeahead search-users " + loadingClass}
-                filterBy={['first_name', 'last_name', 'email']}
                 labelKey={user => this.setSearchLabelKey(user)}
                 renderMenu={this.renderMenu}
                 onSearch={this.filterUsers}
-                minLength={1}
-                useCache={false}
-                delay={200}
-                maxResults={100}
                 placeholder={translate('chat.search.placeholder')}
                 promptText={translate('chat.search.dropdown_prompt')}
                 searchText={translate('chat.search.dropdown_search')}
