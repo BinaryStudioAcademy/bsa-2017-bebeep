@@ -5,6 +5,7 @@ import {getTranslate} from 'react-localize-redux';
 import {Link} from 'react-router';
 import MessageList from './MessageList';
 import {sendMessage, getMessagesByUser, addUser} from '../../actions';
+import {USER_ROLE_PASSENGER, USER_ROLE_DRIVER} from 'app/services/UserService';
 import moment from 'moment';
 
 import '../../styles/messaging-page.scss';
@@ -62,13 +63,11 @@ class MessagingContainer extends React.Component {
         const {translate, userId} = this.props,
             backLink = '/dashboard/users',
             messages = this.getChats(userId),
-            user = this.getUsersData(userId),
-            DRIVER_PERMISSIONS = 2,
-            PASSENGER_PERMISSIONS = 1;
+            user = this.getUsersData(userId);
 
-        if (user.permissions === DRIVER_PERMISSIONS) {
+        if (user.permissions === USER_ROLE_DRIVER) {
             link = `/driver/${user.id}`;
-        } else if (user.permissions === PASSENGER_PERMISSIONS) {
+        } else if (user.permissions === USER_ROLE_PASSENGER) {
             link = `/passenger/${user.id}`;
         }
 
