@@ -64,7 +64,7 @@ class UserListContainer extends React.Component {
 
         return (
             <div className="mb-5">
-                <ListGroup className="user-list-group">
+                <ListGroup className="user-list-group user-list-group--noactive">
                     {usersList.map((user) => (
                         <ListGroupItem key={user.id} className="user-list-item">
                             <Link to={`/dashboard/messages/${user.id}`}>
