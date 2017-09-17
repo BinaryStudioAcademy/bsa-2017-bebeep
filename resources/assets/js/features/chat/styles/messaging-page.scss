@@ -1,7 +1,7 @@
 .chat-message {
   width: 100%;
-  position: relative;
-  border-radius: 7px 7px 0 0 ;
+  border-radius: .25rem;
+  box-shadow: 0 0 7px #ddd;
   background-color: rgba(224, 224, 224, 0.1);
 
   &__header {
