@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getTranslate} from 'react-localize-redux';
 import {AsyncTypeahead, Menu, menuItemContainer} from 'react-bootstrap-typeahead';
-import _ from 'lodash';
 
 import ResultItem from './SearchDropdown/ResultItem';
 import {filterUsers, setUserListToNoActive, EMAIL_QUERY_MODE} from '../actions';
