@@ -1,15 +1,18 @@
 import React from 'react';
-import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getTranslate} from 'react-localize-redux';
-import {AsyncTypeahead} from 'react-bootstrap-typeahead';
+import {AsyncTypeahead, Menu, menuItemContainer} from 'react-bootstrap-typeahead';
+import _ from 'lodash';
+
+import ResultItem from './SearchDropdown/ResultItem';
 
 import {filterUsers, ALL_QUERY_MODE, EMAIL_QUERY_MODE} from '../actions';
 import {getProfileAvatar} from 'app/services/PhotoService';
 
 import '../styles/search-users.scss';
 
+const TypeaheadResultItem = menuItemContainer(ResultItem);
 
 class SearchUsers extends React.Component {
 
@@ -18,7 +21,7 @@ class SearchUsers extends React.Component {
 
         this.state = {
             preloader: false,
-            options: [],
+            foundUsers: [],
             meta: {
                 query: '',
                 queryMode: '',
@@ -27,8 +30,7 @@ class SearchUsers extends React.Component {
 
         this.filterUsers = this.filterUsers.bind(this);
         this.setSearchLabelKey = this.setSearchLabelKey.bind(this);
-        this.renderMenuItemChildren = this.renderMenuItemChildren.bind(this);
-        this.onSearchResultItemClick = this.onSearchResultItemClick.bind(this);
+        this.renderMenu = this.renderMenu.bind(this);
     }
 
     filterUsers(query) {
@@ -40,40 +42,20 @@ class SearchUsers extends React.Component {
             .then(response => {
                 this.setState({
                     preloader: false,
-                    options: response.data,
+                    foundUsers: response.data,
                     meta: response.meta,
                 });
             })
             .catch(error => {
                 this.setState({
                     preloader: false,
-                    options: [],
+                    foundUsers: [],
                     meta: {
                         query: '',
                         queryMode: '',
                     },
                 });
             });
-    }
-
-    onSearchResultItemClick(userId) {
-        browserHistory.push(`/dashboard/messages/${userId}`);
-    }
-
-    renderMenuItemChildren(user, props, index) {
-        return (
-            <div key={user.id} onClick={() => this.onSearchResultItemClick(user.id)}>
-                <img
-                    src={getProfileAvatar(user.avatar)}
-                    style={{
-                        width: '30px',
-                        marginRight: '10px',
-                        borderRadius: '50%',
-                    }}
-                />
-                <span>{user.first_name} {user.last_name}</span>
-            </div>
-        );
     }
 
     setSearchLabelKey(user) {
@@ -83,9 +65,19 @@ class SearchUsers extends React.Component {
         return `${user.first_name} ${user.last_name}`;
     }
 
+    renderMenu(users, menuProps) {
+        return (
+            <Menu {...menuProps}>
+                {users.map((user, index) => (
+                    <TypeaheadResultItem key={user.id} option={user} position={index} />
+                ))}
+            </Menu>
+        );
+    }
+
     render() {
         const { translate } = this.props,
-            { preloader, options } = this.state,
+            { preloader, foundUsers } = this.state,
             icoClass = "search-users__icon fa" + (
                 preloader ? " fa-circle-o-notch fa-spin" : " fa-search"
             );
@@ -101,20 +93,21 @@ class SearchUsers extends React.Component {
 
         return (
             <AsyncTypeahead
-                options={options}
-                className="bootstrap-typeahead"
+                options={foundUsers}
+                className="bootstrap-typeahead search-users"
                 filterBy={['first_name', 'last_name', 'email']}
                 labelKey={user => this.setSearchLabelKey(user)}
                 onSearch={this.filterUsers}
-                placeholder={translate('chat.user_list.search_placeholder')}
-                renderMenuItemChildren={this.renderMenuItemChildren}
-                promptText="Type to search..."
-                searchText="Searching..."
+                renderMenu={this.renderMenu}
                 minLength={1}
-                multiple={false}
                 useCache={false}
                 delay={200}
-                ref={ typeahead => { this.typeahead = typeahead; } }
+                maxResults={100}
+                placeholder={translate('chat.search.placeholder')}
+                promptText={translate('chat.search.dropdown_prompt')}
+                searchText={translate('chat.search.dropdown_search')}
+                emptyLabel={translate('chat.search.no_results_found')}
+                paginationText={translate('chat.search.pagination_text')}
             />
         );
     }
