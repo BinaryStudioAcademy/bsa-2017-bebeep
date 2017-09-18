@@ -230,11 +230,9 @@ dt {
 .header-locales-menu {
 
     &__locale-icon {
-        display: inline-block;
         width: 25px;
         height: 25px;
-        margin-right: .25rem;
-        vertical-align: bottom;
+        margin-right: 7px;
 
         &-item {
             fill: darken($teal, 30%);
