@@ -241,23 +241,23 @@ class CreateTripTest extends BaseTripTestCase
     public function user_cant_create_recurring_trip_if_not_all_data_is_valid()
     {
         $user = $this->getDriverUser();
-        $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user->id,]);
+        $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user->id]);
 
         $originTrip = $this->getValidTripData($vehicle->id);
 
-        $trip = array_merge($originTrip, ['recurring_count' => 21,]);
+        $trip = array_merge($originTrip, ['recurring_count' => 21]);
         $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);
         $response->assertStatus(422)->assertJsonStructure(['recurring_count']);
 
-        $trip = array_merge($originTrip, ['recurring_period' => 61,]);
+        $trip = array_merge($originTrip, ['recurring_period' => 61]);
         $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);
         $response->assertStatus(422)->assertJsonStructure(['recurring_period']);
 
-        $trip = array_merge($originTrip, ['recurring_count' => 0,]);
+        $trip = array_merge($originTrip, ['recurring_count' => 0]);
         $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);
         $response->assertStatus(422)->assertJsonStructure(['recurring_count']);
 
-        $trip = array_merge($originTrip, ['recurring_period' => 0,]);
+        $trip = array_merge($originTrip, ['recurring_period' => 0]);
         $response = $this->jsonRequestAsUser($user, $this->method, $this->url, $trip);
         $response->assertStatus(422)->assertJsonStructure(['recurring_period']);
     }
@@ -268,7 +268,7 @@ class CreateTripTest extends BaseTripTestCase
     public function user_can_create_recurring_trip_if_all_data_is_valid()
     {
         $user = $this->getDriverUser();
-        $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user->id,]);
+        $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user->id]);
 
         $originTrip = $this->getValidTripData($vehicle->id);
 
@@ -290,7 +290,7 @@ class CreateTripTest extends BaseTripTestCase
     public function user_can_create_recurring_reverse_trips_if_all_data_is_valid()
     {
         $user = $this->getDriverUser();
-        $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user->id,]);
+        $vehicle = factory(Vehicle::class)->create(['seats' => 4, 'user_id' => $user->id]);
 
         $originTrip = $this->getValidTripData($vehicle->id);
 

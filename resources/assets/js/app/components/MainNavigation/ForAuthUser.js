@@ -53,6 +53,12 @@ class ForAuthUser extends React.Component {
                     { translate('my_trips') }
                 </MainMenuItem>
 
+                <li className="header-menu__item header-menu__item_no-hover header-menu__item--align-stretch header-menu__item--icon">
+                    <Link to="/dashboard/users" activeClassName="active">
+                        <i className="fa fa-envelope " aria-hidden="true" />
+                    </Link>
+                </li>
+
                 <li className="header-menu__item header-menu__item_no-hover header-menu__item--align-stretch">
                     <UserDropdown user={user} isDriver={isDriver} isPassenger={isPassenger} />
                 </li>

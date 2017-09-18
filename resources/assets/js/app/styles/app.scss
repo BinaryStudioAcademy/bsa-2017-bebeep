@@ -134,9 +134,22 @@ dt {
         &--align-stretch {
             align-self: stretch;
         }
-    }
-}
 
+        &--icon {
+            & > a {
+                font-size: 30px;
+                color: #6dcff6;
+                padding: 0 1rem;
+            }
+
+            a.active,
+            & > a:hover {
+                color: $white;
+            }
+        }
+    }
+
+}
 .home-slider {
     width: 100%;
     height: 600px;
@@ -200,6 +213,12 @@ dt {
         &:active {
             color: lighten($gray, 10%);
         }
+    }
+
+    .dropdown-item-signed {
+        padding: 5px 1.5rem;
+        font-size: .95em;
+        color: lighten($gray, 15%);
     }
 
     &--user-menu {
