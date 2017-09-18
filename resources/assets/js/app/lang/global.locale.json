@@ -14,7 +14,7 @@
   "tomorrow": ["Tomorrow - ${time}", "Завтра - ${time}", "Завтра - ${time}"],
   "today": ["Today - ${time}", "Сьогодні - ${time}", "Сегодня - ${time}"],
   "bookings": ["Bookings", "Замовлення", "Заказы"],
-  "signed": ["Signed in as", "Ви увійшли як", "Вы залогинены как"],
+  "signed": ["Signed in as", "Ви увійшли як", "Вы вошли как"],
   "user": {
     "age": ["Age: ${age}", "Вік: ${age}", "Возраст: ${age}"]
   },
