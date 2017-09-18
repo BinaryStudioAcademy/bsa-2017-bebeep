@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use App\Criteria\Chat\ChatMessagesCriteria;
 use App\Services\Requests\Chat\MessageRequest;
 use App\Repositories\Contracts\ChatMessageRepository;
+use App\Exceptions\Messages\MessageNotBelongToUserException;
 use App\Services\Contracts\Chat\ChatMessageService as ChatMessageServiceContract;
 
 class ChatMessageService implements ChatMessageServiceContract
@@ -42,5 +43,44 @@ class ChatMessageService implements ChatMessageServiceContract
         $chatMessage->recipient_id = $recipient->id;
 
         return $this->chatMessageRepository->save($chatMessage);
+    }
+
+    /**
+     * Delete user message.
+     *
+     * @param User $user
+     * @param ChatMessage $message
+     * @return mixed
+     * @throws MessageNotBelongToUserException
+     */
+    public function deleteUserMessage(User $user, ChatMessage $message)
+    {
+        if ($message->getSenderId() != $user->getUserId() && $message->getRecipientId() != $user->getUserId()) {
+            throw new MessageNotBelongToUserException("This message doesn't belong to current user");
+        }
+
+        return $this->chatMessageRepository->deleteUserMessage($message);
+    }
+
+    /**
+     * Mark message as read.
+     *
+     * @param User $user
+     * @param MessageRequest $messageRequest
+     * @param ChatMessage $message
+     * @return mixed
+     * @throws MessageNotBelongToUserException
+     */
+    public function markAsRead(User $user, MessageRequest $messageRequest, ChatMessage $message)
+    {
+        $attributes = [
+            'is_read' => $messageRequest->getIsRead(),
+        ];
+
+        if ($message->getRecipientId() != $user->getUserId()) {
+            throw new MessageNotBelongToUserException("This message doesn't belong to current user");
+        }
+
+        return $this->chatMessageRepository->markMessageAsRead(new ChatMessage($attributes), $message->getMessageId());
     }
 }
