@@ -35,7 +35,6 @@ class OthersUserCriteria implements CriteriaInterface
      * from / to the current auth user.
      *
      * @param \App\User $model
-     * @param \Prettus\Repository\Contracts\RepositoryInterface $repository
      *
      * @return mixed
      */
