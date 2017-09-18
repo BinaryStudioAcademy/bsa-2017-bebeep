@@ -214,6 +214,15 @@ dt {
     }
 }
 
+.header-currencies-menu {
+
+    &__currency-icon {
+        width: 25px;
+        height: 27px;
+        margin-right: 7px;
+    }
+}
+
 .header-locales-menu {
 
     &__locale-icon {
