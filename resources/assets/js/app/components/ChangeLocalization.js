@@ -1,9 +1,13 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
+<<<<<<< HEAD:resources/assets/js/app/components/MenuDropdowns/ChangeLocalization.js
 import { LocalizationIcon } from './Icons';
 
 import LangService, { LANG_PROP_SHORT_NAME } from 'app/services/LangService';
+=======
+import LangService, { LANG_PROP_SHORT_NAME } from '../services/LangService';
+>>>>>>> parent of a8a52b02... Added MenuDropdowns dir, moved dropdowns into it:resources/assets/js/app/components/ChangeLocalization.js
 
 class ChangeLocalization extends React.Component {
 

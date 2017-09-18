@@ -2,7 +2,8 @@ import React from 'react';
 import { Link, IndexLink } from 'react-router';
 import { localize } from 'react-localize-redux';
 
-import { ChangeCurrency, ChangeLocalization } from '../MenuDropdowns';
+import ChangeLocalization from '../ChangeLocalization';
+import ChangeCurrency from '../ChangeCurrency';
 
 class ForGuestUser extends React.Component {
 
