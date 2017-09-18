@@ -51,30 +51,16 @@ class OthersUserCriteria implements CriteriaInterface
     }
 
     /**
-     * Apply criteria in query repository.
+     * Get others users by search filter params.
      *
      * @param \App\User $model
-     * @param \Prettus\Repository\Contracts\RepositoryInterface $repository
      *
      * @return mixed
      */
-    public function apply($model, RepositoryInterface $repository)
+    private function getUsersByFilter(User $model)
     {
-        if (! $this->request->isSearchFilterExists()) {
-            return $this->getUsersBySentAndReceivedMessages($model);
-        }
-
-        $queryBuilder = $model->where('id', '<>', $this->user->id);
-
-        if (! $this->request->areNamesParamsIdentical()) {
-            return $queryBuilder->where([
-                ['first_name', '=', $this->request->getFirstName()],
-                ['last_name', 'like', $this->request->getLastName().'%'],
-            ])
-            ->orderBy('first_name');
-        }
-
-        return $queryBuilder
+        return $model
+            ->where('id', '<>', $this->user->id)
             ->where(function ($query) {
                 if ($this->request->getEmail()) {
                     $query->orWhere('email', 'like', $this->request->getEmail().'%');
@@ -89,5 +75,44 @@ class OthersUserCriteria implements CriteriaInterface
                 return $query;
             })
             ->orderBy('first_name');
+    }
+
+    /**
+     * Get others users by the first name with search filter params.
+     *
+     * @param \App\User $model
+     *
+     * @return mixed
+     */
+    private function getUsersByNameWithFilter(User $model)
+    {
+        return $model
+            ->where('id', '<>', $this->user->id)
+            ->where([
+                ['first_name', '=', $this->request->getFirstName()],
+                ['last_name', 'like', $this->request->getLastName().'%'],
+            ])
+            ->orderBy('first_name');
+    }
+
+    /**
+     * Apply criteria in query repository.
+     *
+     * @param \App\User $model
+     * @param \Prettus\Repository\Contracts\RepositoryInterface $repository
+     *
+     * @return mixed
+     */
+    public function apply($model, RepositoryInterface $repository)
+    {
+        if (! $this->request->isSearchFilterExists()) {
+            return $this->getUsersBySentAndReceivedMessages($model);
+        }
+
+        if (! $this->request->areNamesParamsIdentical()) {
+            return $this->getUsersByNameWithFilter($model);
+        }
+
+        return $this->getUsersByFilter($model);
     }
 }
