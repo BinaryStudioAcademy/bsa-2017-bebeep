@@ -81,4 +81,14 @@ interface CreateTripRequest
      * @return Carbon
      */
     public function getReverseStartAt(): Carbon;
+
+    public function getRecurringCount(): int;
+
+    public function getRecurringPeriod(): int;
+
+    public function setReverseStartAt(Carbon $date): Carbon;
+
+    public function setStartAt(Carbon $date): Carbon;
+
+    public function setEndAt(Carbon $date): Carbon;
 }

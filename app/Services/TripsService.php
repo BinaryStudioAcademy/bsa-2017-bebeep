@@ -160,6 +160,29 @@ class TripsService
     }
 
     /**
+     * @param CreateTripRequest $request
+     * @param User $user
+     * @return \Illuminate\Support\Collection
+     */
+    public function createRecurring(CreateTripRequest $request, User $user)
+    {
+        $trips = collect([]);
+
+        foreach (range(1, $request->getRecurringCount()) as $periodItem) {
+            $trips->push($this->create($request, $user));
+
+            $request->setStartAt($request->getStartAt()->addDays($request->getRecurringPeriod()));
+            $request->setEndAt($request->getEndAt()->addDays($request->getRecurringPeriod()));
+
+            if ($request->getIsInBothDirections()) {
+                $request->setReverseStartAt($request->getReverseStartAt()->addDays($request->getRecurringPeriod()));
+            }
+        }
+
+        return $trips;
+    }
+
+    /**
      * Create a new trip.
      *
      * @param \App\Services\Requests\CreateTripRequest $request
@@ -207,7 +230,8 @@ class TripsService
         }
 
         if ($request->getIsInBothDirections()) {
-            $this->createReverseTrip($trip, $request);
+            $reverseTrip = $this->createReverseTrip($trip, $request);
+            event(new TripCreated($reverseTrip));
         }
 
         event(new TripCreated($trip));
@@ -361,10 +385,9 @@ class TripsService
      *
      * @param \App\Models\Trip $trip
      * @param \App\Services\Requests\CreateTripRequest $request
-     *
-     * @return void
+     * @return Trip
      */
-    public function createReverseTrip(Trip $trip, CreateTripRequest $request): void
+    public function createReverseTrip(Trip $trip, CreateTripRequest $request): Trip
     {
         $originTripTravelTime = $trip->end_at->timestamp - $trip->start_at->timestamp;
 
@@ -396,6 +419,8 @@ class TripsService
         foreach ($routes as $route) {
             $reverseTrip->routes()->create($route);
         }
+
+        return $reverseTrip;
     }
 
     /**

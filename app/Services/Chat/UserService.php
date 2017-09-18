@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Support\Collection;
 use App\Repositories\UserRepository;
 use App\Criteria\Chat\OthersUserCriteria;
+use App\Services\Requests\Chat\UsersSearchRequest;
 use App\Services\Contracts\Chat\UserService as UserServiceContract;
 
 class UserService implements UserServiceContract
@@ -23,8 +24,10 @@ class UserService implements UserServiceContract
     /**
      * {@inheritdoc}
      */
-    public function getOthers(User $user): Collection
+    public function getOthers(UsersSearchRequest $request, User $user): Collection
     {
-        return collect($this->userRepository->getByCriteria(new OthersUserCriteria($user)));
+        $this->userRepository->pushCriteria(new OthersUserCriteria($request, $user));
+
+        return $this->userRepository->all();
     }
 }
