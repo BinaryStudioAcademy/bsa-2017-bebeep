@@ -5,6 +5,13 @@ namespace App\Services\Requests\Chat;
 interface UsersSearchRequest
 {
     /**
+     * Check, whether the search filter params are exists.
+     *
+     * @return bool
+     */
+    public function isSearchFilterExists(): bool;
+
+    /**
      * Get the search user email.
      *
      * @return string
