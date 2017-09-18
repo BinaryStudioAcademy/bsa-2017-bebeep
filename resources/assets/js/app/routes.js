@@ -52,6 +52,7 @@ export default (store) => {
 
     LangeService.addTranslation(require('./lang/global.locale.json'));
     LangeService.addTranslation(require('./lang/validate.locale.json'));
+    LangeService.addTranslation(require('features/currency/lang/currency.locale.json'));
 
     return (
         <Route path="/" component={ App }>
