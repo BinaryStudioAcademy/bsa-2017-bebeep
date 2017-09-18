@@ -5,7 +5,7 @@ export const setCurrencies = payload => ({
     payload,
 });
 
-export const setActiveCurrence = payload => ({
-    type: actions.SET_ACTIVE_CURRENCE,
+export const setActiveCurrency = payload => ({
+    type: actions.SET_ACTIVE_CURRENCY,
     payload,
 });
