@@ -34,6 +34,10 @@ dt {
 .hide {
     display: none !important;
 }
+.cursor-pointer,
+.hover:hover {
+    cursor: pointer;
+}
 
 .noselect,
 .dropdown,
@@ -77,10 +81,6 @@ dt {
         font-size: 1.4rem;
         color: lighten($gray, 5%);
     }
-}
-
-.hover:hover {
-    cursor: pointer;
 }
 
 .header {
@@ -235,10 +235,6 @@ dt {
         &-item {
             fill: darken($teal, 30%);
         }
-    }
-
-    &__locale {
-        cursor: pointer;
     }
 
     .dropdown-menu {

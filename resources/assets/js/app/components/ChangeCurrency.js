@@ -42,7 +42,7 @@ class ChangeCurrency extends React.Component {
                 <DropdownMenu right>
                     {currencies.map((code) =>
                         <div key={ code }
-                            className="dropdown-item header-locales-menu__locale"
+                            className="dropdown-item cursor-pointer"
                             onClick={ () => this.onSetCurrency(code) }
                         >
                             { code }
