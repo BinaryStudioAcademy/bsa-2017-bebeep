@@ -14,9 +14,9 @@ const CURRENCY_STORAGE_KEY = 'currency';
 
 const CURRENCY_DATA = {
     [CURRENCY_PROP_SHORT_NAME]: {
-        [CURRENCY_USD]: 'USD',
-        [CURRENCY_UAH]: 'UAH',
-        [CURRENCY_EUR]: 'EUR',
+        [CURRENCY_USD]: "\u0024",
+        [CURRENCY_UAH]: "\u20B4",
+        [CURRENCY_EUR]: "\u20AC",
     },
     [CURRENCY_PROP_FULL_NAME]: {
         [CURRENCY_USD]: 'Долар',
