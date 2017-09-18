@@ -3,6 +3,8 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 
 import CurrencyIcon from './CurrencyIcon';
 
+import CurrencyService, { CURRENCY_PROP_SHORT_NAME } from '../services/CurrencyService';
+
 class ChangeCurrency extends React.Component {
 
     constructor(props) {
@@ -23,12 +25,13 @@ class ChangeCurrency extends React.Component {
     }
 
     onSetCurrency(code) {
+        CurrencyService.setActiveCurrency(code);
         this.toggleDropdown();
     }
 
     render() {
-        const currentCurrency = 'UAH',
-            currencies = ['USD', 'UAH', 'EUR'];
+        const currentCurrency = CurrencyService.getActiveCurrency(CURRENCY_PROP_SHORT_NAME),
+            currencies = CurrencyService.currencies;
 
         return (
             <Dropdown className="header-menu__dropdown header-currencies-menu"
@@ -48,7 +51,7 @@ class ChangeCurrency extends React.Component {
                             className="dropdown-item cursor-pointer"
                             onClick={ () => this.onSetCurrency(code) }
                         >
-                            { code }
+                            { CurrencyService.getName(code) }
                         </div>
 
                     )}
