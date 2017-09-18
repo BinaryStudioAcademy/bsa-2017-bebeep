@@ -5,6 +5,7 @@ import { localize } from 'react-localize-redux';
 import UserDropdown from './UserDropdown';
 import MainMenuItem from './Items/MainMenuItem';
 import ChangeLocalization from '../ChangeLocalization';
+import ChangeCurrency from '../ChangeCurrency';
 
 import AuthService from 'app/services/AuthService';
 import { getProfileAvatar } from 'app/services/PhotoService';
@@ -54,6 +55,10 @@ class ForAuthUser extends React.Component {
 
                 <li className="header-menu__item header-menu__item_no-hover header-menu__item--align-stretch">
                     <UserDropdown user={user} isDriver={isDriver} isPassenger={isPassenger} />
+                </li>
+
+                <li className="header-menu__item header-menu__item--smaller-margin header-menu__item--align-stretch">
+                    <ChangeCurrency />
                 </li>
 
                 <li className="header-menu__item header-menu__item--smaller-margin header-menu__item--align-stretch">
