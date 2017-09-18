@@ -2,8 +2,9 @@ import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import CurrencyIcon from './CurrencyIcon';
-
 import CurrencyService, { CURRENCY_PROP_SHORT_NAME } from '../services/CurrencyService';
+
+import '../styles/currency-dropdown.scss';
 
 class ChangeCurrency extends React.Component {
 
@@ -42,7 +43,9 @@ class ChangeCurrency extends React.Component {
                     <div className="header-currencies-menu__currency-icon">
                         <CurrencyIcon />
                     </div>
-                    <span>{currentCurrency.toUpperCase()}</span>
+                    <span className="header-currencies-menu__currency-active">
+                        {currentCurrency.toUpperCase()}
+                    </span>
                 </DropdownToggle>
 
                 <DropdownMenu right>
