@@ -47,12 +47,12 @@ export default (store) => {
     DataStorage.init();
 
     AuthService.init(store);
-    LangeService.init(store);
-    CurrencyService.init(store);
 
+    LangeService.init(store);
     LangeService.addTranslation(require('./lang/global.locale.json'));
     LangeService.addTranslation(require('./lang/validate.locale.json'));
-    LangeService.addTranslation(require('features/currency/lang/currency.locale.json'));
+
+    CurrencyService.init(store);
 
     return (
         <Route path="/" component={ App }>

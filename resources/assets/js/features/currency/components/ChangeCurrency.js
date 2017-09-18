@@ -1,8 +1,12 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import CurrencyIcon from './CurrencyIcon';
-import CurrencyService, { CURRENCY_PROP_SHORT_NAME } from '../services/CurrencyService';
+import CurrencyService, { CURRENCY_PROP_SIGN } from '../services/CurrencyService';
+
+import LangService from 'app/services/LangService';
+import * as lang from '../lang/currency.locale.json';
 
 import '../styles/currency-dropdown.scss';
 
@@ -19,6 +23,10 @@ class ChangeCurrency extends React.Component {
         this.onSetCurrency = this.onSetCurrency.bind(this);
     }
 
+    componentWillMount() {
+        LangService.addTranslation(lang);
+    }
+
     toggleDropdown() {
         this.setState({
             isDropdownOpen: !this.state.isDropdownOpen,
@@ -31,7 +39,8 @@ class ChangeCurrency extends React.Component {
     }
 
     render() {
-        const currentCurrency = CurrencyService.getActiveCurrency(CURRENCY_PROP_SHORT_NAME),
+        const { translate } = this.props,
+            currentCurrency = CurrencyService.getActiveCurrency(CURRENCY_PROP_SIGN),
             currencies = CurrencyService.currencies;
 
         return (
@@ -54,9 +63,8 @@ class ChangeCurrency extends React.Component {
                             className="dropdown-item cursor-pointer"
                             onClick={ () => this.onSetCurrency(code) }
                         >
-                            { CurrencyService.getName(code) }
+                            {translate(`currency.name.${code}`)}
                         </div>
-
                     )}
                 </DropdownMenu>
             </Dropdown>
@@ -64,4 +72,4 @@ class ChangeCurrency extends React.Component {
     }
 }
 
-export default ChangeCurrency;
+export default localize(ChangeCurrency, 'locale');

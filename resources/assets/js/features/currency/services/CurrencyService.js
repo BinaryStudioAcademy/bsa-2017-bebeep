@@ -7,21 +7,15 @@ export const CURRENCY_UAH = 'UAH';
 export const CURRENCY_EUR = 'EUR';
 
 export const CURRENCY_PROP_CODE = 'code';
-export const CURRENCY_PROP_SHORT_NAME = 'short_name';
-export const CURRENCY_PROP_FULL_NAME = 'full_name';
+export const CURRENCY_PROP_SIGN = 'sign';
 
 const CURRENCY_STORAGE_KEY = 'currency';
 
 const CURRENCY_DATA = {
-    [CURRENCY_PROP_SHORT_NAME]: {
+    [CURRENCY_PROP_SIGN]: {
         [CURRENCY_USD]: "\u0024",
         [CURRENCY_UAH]: "\u20B4",
         [CURRENCY_EUR]: "\u20AC",
-    },
-    [CURRENCY_PROP_FULL_NAME]: {
-        [CURRENCY_USD]: 'Долар',
-        [CURRENCY_UAH]: 'Гривня',
-        [CURRENCY_EUR]: 'Євро',
     },
 };
 
@@ -44,10 +38,6 @@ const CurrencyService = (() => {
             return currencies;
         },
 
-        getName(code) {
-            return CURRENCY_DATA.full_name[code];
-        },
-
         getActiveCurrency(prop) {
             const code = (this.currencies.indexOf(DataStorage.getData(CURRENCY_STORAGE_KEY)) !== -1 &&
                     DataStorage.getData(CURRENCY_STORAGE_KEY)
@@ -61,8 +51,7 @@ const CurrencyService = (() => {
             if (prop === undefined) {
                 return {
                     [CURRENCY_PROP_CODE]: code,
-                    [CURRENCY_PROP_SHORT_NAME]: CURRENCY_DATA.short_name[code],
-                    [CURRENCY_PROP_FULL_NAME]: CURRENCY_DATA.full_name[code],
+                    [CURRENCY_PROP_SIGN]: CURRENCY_DATA.sign[code],
                 };
             }
 
