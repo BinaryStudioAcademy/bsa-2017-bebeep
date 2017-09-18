@@ -70,7 +70,18 @@ export default (state = initialState, action) => {
                 ...state,
                 usersListNoActive: action.status,
             };
+
         case actions.CHAT_RECEIVE_MESSAGE:
+            const msgSender = action.message.sender.data;
+
+            const newUser = !state.entities.users.byId[msgSender.id]
+                ? { [msgSender.id]: msgSender }
+                : {};
+
+            if (state.usersId.indexOf(msgSender.id) === -1) {
+                state.usersId.push(msgSender.id);
+            }
+
             return {
                 ...state,
                 entities: {
@@ -89,9 +100,17 @@ export default (state = initialState, action) => {
                                 }
                             ]
                         }
-                    }
-                }
+                    },
+                    users: {
+                        byId: {
+                            ...state.entities.users.byId,
+                            ...newUser,
+                        },
+                    },
+                    usersId: state.usersId,
+                },
             };
+
         case actions.CHAT_SEND_MESSAGE:
             return {
                 ...state,
