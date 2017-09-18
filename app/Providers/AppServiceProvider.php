@@ -18,6 +18,7 @@ use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
 use App\Validators\UpdateTripValidator;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\CurrencyRepository;
 use App\Validators\RestoreTripValidator;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\BookingConfirm\OwnerConfirm;
@@ -29,8 +30,8 @@ use App\Validators\ConfirmBookingValidator;
 use App\Rules\Booking\TripRoutesHasSeatsRule;
 use App\Validators\IsPasswordCurrentValidator;
 use App\Rules\BookingConfirm\FutureTripConfirm;
-use App\Rules\Booking\BookingTripNotExpiredRule;
 use App\Rules\BookingConfirm\BookingTripConfirm;
+use App\Rules\Booking\BookingTripNotExpiredRule;
 use App\Validators\RoutesExistsForTripValidator;
 use App\Rules\Booking\UserHasNotActiveBookingsForTrip;
 use App\Services\Helpers\Subscriptions\FilterCollection;
@@ -52,6 +53,7 @@ use App\Services\Contracts\TripDetailService as TripDetailServiceContract;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 use App\Repositories\Contracts\BookingRepository as BookingRepositoryContract;
 use App\Services\Contracts\SubscriptionsService as SubscriptionsServiceContract;
+use App\Repositories\Contracts\CurrencyRepository as CurrencyRepositoryContract;
 use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
 
 class AppServiceProvider extends ServiceProvider
@@ -89,6 +91,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\ChatMessageRepository::class,
             \App\Repositories\ChatMessageRepository::class
         );
+        $this->app->bind(CurrencyRepositoryContract::class, CurrencyRepository::class);
 
         $this->app->bind(RouteServiceContract::class, RouteService::class);
         $this->app->bind(BookingServiceContract::class, BookingService::class);
