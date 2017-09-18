@@ -1,0 +1,16 @@
+.header-currencies-menu {
+
+  &__currency-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+
+  &__currency-active {
+    font-size: 1.1rem;
+  }
+
+  .dropdown-menu {
+    min-width: 8rem;
+  }
+}
