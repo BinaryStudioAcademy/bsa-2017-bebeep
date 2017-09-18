@@ -1,39 +1,14 @@
-import { simpleRequest } from 'app/services/RequestService';
-import { VehicleData } from 'app/services/VehicleService'
+import { securedRequest } from 'app/services/RequestService';
+import { browserHistory } from 'react-router';
 
 export const VehicleService = {
 
-    //TODO: fix it
-    getBrandOptions() {
-        simpleRequest.get('/api/v1/car-brand/').then((response) => {
-            return response.data;
-        })
-    },
-
-    getModelOptions(id, name) {
-        return VehicleData.getModels(name, id)
-            .then((response) => {
-                return response.data.data;
-            }).then((json) => {
-                return { options: json };
-            });
-    },
-
-    getColorOptions() {
-        return simpleRequest.get(`/api/v1/car-color`)
-            .then((response) => {
-                return response.data;
-            }).then((json) => {
-                return { options: json };
-            });
-    },
-
-    getBodyOptions() {
-        return simpleRequest.get(`/api/v1/car-body`)
-            .then((response) => {
-                return response.data;
-            }).then((json) => {
-                return { options: json };
-            });
+    saveVehicleData(data) {
+        securedRequest.post('/api/v1/car', data).then((response) => {
+            if (response.status === 200) {
+                browserHistory.push('/vehicles');
+            }
+        }).catch((error) => {});
     }
+
 };

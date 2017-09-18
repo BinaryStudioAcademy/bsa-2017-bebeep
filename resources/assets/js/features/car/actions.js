@@ -25,18 +25,13 @@ export const getBodyData = data => ({
     data
 });
 
-export const getAllSuccess = vehicles => ({
-    type: actions.VEHICLE_GET_ALL_SUCCESS,
+export const getAllVehicles = vehicles => ({
+    type: actions.GET_ALL_VEHICLES,
     vehicles
 });
 
-export const vehicleDeleteSuccess = data => ({
-    type: actions.VEHICLE_DELETE_SUCCESS,
-    data
-});
-
-export const vehicleCreateSuccess = data => ({
-    type: actions.VEHICLE_CREATE_SUCCESS,
+export const deleteVehicleItem = data => ({
+    type: actions.DELETE_VEHICLE_ITEM,
     data
 });
 
@@ -63,7 +58,7 @@ export const getBrandModelsData = (id) => dispatch => {
 export const getVehicles = () => dispatch => {
     securedRequest.get('/api/v1/car')
         .then(response => {
-            dispatch(getAllSuccess(response.data));
+            dispatch(getAllVehicles(response.data));
         })
         .catch(error => {});
 };
@@ -71,7 +66,7 @@ export const getVehicles = () => dispatch => {
 export const deleteVehicle = (id) => dispatch => {
     securedRequest.delete('/api/v1/car/' + id)
         .then(response => {
-            dispatch(vehicleDeleteSuccess({ vehicleId: id }));
+            dispatch(deleteVehicleItem({ vehicleId: id }));
         })
         .catch(error => {});
 };

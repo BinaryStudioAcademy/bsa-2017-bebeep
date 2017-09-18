@@ -1,11 +1,10 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import VehicleForm from '../Forms/VehicleForm';
 import { VehicleValidate } from 'app/services/VehicleService';
-import { securedRequest } from 'app/services/RequestService';
-import { getVehiclesData, getBrandModelsData, resetModelsData, vehicleCreateSuccess } from 'features/car/actions';
+import { VehicleService } from 'features/car/services/VehicleService';
+import { getVehiclesData, getBrandModelsData, resetModelsData } from 'features/car/actions';
 
 class CreateVehicle extends React.Component {
     constructor(props) {
@@ -118,16 +117,7 @@ class CreateVehicle extends React.Component {
                 errors: validate.errors
             });
         } else {
-            securedRequest.post('/api/v1/car', data).then((response) => {
-                this.props.vehicleCreateSuccess(response.data);
-                if (response.status === 200) {
-                    browserHistory.push('/vehicles');
-                }
-            }).catch((error) => {
-                this.setState({
-                    errors: error.response.data
-                })
-            });
+            VehicleService.saveVehicleData(data);
         }
     }
 
@@ -166,7 +156,6 @@ export default connect(
     (dispatch) => bindActionCreators({
         getVehiclesData,
         getBrandModelsData,
-        resetModelsData,
-        vehicleCreateSuccess
+        resetModelsData
     }, dispatch)
 )(CreateVehicle);
