@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -17,19 +18,29 @@ class CurrenciesTableSeeder extends Seeder
         DB::table('currencies')->insert([
             [
                 'code' => 'USD',
-                'name' => 'Dollar',
+                'name' => 'US Dollar',
                 'rate' => 1.0000,
                 'is_main' => true,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'code' => 'UAH',
-                'name' => 'Hryvnia',
-                'rate' => 26.1806,
+                'name' => 'Ukrainian Hryvnia',
+                'rate' => 26.1450,
+                //'rate' => 0.0383,
+                'is_main' => false,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'code' => 'EUR',
-                'name' => 'Hryvnia',
-                'rate' => 0.83797,
+                'name' => 'Euro',
+                'rate' => 0.8369,
+                //'rate' => 1.1946,
+                'is_main' => false,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
         ]);
     }
