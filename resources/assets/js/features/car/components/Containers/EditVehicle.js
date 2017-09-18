@@ -1,14 +1,14 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import VehicleForm from '../Forms/VehicleForm';
-
 import { VehicleValidate } from 'app/services/VehicleService';
 import { securedRequest } from 'app/services/RequestService';
 import { VehicleService } from 'features/car/services/VehicleService';
-import EditVehicleService from 'features/car/services/EditVehicleService';
+import { EditVehicleService } from 'features/car/services/EditVehicleService';
+import { getVehiclesData, getBrandModelsData, resetModelsData } from 'features/car/actions';
 
-export default class EditVehicle extends React.Component {
+class EditVehicle extends React.Component {
     constructor(props) {
         super(props);
 
@@ -37,6 +37,10 @@ export default class EditVehicle extends React.Component {
             seats: null,
             year: new Date().getFullYear()
         };
+    }
+
+    componentWillMount() {
+        this.props.getVehiclesData();
     }
 
     componentDidMount() {
@@ -70,14 +74,20 @@ export default class EditVehicle extends React.Component {
     handleBrandChange(data) {
         this.setState({
             brand: {
-                id: (data) ? data.id: null,
+                id: (data) ? data.id : null,
                 name: (data) ? data.name : null
             },
             model: {
                 brand_id: (data) ? data.id : null,
-                disabled: (data) ? false : true
+                disabled: (!data)
             }
         });
+
+        if(data) {
+            this.props.getBrandModelsData(data.id);
+        } else {
+            this.props.resetModelsData();
+        }
     }
 
     handleModelChange(data) {
@@ -119,10 +129,6 @@ export default class EditVehicle extends React.Component {
         });
     }
 
-    getModelLoadOptions = () => {
-        return VehicleService.getModelOptions.apply(this, [this.state.brand.id, ...arguments]);
-    };
-
     onSubmit(e) {
         e.preventDefault();
 
@@ -149,6 +155,7 @@ export default class EditVehicle extends React.Component {
 
     render() {
         const {translate} = this.props;
+        const {brands, models, colors, body} = this.props.vehicle.form_items;
 
         if (this.state.notFoundVehicle) {
             return (
@@ -167,7 +174,7 @@ export default class EditVehicle extends React.Component {
         }
 
         return (
-            {/*<VehicleForm
+            <VehicleForm
                 errors={ this.state.errors }
                 brand={ this.state.brand }
                 model={ this.state.model }
@@ -175,10 +182,10 @@ export default class EditVehicle extends React.Component {
                 body={ this.state.body }
                 year={ this.state.year }
                 seats={ this.state.seats }
-                getBrandOptions={ VehicleService.getBrandOptions }
-                getModelLoadOptions={ this.getModelLoadOptions }
-                getColorOptions={ VehicleService.getColorOptions }
-                getBodyOptions={ VehicleService.getBodyOptions }
+                getBrandOptions={ brands }
+                getModelLoadOptions={ models }
+                getColorOptions={ colors }
+                getBodyOptions={ body }
                 handleBrandChange={ this.handleBrandChange.bind(this) }
                 handleModelChange={ this.handleModelChange.bind(this) }
                 handleColorChange={ this.handleColorChange.bind(this) }
@@ -186,7 +193,18 @@ export default class EditVehicle extends React.Component {
                 handleYearChange={ this.handleYearChange.bind(this) }
                 handleSeatsChange={ this.handleSeatsChange.bind(this) }
                 onSubmit={ this.onSubmit.bind(this) }
-            />*/}
+            />
         );
     }
 }
+
+export default connect(
+    state => ({
+        vehicle: state.vehicle,
+    }),
+    (dispatch) => bindActionCreators({
+        getVehiclesData,
+        getBrandModelsData,
+        resetModelsData
+    }, dispatch)
+)(EditVehicle);

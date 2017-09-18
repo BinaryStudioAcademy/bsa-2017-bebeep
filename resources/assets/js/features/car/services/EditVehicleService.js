@@ -1,7 +1,7 @@
 import { securedRequest } from 'app/services/RequestService';
 import { browserHistory } from 'react-router';
 
-const EditVehicleService = {
+export const EditVehicleService = {
     getVehicle(id) {
         return securedRequest.get('/api/v1/car/' + id)
             .then(
@@ -21,5 +21,3 @@ const EditVehicleService = {
         })
     }
 };
-
-export default EditVehicleService;
