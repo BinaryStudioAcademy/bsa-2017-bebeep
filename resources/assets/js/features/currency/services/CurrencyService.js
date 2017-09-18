@@ -34,9 +34,10 @@ const CurrencyService = (() => {
         init(store) {
             _store = store;
 
-            _store.dispatch(setCurrencies(
-                this.currencies, this.getActiveCurrency(CURRENCY_PROP_CODE)
-            ));
+            _store.dispatch(setCurrencies({
+                currencies: this.currencies,
+                activeCurrency: this.getActiveCurrency(CURRENCY_PROP_CODE),
+            }));
         },
 
         get currencies() {
