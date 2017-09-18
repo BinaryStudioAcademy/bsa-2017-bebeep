@@ -241,11 +241,13 @@ Route::get('v1/users/{user}/messages', [
 ]);
 
 Route::get('v1/users/others', [
+    'middleware' => ['jwt.auth'],
     'as' => 'users',
     'uses' => 'Api\Chat\UserController@others',
 ]);
 
 Route::get('v1/users/{user}', [
+    'middleware' => ['jwt.auth'],
     'as' => 'user',
     'uses' => 'Api\Chat\UserController@user',
 ]);

@@ -7,6 +7,9 @@ import {securedRequest} from 'app/services/RequestService';
 import AuthService from 'app/services/AuthService';
 import {isThisIdOfAuthUser} from 'app/services/UserService';
 
+export const ALL_QUERY_MODE = 'all';
+export const EMAIL_QUERY_MODE = 'email';
+
 export const setOnlineUsers = (users) => {
     const sessionUserId = AuthService.getUserId();
 
@@ -33,6 +36,11 @@ export const setOffline = (user) => ({
 
 export const clearUserList = () => ({
     type: actions.CHAT_CLEAR_USER_LIST
+});
+
+export const setUserListToNoActive = status => ({
+    type: actions.CHAT_SET_USER_LIST_NO_ACTIVE,
+    status,
 });
 
 export const addUsersToList = data => {
@@ -65,7 +73,6 @@ export const fillUsersList = () => dispatch => {
     securedRequest.get('/api/v1/users/others')
         .then(response => dispatch(addUsersToList(response.data)))
         .catch(error => {
-            console.error(error);
             dispatch(addUsersToList({data: {}}));
         });
 };
@@ -74,7 +81,6 @@ export const addUser = (userId) => dispatch => {
     securedRequest.get(`/api/v1/users/${userId}`)
         .then(response => dispatch(addUsersToList({data: [response.data.data]})))
         .catch(error => {
-            console.error(error);
             dispatch(addUsersToList({data: []}));
         });
 };
@@ -112,7 +118,84 @@ export const getMessagesByUser = (userId) => dispatch => {
     securedRequest.get(`/api/v1/users/${userId}/messages`)
         .then(response => dispatch(addMessagesToChat(userId, response.data)))
         .catch(error => {
-            console.error(error);
             dispatch(addMessagesToChat(userId, {data: {}}));
         });
 };
+
+/**
+ *** START ***
+ * Search users logic
+ */
+
+const getSearchQueryParams = (query, queryMode) => {
+    let queryParams = {
+        first_name: '',
+        last_name: '',
+        email: '',
+    };
+
+    if (queryMode === EMAIL_QUERY_MODE) {
+        queryParams.email = query;
+        return prepareSearchParamsToRequest(queryParams);
+    }
+
+    const querySplit = query.split(' ');
+
+    queryParams.first_name = querySplit.shift();
+    queryParams.last_name = querySplit.join(' ');
+
+    if (!queryParams.last_name) {
+        queryParams.last_name = queryParams.first_name;
+        queryParams.email = queryParams.first_name;
+    }
+
+    return prepareSearchParamsToRequest(queryParams);
+};
+
+const prepareSearchParamsToRequest = (params) => {
+    let result = {};
+
+    for (let key in params) {
+        result[`filter[${key}]`] = params[key];
+    }
+
+    return result;
+};
+
+export const filterUsers = (query) => dispatch => {
+    return new Promise((success, reject) => {
+        query = query.trim();
+
+        if (!query.length) {
+            success();
+            return;
+        }
+
+        const queryMode = query.indexOf('@') !== -1
+            ? EMAIL_QUERY_MODE
+            : ALL_QUERY_MODE;
+
+        const queryParams = getSearchQueryParams(query, queryMode);
+
+        securedRequest.get('/api/v1/users/others', {
+            params: queryParams,
+        })
+            .then(response => {
+                success({
+                    data: response.data.data,
+                    meta: {
+                        query,
+                        queryMode,
+                    }
+                });
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+};
+
+/**
+ *** END ***
+ * Search users logic
+ */

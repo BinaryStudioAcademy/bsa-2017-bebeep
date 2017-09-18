@@ -46,7 +46,6 @@ class TripDetails extends React.Component {
                 this.setState({
                     preloader: false,
                 });
-                console.error(error);
             });
     }
 
