@@ -27,6 +27,19 @@ class UserRepository extends BaseRepository
     }
 
     /**
+     * Update the user data.
+     *
+     * @param \App\User $user
+     * @param int $id
+     *
+     * @return \App\User
+     */
+    public function updateUser(User $user, int $id) : User
+    {
+        return $this->update($user->toArray(), $id);
+    }
+
+    /**
      * Get user by email.
      *
      * @param string $email
@@ -35,5 +48,16 @@ class UserRepository extends BaseRepository
     public function getUserByEmail(string $email)
     {
         return User::where('email', $email)->first();
+    }
+
+    /**
+     * Check if email exists.
+     *
+     * @param string $email
+     * @return bool
+     */
+    public function isEmailExists(string $email) : bool
+    {
+        return $this->model->where('email', $email)->exists();
     }
 }

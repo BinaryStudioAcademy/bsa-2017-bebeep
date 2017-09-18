@@ -3,13 +3,9 @@
 namespace Tests\Feature\Subscription;
 
 use Tests\JwtTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SubscriptionTest extends JwtTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     const ENDPOINT = '/api/v1/subscription';
 
     public $storeData = [

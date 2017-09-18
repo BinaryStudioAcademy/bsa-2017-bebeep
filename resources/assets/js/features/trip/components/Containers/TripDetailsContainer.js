@@ -1,9 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { getTranslate } from 'react-localize-redux';
 import _ from 'lodash';
 
 import BookingModal from '../Modals/BookingModal';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
+
+import AuthService from 'app/services/AuthService';
+import { USER_ROLE_DRIVER } from 'app/services/UserService';
 
 import {
     TripRoutesPassengers,
@@ -16,9 +21,7 @@ import {
     TripDriver,
     TripVehicle,
 } from '../Details/Trip';
-import {addBookingState} from '../../actions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { addBookingState } from 'features/trip/actions';
 
 import 'features/trip/styles/trip_details.scss';
 
@@ -30,7 +33,7 @@ class TripDetailsContainer extends React.Component {
 
         this.state = {
             isOpenBookingModal: false,
-            disableBookingBtn: false,
+            hideBookingBtn: false,
         };
 
         this.onBookingBtnClick = this.onBookingBtnClick.bind(this);
@@ -47,9 +50,10 @@ class TripDetailsContainer extends React.Component {
     }
 
     toggleBookingBtn(props) {
-        const {isOwner, hasBooking} = props.details;
+        const { isOwner, hasBooking } = props.details,
+            isDriverOnly = AuthService.checkPermissions(USER_ROLE_DRIVER, true);
 
-        this.setState({disableBookingBtn: hasBooking || isOwner});
+        this.setState({hideBookingBtn: hasBooking || isOwner || isDriverOnly});
     }
 
     formatStartAt() {
@@ -63,7 +67,7 @@ class TripDetailsContainer extends React.Component {
     }
 
     onBookingBtnClick() {
-        if (!this.state.disableBookingBtn) {
+        if (!this.state.hideBookingBtn) {
             this.setState({ isOpenBookingModal: true });
         }
     }
@@ -76,10 +80,30 @@ class TripDetailsContainer extends React.Component {
         this.setState({ isOpenBookingModal: false });
     }
 
+    renderBookingButton() {
+        const { translate } = this.props,
+            { hideBookingBtn } = this.state;
+
+        if (hideBookingBtn) {
+            return null;
+        }
+
+        return (
+            <div className="trip-booking-button p-3">
+                <button
+                    role="button"
+                    className="btn trip-booking-button__btn py-3"
+                    onClick={this.onBookingBtnClick}
+                >
+                    {translate('trip_details.booking_btn')}
+                </button>
+            </div>
+        );
+    }
+
     render() {
-        const { trip, routes, driver, vehicle } = this.props.details,
-            translate = this.props.translate,
-            { isOpenBookingModal, isOpenBookingStatusModal, disableBookingBtn } = this.state;
+        const { translate, details: {trip, routes, driver, vehicle} } = this.props,
+            { isOpenBookingModal, isOpenBookingStatusModal } = this.state;
 
         const startPoint = routes[0].from,
             endPoint = _.last(routes).to,
@@ -98,7 +122,7 @@ class TripDetailsContainer extends React.Component {
                         waypoints={ routes }
                     />
                 </div>
-                <div className="col-md-8">
+                <div className="col-lg-8">
                     <div className="block-border p-3">
                         <TripMainInfo
                             startPoint={ startPoint.address }
@@ -106,11 +130,11 @@ class TripDetailsContainer extends React.Component {
                             startAt={ trip.start_at_format }
                         />
 
-                        <div className="row mt-4">
-                            <div className="col-md-6">
+                        <div className="row">
+                            <div className="col-md-6 mt-4">
                                 <TripDriver driver={ driver } />
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-md-6 mt-4">
                                 <TripVehicle vehicle={ vehicle } />
                             </div>
                         </div>
@@ -123,7 +147,7 @@ class TripDetailsContainer extends React.Component {
                     />
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-lg-4">
                     <div className="block-border text-center">
 
                         <TripBookingMainInfo
@@ -136,16 +160,7 @@ class TripDetailsContainer extends React.Component {
                             freeSeats={ currentFreeSeats }
                         />
 
-                        <div className="trip-booking-button p-3">
-                            <button
-                                role="button"
-                                className={"btn trip-booking-button__btn py-3" +
-                                    (disableBookingBtn ? " disabled" : "")}
-                                onClick={ this.onBookingBtnClick }
-                            >
-                                { translate('trip_details.booking_btn') }
-                            </button>
-                        </div>
+                        { this.renderBookingButton() }
                     </div>
                 </div>
 
@@ -166,7 +181,7 @@ class TripDetailsContainer extends React.Component {
 
 export default connect(
     state => ({
-        translate: getTranslate(state.locale)
+        translate: getTranslate(state.locale),
     }),
     dispatch => bindActionCreators({ addBookingState }, dispatch)
 )(TripDetailsContainer);

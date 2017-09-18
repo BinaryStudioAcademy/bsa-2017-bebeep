@@ -18,6 +18,16 @@ interface TripRepository extends RepositoryInterface, RepositoryCriteriaInterfac
     public function save(Trip $trip);
 
     /**
+     * Update the trip data.
+     *
+     * @param \App\Models\Trip $trip
+     * @param int $id
+     *
+     * @return \App\Models\Trip
+     */
+    public function updateTrip(Trip $trip, int $id) : Trip;
+
+    /**
      * @param \App\Models\Trip $trip
      *
      * @return \App\Models\Trip

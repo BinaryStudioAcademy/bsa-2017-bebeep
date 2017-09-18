@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\TripCreated;
+use App\Events\TripUpdated;
 use App\Events\BookingCreated;
 use App\Events\UserRegistered;
 use App\Events\BookingApproved;
@@ -12,6 +14,8 @@ use App\Listeners\SendVerificationEmail;
 use App\Listeners\NotifyDriverAboutTripReview;
 use App\Listeners\NotifyDriverAboutBookingCreated;
 use App\Listeners\NotifyDriverAboutCanceledBooking;
+use App\Listeners\NotifySubscriptionAboutTripCreated;
+use App\Listeners\NotifySubscriptionAboutTripUpdated;
 use App\Listeners\NotifyPassengerAboutApprovedBooking;
 use App\Listeners\NotifyPassengerAboutDeclinedBooking;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -41,6 +45,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         ReviewOnTripCreated::class => [
             NotifyDriverAboutTripReview::class,
+        ],
+        TripCreated::class => [
+            NotifySubscriptionAboutTripCreated::class,
+        ],
+        TripUpdated::class => [
+            NotifySubscriptionAboutTripUpdated::class,
         ],
         'App\Events\Event' => [
             'App\Listeners\EventListener',

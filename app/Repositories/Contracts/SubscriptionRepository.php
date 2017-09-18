@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
+use App\User;
+use App\Models\Filter;
 use App\Models\Subscription;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Prettus\Repository\Contracts\RepositoryCriteriaInterface;
@@ -10,8 +12,31 @@ interface SubscriptionRepository extends RepositoryInterface, RepositoryCriteria
 {
     /**
      * @param Subscription $subscription
-     *
-     * @return $subscription
+     * @return Subscription
      */
-    public function save(Subscription $subscription);
+    public function save(Subscription $subscription) : Subscription;
+
+    /**
+     * Check if email exists.
+     *
+     * @param string $email
+     * @return bool
+     */
+    public function isEmailExists(string $email) : bool;
+
+    /**
+     * This method update user id by email.
+     *
+     * @param string $email
+     * @param User $user
+     * @return bool|null
+     */
+    public function updateUserIdByEmail(string $email, User $user) : ?bool;
+
+    /**
+     * @param Subscription $subscription
+     * @param Filter[] ...$filters
+     * @return Subscription
+     */
+    public function setFilters(Subscription $subscription, Filter ...$filters) : Subscription;
 }

@@ -36,7 +36,7 @@ class GetDriverReviewsMetaDataTest extends JwtTestCase
         factory(Review::class, 5)->create(['mark' => 4, 'user_id' => $passenger->id, 'driver_id' => $driver->id]);
         factory(Review::class, 3)->create(['mark' => 3, 'user_id' => $passenger->id, 'driver_id' => $driver->id]);
 
-        $response = $this->json($this->method, $this->getUrl(1));
+        $response = $this->json($this->method, $this->getUrl($driver->id));
         $response->assertStatus(200);
 
         $response->assertJson([

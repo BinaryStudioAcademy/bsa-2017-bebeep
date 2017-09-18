@@ -231,6 +231,14 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     }
 
     /**
+     * @return int|null
+     */
+    public function getTransfers() : ?int
+    {
+        return $this->getFilterParam('transfers', 'int');
+    }
+
+    /**
      * @param string $param
      * @param string $cast
      * @return mixed|null
@@ -239,7 +247,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
     {
         $filter = $this->getFilter();
 
-        if (empty($filter[$param])) {
+        if (! isset($filter[$param])) {
             return null;
         }
 

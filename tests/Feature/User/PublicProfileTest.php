@@ -5,12 +5,9 @@ namespace Tests\Feature\User;
 use App\User;
 use Tests\TestCase;
 use App\Models\Vehicle;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PublicProfileTest extends TestCase
 {
-    use DatabaseMigrations;
-
     /**
      * @test
      */

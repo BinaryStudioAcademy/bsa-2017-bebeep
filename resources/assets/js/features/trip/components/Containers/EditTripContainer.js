@@ -3,13 +3,17 @@ import { browserHistory } from 'react-router';
 import { geocodeByAddress } from 'react-places-autocomplete';
 
 import TripForm from '../Forms/TripForm';
-import {localize} from 'react-localize-redux';
+import { localize } from 'react-localize-redux';
 import { EditableWaypoints } from './EditableWaypoints';
 import DirectionsMap from 'app/components/DirectionsMap';
 
 import Validator from 'app/services/Validator';
 import EditTripService from 'features/trip/services/EditTripService';
-import { createTripRules, getStartAndEndTime } from 'app/services/TripService';
+import {
+    createTripRules,
+    getStartAndEndTime,
+    getRoutesStartAndEndTime
+} from 'app/services/TripService';
 import {
     convertWaypointsToGoogleWaypoints,
     getCoordinatesFromPlace
@@ -36,12 +40,27 @@ class EditTripContainer extends React.Component {
             endPoint: {
                 address: '',
                 place: null,
-            }
+            },
+            tripEndTime: 0,
+            waypointsDurations: [],
+            fromData: {},
+            toData: {},
         };
+
+        this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
+        this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
+        this.onSelectStartPoint = this.onSelectStartPoint.bind(this);
+        this.onSelectEndPoint = this.onSelectEndPoint.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+
+        this.setTripEndTime = this.setTripEndTime.bind(this);
+        this.updateWaypointsDurations = this.updateWaypointsDurations.bind(this);
     }
 
     componentDidMount() {
-        EditTripService.getTrip(this.props.id)
+        const { id, addWaypointsFromRoutes } = this.props;
+
+        EditTripService.getTrip(id)
             .then(response => {
                 response = EditTripService.transformData(response.data);
 
@@ -55,12 +74,16 @@ class EditTripContainer extends React.Component {
                     endPoint: {
                         address: routes[routes.length - 1].to.formatted_address
                     },
+                    fromData: routes[0].from,
+                    toData: routes[routes.length - 1].to
                 });
 
-                this.onSelectStartPoint(this.state.startPoint.address);
-                this.onSelectEndPoint(this.state.endPoint.address);
+                const { startPoint, endPoint, trip } = this.state;
 
-                this.props.addWaypointsFromRoutes(this.state.trip.routes.data);
+                this.onSelectStartPoint(startPoint.address);
+                this.onSelectEndPoint(endPoint.address);
+
+                addWaypointsFromRoutes(trip.routes.data);
             })
             .catch(error => {
                 this.setState({
@@ -116,62 +139,89 @@ class EditTripContainer extends React.Component {
             });
     }
 
-    setEndTime(time) {
-        this.endTime = time;
+    setTripEndTime(time) {
+        this.setState({
+            tripEndTime: time,
+        });
+    }
+
+    updateWaypointsDurations(waypointsDurations) {
+        this.setState({
+            waypointsDurations: waypointsDurations,
+        });
+    }
+
+    setErrors(errors) {
+        errors = errors || {};
+        this.setState({ errors: errors });
     }
 
     onSubmit(e) {
         e.preventDefault();
 
-        let time = getStartAndEndTime(e.target['start_at'].value, this.endTime);
-        let data = {
-            vehicle_id: e.target['vehicle_id'].value,
-            start_at: time.start_at,
-            end_at: time.end_at,
-            price: e.target['price'].value,
-            seats: e.target['seats'].value,
-            from: this.state.startPoint.place,
-            to: this.state.endPoint.place,
-            waypoints: this.props.getPlacesFromWaypoints(),
-            luggage_size: e.target['luggage_size'].value,
-            is_animals_allowed: e.target['is_animals_allowed'].checked
+        const { id, getPlacesFromWaypoints } = this.props,
+            { startPoint, endPoint, tripEndTime, waypointsDurations } = this.state;
+
+        const form = e.target,
+            tripTime = getStartAndEndTime(form.start_at.value, tripEndTime),
+            routesStartAndEndTime = getRoutesStartAndEndTime(
+                tripTime.start_at,
+                waypointsDurations
+            );
+
+        const tripData = {
+            vehicle_id: form.vehicle_id.value,
+            start_at: tripTime.start_at,
+            end_at: tripTime.end_at,
+            price: form.price.value,
+            seats: form.seats.value,
+            from: startPoint.place,
+            to: endPoint.place,
+            waypoints: getPlacesFromWaypoints(),
+            routes: routesStartAndEndTime,
+            luggage_size: form.luggage_size.value,
+            is_animals_allowed: form.is_animals_allowed.checked
         };
 
-        const validated = Validator.validate(createTripRules(), data);
+        const validated = Validator.validate(createTripRules(), tripData);
 
         if (!validated.valid) {
-            this.setState({errors: validated.errors});
+            this.setErrors(validated.errors);
             return;
         }
 
-        this.setState({errors: {}});
+        this.setErrors();
 
-        EditTripService.sendUpdatedTrip(this.props.id, data)
+        EditTripService.sendUpdatedTrip(id, tripData)
             .then((response) => {
                 browserHistory.push('/trips');
+            })
+            .catch(error => {
+                this.setErrors(error);
             });
     }
 
     render() {
+        const { translate, id, waypoints, onWaypointAdd, onWaypointDelete } = this.props,
+            { trip, errors, startPoint, endPoint, notFoundTrip, fromData, toData } = this.state;
+
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',
             autocompleteContainer: 'autocomplete-container text-left'
         };
 
-        const { trip,  errors } = this.state;
-        const { translate } = this.props;
         const startPointProps = {
-            value: this.state.startPoint.address,
-            onChange: this.onChangeStartPoint.bind(this),
+            value: startPoint.address,
+            onChange: this.onChangeStartPoint,
         };
 
         const endPointProps = {
-            value: this.state.endPoint.address,
-            onChange: this.onChangeEndPoint.bind(this),
+            value: endPoint.address,
+            onChange: this.onChangeEndPoint,
         };
 
-        if (this.state.notFoundTrip) {
+        if (notFoundTrip) {
             return (
                 <div className="alert alert-danger" role="alert">
                     {translate('edit_trip.cant_load_this_trip')}
@@ -179,7 +229,7 @@ class EditTripContainer extends React.Component {
             );
         }
 
-        if (!this.state.trip.id) {
+        if (!trip.id) {
             return (
                 <div className="alert">
                     {translate('edit_trip.loading')}
@@ -191,28 +241,31 @@ class EditTripContainer extends React.Component {
             <div className="row">
                 <div className="col-sm-6">
                     <TripForm
-                        id={this.props.id}
+                        id={id}
                         trip={trip}
                         errors={errors}
                         startPoint={startPointProps}
                         endPoint={endPointProps}
-                        onSelectEndPoint={this.onSelectEndPoint.bind(this)}
-                        onSelectStartPoint={this.onSelectStartPoint.bind(this)}
+                        onSelectEndPoint={this.onSelectEndPoint}
+                        onSelectStartPoint={this.onSelectStartPoint}
                         placesCssClasses={placesCssClasses}
-                        onSubmit={this.onSubmit.bind(this)}
-                        waypoints={this.props.waypoints}
-                        onWaypointAdd={this.props.onWaypointAdd}
-                        onWaypointDelete={this.props.onWaypointDelete}
+                        onSubmit={this.onSubmit}
+                        waypoints={waypoints}
+                        onWaypointAdd={onWaypointAdd}
+                        onWaypointDelete={onWaypointDelete}
                     />
                 </div>
                 <div className="col-sm-6">
                     <DirectionsMap
-                        title={translate("edit_trip.preview_trip")}
-                        waypoints={convertWaypointsToGoogleWaypoints(this.props.waypoints)}
-                        from={getCoordinatesFromPlace(this.state.startPoint.place)}
-                        to={getCoordinatesFromPlace(this.state.endPoint.place)}
-                        endTime={this.setEndTime.bind(this)}
                         show={true}
+                        title={translate("edit_trip.preview_trip")}
+                        waypoints={convertWaypointsToGoogleWaypoints(waypoints)}
+                        from={getCoordinatesFromPlace(startPoint.place)}
+                        to={getCoordinatesFromPlace(endPoint.place)}
+                        fromData={fromData}
+                        toData={toData}
+                        endTime={this.setTripEndTime}
+                        updateWaypointsDurations={this.updateWaypointsDurations}
                     />
                 </div>
             </div>

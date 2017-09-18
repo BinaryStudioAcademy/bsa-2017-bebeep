@@ -20,8 +20,6 @@ class LoginController extends Controller
     private $authUserService;
 
     /**
-     * ApiAuthController constructor.
-     *
      * @param AuthUserService $authUserService
      */
     public function __construct(AuthUserService $authUserService)

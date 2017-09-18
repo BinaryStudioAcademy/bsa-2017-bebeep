@@ -22,3 +22,10 @@ export const setCountUnreadNotifications = (count) => ({
     type: actions.NOTIFICATION_SET_COUNT,
     count
 });
+
+export const addNotification = (notification) => {
+    return {
+        type: actions.NOTIFICATION_ADD,
+        notification: notification
+    };
+};

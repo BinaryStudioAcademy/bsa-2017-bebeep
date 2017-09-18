@@ -12,6 +12,7 @@ use App\Http\Requests\CreateTripRequest;
 use App\Http\Requests\SearchTripRequest;
 use App\Http\Requests\UpdateTripRequest;
 use App\Http\Requests\GetDriverTripRequest;
+use App\Services\SearchTripsWithTransfersService;
 use App\Exceptions\Trip\UserCantEditTripException;
 use App\Transformers\Search\SearchTripTransformer;
 use App\Transformers\DriverTrip\DriverTripTransformer;
@@ -31,15 +32,22 @@ class TripsController extends Controller
     private $tripDetailService;
 
     /**
+     * @var SearchTripsWithTransfersService
+     */
+    private $searchTripsWithTransfersService;
+
+    /**
      * TripsController constructor.
      *
      * @param TripsService $tripsService
      * @param TripDetailService $tripDetailService
+     * @param SearchTripsWithTransfersService $searchTripsWithTransfersService
      */
-    public function __construct(TripsService $tripsService, TripDetailService $tripDetailService)
+    public function __construct(TripsService $tripsService, TripDetailService $tripDetailService, SearchTripsWithTransfersService $searchTripsWithTransfersService)
     {
         $this->tripsService = $tripsService;
         $this->tripDetailService = $tripDetailService;
+        $this->searchTripsWithTransfersService = $searchTripsWithTransfersService;
     }
 
     /**
@@ -114,9 +122,9 @@ class TripsController extends Controller
     public function update(Trip $trip, UpdateTripRequest $request)
     {
         try {
-            $result = $this->tripsService->update($trip, $request, Auth::user());
+            $trip = $this->tripsService->update($trip, $request, Auth::user());
 
-            return response()->json($result, 200);
+            return response()->json($trip, 200);
         } catch (UserCantEditTripException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
@@ -140,11 +148,14 @@ class TripsController extends Controller
 
     /**
      * @param SearchTripRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function search(SearchTripRequest $request)
     {
+        if ($request->getTransfers() >= 1) {
+            return $this->searchTripsWithTransfersService->search($request);
+        }
+
         $trips = $this->tripsService->search($request);
 
         return fractal()

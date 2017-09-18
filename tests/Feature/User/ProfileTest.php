@@ -82,6 +82,7 @@ class ProfileTest extends JwtTestCase
                 'about_me' => null,
                 'role_driver' => true,
                 'role_passenger' => false,
+                'permissions' => User::DRIVER_PERMISSION,
                 'can_uncheck_role_driver' => true,
                 'can_uncheck_role_passenger' => true,
             ]]);
@@ -101,6 +102,7 @@ class ProfileTest extends JwtTestCase
                 'avatar' => null,
                 'role_driver' => false,
                 'role_passenger' => true,
+                'permissions' => User::PASSENGER_PERMISSION,
                 'can_uncheck_role_driver' => true,
                 'can_uncheck_role_passenger' => true,
             ]]);
@@ -133,8 +135,8 @@ class ProfileTest extends JwtTestCase
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
 
-        $this->createVehicle($user);
-        $this->createTrip($user);
+        $vehicle = $this->createVehicle($user);
+        $this->createTrip($user, ['vehicle_id' => $vehicle->id]);
 
         $response = $this->jsonRequestUserProfile($user);
 
@@ -169,9 +171,9 @@ class ProfileTest extends JwtTestCase
         $user = $this->createPassenger();
         $driver = $this->createDriver();
 
-        $this->createVehicle($driver);
-        $this->createTrip($driver);
-        $this->createBooking($user);
+        $vehicle = $this->createVehicle($driver);
+        $trip = $this->createTrip($driver, ['vehicle_id' => $vehicle->id]);
+        $this->createBooking($user, ['trip_id' => $trip->id]);
 
         $response = $this->jsonRequestUserProfile($user);
 
@@ -256,8 +258,8 @@ class ProfileTest extends JwtTestCase
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
 
-        $this->createVehicle($user);
-        $this->createTrip($user);
+        $vehicle = $this->createVehicle($user);
+        $this->createTrip($user, ['vehicle_id' => $vehicle->id]);
 
         $response = $this->jsonRequestUserProfile($user, 'update', [
             'role_driver' => false,
@@ -273,9 +275,9 @@ class ProfileTest extends JwtTestCase
         $user = $this->createPassenger();
         $driver = $this->createDriver();
 
-        $this->createVehicle($driver);
-        $this->createTrip($driver);
-        $this->createBooking($user);
+        $vehicle = $this->createVehicle($driver);
+        $trip = $this->createTrip($driver, ['vehicle_id' => $vehicle->id]);
+        $this->createBooking($user, ['trip_id' => $trip->id]);
 
         $response = $this->jsonRequestUserProfile($user, 'update', [
             'role_passenger' => false,
@@ -302,14 +304,15 @@ class ProfileTest extends JwtTestCase
         $user = $this->createDriver([
             'permissions' => User::DRIVER_PERMISSION + User::PASSENGER_PERMISSION,
         ]);
-        $this->createVehicle($user);
-        $this->createTrip($user);
+        $vehicle = $this->createVehicle($user);
+        $this->createTrip($user, ['vehicle_id' => $vehicle->id]);
 
         $response = $this->jsonRequestUserProfile($user, 'update', $updatedData);
 
         $response->assertStatus(200)
              ->assertExactJson(['data' => $updatedData + [
                 'avatar' => null,
+                'permissions' => User::DRIVER_PERMISSION,
                 'can_uncheck_role_driver' => false,
                 'can_uncheck_role_passenger' => true,
             ]]);
@@ -396,13 +399,14 @@ class ProfileTest extends JwtTestCase
      *
      * @param \App\User $user
      *
-     * @return \App\Models\Trip
+     * @param array $extraData
+     * @return Trip
      */
-    private function createTrip(User $user): Trip
+    private function createTrip(User $user, $extraData = []): Trip
     {
-        return factory(Trip::class)->create([
+        return factory(Trip::class)->create(array_merge([
             'user_id' => $user->id,
-        ]);
+        ], $extraData));
     }
 
     /**
@@ -410,12 +414,13 @@ class ProfileTest extends JwtTestCase
      *
      * @param \App\User $user
      *
-     * @return \App\Models\Booking
+     * @param array $extraData
+     * @return Booking
      */
-    private function createBooking(User $user): Booking
+    private function createBooking(User $user, $extraData = []): Booking
     {
-        return factory(Booking::class)->create([
+        return factory(Booking::class)->create(array_merge([
             'user_id' => $user->id,
-        ]);
+        ], $extraData));
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Transformers\Notifications\TripTransformer;
 use App\Transformers\Notifications\ReviewTransformer;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class ReviewOnTripCreated extends Notification implements ShouldQueue
 {
@@ -43,7 +44,7 @@ class ReviewOnTripCreated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -59,6 +60,13 @@ class ReviewOnTripCreated extends Notification implements ShouldQueue
                 'from' => $this->toArray($notifiable)['trip']['from'],
                 'to' => $this->toArray($notifiable)['trip']['to'],
             ]);
+    }
+
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'data' => $this->toArray($notifiable),
+        ]);
     }
 
     /**

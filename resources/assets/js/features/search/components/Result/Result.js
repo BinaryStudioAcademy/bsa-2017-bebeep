@@ -106,6 +106,7 @@ class Result extends React.Component {
             "filter[luggage]": null,
             "filter[seats]": null,
             "filter[rating]": null,
+            "filter[transfer]": null,
         });
     }
 
@@ -155,7 +156,7 @@ class Result extends React.Component {
                             <Filter
                                 priceBounds={meta.priceRange}
                             />
-                            <div className="col-md-4 offset-md-2">
+                            <div className="col-md-4 offset-md-2 mb-3">
                                 <button role="button" className="btn search-block__btn search-result__btn-subscribe" onClick={this.onClickSubscribe}>
                                     {translate('subscription.subscribe_btn')}
                                 </button>
@@ -176,14 +177,9 @@ class Result extends React.Component {
                                     </div>
                                 </div>
                                 <div className="search-result__item-container">
-                                    <Preloader enable={preloader}/>
-                                    {
-                                        preloader
-                                            ? <Placeholder show={true}>{translate('search_result.loading')}</Placeholder>
-                                            : <TripList
-                                            collection={collection}
-                                        />
-                                    }
+                                    <TripList
+                                        collection={collection}
+                                    />
                                 </div>
                                 <div className="row search-result__pagination">
                                     <div className="col-sm-6 align-self-center">

@@ -12,9 +12,6 @@
     "when": ["When", "Коли", "Когда"],
     "price": ["Price", "Ціна", "Цена"],
     "date": ["Date", "Дата", "Дата"],
-    "free_seats1": ["free seat(s)", "вільне місце", "свободное место"],
-    "free_seats2": ["free seat(s)", "вільних місця", "свободных места"],
-    "free_seats3": ["free seat(s)", "вільних місць", "свободных мест"],
     "per_passenger": ["per passenger", "з пасажира", "с пассажира"],
     "years1": ["${age} yrs.", "${age} р.", "${age} г."],
     "years2": ["${age} yrs.", "${age} р.", "${age} г."],
@@ -34,19 +31,7 @@
       ]
     },
     "trip_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"],
-    "luggage_size": ["Luggage Size", "Розмір багажу", "Размер багажа"],
-    "luggage_size_0": ["Small", "Маленький", "Маленький"],
-    "luggage_size_1": ["Medium", "Середній", "Средний"],
-    "luggage_size_2": ["Big", "Великий", "Большой"],
-    "is_animals_allowed": ["Animals allowed", "Тварини дозволені", "Животные разрешены"],
-    "additional_conditions": ["Additional conditions", "Додаткові умови", "Дополнительные условия"],
-    "animals": ["Animals", "Тварини", "Животные"],
-    "not_important": ["All", "Все одно", "Все равно"],
-    "allowed": ["Allowed", "Дозволені", "Разрешены"],
-    "forbidden": ["Forbidden", "Заборонені", "Запрещены"],
-    "free_seats": ["Free Seats", "Вільних місць", "Свободных мест"],
-    "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"],
-    "more": ["more than ", "більше ", "более "]
+    "additional_conditions": ["Additional conditions", "Додаткові умови", "Дополнительные условия"]
   },
   "subscription": {
     "subscribe_btn": ["Subscribe", "Підписатись", "Подписаться"],
@@ -59,5 +44,45 @@
     "email-placeholder": ["Enter your email here", "Введіть ваш email", "Введите ваш email"],
     "success-great": ["Well done!", "Чудово!", "Отлично!"],
     "success-text": ["You successfully subscribe for this route.", "Ви успішно підписались на цей маршрут.", "Вы успешно подписались на этот маршрут."]
+  },
+  "confirm_login": {
+    "confirm": ["Confirm", "Підтвердити", "Подтвердить"],
+    "message": [
+      "A user with this email address is already registered. Continue after authorization?",
+      "Користувач з таким email зареєстрований. Продовжити після авторизації?",
+      "Пользователь с таким email уже зарегестрирован. Продолжить после авторизации?"
+    ],
+    "btn_yes": ["Yes", "Так", "Да"],
+    "btn_no": ["No", "Ні", "Нет"]
+  },
+  "dropdown": {
+    "not_important": ["All", "Все одно", "Все равно"],
+    "luggage": {
+      "name": ["Luggage Size", "Розмір багажу", "Размер багажа"],
+      "size_0": ["Small", "Маленький", "Маленький"],
+      "size_1": ["Medium", "Середній", "Средний"],
+      "size_2": ["Big", "Великий", "Большой"]
+    },
+    "animals": {
+      "name": ["Animals", "Тварини", "Животные"],
+      "allowed": ["Allowed", "Дозволені", "Разрешены"],
+      "forbidden": ["Forbidden", "Заборонені", "Запрещены"]
+    },
+    "free_seats": {
+      "name": ["Free Seats", "Вільних місць", "Свободных мест"],
+      "count_1": ["free seat(s)", "вільне місце", "свободное место"],
+      "count_2": ["free seat(s)", "вільних місця", "свободных места"],
+      "count_3": ["free seat(s)", "вільних місць", "свободных мест"]
+    },
+    "driver_rating": ["Driver Rating", "Рейтинг водія", "Рейтинг водителя"],
+    "more": ["more than ", "більше ", "более "],
+    "transfer": {
+        "name": ["Transfer", "Пересадки", "Пересадки"],
+        "without": ["Without transfers", "Без пересадок", "Без пересадок"],
+        "with1": ["With 1 transfer", "З 1 пересадкою", "С 1 пересадкой"],
+        "with2": ["With 2 transfers", "З 2 пересадками", "С 2 пересадками"],
+        "with3": ["With 3 transfers", "З 3 пересадками", "С 3 пересадками"],
+        "with4": ["With 4 transfers", "З 4 пересадками", "С 4 пересадками"]
+    }
   }
 }

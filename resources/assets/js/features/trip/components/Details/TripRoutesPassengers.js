@@ -34,6 +34,7 @@ class TripRoutesPassengers extends React.Component {
 
         return routes.map((route, i) => {
             const showDriver = this.isStartPoint(i),
+                showStartPoint = this.isStartPoint(i),
                 showWayPoint = this.isWayPoint(i),
                 showEndPoint = this.isEndPoint(i, routes.length);
 
@@ -43,6 +44,7 @@ class TripRoutesPassengers extends React.Component {
                     route={route}
                     driver={driver}
                     showDriver={showDriver}
+                    showStartPoint={showStartPoint}
                     showWayPoint={showWayPoint}
                     showEndPoint={showEndPoint}
                 />
@@ -54,7 +56,7 @@ class TripRoutesPassengers extends React.Component {
         const { translate } = this.props;
 
         return (
-            <section className="block-border p-3 mt-4">
+            <section className="block-border px-3 pt-3 pb-2 mt-4">
                 <header className="trip-section-header">
                     <h3 className="h5">
                         { translate('trip_details.routes_passengers.header') }

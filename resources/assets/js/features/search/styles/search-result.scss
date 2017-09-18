@@ -4,7 +4,7 @@
 
   &__header {
     font-size: .9rem;
-    background-color: #fff;
+    background-color: rgba(230, 229, 229, 0);
     margin-bottom: 10px;
     &-count {
       color: #636262;
@@ -26,7 +26,7 @@
 
   &__item-container {
     position: relative;
-    min-height: 500px;
+    min-height: 600px;
   }
 
   &-datepicker {

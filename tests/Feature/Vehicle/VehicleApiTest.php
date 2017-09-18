@@ -4,13 +4,10 @@ namespace Tests\Feature\Vehicle;
 
 use App\User;
 use Tests\JwtTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Vehicle;
 
 class VehicleApiTest extends JwtTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     const ENDPOINT = '/api/v1/car';
 
     public $storeData = [
@@ -35,7 +32,6 @@ class VehicleApiTest extends JwtTestCase
 
     public function test_get_models_cars()
     {
-        $this->seed('DatabaseSeeder');
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
         $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'-brand');
@@ -45,7 +41,6 @@ class VehicleApiTest extends JwtTestCase
 
     public function test_get_bodies_cars()
     {
-        $this->seed('DatabaseSeeder');
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
         $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'-body');
@@ -55,7 +50,6 @@ class VehicleApiTest extends JwtTestCase
 
     public function test_get_color_cars()
     {
-        $this->seed('DatabaseSeeder');
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
         $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'-color');
@@ -65,7 +59,6 @@ class VehicleApiTest extends JwtTestCase
 
     public function test_get_models_car_bmw()
     {
-        $this->seed('DatabaseSeeder');
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
         $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'-brand/10/models');
@@ -75,7 +68,6 @@ class VehicleApiTest extends JwtTestCase
 
     public function test_get_not_exiting_models_car()
     {
-        $this->seed('DatabaseSeeder');
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
         $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'-brand/99999/models');
@@ -96,8 +88,8 @@ class VehicleApiTest extends JwtTestCase
     {
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
-        $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
-        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'/1');
+        $response = $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
+        $response = $this->actingAs($user)->json('GET', self::ENDPOINT.'/'.$response->json()['id']);
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
         $response->assertJsonFragment($this->storeData);
@@ -107,8 +99,8 @@ class VehicleApiTest extends JwtTestCase
     {
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
 
-        $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
-        $response = $this->actingAs($user)->json('PATCH', self::ENDPOINT.'/1', $this->updateStoreData);
+        $response = $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
+        $response = $this->actingAs($user)->json('PATCH', self::ENDPOINT.'/'.$response->json()['id'], $this->updateStoreData);
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
         $response->assertJsonFragment($this->updateStoreData);
@@ -117,15 +109,17 @@ class VehicleApiTest extends JwtTestCase
     public function test_car_delete()
     {
         $user = factory(User::class)->create(['permissions' => User::DRIVER_PERMISSION]);
+        $car = factory(Vehicle::class)->create(['user_id' => $user->id]);
 
         $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
-        $response = $this->actingAs($user)->json('DELETE', self::ENDPOINT.'/1');
+        $response = $this->actingAs($user)->json('DELETE', self::ENDPOINT.'/'.$car->id);
         $response->assertStatus(204);
     }
 
     public function test_user_no_driver_cannot_car_store()
     {
         $user = factory(User::class)->create(['permissions' => User::PASSENGER_PERMISSION]);
+        factory(Vehicle::class)->create(['user_id' => $user->id]);
 
         $response = $this->actingAs($user)->json('POST', self::ENDPOINT, $this->storeData);
         $response->assertStatus(403);

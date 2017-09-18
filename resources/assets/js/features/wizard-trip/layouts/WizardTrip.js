@@ -1,16 +1,24 @@
 import React from 'react';
-import LangService from 'app/services/LangService';
-import * as lang from '../lang/WizardTrip.json';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
+
 import StepOne from '../components/StepOne';
 import StepTwo from '../components/StepTwo';
 import StepThree from '../components/StepThree';
-import {INIT, STEP_ONE, STEP_TWO, STEP_THREE, savePendingTrip, isTripReady} from 'app/services/WizardTripService';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {completeTrip} from '../actions';
+import {
+    INIT, STEP_ONE, STEP_TWO, STEP_THREE, savePendingTrip, isTripReady
+} from 'app/services/WizardTripService';
+
+import { completeTrip } from '../actions';
+
 import AuthService from 'app/services/AuthService';
-import {browserHistory} from 'react-router';
+
+import LangService from 'app/services/LangService';
+import * as lang from '../lang/WizardTrip.json';
+
 import '../styles/wizard-trip.scss';
+
 
 class WizardTrip extends React.Component {
 
@@ -19,17 +27,19 @@ class WizardTrip extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {tripData, completeTrip} = nextProps;
+        const { tripData, completeTrip } = nextProps;
 
         if (nextProps.step === STEP_THREE && isTripReady(tripData)) {
-            if (AuthService.isAuthorized()) {
-                savePendingTrip(tripData).then(() => {
-                    completeTrip();
-                    browserHistory.push('/trips');
-                });
-            } else {
+
+            if (!AuthService.isAuthorized()) {
                 browserHistory.push('/registration');
+                return;
             }
+
+            savePendingTrip(tripData).then(() => {
+                completeTrip();
+                browserHistory.push('/trips');
+            });
         }
     }
 

@@ -1,0 +1,96 @@
+@import '~app/bootstrap/variables.scss';
+@import '~app/bootstrap/mixins';
+
+.subscription {
+  padding: 5px 10px;
+  border-bottom: 1px solid $gray-lighter;
+  @include transition(box-shadow .25s ease-out);
+  -webkit-box-shadow: 0 0 0 transparent;
+  -moz-box-shadow: 0 0 0 transparent;
+  box-shadow: 0 0 0 transparent;
+  
+  &:last-child {
+    border: none;
+  }
+  &:hover {
+    background-color: $gray-lightest;
+  }
+  &__edit,
+  &__delete,
+  &__restore {
+    cursor: pointer;
+    color: $gray-light;
+  }
+  &__delete:hover {
+    color: $brand-danger;
+  }
+  &__edit:hover {
+    color: $brand-info;
+  }
+
+  &--inactive {
+    color: $gray-light;
+  }
+
+  &--deleted {
+    opacity: .9;
+    color: $gray-light;
+  }
+
+  &--success {
+    -webkit-box-shadow: 0 0 5px $brand-success;
+    -moz-box-shadow: 0 0 5px $brand-success;
+    box-shadow: 0 0 5px $brand-success;
+  }
+  &--error {
+    -webkit-box-shadow: 0 0 5px $brand-danger;
+    -moz-box-shadow: 0 0 5px $brand-danger;
+    box-shadow: 0 0 5px $brand-danger;
+  }
+}
+
+.round-checkbox {
+  $round-radius: .4rem;
+
+  &__label {
+    margin: 0;
+  }
+
+  &__label:before {
+    content: "";
+    display: block;
+    width: $round-radius * 2;
+    height: $round-radius * 2;
+    border: 2px solid $gray-lighter;
+    background-color: $gray-lighter;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  &__control:not(:checked) + &__label:before {
+    background-color: transparent;
+  }
+  &__control:disabled + &__label:before {
+    opacity: .8;
+  }
+  &__control {
+    display: none;
+  }
+
+  &--success &__label:before {
+    background-color: $brand-success;
+    border-color: $brand-success;
+  }
+  &--warning &__label:before {
+    background-color: $brand-warning;
+    border-color: $brand-warning;
+  }
+  &--danger &__label:before {
+    background-color: $brand-danger;
+    border-color: $brand-danger;
+  }
+  &--info &__label:before {
+    background-color: $brand-info;
+    border-color: $brand-info;
+  }
+}
