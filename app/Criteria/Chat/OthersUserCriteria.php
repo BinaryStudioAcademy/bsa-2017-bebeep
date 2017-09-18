@@ -39,7 +39,7 @@ class OthersUserCriteria implements CriteriaInterface
      *
      * @return mixed
      */
-    private function getOthersBySentAndReceivedMessages(User $model)
+    private function getUsersBySentAndReceivedMessages(User $model)
     {
         return $model
             ->whereHas('sentMessages', function ($query) {
@@ -62,7 +62,7 @@ class OthersUserCriteria implements CriteriaInterface
     public function apply($model, RepositoryInterface $repository)
     {
         if (! $this->request->isSearchFilterExists()) {
-            return $this->getOthersBySentAndReceivedMessages($model);
+            return $this->getUsersBySentAndReceivedMessages($model);
         }
 
         $queryBuilder = $model->where('id', '<>', $this->user->id);
