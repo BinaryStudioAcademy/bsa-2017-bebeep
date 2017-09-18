@@ -35,28 +35,39 @@ class UserListContainer extends React.Component {
         return _.sortBy(users, ['first_name', 'last_name']);
     }
 
-    getUsersSortList() {
-        const {users, onlineUsers} = this.props;
+    getUsers() {
+        const {usersId, users} = this.props;
 
-        const usersOnline = this.setSortUsersList(
+        return _.map(usersId, (id) => users[id]);
+    }
+
+    getUsersSortList() {
+        const {onlineUsers} = this.props,
+            users = this.getUsers();
+
+        let usersOnline = this.setSortUsersList(
             this.setOnlineStatus(onlineUsers)
         );
 
         let usersOffline = this.setSortUsersList(
             this.setOnlineStatus(users, false)
         );
+
         usersOffline = _.differenceBy(usersOffline, usersOnline, 'id');
 
         return usersOnline.concat(usersOffline);
     }
 
     render() {
-        const {translate} = this.props,
-            usersList = this.getUsersSortList();
+        const {translate, usersListNoActive} = this.props,
+            usersList = this.getUsersSortList(),
+            listNoActiveClass = usersListNoActive
+                ? 'user-list-group--noactive'
+                : '';
 
         return (
-            <div className="bg-white">
-                <ListGroup>
+            <div className="mb-5">
+                <ListGroup className={"user-list-group " + listNoActiveClass}>
                     {usersList.map((user) => (
                         <ListGroupItem key={user.id} className="user-list-item">
                             <Link to={`/dashboard/messages/${user.id}`}>
@@ -73,8 +84,10 @@ class UserListContainer extends React.Component {
 export default connect(
     state => ({
         onlineUsers: state.chat.onlineUsers,
+        usersId: state.chat.usersId,
         users: state.chat.entities.users.byId,
-        translate: getTranslate(state.locale)
+        usersListNoActive: state.chat.usersListNoActive,
+        translate: getTranslate(state.locale),
     }),
     dispatch => bindActionCreators({fillUsersList}, dispatch)
 )(UserListContainer);

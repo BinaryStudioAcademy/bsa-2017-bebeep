@@ -13,7 +13,8 @@ const initialState = {
         chats: {
             byUserId: {}
         }
-    }
+    },
+    usersListNoActive: false,
 };
 
 export default (state = initialState, action) => {
@@ -53,7 +54,7 @@ export default (state = initialState, action) => {
         case actions.CHAT_SET_USER_LIST:
             return {
                 ...state,
-                usersId: _.union(state.usersId, action.users),
+                usersId: action.users,
                 entities: {
                     ...state.entities,
                     users: {
@@ -63,6 +64,11 @@ export default (state = initialState, action) => {
                         }
                     }
                 }
+            };
+        case actions.CHAT_SET_USER_LIST_NO_ACTIVE:
+            return {
+                ...state,
+                usersListNoActive: action.status,
             };
         case actions.CHAT_RECEIVE_MESSAGE:
             return {
