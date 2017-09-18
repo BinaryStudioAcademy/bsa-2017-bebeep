@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PlacesAutocomplete from 'react-places-autocomplete';
@@ -7,6 +8,7 @@ import moment from 'moment';
 
 import Waypoints from './Waypoints';
 import Input from 'app/components/Input';
+import { AlertWarning } from 'app/components/Alerts';
 import { InputDateTime } from 'app/components/Controls';
 
 import { getVehicles } from 'features/car/actions';
@@ -19,7 +21,8 @@ class TripForm extends React.Component {
 
         this.state = {
             isInBothDirections: false,
-            isRecurringTrip: false
+            isRecurringTrip: false,
+            disableTripCreate: false,
         };
     }
 
@@ -28,8 +31,18 @@ class TripForm extends React.Component {
         this.props.getVehicles();
 
         this.setState({
-            isInBothDirections: false
+            isInBothDirections: false,
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { vehiclesAreLoaded, vehicles } = nextProps;
+
+        if (vehiclesAreLoaded && !vehicles.length) {
+            this.setState({
+                disableTripCreate: true,
+            });
+        }
     }
 
     toggleInBothDirections() {
@@ -145,31 +158,39 @@ class TripForm extends React.Component {
     }
 
     renderVehiclesList() {
-        const { vehicles, trip } = this.props,
+        const { translate, vehicles, trip } = this.props,
             defaultValue = trip ? trip.vehicle_id : '';
 
-        if (vehicles.length <= 0) {
-            return null;
-        }
+        const { disableTripCreate } = this.state;
 
-        return (
-            <select name="vehicle_id"
-                id="vehicle_id"
-                className="form-control"
-                defaultValue={defaultValue}
-            >
-                {vehicles.map((vehicle) =>
-                    <option key={vehicle.id} value={vehicle.id}>
-                        {vehicle.brand} {vehicle.model}</option>
-                )}
-            </select>
-        );
+        return disableTripCreate
+            ? (
+                <AlertWarning>
+                    {translate('create_trip.no_vehicles.main_msg')}<br/>
+                    <Link to="/vehicles/create">
+                        {translate('create_trip.no_vehicles.add_link_msg')}
+                    </Link>{translate('create_trip.no_vehicles.after_link_msg')}
+                </AlertWarning>
+            ) : (
+                <select name="vehicle_id"
+                    id="vehicle_id"
+                    className="form-control"
+                    defaultValue={defaultValue}
+                >
+                    {vehicles.map((vehicle) =>
+                        <option key={vehicle.id} value={vehicle.id}>
+                            {vehicle.brand} {vehicle.model}</option>
+                    )}
+                </select>
+            );
     }
 
     render() {
         const { errors, translate, trip, waypoints, startPoint, endPoint, placesCssClasses,
                 onSubmit, onSelectStartPoint, onSelectEndPoint, onWaypointAdd, onWaypointDelete
             } = this.props;
+
+        const { disableTripCreate } = this.state;
 
         const tripData = trip || {
                 is_animals_allowed: false,
@@ -323,8 +344,12 @@ class TripForm extends React.Component {
 
                     <div className="form-group form-group--last-for-btn">
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">
-                                {buttonText}</button>
+                            <button type="submit"
+                                className="btn btn-primary"
+                                disabled={disableTripCreate}
+                            >
+                                {buttonText}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -336,6 +361,7 @@ class TripForm extends React.Component {
 const TripFormConnected = connect(
     state => ({
         vehicles: state.vehicle.vehicles,
+        vehiclesAreLoaded: state.vehicle.vehiclesAreLoaded,
     }),
     (dispatch) => bindActionCreators({getVehicles}, dispatch)
 )(TripForm);

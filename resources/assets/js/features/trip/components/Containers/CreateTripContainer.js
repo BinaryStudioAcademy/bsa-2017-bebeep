@@ -135,7 +135,7 @@ class CreateTripContainer extends React.Component {
         );
 
         const tripData = {
-            vehicle_id: form.vehicle_id.value,
+            vehicle_id: form.vehicle_id ? form.vehicle_id.value : null,
             start_at: tripTime.start_at,
             end_at: tripTime.end_at,
             price: form.price.value,
