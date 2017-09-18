@@ -1,7 +1,6 @@
 import * as actions from './actionTypes';
 
 const initialState = {
-    //TODO:fix it
     form_items: {
         brands: [],
         models: [],
@@ -33,6 +32,56 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch(action.type) {
+        case actions.GET_BRANDS_DATA: {
+            return {
+                ...state,
+                form_items: {
+                    ...state.form_items,
+                    brands: action.data
+                }
+            }
+        }
+
+        case actions.GET_MODELS_DATA: {
+            return {
+                ...state,
+                form_items: {
+                    ...state.form_items,
+                    models: action.data
+                }
+            }
+        }
+
+        case actions.RESET_MODELS_DATA: {
+            return {
+                ...state,
+                form_items: {
+                    ...state.form_items,
+                    models: []
+                }
+            }
+        }
+
+        case actions.GET_COLORS_DATA: {
+            return {
+                ...state,
+                form_items: {
+                    ...state.form_items,
+                    colors: action.data
+                }
+            }
+        }
+
+        case actions.GET_BODY_DATA: {
+            return {
+                ...state,
+                form_items: {
+                    ...state.form_items,
+                    body: action.data
+                }
+            }
+        }
+
         case actions.VEHICLE_GET_ALL_SUCCESS: {
             return {
                 ...state,
@@ -73,15 +122,6 @@ export default function (state = initialState, action) {
                 seats: null,
                 year: null
             };
-        }
-
-        case actions.GET_VEHICLES_DATA: {
-            return {
-                ...state,
-                form_items: {
-                    brands: action.data
-                }
-            }
         }
 
         default: {

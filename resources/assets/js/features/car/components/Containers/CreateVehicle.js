@@ -2,15 +2,10 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import VehicleForm from '../Forms/VehicleForm';
-
 import { VehicleValidate } from 'app/services/VehicleService';
 import { securedRequest } from 'app/services/RequestService';
-import { VehicleService } from 'features/car/services/VehicleService';
-import { vehicleCreateSuccess, getVehiclesData } from 'features/car/actions';
-
-import { simpleRequest } from 'app/services/RequestService';
+import { getVehiclesData, getBrandModelsData, resetModelsData, vehicleCreateSuccess } from 'features/car/actions';
 
 class CreateVehicle extends React.Component {
     constructor(props) {
@@ -41,13 +36,8 @@ class CreateVehicle extends React.Component {
         };
     }
 
-    //TODO:fix it
     componentWillMount() {
-        simpleRequest.get('/api/v1/car-brand/').then((response) => {
-            this.props.getVehiclesData(response.data.data);
-        });
-
-        //this.props.getVehiclesData(VehicleService.getBrandOptions);
+        this.props.getVehiclesData();
     }
 
     handleBrandChange(data) {
@@ -58,9 +48,15 @@ class CreateVehicle extends React.Component {
             },
             model: {
                 brand_id: (data) ? data.id : null,
-                disabled: (data) ? false : true
+                disabled: (!data)
             }
         });
+
+        if(data) {
+            this.props.getBrandModelsData(data.id);
+        } else {
+            this.props.resetModelsData();
+        }
     }
 
     handleModelChange(data) {
@@ -102,10 +98,6 @@ class CreateVehicle extends React.Component {
         });
     }
 
-    getModelLoadOptions = () => {
-        return VehicleService.getModelOptions(this.state.brand.id);
-    };
-
     onSubmit(e) {
         e.preventDefault();
 
@@ -140,6 +132,8 @@ class CreateVehicle extends React.Component {
     }
 
     render() {
+        const {brands, models, colors, body} = this.props.vehicle.form_items;
+
         return (
             <VehicleForm
                 errors={ this.state.errors }
@@ -149,10 +143,10 @@ class CreateVehicle extends React.Component {
                 body={ this.state.body }
                 year={ this.state.year }
                 seats={ this.state.seats }
-                getBrandOptions={ this.props.vehicle.form_items.brands }
-                getModelLoadOptions={ this.getModelLoadOptions }
-                getColorOptions={ VehicleService.getColorOptions }
-                getBodyOptions={ VehicleService.getBodyOptions }
+                getBrandOptions={ brands }
+                getModelLoadOptions={ models }
+                getColorOptions={ colors }
+                getBodyOptions={ body }
                 handleBrandChange={ this.handleBrandChange.bind(this) }
                 handleModelChange={ this.handleModelChange.bind(this) }
                 handleColorChange={ this.handleColorChange.bind(this) }
@@ -165,10 +159,14 @@ class CreateVehicle extends React.Component {
     }
 }
 
-//TODO:fix it
 export default connect(
     state => ({
         vehicle: state.vehicle,
     }),
-    (dispatch) => bindActionCreators({ vehicleCreateSuccess, getVehiclesData }, dispatch)
+    (dispatch) => bindActionCreators({
+        getVehiclesData,
+        getBrandModelsData,
+        resetModelsData,
+        vehicleCreateSuccess
+    }, dispatch)
 )(CreateVehicle);

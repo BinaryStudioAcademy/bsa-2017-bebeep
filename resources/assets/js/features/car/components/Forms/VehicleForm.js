@@ -55,7 +55,7 @@ class VehicleForm extends React.Component {
 
                     <div className={ "form-group row " + (errors.model ? 'has-danger' : '') }>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="model">{ translate('vehicle_form.car_model') }</label>
-                        <Select.Async
+                        <Select
                             name="model"
                             placeholder={ translate('vehicle_form.car_model_placeholder') }
                             value={this.props.model.name}
@@ -63,7 +63,7 @@ class VehicleForm extends React.Component {
                             labelKey="name"
                             className={ "col-sm-8 " + (errors.model ? 'form-control-danger' : '')}
                             disabled={this.props.model.disabled}
-                            loadOptions={ this.props.getModelLoadOptions }
+                            options={ this.props.getModelLoadOptions }
                             onChange={this.props.handleModelChange}
                             cache={false}
                             autoload={false}
@@ -77,14 +77,14 @@ class VehicleForm extends React.Component {
 
                     <div className={ "form-group row " + (errors.color ? 'has-danger' : '') }>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="color">{ translate('vehicle_form.car_color') }</label>
-                        <Select.Async
+                        <Select
                             name="color"
                             placeholder={ translate('vehicle_form.car_color_placeholder') }
                             value={this.props.color.color}
                             valueKey="color"
                             labelKey="color"
                             className={ "col-sm-8 " + (errors.color ? 'form-control-danger' : '')}
-                            loadOptions={ this.props.getColorOptions }
+                            options={ this.props.getColorOptions }
                             onChange={this.props.handleColorChange}
                             clerable={true}
                             {...REACT_SELECT_PROPS}
@@ -96,14 +96,14 @@ class VehicleForm extends React.Component {
 
                     <div className={ "form-group row " + (errors.body ? 'has-danger' : '') }>
                         <label className="form-control-label text-muted col-sm-4" htmlFor="body">{ translate('vehicle_form.car_body') }</label>
-                        <Select.Async
+                        <Select
                             name="body"
                             placeholder={ translate('vehicle_form.car_body_placeholder') }
                             value={this.props.body.body}
                             valueKey="body"
                             labelKey="body"
                             className={ "col-sm-8 " + (errors.body ? 'form-control-danger' : '')}
-                            loadOptions={ this.props.getBodyOptions }
+                            options={ this.props.getBodyOptions }
                             onChange={this.props.handleBodyChange}
                             clerable={true}
                             {...REACT_SELECT_PROPS}
