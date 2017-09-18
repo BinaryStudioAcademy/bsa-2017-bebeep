@@ -5,7 +5,7 @@ import { localize } from 'react-localize-redux';
 import UserDropdown from './UserDropdown';
 import MainMenuItem from './Items/MainMenuItem';
 import ChangeLocalization from '../Localization';
-import ChangeCurrency from '../ChangeCurrency';
+import ChangeCurrency from 'features/currency/components/ChangeCurrency';
 
 import AuthService from 'app/services/AuthService';
 import { getProfileAvatar } from 'app/services/PhotoService';

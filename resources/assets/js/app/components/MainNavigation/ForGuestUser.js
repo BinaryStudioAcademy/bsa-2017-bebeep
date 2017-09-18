@@ -3,7 +3,7 @@ import { Link, IndexLink } from 'react-router';
 import { localize } from 'react-localize-redux';
 
 import ChangeLocalization from '../Localization';
-import ChangeCurrency from '../ChangeCurrency';
+import ChangeCurrency from 'features/currency/components/ChangeCurrency';
 
 class ForGuestUser extends React.Component {
 

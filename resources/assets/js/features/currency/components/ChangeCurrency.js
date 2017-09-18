@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-import { CurrencyIcon } from './Icons';
+import CurrencyIcon from './CurrencyIcon';
 
 class ChangeCurrency extends React.Component {
 
