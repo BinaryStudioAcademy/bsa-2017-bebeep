@@ -37,9 +37,9 @@ class UserDropdown extends React.Component {
                 isOpen={ this.state.isDropdownOpen }
                 toggle={ this.toggleUserDropdown }
             >
-                <DropdownToggle caret className={(countNotifications ? " has-notification" : "")}>
+                <DropdownToggle caret className={(countNotifications ? " has-notification" : "")} title={ userName }>
                     <img src={ user.avatar }
-                        alt={ userName }
+                        alt=""
                         className="header-menu__dropdown--user-menu__avatar"
                     />
 
