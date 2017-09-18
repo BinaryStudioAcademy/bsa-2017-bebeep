@@ -4,7 +4,7 @@ import { localize } from 'react-localize-redux';
 
 import UserDropdown from './UserDropdown';
 import MainMenuItem from './Items/MainMenuItem';
-import ChangeLocalization from '../ChangeLocalization';
+import ChangeLocalization from '../Localization';
 import ChangeCurrency from '../ChangeCurrency';
 
 import AuthService from 'app/services/AuthService';
