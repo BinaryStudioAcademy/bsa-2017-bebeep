@@ -16,13 +16,10 @@ class ProfileWriteMessage extends React.Component {
 
         return (
             <div className="driver-car-block">
-                <p className="text-left">
-                    <strong>{ translate('public_profile.write_message') } </strong>
-                </p>
-
                 <WriteMsgButton userId={id}
                     className="w-100 py-2"
                     tooltip={false}
+                    title={ translate('public_profile.write_message') }
                 />
             </div>
         );
