@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\User;
+use App\Models\Currency;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,6 +23,7 @@ class Trip extends Model
      */
     protected $fillable = [
         'price',
+        'currency_id',
         'seats',
         'start_at',
         'end_at',
@@ -87,5 +89,13 @@ class Trip extends Model
     public function subscriptions()
     {
         return $this->belongsToMany(Subscription::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
     }
 }
