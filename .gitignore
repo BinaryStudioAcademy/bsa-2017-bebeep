@@ -18,3 +18,4 @@ yarn-error.log
 .env.testing
 /.composer
 /.mysql-data
+/storage/medialibrary/temp/*.*
