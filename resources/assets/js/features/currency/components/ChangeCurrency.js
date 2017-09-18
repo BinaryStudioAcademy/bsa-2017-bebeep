@@ -2,7 +2,6 @@ import React from 'react';
 import { localize } from 'react-localize-redux';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-import CurrencyIcon from './CurrencyIcon';
 import CurrencyService, { CURRENCY_PROP_SIGN } from '../services/CurrencyService';
 
 import LangService from 'app/services/LangService';
@@ -49,9 +48,6 @@ class ChangeCurrency extends React.Component {
                 toggle={ this.toggleDropdown }
             >
                 <DropdownToggle caret>
-                    <div className="header-currencies-menu__currency-icon">
-                        <CurrencyIcon />
-                    </div>
                     <span className="header-currencies-menu__currency-active">
                         {currentCurrency.toUpperCase()}
                     </span>
