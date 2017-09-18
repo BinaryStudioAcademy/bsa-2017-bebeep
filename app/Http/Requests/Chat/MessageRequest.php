@@ -29,8 +29,23 @@ class MessageRequest extends FormRequest implements MessageRequestContract
         ];
     }
 
+    /**
+     * Get message from request.
+     *
+     * @return string
+     */
     public function getMessage(): string
     {
         return $this->get('message');
+    }
+
+    /**
+     * Get is read status from request.
+     *
+     * @return bool|null
+     */
+    public function getIsRead() : ?bool
+    {
+        return (bool) $this->get('is_read');
     }
 }
