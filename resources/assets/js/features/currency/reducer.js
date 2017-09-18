@@ -14,10 +14,10 @@ export default function (state = initialState, action) {
                 activeCurrency: action.payload.activeCurrency,
             };
 
-        case actions.SET_ACTIVE_CURRENCE:
+        case actions.SET_ACTIVE_CURRENCY:
             return {
                 ...state,
-                activeCurrency: action.payload.activeCurrency,
+                activeCurrency: action.payload,
             };
 
         default:
