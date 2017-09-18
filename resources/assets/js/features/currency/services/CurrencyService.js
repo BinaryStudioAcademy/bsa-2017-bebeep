@@ -1,4 +1,4 @@
-import DataStorage from '../helpers/DataStorage';
+import DataStorage from 'app/helpers/DataStorage';
 
 import { setCurrencies, setActiveCurrence } from '../actions';
 
@@ -34,9 +34,9 @@ const CurrencyService = (() => {
         init(store) {
             _store = store;
 
-            /*_store.dispatch(Loc.setLanguages(
-                this.languages, this.getActiveLanguage(CURRENCY_PROP_CODE)
-            ));*/
+            _store.dispatch(setCurrencies(
+                this.currencies, this.getActiveCurrency(CURRENCY_PROP_CODE)
+            ));
         },
 
         get currencies() {
@@ -45,6 +45,31 @@ const CurrencyService = (() => {
 
         getName(code) {
             return CURRENCY_DATA.full_name[code];
+        },
+
+        getActiveCurrency(prop) {
+            const code = (this.currencies.indexOf(DataStorage.getData(CURRENCY_STORAGE_KEY)) !== -1 &&
+                    DataStorage.getData(CURRENCY_STORAGE_KEY)
+                )
+                || CURRENCY_USD;
+
+            if (prop === CURRENCY_PROP_CODE) {
+                return code;
+            }
+
+            if (prop === undefined) {
+                return {
+                    [CURRENCY_PROP_CODE]: code,
+                    [CURRENCY_PROP_SHORT_NAME]: CURRENCY_DATA.short_name[code],
+                    [CURRENCY_PROP_FULL_NAME]: CURRENCY_DATA.full_name[code],
+                };
+            }
+
+            if (CURRENCY_DATA[prop] === undefined) {
+                return null;
+            }
+
+            return CURRENCY_DATA[prop][code];
         },
     };
 })();
