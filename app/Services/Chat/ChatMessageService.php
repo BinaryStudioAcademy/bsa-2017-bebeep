@@ -66,14 +66,15 @@ class ChatMessageService implements ChatMessageServiceContract
      * Mark message as read.
      *
      * @param User $user
+     * @param MessageRequest $messageRequest
      * @param ChatMessage $message
      * @return mixed
      * @throws MessageNotBelongToUserException
      */
-    public function markAsRead(User $user, ChatMessage $message)
+    public function markAsRead(User $user, MessageRequest $messageRequest, ChatMessage $message)
     {
         $attributes = [
-            'is_read' => true,
+            'is_read' => $messageRequest->getIsRead(),
         ];
 
         if ($message->getRecipientId() != $user->getUserId()) {
