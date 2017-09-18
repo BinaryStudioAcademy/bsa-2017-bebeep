@@ -10,14 +10,18 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 class OthersUserCriteria implements CriteriaInterface
 {
     /**
-     * @var User
+     * @var \App\User
      */
     private $user;
     /**
-     * @var UsersSearchRequest
+     * @var \App\Services\Requests\Chat\UsersSearchRequest
      */
     private $request;
 
+    /**
+     * @param \App\Services\Requests\Chat\UsersSearchRequest $request
+     * @param \App\User $user
+     */
     public function __construct(UsersSearchRequest $request, User $user)
     {
         $this->user = $user;
@@ -25,15 +29,42 @@ class OthersUserCriteria implements CriteriaInterface
     }
 
     /**
+     * Get others users by sent and received messages condition.
+     *
+     * Get only users who have sent or received at least one message
+     * from / to the current auth user.
+     *
+     * @param \App\User $model
+     * @param \Prettus\Repository\Contracts\RepositoryInterface $repository
+     *
+     * @return mixed
+     */
+    private function getOthersBySentAndReceivedMessages(User $model)
+    {
+        return $model
+            ->whereHas('sentMessages', function ($query) {
+                $query->where('recipient_id', $this->user->id);
+            })
+            ->orWhereHas('receivedMessages', function ($query) {
+                $query->where('sender_id', $this->user->id);
+            })
+            ->orderBy('first_name');
+    }
+
+    /**
      * Apply criteria in query repository.
      *
-     * @param                     $model
-     * @param RepositoryInterface $repository
+     * @param \App\User $model
+     * @param \Prettus\Repository\Contracts\RepositoryInterface $repository
      *
      * @return mixed
      */
     public function apply($model, RepositoryInterface $repository)
     {
+        if (! $this->request->isSearchFilterExists()) {
+            return $this->getOthersBySentAndReceivedMessages($model);
+        }
+
         $queryBuilder = $model->where('id', '<>', $this->user->id);
 
         if (! $this->request->areNamesParamsIdentical()) {
