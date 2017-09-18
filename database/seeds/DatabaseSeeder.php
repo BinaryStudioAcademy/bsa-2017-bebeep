@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CarBrandsTableSeeder::class);
         $this->call(CarModelsTableSeeder::class);
 
+        $this->call(CurrenciesTableSeeder::class);
+
         factory(App\User::class)->create();
         factory(App\Models\Vehicle::class)->create();
     }
