@@ -23,7 +23,7 @@ class EditVehicle extends React.Component {
         return (
             <ContainerWrapper>
                 <PageHeader header={ translate('vehicle.edit_vehicle_header') }/>
-                <EditVehicleForm id={ this.props.params.id }/>
+                <EditVehicleForm id={ this.props.params.id } translate={ translate }/>
             </ContainerWrapper>
         );
     }

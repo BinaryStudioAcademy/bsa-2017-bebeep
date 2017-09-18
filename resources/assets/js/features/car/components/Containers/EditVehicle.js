@@ -148,10 +148,12 @@ export default class EditVehicle extends React.Component {
     }
 
     render() {
+        const {translate} = this.props;
+
         if (this.state.notFoundVehicle) {
             return (
                 <div className="alert alert-danger" role="alert">
-                    You can't edit this vehicle info...
+                    { this.props.translate('vehicle.cant_edit') }
                 </div>
             );
         }
@@ -159,13 +161,13 @@ export default class EditVehicle extends React.Component {
         if (!this.state.id) {
             return (
                 <div className="alert">
-                    Loading...
+                    { this.props.translate('vehicle.loading') }
                 </div>
             );
         }
 
         return (
-            <VehicleForm
+            {/*<VehicleForm
                 errors={ this.state.errors }
                 brand={ this.state.brand }
                 model={ this.state.model }
@@ -184,7 +186,7 @@ export default class EditVehicle extends React.Component {
                 handleYearChange={ this.handleYearChange.bind(this) }
                 handleSeatsChange={ this.handleSeatsChange.bind(this) }
                 onSubmit={ this.onSubmit.bind(this) }
-            />
+            />*/}
         );
     }
 }
