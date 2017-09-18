@@ -2,10 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import { localize } from 'react-localize-redux';
 
-import UserDropdown from './UserDropdown';
 import MainMenuItem from './Items/MainMenuItem';
-import ChangeLocalization from '../ChangeLocalization';
-import ChangeCurrency from '../ChangeCurrency';
+import { UserDropdown, ChangeCurrency, ChangeLocalization } from '../MenuDropdowns';
 
 import AuthService from 'app/services/AuthService';
 import { getProfileAvatar } from 'app/services/PhotoService';

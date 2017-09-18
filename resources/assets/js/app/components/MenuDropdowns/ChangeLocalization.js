@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-import LangService, { LANG_PROP_SHORT_NAME } from '../services/LangService';
+import LangService, { LANG_PROP_SHORT_NAME } from 'app/services/LangService';
 
 class ChangeLocalization extends React.Component {
 
