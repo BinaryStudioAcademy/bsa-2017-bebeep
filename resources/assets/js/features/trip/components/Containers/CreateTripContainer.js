@@ -147,7 +147,9 @@ class CreateTripContainer extends React.Component {
             luggage_size: form.luggage_size.value,
             is_animals_allowed: form.is_animals_allowed.checked,
             is_in_both_directions: form.is_in_both_directions.checked,
-            reverse_start_at: roundTime ? roundTime.start_at : null
+            reverse_start_at: roundTime ? roundTime.start_at : null,
+            recurring_count: form.recurring_count ? form.recurring_count.value : 0,
+            recurring_period: form.recurring_period ? form.recurring_period.value : 0
         };
 
         const validated = Validator.validate(createTripRules(), tripData);

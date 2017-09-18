@@ -420,3 +420,14 @@ td.table-list-details__cell-for-action {
 #PlacesAutocomplete__root {
     margin-bottom: 0;
 }
+
+.bootstrap-typeahead .dropdown-menu-justify {
+    right: 0;
+}
+
+.dropdown-menu .divider {
+    height: 1px;
+    margin: $dropdown-padding-y 0;
+    overflow: hidden;
+    background-color: $dropdown-divider-bg;
+}

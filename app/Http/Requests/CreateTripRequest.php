@@ -11,6 +11,10 @@ use App\Services\Requests\CreateTripRequest as CreateTripRequestInterface;
 
 class CreateTripRequest extends FormRequest implements CreateTripRequestInterface
 {
+    private $startAt;
+    private $endAt;
+    private $reverseStartAt;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -50,6 +54,8 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
                     ]);
                 }),
             ],
+            'recurring_count' => 'integer|max:20|min:1',
+            'recurring_period' => 'integer|max:60|min:1',
             'vehicle' => 'required_without:vehicle_id',
             'reverse_start_at' => ['required_if:is_in_both_directions,true', 'greater_than_date_if:is_in_both_directions,'.$this->get('end_at')],
         ];
@@ -76,6 +82,10 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getStartAt(): Carbon
     {
+        if ($this->startAt) {
+            return $this->startAt;
+        }
+
         return Carbon::createFromTimestampUTC($this->get('start_at'));
     }
 
@@ -84,6 +94,10 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getEndAt(): Carbon
     {
+        if ($this->endAt) {
+            return $this->endAt;
+        }
+
         return Carbon::createFromTimestampUTC($this->get('end_at'));
     }
 
@@ -170,6 +184,41 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
      */
     public function getReverseStartAt(): Carbon
     {
+        if ($this->reverseStartAt) {
+            return $this->reverseStartAt;
+        }
+
         return Carbon::createFromTimestampUTC($this->get('reverse_start_at'));
+    }
+
+    public function getRecurringCount(): int
+    {
+        return (int) $this->get('recurring_count');
+    }
+
+    public function getRecurringPeriod(): int
+    {
+        return (int) $this->get('recurring_period');
+    }
+
+    public function setReverseStartAt(Carbon $date): Carbon
+    {
+        $this->reverseStartAt = $date;
+
+        return $date;
+    }
+
+    public function setStartAt(Carbon $date): Carbon
+    {
+        $this->startAt = $date;
+
+        return $date;
+    }
+
+    public function setEndAt(Carbon $date): Carbon
+    {
+        $this->endAt = $date;
+
+        return $date;
     }
 }

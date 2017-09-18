@@ -240,12 +240,26 @@ Route::get('v1/users/{user}/messages', [
     'uses' => 'Api\Chat\ChatController@getChatMessages',
 ]);
 
+Route::delete('v1/users/message/{message}', [
+    'middleware' => ['jwt.auth'],
+    'as' => 'delete.message',
+    'uses' => 'Api\Chat\ChatController@destroy',
+]);
+
+Route::put('v1/users/message/{message}/is_read', [
+    'middleware' => ['jwt.auth'],
+    'as' => 'read.messages',
+    'uses' => 'Api\Chat\ChatController@markAsRead',
+]);
+
 Route::get('v1/users/others', [
+    'middleware' => ['jwt.auth'],
     'as' => 'users',
     'uses' => 'Api\Chat\UserController@others',
 ]);
 
 Route::get('v1/users/{user}', [
+    'middleware' => ['jwt.auth'],
     'as' => 'user',
     'uses' => 'Api\Chat\UserController@user',
 ]);

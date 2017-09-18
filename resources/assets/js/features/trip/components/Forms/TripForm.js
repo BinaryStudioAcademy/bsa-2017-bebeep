@@ -20,8 +20,9 @@ class TripForm extends React.Component {
         super(props);
 
         this.state = {
-            disableTripCreate: false,
             isInBothDirections: false,
+            isRecurringTrip: false,
+            disableTripCreate: false,
         };
     }
 
@@ -47,6 +48,12 @@ class TripForm extends React.Component {
     toggleInBothDirections() {
         this.setState({
             isInBothDirections: !this.state.isInBothDirections
+        });
+    }
+
+    toggleIsRecurringTrip() {
+        this.setState({
+            isRecurringTrip: !this.state.isRecurringTrip
         });
     }
 
@@ -76,6 +83,48 @@ class TripForm extends React.Component {
                     </label>
                 </div>
             </div>
+        </div>);
+    }
+
+    showIsRecurringControl() {
+        const { translate, trip } = this.props;
+
+        if (trip && trip.id) {
+            return '';
+        }
+
+        return (<div className="form-group row">
+            <label className="form-control-label text-muted col-sm-4" htmlFor="is_recurring_trip">
+                {translate('trip_form.is_recurring_trip')}
+            </label>
+            <div className="col-sm-8">
+                <div className="form-check">
+                    <label className="form-check-label">
+                        <input className="form-check-input" type="checkbox" id="is_recurring_trip"
+                               checked={this.state.isRecurringTrip}
+                               name="is_recurring_trip"
+                               onChange={this.toggleIsRecurringTrip.bind(this)}
+                        />
+                    </label>
+                </div>
+            </div>
+        </div>);
+    }
+
+    showRecurringControls() {
+        const { translate, errors } = this.props;
+
+        if (!this.state.isRecurringTrip) {
+            return '';
+        }
+
+        return (<div>
+            <Input type="number" name="recurring_count" id="recurring_count" required={false} error={errors.recurring_count}>
+                {translate('trip_form.recurring_count')}
+            </Input>
+            <Input type="number" name="recurring_period" id="recurring_period" required={false} error={errors.recurring_period}>
+                {translate('trip_form.recurring_period_days')}
+            </Input>
         </div>);
     }
 
@@ -289,6 +338,9 @@ class TripForm extends React.Component {
 
                     {this.showInBothDirectionsControl()}
                     {this.showReverseStartAtControl()}
+
+                    {this.showIsRecurringControl()}
+                    {this.showRecurringControls()}
 
                     <div className="form-group form-group--last-for-btn">
                         <div className="text-center">
