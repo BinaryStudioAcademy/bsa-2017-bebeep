@@ -1,6 +1,6 @@
 import DataStorage from 'app/helpers/DataStorage';
 
-import { setCurrencies, setActiveCurrence } from '../actions';
+import { setCurrencies, setActiveCurrency } from '../actions';
 
 export const CURRENCY_USD = 'USD';
 export const CURRENCY_UAH = 'UAH';
@@ -71,6 +71,11 @@ const CurrencyService = (() => {
             }
 
             return CURRENCY_DATA[prop][code];
+        },
+
+        setActiveCurrency(code) {
+            DataStorage.setData(CURRENCY_STORAGE_KEY, code);
+            _store.dispatch(setActiveCurrency(code));
         },
     };
 })();
