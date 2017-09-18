@@ -38,6 +38,10 @@ const CurrencyService = (() => {
             return currencies;
         },
 
+        getActiveCurrencyCode() {
+            return this.getActiveCurrency(CURRENCY_PROP_CODE);
+        },
+
         getActiveCurrency(prop) {
             const code = (this.currencies.indexOf(DataStorage.getData(CURRENCY_STORAGE_KEY)) !== -1 &&
                     DataStorage.getData(CURRENCY_STORAGE_KEY)
