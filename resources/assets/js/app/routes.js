@@ -38,6 +38,7 @@ import { USER_ROLE_PASSENGER, USER_ROLE_DRIVER } from './services/UserService';
 import MessagingPage from '../features/chat/layouts/MessagingPage';
 
 import LangeService from './services/LangService';
+import CurrencyService from 'features/currency/services/CurrencyService';
 import DataStorage from './helpers/DataStorage';
 
 import Elements from '../features/elements/Elements';
@@ -47,6 +48,7 @@ export default (store) => {
 
     AuthService.init(store);
     LangeService.init(store);
+    CurrencyService.init(store);
 
     LangeService.addTranslation(require('./lang/global.locale.json'));
     LangeService.addTranslation(require('./lang/validate.locale.json'));
