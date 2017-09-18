@@ -29,7 +29,7 @@ class ChangeCurrency extends React.Component {
             currencies = ['USD', 'UAH', 'EUR'];
 
         return (
-            <Dropdown className="header-menu__dropdown header-locales-menu"
+            <Dropdown className="header-menu__dropdown header-currencies-menu"
                 isOpen={ this.state.isDropdownOpen }
                 toggle={ this.toggleDropdown }
             >
