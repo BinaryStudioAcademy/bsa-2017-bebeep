@@ -119,29 +119,29 @@ class AvatarUpload extends React.Component {
     }
 
     renderImageCropper() {
-        const { translate } = this.props,
-            { image } = this.state,
+        const { image } = this.state,
+            { translate } = this.props,
             toggleShow = this.toggleShow(),
             classShow = this.toggleClassShow();
 
         return (
             <div className={classShow}>
+                <div className="user-profile-avatar__back-to-file-upload">
+                    <button role="button"
+                        className="btn btn-warning user-profile-avatar__back-to-file-upload-btn"
+                    >
+                        {translate('profile_avatar.back_to_file_upload')}
+                    </button>
+                </div>
                 <ImageCropper
                     image={ image.preview }
                     destWidth={ AVATAR_SIZE }
                     destHeight={ AVATAR_SIZE }
                     toggleShow={ toggleShow }
+                    onImageSave={this.onAvatarSave}
+                    imageSaveBtnName={translate('profile_avatar.save_avatar')}
                     ref={ cropper => { this.onInitCropper(cropper); } }
                 />
-                <div className={"mt-3" + classShow}>
-                    <button
-                        className="image-cropper__btn btn btn-primary"
-                        onClick={ this.onAvatarSave }
-                        disabled={ !toggleShow }
-                    >
-                        { translate('profile_avatar.save_avatar') }
-                    </button>
-                </div>
             </div>
         );
     }
@@ -150,7 +150,7 @@ class AvatarUpload extends React.Component {
         const { avatarCurrent, isDefaultAvatar } = this.props;
 
         return (
-            <div className="container-fluid">
+            <div className="container-fluid user-profile-avatar">
                 <div className="row">
                     <div className="col-md-8">
                         {this.renderFilesDropzone()}

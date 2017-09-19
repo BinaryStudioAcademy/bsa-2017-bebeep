@@ -1,15 +1,23 @@
-.user-current-avatar {
+.user-profile-avatar {
+
+  &__back-to-file-upload {
+    margin-bottom: 1.5rem;
+  }
+
+  &__current-avatar {
+
     &__block {
-        margin-bottom: 0;
-        margin-right: 1rem;
-        text-align: center;
+      margin-bottom: 0;
+      margin-right: 1rem;
+      text-align: center;
     }
     &__caption {
-        margin-bottom: .5rem;
-        font-size: 1.2rem;
+      margin-bottom: .5rem;
+      font-size: 1.2rem;
     }
     &__image {
-        max-width: 150px;
-        border-radius: 50%;
+      max-width: 150px;
+      border-radius: 50%;
     }
+  }
 }
