@@ -37,9 +37,4 @@ class CurrencyService implements CurrencyServiceContract
     {
         return $currency;
     }
-
-    public function create($request)
-    {
-        return $this->currencyRepository->save(new Currency( $request->toArray() ));
-    }
 }

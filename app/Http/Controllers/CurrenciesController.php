@@ -44,11 +44,4 @@ class CurrenciesController extends Controller
 
         return response()->json($currency);
     }
-
-    public function create(Request $request)
-    {
-        $trip = $this->currencyService->create($request);
-
-        return response()->json($trip);
-    }
 }
