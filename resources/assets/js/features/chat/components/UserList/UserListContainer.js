@@ -53,9 +53,9 @@ class UserListContainer extends React.Component {
             this.setOnlineStatus(users, false)
         );
 
-        usersOffline = _.differenceBy(usersOffline, usersOnline, 'id');
+        usersOnline = _.intersectionBy(usersOnline, usersOffline, 'id');
 
-        return usersOnline.concat(usersOffline);
+        return _.unionBy(usersOnline, usersOffline, 'id')
     }
 
     render() {

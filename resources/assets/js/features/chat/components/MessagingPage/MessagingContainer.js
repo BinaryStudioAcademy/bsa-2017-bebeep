@@ -5,7 +5,10 @@ import {getTranslate} from 'react-localize-redux';
 import {Link} from 'react-router';
 import MessageList from './MessageList';
 import {sendMessage, getMessagesByUser, addUser} from 'features/chat/actions';
-import {USER_ROLE_PASSENGER, USER_ROLE_DRIVER} from 'app/services/UserService';
+import {
+    checkDriverRole,
+    checkPassengerRole
+} from 'app/services/UserService';
 import moment from 'moment';
 
 import 'features/chat/styles/messaging-page.scss';
@@ -97,10 +100,10 @@ class MessagingContainer extends React.Component {
 
         let link = '';
 
-        if (user.permissions === USER_ROLE_DRIVER) {
-            link = `/driver/${user.id}`;
-        } else if (user.permissions === USER_ROLE_PASSENGER) {
+        if (checkPassengerRole(user.permissions)) {
             link = `/passenger/${user.id}`;
+        } else if (checkDriverRole(user.permissions)) {
+            link = `/driver/${user.id}`;
         }
 
         return (

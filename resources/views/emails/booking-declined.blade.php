@@ -3,7 +3,7 @@
 
 {{ __("email/booking.declined_header") }}
 
-@component('mail::button', ['url' => url('/')])
+@component('mail::button', ['url' => url('/bookings')])
     {{ __("email/booking.see_details")  }}
 @endcomponent
 
