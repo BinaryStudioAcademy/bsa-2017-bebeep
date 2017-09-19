@@ -29,7 +29,6 @@ class MessagingContainer extends React.Component {
         const {getMessagesByUser, userId} = props;
 
         getMessagesByUser(userId);
-        console.log('messages updated');
     }
 
     getChats(id) {
