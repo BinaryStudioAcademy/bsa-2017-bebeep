@@ -11,8 +11,8 @@ const AVATAR_SIZE = 150;
 const AVATAR_MIME_TYPES = 'image/jpeg,image/png';
 const AVATAR_MAX_SIZE_MB = 10;
 
-const DROPZONE_VIEW_MODE = 'dropzone';
-const CROPPER_VIEW_MODE = 'cropper';
+const DROPZONE_DISPLAY_MODE = 'dropzone';
+const CROPPER_DISPLAY_MODE = 'cropper';
 
 class AvatarUpload extends React.Component {
 
@@ -20,7 +20,7 @@ class AvatarUpload extends React.Component {
         super(props);
 
         this.state = {
-            viewMode: DROPZONE_VIEW_MODE,
+            displayMode: DROPZONE_DISPLAY_MODE,
             image: {
                 file: null,
                 preview: null,
@@ -49,7 +49,7 @@ class AvatarUpload extends React.Component {
                 file: file,
                 preview: preview,
             },
-            viewMode: CROPPER_VIEW_MODE,
+            displayMode: CROPPER_DISPLAY_MODE,
         });
     }
 
