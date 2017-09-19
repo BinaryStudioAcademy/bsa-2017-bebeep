@@ -21,6 +21,8 @@ $chat-box-shadow-size: 3px;
 
     @media screen and (max-width: 660px) {
       font-size: .9rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
 
     &-chat-back {
@@ -48,7 +50,7 @@ $chat-box-shadow-size: 3px;
 
   &__footer {
     height: $chat-footer;
-    padding: .5rem .25rem;
+    padding: .5rem 1.5rem;
     border-top: 2px solid $gray-lighter;
     background-color: rgba(224, 224, 224, 0.1);
 
@@ -65,6 +67,11 @@ $chat-box-shadow-size: 3px;
         transform: translate(2px, -2px);
       }
     }
+
+    @media screen and (max-width: 660px) {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 }
 
@@ -77,6 +84,11 @@ $chat-box-shadow-size: 3px;
   max-height: calc(100vh - #{$chat-header + $chat-footer + 3 * $chat-box-shadow-size});
   overflow: hidden;
   overflow-y: scroll;
+
+  @media screen and (max-width: 660px) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 
   &-item {
     transition: all 0.5s linear;
