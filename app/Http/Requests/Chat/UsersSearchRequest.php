@@ -32,6 +32,14 @@ class UsersSearchRequest extends FormRequest implements UsersSearchRequestContra
     /**
      * {@inheritdoc}
      */
+    public function isSearchFilterExists(): bool
+    {
+        return $this->has('filter');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getEmail(): string
     {
         return $this->get('filter')['email'] ?? '';

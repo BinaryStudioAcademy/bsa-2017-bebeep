@@ -3,7 +3,7 @@
 
 {{ __("email/booking.canceled_header") }}
 
-@component('mail::button', ['url' => url('/')])
+@component('mail::button', ['url' => url('/trips/upcoming')])
     {{ __("email/booking.see_details")  }}
 @endcomponent
 

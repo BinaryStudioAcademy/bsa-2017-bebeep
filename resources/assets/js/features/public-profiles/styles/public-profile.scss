@@ -181,3 +181,9 @@
     margin-left: 20px;
   }
 }
+
+/* Send message button styles */
+
+#write_msg_to_user .fa-envelope::before{
+  padding-right: 4px;
+}

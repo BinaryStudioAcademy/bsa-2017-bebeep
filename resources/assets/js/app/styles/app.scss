@@ -34,6 +34,10 @@ dt {
 .hide {
     display: none !important;
 }
+.cursor-pointer,
+.hover:hover {
+    cursor: pointer;
+}
 
 .noselect,
 .dropdown,
@@ -77,10 +81,6 @@ dt {
         font-size: 1.4rem;
         color: lighten($gray, 5%);
     }
-}
-
-.hover:hover {
-    cursor: pointer;
 }
 
 .header {
@@ -134,9 +134,22 @@ dt {
         &--align-stretch {
             align-self: stretch;
         }
-    }
-}
 
+        &--icon {
+            & > a {
+                font-size: 30px;
+                color: #6dcff6;
+                padding: 0 1rem;
+            }
+
+            a.active,
+            & > a:hover {
+                color: $white;
+            }
+        }
+    }
+
+}
 .home-slider {
     width: 100%;
     height: 600px;
@@ -202,6 +215,12 @@ dt {
         }
     }
 
+    .dropdown-item-signed {
+        padding: 5px 1.5rem;
+        font-size: .95em;
+        color: lighten($gray, 15%);
+    }
+
     &--user-menu {
         &__avatar {
             width: 35px;
@@ -217,19 +236,13 @@ dt {
 .header-locales-menu {
 
     &__locale-icon {
-        display: inline-block;
         width: 25px;
         height: 25px;
-        margin-right: .25rem;
-        vertical-align: bottom;
+        margin-right: 7px;
 
         &-item {
             fill: darken($teal, 30%);
         }
-    }
-
-    &__locale {
-        cursor: pointer;
     }
 
     .dropdown-menu {
