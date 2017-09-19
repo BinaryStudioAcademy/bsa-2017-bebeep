@@ -95,6 +95,7 @@ class MessagingContainer extends React.Component {
                             <MessageList
                                 messages={messages}
                                 user={user}
+                                userId={userId}
                             />
                         </div>
                         <div className="chat-message__footer">
