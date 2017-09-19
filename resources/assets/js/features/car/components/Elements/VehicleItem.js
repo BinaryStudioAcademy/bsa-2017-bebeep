@@ -1,9 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getTranslate } from "react-localize-redux";
 
 import { EditButton, DeleteButton } from 'app/components/Buttons';
 import { getVehiclePhoto } from 'app/services/PhotoService';
