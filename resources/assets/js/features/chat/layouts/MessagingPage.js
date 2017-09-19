@@ -16,7 +16,7 @@ class MessagingPage extends React.Component {
         const {translate} = this.props;
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="pb-5">
                 <div className="row">
                     <MessagingContainer userId = { this.props.params.id }/>
                 </div>

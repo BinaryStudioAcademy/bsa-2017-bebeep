@@ -2,7 +2,7 @@
 
 $chat-header: 60px;
 $chat-footer: 70px;
-$chat-box-shadow-size: 5px;
+$chat-box-shadow-size: 3px;
 
 .chat-message {
   width: 100%;
@@ -73,8 +73,8 @@ $chat-box-shadow-size: 5px;
   padding: 1rem 2rem 2rem;
   list-style: none;
   margin: 0;
-  min-height: calc(100vh - #{$chat-header + $chat-footer + 2 * $chat-box-shadow-size});
-  max-height: calc(100vh - #{$chat-header + $chat-footer + 2 * $chat-box-shadow-size});
+  min-height: calc(100vh - #{$chat-header + $chat-footer + 3 * $chat-box-shadow-size});
+  max-height: calc(100vh - #{$chat-header + $chat-footer + 3 * $chat-box-shadow-size});
   overflow: hidden;
   overflow-y: scroll;
 
