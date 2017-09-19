@@ -24,6 +24,9 @@
     }
 
     &__preview-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         margin-left: 2rem;
     }
 

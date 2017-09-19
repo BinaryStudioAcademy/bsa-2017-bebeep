@@ -70,6 +70,7 @@ class ImageCropper extends React.Component {
 
     render() {
         const { toggleShow } = this.state,
+            { imageSaveBtnName, onImageSave } = this.props,
             { image, destWidth, destHeight, aspectRatio, autoCropArea } = this.props,
             classShow = this.toggleClassShow();
 
@@ -109,6 +110,16 @@ class ImageCropper extends React.Component {
                 <div className={ "image-cropper__preview-wrapper" + classShow }>
                     <div className="image-cropper__image-preview"
                         style={{ width: destWidth, height: destHeight }} />
+
+                    <div className={"mt-3" + classShow}>
+                        <button
+                            className="btn btn-primary"
+                            onClick={ onImageSave }
+                            disabled={ !toggleShow }
+                        >
+                            {imageSaveBtnName}
+                        </button>
+                    </div>
                 </div>
             </div>
         );
