@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { localize } from 'react-localize-redux';
+import { Collapse, NavbarToggler } from 'reactstrap';
 
 import ContainerWrapper from 'app/layouts/ContainerWrapper';
 
@@ -11,8 +12,30 @@ import 'features/user/styles/profile.scss';
 
 class ProfileBase extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isOpen: false,
+        };
+
+        this.toggleNavbar = this.toggleNavbar.bind(this);
+    }
+
     componentWillMount() {
         LangService.addTranslation(lang);
+    }
+
+    componentWillReceiveProps() {
+        this.setState({
+            isOpen: false,
+        });
+    }
+
+    toggleNavbar() {
+        this.setState({
+            isOpen: !this.state.isOpen,
+        });
     }
 
     render() {
@@ -21,7 +44,15 @@ class ProfileBase extends React.Component {
         return (
             <ContainerWrapper className="container--min-height-500">
                 <div className="row">
-                    <div className="col-lg-3 mb-4">
+                    <div className="col-12 d-flex justify-content-between align-items-center navbar-light p-2 mb-2">
+                        <header>
+                            <h3 className="h5">Меню профіля користувача</h3>
+                        </header>
+
+                        <NavbarToggler onClick={this.toggleNavbar} />
+                    </div>
+
+                    <Collapse className="col-lg-3 mb-4" isOpen={this.state.isOpen}>
                         <div>
                             <ul className="menu-sidebar">
                                 <li className="menu-sidebar__header">
@@ -85,10 +116,10 @@ class ProfileBase extends React.Component {
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </Collapse>
 
                     <div className="col-lg-9">
-                        { this.props.children }
+                        {this.props.children}
                     </div>
                 </div>
             </ContainerWrapper>
