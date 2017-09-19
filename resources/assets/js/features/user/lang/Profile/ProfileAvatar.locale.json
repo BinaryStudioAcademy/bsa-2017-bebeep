@@ -16,6 +16,11 @@
     "save_avatar": [
       "Save", "Зберегти", "Сохранить"
     ],
+    "back_to_file_upload": [
+      "Back to file upload",
+      "Назад до завантаження",
+      "Назад к загрузке"
+    ],
     "custom_rules": [
       "JPG or PNG.",
       "JPG або PNG.",
