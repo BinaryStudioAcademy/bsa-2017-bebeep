@@ -1,6 +1,8 @@
 import React from 'react';
 import { localize } from 'react-localize-redux';
 
+import DeleteButton from 'app/components/Buttons/DeleteButton';
+
 import 'features/user/styles/profile_avatar.scss';
 
 class AvatarCurrent extends React.Component {
@@ -10,10 +12,7 @@ class AvatarCurrent extends React.Component {
 
         return isDefault ? null : (
             <div>
-                <button className="image-cropper__btn btn btn-danger"
-                        onClick={ onDelete }>
-                    { translate('profile_avatar.delete_avatar') }
-                </button>
+                <DeleteButton onClick={onDelete} />
             </div>
         );
     }
