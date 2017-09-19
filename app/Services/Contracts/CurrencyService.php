@@ -3,14 +3,21 @@
 namespace App\Services\Contracts;
 
 use App\Models\Currency;
-use App\Services\Requests\CurrencyListRequest;
+use Illuminate\Support\Collection;
 
 interface CurrencyService
 {
     /**
-     * @param \App\Services\Requests\CurrencyListRequest $request
+     * Get all currencies list.
      *
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Support\Collection
      */
-    public function getUpcoming(CurrencyListRequest $request) : Collection;
+    public function getAll(): Collection;
+
+    /**
+     * Get the currency one.
+     *
+     * @return \App\Models\Currency|null
+     */
+    public function getOne(Currency $currency): ?Currency;
 }

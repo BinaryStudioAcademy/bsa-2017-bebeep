@@ -3,25 +3,43 @@
 namespace App\Services;
 
 use App\Models\Currency;
+use Illuminate\Support\Collection;
 use App\Repositories\Contracts\CurrencyRepository;
 use App\Services\Contracts\CurrencyService as CurrencyServiceContract;
 
 class CurrencyService implements CurrencyServiceContract
 {
+    /**
+     * @var \App\Repositories\Contracts\CurrencyRepository
+     */
     protected $currencyRepository;
 
-    public function __construct(CurrencyRepository $currencyRepository) {
+    /**
+     * @param \App\Repositories\Contracts\CurrencyRepository $currencyRepository
+     */
+    public function __construct(CurrencyRepository $currencyRepository)
+    {
         $this->currencyRepository = $currencyRepository;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAll(CriteriaInterface $criteria, int $limit) : LengthAwarePaginator
+    public function getAll(): Collection
     {
-        $this->bookingRepository->pushCriteria($criteria);
-        $result = $this->bookingRepository->paginate($limit);
+        return $this->currencyRepository->all();
+    }
 
-        return $result;
+    /**
+     * {@inheritdoc}
+     */
+    public function getOne(Currency $currency): ?Currency
+    {
+        return $currency;
+    }
+
+    public function create($request)
+    {
+        return $this->currencyRepository->save(new Currency( $request->toArray() ));
     }
 }

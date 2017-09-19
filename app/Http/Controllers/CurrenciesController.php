@@ -2,106 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Trip;
-use App\Models\Booking;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\BookingListRequest;
-use App\Services\Contracts\BookingService;
-use App\Http\Requests\BookingStatusRequest;
-use App\Http\Requests\CancelBookingRequest;
-use App\Http\Requests\CreateBookingRequest;
-use App\Transformers\Bookings\BookingTransformer;
-use App\Exceptions\Booking\BookingConfirmException;
+use App\Models\Currency;
+use Illuminate\Http\Request;
+use App\Services\Contracts\CurrencyService;
 
-class BookingsController extends Controller
+class CurrenciesController extends Controller
 {
-    private $bookingService;
+    /**
+     * @var \App\Services\Contracts\CurrencyService
+     */
+    private $currencyService;
 
-    public function __construct(BookingService $bookingService)
+    /**
+     * @param \App\Services\Contracts\CurrencyService $currencyService
+     */
+    public function __construct(CurrencyService $currencyService)
     {
-        $this->bookingService = $bookingService;
+        $this->currencyService = $currencyService;
     }
 
     /**
-     * @param Trip $trip
-     * @param CreateBookingRequest $request
+     * Get all currencies list.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function create(Trip $trip, CreateBookingRequest $request)
+    public function all()
     {
-        try {
-            $booking = $this->bookingService->create($trip, $request, Auth::user());
-        } catch (\Exception $e) {
-            return response()->json(['errors' => [$e->getMessage()]], 422);
-        }
+        $currencies = $this->currencyService->getAll();
 
-        return response()->json($booking);
+        return response()->json($currencies);
     }
 
     /**
-     * @param BookingStatusRequest $request
-     * @param Trip $trip
-     * @param Booking $booking
+     * Get the currency data.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function status(BookingStatusRequest $request, Trip $trip, Booking $booking)
+    public function one(Currency $currency)
     {
-        try {
-            $this->bookingService->changeStatus($request, $trip, $booking);
-        } catch (BookingConfirmException $e) {
-            return response()->json(['error' => $e->getMessage()], 422);
-        }
+        $currency = $this->currencyService->getOne($currency);
 
-        return response()->json();
+        return response()->json($currency);
     }
 
-    /**
-     * @param CancelBookingRequest $request
-     * @param Booking $booking
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function cancel(CancelBookingRequest $request, Booking $booking)
+    public function create(Request $request)
     {
-        try {
-            $booking = $this->bookingService->cancel($booking, Auth::user());
-        } catch (\Exception $e) {
-            return response()->json(['errors' => [$e->getMessage()]], 422);
-        }
+        $trip = $this->currencyService->create($request);
 
-        return response()->json($booking);
-    }
-
-    /**
-     * @param BookingListRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function upcoming(BookingListRequest $request)
-    {
-        $bookings = $this->bookingService->getUpcoming($request, Auth::user());
-
-        return fractal()
-            ->collection($bookings, new BookingTransformer())
-            ->addMeta([
-                'total' => $bookings->total(),
-                'page' => $bookings->currentPage(),
-            ])
-            ->respond();
-    }
-
-    /**
-     * @param BookingListRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function past(BookingListRequest $request)
-    {
-        $bookings = $this->bookingService->getPast($request, Auth::user());
-
-        return fractal()
-            ->collection($bookings, new BookingTransformer())
-            ->addMeta([
-                'total' => $bookings->total(),
-                'page' => $bookings->currentPage(),
-            ])
-            ->respond();
+        return response()->json($trip);
     }
 }
