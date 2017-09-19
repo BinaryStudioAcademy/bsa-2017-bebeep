@@ -157,13 +157,13 @@ class AvatarUpload extends React.Component {
 
         return (
             <div className="container-fluid user-profile-avatar">
-                <div className="row">
-                    <div className="col-md-8">
+                <div className="row no-gutters">
+                    <div className="col-md-9">
                         {this.renderFilesDropzone()}
                         {this.renderImageCropper()}
                     </div>
 
-                    <div className="col-md-4">
+                    <div className="col-md-3 mt-5 mt-md-0">
                         <AvatarCurrent
                             avatar={ avatarCurrent }
                             destWidth={ AVATAR_SIZE }

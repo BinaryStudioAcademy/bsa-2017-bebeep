@@ -6,12 +6,14 @@ import 'features/user/styles/profile_avatar.scss';
 class AvatarCurrent extends React.Component {
 
     renderDeleteButton() {
-        const { translate, isDefault, onDelete } = this.props;
+        const { translate, destWidth, isDefault, onDelete } = this.props;
 
         return isDefault ? null : (
-            <div>
+            <div className="user-profile-avatar__current-avatar-delete"
+                style={{ maxWidth: destWidth }}
+            >
                 <button role="button"
-                    className="btn btn-danger"
+                    className="btn btn-danger user-profile-avatar__current-avatar-delete-btn"
                     onClick={ onDelete }
                 >
                     { translate('profile_avatar.delete_avatar') }
@@ -25,12 +27,12 @@ class AvatarCurrent extends React.Component {
 
         return (
             <div className="user-profile-avatar__current-avatar">
-                <figure className="user-current-avatar__block">
-                    <figcaption className="user-current-avatar__caption">
+                <figure className="user-profile-avatar__current-avatar-figure">
+                    <figcaption className="user-profile-avatar__current-avatar-caption">
                         { translate('profile_avatar.current_avatar') }
                     </figcaption>
                     <img src={ avatar }
-                        className="user-current-avatar__image"
+                        className="user-profile-avatar__current-avatar-image"
                         alt={ translate('profile_avatar.current_avatar') }
                         style={{ maxWidth: destWidth }} />
                 </figure>

@@ -111,9 +111,11 @@ class ImageCropper extends React.Component {
                     <div className="image-cropper__image-preview"
                         style={{ width: destWidth, height: destHeight }} />
 
-                    <div className={"mt-3" + classShow}>
-                        <button
-                            className="btn btn-primary"
+                    <div className={"mt-3 image-cropper__save" + classShow}
+                        style={{ maxWidth: destWidth }}
+                    >
+                        <button role="button"
+                            className="btn btn-primary image-cropper__save-btn"
                             onClick={ onImageSave }
                             disabled={ !toggleShow }
                         >

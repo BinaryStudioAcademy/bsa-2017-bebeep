@@ -1,6 +1,6 @@
 .image-cropper {
     &__base-cropper {
-        width: 300px;
+        width: 200px;
         height: 200px;
         margin: auto;
     }
@@ -34,5 +34,13 @@
         width: 100px;
         height: 100px;
         overflow: hidden;
+    }
+
+    &__save {
+      max-width: 150px;
+
+      &-btn {
+        width: 100%;
+      }
     }
 }
