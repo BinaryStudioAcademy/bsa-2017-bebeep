@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import VehicleForm from '../Forms/VehicleForm';
 import { VehicleValidate } from 'app/services/VehicleService';
 import { VehicleService } from 'features/car/services/VehicleService';
-import { getVehiclesData, getBrandModelsData, resetModelsData } from 'features/car/actions';
+import { getVehiclesData, getBrandModelsData, resetModelsData, resetVehicleFormItems } from 'features/car/actions';
 
 class CreateVehicle extends React.Component {
     constructor(props) {
@@ -107,6 +107,7 @@ class CreateVehicle extends React.Component {
             body: (e.target['body']) ? e.target['body'].value : '',
             year: (e.target['year']) ? e.target['year'].value : '',
             seats: (e.target['seats']) ? e.target['seats'].value : '',
+            car_brand_id: this.state.brand.id,
             photo: null
         };
 
@@ -118,6 +119,7 @@ class CreateVehicle extends React.Component {
             });
         } else {
             VehicleService.saveVehicleData(data);
+            this.props.resetVehicleFormItems();
         }
     }
 
@@ -156,6 +158,7 @@ export default connect(
     (dispatch) => bindActionCreators({
         getVehiclesData,
         getBrandModelsData,
-        resetModelsData
+        resetModelsData,
+        resetVehicleFormItems
     }, dispatch)
 )(CreateVehicle);

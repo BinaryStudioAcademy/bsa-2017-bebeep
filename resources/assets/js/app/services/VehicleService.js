@@ -38,6 +38,12 @@ export const VehicleConstraints = {
         }
     },
 
+    car_brand_id: {
+        numericality: {
+            onlyInteger: true,
+        },
+    },
+
     photo: {
         /*presence: true
         url: true,*/
@@ -99,6 +105,15 @@ export const VehicleValidator = {
         };
     },
 
+    car_brand_id: (data) => {
+        const result = validate.single(data, VehicleConstraints.car_brand_id);
+        let error = result ? result.join(", ") : "";
+        return {
+            valid: !result,
+            error
+        };
+    },
+
     photo: (data) => {
         const result = validate.single(data, VehicleConstraints.photo);
         let error = result ? result.join(", ") : "";
@@ -117,6 +132,7 @@ export const VehicleValidate = (data = {
     year: "",
     seats: "",
     photo: "",
+    car_brand_id: ""
 }) => {
 
     let result = {

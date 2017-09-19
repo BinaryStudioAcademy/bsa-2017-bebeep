@@ -6,7 +6,7 @@ import { VehicleValidate } from 'app/services/VehicleService';
 import { securedRequest } from 'app/services/RequestService';
 import { VehicleService } from 'features/car/services/VehicleService';
 import { EditVehicleService } from 'features/car/services/EditVehicleService';
-import { getVehiclesData, getBrandModelsData, resetModelsData } from 'features/car/actions';
+import { getVehiclesData, getBrandModelsData, resetModelsData, resetVehicleFormItems } from 'features/car/actions';
 
 class EditVehicle extends React.Component {
     constructor(props) {
@@ -49,6 +49,7 @@ class EditVehicle extends React.Component {
                 this.setState({
                     id: response.id,
                     brand: {
+                        id: response.car_brand_id,
                         name: response.brand
                     },
                     model: {
@@ -64,6 +65,9 @@ class EditVehicle extends React.Component {
                     seats: response.seats,
                     year: response.year
                 });
+
+                this.props.getBrandModelsData(response.car_brand_id);
+
             }).catch(error => {
                 this.setState({
                     notFoundVehicle: true,
@@ -139,6 +143,7 @@ class EditVehicle extends React.Component {
             body: (e.target['body']) ? e.target['body'].value : '',
             year: (e.target['year']) ? e.target['year'].value : '',
             seats: (e.target['seats']) ? e.target['seats'].value : '',
+            car_brand_id: this.state.brand.id,
             photo: null
         };
 
@@ -150,6 +155,7 @@ class EditVehicle extends React.Component {
             });
         } else {
             EditVehicleService.sendUpdatedVehicle(this.props.id, data);
+            this.props.resetVehicleFormItems();
         }
     }
 
@@ -205,6 +211,7 @@ export default connect(
     (dispatch) => bindActionCreators({
         getVehiclesData,
         getBrandModelsData,
-        resetModelsData
+        resetModelsData,
+        resetVehicleFormItems
     }, dispatch)
 )(EditVehicle);

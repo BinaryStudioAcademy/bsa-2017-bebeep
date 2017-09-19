@@ -78,6 +78,18 @@ export default function (state = initialState, action) {
             }
         }
 
+        case actions.RESET_VEHICLE_FORM_ITEMS: {
+            return {
+                ...state,
+                form_items: {
+                    brands: [],
+                    models: [],
+                    colors: [],
+                    body: []
+                }
+            }
+        }
+
         default: {
             return state;
         }

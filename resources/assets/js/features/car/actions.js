@@ -35,6 +35,10 @@ export const deleteVehicleItem = data => ({
     data
 });
 
+export const resetVehicleFormItems = () => ({
+    type: actions.RESET_VEHICLE_FORM_ITEMS
+});
+
 export const getVehiclesData = () => dispatch => {
     securedRequest.get('/api/v1/car-brand/').then(response => {
         dispatch(getBrandsData(response.data.data));

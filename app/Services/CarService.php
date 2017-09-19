@@ -35,6 +35,7 @@ class CarService
             'year' => $request->getYear(),
             'photo' => $request->getPhoto(),
             'user_id' => $request->getUserId(),
+            'car_brand_id' => $request->getCarBrandId()
         ];
 
         $car = $this->carRepository->save(new Vehicle($attributes));
@@ -57,6 +58,7 @@ class CarService
             'seats' => $request->getSeats(),
             'year' => $request->getYear(),
             'photo' => $request->getPhoto(),
+            'car_brand_id' => $request->getCarBrandId()
         ];
 
         $car = $this->carRepository->updateVehicle(new Vehicle($attributes), $id);
