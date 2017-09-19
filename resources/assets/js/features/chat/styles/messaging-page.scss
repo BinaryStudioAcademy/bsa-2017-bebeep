@@ -1,16 +1,23 @@
+@import '~app/bootstrap/variables';
+
+$chat-header: 60px;
+$chat-footer: 70px;
+$chat-box-shadow-size: 5px;
+
 .chat-message {
   width: 100%;
   border-radius: .25rem;
-  box-shadow: 0 0 7px #ddd;
+  box-shadow: 0 0 $chat-box-shadow-size $gray-lighter;
   background-color: rgba(224, 224, 224, 0.1);
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: $chat-header;
     padding: 1rem 1.5rem;
     font-weight: 500;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 2px solid $gray-lighter;
 
     @media screen and (max-width: 660px) {
       font-size: .9rem;
@@ -40,14 +47,15 @@
   }
 
   &__footer {
+    height: $chat-footer;
     padding: .5rem .25rem;
-    border-top: 2px solid #ddd;
+    border-top: 2px solid $gray-lighter;
     background-color: rgba(224, 224, 224, 0.1);
 
     &-input,
     &-send-btn {
       margin: .5rem !important;
-      border-radius: .25rem !important;
+      border-radius: 1rem !important;
 
       &-icon {
         transition: all .3s;
@@ -65,8 +73,8 @@
   padding: 1rem 2rem 2rem;
   list-style: none;
   margin: 0;
-  min-height: 77vh;
-  max-height: 77vh;
+  min-height: calc(100vh - #{$chat-header + $chat-footer + 2 * $chat-box-shadow-size});
+  max-height: calc(100vh - #{$chat-header + $chat-footer + 2 * $chat-box-shadow-size});
   overflow: hidden;
   overflow-y: scroll;
 
