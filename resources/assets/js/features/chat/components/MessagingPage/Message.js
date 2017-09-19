@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
 import {getProfileAvatar} from 'app/services/PhotoService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
+
 import {MESSAGE_STATUS_RECIEVED, MESSAGE_STATUS_SENT} from '../../reducer';
 
 class Message extends React.Component {

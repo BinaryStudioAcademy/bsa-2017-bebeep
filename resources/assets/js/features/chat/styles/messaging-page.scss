@@ -9,12 +9,22 @@
     border-bottom: 1px solid #e0e0e0;
     color: #505050;
 
+    @media screen and (max-width: 660px) {
+      font-size: 0.9rem;
+    }
+
     &-chat-back {
       font-size: 1.7rem;
       position: absolute;
       top: 13px;
       left: 20px;
       color: #505050;
+
+      @media screen and (max-width: 660px) {
+        font-size: 1rem !important;
+        top: 17px;
+        left: 25px;
+      }
 
       &:hover {
         color: rgb(53, 53, 53);
@@ -24,6 +34,11 @@
         font-size: 1.1rem;
         left: 45px;
         font-weight: 500;
+
+        @media screen and (max-width: 660px) {
+          font-size: .9rem !important;
+          top: 16px;
+        }
       }
     }
 
@@ -71,6 +86,11 @@
       border-radius: 50em;
       -moz-border-radius: 50em;
       -webkit-border-radius: 50em;
+
+      @media screen and (max-width: 660px) {
+        width: 40px;
+        height: 40px;
+      }
     }
 
     .chat-body {
@@ -87,12 +107,20 @@
         padding: 0;
         border-bottom: 1px solid rgba(212, 207, 207, 0.41);
         box-shadow: none;
+
+        @media screen and (max-width: 660px) {
+          font-size: 0.7rem;
+        }
       }
 
       p {
         margin: 0;
         padding: 10px 0 0;
         font-size: 0.9rem;
+
+        @media screen and (max-width: 660px) {
+          font-size: 0.8rem;
+        }
       }
     }
   }
@@ -159,6 +187,10 @@ img {
 
   small {
     font-size: 0.8rem;
+
+    @media screen and (max-width: 660px) {
+      font-size: 0.7rem;
+    }
   }
 }
 
