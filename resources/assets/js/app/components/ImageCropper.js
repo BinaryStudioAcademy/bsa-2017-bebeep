@@ -87,7 +87,7 @@ class ImageCropper extends React.Component {
                     />
 
                     <div className="image-cropper__buttons-rotate">
-                        <button
+                        <button role="button"
                             className="btn image-cropper__btn-image-rotate"
                             onClick={ () => this.rotateImage(ROTATE_DIRECTION_LEFT) }
                             disabled={ !toggleShow }
@@ -95,7 +95,7 @@ class ImageCropper extends React.Component {
                             <i className="image-cropper__btn-image-rotate-icon fa fa-undo"
                                 aria-hidden="true" />
                         </button>
-                        <button
+                        <button role="button"
                             className="btn image-cropper__btn-image-rotate"
                             onClick={ () => this.rotateImage(ROTATE_DIRECTION_RIGHT) }
                             disabled={ !toggleShow }
