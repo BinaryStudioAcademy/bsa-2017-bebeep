@@ -75,7 +75,7 @@ class ImageCropper extends React.Component {
             classShow = this.toggleClassShow();
 
         return (
-            <div className="d-flex">
+            <div className="image-cropper__main-container">
                 <div className={ "image-cropper__cropper-wrapper" + classShow }>
                     <Cropper
                         src={ image }

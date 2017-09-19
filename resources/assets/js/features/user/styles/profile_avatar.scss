@@ -1,13 +1,22 @@
 .user-profile-avatar {
 
+  .files-dropzone {
+    height: 250px;
+
+    @media screen and (max-width: 767px) {
+      height: 200px;
+    }
+  }
+
   &__back-to-file-upload {
     margin-bottom: 1.5rem;
   }
 
   &__current-avatar {
+    text-align: center;
 
     &-caption {
-      margin-bottom: 1rem;
+      margin: .5rem 0 1rem;
       font-size: 1.2rem;
     }
     &-image {
@@ -16,7 +25,7 @@
     }
     &-delete {
       max-width: 150px;
-      margin-top: 1.5rem;
+      margin: 1.5rem auto;
 
       &-btn {
         width: 100%;

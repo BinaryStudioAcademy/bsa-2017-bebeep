@@ -1,4 +1,14 @@
 .image-cropper {
+    &__main-container {
+        display: flex;
+
+        @media screen and (max-width: 768px) {
+            justify-content: space-around;
+        }
+        @media screen and (max-width: 450px) {
+            flex-direction: column;
+        }
+    }
     &__base-cropper {
         width: 200px;
         height: 200px;
@@ -28,6 +38,10 @@
         flex-direction: column;
         justify-content: space-between;
         margin-left: 2rem;
+
+        @media screen and (max-width: 450px) {
+            margin: 3rem auto 0;
+        }
     }
 
     &__image-preview {
