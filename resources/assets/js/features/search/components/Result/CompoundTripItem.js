@@ -1,11 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import {Link} from 'react-router';
 import {localize} from 'react-localize-redux';
+import { bindActionCreators } from 'redux';
+import { getTranslate } from 'react-localize-redux';
 
 import {getDriverAvatar} from 'app/services/PhotoService';
 import LangService from 'app/services/LangService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
+import CurrencyService from 'features/currency/services/CurrencyService';
 
 import 'features/search/styles/compound-trip-item.scss';
 import 'features/search/styles/search-trip-item.scss';
@@ -31,15 +35,23 @@ class CompoundTripItem extends React.Component {
         return collection.trip.seats-seats;
     }
 
+    convertTripCurrency() {
+        const trip = this.props.collection.trip;
+        const fakeData = {id:1, code:'USD', sign:'$', rate:1, is_main:true};
+
+        return CurrencyService.convert(trip.price, fakeData);
+    }
 
     render() {
         const {collection, translate} = this.props,
             startedAt = this.formatStartAt();
 
-        var from = collection.from.address_components;
-        var to = collection.to.address_components;
-        var fromName = (from[0].long_name === parseInt(from[0].long_name, 6)) ? from[1].long_name : from[0].long_name;
-        var toName = (to[0].long_name === parseInt(to[0].long_name, 6)) ? to[1].long_name : to[0].long_name;
+        let from = collection.from.address_components;
+        let to = collection.to.address_components;
+        let fromName = (from[0].long_name === parseInt(from[0].long_name, 6)) ? from[1].long_name : from[0].long_name;
+        let toName = (to[0].long_name === parseInt(to[0].long_name, 6)) ? to[1].long_name : to[0].long_name;
+        const tripPrice = this.convertTripCurrency();
+        const currency = CurrencyService.getActiveCurrency();
 
         return (
 
@@ -87,8 +99,8 @@ class CompoundTripItem extends React.Component {
                         <div className="search-trip-item__offer">
 
                             <div className="search-trip-item__price">
-                                {parseInt(collection.trip.price)}
-                                <span className="search-trip-item__price-currency">$</span>
+                                {parseInt(tripPrice)}
+                                <span className="search-trip-item__price-currency">{currency.sign}</span>
                             </div>
 
                             <div className="search-trip-item__price-sign">
@@ -112,4 +124,11 @@ class CompoundTripItem extends React.Component {
     }
 }
 
-export default localize(CompoundTripItem, 'locale');
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale),
+        activeCurrency: state.currency.activeCurrency,
+    })
+)(CompoundTripItem);
+
+// export default localize(CompoundTripItem, 'locale');

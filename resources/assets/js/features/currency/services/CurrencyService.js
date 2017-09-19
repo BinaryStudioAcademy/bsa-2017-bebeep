@@ -82,31 +82,26 @@ const CurrencyService = (() => {
             DataStorage.setData(CURRENCY_STORAGE_KEY, code);
             _store.dispatch(setActiveCurrency(code));
         },
-        convert(data) {
+
+        convert(value, currency) {
             const activeCurrency = this.getActiveCurrency();
-            if (data.currency.code === activeCurrency.code){
-                return data;
+            if (currency.code === activeCurrency.code){
+                return parseInt(value);
             }
 
-            if(data.currency.is_main){
-                data.value = (data.value * activeCurrency.rate).toFixed(2);
-                data.currency = activeCurrency;
-                console.log(data,1);
-                return data;
+            if(currency.is_main){
+                value = (value * activeCurrency.rate).toFixed(0);
+                return value;
             }
 
-            const convertToDollar = data.value/data.currency.rate;
+            const convertToDollar = value/currency.rate;
             if (activeCurrency.isMain ){
-                data.value = convertToDollar.toFixed(2);
-                data.currency = activeCurrency;
-                console.log(data,2);
-                return data;
+                value = convertToDollar.toFixed(0);
+                return value;
             }
 
-            data.value = (convertToDollar*activeCurrency.rate).toFixed(2);
-            data.currency = activeCurrency;
-            console.log(data);
-            return data;
+            value = (convertToDollar*activeCurrency.rate).toFixed(0);
+            return value;
         },
     };
 })();

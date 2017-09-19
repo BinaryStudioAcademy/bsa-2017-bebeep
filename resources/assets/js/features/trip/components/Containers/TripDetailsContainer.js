@@ -102,9 +102,10 @@ class TripDetailsContainer extends React.Component {
         );
     }
     convertTripCurrency() {
-       const trip = this.props.details.trip;
+        const value = this.props.details.trip.price.value;
+        const fakeData = {id:1, code:'USD', sign:'$', rate:1, is_main:true};
 
-       trip.price = CurrencyService.convert(trip.price);
+        return CurrencyService.convert(value, fakeData);
     }
 
     render() {
@@ -118,8 +119,10 @@ class TripDetailsContainer extends React.Component {
         // TODO :: currentBookings and currentFreeSeats can be not only the first route
 
         this.formatStartAt();
-        this.convertTripCurrency();
-        const tripPrice = trip.price;
+        // this.convertTripCurrency();
+        const tripPrice = this.convertTripCurrency();
+        console.log(CurrencyService.getActiveCurrency(),123456798);
+        const currency = CurrencyService.getActiveCurrency();
 
         return (
             <div className="row">
@@ -168,8 +171,8 @@ class TripDetailsContainer extends React.Component {
                     <div className="block-border text-center">
 
                         <TripBookingMainInfo
-                            price={ tripPrice.value }
-                            currencySign={ tripPrice.currency.sign }
+                            price={ tripPrice }
+                            currencySign={ currency.sign }
                             freeSeats={ currentFreeSeats }
                         />
                         <TripPassengersCurrent
@@ -186,8 +189,8 @@ class TripDetailsContainer extends React.Component {
                     tripId={ trip.id }
                     maxSeats={ trip.seats }
                     waypoints={ routes }
-                    price={ tripPrice.value }
-                    currencySign={ tripPrice.currency.sign }
+                    price={ tripPrice }
+                    currencySign={ currency.sign }
                     startAt={ trip.start_at_format }
                     isOpen={ isOpenBookingModal }
                     onClosed={ this.onBookingClosed }
