@@ -10,6 +10,7 @@ import {
     checkDriverRole,
     checkPassengerRole
 } from 'app/services/UserService';
+import _ from 'lodash';
 import moment from 'moment';
 
 import 'features/chat/styles/messaging-page.scss';
@@ -92,8 +93,19 @@ class MessagingContainer extends React.Component {
         }, 400);
     }
 
+    checkOnlineStatus() {
+        const { onlineUsers, userId } = this.props,
+            user = this.getUsersData(userId);
+
+        return !!_.find(onlineUsers, (onlineUser) => {
+            return onlineUser.id === user.id;
+        });
+    }
+
     renderStatusOnline() {
-        return true ? <span className="chat-message__header-user-status-online" /> : null;
+        return this.checkOnlineStatus()
+            ? <span className="chat-message__header-user-status-online" />
+            : null;
     }
 
     render() {
@@ -103,7 +115,6 @@ class MessagingContainer extends React.Component {
             btnSendActiveClass = this.state.msgSending
                 ? 'chat-message__footer-send-btn--sending'
                 : '';
-                console.log(user);
 
         let link = '';
 
@@ -171,6 +182,7 @@ export default connect(
     state => ({
         chats: state.chat.entities.chats,
         usersArr: state.chat.entities.users,
+        onlineUsers: state.chat.onlineUsers,
         translate: getTranslate(state.locale),
     }),
     dispatch => (bindActionCreators({sendMessage, getMessagesByUser, addUser}, dispatch))
