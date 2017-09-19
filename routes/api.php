@@ -271,6 +271,4 @@ Route::group([
 ], function () {
     Route::get('/', ['as' => 'all', 'uses' => 'CurrenciesController@all']);
     Route::get('/{currency}', ['as' => 'one', 'uses' => 'CurrenciesController@one']);
-
-    Route::post('/', ['as' => 'create', 'uses' => 'CurrenciesController@create']);
 });
