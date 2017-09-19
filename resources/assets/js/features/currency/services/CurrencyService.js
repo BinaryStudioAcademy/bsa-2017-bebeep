@@ -17,6 +17,16 @@ const CURRENCY_DATA = {
         [CURRENCY_UAH]: "\u20B4",
         [CURRENCY_EUR]: "\u20AC",
     },
+    rate: {
+        [CURRENCY_USD]: 1,
+        [CURRENCY_UAH]: 26.14,
+        [CURRENCY_EUR]: 0.83,
+    },
+    isMain:{
+        [CURRENCY_USD]: true,
+        [CURRENCY_UAH]: false,
+        [CURRENCY_EUR]: false,
+    }
 };
 
 const CurrencyService = (() => {
@@ -56,6 +66,8 @@ const CurrencyService = (() => {
                 return {
                     [CURRENCY_PROP_CODE]: code,
                     [CURRENCY_PROP_SIGN]: CURRENCY_DATA.sign[code],
+                    rate:CURRENCY_DATA.rate[code],
+                    isMain: CURRENCY_DATA.isMain[code],
                 };
             }
 
@@ -69,6 +81,32 @@ const CurrencyService = (() => {
         setActiveCurrency(code) {
             DataStorage.setData(CURRENCY_STORAGE_KEY, code);
             _store.dispatch(setActiveCurrency(code));
+        },
+        convert(data) {
+            const activeCurrency = this.getActiveCurrency();
+            if (data.currency.code === activeCurrency.code){
+                return data;
+            }
+
+            if(data.currency.is_main){
+                data.value = (data.value * activeCurrency.rate).toFixed(2);
+                data.currency = activeCurrency;
+                console.log(data,1);
+                return data;
+            }
+
+            const convertToDollar = data.value/data.currency.rate;
+            if (activeCurrency.isMain ){
+                data.value = convertToDollar.toFixed(2);
+                data.currency = activeCurrency;
+                console.log(data,2);
+                return data;
+            }
+
+            data.value = (convertToDollar*activeCurrency.rate).toFixed(2);
+            data.currency = activeCurrency;
+            console.log(data);
+            return data;
         },
     };
 })();

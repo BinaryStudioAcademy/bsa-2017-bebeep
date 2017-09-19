@@ -8,6 +8,7 @@ import BookingModal from '../Modals/BookingModal';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import AuthService from 'app/services/AuthService';
+import CurrencyService from 'features/currency/services/CurrencyService';
 import { USER_ROLE_DRIVER } from 'app/services/UserService';
 
 import {
@@ -100,6 +101,11 @@ class TripDetailsContainer extends React.Component {
             </div>
         );
     }
+    convertTripCurrency() {
+       const trip = this.props.details.trip;
+
+       trip.price = CurrencyService.convert(trip.price);
+    }
 
     render() {
         const { translate, details: {trip, routes, driver, vehicle} } = this.props,
@@ -112,6 +118,8 @@ class TripDetailsContainer extends React.Component {
         // TODO :: currentBookings and currentFreeSeats can be not only the first route
 
         this.formatStartAt();
+        this.convertTripCurrency();
+        const tripPrice = trip.price;
 
         return (
             <div className="row">
@@ -160,7 +168,8 @@ class TripDetailsContainer extends React.Component {
                     <div className="block-border text-center">
 
                         <TripBookingMainInfo
-                            price={ trip.price }
+                            price={ tripPrice.value }
+                            currencySign={ tripPrice.currency.sign }
                             freeSeats={ currentFreeSeats }
                         />
                         <TripPassengersCurrent
@@ -177,7 +186,8 @@ class TripDetailsContainer extends React.Component {
                     tripId={ trip.id }
                     maxSeats={ trip.seats }
                     waypoints={ routes }
-                    price={ trip.price }
+                    price={ tripPrice.value }
+                    currencySign={ tripPrice.currency.sign }
                     startAt={ trip.start_at_format }
                     isOpen={ isOpenBookingModal }
                     onClosed={ this.onBookingClosed }
@@ -191,6 +201,7 @@ class TripDetailsContainer extends React.Component {
 export default connect(
     state => ({
         translate: getTranslate(state.locale),
+        activeCurrency: state.currency.activeCurrency,
     }),
     dispatch => bindActionCreators({ addBookingState }, dispatch)
 )(TripDetailsContainer);
