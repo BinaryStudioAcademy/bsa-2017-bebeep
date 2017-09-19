@@ -13,11 +13,6 @@
     opacity: .6;
     transition: all .4s;
 
-    @media screen and (max-width: 767px) {
-      max-width: 300px;
-      margin: auto;
-    }
-
     &--active,
     &:hover {
         opacity: 1;

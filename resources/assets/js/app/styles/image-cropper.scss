@@ -3,22 +3,12 @@
 .image-cropper {
     &__main-container {
         display: flex;
-
-        @media screen and (max-width: 768px) {
-            justify-content: space-around;
-        }
-        @media screen and (max-width: 450px) {
-            flex-direction: column;
-        }
     }
+
     &__base-cropper {
-        width: 250px;
+        width: 300px;
         height: 200px;
         margin: auto;
-
-        @media screen and (max-width: 568px) {
-            width: 200px;
-        }
     }
 
     &__buttons-rotate {
@@ -56,10 +46,6 @@
         flex-direction: column;
         justify-content: space-between;
         margin-left: 3rem;
-
-        @media screen and (max-width: 450px) {
-            margin: 3rem auto 0;
-        }
     }
 
     &__image-preview {
