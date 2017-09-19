@@ -1,3 +1,5 @@
+@import '~app/bootstrap/variables';
+
 .image-cropper {
     &__main-container {
         display: flex;
@@ -28,13 +30,25 @@
         margin: 0 .25rem;
         padding: .5rem .75rem;
         cursor: pointer;
-    }
-    &__btn-image-rotate-icon {
-        opacity: .6;
-        transition: opacity .4s;
-    }
-    &__btn-image-rotate:hover &__btn-image-rotate-icon {
-        opacity: 1;
+        background-color: lighten($teal, 20%);
+
+        &-icon {
+            opacity: .6;
+            transition: all .4s;
+        }
+
+        &:hover &-icon {
+            opacity: 1;
+        }
+        &--left:active &-icon {
+            transform: rotateZ(-40deg);
+        }
+        &--right:active &-icon {
+            transform: rotateZ(40deg);
+        }
+        &:focus {
+            box-shadow: 0 0 2px lighten($black, 63%);
+        }
     }
 
     &__preview-wrapper {
