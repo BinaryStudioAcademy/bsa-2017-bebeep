@@ -38,18 +38,20 @@ class ProfileBase extends React.Component {
         });
     }
 
+    getIsOpenedToggleClass() {
+        return this.state.isOpen ? ' menu-sidebar-toggler--opened' : '';
+    }
+
     render() {
-        const { translate } = this.props;
+        const { translate } = this.props,
+            isOpenedToggleClass = this.getIsOpenedToggleClass();
 
         return (
             <ContainerWrapper className="container--min-height-500">
                 <div className="row">
-                    <div className="col-12 d-flex justify-content-between align-items-center navbar-light p-2 mb-2">
-                        <header>
-                            <h3 className="h5">Меню профіля користувача</h3>
-                        </header>
-
-                        <NavbarToggler onClick={this.toggleNavbar} />
+                    <div className="col-12 menu-sidebar-toggler-wrapper">
+                        <NavbarToggler className={"menu-sidebar-toggler" + isOpenedToggleClass}
+                            onClick={this.toggleNavbar} />
                     </div>
 
                     <Collapse className="col-lg-3 mb-4" isOpen={this.state.isOpen}>

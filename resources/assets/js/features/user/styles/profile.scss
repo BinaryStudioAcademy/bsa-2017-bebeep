@@ -1,5 +1,26 @@
 @import '~app/bootstrap/variables';
 
+.menu-sidebar-toggler-wrapper {
+  padding-bottom: 2rem;
+}
+
+.menu-sidebar-toggler {
+  border-color: $card-border-color;
+  transition: all .2s;
+
+  .navbar-toggler-icon {
+    background-image: $navbar-light-toggler-bg;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &--opened {
+    background-color: rgba($teal, .2);
+  }
+}
+
 .menu-sidebar {
     list-style: none;
     padding-left: 0;
