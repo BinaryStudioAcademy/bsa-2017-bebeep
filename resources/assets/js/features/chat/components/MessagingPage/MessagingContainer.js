@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {getTranslate} from 'react-localize-redux';
 import {Link} from 'react-router';
 import MessageList from './MessageList';
+import {getProfileAvatar} from 'app/services/PhotoService';
 import {sendMessage, getMessagesByUser, addUser} from 'features/chat/actions';
 import {
     checkDriverRole,
@@ -56,6 +57,7 @@ class MessagingContainer extends React.Component {
         if (_.isEmpty(userData)) {
             addUser(id);
         }
+        userData.avatar = getProfileAvatar(userData.avatar);
 
         return userData;
     }
@@ -90,6 +92,10 @@ class MessagingContainer extends React.Component {
         }, 400);
     }
 
+    renderStatusOnline() {
+        return true ? <span className="chat-message__header-user-status-online" /> : null;
+    }
+
     render() {
         const {translate, userId} = this.props,
             messages = this.getChats(userId),
@@ -97,6 +103,7 @@ class MessagingContainer extends React.Component {
             btnSendActiveClass = this.state.msgSending
                 ? 'chat-message__footer-send-btn--sending'
                 : '';
+                console.log(user);
 
         let link = '';
 
@@ -118,11 +125,16 @@ class MessagingContainer extends React.Component {
                                     {translate('chat.back_btn')}
                                 </span>
                             </Link>
-                            <span className="chat-message__header-user-name">
-                                <Link to={link}>
-                                    {user.first_name}&nbsp;{user.last_name}
-                                </Link>
-                            </span>
+                            <Link to={link} className="chat-message__header-user-name-container">
+                                <div className="chat-message__header-user-avatar-container">
+                                    <img src={user.avatar}
+                                        alt=""
+                                        className="chat-message__header-user-avatar"
+                                    />
+                                    {this.renderStatusOnline()}
+                                </div>
+                                <span>{user.first_name}&nbsp;{user.last_name}</span>
+                            </Link>
                         </div>
 
                         <div className="chat-message__body">

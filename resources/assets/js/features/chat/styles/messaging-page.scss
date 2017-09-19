@@ -46,6 +46,35 @@ $chat-box-shadow-size: 3px;
         }
       }
     }
+
+    &-user-name-container {
+      display: flex;
+      align-items: center;
+    }
+
+    &-user-avatar-container {
+      position: relative;
+      margin-right: 1rem;
+    }
+
+    &-user-avatar {
+      width: 35px;
+      border-radius: 50%;
+    }
+
+    &-user-status-online {
+      $badge-radius: 6px;
+
+      width: $badge-radius * 2;
+      height: $badge-radius * 2;
+      position: absolute;
+      right: -$badge-radius / 2;
+      bottom: 0;
+
+      border-radius: 50%;
+      border: 2px solid $white;
+      background-color: $brand-success;
+    }
   }
 
   &__footer {
