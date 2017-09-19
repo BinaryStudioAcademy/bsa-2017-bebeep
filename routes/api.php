@@ -263,3 +263,12 @@ Route::get('v1/users/{user}', [
     'as' => 'user',
     'uses' => 'Api\Chat\UserController@user',
 ]);
+
+Route::group([
+    'prefix' => 'v1/currencies',
+    'as' => 'currency.',
+    'middleware' => ['jwt.auth'],
+], function () {
+    Route::get('/', ['as' => 'all', 'uses' => 'CurrenciesController@all']);
+    Route::delete('/{currency}', ['as' => 'one', 'uses' => 'CurrenciesController@one']);
+});
