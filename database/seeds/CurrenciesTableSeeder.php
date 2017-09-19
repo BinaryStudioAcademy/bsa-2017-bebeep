@@ -19,7 +19,7 @@ class CurrenciesTableSeeder extends Seeder
             [
                 'code' => 'USD',
                 'name' => 'US Dollar',
-                'sign' => '\u0024',
+                'sign' => '$',
                 'rate' => 1.0000,
                 'is_main' => true,
                 'created_at' => Carbon::now(),
@@ -28,7 +28,7 @@ class CurrenciesTableSeeder extends Seeder
             [
                 'code' => 'UAH',
                 'name' => 'Ukrainian Hryvnia',
-                'sign' => '\u20B4',
+                'sign' => '₴',
                 'rate' => 26.1450,
                 'is_main' => false,
                 'created_at' => Carbon::now(),
@@ -37,7 +37,7 @@ class CurrenciesTableSeeder extends Seeder
             [
                 'code' => 'EUR',
                 'name' => 'Euro',
-                'sign' => '\u20AC',
+                'sign' => '€',
                 'rate' => 0.8369,
                 'is_main' => false,
                 'created_at' => Carbon::now(),
