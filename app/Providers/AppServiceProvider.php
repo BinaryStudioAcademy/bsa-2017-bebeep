@@ -6,6 +6,7 @@ use App\Models\Vehicle;
 use App\Services\RouteService;
 use App\Services\BookingService;
 use App\Services\ReviewsService;
+use App\Services\CurrencyService;
 use App\Services\PasswordService;
 use App\Rules\Booking\TripDateRule;
 use App\Services\TripDetailService;
@@ -48,12 +49,13 @@ use App\Services\Helpers\Subscriptions\Filters\StartPriceFilter;
 use App\Services\Contracts\BookingService as BookingServiceContract;
 use App\Services\Contracts\ReviewsService as ReviewsServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
+use App\Services\Contracts\CurrencyService as CurrencyServiceContract;
 use App\Repositories\Contracts\TripRepository as TripRepositoryContract;
 use App\Services\Contracts\TripDetailService as TripDetailServiceContract;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 use App\Repositories\Contracts\BookingRepository as BookingRepositoryContract;
-use App\Services\Contracts\SubscriptionsService as SubscriptionsServiceContract;
 use App\Repositories\Contracts\CurrencyRepository as CurrencyRepositoryContract;
+use App\Services\Contracts\SubscriptionsService as SubscriptionsServiceContract;
 use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
 
 class AppServiceProvider extends ServiceProvider
@@ -113,6 +115,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Contracts\Chat\UserService::class,
             \App\Services\Chat\UserService::class
         );
+        $this->app->bind(CurrencyServiceContract::class, CurrencyService::class);
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);
