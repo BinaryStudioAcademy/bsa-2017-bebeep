@@ -18,6 +18,7 @@ class CreateCurrenciesTable extends Migration
 
             $table->char('code', 3)->unique();
             $table->string('name')->nullable();
+            $table->char('sign', 6)->nullable();
             $table->decimal('rate', 8, 4);
             $table->boolean('is_main')->default(false);
 
