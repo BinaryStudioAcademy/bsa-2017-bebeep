@@ -6,9 +6,9 @@ const ChatService = {
         const request = `/api/v1/users/message/${id}`;
         return securedRequest.delete(request)
             .then(
-                response => Promise.resolve(response),
-                error => Promise.reject(error.response.data)
+                response => response
             )
+
     }
 };
 
