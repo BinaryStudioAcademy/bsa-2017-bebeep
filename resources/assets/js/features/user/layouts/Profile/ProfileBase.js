@@ -54,7 +54,9 @@ class ProfileBase extends React.Component {
                             onClick={this.toggleNavbar} />
                     </div>
 
-                    <Collapse className="col-lg-3 mb-4" isOpen={this.state.isOpen}>
+                    <Collapse className="col-lg-3 menu-sidebar-container"
+                        isOpen={this.state.isOpen}
+                    >
                         <div>
                             <ul className="menu-sidebar">
                                 <li className="menu-sidebar__header">

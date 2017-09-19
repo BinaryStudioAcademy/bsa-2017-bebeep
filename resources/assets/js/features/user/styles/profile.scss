@@ -1,4 +1,5 @@
 @import '~app/bootstrap/variables';
+@import "~bootstrap/scss/mixins/breakpoints";
 
 .menu-sidebar-toggler-wrapper {
   padding-bottom: 2rem;
@@ -18,6 +19,18 @@
 
   &--opened {
     background-color: rgba($teal, .2);
+  }
+
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
+}
+
+.menu-sidebar-container {
+  margin-bottom: 1.5rem;
+
+  @include media-breakpoint-up(lg) {
+    display: block;
   }
 }
 
