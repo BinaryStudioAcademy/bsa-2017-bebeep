@@ -104,43 +104,61 @@ class AvatarUpload extends React.Component {
             });
     }
 
-    render() {
-        const { image } = this.state,
-            { translate, avatarCurrent, isDefaultAvatar } = this.props,
+    renderFilesDropzone() {
+        const { translate } = this.props,
             toggleShow = this.toggleShow(),
             classShow = this.toggleClassShow();
+
+        return (
+            <div>
+                <FilesDropzone
+                    fileMimeTypes={ AVATAR_MIME_TYPES }
+                    fileMaxSizeMb={ AVATAR_MAX_SIZE_MB }
+                    onDropAcceptedCustom={ this.onDropAccepted }
+                    onDropRejectedCustom={ this.onDropRejected }
+                    customRules={ translate('profile_avatar.custom_rules') }
+                />
+
+                <div className={ "mt-3 text-right" + classShow }>
+                    <button
+                        className="image-cropper__btn btn btn-primary"
+                        onClick={ this.onAvatarSave }
+                        disabled={ !toggleShow }
+                    >
+                        { translate('profile_avatar.save_avatar') }
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    renderImageCropper() {
+        const { image } = this.state,
+            toggleShow = this.toggleShow();
+
+        return (
+            <ImageCropper
+                image={ image.preview }
+                destWidth={ AVATAR_SIZE }
+                destHeight={ AVATAR_SIZE }
+                toggleShow={ toggleShow }
+                ref={ cropper => { this.onInitCropper(cropper); } }
+            />
+        );
+    }
+
+    render() {
+        const { avatarCurrent, isDefaultAvatar } = this.props;
 
         return (
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-4">
-                        <FilesDropzone
-                            fileMimeTypes={ AVATAR_MIME_TYPES }
-                            fileMaxSizeMb={ AVATAR_MAX_SIZE_MB }
-                            onDropAcceptedCustom={ this.onDropAccepted }
-                            onDropRejectedCustom={ this.onDropRejected }
-                            customRules={ translate('profile_avatar.custom_rules') }
-                        />
-
-                        <div className={ "mt-3 text-right" + classShow }>
-                            <button
-                                className="image-cropper__btn btn btn-primary"
-                                onClick={ this.onAvatarSave }
-                                disabled={ !toggleShow }
-                            >
-                                { translate('profile_avatar.save_avatar') }
-                            </button>
-                        </div>
+                        {this.renderFilesDropzone()}
                     </div>
 
                     <div className="col-md-8">
-                        <ImageCropper
-                            image={ image.preview }
-                            destWidth={ AVATAR_SIZE }
-                            destHeight={ AVATAR_SIZE }
-                            toggleShow={ toggleShow }
-                            ref={ cropper => { this.onInitCropper(cropper); } }
-                        />
+                        {this.renderImageCropper()}
                     </div>
                 </div>
 
