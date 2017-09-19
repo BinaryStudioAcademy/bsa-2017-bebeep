@@ -19,7 +19,7 @@ class ProfileBase extends React.Component {
         const { translate } = this.props;
 
         return (
-            <ContainerWrapper className="container--min-height-500">
+            <ContainerWrapper className="container--min-height-500 pb-5">
                 <div className="row">
                     <div className="col-lg-3 mb-4">
                         <div>
