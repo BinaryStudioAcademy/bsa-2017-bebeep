@@ -5,6 +5,8 @@
     "password": ["Password", "Пароль", "Пароль"],
     "forgot_password": ["Forgot password?", "Забули пароль?", "Забыли пароль?"],
     "login": ["Login", "Увійти", "Войти"],
+    "register": ["Register", "Реєстрація", "Регистрация"],
+    "new_customer": ["New customer?", "Новий користувач?", "Новый пользователь?"],
     "enter_your_credentials": ["Enter your credentials", "Введіть свої дані", "Введите свои данные"],
     "err_your_email_is_not_activated_yet": [
       "Your e-mail was not activated yet. <a href='/verification'>Click to proceed with verification</a>",
