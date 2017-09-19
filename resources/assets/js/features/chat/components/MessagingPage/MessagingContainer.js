@@ -29,6 +29,7 @@ class MessagingContainer extends React.Component {
         const {getMessagesByUser, userId} = props;
 
         getMessagesByUser(userId);
+        console.log('messages updated');
     }
 
     getChats(id) {
@@ -92,7 +93,10 @@ class MessagingContainer extends React.Component {
                             </span>
                         </div>
                         <div className="chat-message__body" >
-                            <MessageList messages={messages} user={user} />
+                            <MessageList
+                                messages={messages}
+                                user={user}
+                            />
                         </div>
                         <div className="chat-message__footer">
                             <form role="form" method="POST" onSubmit={this.onSendMsg.bind(this)}>
