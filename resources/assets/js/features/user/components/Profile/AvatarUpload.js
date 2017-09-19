@@ -11,16 +11,12 @@ const AVATAR_SIZE = 150;
 const AVATAR_MIME_TYPES = 'image/jpeg,image/png';
 const AVATAR_MAX_SIZE_MB = 10;
 
-const DROPZONE_DISPLAY_MODE = 'dropzone';
-const CROPPER_DISPLAY_MODE = 'cropper';
-
 class AvatarUpload extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            displayMode: DROPZONE_DISPLAY_MODE,
             image: {
                 file: null,
                 preview: null,
@@ -49,11 +45,13 @@ class AvatarUpload extends React.Component {
                 file: file,
                 preview: preview,
             },
-            displayMode: CROPPER_DISPLAY_MODE,
         });
     }
 
-    toggleShow() {
+    toggleShow(inverse) {
+        if (inverse) {
+            return this.state.image.file === null;
+        }
         return this.state.image.file !== null;
     }
 
@@ -106,19 +104,35 @@ class AvatarUpload extends React.Component {
 
     renderFilesDropzone() {
         const { translate } = this.props,
+            toggleShow = this.toggleShow(true);
+
+        return (
+            <FilesDropzone
+                fileMimeTypes={ AVATAR_MIME_TYPES }
+                fileMaxSizeMb={ AVATAR_MAX_SIZE_MB }
+                onDropAcceptedCustom={ this.onDropAccepted }
+                onDropRejectedCustom={ this.onDropRejected }
+                toggleShow={toggleShow}
+                customRules={ translate('profile_avatar.custom_rules') }
+            />
+        );
+    }
+
+    renderImageCropper() {
+        const { translate } = this.props,
+            { image } = this.state,
             toggleShow = this.toggleShow(),
             classShow = this.toggleClassShow();
 
         return (
             <div>
-                <FilesDropzone
-                    fileMimeTypes={ AVATAR_MIME_TYPES }
-                    fileMaxSizeMb={ AVATAR_MAX_SIZE_MB }
-                    onDropAcceptedCustom={ this.onDropAccepted }
-                    onDropRejectedCustom={ this.onDropRejected }
-                    customRules={ translate('profile_avatar.custom_rules') }
+                <ImageCropper
+                    image={ image.preview }
+                    destWidth={ AVATAR_SIZE }
+                    destHeight={ AVATAR_SIZE }
+                    toggleShow={ toggleShow }
+                    ref={ cropper => { this.onInitCropper(cropper); } }
                 />
-
                 <div className={ "mt-3 text-right" + classShow }>
                     <button
                         className="image-cropper__btn btn btn-primary"
@@ -132,43 +146,25 @@ class AvatarUpload extends React.Component {
         );
     }
 
-    renderImageCropper() {
-        const { image } = this.state,
-            toggleShow = this.toggleShow();
-
-        return (
-            <ImageCropper
-                image={ image.preview }
-                destWidth={ AVATAR_SIZE }
-                destHeight={ AVATAR_SIZE }
-                toggleShow={ toggleShow }
-                ref={ cropper => { this.onInitCropper(cropper); } }
-            />
-        );
-    }
-
     render() {
         const { avatarCurrent, isDefaultAvatar } = this.props;
 
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-md-4">
-                        {this.renderFilesDropzone()}
-                    </div>
-
                     <div className="col-md-8">
+                        {this.renderFilesDropzone()}
                         {this.renderImageCropper()}
                     </div>
-                </div>
 
-                <div className="mt-5">
-                    <AvatarCurrent
-                        avatar={ avatarCurrent }
-                        destWidth={ AVATAR_SIZE }
-                        isDefault={ isDefaultAvatar }
-                        onDelete={ this.onDelete }
-                    />
+                    <div className="col-md-4">
+                        <AvatarCurrent
+                            avatar={ avatarCurrent }
+                            destWidth={ AVATAR_SIZE }
+                            isDefault={ isDefaultAvatar }
+                            onDelete={ this.onDelete }
+                        />
+                    </div>
                 </div>
             </div>
         );

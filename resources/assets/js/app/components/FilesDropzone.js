@@ -34,6 +34,10 @@ class FilesDropzone extends React.Component {
         this.onDropRejected = this.onDropRejected.bind(this);
     }
 
+    toggleClassShow() {
+        return !this.props.toggleShow ? ' hide' : '';
+    }
+
     onDropAccepted(files) {
         const { onDropAcceptedCustom } = this.props,
             data = files.length === 1 ? files[0] : files;
@@ -60,7 +64,8 @@ class FilesDropzone extends React.Component {
                 fileMimeTypes,
                 fileMaxSizeMb,
                 customRules,
-            } = this.props;
+            } = this.props,
+            toggleClassShow = this.toggleClassShow();
 
         return (
             <Dropzone
@@ -69,7 +74,7 @@ class FilesDropzone extends React.Component {
                 maxSize={ fileMaxSize }
                 onDropAccepted={ this.onDropAccepted }
                 onDropRejected={ this.onDropRejected }
-                className="files-dropzone noselect"
+                className={"files-dropzone noselect" + toggleClassShow}
                 activeClassName="files-dropzone--active"
                 acceptClassName="files-dropzone--accert"
                 rejectClassName="files-dropzone--reject"
