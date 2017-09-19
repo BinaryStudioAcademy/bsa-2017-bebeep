@@ -32,7 +32,7 @@ class LinkButton extends React.Component {
     }
 
     render() {
-        const { pathTo, id, className, iconClassName } = this.props;
+        const { pathTo, id, className, iconClassName, title } = this.props;
 
         return (
             <div>
@@ -40,7 +40,7 @@ class LinkButton extends React.Component {
                     id={id}
                     className={"btn btn--with-icon btn-primary " + className}
                 >
-                    <i className={"fa " + iconClassName} aria-hidden="true" />
+                    <i className={"fa " + iconClassName} aria-hidden="true" > {title}</i>
                 </Link>
 
                 {this.renderTooltip()}

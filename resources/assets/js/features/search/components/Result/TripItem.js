@@ -41,7 +41,9 @@ class TripItem extends React.Component {
                         </div>
 
                         <div className="search-trip-item__user-age">
-                            { translate('user.age', { age: trip.driver.data.age }) }
+                            { translate('search_result.years1', {
+                                age: DateTimeHelper.getUserYearsOld(trip.driver.data.birth_date)
+                            }) }
                         </div>
                     </div>
 

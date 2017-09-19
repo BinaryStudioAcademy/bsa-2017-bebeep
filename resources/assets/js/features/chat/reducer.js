@@ -13,7 +13,8 @@ const initialState = {
         chats: {
             byUserId: {}
         }
-    }
+    },
+    usersListNoActive: false,
 };
 
 export default (state = initialState, action) => {
@@ -53,7 +54,7 @@ export default (state = initialState, action) => {
         case actions.CHAT_SET_USER_LIST:
             return {
                 ...state,
-                usersId: _.union(state.usersId, action.users),
+                usersId: action.users,
                 entities: {
                     ...state.entities,
                     users: {
@@ -64,7 +65,23 @@ export default (state = initialState, action) => {
                     }
                 }
             };
+        case actions.CHAT_SET_USER_LIST_NO_ACTIVE:
+            return {
+                ...state,
+                usersListNoActive: action.status,
+            };
+
         case actions.CHAT_RECEIVE_MESSAGE:
+            const msgSender = action.message.sender.data;
+
+            const newUser = !state.entities.users.byId[msgSender.id]
+                ? { [msgSender.id]: msgSender }
+                : {};
+
+            if (state.usersId.indexOf(msgSender.id) === -1) {
+                state.usersId.push(msgSender.id);
+            }
+
             return {
                 ...state,
                 entities: {
@@ -83,9 +100,17 @@ export default (state = initialState, action) => {
                                 }
                             ]
                         }
-                    }
-                }
+                    },
+                    users: {
+                        byId: {
+                            ...state.entities.users.byId,
+                            ...newUser,
+                        },
+                    },
+                    usersId: state.usersId,
+                },
             };
+
         case actions.CHAT_SEND_MESSAGE:
             return {
                 ...state,

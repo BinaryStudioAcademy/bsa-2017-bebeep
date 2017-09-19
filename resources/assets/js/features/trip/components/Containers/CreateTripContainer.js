@@ -134,8 +134,13 @@ class CreateTripContainer extends React.Component {
             waypointsDurations
         );
 
-        const tripData = {
-            vehicle_id: form.vehicle_id.value,
+        const recurringData = form.recurring_count ? {
+            recurring_count: form.recurring_count ? form.recurring_count.value : 0,
+            recurring_period: form.recurring_period ? form.recurring_period.value : 0
+        } : {};
+
+        const tripData = Object.assign({
+            vehicle_id: form.vehicle_id ? form.vehicle_id.value : null,
             start_at: tripTime.start_at,
             end_at: tripTime.end_at,
             price: form.price.value,
@@ -148,7 +153,7 @@ class CreateTripContainer extends React.Component {
             is_animals_allowed: form.is_animals_allowed.checked,
             is_in_both_directions: form.is_in_both_directions.checked,
             reverse_start_at: roundTime ? roundTime.start_at : null
-        };
+        }, recurringData);
 
         const validated = Validator.validate(createTripRules(), tripData);
 

@@ -5,6 +5,10 @@ import {getTranslate} from 'react-localize-redux';
 import {Link} from 'react-router';
 import MessageList from './MessageList';
 import {sendMessage, getMessagesByUser, addUser} from '../../actions';
+import {
+    checkDriverRole,
+    checkPassengerRole
+} from 'app/services/UserService';
 import moment from 'moment';
 
 import '../../styles/messaging-page.scss';
@@ -58,10 +62,17 @@ class MessagingContainer extends React.Component {
     }
 
     render() {
+        let link;
         const {translate, userId} = this.props,
             backLink = '/dashboard/users',
             messages = this.getChats(userId),
             user = this.getUsersData(userId);
+
+        if (checkPassengerRole(user.permissions)) {
+            link = `/passenger/${user.id}`;
+        } else if (checkDriverRole(user.permissions)) {
+            link = `/driver/${user.id}`;
+        }
 
         return (
             <div className="col-md-10 offset-md-1">
@@ -74,7 +85,11 @@ class MessagingContainer extends React.Component {
                                     {translate('chat.back_btn')}
                                 </span>
                             </Link>
-                            <span className="pull-right chat-message__header-user-name">{user.first_name}&nbsp;{user.last_name}</span>
+                            <span className="pull-right chat-message__header-user-name">
+                                <Link to={link} >
+                                    {user.first_name}&nbsp;{user.last_name}
+                                </Link>
+                            </span>
                         </div>
                         <div className="chat-message__body" >
                             <MessageList messages={messages} user={user} />

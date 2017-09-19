@@ -91,6 +91,12 @@ class TripsController extends Controller
      */
     public function create(CreateTripRequest $request)
     {
+        if ($request->getRecurringCount() > 0) {
+            $trips = $this->tripsService->createRecurring($request, Auth::user());
+
+            return response()->json($trips->first());
+        }
+
         $trip = $this->tripsService->create($request, Auth::user());
 
         return response()->json($trip);

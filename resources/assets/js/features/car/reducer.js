@@ -7,7 +7,12 @@ const initialState = {
         colors: [],
         body: []
     },
-    vehicles: []
+    vehicles: [],
+    vehiclesAreLoaded: false,
+    brand: {
+        id_car_mark: null,
+        name: null
+    },
 };
 
 export default function (state = initialState, action) {
@@ -65,6 +70,7 @@ export default function (state = initialState, action) {
         case actions.GET_ALL_VEHICLES: {
             return {
                 ...state,
+                vehiclesAreLoaded: true,
                 vehicles: action.vehicles
             };
         }

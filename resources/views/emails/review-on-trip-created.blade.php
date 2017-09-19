@@ -3,7 +3,7 @@
 
 {{ __("email/review.review_on_trip_header", ["from" => $from, "to" => $to]) }}
 
-@component('mail::button', ['url' => url('/')])
+@component('mail::button', ['url' => url('/dashboard/profile/reviews/received')])
     {{ __("email/review.see_details")  }}
 @endcomponent
 

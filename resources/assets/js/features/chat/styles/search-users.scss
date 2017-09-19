@@ -1,0 +1,106 @@
+@import '~app/bootstrap/variables';
+@import '~font-awesome/scss/variables';
+
+$search-user-avatar-width: 30px;
+$search-users-icon-width: 15px;
+
+.search-users {
+  display: flex;
+  margin-top: 2rem;
+  padding: .75rem;
+  border-bottom: 2px solid $list-group-border-color;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  &:before {
+    content: $fa-var-search;
+    font-family: FontAwesome;
+    width: $search-users-icon-width;
+    margin-right: $search-users-icon-width;
+  }
+
+  &--loading:before {
+    content: $fa-var-circle-o-notch;
+    -webkit-animation: fa-spin 1.5s infinite linear;
+    animation: fa-spin 1.5s infinite linear;
+  }
+
+  .rbt-input {
+    flex: 1;
+
+    & > div,
+    & > div > div,
+    .rbt-input-main {
+        width: 100% !important;
+    }
+  }
+
+  .rbt-menu {
+    padding-bottom: 0;
+    border: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+    li:last-child {
+      border-bottom: 1px solid lighten($black, 90%);
+
+      &[class]:not(.disabled) {
+        border-bottom: 1px solid lighten($teal, 10%);
+      }
+      &.disabled {
+        border-bottom: 1px solid lighten($orange, 15%);
+      }
+    }
+  }
+  .divider {
+    margin-bottom: 0;
+    height: 2px;
+  }
+
+  .dropdown-item {
+    font-size: $font-size-base-smaller;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #444;
+    transition: all .15s;
+
+    &.disabled {
+        background-color: lighten($orange, 25%);
+    }
+  }
+
+  .rbt-menu-paginator {
+
+    .dropdown-item {
+      background-color: lighten($teal, 22%);
+    }
+
+    .dropdown-item:hover {
+      background-color: lighten($teal, 18%);
+    }
+
+    .dropdown-item:before {
+      content: $fa-var-arrow-down;
+      font-family: FontAwesome;
+      display: inline-block;
+      width: $search-users-icon-width;
+      margin-right: $search-users-icon-width;
+      margin-left: $search-users-icon-width - 5;
+    }
+  }
+
+  &__user-link.dropdown-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    &:hover {
+      background-color: lighten($orange, 30%);
+    }
+  }
+
+  &__user-avatar {
+    width: 30px;
+    margin-right: 12px;
+    border-radius: 50%;
+  }
+}
