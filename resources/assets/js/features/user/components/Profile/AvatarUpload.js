@@ -30,6 +30,7 @@ class AvatarUpload extends React.Component {
 
         this.onAvatarSave = this.onAvatarSave.bind(this);
         this.onDelete = this.onDelete.bind(this);
+        this.backToFileUpload = this.backToFileUpload.bind(this);
     }
 
     onInitCropper(cropper) {
@@ -46,6 +47,10 @@ class AvatarUpload extends React.Component {
                 preview: preview,
             },
         });
+    }
+
+    backToFileUpload() {
+        this.setAvatarState();
     }
 
     toggleShow(inverse) {
@@ -129,6 +134,7 @@ class AvatarUpload extends React.Component {
                 <div className="user-profile-avatar__back-to-file-upload">
                     <button role="button"
                         className="btn btn-warning user-profile-avatar__back-to-file-upload-btn"
+                        onClick={this.backToFileUpload}
                     >
                         {translate('profile_avatar.back_to_file_upload')}
                     </button>
