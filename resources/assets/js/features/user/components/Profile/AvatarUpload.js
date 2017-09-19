@@ -125,7 +125,7 @@ class AvatarUpload extends React.Component {
             classShow = this.toggleClassShow();
 
         return (
-            <div>
+            <div className={classShow}>
                 <ImageCropper
                     image={ image.preview }
                     destWidth={ AVATAR_SIZE }
@@ -133,7 +133,7 @@ class AvatarUpload extends React.Component {
                     toggleShow={ toggleShow }
                     ref={ cropper => { this.onInitCropper(cropper); } }
                 />
-                <div className={ "mt-3 text-right" + classShow }>
+                <div className={"mt-3" + classShow}>
                     <button
                         className="image-cropper__btn btn btn-primary"
                         onClick={ this.onAvatarSave }
