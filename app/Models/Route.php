@@ -90,7 +90,7 @@ class Route extends Model
     }
 
     /**
-     * @return Money
+     * @return \Money\Money
      */
     public function moneyPrice()
     {
@@ -101,6 +101,7 @@ class Route extends Model
 
     /**
      * @param \App\Models\Currency $currency
+     *
      * @return int
      */
     public function priceInCurrency(Currency $currency) : int
