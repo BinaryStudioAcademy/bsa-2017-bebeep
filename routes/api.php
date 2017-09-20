@@ -17,6 +17,12 @@ Route::get('authentication/me', [
     'uses' => 'Auth\SessionController@getSessionUser',
 ]);
 
+Route::get('authentication/refresh', [
+    'middleware' => 'jwt.refresh',
+    'as' => 'authentication.refresh',
+    'uses' => 'Auth\SessionController@refresh',
+]);
+
 Route::group(['prefix' => 'driver', 'as' => 'driver.'], function () {
     Route::get('{user}/reviews', [
         'as' => 'reviews',
