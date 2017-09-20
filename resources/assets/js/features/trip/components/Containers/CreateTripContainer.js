@@ -120,7 +120,7 @@ class CreateTripContainer extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const { getPlacesFromWaypoints, tripCreateSuccess } = this.props,
+        const { getPlacesFromWaypoints, tripCreateSuccess, currency } = this.props,
             { startPoint, endPoint, tripEndTime, waypointsDurations } = this.state;
 
         const form = e.target,
@@ -144,7 +144,7 @@ class CreateTripContainer extends React.Component {
             start_at: tripTime.start_at,
             end_at: tripTime.end_at,
             price: form.price.value,
-            currency_id: this.props.currency.activeCurrency.id,
+            currency_id: form.currency_id ? form.currency_id.value : currency.activeCurrency.id,
             seats: form.seats.value,
             from: startPoint.place,
             to: endPoint.place,
@@ -176,8 +176,6 @@ class CreateTripContainer extends React.Component {
     }
 
     render() {
-        console.log("currency", this.props.currency);
-
         const { translate, waypoints, onWaypointAdd, onWaypointDelete } = this.props,
             { errors, startPoint, endPoint } = this.state;
 
