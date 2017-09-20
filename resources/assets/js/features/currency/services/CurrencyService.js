@@ -1,74 +1,87 @@
+import _ from 'lodash';
+
 import DataStorage from 'app/helpers/DataStorage';
+import { getCurrencies, setActiveCurrency } from '../actions';
 
-import { setCurrencies, setActiveCurrency } from '../actions';
-
-export const CURRENCY_USD = 'USD';
-export const CURRENCY_UAH = 'UAH';
-export const CURRENCY_EUR = 'EUR';
-
-export const CURRENCY_PROP_CODE = 'code';
-export const CURRENCY_PROP_SIGN = 'sign';
-
+const CURRENCY_DEFAULT = 'USD';
 const CURRENCY_STORAGE_KEY = 'currency';
-
-const CURRENCY_DATA = {
-    [CURRENCY_PROP_SIGN]: {
-        [CURRENCY_USD]: "\u0024",
-        [CURRENCY_UAH]: "\u20B4",
-        [CURRENCY_EUR]: "\u20AC",
-    },
-};
 
 const CurrencyService = (() => {
 
-    const currencies = [CURRENCY_USD, CURRENCY_UAH, CURRENCY_EUR];
     let _store = null;
 
     return {
         init(store) {
             _store = store;
 
-            _store.dispatch(setCurrencies({
-                currencies: this.currencies,
-                activeCurrency: this.getActiveCurrency(CURRENCY_PROP_CODE),
-            }));
+            this.getData();
         },
 
         get currencies() {
-            return currencies;
+            return _store.getState().currency.currencies;
         },
 
-        getActiveCurrencyCode() {
-            return this.getActiveCurrency(CURRENCY_PROP_CODE);
+        getData() {
+            const _this = this;
+
+            _store.dispatch(getCurrencies())
+                .then(response => {
+                    _store.dispatch(setActiveCurrency(
+                        _this.getActiveCurrency()
+                    ));
+                })
+                .catch(error => {});
         },
 
-        getActiveCurrency(prop) {
-            const code = (this.currencies.indexOf(DataStorage.getData(CURRENCY_STORAGE_KEY)) !== -1 &&
-                    DataStorage.getData(CURRENCY_STORAGE_KEY)
-                )
-                || CURRENCY_USD;
-
-            if (prop === CURRENCY_PROP_CODE) {
-                return code;
-            }
-
-            if (prop === undefined) {
-                return {
-                    [CURRENCY_PROP_CODE]: code,
-                    [CURRENCY_PROP_SIGN]: CURRENCY_DATA.sign[code],
-                };
-            }
-
-            if (CURRENCY_DATA[prop] === undefined) {
+        getCurrencyById(id) {
+            if (!id) {
                 return null;
             }
 
-            return CURRENCY_DATA[prop][code];
+            return _.find(this.currencies, currency => {
+                return currency.id === id;
+            });
+        },
+
+        getCurrencyByCode(code) {
+            code = code || CURRENCY_DEFAULT;
+
+            return _.find(this.currencies, currency => {
+                return currency.code === code;
+            });
+        },
+
+        getActiveCurrency() {
+            if (!this.isCurrenciesExists()) {
+                return null;
+            }
+
+            let activeCurrency = _store.getState().currency.activeCurrency;
+
+            if (!_.isEmpty(activeCurrency)) {
+                return activeCurrency;
+            }
+
+            const code = DataStorage.getData(CURRENCY_STORAGE_KEY);
+            activeCurrency = this.getCurrencyByCode(code);
+
+            if (activeCurrency === undefined) {
+                activeCurrency = this.getCurrencyByCode(CURRENCY_DEFAULT);
+            }
+
+            return activeCurrency;
         },
 
         setActiveCurrency(code) {
             DataStorage.setData(CURRENCY_STORAGE_KEY, code);
-            _store.dispatch(setActiveCurrency(code));
+
+            _store.dispatch(setActiveCurrency(
+                this.getCurrencyByCode(code)
+            ));
+        },
+
+        isCurrenciesExists() {
+            return !!this.currencies.length;
         },
     };
 })();

@@ -2,7 +2,7 @@ import * as actions from './actionTypes';
 
 const initialState = {
     currencies: [],
-    activeCurrency: null,
+    activeCurrency: {},
 };
 
 export default function (state = initialState, action) {
@@ -10,8 +10,8 @@ export default function (state = initialState, action) {
 
         case actions.SET_CURRENCIES:
             return {
-                currencies: action.payload.currencies,
-                activeCurrency: action.payload.activeCurrency,
+                ...state,
+                currencies: action.payload,
             };
 
         case actions.SET_ACTIVE_CURRENCY:

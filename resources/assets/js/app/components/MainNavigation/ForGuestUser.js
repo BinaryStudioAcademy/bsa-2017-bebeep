@@ -22,10 +22,10 @@ class ForGuestUser extends React.Component {
                         { translate('register') }
                     </Link>
                 </li>
-                <li className="header-menu__item header-menu__item--bigger-margin header-menu__item--align-stretch">
+                <li className="header-menu__item header-menu__item--align-stretch">
                     <ChangeCurrency />
                 </li>
-                <li className="header-menu__item header-menu__item--align-stretch">
+                <li className="header-menu__item header-menu__item--smaller-margin header-menu__item--align-stretch">
                     <ChangeLocalization />
                 </li>
             </ul>

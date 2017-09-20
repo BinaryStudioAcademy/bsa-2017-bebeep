@@ -22,6 +22,7 @@ class SearchTripTransformer extends TransformerAbstract
         return [
             'id' => $trip->id,
             'price' => $trip->price,
+            'currency_id' => $trip->currency_id,
             'seats' => $trip->available_seats,
             'start_date' => (string) $trip->start_at,
             'start_at' => $trip->start_at->timestamp,

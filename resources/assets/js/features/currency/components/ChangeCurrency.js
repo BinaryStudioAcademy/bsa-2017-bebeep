@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { localize } from 'react-localize-redux';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-import CurrencyService, { CURRENCY_PROP_SIGN } from '../services/CurrencyService';
+import CurrencyService from '../services/CurrencyService';
 
 import LangService from 'app/services/LangService';
 import * as lang from '../lang/currency.locale.json';
@@ -38,28 +39,27 @@ class ChangeCurrency extends React.Component {
     }
 
     render() {
-        const { translate } = this.props,
-            currentCurrency = CurrencyService.getActiveCurrency(CURRENCY_PROP_SIGN),
+        const { translate, activeCurrency } = this.props,
             currencies = CurrencyService.currencies;
 
         return (
             <Dropdown className="header-menu__dropdown header-currencies-menu"
-                isOpen={ this.state.isDropdownOpen }
-                toggle={ this.toggleDropdown }
+                isOpen={this.state.isDropdownOpen}
+                toggle={this.toggleDropdown}
             >
                 <DropdownToggle caret>
                     <span className="header-currencies-menu__currency-active">
-                        {currentCurrency.toUpperCase()}
+                        {activeCurrency.sign}
                     </span>
                 </DropdownToggle>
 
                 <DropdownMenu right>
-                    {currencies.map((code) =>
-                        <div key={ code }
+                    {currencies.map((currency) =>
+                        <div key={currency.code}
                             className="dropdown-item cursor-pointer"
-                            onClick={ () => this.onSetCurrency(code) }
+                            onClick={() => this.onSetCurrency(currency.code)}
                         >
-                            {translate(`currency.name.${code}`)}
+                            {translate(`currency.name.${currency.code}`)}
                         </div>
                     )}
                 </DropdownMenu>
@@ -68,4 +68,11 @@ class ChangeCurrency extends React.Component {
     }
 }
 
-export default localize(ChangeCurrency, 'locale');
+const ChangeCurrencyConnected = connect(
+    state => ({
+        activeCurrency: state.currency.activeCurrency,
+    }),
+    null,
+)(ChangeCurrency);
+
+export default localize(ChangeCurrencyConnected, 'locale');
