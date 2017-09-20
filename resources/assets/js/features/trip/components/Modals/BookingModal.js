@@ -175,7 +175,7 @@ class BookingModal extends React.Component {
                                 <span className="text-muted booking-modal__text mr-2">
                                     { translate('trip_details.booking.price_of_trip') }:
                                 </span>
-                                <b>{ currencySign }</b> { price }
+                                <b>{currencySign}</b>&nbsp;{price}
                             </div>
                         </div>
                         <div className="row mt-4">
@@ -266,7 +266,7 @@ BookingModal.defaultProps = {
 
 BookingModal.PropTypes = {
     waypoints: PropTypes.array.required,
-    price: PropTypes.object.required,
+    price: PropTypes.number.required,
     startAt: PropTypes.string.required,
     maxSeats: PropTypes.number.required,
     tripId: PropTypes.number.required,
