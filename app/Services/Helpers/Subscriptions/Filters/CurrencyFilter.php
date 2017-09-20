@@ -24,6 +24,6 @@ class CurrencyFilter implements Contracts\SubscriptionFilter
 
         $currencyId = (int) $params['value'];
 
-        return $trip->currency->id === $currencyId;
+        return $trip->currency_id === $currencyId;
     }
 }
