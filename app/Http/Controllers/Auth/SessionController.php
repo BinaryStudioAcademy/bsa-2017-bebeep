@@ -19,6 +19,13 @@ class SessionController extends Controller
         return fractal(Auth::user(), new SessionDataTransformer())->respond();
     }
 
+    /**
+     * Refresh the session user data.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function refresh()
-    {}
+    {
+        return response()->json();
+    }
 }
