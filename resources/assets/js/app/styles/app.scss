@@ -450,3 +450,21 @@ td.table-list-details__cell-for-action {
     overflow: hidden;
     background-color: $dropdown-divider-bg;
 }
+
+@media screen and (max-width: 736px) {
+    .header-menu__item--bigger-margin {
+        margin-left: 1rem;
+    }
+
+    .home-slider__search {
+        margin-top: 50px;
+    }
+
+    .wizard-form__input.wizard-form__input_calendar, .wizard-form__input.wizard-form__input_calendar_datetime {
+        width: 250px;
+    }
+
+    .header__logo {
+        width: 100px;
+    }
+}
