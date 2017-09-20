@@ -45,6 +45,11 @@ class BookingModal extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
+        const { start, end, seats } = this.state,
+            price = this.getPrice(start, end, seats);
+
+        this.setState({price});
+
         if (this.state.isOpenModal !== newProps.isOpen) {
             this.setState({ isOpenModal: newProps.isOpen });
         }
@@ -154,8 +159,8 @@ class BookingModal extends React.Component {
     }
 
     render() {
-        const {isOpenModal, freeSeats, errors, start, end} = this.state,
-            { translate, waypoints, price, startAt, maxSeats, currencySign } = this.props;
+        const {isOpenModal, freeSeats, errors, start, end, price} = this.state,
+            { translate, waypoints, startAt, maxSeats, currencySign } = this.props;
 
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
