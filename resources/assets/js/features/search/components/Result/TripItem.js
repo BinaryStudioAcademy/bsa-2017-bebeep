@@ -7,7 +7,7 @@ import { getTranslate } from 'react-localize-redux';
 import { getDriverAvatar } from 'app/services/PhotoService';
 import LangService from 'app/services/LangService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
-import CurrencyService from 'features/currency/services/CurrencyService';
+import { convertTripPrice } from 'app/services/TripService';
 
 import 'features/search/styles/search-trip-item.scss';
 
@@ -23,17 +23,10 @@ class TripItem extends React.Component {
         });
     }
 
-    convertTripPrice() {
-        const trip = this.props.trip,
-            currency = CurrencyService.getCurrencyById(trip.currency_id);
-
-        return CurrencyService.convertValue(trip.price, currency);
-    }
-
     render() {
         const { translate, trip, activeCurrency } = this.props,
             startedAt = this.formatStartAt(),
-            tripPrice = this.convertTripPrice();
+            tripPrice = convertTripPrice(trip);
 
         return (
             <Link to={`/trip/${trip.id}`} className="search-trip-item">

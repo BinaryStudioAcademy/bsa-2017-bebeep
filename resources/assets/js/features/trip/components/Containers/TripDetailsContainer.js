@@ -8,7 +8,7 @@ import BookingModal from '../Modals/BookingModal';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import AuthService from 'app/services/AuthService';
-import CurrencyService from 'features/currency/services/CurrencyService';
+import { convertTripPrice } from 'app/services/TripService';
 import { USER_ROLE_DRIVER } from 'app/services/UserService';
 
 import {
@@ -102,13 +102,6 @@ class TripDetailsContainer extends React.Component {
         );
     }
 
-    convertTripPrice() {
-        const trip = this.props.details.trip,
-            currency = CurrencyService.getCurrencyById(trip.currency_id);
-
-        return CurrencyService.convertValue(trip.price, currency);
-    }
-
     render() {
         const { translate, details: {trip, routes, driver, vehicle}, activeCurrency } = this.props,
             { isOpenBookingModal, isOpenBookingStatusModal } = this.state;
@@ -118,7 +111,7 @@ class TripDetailsContainer extends React.Component {
             currentBookings = routes[0].bookings.data,
             currentFreeSeats = routes[0].free_seats;
 
-        const tripPrice = this.convertTripPrice();
+        const tripPrice = convertTripPrice(trip);
 
         this.formatStartAt();
 

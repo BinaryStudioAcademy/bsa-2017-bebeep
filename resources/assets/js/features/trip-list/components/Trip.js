@@ -12,7 +12,7 @@ import DirectionsMap from "app/components/DirectionsMap";
 import { securedRequest } from 'app/services/RequestService';
 import BookingService from 'app/services/BookingService';
 import { getWaypointsFromRoutes } from 'app/services/GoogleMapService';
-import CurrencyService from 'features/currency/services/CurrencyService';
+import { convertTripPrice } from 'app/services/TripService';
 
 import '../styles/trip-card.scss';
 
@@ -113,17 +113,10 @@ class Trip extends React.Component {
             });
     }
 
-    convertTripPrice() {
-        const trip = this.props.trip,
-            currency = CurrencyService.getCurrencyById(trip.currency_id);
-
-        return CurrencyService.convertValue(trip.price, currency);
-    }
-
     render() {
         const { translate, routes, trip, bookings, vehicles, activeCurrency } = this.props,
             { modalIsOpen, modalUsersIsOpen} = this.state,
-            tripPrice = this.convertTripPrice();
+            tripPrice = convertTripPrice(trip);
 
         const startPlace = this.getStartPlace(),
             endPlace = this.getEndPlace(),
