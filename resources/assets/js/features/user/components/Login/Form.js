@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router';
+import {browserHistory, Link} from 'react-router';
 import { getTranslate } from 'react-localize-redux';
 
 import TextInput from './TextInput';
@@ -126,6 +126,10 @@ class Form extends React.Component {
                         </div>
                     </div>
                 </form>
+                <p className="text-center mt-3 mb-0 hidden-md-up">
+                    {translate('login_form.new_customer')} &nbsp;
+                    <Link to="/registration">{translate('login_form.register')}</Link>
+                </p>
                 <PasswordForgotModal isOpen={this.state.forgotModalIsOpen} onClosed={() => this.state.forgotModalIsOpen = false }/>
             </div>
         );

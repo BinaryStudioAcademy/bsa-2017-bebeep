@@ -148,8 +148,12 @@ class MessagingContainer extends React.Component {
                             </Link>
                         </div>
 
-                        <div className="chat-message__body">
-                            <MessageList messages={messages} user={user} />
+                        <div className="chat-message__body" >
+                            <MessageList
+                                messages={messages}
+                                user={user}
+                                userId={userId}
+                            />
                         </div>
 
                         <div className="chat-message__footer">

@@ -11,7 +11,7 @@ class MainMenuItem extends React.Component {
         }
 
         return (
-            <li className="header-menu__item">
+            <li className="header-menu__item hidden-md-down">
                 <Link to={linkTo} activeClassName="active">
                     {children}
                 </Link>
