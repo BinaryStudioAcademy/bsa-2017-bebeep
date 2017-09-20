@@ -1,6 +1,7 @@
 import moment from 'moment';
 import Validator from './Validator';
 import LangService from './LangService';
+import CurrencyService from 'features/currency/services/CurrencyService';
 
 export const createTripRules = () => ({
     vehicle_id: Validator.required(LangService.translate('validate.please_select_a_car')),
@@ -49,3 +50,9 @@ export const getRoutesStartAndEndTime = (tripStartAt, durations) => {
         return waypointTimes;
     });
 };
+
+export const convertTripPrice = (trip) => {
+    const currency = CurrencyService.getCurrencyById(trip.currency_id);
+
+    return CurrencyService.convertValue(trip.price, currency);
+}
