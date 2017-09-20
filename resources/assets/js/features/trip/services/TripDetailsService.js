@@ -16,8 +16,7 @@ const TripDetailsService = {
 
     transformData(response) {
         const price = parseInt(response.data.trip.price);
-        response.data.trip.price = {value:price};
-        // response.data.trip.price.currency = {id:1, code:'USD', sign:'$', rate:1, is_main:true};
+        response.data.trip.price = price;
 
         this.setDriverAge(response.data);
         this.transformRoutesData(response.data);
