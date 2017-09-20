@@ -19,4 +19,6 @@ interface SaveCarRequestInterface
     public function getPhoto();
 
     public function getUserId() : int;
+
+    public function getCarBrandId(): ?int;
 }
