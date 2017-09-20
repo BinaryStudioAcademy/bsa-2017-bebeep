@@ -88,7 +88,7 @@ const CurrencyService = (() => {
             const activeCurrency = this.getActiveCurrency();
 
             if (currency.code === activeCurrency.code){
-                return value;
+                return Math.round(value);
             }
 
             if (currency.is_main) {
