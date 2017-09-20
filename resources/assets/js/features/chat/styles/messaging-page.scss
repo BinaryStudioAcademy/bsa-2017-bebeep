@@ -108,7 +108,6 @@ $chat-box-shadow-size: 3px;
       &--error &-input {
         border-color: $red;
         background-color: lighten($red, 36%);
-        cursor: default;
       }
 
       &--sending &-btn-icon {

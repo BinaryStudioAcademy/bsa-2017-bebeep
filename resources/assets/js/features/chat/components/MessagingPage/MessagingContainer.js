@@ -119,7 +119,7 @@ class MessagingContainer extends React.Component {
     }
 
     getFormSendModeClass() {
-        const baseClass = 'chat-message__footer-send-form';
+        const baseClass = ' chat-message__footer-send-form';
 
         if (this.isMessageSending()) {
             return baseClass + '--sending';
@@ -187,7 +187,7 @@ class MessagingContainer extends React.Component {
                         <div className="chat-message__footer">
                             <form role="form"
                                 method="POST"
-                                className={"chat-message__footer-send-form " + formSendModeClass}
+                                className={"chat-message__footer-send-form" + formSendModeClass}
                                 onSubmit={this.onSendMsg}
                             >
                                 <div className="input-group">
@@ -195,8 +195,8 @@ class MessagingContainer extends React.Component {
                                         name="text"
                                         className="form-control border no-shadow chat-message__footer-send-form-input"
                                         placeholder={translate('chat.type_msg')}
-                                        required
                                         disabled={this.isMessageSending()}
+                                        required
                                     />
                                     <button type="submit"
                                         role="button"
