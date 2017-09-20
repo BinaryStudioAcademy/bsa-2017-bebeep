@@ -113,6 +113,7 @@ class Trip extends Model
 
     /**
      * @param \App\Models\Currency $currency
+     *
      * @return int
      */
     public function priceInCurrency(Currency $currency) : int
