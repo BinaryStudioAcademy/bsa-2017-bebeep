@@ -277,6 +277,7 @@ class TripsService
 
         $attributes = [
             'price' => $request->getPrice(),
+            'currency_id' => $request->getCurrencyId(),
             'seats' => $request->getSeats(),
             'start_at' => $request->getStartAt(),
             'end_at' => $request->getEndAt(),
