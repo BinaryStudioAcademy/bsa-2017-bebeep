@@ -23,18 +23,17 @@ class TripItem extends React.Component {
         });
     }
 
-    convertTripCurrency() {
-        const trip = this.props.trip;
-        const fakeData = {id:1, code:'USD', sign:'$', rate:1, is_main:true};
+    convertTripPrice() {
+        const trip = this.props.trip,
+            currency = CurrencyService.getCurrencyById(trip.currency_id);
 
-        return CurrencyService.convert(trip.price, fakeData);
+        return CurrencyService.convertValue(trip.price, currency);
     }
 
     render() {
-        const { trip, translate } = this.props,
-            startedAt = this.formatStartAt();
-        const tripPrice = this.convertTripCurrency();
-        const currency = CurrencyService.getActiveCurrency();
+        const { translate, trip, activeCurrency } = this.props,
+            startedAt = this.formatStartAt(),
+            tripPrice = this.convertTripPrice();
 
         return (
             <Link to={`/trip/${trip.id}`} className="search-trip-item">
@@ -88,8 +87,10 @@ class TripItem extends React.Component {
                         <div className="search-trip-item__offer">
 
                             <div className="search-trip-item__price">
-                                { tripPrice }
-                                <span className="search-trip-item__price-currency">{currency.sign}</span>
+                                <span className="search-trip-item__price-currency">
+                                    {activeCurrency.sign}
+                                </span>
+                                {tripPrice}
                             </div>
 
                             <div className="search-trip-item__price-sign">
@@ -116,5 +117,6 @@ export default connect(
     state => ({
         translate: getTranslate(state.locale),
         activeCurrency: state.currency.activeCurrency,
-    })
+    }),
+    null
 )(TripItem);
