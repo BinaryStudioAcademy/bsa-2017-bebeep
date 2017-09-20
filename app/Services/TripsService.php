@@ -87,11 +87,13 @@ class TripsService
         // TODO :: Need to change this code to work with
         // the collection of Waypoints instances
 
+        /** @var Helpers\RoutePriceHelper $priceHelper */
         [
             'from' => $startPoint,
             'to' => $endPoint,
             'waypoints' => $waypoints,
             'routes' => $routesTime,
+            'priceHelper' => $priceHelper
         ] = $params;
 
         $tripWaypoints = collect([$startPoint]);
@@ -117,6 +119,7 @@ class TripsService
                 'to_lng' => $chunk[1]['geometry']['location']['lng'],
                 'start_at' => $routesTime[$key]['start_at'],
                 'end_at' => $routesTime[$key]['end_at'],
+                'price' => $priceHelper->getPriceByKey($key),
             ]);
         }
 
@@ -223,6 +226,10 @@ class TripsService
             'to' => $request->getTo(),
             'waypoints' => $request->getWaypoints(),
             'routes' => $request->getRoutesTime(),
+            'priceHelper' => new Helpers\RoutePriceHelper(
+                $request->getPrice(),
+                $request->getRoutesTime()
+            ),
         ]);
 
         foreach ($routes as $route) {
@@ -289,6 +296,10 @@ class TripsService
             'to' => $request->getTo(),
             'waypoints' => $request->getWaypoints(),
             'routes' => $request->getRoutesTime(),
+            'priceHelper' => new Helpers\RoutePriceHelper(
+                $request->getPrice(),
+                $request->getRoutesTime()
+            ),
         ]);
 
         foreach ($routes as $route) {
@@ -414,6 +425,10 @@ class TripsService
             'to' => $request->getFrom(),
             'waypoints' => array_reverse($request->getWaypoints()),
             'routes' => $routesTime,
+            'priceHelper' => new Helpers\RoutePriceHelper(
+                $request->getPrice(),
+                $routesTime
+            ),
         ]);
 
         foreach ($routes as $route) {
