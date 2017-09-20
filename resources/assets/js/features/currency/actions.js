@@ -1,5 +1,5 @@
 import * as actions from './actionTypes';
-import { securedRequest } from 'app/services/RequestService';
+import { simpleRequest } from 'app/services/RequestService';
 
 export const setCurrencies = payload => ({
     type: actions.SET_CURRENCIES,
@@ -13,7 +13,7 @@ export const setActiveCurrency = payload => ({
 
 export const getCurrencies = () => dispatch => {
     return new Promise((success, reject) => {
-        securedRequest.get('/api/v1/currencies')
+        simpleRequest.get('/api/v1/currencies')
             .then(response => {
                 dispatch(setCurrencies(response.data));
                 success();

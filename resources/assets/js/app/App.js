@@ -10,7 +10,6 @@ import GeneralChannel from 'features/chat/components/GeneralChannel';
 import {getUserId, isAuthorized} from 'app/services/AuthService';
 
 import AuthService from './services/AuthService';
-import CurrencyService from 'features/currency/services/CurrencyService';
 
 import { getCountUnread } from './services/NotificationService';
 import { setCountUnreadNotifications } from 'features/notifications/actions';
@@ -67,8 +66,6 @@ class App extends React.Component {
 
     onAuthSuccess() {
         const { setCountUnreadNotifications } = this.props;
-
-        CurrencyService.getData();
 
         this.setShowContent();
 

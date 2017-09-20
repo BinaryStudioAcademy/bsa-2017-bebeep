@@ -13,6 +13,8 @@ const CurrencyService = (() => {
     return {
         init(store) {
             _store = store;
+
+            this.getData();
         },
 
         get currencies() {

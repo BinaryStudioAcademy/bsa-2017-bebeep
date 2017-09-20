@@ -267,7 +267,6 @@ Route::get('v1/users/{user}', [
 Route::group([
     'prefix' => 'v1/currencies',
     'as' => 'currency.',
-    'middleware' => ['jwt.auth'],
 ], function () {
     Route::get('/', ['as' => 'all', 'uses' => 'CurrenciesController@all']);
     Route::get('/{currency}', ['as' => 'one', 'uses' => 'CurrenciesController@one']);
