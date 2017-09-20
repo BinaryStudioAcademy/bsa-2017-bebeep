@@ -41,6 +41,7 @@ use App\Services\Helpers\Subscriptions\Filters\RatingFilter;
 use App\Services\Helpers\Subscriptions\Filters\AnimalsFilter;
 use App\Services\Helpers\Subscriptions\Filters\EndTimeFilter;
 use App\Services\Helpers\Subscriptions\Filters\LuggageFilter;
+use App\Services\Helpers\Subscriptions\Filters\CurrencyFilter;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 use App\Services\Helpers\Subscriptions\Filters\EndPriceFilter;
 use App\Services\Helpers\Subscriptions\Filters\StartTimeFilter;
@@ -160,7 +161,8 @@ class AppServiceProvider extends ServiceProvider
                 new LuggageFilter(),
                 new RatingFilter(),
                 new StartPriceFilter(),
-                new EndPriceFilter()
+                new EndPriceFilter(),
+                new CurrencyFilter()
             );
         });
     }
