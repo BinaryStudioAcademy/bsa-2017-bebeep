@@ -9,12 +9,22 @@
     border-bottom: 1px solid #e0e0e0;
     color: #505050;
 
+    @media screen and (max-width: 660px) {
+      font-size: 0.9rem;
+    }
+
     &-chat-back {
       font-size: 1.7rem;
       position: absolute;
       top: 13px;
       left: 20px;
       color: #505050;
+
+      @media screen and (max-width: 660px) {
+        font-size: 1rem !important;
+        top: 17px;
+        left: 25px;
+      }
 
       &:hover {
         color: rgb(53, 53, 53);
@@ -24,6 +34,11 @@
         font-size: 1.1rem;
         left: 45px;
         font-weight: 500;
+
+        @media screen and (max-width: 660px) {
+          font-size: .9rem !important;
+          top: 16px;
+        }
       }
     }
 
@@ -66,11 +81,16 @@
     margin: 15px 0;
 
     img {
-      width: 50px;
-      height: 50px;
+      width: 45px;
+      height: 45px;
       border-radius: 50em;
       -moz-border-radius: 50em;
       -webkit-border-radius: 50em;
+
+      @media screen and (max-width: 660px) {
+        width: 40px;
+        height: 40px;
+      }
     }
 
     .chat-body {
@@ -82,17 +102,49 @@
       -moz-box-shadow: 0 1px 1px rgba(0,0,0,.05);
       -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
 
+      &:hover .message-body-trash-icon {
+        opacity: 1;
+      }
+
       .header {
         font-size: 0.8rem;
         padding: 0;
         border-bottom: 1px solid rgba(212, 207, 207, 0.41);
         box-shadow: none;
+
+        @media screen and (max-width: 660px) {
+          font-size: 0.7rem;
+        }
       }
 
       p {
         margin: 0;
         padding: 10px 0 0;
         font-size: 0.9rem;
+
+        @media screen and (max-width: 660px) {
+          font-size: 0.8rem;
+        }
+      }
+
+      .message-body {
+        padding-top: 10px;
+
+        &-trash-icon {
+          padding-top: 10px;
+          color: rgba(159, 2, 2, 0.88);
+          font-size: 1.1rem;
+          opacity: 0;
+          transition: 0.25s cubic-bezier(0.4, 0, 1, 1);
+
+          &-no-display {
+            display: none;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
       }
     }
   }
@@ -159,6 +211,10 @@ img {
 
   small {
     font-size: 0.8rem;
+
+    @media screen and (max-width: 660px) {
+      font-size: 0.7rem;
+    }
   }
 }
 

@@ -34,6 +34,11 @@ export const setOffline = (user) => ({
     user
 });
 
+export const deleteMessage = (data) => ({
+    type: actions.CHAT_DELETE_MESSAGE,
+    data
+});
+
 export const clearUserList = () => ({
     type: actions.CHAT_CLEAR_USER_LIST
 });
@@ -66,7 +71,10 @@ export const sendMessage = (data) => dispatch => {
         message: data.text
     };
     securedRequest.post('/api/v1/users/' + data.userId + '/messages', sendedData)
-        .then(() => dispatch(updateMessagesInGlobalState(data)));
+        .then((response) => {
+            data.id = response.data.data.id;
+            dispatch(updateMessagesInGlobalState(data));
+        });
 };
 
 export const fillUsersList = () => dispatch => {

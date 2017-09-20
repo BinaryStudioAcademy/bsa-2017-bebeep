@@ -5,11 +5,12 @@ import { Link } from 'react-router';
 class EditButton extends React.Component {
 
     render() {
-        const { className, pathTo } = this.props;
+        const { className, pathTo, title } = this.props;
 
         return (
             <Link to={pathTo}
                 className={"btn btn--with-icon btn-success " + className}
+                title={title}
             >
                 <i className="fa fa-pencil" aria-hidden="true" />
             </Link>

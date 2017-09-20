@@ -50,6 +50,31 @@ class UserDropdown extends React.Component {
                     <span className="dropdown-item-signed"> { translate('signed') }</span>
                     <span className="dropdown-item"><b> { userName} </b></span>
 
+                    <DropdownItem divider className="hidden-lg-up" />
+
+                    <UserDropdownItem linkTo="/trip/create"
+                                      isShow={isDriver}
+                                      onClick={this.toggleUserDropdown}
+                                      classes="hidden-lg-up"
+                    >
+                        { translate('create_new_trip') }
+                    </UserDropdownItem>
+
+                    <UserDropdownItem linkTo="/trips"
+                                      isShow={isDriver}
+                                      onClick={this.toggleUserDropdown}
+                                      classes="hidden-lg-up"
+                    >
+                        { translate('my_trips') }
+                    </UserDropdownItem>
+
+                    <UserDropdownItem linkTo="/dashboard/users"
+                                      onClick={this.toggleUserDropdown}
+                                      classes="hidden-lg-up"
+                    >
+                        { translate('chat_users') }
+                    </UserDropdownItem>
+
                     <DropdownItem divider />
 
                     <UserDropdownItem linkTo="/dashboard"
