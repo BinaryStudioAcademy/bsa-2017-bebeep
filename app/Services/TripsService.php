@@ -342,8 +342,10 @@ class TripsService
      *
      * @return \App\Services\Result\SearchTripCollection
      */
-    public function search(SearchTripRequest $request): SearchTripCollection
+    public function search(SearchTripRequest $request)//: SearchTripCollection TODO
     {
+        $searchCurrency = $this->currencyRepository->find($request->getCurrencyId());
+
         $search = $this->tripRepository->search()
             ->addLocation(
                 $request->getFromLat(),
@@ -356,7 +358,7 @@ class TripsService
                 $request->getMinTime(),
                 $request->getMaxTime()
             )
-            ->setPrice($request->getMinPrice(), $request->getMaxPrice())
+            //->setPrice($request->getMinPrice(), $request->getMaxPrice())
             ->setOrder($request->getSort(), $request->getOrder())
             ->setIsAnimalsAllowed($request->getIsAnimalsAllowed())
             ->setLuggageSize($request->getLuggageSize())
