@@ -2,26 +2,26 @@ import * as actions from './actionTypes';
 import { securedRequest } from 'app/services/RequestService';
 
 export const getBrandsData = data => ({
-    type: actions.GET_BRANDS_DATA,
+    type: actions.GET_VEHICLE_BRANDS_DATA,
     data
 });
 
 export const getModelsData = data => ({
-    type: actions.GET_MODELS_DATA,
+    type: actions.GET_VEHICLE_MODELS_DATA,
     data
 });
 
 export const resetModelsData = () => ({
-    type: actions.RESET_MODELS_DATA
+    type: actions.RESET_VEHICLE_MODELS_DATA
 });
 
 export const getColorsData = data => ({
-    type: actions.GET_COLORS_DATA,
+    type: actions.GET_VEHICLE_COLORS_DATA,
     data
 });
 
 export const getBodyData = data => ({
-    type: actions.GET_BODY_DATA,
+    type: actions.GET_VEHICLE_BODY_DATA,
     data
 });
 

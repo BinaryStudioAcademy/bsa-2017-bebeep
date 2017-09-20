@@ -17,7 +17,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch(action.type) {
-        case actions.GET_BRANDS_DATA: {
+        case actions.GET_VEHICLE_BRANDS_DATA: {
             return {
                 ...state,
                 form_items: {
@@ -27,7 +27,7 @@ export default function (state = initialState, action) {
             }
         }
 
-        case actions.GET_MODELS_DATA: {
+        case actions.GET_VEHICLE_MODELS_DATA: {
             return {
                 ...state,
                 form_items: {
@@ -37,7 +37,7 @@ export default function (state = initialState, action) {
             }
         }
 
-        case actions.RESET_MODELS_DATA: {
+        case actions.RESET_VEHICLE_MODELS_DATA: {
             return {
                 ...state,
                 form_items: {
@@ -47,7 +47,7 @@ export default function (state = initialState, action) {
             }
         }
 
-        case actions.GET_COLORS_DATA: {
+        case actions.GET_VEHICLE_COLORS_DATA: {
             return {
                 ...state,
                 form_items: {
@@ -57,7 +57,7 @@ export default function (state = initialState, action) {
             }
         }
 
-        case actions.GET_BODY_DATA: {
+        case actions.GET_VEHICLE_BODY_DATA: {
             return {
                 ...state,
                 form_items: {
