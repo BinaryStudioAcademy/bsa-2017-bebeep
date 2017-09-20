@@ -106,3 +106,13 @@ $factory->define(App\Models\Filter::class, function (Faker\Generator $faker) {
         'parameters' => json_encode(['value' => 3]),
     ];
 });
+
+$factory->define(App\Models\Currency::class, function (Faker\Generator $faker) {
+    return [
+        'code' => $faker->currencyCode,
+        'name' => $faker->currencyCode,
+        'sign' => $faker->randomLetter,
+        'rate' => $faker->numberBetween(1, 20),
+        'is_main' => false,
+    ];
+});

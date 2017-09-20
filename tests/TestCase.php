@@ -20,6 +20,7 @@ abstract class TestCase extends BaseTestCase
             $this->seed('CarColorsTableSeeder');
             $this->seed('CarBrandsTableSeeder');
             $this->seed('CarModelsTableSeeder');
+            $this->seed('CurrenciesTableSeeder');
             static::$migrationsRun = true;
         }
 

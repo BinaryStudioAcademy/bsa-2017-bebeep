@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Subscription;
 
+use App\Models\Currency;
 use App\User;
 use Carbon\Carbon;
 use App\Models\Trip;
@@ -330,6 +331,51 @@ class SubscriptionSearchTest extends JwtTestCase
         $first = $found1->first();
         $this->assertInstanceOf(Subscription::class, $first);
         $this->assertEquals($subscription->id, $first->id);
+    }
+
+    /**
+     * @test
+     */
+    public function it_find_trip_with_currency_filter()
+    {
+        $start_at = Carbon::today();
+        $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+        $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+
+        $currency1 = factory(Currency::class)->create();
+        $currency2 = factory(Currency::class)->create();
+
+        $trip1 = $this->getTripBySubscription($subscription, [
+            'currency_id' => $currency1->id,
+        ]);
+        $trip2 = $this->getTripBySubscription($subscription, [
+            'currency_id' => $currency2->id,
+        ]);
+
+        $this->getFilter($subscription, [
+            'name' => 'currency',
+            'parameters' => ['value' => $currency1->id],
+        ]);
+
+        $this->getFilter($subscription2, [
+            'name' => 'currency',
+            'parameters' => ['value' => $currency2->id],
+        ]);
+
+        $service = app()->make(SubscriptionsService::class);
+
+        $found1 = $service->getSubscriptionsByTrip($trip1);
+        $this->assertCount(1, $found1);
+        $first = $found1->first();
+        $this->assertInstanceOf(Subscription::class, $first);
+        $this->assertEquals($subscription->id, $first->id);
+
+        $found2 = $service->getSubscriptionsByTrip($trip2);
+
+        $this->assertCount(1, $found2);
+        $first = $found2->first();
+        $this->assertInstanceOf(Subscription::class, $first);
+        $this->assertEquals($subscription2->id, $first->id);
     }
 
     /**
