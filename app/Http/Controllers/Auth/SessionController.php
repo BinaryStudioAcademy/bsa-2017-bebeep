@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Transformers\User\SessionDataTransformer;
