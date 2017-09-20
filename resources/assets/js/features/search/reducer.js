@@ -19,7 +19,8 @@ const initialState = {
         luggage: null,
         seats: null,
         rating: null,
-        transfers:null,
+        transfers: null,
+        currency: null
     },
     subscription: null,
 };

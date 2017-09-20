@@ -5,6 +5,7 @@ import SeatsDropDown from '../Dropdowns/SeatsDropDown';
 import RatingDropDown from '../Dropdowns/RatingDropDown';
 import AnimalsDropDown from '../Dropdowns/AnimalsDropDown';
 import LuggageDropDown from '../Dropdowns/LuggageDropDown';
+import CurrencyDropDown from '../Dropdowns/CurrencyDropDown';
 import ConfirmLoginModal from './ConfirmLoginModal';
 import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import {Range} from 'rc-slider';
@@ -33,6 +34,7 @@ class SubscribeModal extends React.Component {
         this.luggageChange = this.luggageChange.bind(this);
         this.seatsChange = this.seatsChange.bind(this);
         this.ratingChange = this.ratingChange.bind(this);
+        this.currencyChange = this.currencyChange.bind(this);
     }
 
     updateFilterData(props) {
@@ -71,6 +73,14 @@ class SubscribeModal extends React.Component {
 
     ratingChange(e) {
         this.setState({rating: e.target.value});
+    }
+
+    currencyChange(e) {
+        const {currencies} = this.props,
+            currencyId = +e.currentTarget.dataset.value,
+            currency = _.find(currencies, {id: currencyId});
+
+        this.setState({ currency });
     }
 
     renderModalBody() {
@@ -132,7 +142,16 @@ class SubscribeModal extends React.Component {
                                 </div>
                                 <div className="col-md-6 pr-4">
                                     <div className="filter__prop">
-                                        <div className="filter__prop-name subscribe-modal-name">{translate('search_result.filter.price')}</div>
+                                        <div className="row">
+                                            <div className="col-4">
+                                                <div className="filter__prop-name subscribe-modal-name">
+                                                    {translate('search_result.filter.price')}
+                                                </div>
+                                            </div>
+                                            <div className="col-8 text-right">
+                                                <CurrencyDropDown currency={currency} onChange={this.currencyChange} />
+                                            </div>
+                                        </div>
                                         <div className="filter__prop-control">
                                             <div className="filter__prop-name subscribe-modal-name">
                                                 {translate('search_result.filter.price_range', {
@@ -214,7 +233,7 @@ class SubscribeModal extends React.Component {
         const userId = AuthService.getUserId(),
             userEmail = AuthService.getEmail(),
             {isAuth, email, data} = this.props,
-            {time, animals, luggage, seats, rating, price} = this.state;
+            {time, animals, luggage, seats, rating, price, currency} = this.state;
 
         let subsEmail = (isAuth && userEmail) ? userEmail : e.target['email'].value;
         let toBeTransformed = {
@@ -226,6 +245,7 @@ class SubscribeModal extends React.Component {
             rating,
             price,
             subsEmail,
+            currency,
             data
         };
         let requestData = transformSubscriptionData(toBeTransformed);

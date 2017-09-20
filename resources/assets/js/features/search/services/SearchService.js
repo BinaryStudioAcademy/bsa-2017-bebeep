@@ -181,7 +181,8 @@ export const transformSubscriptionData = (toBeTransformed) => {
             time: {
                 from: toBeTransformed.time[0],
                 to: toBeTransformed.time[1]
-            }
+            },
+            currency: toBeTransformed.currency.id
         }
     };
 };
