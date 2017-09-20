@@ -140,14 +140,9 @@ const AuthService = (() => {
                     onSuccess();
                 })
                 .catch(error => {
-                    console.log('destroy');
                     _this.destroySession();
                     onError();
                 });
-        },
-
-        refreshSession() {
-            return refreshSessionRequest.get(REQUEST_REFRESH_SESSION);
         },
 
         isAuthorized() {
@@ -175,6 +170,10 @@ const AuthService = (() => {
 
         isSessionTokenValid(token) {
             return !!decodeSessionToken(token);
+        },
+
+        refreshSession() {
+            return refreshSessionRequest.get(REQUEST_REFRESH_SESSION);
         },
     };
 })();
