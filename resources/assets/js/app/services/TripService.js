@@ -2,6 +2,7 @@ import moment from 'moment';
 import Validator from './Validator';
 import LangService from './LangService';
 import CurrencyService from 'features/currency/services/CurrencyService';
+import _ from 'lodash';
 
 export const createTripRules = () => ({
     vehicle_id: Validator.required(LangService.translate('validate.please_select_a_car')),
@@ -55,4 +56,15 @@ export const convertTripPrice = (trip) => {
     const currency = CurrencyService.getCurrencyById(trip.currency_id);
 
     return CurrencyService.convertValue(trip.price, currency);
+}
+
+export const convertTripRoutesPrice = (currencyId, routes) => {
+    const currency = CurrencyService.getCurrencyById(currencyId),
+        tripRoutes = _.cloneDeep(routes);
+
+    return tripRoutes.map((route) => {
+        route.price = CurrencyService.convertValue(route.price, currency);
+
+        return route;
+    });
 }
