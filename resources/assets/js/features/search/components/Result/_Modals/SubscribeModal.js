@@ -25,6 +25,7 @@ class SubscribeModal extends React.Component {
             luggage: null,
             seats: null,
             rating: null,
+            currency: null,
             requestSendSuccess: false,
             confirmLoginModalIsOpen: false
         };
@@ -34,23 +35,26 @@ class SubscribeModal extends React.Component {
         this.ratingChange = this.ratingChange.bind(this);
     }
 
-    updateFilterData(data) {
+    updateFilterData(props) {
+        const {data, activeCurrency} = props;
+
         this.setState({
             time: data.filters.time,
             animals: data.filters.animals,
             luggage: data.filters.luggage,
             seats: data.filters.seats,
             rating: data.filters.rating,
-            start_at: data.start_at
+            start_at: data.start_at,
+            currency: data.currency || activeCurrency,
         });
     }
 
     componentWillMount() {
-        this.updateFilterData(this.props.data);
+        this.updateFilterData(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.updateFilterData(nextProps.data);
+        this.updateFilterData(nextProps);
     }
 
     animalsChange(e) {
@@ -71,7 +75,7 @@ class SubscribeModal extends React.Component {
 
     renderModalBody() {
         let {requestSendSuccess} = this.state;
-        const {time, price, animals, seats, luggage, rating} = this.state,
+        const {time, price, animals, seats, luggage, rating, currency} = this.state,
             {translate, data} = this.props;
 
         if(requestSendSuccess) {
@@ -131,7 +135,11 @@ class SubscribeModal extends React.Component {
                                         <div className="filter__prop-name subscribe-modal-name">{translate('search_result.filter.price')}</div>
                                         <div className="filter__prop-control">
                                             <div className="filter__prop-name subscribe-modal-name">
-                                                {translate('search_result.filter.price_range', {start: price[0], end: price[1]})}
+                                                {translate('search_result.filter.price_range', {
+                                                    start: price[0],
+                                                    end: price[1],
+                                                    currency: currency ? currency.sign : ''
+                                                })}
                                             </div>
                                             <Range
                                                 min={0}
@@ -267,6 +275,8 @@ export default connect(
         data: state.search,
         isAuth: state.user.login.success,
         email: state.user.profile.email,
+        activeCurrency: state.currency.activeCurrency,
+        currencies: state.currency.currencies,
         translate: getTranslate(state.locale)
     }),
     (dispatch) => bindActionCreators({subscriptionUpdate, subscriptionReset}, dispatch)

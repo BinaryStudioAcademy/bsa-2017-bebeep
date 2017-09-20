@@ -146,7 +146,7 @@ class SubscribeEditModal extends React.Component {
     }
 
     render() {
-        const {translate, isOpen, toggle} = this.props,
+        const {translate, isOpen, toggle, activeCurrency} = this.props,
             {from, to, start_at, filters} = this.state,
             {price, time, animals, luggage, seats, rating} = filters,
             cityFrom = getCityLocation(from),
@@ -213,7 +213,11 @@ class SubscribeEditModal extends React.Component {
                                         <div className="filter__prop-name subscribe-modal-name">{translate('subscriptions.filter.price')}</div>
                                         <div className="filter__prop-control">
                                             <div className="filter__prop-name subscribe-modal-name">
-                                                {translate('subscriptions.filter.price_range', {start: price[0], end: price[1]})}
+                                                {translate('subscriptions.filter.price_range', {
+                                                    start: price[0],
+                                                    end: price[1],
+                                                    currency: _.isEmpty(activeCurrency) ? '' : activeCurrency.sign
+                                                })}
                                             </div>
                                             <Range
                                                 min={0}
@@ -266,6 +270,7 @@ export default connect(
     state => ({
         subscriptions: state.subscriptions.entities.subscriptions,
         filters: state.subscriptions.entities.filters,
+        activeCurrency: state.currency.activeCurrency,
         translate: getTranslate(state.locale)
     }),
     dispatch => bindActionCreators({editSubscriptions}, dispatch)
