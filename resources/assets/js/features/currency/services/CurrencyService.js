@@ -31,6 +31,16 @@ const CurrencyService = (() => {
                 .catch(error => {});
         },
 
+        getCurrencyById(id) {
+            if (!id) {
+                return null;
+            }
+
+            return _.find(this.currencies, currency => {
+                return currency.id === id;
+            });
+        },
+
         getCurrencyByCode(code) {
             code = code || CURRENCY_DEFAULT;
 
