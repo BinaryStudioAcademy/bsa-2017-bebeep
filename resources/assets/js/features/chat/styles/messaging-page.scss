@@ -83,16 +83,35 @@ $chat-box-shadow-size: 3px;
     border-top: 2px solid $gray-lighter;
     background-color: rgba(224, 224, 224, 0.1);
 
-    &-input,
-    &-send-btn {
-      margin: .5rem !important;
-      border-radius: 1rem !important;
+    &-send-form {
 
-      &-icon {
+      &-input,
+      &-btn {
+        margin: .5rem !important;
+        border-radius: 1rem !important;
+
+        &-icon {
+          transition: all .3s;
+        }
+      }
+
+      &-input {
         transition: all .3s;
       }
 
-      &--sending &-icon {
+      &--sending &-input {
+        border-color: $input-border-focus;
+        background-color: lighten($teal, 26%);
+        cursor: default;
+      }
+
+      &--error &-input {
+        border-color: $red;
+        background-color: lighten($red, 36%);
+        cursor: default;
+      }
+
+      &--sending &-btn-icon {
         transform: translate(2px, -2px);
       }
     }
