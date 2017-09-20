@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Money\Money;
+use App\Models\Currency;
+use Money\Currency as MoneyCurrency;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\Helpers\SearchFilter;
-use Money\Money;
-use Money\Currency;
 
 class Route extends Model
 {
@@ -93,18 +94,21 @@ class Route extends Model
      */
     public function moneyPrice()
     {
-        $code = $this->trip->currency->code ?? 'USD';
+        $code = $this->trip->currency->code ?? Currency::CURRENCY_MAIN_CODE;
 
-        return new Money($this->attributes['price'], new Currency($code));
+        return new Money($this->attributes['price'], new MoneyCurrency($code));
     }
 
     /**
      * @param \App\Models\Currency $currency
      * @return int
      */
-    public function priceInCurrency(\App\Models\Currency $currency) : int
+    public function priceInCurrency(Currency $currency) : int
     {
-        return (int) app('CurrenciesConverter')->convert($this->moneyPrice(), new Currency($currency->code))->getAmount();
+        return (int) app('CurrenciesConverter')->convert(
+            $this->moneyPrice(),
+            new MoneyCurrency($currency->code)
+        )->getAmount();
     }
 
     /**
