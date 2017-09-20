@@ -12,6 +12,7 @@ import DirectionsMap from "app/components/DirectionsMap";
 import { securedRequest } from 'app/services/RequestService';
 import BookingService from 'app/services/BookingService';
 import { getWaypointsFromRoutes } from 'app/services/GoogleMapService';
+import CurrencyService from 'features/currency/services/CurrencyService';
 
 import '../styles/trip-card.scss';
 
@@ -112,9 +113,17 @@ class Trip extends React.Component {
             });
     }
 
+    convertTripPrice() {
+        const trip = this.props.trip,
+            currency = CurrencyService.getCurrencyById(trip.currency_id);
+
+        return CurrencyService.convertValue(trip.price, currency);
+    }
+
     render() {
-        const { translate, routes, trip, bookings, vehicles } = this.props,
-            { modalIsOpen, modalUsersIsOpen} = this.state;
+        const { translate, routes, trip, bookings, vehicles, activeCurrency } = this.props,
+            { modalIsOpen, modalUsersIsOpen} = this.state,
+            tripPrice = this.convertTripPrice();
 
         const startPlace = this.getStartPlace(),
             endPlace = this.getEndPlace(),
@@ -161,7 +170,8 @@ class Trip extends React.Component {
                                     {translate('trip_list.price')}</dt>
 
                                 <dd className="col-sm-8 trip-card-info__list-value">
-                                    ${trip.price}</dd>
+                                    {activeCurrency.sign}&nbsp;{tripPrice}
+                                </dd>
 
                                 <dt className="col-sm-4 trip-card-info__list-option">
                                     {translate('trip_list.seats')}</dt>
@@ -228,5 +238,6 @@ export default connect(
         vehicles: state.tripList.vehicles,
         routes: state.tripList.routes,
         bookings: state.tripList.bookings,
+        activeCurrency: state.currency.activeCurrency,
     })
 )(Trip);
