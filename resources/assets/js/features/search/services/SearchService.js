@@ -1,5 +1,6 @@
 import { browserHistory } from 'react-router';
 import { simpleRequest } from 'app/services/RequestService';
+import CurrencyService from 'features/currency/services/CurrencyService';
 import moment from 'moment';
 
 export const search = (
@@ -12,6 +13,7 @@ export const search = (
             fc: encodeCoord(fromCoord),
             tc: encodeCoord(toCoord),
             start_at: startDate,
+            currency_id: CurrencyService.getActiveCurrency().id,
             sort,
             order,
             page,
