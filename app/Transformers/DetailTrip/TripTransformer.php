@@ -29,6 +29,7 @@ class TripTransformer extends TransformerAbstract
             'trip' => [
                 'id' => $trip->id,
                 'price' => $trip->price,
+                'currency' => $trip->currency,
                 'seats' => $trip->seats,
                 'start_at' => (string) $trip->start_at,
                 'start_at_x' => $trip->start_at->timestamp,
