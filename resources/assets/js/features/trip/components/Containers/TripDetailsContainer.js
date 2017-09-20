@@ -8,7 +8,7 @@ import BookingModal from '../Modals/BookingModal';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import AuthService from 'app/services/AuthService';
-import { convertTripPrice } from 'app/services/TripService';
+import { convertTripPrice, convertTripRoutesPrice } from 'app/services/TripService';
 import { USER_ROLE_DRIVER } from 'app/services/UserService';
 
 import {
@@ -35,6 +35,7 @@ class TripDetailsContainer extends React.Component {
         this.state = {
             isOpenBookingModal: false,
             hideBookingBtn: false,
+            routes: [],
         };
 
         this.onBookingBtnClick = this.onBookingBtnClick.bind(this);
@@ -44,10 +45,20 @@ class TripDetailsContainer extends React.Component {
 
     componentWillMount() {
         this.toggleBookingBtn(this.props);
+        this.setTripRoutes();
     }
 
     componentWillReceiveProps(nextProps) {
         this.toggleBookingBtn(nextProps);
+        this.setTripRoutes();
+    }
+
+    setTripRoutes() {
+        const { trip, routes } = this.props.details;
+
+        this.setState({
+            routes: convertTripRoutesPrice(trip.currency_id, routes),
+        });
     }
 
     toggleBookingBtn(props) {
@@ -103,8 +114,8 @@ class TripDetailsContainer extends React.Component {
     }
 
     render() {
-        const { translate, details: {trip, routes, driver, vehicle}, activeCurrency } = this.props,
-            { isOpenBookingModal, isOpenBookingStatusModal } = this.state;
+        const { translate, details: {trip, driver, vehicle}, activeCurrency } = this.props,
+            { routes, isOpenBookingModal, isOpenBookingStatusModal } = this.state;
 
         const startPoint = routes[0].from,
             endPoint = _.last(routes).to,
@@ -180,7 +191,6 @@ class TripDetailsContainer extends React.Component {
                     tripId={ trip.id }
                     maxSeats={ trip.seats }
                     waypoints={ routes }
-                    price={ tripPrice }
                     currencySign={ activeCurrency.sign }
                     startAt={ trip.start_at_format }
                     isOpen={ isOpenBookingModal }
