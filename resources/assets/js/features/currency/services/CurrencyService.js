@@ -84,25 +84,24 @@ const CurrencyService = (() => {
             return !!this.currencies.length;
         },
 
-        convert(value, currency) {
+        convertValue(value, currency) {
             const activeCurrency = this.getActiveCurrency();
+
             if (currency.code === activeCurrency.code){
-                return parseInt(value);
-            }
-
-            if(currency.is_main){
-                value = (value * activeCurrency.rate).toFixed(0);
                 return value;
             }
 
-            const convertToDollar = value/currency.rate;
-            if (activeCurrency.isMain ){
-                value = convertToDollar.toFixed(0);
-                return value;
+            if (currency.is_main) {
+                return Math.round(value * activeCurrency.rate);
             }
 
-            value = (convertToDollar*activeCurrency.rate).toFixed(0);
-            return value;
+            const convertToDollar = value / currency.rate;
+
+            if (activeCurrency.isMain) {
+                return Math.round(convertToDollar);
+            }
+
+            return Math.round(convertToDollar * activeCurrency.rate);
         },
     };
 })();
