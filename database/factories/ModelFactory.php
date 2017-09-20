@@ -64,6 +64,7 @@ $factory->define(App\Models\Route::class, function (Faker\Generator $faker) use 
         'to_lng' => $faker->numberBetween(100, 5000) / 100.0,
         'start_at' => $TRIP_START_TIME->toDateTimeString(),
         'end_at' => $TRIP_START_TIME->addHour(3)->toDateTimeString(),
+        'price' => $faker->numberBetween(1, 1000),
     ];
 });
 
