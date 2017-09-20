@@ -6,6 +6,7 @@ use App\User;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Trip;
+use App\Models\Route;
 use App\Models\Vehicle;
 use App\Services\SearchTripsWithTransfersService;
 
@@ -140,7 +141,8 @@ class SearchTripWithTransfersServiceTest extends TestCase
         ]);
 
         foreach ($this->getRoutesFromWaypoints($routes) as $key => $route) {
-            $trip->routes()->create(array_merge($route, [
+            factory(Route::class)->create(array_merge($route, [
+                'trip_id' => $trip->id,
                 'start_at' => $startAt->addMinutes($key),
                 'end_at' => $startAt->addMinutes($key + 1),
             ]));

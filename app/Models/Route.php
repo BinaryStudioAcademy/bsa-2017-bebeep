@@ -22,6 +22,7 @@ class Route extends Model
         'start_at',
         'end_at',
         'trip_id',
+        'price',
     ];
 
     /**
@@ -42,6 +43,7 @@ class Route extends Model
         'to' => 'array',
         'to_lat' => 'float',
         'to_lng' => 'float',
+        'price' => 'float',
     ];
 
     /**
