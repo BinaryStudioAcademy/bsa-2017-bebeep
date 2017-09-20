@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\Helpers\SearchFilter;
+use Money\Money;
+use Money\Currency;
 
 class Route extends Model
 {
@@ -84,6 +86,25 @@ class Route extends Model
         }
 
         return $this->trip->seats - $this->reserved_seats;
+    }
+
+    /**
+     * @return Money
+     */
+    public function moneyPrice()
+    {
+        $code = $this->trip->currency->code ?? 'USD';
+
+        return new Money($this->attributes['price'], new Currency($code));
+    }
+
+    /**
+     * @param \App\Models\Currency $currency
+     * @return int
+     */
+    public function priceInCurrency(\App\Models\Currency $currency) : int
+    {
+        return (int) app('CurrenciesConverter')->convert($this->moneyPrice(), new Currency($currency->code))->getAmount();
     }
 
     /**

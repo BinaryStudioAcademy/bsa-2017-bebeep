@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Currency;
 use App\Models\Vehicle;
 use App\Services\RouteService;
 use App\Services\BookingService;
@@ -57,6 +58,9 @@ use App\Repositories\Contracts\BookingRepository as BookingRepositoryContract;
 use App\Repositories\Contracts\CurrencyRepository as CurrencyRepositoryContract;
 use App\Services\Contracts\SubscriptionsService as SubscriptionsServiceContract;
 use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
+use Money\Converter;
+use Money\Currencies\ISOCurrencies;
+use Money\Exchange\FixedExchange;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -83,6 +87,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('CurrenciesConverter', function() {
+            return new Converter(new ISOCurrencies(), $this->getExchange());
+        });
+
         $this->app->bind(TripRepositoryContract::class, TripRepository::class);
         $this->app->bind(BookingRepositoryContract::class, BookingRepository::class);
         $this->app->bind(
@@ -245,5 +253,21 @@ class AppServiceProvider extends ServiceProvider
             IsPasswordCurrentValidator::class,
             IsPasswordCurrentValidator::ERROR_MSG
         );
+    }
+
+    private function getExchange()
+    {
+        $currencies = Currency::all();
+        $exchanges = [];
+
+        foreach ($currencies as $currency) {
+            $exchanges[$currency->code] = [];
+
+            foreach ($currencies as $innerCurrency) {
+                $exchanges[$currency->code][$innerCurrency->code] = round($innerCurrency->rate / $currency->rate, 5);
+            }
+        }
+
+        return new FixedExchange($exchanges);
     }
 }
