@@ -187,12 +187,14 @@ class TripForm extends React.Component {
 
     renderCurrenciesList() {
         const { activeCurrency, currencies } = this.props.currency;
+        const { trip } = this.props,
+            defaultValue = trip ? trip.currency_id : activeCurrency.id;
 
         return (
             <select name="currency_id"
                 id="currency_id"
                 className="form-control"
-                defaultValue={activeCurrency.id}
+                defaultValue={ defaultValue }
             >
             {currencies.map((currency) =>
                 <option key={currency.id} value={currency.id}>
