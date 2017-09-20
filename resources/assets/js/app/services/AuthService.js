@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import DataStorage from '../helpers/DataStorage';
 
-import { securedRequest } from './RequestService';
+import { refreshSessionRequest, securedRequest } from './RequestService';
 import {
     setSessionData,
     unsetSessionData,
@@ -17,6 +17,7 @@ const AuthService = (() => {
 
     const TOKEN_KEY_NAME = 'session_token',
         REQUEST_SESSION_DATA = '/api/authentication/me',
+        REQUEST_REFRESH_SESSION = '/api/authentication/refresh',
         USER_PROPS = ['first_name', 'last_name', 'avatar',];
 
     let _this = null,
@@ -139,9 +140,14 @@ const AuthService = (() => {
                     onSuccess();
                 })
                 .catch(error => {
+                    console.log('destroy');
                     _this.destroySession();
                     onError();
                 });
+        },
+
+        refreshSession() {
+            return refreshSessionRequest.get(REQUEST_REFRESH_SESSION);
         },
 
         isAuthorized() {
