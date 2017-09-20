@@ -104,10 +104,12 @@ class SubscriptionItem extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-4">
-                        {date.date}
+                        <span title={translate('subscriptions.tooltips.date')}>{date.date}</span>
                     </div>
                     <div className="col-sm-5">
-                        {getCityLocation(subscription.from)} - {getCityLocation(subscription.to)}
+                        <span title={translate('subscriptions.tooltips.route')}>
+                            {getCityLocation(subscription.from)} - {getCityLocation(subscription.to)}
+                        </span>
                     </div>
                     <div className="col-6 col-sm-1 text-sm-right">
                         <i className="subscription__edit fa fa-pencil"

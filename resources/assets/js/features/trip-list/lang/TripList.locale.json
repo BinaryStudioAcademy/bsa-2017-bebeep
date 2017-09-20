@@ -9,7 +9,11 @@
     "passengers_link": ["Route and passengers", "Маршрут і пасажири", "Маршрут и пассажиры"],
     "restore": ["Restore", "Відновити", "Восстановить"],
     "deleted_successfully": ["Deleted successfully", "Успішно видалено", "Успешно удалено"],
-    "trips_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"]
+    "trips_not_found": ["Trips not found", "Подорожі не знайдені", "Поездки не найдены"],
+    "tooltips": {
+      "edit": ["Edit", "Редагувати", "Редактировать"],
+      "delete": ["Delete", "Видалити", "Удалить"]
+    }
   },
   "booking": {
     "seats": ["Number of seats", "Кількість місць", "Количество мест"],
