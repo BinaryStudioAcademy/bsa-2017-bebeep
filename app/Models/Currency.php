@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Currency extends Model
 {
+    const CURRENCY_MAIN_CODE = 'USD';
+
     /**
      * The attributes that are mass assignable.
      *
