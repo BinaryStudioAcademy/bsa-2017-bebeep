@@ -12,7 +12,7 @@ export const setActiveCurrency = payload => ({
 });
 
 export const getCurrencies = () => dispatch => {
-    return new Promise((success, error) => {
+    return new Promise((success, reject) => {
         securedRequest.get('/api/v1/currencies')
             .then(response => {
                 dispatch(setCurrencies(response.data));
@@ -22,7 +22,7 @@ export const getCurrencies = () => dispatch => {
                 if (typeof error !== 'function') {
                     return;
                 }
-                error();
+                reject();
             });
     });
 };
