@@ -24,6 +24,7 @@ class MessagingContainer extends React.Component {
 
         this.state = {
             msgSending: false,
+            sendError: false,
         };
 
         this.onSendMsg = this.onSendMsg.bind(this);
@@ -66,13 +67,16 @@ class MessagingContainer extends React.Component {
     onSendMsg(e) {
         e.preventDefault();
 
-        const _this = this;
+        if (this.isMessageSending()) {
+            return;
+        }
 
-        _this.setState({
+        this.setState({
             msgSending: true,
+            sendError: false,
         });
 
-        const {userId, sendMessage} = _this.props,
+        const {userId, sendMessage} = this.props,
             form = e.target,
             text = form.text.value;
 
@@ -82,15 +86,19 @@ class MessagingContainer extends React.Component {
             time: moment().unix(),
         };
 
-        sendMessage(data);
-
-        form.text.value = '';
-
-        setTimeout(() => {
-            _this.setState({
-                msgSending: false,
+        sendMessage(data)
+            .then(() => {
+                form.text.value = '';
+                this.setState({
+                    msgSending: false,
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    msgSending: false,
+                    sendError: true,
+                });
             });
-        }, 400);
     }
 
     checkOnlineStatus() {
@@ -100,6 +108,28 @@ class MessagingContainer extends React.Component {
         return !!_.find(onlineUsers, (onlineUser) => {
             return onlineUser.id === user.id;
         });
+    }
+
+    isMessageSending() {
+        return this.state.msgSending;
+    }
+
+    isMessageSendingError() {
+        return this.state.sendError;
+    }
+
+    getFormSendModeClass() {
+        const baseClass = 'chat-message__footer-send-form';
+
+        if (this.isMessageSending()) {
+            return baseClass + '--sending';
+        }
+
+        if (this.isMessageSendingError()) {
+            return baseClass + '--error';
+        }
+
+        return '';
     }
 
     renderStatusOnline() {
@@ -112,9 +142,7 @@ class MessagingContainer extends React.Component {
         const {translate, userId} = this.props,
             messages = this.getChats(userId),
             user = this.getUsersData(userId),
-            btnSendActiveClass = this.state.msgSending
-                ? 'chat-message__footer-send-btn--sending'
-                : '';
+            formSendModeClass = this.getFormSendModeClass();
 
         let link = '';
 
@@ -157,20 +185,24 @@ class MessagingContainer extends React.Component {
                         </div>
 
                         <div className="chat-message__footer">
-                            <form role="form" method="POST" onSubmit={this.onSendMsg}>
+                            <form role="form"
+                                method="POST"
+                                className={"chat-message__footer-send-form " + formSendModeClass}
+                                onSubmit={this.onSendMsg}
+                            >
                                 <div className="input-group">
                                     <input id="text"
                                         name="text"
-                                        className="form-control border no-shadow chat-message__footer-input"
+                                        className="form-control border no-shadow chat-message__footer-send-form-input"
                                         placeholder={translate('chat.type_msg')}
                                         required
+                                        disabled={this.isMessageSending()}
                                     />
                                     <button type="submit"
                                         role="button"
-                                        className={"btn btn-success chat-message__footer-send-btn " +
-                                            btnSendActiveClass}
+                                        className="btn btn-success chat-message__footer-send-form-btn"
                                     >
-                                        <i className="fa fa-paper-plane-o chat-message__footer-send-btn-icon" aria-hidden="true" />
+                                        <i className="fa fa-paper-plane-o chat-message__footer-send-form-btn-icon" aria-hidden="true" />
                                     </button>
                                 </div>
                             </form>
