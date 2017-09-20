@@ -47,4 +47,6 @@ interface SearchTripRequest
     public function getRating(): ?int;
 
     public function getTransfers(): ?int;
+
+    public function getCurrencyId(): int;
 }

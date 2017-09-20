@@ -16,6 +16,7 @@ abstract class TestCase extends BaseTestCase
 
         if (! static::$migrationsRun) {
             \Artisan::call('migrate:refresh');
+            $this->seed('CurrenciesTableSeeder');
             $this->seed('CarBodiesTableSeeder');
             $this->seed('CarColorsTableSeeder');
             $this->seed('CarBrandsTableSeeder');
