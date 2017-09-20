@@ -11,6 +11,7 @@ use App\Repositories\TripRepository;
 use App\Repositories\RouteRepository;
 use App\Validators\DeleteTripValidator;
 use App\Validators\UpdateTripValidator;
+use App\Repositories\CurrencyRepository;
 use App\Validators\RestoreTripValidator;
 use App\Services\Helpers\SaveVehicleRequest;
 use App\Services\Requests\CreateTripRequest;
@@ -33,6 +34,10 @@ class TripsService
      */
     private $routeRepository;
     /**
+     * @var \App\Repositories\CurrencyRepository
+     */
+    private $currencyRepository;
+    /**
      * @var \App\Services\CarService
      */
     private $carService;
@@ -54,6 +59,7 @@ class TripsService
      *
      * @param \App\Repositories\TripRepository $tripRepository
      * @param \App\Repositories\RouteRepository $routeRepository
+     * @param \App\Repositories\CurrencyRepository $currencyRepository
      * @param \App\Services\CarService $carService
      * @param \App\Validators\UpdateTripValidator $updateTripValidator
      * @param \App\Validators\DeleteTripValidator $deleteTripValidator
@@ -62,6 +68,7 @@ class TripsService
     public function __construct(
         TripRepository $tripRepository,
         RouteRepository $routeRepository,
+        CurrencyRepository $currencyRepository,
         CarService $carService,
         UpdateTripValidator $updateTripValidator,
         DeleteTripValidator $deleteTripValidator,
@@ -69,6 +76,7 @@ class TripsService
     ) {
         $this->tripRepository = $tripRepository;
         $this->routeRepository = $routeRepository;
+        $this->currencyRepository = $currencyRepository;
         $this->carService = $carService;
         $this->updateTripValidator = $updateTripValidator;
         $this->deleteTripValidator = $deleteTripValidator;
