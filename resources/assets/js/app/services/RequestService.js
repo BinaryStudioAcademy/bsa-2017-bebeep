@@ -51,14 +51,13 @@ securedRequest.interceptors.response.use(function (response) {
     return response;
 
 }, function (error) {
-    const errResponse = error.response,
+    const errorResponse = error.response,
         originalRequest = error.config;
 
-    if (errResponse.status === 401 &&
-        errResponse.config &&
-        !errResponse.config.__isRetryRequest
+    if (errorResponse.status === 401 &&
+        errorResponse.config &&
+        !errorResponse.config.__isRetryRequest
     ) {
-
         return new Promise((resolve, reject) => {
             AuthService.refreshSession()
                 .then(function (response) {
