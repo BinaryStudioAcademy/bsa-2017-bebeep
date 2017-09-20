@@ -47,7 +47,7 @@ class SubscribeModal extends React.Component {
             seats: data.filters.seats,
             rating: data.filters.rating,
             start_at: data.start_at,
-            currency: data.currency || activeCurrency,
+            currency: data.filters.currency || activeCurrency,
         });
     }
 
