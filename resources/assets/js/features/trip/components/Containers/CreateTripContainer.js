@@ -144,6 +144,7 @@ class CreateTripContainer extends React.Component {
             start_at: tripTime.start_at,
             end_at: tripTime.end_at,
             price: form.price.value,
+            currency_id: this.props.currency.activeCurrency.id,
             seats: form.seats.value,
             from: startPoint.place,
             to: endPoint.place,
@@ -175,6 +176,8 @@ class CreateTripContainer extends React.Component {
     }
 
     render() {
+        console.log("currency", this.props.currency);
+
         const { translate, waypoints, onWaypointAdd, onWaypointDelete } = this.props,
             { errors, startPoint, endPoint } = this.state;
 
@@ -230,7 +233,8 @@ class CreateTripContainer extends React.Component {
 
 const CreateTripContainerConnected = connect(
     state => ({
-        translate: getTranslate(state.locale)
+        translate: getTranslate(state.locale),
+        currency: state.currency
     }),
     (dispatch) => bindActionCreators({tripCreateSuccess}, dispatch)
 )(EditableWaypoints(CreateTripContainer));
