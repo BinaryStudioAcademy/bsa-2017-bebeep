@@ -17,9 +17,9 @@ Route::get('authentication/me', [
     'uses' => 'Auth\SessionController@getSessionUser',
 ]);
 
-Route::get('authentication/refresh', [
+Route::put('authentication/token', [
     'middleware' => 'jwt.refresh',
-    'as' => 'authentication.refresh',
+    'as' => 'authentication.token.refresh',
     'uses' => 'Auth\SessionController@refresh',
 ]);
 

@@ -17,7 +17,7 @@ const AuthService = (() => {
 
     const TOKEN_KEY_NAME = 'session_token',
         REQUEST_SESSION_DATA = '/api/authentication/me',
-        REQUEST_REFRESH_SESSION = '/api/authentication/refresh',
+        REQUEST_REFRESH_SESSION = '/api/authentication/token',
         USER_PROPS = ['first_name', 'last_name', 'avatar',];
 
     let _this = null,
@@ -173,7 +173,7 @@ const AuthService = (() => {
         },
 
         refreshSession() {
-            return refreshSessionRequest.get(REQUEST_REFRESH_SESSION);
+            return refreshSessionRequest.put(REQUEST_REFRESH_SESSION);
         },
     };
 })();
