@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\User;
+use Money\Money;
+use App\Models\Currency;
+use Money\Currency as MoneyCurrency;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -96,5 +99,27 @@ class Trip extends Model
     public function currency()
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    /**
+     * @return \Money\Money
+     */
+    public function moneyPrice()
+    {
+        $code = $this->currency->code ?? Currency::CURRENCY_MAIN_CODE;
+
+        return new Money($this->attributes['price'], new MoneyCurrency($code));
+    }
+
+    /**
+     * @param \App\Models\Currency $currency
+     * @return int
+     */
+    public function priceInCurrency(Currency $currency) : int
+    {
+        return (int) app('CurrenciesConverter')->convert(
+            $this->moneyPrice(),
+            new MoneyCurrency($currency->code)
+        )->getAmount();
     }
 }
