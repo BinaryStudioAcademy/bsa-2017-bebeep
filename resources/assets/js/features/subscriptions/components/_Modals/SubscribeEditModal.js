@@ -14,6 +14,7 @@ import SeatsDropDown from 'features/search/components/Result/Dropdowns/SeatsDrop
 import RatingDropDown from 'features/search/components/Result/Dropdowns/RatingDropDown';
 import AnimalsDropDown from 'features/search/components/Result/Dropdowns/AnimalsDropDown';
 import LuggageDropDown from 'features/search/components/Result/Dropdowns/LuggageDropDown';
+import CurrencyDropDown from 'features/search/components/Result/Dropdowns/CurrencyDropDown';
 
 import 'features/search/styles/subscribe-modal.scss';
 
@@ -31,7 +32,8 @@ class SubscribeEditModal extends React.Component {
                 animals: null,
                 luggage: null,
                 seats: null,
-                rating: null
+                rating: null,
+                currency: null
             }
         };
 
@@ -42,6 +44,7 @@ class SubscribeEditModal extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.priceChange = this.priceChange.bind(this);
         this.timeChange = this.timeChange.bind(this);
+        this.currencyChange = this.currencyChange.bind(this);
     }
 
     updateFilterData(props) {
@@ -119,6 +122,15 @@ class SubscribeEditModal extends React.Component {
         }});
     }
 
+    currencyChange(e) {
+        const currency = +e.currentTarget.dataset.value;
+
+        this.setState({filters: {
+            ...this.state.filters,
+            currency
+        }});
+    }
+
     onSubmit(e) {
         e.preventDefault();
         const {id, editSubscriptions, toggle, onSuccess, onError} = this.props,
@@ -146,9 +158,10 @@ class SubscribeEditModal extends React.Component {
     }
 
     render() {
-        const {translate, isOpen, toggle, activeCurrency} = this.props,
+        const {translate, isOpen, toggle, currencies} = this.props,
             {from, to, start_at, filters} = this.state,
-            {price, time, animals, luggage, seats, rating} = filters,
+            {price, time, animals, luggage, seats, rating, currency} = filters,
+            activeCurrency = _.find(currencies, {id: currency}) || {},
             cityFrom = getCityLocation(from),
             cityTo = getCityLocation(to),
             info = `${cityFrom} - ${cityTo}`,
@@ -210,7 +223,16 @@ class SubscribeEditModal extends React.Component {
                                 </div>
                                 <div className="col-md-6 pr-4">
                                     <div className="filter__prop">
-                                        <div className="filter__prop-name subscribe-modal-name">{translate('subscriptions.filter.price')}</div>
+                                        <div className="filter__prop-name subscribe-modal-name">
+                                            <div className="row">
+                                                <div className="col-4">
+                                                    {translate('subscriptions.filter.price')}
+                                                </div>
+                                                <div className="col-8 text-right">
+                                                    <CurrencyDropDown currency={activeCurrency} onChange={this.currencyChange} />
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div className="filter__prop-control">
                                             <div className="filter__prop-name subscribe-modal-name">
                                                 {translate('subscriptions.filter.price_range', {
@@ -271,6 +293,7 @@ export default connect(
         subscriptions: state.subscriptions.entities.subscriptions,
         filters: state.subscriptions.entities.filters,
         activeCurrency: state.currency.activeCurrency,
+        currencies: state.currency.currencies,
         translate: getTranslate(state.locale)
     }),
     dispatch => bindActionCreators({editSubscriptions}, dispatch)
