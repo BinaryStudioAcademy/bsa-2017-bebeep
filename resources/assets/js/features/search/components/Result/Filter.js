@@ -33,7 +33,7 @@ class Filter extends React.Component {
         this.luggageChange = this.luggageChange.bind(this);
         this.seatsChange = this.seatsChange.bind(this);
         this.ratingChange = this.ratingChange.bind(this);
-        // this.transferChange = this.transferChange.bind(this);
+        this.transfersChange = this.transfersChange.bind(this);
     }
 
     componentWillMount() {
