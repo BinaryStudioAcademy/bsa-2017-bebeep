@@ -101,28 +101,26 @@ class TripDetailsContainer extends React.Component {
             </div>
         );
     }
-    convertTripCurrency() {
-        const value = this.props.details.trip.price.value;
-        const fakeData = {id:1, code:'USD', sign:'$', rate:1, is_main:true};
 
-        return CurrencyService.convert(value, fakeData);
+    convertTripPrice() {
+        const trip = this.props.details.trip,
+            currency = CurrencyService.getCurrencyById(trip.currency_id);
+
+        return CurrencyService.convertValue(trip.price, currency);
     }
 
     render() {
-        const { translate, details: {trip, routes, driver, vehicle} } = this.props,
+        const { translate, details: {trip, routes, driver, vehicle}, activeCurrency } = this.props,
             { isOpenBookingModal, isOpenBookingStatusModal } = this.state;
 
         const startPoint = routes[0].from,
             endPoint = _.last(routes).to,
             currentBookings = routes[0].bookings.data,
             currentFreeSeats = routes[0].free_seats;
-        // TODO :: currentBookings and currentFreeSeats can be not only the first route
+
+        const tripPrice = this.convertTripPrice();
 
         this.formatStartAt();
-        // this.convertTripCurrency();
-        const tripPrice = this.convertTripCurrency();
-        console.log(CurrencyService.getActiveCurrency(),123456798);
-        const currency = CurrencyService.getActiveCurrency();
 
         return (
             <div className="row">
@@ -172,7 +170,7 @@ class TripDetailsContainer extends React.Component {
 
                         <TripBookingMainInfo
                             price={ tripPrice }
-                            currencySign={ currency.sign }
+                            currencySign={ activeCurrency.sign }
                             freeSeats={ currentFreeSeats }
                         />
                         <TripPassengersCurrent
@@ -190,7 +188,7 @@ class TripDetailsContainer extends React.Component {
                     maxSeats={ trip.seats }
                     waypoints={ routes }
                     price={ tripPrice }
-                    currencySign={ currency.sign }
+                    currencySign={ activeCurrency.sign }
                     startAt={ trip.start_at_format }
                     isOpen={ isOpenBookingModal }
                     onClosed={ this.onBookingClosed }
