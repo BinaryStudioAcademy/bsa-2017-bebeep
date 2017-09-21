@@ -39,6 +39,7 @@ class RouteTransformer extends TransformerAbstract
             'start_at_x' => $route->start_at->timestamp,
             'end_at_x' => $route->end_at->timestamp,
             'reserved_seats' => $route->reservedSeats,
+            'price' => $route->price,
         ];
     }
 

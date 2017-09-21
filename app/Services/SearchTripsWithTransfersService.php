@@ -14,6 +14,7 @@ class SearchTripsWithTransfersService
     private $tripRepository;
     private $possibleTripsIds;
     private $searchRequest;
+    private $searchCurrency;
 
     public function __construct(TripRepository $tripRepository)
     {
@@ -27,6 +28,7 @@ class SearchTripsWithTransfersService
     public function search(SearchTripRequest $request)
     {
         $this->searchRequest = $request;
+        $this->searchCurrency = \App\Models\Currency::find($this->searchRequest->getCurrencyId());
         $this->possibleTripsIds = $this->tripRepository->search()
             ->initialize()
             ->setIsAnimalsAllowed($request->getIsAnimalsAllowed())
@@ -73,6 +75,12 @@ class SearchTripsWithTransfersService
             }
 
             return true;
+        })->map(function ($routeGroup) {
+            $routeGroup->getRoutes()->map(function ($route) {
+                $route->priceInCurrency = $route->priceInCurrency($this->searchCurrency);
+            });
+
+            return $routeGroup;
         });
 
         return [
@@ -193,7 +201,7 @@ class SearchTripsWithTransfersService
             }
 
             $routeGroupPrice = $routeGroup->getRoutes()->reduce(function ($carry, $route) {
-                return $carry + $route->trip->price;
+                return $carry + $route->priceInCurrency($this->searchCurrency);
             });
 
             return $routeGroupPrice >= $minPrice && $routeGroupPrice <= $maxPrice;
@@ -209,7 +217,7 @@ class SearchTripsWithTransfersService
     {
         $routeGroupsPrices = $routeGroups->map(function ($routeGroup) {
             $routeGroupPrice = $routeGroup->getRoutes()->reduce(function ($carry, $route) {
-                return $carry + $route->trip->price;
+                return $carry + $route->priceInCurrency($this->searchCurrency);
             });
 
             return $routeGroupPrice;

@@ -187,6 +187,25 @@ class TripForm extends React.Component {
             );
     }
 
+    renderCurrenciesList() {
+        const { activeCurrency, currencies } = this.props.currency;
+        const { trip } = this.props,
+            defaultValue = trip ? trip.currency_id : activeCurrency.id;
+
+        return (
+            <select name="currency_id"
+                id="currency_id"
+                className="form-control"
+                defaultValue={ defaultValue }
+            >
+            {currencies.map((currency) =>
+                <option key={currency.id} value={currency.id}>
+                    {currency.code} ({currency.sign})</option>
+            )}
+            </select>
+        );
+    }
+
     render() {
         const { errors, translate, trip, waypoints, startPoint, endPoint, placesCssClasses,
                 onSubmit, onSelectStartPoint, onSelectEndPoint, onWaypointAdd, onWaypointDelete
@@ -235,6 +254,20 @@ class TripForm extends React.Component {
                     >
                         {translate('trip_form.price')}
                     </Input>
+
+                    <div className={"form-group row " + (errors.currency_id ? 'has-danger' : '')}>
+                        <label className="form-control-label text-muted col-sm-4"
+                               htmlFor="currency_id"
+                        >
+                            {translate('trip_form.currency')}
+                        </label>
+                        <div className="col-sm-8">
+                            {this.renderCurrenciesList()}
+
+                            <div className="form-control-feedback">{errors.currency_id}</div>
+                        </div>
+                    </div>
+
                     <Input
                         type="number"
                         name="seats"
@@ -365,6 +398,7 @@ const TripFormConnected = connect(
     state => ({
         vehicles: state.vehicle.vehicles,
         vehiclesAreLoaded: state.vehicle.vehiclesAreLoaded,
+        currency: state.currency
     }),
     (dispatch) => bindActionCreators({getVehicles}, dispatch)
 )(TripForm);

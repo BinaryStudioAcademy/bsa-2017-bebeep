@@ -112,6 +112,14 @@ class Trip extends React.Component {
             });
     }
 
+    getCurrencySign() {
+        const { currency_id } = this.props.trip;
+        const { currencies } = this.props.currency,
+            currencyItem = currencies.filter((item) => item.id === currency_id);
+
+        return (currencyItem[0]) ? currencyItem[0].sign : '$';
+    }
+
     render() {
         const { translate, routes, trip, bookings, vehicles } = this.props,
             { modalIsOpen, modalUsersIsOpen} = this.state;
@@ -130,6 +138,8 @@ class Trip extends React.Component {
         }, []);
 
         const bookingCount = BookingService.getBookingsCount(arBookings);
+
+        const currencySign = this.getCurrencySign();
 
         return (
             <div className={'col-sm-4 trip-card ' +
@@ -161,7 +171,7 @@ class Trip extends React.Component {
                                     {translate('trip_list.price')}</dt>
 
                                 <dd className="col-sm-8 trip-card-info__list-value">
-                                    ${trip.price}</dd>
+                                    {currencySign} {trip.price}</dd>
 
                                 <dt className="col-sm-4 trip-card-info__list-option">
                                     {translate('trip_list.seats')}</dt>
@@ -230,5 +240,6 @@ export default connect(
         vehicles: state.tripList.vehicles,
         routes: state.tripList.routes,
         bookings: state.tripList.bookings,
+        currency: state.currency
     })
 )(Trip);

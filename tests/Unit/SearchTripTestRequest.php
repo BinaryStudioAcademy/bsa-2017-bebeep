@@ -192,4 +192,9 @@ class SearchTripRequest implements SearchTripRequestContract
     {
         return $this->transfers;
     }
+
+    public function getCurrencyId(): int
+    {
+        return 1;
+    }
 }

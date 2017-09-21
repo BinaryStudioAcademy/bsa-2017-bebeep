@@ -12,6 +12,11 @@ interface UpdateTripRequest
     public function getPrice(): float;
 
     /**
+     * @return int|null
+     */
+    public function getCurrencyId(): ?int;
+
+    /**
      * @return int
      */
     public function getSeats(): int;

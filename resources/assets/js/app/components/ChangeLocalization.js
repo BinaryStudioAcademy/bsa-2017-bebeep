@@ -45,7 +45,7 @@ class ChangeLocalization extends React.Component {
                 <DropdownMenu right>
                     {languages.map((lang) =>
                         <div key={ lang }
-                            className="dropdown-item header-locales-menu__locale"
+                            className="dropdown-item cursor-pointer"
                             onClick={ () => this.onSetLanguage(lang) }
                         >
                             { LangService.getName(lang) }
