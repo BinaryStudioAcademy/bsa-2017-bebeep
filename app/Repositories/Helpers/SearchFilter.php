@@ -258,7 +258,6 @@ class SearchFilter
     {
         $query = (clone $this->query)
             ->addSelect('trips.*')
-            ->addSelect('currencies.rate')
             ->addSelect('routes_from.id as from_id')
             ->addSelect('routes_from.from as from')
             ->addSelect('routes_to.id as to_id')
