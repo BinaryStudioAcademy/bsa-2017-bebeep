@@ -346,6 +346,9 @@ class TripsService
      */
     public function search(SearchTripRequest $request): SearchTripCollection
     {
+        $sortField = $request->getSort();
+        $sortOrder = $request->getOrder();
+
         $this->searchCurrency = $this->currencyRepository->find($request->getCurrencyId());
 
         $search = $this->tripRepository->search()
@@ -361,7 +364,7 @@ class TripsService
                 $request->getMaxTime()
             )
             ->setPrice($request->getMinPrice(), $request->getMaxPrice())
-            ->setOrder($request->getSort(), $request->getOrder())
+            ->setOrder($sortField, $sortOrder)
             ->setIsAnimalsAllowed($request->getIsAnimalsAllowed())
             ->setLuggageSize($request->getLuggageSize())
             ->setSeats($request->getSeats())
@@ -395,13 +398,12 @@ class TripsService
 
         $search->setCount($tripCollection->count());
 
-        $tripCollection = $tripCollection->sortBy(function ($trip) {
-            return $trip->priceInCurrency;
-        })->values();
+        if ($sortField === 'price') {
+            $tripCollection = $tripCollection->sortByPrice($sortOrder);
+        }
 
-        $tripCollection->setMeta($search->getMetaData());
-
-        return $tripCollection;
+        return $tripCollection
+            ->setMeta($search->getMetaData());
     }
 
     /**
