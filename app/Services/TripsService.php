@@ -386,6 +386,7 @@ class TripsService
 
             if (! $search->priceIsIncludedInRange($priceInCurrency)) {
                 $tripCollection->forget($trip->id);
+
                 return;
             }
 
