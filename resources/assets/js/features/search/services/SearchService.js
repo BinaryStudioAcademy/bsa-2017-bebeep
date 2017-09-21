@@ -4,7 +4,7 @@ import CurrencyService from 'features/currency/services/CurrencyService';
 import moment from 'moment';
 
 export const search = (
-    fromCoord, toCoord, start_at = null, page = 1, sort = 'price', order = 'asc', limit = 10, filter = {}
+    fromCoord, toCoord, currencyId, start_at = null, page = 1, sort = 'price', order = 'asc', limit = 10, filter = {}
 ) => {
     const startDate = start_at !== null ? moment(start_at * 1000).hours(0).minute(0).seconds(0).unix() : null;
 
@@ -12,8 +12,8 @@ export const search = (
         params: setFilter(filter, {
             fc: encodeCoord(fromCoord),
             tc: encodeCoord(toCoord),
+            currency_id: currencyId,
             start_at: startDate,
-            currency_id: CurrencyService.getActiveCurrency().id,
             sort,
             order,
             page,
@@ -133,14 +133,11 @@ export const setUrl = (param = {}) => {
     let newLocation = Object.assign(location, {
         query: Object.assign(location.query, param)
     });
-
     for (let key in newLocation.query) {
         if (newLocation.query[key] === null) {
             delete(newLocation.query[key]);
         }
     }
-    newLocation.query.currency_id = CurrencyService.getActiveCurrency().id;
-
     browserHistory.replace(newLocation);
 };
 
