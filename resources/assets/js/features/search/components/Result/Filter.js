@@ -47,13 +47,8 @@ class Filter extends React.Component {
     updateState(props) {
         const {query} = props.location;
         let filter = getFilter();
-
-        if (!filter.price || (filter.price[0] === 0 && filter.price[1] === 0)) {
-            filter.price = props.priceBounds;
-        }
-
         this.setState(Object.assign({
-            price: [0, 0],
+            price: props.priceBounds,
             time: [0, 24],
             animals: null,
             luggage: null,
@@ -93,8 +88,7 @@ class Filter extends React.Component {
 
     render() {
         const { time, price, animals, seats, luggage, rating, transfers } = this.state;
-
-        const { priceBounds, translate, activeCurrency } = this.props;
+        const { priceBounds, translate, priceCurrencySign } = this.props;
 
         return (
             <div className="filter filter-centered">
@@ -122,7 +116,7 @@ class Filter extends React.Component {
                             {translate('search_result.filter.price_range', {
                                 start: priceBounds[0],
                                 end: priceBounds[1],
-                                currency: _.isEmpty(activeCurrency) ? '' : activeCurrency.sign
+                                currency: priceCurrencySign,
                             })}
                         </div>
                         <Range
@@ -171,7 +165,6 @@ Filter.PropTypes = {
 export default withRouter(connect(
     (state) => ({
         start_at: state.search.start_at,
-        activeCurrency: state.currency.activeCurrency,
         translate: getTranslate(state.locale)
     })
 )(Filter));
