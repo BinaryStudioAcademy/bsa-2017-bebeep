@@ -8,8 +8,7 @@ import {editSubscriptions} from '../../actions';
 import {getTranslate} from 'react-localize-redux';
 import {getCityLocation} from 'app/helpers/TripHelper';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
-import { editSubscription } from 'app/services/SubscriptionService';
-import {subscriptionFilterTransformer} from 'features/search/services/SearchService';
+import { editSubscription, transformFilterData } from 'app/services/SubscriptionService';
 import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import SeatsDropDown from 'features/search/components/Result/Dropdowns/SeatsDropDown';
 import RatingDropDown from 'features/search/components/Result/Dropdowns/RatingDropDown';
@@ -138,20 +137,8 @@ class SubscribeEditModal extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        console.log(this.state);
         const {id, editSubscriptions, toggle, onSuccess, onError} = this.props,
-            data = subscriptionFilterTransformer(this.state.filters);
-            //     _.reduce(this.state.filters, (result, filter, name) => {
-            //     if (filter) {
-            //         if (filter instanceof Array) {
-            //             result[name] = {from: filter[0], to: filter[1]};
-            //         } else {
-            //             result[name] = filter;
-            //         }
-            //     }
-            //
-            //     return result;
-            // }, {});
+            data = transformFilterData(this.state.filters);
 
         editSubscription(id, {
             filters: data

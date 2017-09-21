@@ -168,28 +168,22 @@ export const transformSubscriptionData = (toBeTransformed) => {
         },
         start_at: toBeTransformed.data.start_at,
         email: toBeTransformed.subsEmail,
-        filters: subscriptionFilterTransformer(
-            Object.assign({}, toBeTransformed, { currency: toBeTransformed.currency.id })
-        )
-    };
-};
-
-export const subscriptionFilterTransformer = (data) => {
-    return {
-        animals: data.animals,
-        luggage: data.luggage,
-        seats: data.seats,
-        rating: data.rating,
-        transfer: data.transfer,
-        price: {
-            from: data.price[0],
-            to: data.price[1],
-            currency: data.currency
-        },
-        time: {
-            from: data.time[0],
-            to: data.time[1]
-        },
+        filters: {
+            animals: toBeTransformed.animals,
+            luggage: toBeTransformed.luggage,
+            seats: toBeTransformed.seats,
+            rating: toBeTransformed.rating,
+            transfer: toBeTransformed.transfer,
+            price: {
+                from: toBeTransformed.price[0],
+                to: toBeTransformed.price[1],
+                currency: toBeTransformed.currency.id
+            },
+            time: {
+                from: toBeTransformed.time[0],
+                to: toBeTransformed.time[1]
+            },
+        }
     };
 };
 
