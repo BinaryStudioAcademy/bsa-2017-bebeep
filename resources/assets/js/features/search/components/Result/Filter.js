@@ -14,6 +14,8 @@ import { setUrl, setFilter, getFilter} from 'features/search/services/SearchServ
 
 import 'features/search/styles/filter.scss';
 
+const PRICE_RANGE_SEGMENTS = 7;
+
 class Filter extends React.Component {
 
     constructor(props) {
@@ -95,6 +97,9 @@ class Filter extends React.Component {
         const { time, price, animals, seats, luggage, rating, transfers } = this.state;
         const { priceBounds, translate, priceCurrencySign } = this.props;
 
+        console.log(priceBounds);
+        console.log(price);
+
         return (
             <div className="filter filter-centered">
                 <div className="filter__prop">
@@ -119,15 +124,15 @@ class Filter extends React.Component {
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
                             {translate('search_result.filter.price_range', {
-                                start: priceBounds[0],
-                                end: priceBounds[1],
+                                start: price[0],
+                                end: price[1],
                                 currency: priceCurrencySign,
                             })}
                         </div>
                         <Range
                             min={priceBounds[0]}
                             max={priceBounds[1]}
-                            step={10}
+                            step={1}
                             allowCross={false}
                             defaultValue={[priceBounds[0], priceBounds[1]]}
                             value={price}
