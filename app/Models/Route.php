@@ -96,7 +96,7 @@ class Route extends Model
     {
         $code = $this->trip->currency->code ?? Currency::CURRENCY_MAIN_CODE;
 
-        return new Money($this->attributes['price'], new MoneyCurrency($code));
+        return new Money((int) $this->price, new MoneyCurrency($code));
     }
 
     /**

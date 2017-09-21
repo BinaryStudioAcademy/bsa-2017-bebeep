@@ -108,7 +108,7 @@ class Trip extends Model
     {
         $code = $this->currency->code ?? Currency::CURRENCY_MAIN_CODE;
 
-        return new Money($this->price, new MoneyCurrency($code));
+        return new Money((int) $this->price, new MoneyCurrency($code));
     }
 
     /**
