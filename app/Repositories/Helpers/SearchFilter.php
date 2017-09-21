@@ -30,6 +30,15 @@ class SearchFilter
     /** @var int $offset */
     protected $offset;
 
+    /** @var int $count */
+    protected $count;
+
+    /** @var int $metaPrice */
+    protected $metaMinPrice;
+
+    /** @var int $metaMaxPrice */
+    protected $metaMaxPrice;
+
     public function __construct()
     {
         $this->query = DB::table('trips');
@@ -104,8 +113,11 @@ class SearchFilter
      */
     public function setPrice(int $min, int $max): SearchFilter
     {
-        $this->maxPrice = $max;
         $this->minPrice = $min;
+        $this->maxPrice = $max;
+
+        $this->metaMinPrice = $min;
+        $this->metaMaxPrice = $max;
 
         return $this;
     }
@@ -223,6 +235,49 @@ class SearchFilter
     }
 
     /**
+     * Set the search data count.
+     *
+     * @param int $count
+     *
+     * @return void
+     */
+    public function setCount(int $count): void
+    {
+        $this->count = $count;
+    }
+
+    /**
+     * Check, whether the price is included in the min / max range
+     *
+     * @param int $price
+     *
+     * @return bool
+     */
+    public function priceIsIncludedInRange(int $price): bool
+    {
+        return (($this->minPrice === 0 || $price >= $this->minPrice) &&
+            ($this->maxPrice === 0 || $price <= $this->maxPrice)
+        );
+    }
+
+    /**
+     * Change the min and the max price for the meta data.
+     *
+     * @param int $price
+     *
+     * @return void
+     */
+    public function changePriceRangeForMeta(int $price): void
+    {
+        if ($this->metaMinPrice === 0 || $price < $this->metaMinPrice) {
+            $this->metaMinPrice = $price;
+        }
+        if ($this->metaMaxPrice === 0 || $price > $this->metaMaxPrice) {
+            $this->metaMaxPrice = $price;
+        }
+    }
+
+    /**
      * @param int $limit
      * @param int $offset
      * @return SearchFilter
@@ -255,11 +310,6 @@ class SearchFilter
             ->addSelect('routes_to.id as to_id')
             ->addSelect('routes_to.to as to');
 
-        if ($this->minPrice !== 0 && $this->maxPrice !== 0) {
-            $query->where('trips.price', '>=', $this->minPrice)
-                ->where('trips.price', '<=', $this->maxPrice);
-        }
-
         $query->limit($this->limit)->offset($this->offset * $this->limit);
 
         return $query->get();
@@ -270,22 +320,11 @@ class SearchFilter
      */
     public function getMetaData(): array
     {
-        $query = clone $this->query;
-
-        $result = $query->addSelect(DB::raw('MAX(trips.price) as max_price, MIN(trips.price) as min_price'))
-            ->first();
-
-        if ($this->minPrice !== 0 && $this->maxPrice !== 0) {
-            $query->where('trips.price', '>=', $this->minPrice)
-                ->where('trips.price', '<=', $this->maxPrice);
-        }
-        $count = $query->count();
-
-        if ($result === null) {
-            return ['min' => 0, 'max' => 0, 'count' => 0];
-        } else {
-            return ['min' => $result->min_price, 'max' => $result->max_price, 'count' => $count];
-        }
+        return [
+            'min' => $this->metaMinPrice,
+            'max' => $this->metaMaxPrice,
+            'count' => $this->count,
+        ];
     }
 
     /**
