@@ -1,3 +1,4 @@
+import React from 'react';
 import {securedRequest} from './RequestService';
 import LangService from './LangService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper'
@@ -8,6 +9,7 @@ export const NOTIFICATION_BOOKING_DECLINED = 'booking_declined';
 export const NOTIFICATION_BOOKING_CREATED = 'booking_created';
 export const NOTIFICATION_REVIEW_ON_TRIP_CREATED = 'review_on_trip_created';
 export const NOTIFICATION_CHAT_MESSAGE_RECEIVED = 'chat_new_message';
+export const NOTIFICATION_TRIP_CREATED = 'trip_created';
 
 export const getNotifications = () => {
     return securedRequest.get('/api/v1/notifications');
@@ -138,6 +140,41 @@ export const getMessage = (notification) => {
                     message: notification.message
                 }),
                 link: `/dashboard/messages/${notification.sender_id}`
+            };
+        case NOTIFICATION_TRIP_CREATED:
+            return {
+                type: 'info',
+                title: translate(`notifications.messages.${notification.type}.title`),
+                message: [
+                    translate(`notifications.messages.${notification.type}.message`, {
+                        'start_at': DateTimeHelper.dateFormat(notification.start_at_x, {
+                            onlyDate: true,
+                            dateFormat: 'MM.DD.YYYY'
+                        }).date,
+                        'from': notification.from,
+                        'to': notification.to
+                    }),
+                    translate(`notifications.messages.${notification.type}.params.animals`, {
+                        'animals': notification.params.animals
+                            ? translate(`notifications.messages.${notification.type}.params.yes`)
+                            : translate(`notifications.messages.${notification.type}.params.no`)
+                    }),
+                    translate(`notifications.messages.${notification.type}.params.luggage_size`, {
+                        'size': notification.params.luggage_size > 3
+                            ? translate(`notifications.messages.${notification.type}.params.more_four`)
+                            : translate(`notifications.messages.${notification.type}.params.luggage_size${notification.params.luggage_size}`)
+                    }),
+                    translate(`notifications.messages.${notification.type}.params.price`, {
+                        'price': notification.params.price
+                    }),
+                    translate(`notifications.messages.${notification.type}.params.seats`, {
+                        seats:  notification.params.seats
+                    }),
+                    translate(`notifications.messages.${notification.type}.params.rating`, {
+                        rating: notification.params.rating.toFixed()
+                    })
+                ].map((element, index) => (<span key={index}>{element}</span>)),
+                link: `/trip/${notification.trip_id}`
             };
         default:
             return {

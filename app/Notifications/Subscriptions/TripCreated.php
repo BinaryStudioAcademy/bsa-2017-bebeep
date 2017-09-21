@@ -63,7 +63,7 @@ class TripCreated extends Notification implements ShouldQueue
                         ? __('email/subscription.yes')
                         : __('email/subscription.not'),
                     'price' => $trip['params']['price'],
-                    'rating' => round($trip['params']['seats'], 2),
+                    'rating' => round($trip['params']['rating'], 2),
                 ],
             ]);
     }
