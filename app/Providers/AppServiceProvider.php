@@ -2,13 +2,16 @@
 
 namespace App\Providers;
 
-use App\Models\Currency;
+use Money\Converter;
 use App\Models\Vehicle;
+use App\Models\Currency;
 use App\Services\RouteService;
 use App\Services\BookingService;
 use App\Services\ReviewsService;
 use App\Services\CurrencyService;
 use App\Services\PasswordService;
+use Money\Exchange\FixedExchange;
+use Money\Currencies\ISOCurrencies;
 use App\Rules\Booking\TripDateRule;
 use App\Services\TripDetailService;
 use App\Repositories\TripRepository;
@@ -58,9 +61,6 @@ use App\Repositories\Contracts\BookingRepository as BookingRepositoryContract;
 use App\Repositories\Contracts\CurrencyRepository as CurrencyRepositoryContract;
 use App\Services\Contracts\SubscriptionsService as SubscriptionsServiceContract;
 use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
-use Money\Converter;
-use Money\Currencies\ISOCurrencies;
-use Money\Exchange\FixedExchange;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -87,7 +87,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('CurrenciesConverter', function() {
+        $this->app->singleton('CurrenciesConverter', function () {
             return new Converter(new ISOCurrencies(), $this->getExchange());
         });
 
