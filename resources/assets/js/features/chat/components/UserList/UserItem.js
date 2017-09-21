@@ -20,9 +20,8 @@ class UserItem extends React.Component {
                 <div className="col-3 col-md-2">
                     <div className="user-item__avatar-container">
                         {this.renderStatusOnline()}
-                        <img
-                            src={getProfileAvatar(user.avatar)}
-                            alt={user.first_name}
+                        <img src={getProfileAvatar(user.avatar)}
+                            alt=""
                             className="user-item__avatar"
                         />
                     </div>
