@@ -76,7 +76,10 @@ class SearchTrip
      */
     public function getFromPoint(): array
     {
-        $route = $this->modelTrip->routes->where('id', '=', (int) $this->rawTrip->from_id)->first();
+        $route = $this->modelTrip
+            ->routes
+            ->where('id', '=', (int) $this->rawTrip->from_id)
+            ->first();
 
         return [
             'id' => $route->id,
@@ -92,7 +95,10 @@ class SearchTrip
      */
     public function getToPoint(): array
     {
-        $route = $this->modelTrip->routes->where('id', '=', (int) $this->rawTrip->to_id)->first();
+        $route = $this->modelTrip
+            ->routes
+            ->where('id', '=', (int) $this->rawTrip->to_id)
+            ->first();
 
         return [
             'id' => $route->id,
