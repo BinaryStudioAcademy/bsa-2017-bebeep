@@ -55,4 +55,9 @@ class SaveVehicleRequest implements SaveCarRequestInterface
     {
         return $this->user->id;
     }
+
+    public function getCarBrandId(): ?int
+    {
+        return null;
+    }
 }
