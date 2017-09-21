@@ -43,6 +43,7 @@ class Result extends React.Component {
             resetFilter: false,
             errors: {},
             subscribeModalIsOpen: false,
+            searchRequestStart: false,
         };
 
         this.onChangeSort = this.onChangeSort.bind(this);
@@ -58,10 +59,10 @@ class Result extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.updateState(nextProps);
 
-        const currency = CurrencyService.getCurrencyById(1);
+        /*const currency = CurrencyService.getCurrencyById(1);
 
         CurrencyService.convertValue(this.state.meta.priceRange[0], currency);
-        CurrencyService.convertValue(this.state.meta.priceRange[1], currency);
+        CurrencyService.convertValue(this.state.meta.priceRange[1], currency);*/
     }
 
     updateState(props) {
@@ -106,7 +107,8 @@ class Result extends React.Component {
         setUrl({
             "filter[price][min]": null,
             "filter[price][max]": null,
-            "filter[currency_id]": this.props.activeCurrency.id,
+            //"filter[currency_id]": this.props.activeCurrency.id,
+            "filter[currency_id]": null,
             "filter[time][min]": null,
             "filter[time][max]": null,
             "filter[date]": null,
@@ -119,7 +121,17 @@ class Result extends React.Component {
     }
 
     getData(fromCoord, toCoord, start_at, {limit, page, sort, order, filter}) {
-        this.setState({preloader: true});
+        if (this.state.searchRequestStart) {
+            return;
+        }
+
+        console.log('search');
+
+        this.setState({
+            preloader: true,
+            searchRequestStart: true,
+        });
+
         search(fromCoord, toCoord, start_at, page, sort, order, limit, filter)
             .then(response => {
                 this.setState({
@@ -131,14 +143,16 @@ class Result extends React.Component {
                             +response.data.meta.price.max
                         ]
                     },
-                    preloader: false
+                    preloader: false,
+                    searchRequestStart: false,
                 });
             })
             .catch(error => {
                 if (error.response) {
                     this.setState({
                         errors: error.response,
-                        preloader: false
+                        preloader: false,
+                        searchRequestStart: false,
                     })
                 }
             });
@@ -151,7 +165,8 @@ class Result extends React.Component {
 
     render() {
         const {sort, order, page, limit, meta, collection, preloader, subscribeModalIsOpen} = this.state,
-            {translate, activeCurrency} = this.props,
+            //{translate, activeCurrency} = this.props,
+            {translate} = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
 
@@ -163,7 +178,8 @@ class Result extends React.Component {
                         <div className="col-md-3">
                             <Filter
                                 priceBounds={meta.priceRange}
-                                priceCurrencySign={activeCurrency.sign}
+                                //priceCurrencySign={activeCurrency.sign}
+                                priceCurrencySign="$"
                             />
                             <div className="text-center">
                                 <button role="button" className="btn search-block__btn search-result__btn-subscribe" onClick={this.onClickSubscribe}>
@@ -221,7 +237,7 @@ const ResultConnected = connect(
     (state) => ({
         tripData: state.search,
         translate: getTranslate(state.locale),
-        activeCurrency: state.currency.activeCurrency,
+        //activeCurrency: state.currency.activeCurrency,
     }),
     (dispatch) => bindActionCreators({searchSuccess, setSearchFilters}, dispatch)
 )(Result);
