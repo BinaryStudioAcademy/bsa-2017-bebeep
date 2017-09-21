@@ -147,34 +147,34 @@ export const getMessage = (notification) => {
                 title: translate(`notifications.messages.${notification.type}.title`),
                 message: [
                     translate(`notifications.messages.${notification.type}.message`, {
-                        'start_at': DateTimeHelper.dateFormat(notification.start_at_x, {
+                        'start_at': DateTimeHelper.dateFormat(notification.data.start_at_x, {
                             onlyDate: true,
                             dateFormat: 'MM.DD.YYYY'
                         }).date,
-                        'from': notification.from,
-                        'to': notification.to
+                        'from': notification.data.from,
+                        'to': notification.data.to
                     }),
                     translate(`notifications.messages.${notification.type}.params.animals`, {
-                        'animals': notification.params.animals
+                        'animals': notification.data.params.animals
                             ? translate(`notifications.messages.${notification.type}.params.yes`)
                             : translate(`notifications.messages.${notification.type}.params.no`)
                     }),
                     translate(`notifications.messages.${notification.type}.params.luggage_size`, {
-                        'size': notification.params.luggage_size > 3
+                        'size': notification.data.params.luggage_size > 3
                             ? translate(`notifications.messages.${notification.type}.params.more_four`)
-                            : translate(`notifications.messages.${notification.type}.params.luggage_size${notification.params.luggage_size}`)
+                            : translate(`notifications.messages.${notification.type}.params.luggage_size${notification.data.params.luggage_size}`)
                     }),
                     translate(`notifications.messages.${notification.type}.params.price`, {
-                        'price': notification.params.price
+                        'price': notification.data.params.price
                     }),
                     translate(`notifications.messages.${notification.type}.params.seats`, {
-                        seats:  notification.params.seats
+                        seats:  notification.data.params.seats
                     }),
                     translate(`notifications.messages.${notification.type}.params.rating`, {
-                        rating: notification.params.rating.toFixed()
+                        rating: parseFloat(notification.data.params.rating).toFixed(2)
                     })
                 ].map((element, index) => (<span key={index}>{element}</span>)),
-                link: `/trip/${notification.trip_id}`
+                link: `/trip/${notification.data.trip_id}`
             };
         default:
             return {
