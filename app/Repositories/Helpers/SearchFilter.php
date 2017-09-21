@@ -55,10 +55,15 @@ class SearchFilter
      * @param float $fromLng
      * @param float $toLat
      * @param float $toLng
-     * @return SearchFilter
+     *
+     * @return $this
      */
-    public function addLocation(float $fromLat, float $fromLng, float $toLat, float $toLng): SearchFilter
-    {
+    public function addLocation(
+        float $fromLat,
+        float $fromLng,
+        float $toLat,
+        float $toLng
+    ): self {
         $this->query
             ->join('routes as routes_from', 'trips.id', '=', 'routes_from.trip_id')
             ->join('routes as routes_to', 'trips.id', '=', 'routes_to.trip_id')
@@ -86,9 +91,10 @@ class SearchFilter
      * @param Carbon $date
      * @param int $minHourOffset
      * @param int $maxHourOffset
-     * @return SearchFilter
+     *
+     * @return $this
      */
-    public function addDate(Carbon $date, $minHourOffset = 1, $maxHourOffset = 1): SearchFilter
+    public function addDate(Carbon $date, $minHourOffset = 1, $maxHourOffset = 1): self
     {
         $dayStart = clone $date;
         $dayStart->hour += $minHourOffset > 0 && $minHourOffset < $maxHourOffset ? $minHourOffset - 1 : 0;
@@ -109,9 +115,10 @@ class SearchFilter
     /**
      * @param int $min
      * @param int $max
-     * @return SearchFilter
+     *
+     * @return $this
      */
-    public function setPrice(int $min, int $max): SearchFilter
+    public function setPrice(int $min, int $max): self
     {
         $this->minPrice = $min;
         $this->maxPrice = $max;
@@ -125,9 +132,10 @@ class SearchFilter
     /**
      * @param string $order
      * @param string $direction
-     * @return SearchFilter
+     *
+     * @return $this
      */
-    public function setOrder(string $order, string $direction = 'asc'): SearchFilter
+    public function setOrder(string $order, string $direction = 'asc'): self
     {
         if ($order === 'price') {
             return $this;
@@ -140,9 +148,10 @@ class SearchFilter
 
     /**
      * @param bool|null $isAnimalsAllowed
-     * @return SearchFilter
+     *
+     * @return $this
      */
-    public function setIsAnimalsAllowed(?bool $isAnimalsAllowed): SearchFilter
+    public function setIsAnimalsAllowed(?bool $isAnimalsAllowed): self
     {
         if ($isAnimalsAllowed === null) {
             return $this;
@@ -155,9 +164,10 @@ class SearchFilter
 
     /**
      * @param int|null $luggageSize
-     * @return SearchFilter
+     *
+     * @return $this
      */
-    public function setLuggageSize(?int $luggageSize): SearchFilter
+    public function setLuggageSize(?int $luggageSize): self
     {
         if ($luggageSize === null) {
             return $this;
@@ -170,9 +180,10 @@ class SearchFilter
 
     /**
      * @param int|null $seats
-     * @return SearchFilter
+     *
+     * @return $this
      */
-    public function setSeats(?int $seats): SearchFilter
+    public function setSeats(?int $seats): self
     {
         if ($seats === null) {
             return $this;
@@ -203,9 +214,10 @@ class SearchFilter
 
     /**
      * @param int|null $rating
-     * @return SearchFilter
+     *
+     * @return $this
      */
-    public function setRating(?int $rating): SearchFilter
+    public function setRating(?int $rating): self
     {
         if ($rating === null) {
             return $this;
@@ -284,10 +296,12 @@ class SearchFilter
     /**
      * @param int $limit
      * @param int $offset
-     * @return SearchFilter
+     *
+     * @return $this
+     *
      * @throws InvalidArgumentException
      */
-    public function paginate(int $limit, int $offset): SearchFilter
+    public function paginate(int $limit, int $offset): self
     {
         if ($limit < 0) {
             throw new InvalidArgumentException("Limit can't be a negative");
