@@ -35,7 +35,9 @@ class TripCreated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return $notifiable->user
+            ? ['mail', 'database', 'broadcast']
+            : ['mail'];
     }
 
     /**
