@@ -1,6 +1,5 @@
 import { browserHistory } from 'react-router';
 import { simpleRequest } from 'app/services/RequestService';
-import CurrencyService from 'features/currency/services/CurrencyService';
 import moment from 'moment';
 
 export const search = (
