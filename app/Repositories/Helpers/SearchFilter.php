@@ -263,7 +263,7 @@ class SearchFilter
     }
 
     /**
-     * Check, whether the price is included in the min / max range
+     * Check, whether the price is included in the min / max range.
      *
      * @param int $price
      *
@@ -271,9 +271,8 @@ class SearchFilter
      */
     public function priceIsIncludedInRange(int $price): bool
     {
-        return (($this->minPrice === 0 || $price >= $this->minPrice) &&
-            ($this->maxPrice === 0 || $price <= $this->maxPrice)
-        );
+        return ($this->minPrice === 0 || $price >= $this->minPrice) &&
+            ($this->maxPrice === 0 || $price <= $this->maxPrice);
     }
 
     /**

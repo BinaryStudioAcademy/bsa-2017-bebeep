@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Money\Money;
-use App\Models\Currency;
 use Money\Currency as MoneyCurrency;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\Helpers\SearchFilter;

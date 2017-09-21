@@ -384,7 +384,7 @@ class TripsService
         $trips->each(function ($trip) use ($tripCollection, $search) {
             $priceInCurrency = $trip->priceInCurrency($this->searchCurrency);
 
-            if (!$search->priceIsIncludedInRange($priceInCurrency)) {
+            if (! $search->priceIsIncludedInRange($priceInCurrency)) {
                 $tripCollection->forget($trip->id);
                 return;
             }

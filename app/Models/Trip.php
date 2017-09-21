@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\User;
 use Money\Money;
-use App\Models\Currency;
 use Money\Currency as MoneyCurrency;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

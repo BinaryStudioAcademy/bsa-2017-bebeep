@@ -40,7 +40,7 @@ class SearchTripCollection extends Collection
             'total' => $this->meta['count'],
             'price' => [
                 'min' => $this->meta['min'],
-                'max' => $this->meta['max']
+                'max' => $this->meta['max'],
             ],
         ];
     }
