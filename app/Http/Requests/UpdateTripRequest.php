@@ -37,6 +37,7 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
             'routes.*.start_at' => 'required|integer',
             'routes.*.end_at' => 'required|integer',
             'vehicle_id' => 'required|integer|exists:vehicles,id',
+            'currency_id' => 'required|integer|exists:currencies,id',
         ];
     }
 

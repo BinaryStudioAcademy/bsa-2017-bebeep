@@ -8,12 +8,12 @@ use App\Models\Currency;
 use App\Services\RouteService;
 use App\Services\BookingService;
 use App\Services\ReviewsService;
-use Money\Exchange\FixedExchange;
 use App\Services\CurrencyService;
 use App\Services\PasswordService;
-use Money\Currencies\ISOCurrencies;
+use Money\Exchange\FixedExchange;
 use App\Rules\Booking\TripDateRule;
 use App\Services\TripDetailService;
+use Money\Currencies\ISOCurrencies;
 use App\Repositories\TripRepository;
 use App\Services\UserProfileService;
 use Illuminate\Support\Facades\Auth;
@@ -87,7 +87,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('CurrenciesConverter', function() {
+        $this->app->singleton('CurrenciesConverter', function () {
             return new Converter(new ISOCurrencies(), $this->getExchange());
         });
 

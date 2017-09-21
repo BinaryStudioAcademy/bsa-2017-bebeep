@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Repositories\Helpers\SearchFilter;
 use Money\Money;
 use Money\Currency;
+use Illuminate\Database\Eloquent\Model;
+use App\Repositories\Helpers\SearchFilter;
 
 class Route extends Model
 {
