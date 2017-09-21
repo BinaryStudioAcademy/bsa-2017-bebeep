@@ -80,7 +80,7 @@ class App extends React.Component {
 
     renderComponent() {
         return !this.state.isShowContent
-            ? <div className="app-main-container container--min-height-350">
+            ? <div className="app-main-container">
                 <Preloader enable={true} />
             </div>
             : <div className="app-main-container">
