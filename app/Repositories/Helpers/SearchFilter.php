@@ -264,8 +264,8 @@ class SearchFilter
             ->addSelect('routes_to.to as to');
 
         if ($this->maxPrice !== 0) {
-            $query->where(DB::raw('trips.price / currencies.rate'), '>=', $this->minPrice)
-                ->where(DB::raw('trips.price / currencies.rate'), '<=', $this->maxPrice);
+            $query->where(DB::raw('ROUND(trips.price / currencies.rate)'), '>=', $this->minPrice)
+                ->where(DB::raw('ROUND(trips.price / currencies.rate)'), '<=', $this->maxPrice);
         }
 
         $query->limit($this->limit)->offset($this->offset * $this->limit);
@@ -287,8 +287,8 @@ class SearchFilter
             ->first();
 
         if ($this->maxPrice !== 0) {
-            $query->where(DB::raw('trips.price / currencies.rate'), '>=', $this->minPrice)
-                ->where(DB::raw('trips.price / currencies.rate'), '<=', $this->maxPrice);
+            $query->where(DB::raw('ROUND(trips.price / currencies.rate)'), '>=', $this->minPrice)
+                ->where(DB::raw('ROUND(trips.price / currencies.rate)'), '<=', $this->maxPrice);
         }
         $count = $query->count();
 
