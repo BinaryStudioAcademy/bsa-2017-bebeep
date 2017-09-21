@@ -68,7 +68,9 @@ class SearchTripsWithTransfersService
             $startRoute = $routeGroup->getRoutes()->first();
 
             if ($this->searchRequest->getSort() === 'price') {
-                return $startRoute->trip->price;
+                return $routeGroup->getRoutes()->reduce(function ($carry, $route) {
+                    return $carry + $route->priceInCurrency($this->searchCurrency);
+                });
             }
 
             if ($this->searchRequest->getSort() === 'start_at') {
