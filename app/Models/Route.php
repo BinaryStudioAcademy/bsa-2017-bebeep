@@ -104,7 +104,7 @@ class Route extends Model
      *
      * @return int
      */
-    public function priceInCurrency(Currency $currency) : int
+    public function priceInCurrency(Currency $currency): float
     {
         return (int) app('CurrenciesConverter')->convert(
             $this->moneyPrice(),
