@@ -36,6 +36,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
 
         return [
             'price' => 'required|numeric',
+            'currency_id' => 'required|numeric',
             'seats' => 'required|integer|min:0|max_seats_from_vehicle:'.$this->get('vehicle_id').','.$this->get('vehicle')['seats'],
             'start_at' => 'required|integer|greater_than_date:'.$minStartAt,
             'end_at' => 'required|integer|greater_than_date:'.$this->get('start_at'),
@@ -67,6 +68,14 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
     public function getPrice(): float
     {
         return (float) $this->get('price');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCurrencyId(): ?int
+    {
+        return (int) $this->get('currency_id');
     }
 
     /**

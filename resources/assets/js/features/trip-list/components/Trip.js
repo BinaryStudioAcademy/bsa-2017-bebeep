@@ -117,8 +117,6 @@ class Trip extends React.Component {
             { currencies } = this.props.currency,
             currencyItem = currencies.filter((item) => item.id === currency_id);
 
-        console.log(currencyItem);
-
         return currencyItem[0] ? currencyItem[0].sign : '$';
     }
 
