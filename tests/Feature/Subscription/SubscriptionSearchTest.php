@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Subscription;
 
-use App\Models\Currency;
 use App\User;
 use Carbon\Carbon;
 use App\Models\Trip;
@@ -10,6 +9,7 @@ use App\Models\Route;
 use App\Models\Filter;
 use Tests\JwtTestCase;
 use App\Models\Vehicle;
+use App\Models\Currency;
 use App\Models\Subscription;
 use App\Services\Contracts\SubscriptionsService;
 
@@ -351,7 +351,7 @@ class SubscriptionSearchTest extends JwtTestCase
 
         $trip1 = $this->getTripBySubscription($subscription, [
             'price' => 10,
-            'currency_id' => $currency[0]->id
+            'currency_id' => $currency[0]->id,
         ]);
 
         $price = $trip1->priceInCurrency($currency[1]);

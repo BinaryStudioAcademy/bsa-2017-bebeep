@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\User;
+use Money\Money;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Money\Money;
 
 class Trip extends Model
 {
