@@ -57,6 +57,11 @@ class Result extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (this.props.activeCurrency.id !== undefined &&
+            nextProps.activeCurrency.id !== this.props.activeCurrency.id
+        ) {
+            return;
+        }
         this.updateState(nextProps);
 
         /*const currency = CurrencyService.getCurrencyById(1);
@@ -66,6 +71,11 @@ class Result extends React.Component {
     }
 
     updateState(props) {
+        const currencyId = +props.activeCurrency.id;
+        if (isNaN(currencyId)) {
+            return;
+        }
+
         const { location, tripData } = props,
             { query } = location,
             newState = {
@@ -85,6 +95,7 @@ class Result extends React.Component {
         this.getData(
             newTripData.fc,
             newTripData.tc,
+            currencyId,
             newTripData.start_at,
             newState
         );
@@ -105,9 +116,9 @@ class Result extends React.Component {
 
     onSearch() {
         setUrl({
+            "currency_id": this.props.activeCurrency.id,
             "filter[price][min]": null,
             "filter[price][max]": null,
-            //"filter[currency_id]": this.props.activeCurrency.id,
             "filter[currency_id]": null,
             "filter[time][min]": null,
             "filter[time][max]": null,
@@ -120,7 +131,7 @@ class Result extends React.Component {
         });
     }
 
-    getData(fromCoord, toCoord, start_at, {limit, page, sort, order, filter}) {
+    getData(fromCoord, toCoord, currencyId, start_at, {limit, page, sort, order, filter}) {
         if (this.state.searchRequestStart) {
             return;
         }
@@ -130,7 +141,7 @@ class Result extends React.Component {
             searchRequestStart: true,
         });
 
-        search(fromCoord, toCoord, start_at, page, sort, order, limit, filter)
+        search(fromCoord, toCoord, currencyId, start_at, page, sort, order, limit, filter)
             .then(response => {
                 this.setState({
                     collection: response.data.data,
@@ -163,8 +174,7 @@ class Result extends React.Component {
 
     render() {
         const {sort, order, page, limit, meta, collection, preloader, subscribeModalIsOpen} = this.state,
-            //{translate, activeCurrency} = this.props,
-            {translate} = this.props,
+            {translate, activeCurrency} = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
 
@@ -176,8 +186,7 @@ class Result extends React.Component {
                         <div className="col-md-3">
                             <Filter
                                 priceBounds={meta.priceRange}
-                                //priceCurrencySign={activeCurrency.sign}
-                                priceCurrencySign="$"
+                                priceCurrencySign={activeCurrency.sign}
                             />
                             <div className="text-center">
                                 <button role="button" className="btn search-block__btn search-result__btn-subscribe" onClick={this.onClickSubscribe}>
@@ -235,7 +244,7 @@ const ResultConnected = connect(
     (state) => ({
         tripData: state.search,
         translate: getTranslate(state.locale),
-        //activeCurrency: state.currency.activeCurrency,
+        activeCurrency: state.currency.activeCurrency,
     }),
     (dispatch) => bindActionCreators({searchSuccess, setSearchFilters}, dispatch)
 )(Result);
