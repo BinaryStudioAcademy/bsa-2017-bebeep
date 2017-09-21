@@ -344,7 +344,7 @@ class TripsService
      *
      * @return \App\Services\Result\SearchTripCollection
      */
-    public function search(SearchTripRequest $request)//: SearchTripCollection
+    public function search(SearchTripRequest $request): SearchTripCollection
     {
         $search = $this->tripRepository->search()
             ->addLocation(
@@ -368,8 +368,6 @@ class TripsService
             ->paginate($request->getLimit(), $request->getPage() - 1);
 
         $result = $search->getResult();
-
-        //return $result;
 
         $tripCollection = new SearchTripCollection();
 
