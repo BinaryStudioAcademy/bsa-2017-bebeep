@@ -4,12 +4,9 @@ namespace Tests\Feature\Trips;
 
 use Carbon\Carbon;
 use App\Models\Vehicle;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SearchTripsTest extends BaseTripTestCase
 {
-    use DatabaseTransactions;
-
     const ENDPOINT = '/api/v1/trips/search';
 
     protected $method = 'POST';

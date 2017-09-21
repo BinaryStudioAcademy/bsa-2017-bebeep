@@ -36,7 +36,7 @@ class CreateTripRequest extends FormRequest implements CreateTripRequestInterfac
 
         return [
             'price' => 'required|numeric',
-            'currency_id' => 'required|numeric',
+            'currency_id' => 'required|integer|exists:currencies,id',
             'seats' => 'required|integer|min:0|max_seats_from_vehicle:'.$this->get('vehicle_id').','.$this->get('vehicle')['seats'],
             'start_at' => 'required|integer|greater_than_date:'.$minStartAt,
             'end_at' => 'required|integer|greater_than_date:'.$this->get('start_at'),
