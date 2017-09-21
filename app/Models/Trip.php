@@ -116,7 +116,7 @@ class Trip extends Model
      *
      * @return int
      */
-    public function priceInCurrency(Currency $currency) : int
+    public function priceInCurrency(Currency $currency): int
     {
         return (int) app('CurrenciesConverter')->convert(
             $this->moneyPrice(),

@@ -162,7 +162,10 @@ class TripsController extends Controller
             return $this->searchTripsWithTransfersService->search($request);
         }
 
+        //return response()->json($request);
+
         $trips = $this->tripsService->search($request);
+        //return response()->json($trips);
 
         return fractal()
             ->collection($trips, new SearchTripTransformer())

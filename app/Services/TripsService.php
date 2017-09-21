@@ -344,7 +344,9 @@ class TripsService
      */
     public function search(SearchTripRequest $request)//: SearchTripCollection TODO
     {
-        $searchCurrency = $this->currencyRepository->find($request->getCurrencyId());
+        $this->searchCurrency = $this->currencyRepository->find($request->getCurrencyId());
+        $this->minPrice = $request->getMinPrice();
+        $this->maxPrice = $request->getMaxPrice();
 
         $search = $this->tripRepository->search()
             ->addLocation(
@@ -377,6 +379,15 @@ class TripsService
         $trips = $this->tripRepository->findWhereIn('id', $tripCollection->keys()->toArray());
 
         $trips->each(function ($trip) use ($tripCollection) {
+            $priceInCurrency = $trip->priceInCurrency($this->searchCurrency);
+
+            if ($priceInCurrency < $this->minPrice ||
+                $priceInCurrency > $this->maxPrice
+            ) {
+                $tripCollection->forget($trip->id);
+                return;
+            }
+
             $tripCollection[$trip->id]->setModel($trip);
         });
 
