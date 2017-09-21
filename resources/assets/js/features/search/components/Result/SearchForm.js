@@ -10,7 +10,7 @@ import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 import { InputPlaces, InputDateTime } from 'app/components/Controls';
 import moment from 'moment';
 
-import { searchSuccess, updateStartTime } from 'features/search/actions';
+import { searchSuccess, updateStartTime, searchParamsUpdate } from 'features/search/actions';
 import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
 import { getTranslate } from 'react-localize-redux';
 
@@ -35,7 +35,7 @@ class SearchForm extends React.Component {
     dateChange(date) {
         let start_at = date ? date.unix() : null;
         setUrl({start_at});
-        this.props.updateStartTime(start_at);
+        this.props.searchParamsUpdate({start_at});
     }
 
     componentWillMount() {
@@ -43,7 +43,9 @@ class SearchForm extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.updateState(nextProps);
+        if (nextProps.location !== this.props.location) {
+            this.updateState(nextProps);
+        }
     }
 
     updateState(props) {
@@ -93,6 +95,8 @@ class SearchForm extends React.Component {
     }
 
     selectGeoPoint(type, address) {
+        const {searchParamsUpdate} = this.props;
+
         this.setAddress(type, address);
 
         geocodeByAddress(address)
@@ -104,6 +108,14 @@ class SearchForm extends React.Component {
                             coordinate: getCoordinatesFromPlace(results[0]),
                         }
                     })
+                });
+
+                searchParamsUpdate({
+                    [type]: {
+                        name: address,
+                        coordinate: getCoordinatesFromPlace(results[0]),
+                        place: results[0]
+                    }
                 });
             })
             .catch(error => {});
@@ -294,7 +306,7 @@ const SearchFormConnect = connect(
         translate: getTranslate(state.locale)
     }),
     dispatch =>
-        bindActionCreators({searchSuccess, updateStartTime}, dispatch)
+        bindActionCreators({searchSuccess, updateStartTime, searchParamsUpdate}, dispatch)
 )(SearchForm);
 
 export default withRouter(SearchFormConnect);

@@ -23,3 +23,10 @@ export const subscriptionUpdate = data => ({
 export const subscriptionReset = () => ({
     type: actions.SUBSCRIPTION_RESET
 });
+
+export const searchParamsUpdate = (data) => ({
+    type: actions.SEARCH_PARAMS_UPDATE,
+    from: data.from || {},
+    to: data.to || {},
+    start_at: data.start_at || null
+});
