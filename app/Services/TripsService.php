@@ -386,11 +386,19 @@ class TripsService
                 return;
             }
 
-            $tripCollection[$trip->id]->setModel($trip);
+            $tripCollection[$trip->id]
+                ->setModel($trip)
+                ->setPriceInCurrency($priceInCurrency);
+
             $search->changePriceRangeForMeta($priceInCurrency);
         });
 
         $search->setCount($tripCollection->count());
+
+        $tripCollection = $tripCollection->sortBy(function ($trip) {
+            return $trip->priceInCurrency;
+        })->values();
+
         $tripCollection->setMeta($search->getMetaData());
 
         return $tripCollection;
