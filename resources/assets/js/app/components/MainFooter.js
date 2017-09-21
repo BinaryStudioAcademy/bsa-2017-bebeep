@@ -12,7 +12,7 @@ class MainFooter extends React.Component {
 
         return (
             <div className="application-footer-wrapper">
-                <ContainerWrapper>
+                <ContainerWrapper className="pb-2 pt-3">
                     <footer className="application-footer">
                         <p className="application-footer__copyrights">
                             &copy; <Link to="/">BeBeep</Link>, {DateTimeHelper.getCurrentDateTime('YYYY')}. {translate('app-footer.copyrights')}
