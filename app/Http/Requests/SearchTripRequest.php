@@ -34,7 +34,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
             'fc' => 'required|string',
             'tc' => 'required|string',
             'start_at' => 'integer',
-            'currency_id' => 'required|exists:currencies,id',
+            'currency_id' => 'required|integer|exists:currencies,id',
         ];
     }
 
