@@ -12,7 +12,6 @@ import DirectionsMap from "app/components/DirectionsMap";
 import { securedRequest } from 'app/services/RequestService';
 import BookingService from 'app/services/BookingService';
 import { getWaypointsFromRoutes } from 'app/services/GoogleMapService';
-import { convertTripPrice } from 'app/services/TripService';
 
 import '../styles/trip-card.scss';
 
@@ -113,10 +112,19 @@ class Trip extends React.Component {
             });
     }
 
+    getCurrencySign() {
+        const { currency_id } = this.props.trip,
+            { currencies } = this.props.currency,
+            currencyItem = currencies.filter((item) => item.id === currency_id);
+
+        console.log(currencyItem);
+
+        return currencyItem[0] ? currencyItem[0].sign : '$';
+    }
+
     render() {
-        const { translate, routes, trip, bookings, vehicles, activeCurrency } = this.props,
-            { modalIsOpen, modalUsersIsOpen} = this.state,
-            tripPrice = convertTripPrice(trip);
+        const { translate, routes, trip, bookings, vehicles } = this.props,
+            { modalIsOpen, modalUsersIsOpen} = this.state;
 
         const startPlace = this.getStartPlace(),
             endPlace = this.getEndPlace(),
@@ -131,7 +139,8 @@ class Trip extends React.Component {
             return arr;
         }, []);
 
-        const bookingCount = BookingService.getBookingsCount(arBookings);
+        const bookingCount = BookingService.getBookingsCount(arBookings),
+            currencySign = this.getCurrencySign();
 
         return (
             <div className={'col-sm-4 trip-card ' +
@@ -163,7 +172,7 @@ class Trip extends React.Component {
                                     {translate('trip_list.price')}</dt>
 
                                 <dd className="col-sm-8 trip-card-info__list-value">
-                                    {activeCurrency.sign}&nbsp;{tripPrice}
+                                    {currencySign}&nbsp;{trip.price}
                                 </dd>
 
                                 <dt className="col-sm-4 trip-card-info__list-option">
@@ -233,6 +242,6 @@ export default connect(
         vehicles: state.tripList.vehicles,
         routes: state.tripList.routes,
         bookings: state.tripList.bookings,
-        activeCurrency: state.currency.activeCurrency,
+        currency: state.currency,
     })
 )(Trip);
