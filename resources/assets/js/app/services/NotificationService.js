@@ -132,7 +132,7 @@ export const getMessage = (notification) => {
             return {
                 type: 'info',
                 title: translate(`notifications.messages.${notification.type}.title`, {
-                    'name': notification.sender.data.first_name + ' ' + notification.sender.data.first_name
+                    'name': notification.sender.data.first_name + ' ' + notification.sender.data.last_name
                 }),
                 message: translate(`notifications.messages.${notification.type}.message`, {
                     message: notification.message
