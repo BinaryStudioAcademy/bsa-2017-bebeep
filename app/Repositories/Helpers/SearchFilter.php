@@ -129,6 +129,10 @@ class SearchFilter
      */
     public function setOrder(string $order, string $direction = 'asc'): SearchFilter
     {
+        if ($order === 'price') {
+            return $this;
+        }
+
         $this->query->orderBy("trips.{$order}", $direction);
 
         return $this;
