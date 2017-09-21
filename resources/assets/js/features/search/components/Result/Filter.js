@@ -47,8 +47,13 @@ class Filter extends React.Component {
     updateState(props) {
         const {query} = props.location;
         let filter = getFilter();
+
+        if (!filter.price || (filter.price[0] === 0 && filter.price[1] === 0)) {
+            filter.price = props.priceBounds;
+        }
+
         this.setState(Object.assign({
-            price: props.priceBounds,
+            price: [0, 0],
             time: [0, 24],
             animals: null,
             luggage: null,
