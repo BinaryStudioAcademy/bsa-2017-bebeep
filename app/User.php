@@ -7,6 +7,7 @@ use App\Models\Review;
 use App\Models\Booking;
 use App\Models\Vehicle;
 use App\Models\ChatMessage;
+use App\Models\Subscription;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -138,6 +139,14 @@ class User extends Authenticatable implements HasMediaConversions
     public function sentMessages()
     {
         return $this->hasMany(ChatMessage::class, 'sender_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
     }
 
     /**

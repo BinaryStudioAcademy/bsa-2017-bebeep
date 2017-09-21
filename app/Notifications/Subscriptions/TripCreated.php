@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use App\Transformers\Notifications\SubscriptionTripTransformer;
 
 class TripCreated extends Notification implements ShouldQueue
@@ -77,5 +78,12 @@ class TripCreated extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return fractal()->item($this->trip, new SubscriptionTripTransformer())->toArray()['data'];
+    }
+
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'data' => $this->toArray($notifiable),
+        ]);
     }
 }
