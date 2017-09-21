@@ -41,15 +41,17 @@ export default function (state = initialState, action) {
                 },
                 start_at: action.data.start_at
             };
+        case actions.SEARCH_PARAMS_UPDATE:
+            return {
+                ...state,
+                from: Object.assign({}, state.from, action.from),
+                to: Object.assign({}, state.to, action.to),
+                start_at: action.start_at || state.start_at
+            };
         case actions.SEARCH_FILTER_UPDATE:
             return {
                 ...state,
                 filters: action.filters
-            };
-        case actions.SEARCH_UPDATE_START_TIME:
-            return {
-                ...state,
-                start_at: action.time
             };
         case actions.SUBSCRIPTION_UPDATE:
             return {

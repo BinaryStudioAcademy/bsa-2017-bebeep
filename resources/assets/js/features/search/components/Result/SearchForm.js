@@ -10,7 +10,7 @@ import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
 import { InputPlaces, InputDateTime } from 'app/components/Controls';
 import moment from 'moment';
 
-import { searchSuccess, updateStartTime } from 'features/search/actions';
+import { searchSuccess, searchParamsUpdate } from 'features/search/actions';
 import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
 import { getTranslate } from 'react-localize-redux';
 
@@ -20,8 +20,7 @@ class SearchForm extends React.Component {
         super();
         this.state = {
             tripData: {},
-            errors: {},
-            date: null
+            errors: {}
         };
         this.dateChange = this.dateChange.bind(this);
         this.swapFromTo = this.swapFromTo.bind(this);
@@ -34,8 +33,10 @@ class SearchForm extends React.Component {
 
     dateChange(date) {
         let start_at = date ? date.unix() : null;
-        setUrl({start_at});
-        this.props.updateStartTime(start_at);
+        this.setState({
+            tripData: Object.assign(this.state.tripData, {start_at})
+        });
+        this.props.searchParamsUpdate({start_at});
     }
 
     componentWillMount() {
@@ -43,7 +44,9 @@ class SearchForm extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.updateState(nextProps);
+        if (nextProps.location !== this.props.location) {
+            this.updateState(nextProps);
+        }
     }
 
     updateState(props) {
@@ -52,24 +55,20 @@ class SearchForm extends React.Component {
             newTripData = {
                 from: {
                     name: query.fn || tripData.from.name,
-                    coordinate: decodeCoord(query.fc) || tripData.from.coordinate
+                    coordinate: decodeCoord(query.fc) || tripData.from.coordinate,
+                    place: null
                 },
                 to: {
                     name: query.tn || tripData.to.name,
-                    coordinate: decodeCoord(query.tc) || tripData.to.coordinate
+                    coordinate: decodeCoord(query.tc) || tripData.to.coordinate,
+                    place: null
                 },
                 start_at: +query.start_at || tripData.start_at
             };
-        let filter = getFilter();
-        if (filter.date) {
-            filter.date = moment.unix(filter.date);
-        }
         this.setState({
             tripData: newTripData
         });
-        this.setState(Object.assign({
-            date: props.start_at ? moment.unix(props.start_at) : null
-        }, filter));
+        this.props.searchParamsUpdate(newTripData);
     }
 
     swapFromTo() {
@@ -93,6 +92,8 @@ class SearchForm extends React.Component {
     }
 
     selectGeoPoint(type, address) {
+        const {searchParamsUpdate} = this.props;
+
         this.setAddress(type, address);
 
         geocodeByAddress(address)
@@ -104,6 +105,14 @@ class SearchForm extends React.Component {
                             coordinate: getCoordinatesFromPlace(results[0]),
                         }
                     })
+                });
+
+                searchParamsUpdate({
+                    [type]: {
+                        name: address,
+                        coordinate: getCoordinatesFromPlace(results[0]),
+                        place: results[0]
+                    }
                 });
             })
             .catch(error => {});
@@ -187,7 +196,8 @@ class SearchForm extends React.Component {
     };
 
     render() {
-        const {tripData, errors, date} = this.state,
+        const {tripData, errors} = this.state,
+            date = tripData.start_at && moment(tripData.start_at * 1000),
             {translate} = this.props,
             startPlaceCssClasses = {
                 root: 'form-group search-block__search-input-start',
@@ -294,7 +304,7 @@ const SearchFormConnect = connect(
         translate: getTranslate(state.locale)
     }),
     dispatch =>
-        bindActionCreators({searchSuccess, updateStartTime}, dispatch)
+        bindActionCreators({searchSuccess, searchParamsUpdate}, dispatch)
 )(SearchForm);
 
 export default withRouter(SearchFormConnect);
