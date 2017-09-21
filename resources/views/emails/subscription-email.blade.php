@@ -8,7 +8,7 @@
 ]) !!}
 
 @foreach ($params as $param => $value)
-    {{ __('email/subscription.'.$param, ['value' => $value]) }}
+    {!! __('email/subscription.'.$param, ['value' => $value]) !!}
 @endforeach
 
 @component('mail::button', ['url' => url('/trip/'.$trip_id)])

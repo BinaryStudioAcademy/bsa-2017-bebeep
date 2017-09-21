@@ -24,9 +24,9 @@
       "time-text": ["Time", "Час", "Время"],
       "price": ["Price", "Ціна", "Цена"],
       "price_range": [
-        "From <span className='filter__currency'>$</span>${start} to <span className='filter__currency'>$</span>${end}",
-        "Від <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}",
-        "От <span className='filter__currency'>$</span>${start} до <span className='filter__currency'>$</span>${end}"
+        "From <span className='filter__currency'>${currency}</span> ${start} to <span className='filter__currency'>${currency}</span> ${end}",
+        "Від <span className='filter__currency'>${currency}</span> ${start} до <span className='filter__currency'>${currency}</span> ${end}",
+        "От <span className='filter__currency'>${currency}</span> ${start} до <span className='filter__currency'>${currency}</span> ${end}"
       ]
     },
     "luggage_size": ["Luggage Size", "Розмір багажу", "Размер багажа"],
