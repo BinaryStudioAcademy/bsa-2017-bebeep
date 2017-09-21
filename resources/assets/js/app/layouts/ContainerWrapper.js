@@ -6,7 +6,7 @@ class ContainerWrapper extends React.Component {
         const { className } = this.props;
 
         return (
-            <div className={"container py-4 " + className}>
+            <div className={"container app-container-wrapper " + className}>
                 { this.props.children }
             </div>
         );
