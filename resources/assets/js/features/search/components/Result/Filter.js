@@ -11,7 +11,7 @@ import { getTranslate } from 'react-localize-redux';
 import { Range } from 'rc-slider';
 
 import { setUrl, setFilter, getFilter} from 'features/search/services/SearchService';
-import CurrencyService from 'features/currency/services/CurrencyService';
+import CurrencyService, {CURRENCY_DEFAULT_CODE} from 'features/currency/services/CurrencyService';
 
 import 'features/search/styles/filter.scss';
 
@@ -44,17 +44,23 @@ class Filter extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps.activeCurrency);
         this.updateState(nextProps);
 
-        const currency = this.state.priceCurrency;
-            //priceDisplay = [...this.state.price];
+        // TO DO :: need to display the price in the label
+        // for the filter, depending on the currency selected
+        // var - priceDisplay
 
-        //console.log(priceDisplay);
+        /*const currency = this.state.priceCurrency ||
+            CurrencyService.getCurrencyByCode(CURRENCY_DEFAULT_CODE);
 
-        /*priceDisplay[0] = CurrencyService.convertValue(priceDisplay[0], currency);
+
+        const priceDisplay = [...this.state.price];
+
+        priceDisplay[0] = CurrencyService.convertValue(priceDisplay[0], currency);
         priceDisplay[1] = CurrencyService.convertValue(priceDisplay[1], currency);
 
-        this.setState({ priceDisplay });*/
+        this.setState({ priceDisplay, priceCurrency: nextProps.activeCurrency });*/
     }
 
     updateState(props) {
@@ -67,7 +73,7 @@ class Filter extends React.Component {
 
         this.setState(Object.assign({
             price: [0, 0],
-            priceCurrency: props.activeCurrency,
+            priceCurrency: null,
             time: [0, 24],
             animals: null,
             luggage: null,
@@ -105,10 +111,19 @@ class Filter extends React.Component {
         setUrl(setFilter({transfers: e.target.value}));
     }
 
+    getPriceFilterLabelHideClass() {
+        const { priceDisplay } = this.state,
+            { activeCurrency } = this.props;
+
+        return !activeCurrency.sign || !priceDisplay[0] || !priceDisplay[1]
+            ? ' hide' : '';
+    }
+
     render() {
         const { time, price, priceDisplay, animals, seats, luggage, rating, transfers } = this.state,
             { priceBounds, translate, activeCurrency } = this.props,
-            priceFilterLabelHide = !activeCurrency.sign ? ' hide' : '';
+            //priceFilterLabelHide = this.getPriceFilterLabelHideClass();
+            priceFilterLabelHide = '';
 
         return (
             <div className="filter filter-centered">
