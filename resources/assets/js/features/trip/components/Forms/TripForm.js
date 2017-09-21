@@ -78,6 +78,7 @@ class TripForm extends React.Component {
                         <input className="form-check-input" type="checkbox" id="is_in_both_directions"
                                checked={this.state.isInBothDirections}
                                name="is_in_both_directions"
+                               title={translate('create_trip.tooltips.both_directions')}
                                onChange={this.toggleInBothDirections.bind(this)}
                         />
                     </label>
@@ -103,6 +104,7 @@ class TripForm extends React.Component {
                         <input className="form-check-input" type="checkbox" id="is_recurring_trip"
                                checked={this.state.isRecurringTrip}
                                name="is_recurring_trip"
+                               title={translate('create_trip.tooltips.recurring_trip')}
                                onChange={this.toggleIsRecurringTrip.bind(this)}
                         />
                     </label>
@@ -363,6 +365,7 @@ class TripForm extends React.Component {
                                     <input type="checkbox"
                                         id="is_animals_allowed"
                                         className="form-check-input"
+                                        title={translate('create_trip.tooltips.animals_allowed')}
                                         defaultChecked={tripData.is_animals_allowed} />
                                 </label>
                             </div>

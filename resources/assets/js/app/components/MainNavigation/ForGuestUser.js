@@ -17,7 +17,7 @@ class ForGuestUser extends React.Component {
                         { translate('login') }
                     </Link>
                 </li>
-                <li className="header-menu__item">
+                <li className="header-menu__item hidden-sm-down">
                     <Link to="/registration" activeClassName="active">
                         { translate('register') }
                     </Link>

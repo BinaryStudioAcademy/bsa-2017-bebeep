@@ -77,6 +77,14 @@
       "you_can_book_seats3": ["You can book ${seats} seats", "Доступно ${seats} місць", "Доступно ${seats} мест"]
     },
     "rating_must_be_greater_than_zero": ["The rating must be greater than 0", "Рейтинг має бути більше за 0", "Рейтинг должен быть больше 0"],
-    "please_add_a_review": ["Please add a review", "Будь ласка, залиште відгук", "Пожалуйста, оставьте отзыв"]
+    "please_add_a_review": ["Please add a review", "Будь ласка, залиште відгук", "Пожалуйста, оставьте отзыв"],
+    "car_brand_is_required": ["Car brand is required", "Бренд автомобіля - обов'язкове поле", "Бренд автомобиля - обязательное поле"],
+    "car_model_is_required": ["Car model is required", "Модель автомобіля - обов'язкове поле", "Модель автомобиля - обязательное поле"],
+    "car_color_is_required": ["Car color is required", "Колір автомобіля - обов'язкове поле", "Цвет автомобиля - обязательное поле"],
+    "car_body_is_required": ["Car body is required", "Кузов автомобіля - обов'язкове поле", "Кузов автомобиля - обязательное поле"],
+    "car_year_is_required": ["Car year is required", "Рік випуску - обов'язкове поле", "Год выпуска - обязательное поле"],
+    "car_year_must_be_less_than_or_equal_to_current_year": ["Car year must be less than or equal to current year", "Рік випуску автомобіля повинен бути менше чи рівним поточному року", "Год выпуска автомобиля должен быть меньше или равным текущему году"],
+    "car_seats_is_required": ["Car seats is required", "К-сть місць в автомобілі - обов'язкове поле", "Кол-во мест в автомобиле - обязательное поле"],
+    "car_seats_must_be_a_valid_number": ["Car seats must be a valid number", "К-сть місць повинна бути коректним числом", "Кол-во мест должно быть корректным числом"]
   }
 }

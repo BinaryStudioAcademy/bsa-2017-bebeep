@@ -18,6 +18,23 @@
         " та подорожуйте!",
         " и путешествуйте!"
       ]
+    },
+    "tooltips": {
+      "animals_allowed": [
+        "Choose this option if you are not against passengers with animals",
+        "Оберіть цю опцію, якщо ви не проти пасажирів з тваринами",
+        "Выберите эту опцию, если вы не против пассажиров с животными"
+      ],
+      "both_directions": [
+        "Select this option if you want to create a trip in both directions",
+        "Оберіть цю опцію, якщо ви хочете створити поїздку в обидва напрямки",
+        "Выберите эту опцию, если вы хотите создать поездку в обе стороны"
+      ],
+      "recurring_trip": [
+        "Select this option if you want to create repetitive trips",
+        "Оберіть цю опцію, якщо потрібно створити повторювані поїздки",
+        "Выберите эту опцию, если вы хотите создать повторяющиеся поездки"
+      ]
     }
   }
 }

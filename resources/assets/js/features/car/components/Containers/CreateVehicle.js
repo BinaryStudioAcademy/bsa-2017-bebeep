@@ -1,14 +1,10 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import VehicleForm from '../Forms/VehicleForm';
-
 import { VehicleValidate } from 'app/services/VehicleService';
-import { securedRequest } from 'app/services/RequestService';
 import { VehicleService } from 'features/car/services/VehicleService';
-import { vehicleCreateSuccess } from 'features/car/actions';
+import { getVehiclesData, getBrandModelsData, resetModelsData, resetVehicleFormItems } from 'features/car/actions';
 
 class CreateVehicle extends React.Component {
     constructor(props) {
@@ -39,6 +35,10 @@ class CreateVehicle extends React.Component {
         };
     }
 
+    componentWillMount() {
+        this.props.getVehiclesData();
+    }
+
     handleBrandChange(data) {
         this.setState({
             brand: {
@@ -47,9 +47,15 @@ class CreateVehicle extends React.Component {
             },
             model: {
                 brand_id: (data) ? data.id : null,
-                disabled: (data) ? false : true
+                disabled: (!data)
             }
         });
+
+        if(data) {
+            this.props.getBrandModelsData(data.id);
+        } else {
+            this.props.resetModelsData();
+        }
     }
 
     handleModelChange(data) {
@@ -91,10 +97,6 @@ class CreateVehicle extends React.Component {
         });
     }
 
-    getModelLoadOptions = () => {
-        return VehicleService.getModelOptions(this.state.brand.id);
-    };
-
     onSubmit(e) {
         e.preventDefault();
 
@@ -105,6 +107,7 @@ class CreateVehicle extends React.Component {
             body: (e.target['body']) ? e.target['body'].value : '',
             year: (e.target['year']) ? e.target['year'].value : '',
             seats: (e.target['seats']) ? e.target['seats'].value : '',
+            car_brand_id: this.state.brand.id,
             photo: null
         };
 
@@ -115,20 +118,14 @@ class CreateVehicle extends React.Component {
                 errors: validate.errors
             });
         } else {
-            securedRequest.post('/api/v1/car', data).then((response) => {
-                this.props.vehicleCreateSuccess(response.data);
-                if (response.status === 200) {
-                    browserHistory.push('/vehicles');
-                }
-            }).catch((error) => {
-                this.setState({
-                    errors: error.response.data
-                })
-            });
+            VehicleService.saveVehicleData(data);
+            this.props.resetVehicleFormItems();
         }
     }
 
     render() {
+        const {brands, models, colors, body} = this.props.vehicle.form_items;
+
         return (
             <VehicleForm
                 errors={ this.state.errors }
@@ -138,10 +135,10 @@ class CreateVehicle extends React.Component {
                 body={ this.state.body }
                 year={ this.state.year }
                 seats={ this.state.seats }
-                getBrandOptions={ VehicleService.getBrandOptions }
-                getModelLoadOptions={ this.getModelLoadOptions }
-                getColorOptions={ VehicleService.getColorOptions }
-                getBodyOptions={ VehicleService.getBodyOptions }
+                getBrandOptions={ brands }
+                getModelLoadOptions={ models }
+                getColorOptions={ colors }
+                getBodyOptions={ body }
                 handleBrandChange={ this.handleBrandChange.bind(this) }
                 handleModelChange={ this.handleModelChange.bind(this) }
                 handleColorChange={ this.handleColorChange.bind(this) }
@@ -155,6 +152,13 @@ class CreateVehicle extends React.Component {
 }
 
 export default connect(
-    null,
-    (dispatch) => bindActionCreators({ vehicleCreateSuccess }, dispatch)
+    state => ({
+        vehicle: state.vehicle,
+    }),
+    (dispatch) => bindActionCreators({
+        getVehiclesData,
+        getBrandModelsData,
+        resetModelsData,
+        resetVehicleFormItems
+    }, dispatch)
 )(CreateVehicle);

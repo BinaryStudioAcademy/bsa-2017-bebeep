@@ -193,12 +193,14 @@ class Trip extends React.Component {
                             {this.state.editable ? (
                                 <EditButton pathTo={'/trip/edit/' + trip.id}
                                     className="trip-card__action-btn"
+                                    title={translate('trip_list.tooltips.edit')}
                                 />
                             ) : null}
 
                             {this.state.deletable ? (
                                 <DeleteButton onClick={this.deleteSelf}
                                     className="trip-card__action-btn"
+                                    title={translate('trip_list.tooltips.delete')}
                                 />
                             ) : null}
 

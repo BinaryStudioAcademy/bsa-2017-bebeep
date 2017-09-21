@@ -74,4 +74,9 @@ class SaveCarRequest extends FormRequest implements CreateCarRequestInterface
     {
         return $this->user()->id;
     }
+
+    public function getCarBrandId(): ?int
+    {
+        return $this->get('car_brand_id');
+    }
 }
