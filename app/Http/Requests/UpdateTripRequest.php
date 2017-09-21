@@ -37,6 +37,7 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
             'routes.*.start_at' => 'required|integer',
             'routes.*.end_at' => 'required|integer',
             'vehicle_id' => 'required|integer|exists:vehicles,id',
+            'currency_id' => 'required|integer|exists:currencies,id',
         ];
     }
 
@@ -46,6 +47,14 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     public function getPrice(): float
     {
         return (float) $this->get('price');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCurrencyId(): ?int
+    {
+        return (int) $this->get('currency_id');
     }
 
     /**

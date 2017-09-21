@@ -12,6 +12,7 @@ export const createTripRules = () => ({
         Validator.required(LangService.translate('validate.enter_trip_price')),
         Validator.greaterThan(1, LangService.translate('validate.trip_price_must_be_greater_than_0')),
     ],
+    currency_id: Validator.required(LangService.translate('validate.enter_trip_currency')),
     seats: [
         Validator.required(LangService.translate('validate.enter_trip_seats')),
         Validator.greaterThan(1, LangService.translate('validate.trip_seats_must_be_greater_than_0')),

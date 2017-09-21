@@ -34,6 +34,7 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
             'fc' => 'required|string',
             'tc' => 'required|string',
             'start_at' => 'integer',
+            'currency_id' => 'required|integer|exists:currencies,id',
         ];
     }
 
@@ -255,5 +256,13 @@ class SearchTripRequest extends FormRequest implements SearchTripRequestInterfac
         settype($value, $cast);
 
         return $value;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrencyId(): int
+    {
+        return (int) $this->get('currency_id');
     }
 }

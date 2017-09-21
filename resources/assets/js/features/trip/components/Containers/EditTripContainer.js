@@ -1,9 +1,11 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { geocodeByAddress } from 'react-places-autocomplete';
+import { getTranslate } from 'react-localize-redux';
 
 import TripForm from '../Forms/TripForm';
-import { localize } from 'react-localize-redux';
 import { EditableWaypoints } from './EditableWaypoints';
 import DirectionsMap from 'app/components/DirectionsMap';
 
@@ -159,7 +161,7 @@ class EditTripContainer extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const { id, getPlacesFromWaypoints } = this.props,
+        const { id, getPlacesFromWaypoints, currency } = this.props,
             { startPoint, endPoint, tripEndTime, waypointsDurations } = this.state;
 
         const form = e.target,
@@ -174,6 +176,7 @@ class EditTripContainer extends React.Component {
             start_at: tripTime.start_at,
             end_at: tripTime.end_at,
             price: form.price.value,
+            currency_id: form.currency_id ? form.currency_id.value : currency.activeCurrency.id,
             seats: form.seats.value,
             from: startPoint.place,
             to: endPoint.place,
@@ -273,6 +276,12 @@ class EditTripContainer extends React.Component {
     }
 }
 
-const EditTripContainerWithWaypoints = EditableWaypoints(EditTripContainer);
+const EditTripContainerConnected = connect(
+    state => ({
+        translate: getTranslate(state.locale),
+        currency: state.currency
+    }),
+    dispatch => bindActionCreators({}, dispatch)
+)(EditableWaypoints(EditTripContainer));
 
-export default localize(EditTripContainerWithWaypoints, 'locale');
+export default EditTripContainerConnected;

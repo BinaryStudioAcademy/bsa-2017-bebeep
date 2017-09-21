@@ -26,6 +26,7 @@ class BookingModal extends React.Component {
             end: 0,
             seats: 1,
             freeSeats: 1,
+            price: 0.0,
             errors: {}
         };
         this.onSubmit = this.onSubmit.bind(this);
@@ -35,10 +36,12 @@ class BookingModal extends React.Component {
     }
 
     componentWillMount() {
-        const { start, end, seats } = this.state;
+        const { start, end, seats } = this.state,
+            price = this.getPrice(start, end, seats);
 
         this.setFreeSeats();
         this.validate(start, end, seats);
+        this.setState({price});
     }
 
     componentWillReceiveProps(newProps) {
@@ -67,6 +70,22 @@ class BookingModal extends React.Component {
         const freeSeats = isFreeSeats ? param : this.getFreeSeats(param);
 
         this.setState({ freeSeats: freeSeats });
+    }
+
+    getPrice(iStart, iEnd, iSeats) {
+        const {waypoints} = this.props;
+
+        return iSeats * _.reduce(
+                _.slice(
+                    _.map(waypoints, 'price'),
+                    iStart,
+                    iEnd + 1
+                ),
+                (result, price) => {
+                    return result + price;
+                },
+                0.0
+            );
     }
 
     validate(iStart, iEnd, seats) {
@@ -111,29 +130,32 @@ class BookingModal extends React.Component {
     }
 
     onChangeStartPoint(e) {
-        const start = this.getRouteById(+e.target.value);
+        const start = this.getRouteById(+e.target.value),
+            price = this.getPrice(start, this.state.end, this.state.seats);
 
         this.validate(start, this.state.end, this.state.seats);
-        this.setState({ start });
+        this.setState({ start, price });
     }
 
     onChangeEndPoint(e) {
-        const end = this.getRouteById(+e.target.value);
+        const end = this.getRouteById(+e.target.value),
+            price = this.getPrice(this.state.start, end, this.state.seats);
 
         this.validate(this.state.start, end, this.state.seats);
-        this.setState({ end });
+        this.setState({ end, price });
     }
 
     onChangeSeats(e) {
-        const seats = +e.target.value;
+        const seats = +e.target.value,
+            price = this.getPrice(this.state.start, this.state.end, seats);
 
         this.validate(this.state.start, this.state.end, seats);
-        this.setState({ seats });
+        this.setState({ seats, price });
     }
 
     render() {
-        const {isOpenModal, freeSeats, errors, start, end} = this.state,
-            { translate, waypoints, price, startAt, maxSeats } = this.props;
+        const {isOpenModal, freeSeats, errors, start, end, price} = this.state,
+            { translate, waypoints, startAt, maxSeats } = this.props;
 
         return (
             <Modal isOpen={isOpenModal} onClosed={() => { this.closeModal() }}>
@@ -153,7 +175,7 @@ class BookingModal extends React.Component {
                                 <span className="text-muted booking-modal__text mr-2">
                                     { translate('trip_details.booking.price_of_trip') }:
                                 </span>
-                                <b>$</b> { price }
+                                <b>$</b> { Math.round(price) }
                             </div>
                         </div>
                         <div className="row mt-4">

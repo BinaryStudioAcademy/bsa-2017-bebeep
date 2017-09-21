@@ -4,12 +4,9 @@ namespace Tests\Feature\Trips;
 
 use Carbon\Carbon;
 use App\Models\Vehicle;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SearchTripsTest extends BaseTripTestCase
 {
-    use DatabaseTransactions;
-
     const ENDPOINT = '/api/v1/trips/search';
 
     protected $method = 'POST';
@@ -47,7 +44,7 @@ class SearchTripsTest extends BaseTripTestCase
             ]
         );
         $start_at = Carbon::now()->timestamp;
-        $search = '?fc=30.523400000000038|50.4501&start_at='.$start_at.'&tc=36.230383000000074|49.9935';
+        $search = '?fc=30.523400000000038|50.4501&start_at='.$start_at.'&tc=36.230383000000074|49.9935&currency_id=1';
         $response = $this->json('GET', self::ENDPOINT.$search);
         $response->assertStatus(200);
         $response->assertSee('350.00');
@@ -60,7 +57,7 @@ class SearchTripsTest extends BaseTripTestCase
      */
     public function test_search_no_exist_data()
     {
-        $search = '?fc=30.523400000000038|50.4501&start_at=1503694800&tc=24.029717000000005|49.839683';
+        $search = '?fc=30.523400000000038|50.4501&start_at=1503694800&tc=24.029717000000005|49.839683&currency_id=1';
         $response = $this->json('GET', self::ENDPOINT.$search);
         $response->assertStatus(200);
         $response->assertJsonFragment($this->responseNoExistData);
@@ -75,7 +72,7 @@ class SearchTripsTest extends BaseTripTestCase
 
         $response->assertStatus(200);
         $startAt = Carbon::now()->addHour(1)->timestamp;
-        $search = '?fc=30.523400000000038|50.4501&start_at='.$startAt.'&tc=36.230383000000074|49.9935&sort=price&order=asc&page=1&limit=10&filter[price][min]=0&filter[price][max]=400&filter[time][min]=1&filter[time][max]=24';
+        $search = '?fc=30.523400000000038|50.4501&start_at='.$startAt.'&tc=36.230383000000074|49.9935&sort=price&order=asc&page=1&limit=10&filter[price][min]=0&filter[price][max]=400&filter[time][min]=1&filter[time][max]=24&currency_id=1';
         $response = $this->json('GET', self::ENDPOINT.$search);
         $response->assertStatus(200);
         $response->assertSee('350.00');
@@ -92,7 +89,7 @@ class SearchTripsTest extends BaseTripTestCase
 
         $response->assertStatus(200);
         $startAt = Carbon::now()->addHour(1)->timestamp;
-        $search = '?fc=30.523400000000038|50.4501&start_at='.$startAt.'&tc=36.230383000000074|49.9935&sort=price&order=asc&page=1&limit=10&filter[price][min]=360&filter[price][max]=360&filter[time][min]=1&filter[time][max]=24';
+        $search = '?fc=30.523400000000038|50.4501&start_at='.$startAt.'&tc=36.230383000000074|49.9935&sort=price&order=asc&page=1&limit=10&filter[price][min]=360&filter[price][max]=360&filter[time][min]=1&filter[time][max]=24&currency_id=1';
         $response = $this->json('GET', self::ENDPOINT.$search);
         $response->assertStatus(200);
         $response->assertJsonFragment($this->responseNoExistData);
