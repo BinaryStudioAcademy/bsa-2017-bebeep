@@ -49,6 +49,14 @@ class UpdateTripRequest extends FormRequest implements UpdateTripRequestInterfac
     }
 
     /**
+     * @return int|null
+     */
+    public function getCurrencyId(): ?int
+    {
+        return (int) $this->get('currency_id');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getSeats(): int

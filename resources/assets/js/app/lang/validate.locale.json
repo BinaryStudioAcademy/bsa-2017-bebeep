@@ -65,6 +65,7 @@
     "enter_trip_end_point": ["Enter trip end point", "Введіть кінцеву адресу подорожі", "Введите конечный адрес поездки"],
     "enter_trip_price": ["Enter trip price", "Введіть ціну подорожі", "Введите цену поездки"],
     "enter_trip_seats": ["Enter trip seats", "Введіть доступні місця подорожі", "Введите доступные места поездки"],
+    "enter_trip_currency": ["Enter trip currency", "Оберіть валюту", "Выберите валюту"],
     "trip_price_must_be_greater_than_0": ["Trip price must be greater than 0", "Ціна подорожі повинна бути більше 0", "Цена поездки должна быть больше 0"],
     "trip_seats_must_be_greater_than_0": ["Trip seats must be greater than 0", "Місця подорожі повинні бути більше 0", "Места поездки должны быть больше 0"],
     "booking": {
