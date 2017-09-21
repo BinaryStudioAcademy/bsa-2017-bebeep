@@ -125,8 +125,6 @@ class Result extends React.Component {
             return;
         }
 
-        console.log('search');
-
         this.setState({
             preloader: true,
             searchRequestStart: true,
