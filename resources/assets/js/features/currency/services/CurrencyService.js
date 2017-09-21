@@ -87,6 +87,10 @@ const CurrencyService = (() => {
         convertValue(value, currency) {
             const activeCurrency = this.getActiveCurrency();
 
+            if (_.isEmpty(currency)) {
+                return null;
+            }
+
             if (currency.code === activeCurrency.code){
                 return Math.round(value);
             }
