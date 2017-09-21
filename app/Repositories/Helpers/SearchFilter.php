@@ -30,15 +30,6 @@ class SearchFilter
     /** @var int $offset */
     protected $offset;
 
-    /** @var int $count */
-    protected $count;
-
-    /** @var int $metaPrice */
-    protected $metaMinPrice;
-
-    /** @var int $metaMaxPrice */
-    protected $metaMaxPrice;
-
     public function __construct()
     {
         $this->query = DB::table('trips');
@@ -55,15 +46,10 @@ class SearchFilter
      * @param float $fromLng
      * @param float $toLat
      * @param float $toLng
-     *
-     * @return $this
+     * @return SearchFilter
      */
-    public function addLocation(
-        float $fromLat,
-        float $fromLng,
-        float $toLat,
-        float $toLng
-    ): self {
+    public function addLocation(float $fromLat, float $fromLng, float $toLat, float $toLng): SearchFilter
+    {
         $this->query
             ->join('routes as routes_from', 'trips.id', '=', 'routes_from.trip_id')
             ->join('routes as routes_to', 'trips.id', '=', 'routes_to.trip_id')
@@ -91,10 +77,9 @@ class SearchFilter
      * @param Carbon $date
      * @param int $minHourOffset
      * @param int $maxHourOffset
-     *
-     * @return $this
+     * @return SearchFilter
      */
-    public function addDate(Carbon $date, $minHourOffset = 1, $maxHourOffset = 1): self
+    public function addDate(Carbon $date, $minHourOffset = 1, $maxHourOffset = 1): SearchFilter
     {
         $dayStart = clone $date;
         $dayStart->hour += $minHourOffset > 0 && $minHourOffset < $maxHourOffset ? $minHourOffset - 1 : 0;
@@ -115,16 +100,12 @@ class SearchFilter
     /**
      * @param int $min
      * @param int $max
-     *
-     * @return $this
+     * @return SearchFilter
      */
-    public function setPrice(int $min, int $max): self
+    public function setPrice(int $min, int $max): SearchFilter
     {
-        $this->minPrice = $min;
         $this->maxPrice = $max;
-
-        $this->metaMinPrice = $min;
-        $this->metaMaxPrice = $max;
+        $this->minPrice = $min;
 
         return $this;
     }
@@ -132,15 +113,10 @@ class SearchFilter
     /**
      * @param string $order
      * @param string $direction
-     *
-     * @return $this
+     * @return SearchFilter
      */
-    public function setOrder(string $order, string $direction = 'asc'): self
+    public function setOrder(string $order, string $direction = 'asc'): SearchFilter
     {
-        if ($order === 'price') {
-            return $this;
-        }
-
         $this->query->orderBy("trips.{$order}", $direction);
 
         return $this;
@@ -148,10 +124,9 @@ class SearchFilter
 
     /**
      * @param bool|null $isAnimalsAllowed
-     *
-     * @return $this
+     * @return SearchFilter
      */
-    public function setIsAnimalsAllowed(?bool $isAnimalsAllowed): self
+    public function setIsAnimalsAllowed(?bool $isAnimalsAllowed): SearchFilter
     {
         if ($isAnimalsAllowed === null) {
             return $this;
@@ -164,10 +139,9 @@ class SearchFilter
 
     /**
      * @param int|null $luggageSize
-     *
-     * @return $this
+     * @return SearchFilter
      */
-    public function setLuggageSize(?int $luggageSize): self
+    public function setLuggageSize(?int $luggageSize): SearchFilter
     {
         if ($luggageSize === null) {
             return $this;
@@ -180,10 +154,9 @@ class SearchFilter
 
     /**
      * @param int|null $seats
-     *
-     * @return $this
+     * @return SearchFilter
      */
-    public function setSeats(?int $seats): self
+    public function setSeats(?int $seats): SearchFilter
     {
         if ($seats === null) {
             return $this;
@@ -214,10 +187,9 @@ class SearchFilter
 
     /**
      * @param int|null $rating
-     *
-     * @return $this
+     * @return SearchFilter
      */
-    public function setRating(?int $rating): self
+    public function setRating(?int $rating): SearchFilter
     {
         if ($rating === null) {
             return $this;
@@ -251,56 +223,12 @@ class SearchFilter
     }
 
     /**
-     * Set the search data count.
-     *
-     * @param int $count
-     *
-     * @return void
-     */
-    public function setCount(int $count): void
-    {
-        $this->count = $count;
-    }
-
-    /**
-     * Check, whether the price is included in the min / max range.
-     *
-     * @param int $price
-     *
-     * @return bool
-     */
-    public function priceIsIncludedInRange(int $price): bool
-    {
-        return ($this->minPrice === 0 || $price >= $this->minPrice) &&
-            ($this->maxPrice === 0 || $price <= $this->maxPrice);
-    }
-
-    /**
-     * Change the min and the max price for the meta data.
-     *
-     * @param int $price
-     *
-     * @return void
-     */
-    public function changePriceRangeForMeta(int $price): void
-    {
-        if ($this->metaMinPrice === 0 || $price < $this->metaMinPrice) {
-            $this->metaMinPrice = $price;
-        }
-        if ($this->metaMaxPrice === 0 || $price > $this->metaMaxPrice) {
-            $this->metaMaxPrice = $price;
-        }
-    }
-
-    /**
      * @param int $limit
      * @param int $offset
-     *
-     * @return $this
-     *
+     * @return SearchFilter
      * @throws InvalidArgumentException
      */
-    public function paginate(int $limit, int $offset): self
+    public function paginate(int $limit, int $offset): SearchFilter
     {
         if ($limit < 0) {
             throw new InvalidArgumentException("Limit can't be a negative");
@@ -327,6 +255,11 @@ class SearchFilter
             ->addSelect('routes_to.id as to_id')
             ->addSelect('routes_to.to as to');
 
+        if ($this->minPrice !== 0 && $this->maxPrice !== 0) {
+            $query->where('trips.price', '>=', $this->minPrice)
+                ->where('trips.price', '<=', $this->maxPrice);
+        }
+
         $query->limit($this->limit)->offset($this->offset * $this->limit);
 
         return $query->get();
@@ -337,11 +270,22 @@ class SearchFilter
      */
     public function getMetaData(): array
     {
-        return [
-            'min' => $this->metaMinPrice,
-            'max' => $this->metaMaxPrice,
-            'count' => $this->count,
-        ];
+        $query = clone $this->query;
+
+        $result = $query->addSelect(DB::raw('MAX(trips.price) as max_price, MIN(trips.price) as min_price'))
+            ->first();
+
+        if ($this->minPrice !== 0 && $this->maxPrice !== 0) {
+            $query->where('trips.price', '>=', $this->minPrice)
+                ->where('trips.price', '<=', $this->maxPrice);
+        }
+        $count = $query->count();
+
+        if ($result === null) {
+            return ['min' => 0, 'max' => 0, 'count' => 0];
+        } else {
+            return ['min' => $result->min_price, 'max' => $result->max_price, 'count' => $count];
+        }
     }
 
     /**

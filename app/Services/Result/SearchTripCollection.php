@@ -44,18 +44,4 @@ class SearchTripCollection extends Collection
             ],
         ];
     }
-
-    /**
-     * @param array $items
-     *
-     * @return \App\Services\Result\SearchTripCollection - new collection
-     */
-    public function sortByPrice(string $order = 'asc'): self
-    {
-        $method = $order === 'asc' ? 'sortBy' : 'sortByDesc';
-
-        return $this->$method(function ($trip) {
-            return $trip->priceInCurrency;
-        })->values();
-    }
 }

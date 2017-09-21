@@ -346,11 +346,6 @@ class TripsService
      */
     public function search(SearchTripRequest $request): SearchTripCollection
     {
-        $sortField = $request->getSort();
-        $sortOrder = $request->getOrder();
-
-        $this->searchCurrency = $this->currencyRepository->find($request->getCurrencyId());
-
         $search = $this->tripRepository->search()
             ->addLocation(
                 $request->getFromLat(),
@@ -364,7 +359,7 @@ class TripsService
                 $request->getMaxTime()
             )
             ->setPrice($request->getMinPrice(), $request->getMaxPrice())
-            ->setOrder($sortField, $sortOrder)
+            ->setOrder($request->getSort(), $request->getOrder())
             ->setIsAnimalsAllowed($request->getIsAnimalsAllowed())
             ->setLuggageSize($request->getLuggageSize())
             ->setSeats($request->getSeats())
@@ -381,30 +376,13 @@ class TripsService
 
         $trips = $this->tripRepository->findWhereIn('id', $tripCollection->keys()->toArray());
 
-        $trips->each(function ($trip) use ($tripCollection, $search) {
-            $priceInCurrency = $trip->priceInCurrency($this->searchCurrency);
-
-            if (! $search->priceIsIncludedInRange($priceInCurrency)) {
-                $tripCollection->forget($trip->id);
-
-                return;
-            }
-
-            $tripCollection[$trip->id]
-                ->setModel($trip)
-                ->setPriceInCurrency($priceInCurrency);
-
-            $search->changePriceRangeForMeta($priceInCurrency);
+        $trips->each(function ($trip) use ($tripCollection) {
+            $tripCollection[$trip->id]->setModel($trip);
         });
 
-        $search->setCount($tripCollection->count());
+        $tripCollection->setMeta($search->getMetaData());
 
-        if ($sortField === 'price') {
-            $tripCollection = $tripCollection->sortByPrice($sortOrder);
-        }
-
-        return $tripCollection
-            ->setMeta($search->getMetaData());
+        return $tripCollection;
     }
 
     /**
