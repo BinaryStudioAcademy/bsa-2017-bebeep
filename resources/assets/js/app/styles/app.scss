@@ -75,6 +75,11 @@ dt {
   min-height: calc(100vh - #{$app-header-height + $app-footer-height});
 }
 
+.app-container-wrapper {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
 .page-header {
     margin-bottom: 1.5rem;
     border-bottom: 1px solid lighten($black, 90%);
