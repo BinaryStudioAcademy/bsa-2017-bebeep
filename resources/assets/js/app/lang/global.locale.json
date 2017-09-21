@@ -98,9 +98,9 @@
       "trip_created": {
         "title": ["Created trip by your subscription", "Створена подорож за вашою підпискою", "Создана поездка по вашей подписке"],
         "message": [
-          "According to your subscription, was created a new trip ${from} - ${to} ${start_at}, with the following parameters: <br /> ${params}",
-          "Відповідно до Вашої підписці була створена нова подорож ${from} - ${to} ${start_at}, з наступними параметрами: ${params}",
-          "Согласно Вашей подписке была создана новая поездка ${from} - ${to} ${start_at}, со следующими параметрами: <br /> ${params}"
+          "According to your subscription, was created a new trip ${from} - ${to} ${start_at}, with the following parameters: <br /> ",
+          "Відповідно до Вашої підписці була створена нова подорож ${from} - ${to} ${start_at}, з наступними параметрами: <br /> ",
+          "Согласно Вашей подписке была создана новая поездка ${from} - ${to} ${start_at}, со следующими параметрами: <br /> "
         ],
         "params": {
           "animals": [
