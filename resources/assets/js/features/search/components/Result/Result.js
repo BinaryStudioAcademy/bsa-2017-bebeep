@@ -21,6 +21,7 @@ import { searchSuccess, setSearchFilters } from 'features/search/actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import {getTranslate} from 'react-localize-redux';
+import CurrencyService from 'features/currency/services/CurrencyService';
 import 'features/search/styles/search-result.scss';
 
 class Result extends React.Component {
@@ -56,6 +57,11 @@ class Result extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.updateState(nextProps);
+
+        const currency = CurrencyService.getCurrencyById(1);
+
+        CurrencyService.convertValue(this.state.meta.priceRange[0], currency);
+        CurrencyService.convertValue(this.state.meta.priceRange[1], currency);
     }
 
     updateState(props) {
@@ -100,6 +106,7 @@ class Result extends React.Component {
         setUrl({
             "filter[price][min]": null,
             "filter[price][max]": null,
+            "filter[currency_id]": this.props.activeCurrency.id,
             "filter[time][min]": null,
             "filter[time][max]": null,
             "filter[date]": null,
@@ -144,7 +151,7 @@ class Result extends React.Component {
 
     render() {
         const {sort, order, page, limit, meta, collection, preloader, subscribeModalIsOpen} = this.state,
-            {translate} = this.props,
+            {translate, activeCurrency} = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
 
@@ -156,6 +163,7 @@ class Result extends React.Component {
                         <div className="col-md-3">
                             <Filter
                                 priceBounds={meta.priceRange}
+                                priceCurrencySign={activeCurrency.sign}
                             />
                             <div className="text-center">
                                 <button role="button" className="btn search-block__btn search-result__btn-subscribe" onClick={this.onClickSubscribe}>
@@ -212,7 +220,8 @@ class Result extends React.Component {
 const ResultConnected = connect(
     (state) => ({
         tripData: state.search,
-        translate: getTranslate(state.locale)
+        translate: getTranslate(state.locale),
+        activeCurrency: state.currency.activeCurrency,
     }),
     (dispatch) => bindActionCreators({searchSuccess, setSearchFilters}, dispatch)
 )(Result);
