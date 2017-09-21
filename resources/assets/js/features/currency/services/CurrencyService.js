@@ -3,7 +3,8 @@ import _ from 'lodash';
 import DataStorage from 'app/helpers/DataStorage';
 import { getCurrencies, setActiveCurrency } from '../actions';
 
-const CURRENCY_DEFAULT = 'USD';
+export const CURRENCY_DEFAULT_CODE = 'USD';
+
 const CURRENCY_STORAGE_KEY = 'currency';
 
 const CurrencyService = (() => {
@@ -44,7 +45,7 @@ const CurrencyService = (() => {
         },
 
         getCurrencyByCode(code) {
-            code = code || CURRENCY_DEFAULT;
+            code = code || CURRENCY_DEFAULT_CODE;
 
             return _.find(this.currencies, currency => {
                 return currency.code === code;
@@ -66,7 +67,7 @@ const CurrencyService = (() => {
             activeCurrency = this.getCurrencyByCode(code);
 
             if (activeCurrency === undefined) {
-                activeCurrency = this.getCurrencyByCode(CURRENCY_DEFAULT);
+                activeCurrency = this.getCurrencyByCode(CURRENCY_DEFAULT_CODE);
             }
 
             return activeCurrency;
