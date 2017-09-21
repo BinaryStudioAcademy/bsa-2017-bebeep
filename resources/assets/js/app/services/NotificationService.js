@@ -142,6 +142,10 @@ export const getMessage = (notification) => {
                 link: `/dashboard/messages/${notification.sender_id}`
             };
         case NOTIFICATION_TRIP_CREATED:
+            const rating = notification.data.params.rating
+                ? parseFloat(notification.data.params.rating).toFixed(2)
+                : 0;
+
             return {
                 type: 'info',
                 title: translate(`notifications.messages.${notification.type}.title`),
@@ -170,9 +174,7 @@ export const getMessage = (notification) => {
                     translate(`notifications.messages.${notification.type}.params.seats`, {
                         seats:  notification.data.params.seats
                     }),
-                    translate(`notifications.messages.${notification.type}.params.rating`, {
-                        rating: parseFloat(notification.data.params.rating).toFixed(2)
-                    })
+                    translate(`notifications.messages.${notification.type}.params.rating`, { rating })
                 ].map((element, index) => (<span key={index}>{element}</span>)),
                 link: `/trip/${notification.data.trip_id}`
             };
