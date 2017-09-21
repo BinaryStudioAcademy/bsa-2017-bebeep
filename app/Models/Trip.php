@@ -108,19 +108,18 @@ class Trip extends Model
     {
         $code = $this->currency->code ?? Currency::CURRENCY_MAIN_CODE;
 
-        return new Money($this->attributes['price'], new MoneyCurrency($code));
+        return new Money($this->price, new MoneyCurrency($code));
     }
 
     /**
      * @param \App\Models\Currency $currency
      *
-     * @return int
+     * @return float
      */
     public function priceInCurrency(Currency $currency): float
     {
-        return (int) app('CurrenciesConverter')->convert(
-            $this->moneyPrice(),
-            new MoneyCurrency($currency->code)
-        )->getAmount();
+        return (float) app('CurrenciesConverter')
+            ->convert($this->moneyPrice(), new MoneyCurrency($currency->code))
+            ->getAmount();
     }
 }

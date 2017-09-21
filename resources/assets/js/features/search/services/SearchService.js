@@ -178,12 +178,13 @@ export const transformSubscriptionData = (toBeTransformed) => {
             transfer: toBeTransformed.transfer,
             price: {
                 from: toBeTransformed.price[0],
-                to: toBeTransformed.price[1]
+                to: toBeTransformed.price[1],
+                currency: toBeTransformed.currency.id
             },
             time: {
                 from: toBeTransformed.time[0],
                 to: toBeTransformed.time[1]
-            }
+            },
         }
     };
 };

@@ -21,7 +21,7 @@ class StartTimeFilter implements Contracts\SubscriptionFilter
     public function isSatisfied(Filter $filter, Trip $trip): bool
     {
         $params = $filter->parameters;
-        $startTime = $trip->start_at->startOfDay()->addHours((int) $params['from'])->timestamp;
+        $startTime = $filter->subscription->start_at->addHours((int) $params['from'])->timestamp;
 
         return $trip->start_at->timestamp >= $startTime;
     }

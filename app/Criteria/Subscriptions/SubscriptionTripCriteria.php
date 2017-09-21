@@ -39,9 +39,12 @@ class SubscriptionTripCriteria implements CriteriaInterface
                     'routes.from_lng',
                     'subscriptions.from_lat',
                     'subscriptions.from_lng'
-                ).' '.
+                ).' as distance '.
                 'FROM routes '.
-                'WHERE trip_id='.$this->trip->id.' AND trip_id IS NOT NULL) < '.self::DISTANCE_FROM
+                'WHERE trip_id='.$this->trip->id.' AND trip_id IS NOT NULL '.
+                'ORDER BY distance ASC '.
+                'LIMIT 1'.
+                ') < '.self::DISTANCE_FROM
             )
             ->whereRaw('(SELECT '.
                 $this->haversine(
@@ -49,9 +52,12 @@ class SubscriptionTripCriteria implements CriteriaInterface
                     'routes.to_lng',
                     'subscriptions.to_lat',
                     'subscriptions.to_lng'
-                ).' '.
+                ).' as distance '.
                 'FROM routes '.
-                'WHERE trip_id='.$this->trip->id.' AND trip_id IS NOT NULL) < '.self::DISTANCE_TO
+                'WHERE trip_id='.$this->trip->id.' AND trip_id IS NOT NULL '.
+                'ORDER BY distance ASC '.
+                'LIMIT 1'.
+                ') < '.self::DISTANCE_TO
             )
             ->where('subscriptions.start_at', '<=', $startAt)
             ->whereRaw('DATE_ADD(subscriptions.start_at, INTERVAL 1 DAY)>=\''.$startAt.'\'')

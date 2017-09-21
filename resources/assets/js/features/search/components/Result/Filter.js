@@ -89,7 +89,7 @@ class Filter extends React.Component {
     render() {
         const { time, price, animals, seats, luggage, rating, transfers } = this.state;
 
-        const { priceBounds, translate } = this.props;
+        const { priceBounds, translate, activeCurrency } = this.props;
 
         return (
             <div className="filter filter-centered">
@@ -115,7 +115,9 @@ class Filter extends React.Component {
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
                             {translate('search_result.filter.price_range', {
-                                start: priceBounds[0], end: priceBounds[1]
+                                start: priceBounds[0],
+                                end: priceBounds[1],
+                                currency: _.isEmpty(activeCurrency) ? '' : activeCurrency.sign
                             })}
                         </div>
                         <Range
@@ -164,6 +166,7 @@ Filter.PropTypes = {
 export default withRouter(connect(
     (state) => ({
         start_at: state.search.start_at,
+        activeCurrency: state.currency.activeCurrency,
         translate: getTranslate(state.locale)
     })
 )(Filter));
