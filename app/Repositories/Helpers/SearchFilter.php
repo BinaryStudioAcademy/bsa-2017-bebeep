@@ -64,7 +64,7 @@ class SearchFilter
     public function addCurrency(): SearchFilter
     {
         $this->query
-            ->join('currencies as currencies', 'trips.currency_id', '=', 'currencies.id');
+            ->join('currencies', 'trips.currency_id', '=', 'currencies.id');
 
         return $this;
     }
@@ -281,12 +281,15 @@ class SearchFilter
     {
         $query = clone $this->query;
 
-        $result = $query->addSelect(DB::raw('MAX(trips.price) as max_price, MIN(trips.price) as min_price'))
+        $result = $query
+            ->addSelect(DB::raw(
+                'ROUND(MAX(trips.price / currencies.rate)) as max_price, ROUND(MIN(trips.price / currencies.rate)) as min_price'
+            ))
             ->first();
 
-        if ($this->minPrice !== 0 && $this->maxPrice !== 0) {
-            $query->where('trips.price', '>=', $this->minPrice)
-                ->where('trips.price', '<=', $this->maxPrice);
+        if ($this->maxPrice !== 0) {
+            $query->where(DB::raw('trips.price / currencies.rate'), '>=', $this->minPrice)
+                ->where(DB::raw('trips.price / currencies.rate'), '<=', $this->maxPrice);
         }
         $count = $query->count();
 
