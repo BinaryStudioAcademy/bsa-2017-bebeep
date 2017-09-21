@@ -133,11 +133,14 @@ export const setUrl = (param = {}) => {
     let newLocation = Object.assign(location, {
         query: Object.assign(location.query, param)
     });
+
     for (let key in newLocation.query) {
         if (newLocation.query[key] === null) {
             delete(newLocation.query[key]);
         }
     }
+    newLocation.query.currency_id = CurrencyService.getActiveCurrency().id;
+
     browserHistory.replace(newLocation);
 };
 
