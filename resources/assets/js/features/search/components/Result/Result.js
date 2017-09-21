@@ -21,7 +21,6 @@ import { searchSuccess, setSearchFilters } from 'features/search/actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import {getTranslate} from 'react-localize-redux';
-import CurrencyService from 'features/currency/services/CurrencyService';
 import 'features/search/styles/search-result.scss';
 
 class Result extends React.Component {
@@ -62,12 +61,8 @@ class Result extends React.Component {
         ) {
             return;
         }
+
         this.updateState(nextProps);
-
-        /*const currency = CurrencyService.getCurrencyById(1);
-
-        CurrencyService.convertValue(this.state.meta.priceRange[0], currency);
-        CurrencyService.convertValue(this.state.meta.priceRange[1], currency);*/
     }
 
     updateState(props) {
@@ -187,7 +182,6 @@ class Result extends React.Component {
                         <div className="col-md-3">
                             <Filter
                                 priceBounds={meta.priceRange}
-                                priceCurrencySign={activeCurrency.sign}
                             />
                             <div className="text-center">
                                 <button role="button" className="btn search-block__btn search-result__btn-subscribe" onClick={this.onClickSubscribe}>
