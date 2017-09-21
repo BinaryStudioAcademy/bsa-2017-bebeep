@@ -173,7 +173,8 @@ class Result extends React.Component {
     }
 
     render() {
-        const {sort, order, page, limit, meta, collection, preloader, subscribeModalIsOpen} = this.state,
+        const {sort, order, page, limit, meta} = this.state,
+            {collection, preloader, subscribeModalIsOpen} = this.state,
             {translate, activeCurrency} = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
