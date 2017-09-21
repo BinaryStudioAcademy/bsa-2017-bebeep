@@ -8,6 +8,7 @@ import moment from 'moment';
 import LangService from 'app/services/LangService';
 import {getDriverAvatar} from 'app/services/PhotoService';
 import { convertTripPrice } from 'app/services/TripService';
+import {getCityLocation} from 'app/helpers/TripHelper';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import 'features/search/styles/compound-trip-item.scss';
@@ -36,18 +37,9 @@ class CompoundTripItem extends React.Component {
 
     render() {
         const {collection, translate, activeCurrency} = this.props,
-            startedAt = this.formatStartAt();
-
-        const from = collection.from.address_components,
-            to = collection.to.address_components;
-
-        const fromName = from[0].long_name === parseInt(from[0].long_name, 6)
-                ? from[1].long_name
-                : from[0].long_name;
-
-        const toName = to[0].long_name === parseInt(to[0].long_name, 6)
-            ? to[1].long_name
-            : to[0].long_name;
+            startedAt = this.formatStartAt(),
+            fromName = getCityLocation(collection.from),
+            toName = getCityLocation(collection.to);
 
         const tripPrice = convertTripPrice({
             price: collection.price,
