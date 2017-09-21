@@ -50,6 +50,7 @@ $factory->define(App\Models\Trip::class, function (Faker\Generator $faker) use (
         'user_id' => 1,
         'is_animals_allowed' => 1,
         'luggage_size' => \App\Models\Trip::LUGGAGE_SIZE_BIG,
+        'currency_id' => 1,
     ];
 });
 

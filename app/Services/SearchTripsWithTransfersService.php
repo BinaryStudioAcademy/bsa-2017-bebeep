@@ -4,7 +4,6 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Models\Route;
-use Money\Currency;
 use RFHaversini\Distance;
 use App\Repositories\TripRepository;
 use App\Services\Requests\SearchTripRequest;
@@ -76,8 +75,8 @@ class SearchTripsWithTransfersService
             }
 
             return true;
-        })->map(function($routeGroup) {
-            $routeGroup->getRoutes()->map(function($route) {
+        })->map(function ($routeGroup) {
+            $routeGroup->getRoutes()->map(function ($route) {
                 $route->priceInCurrency = $route->priceInCurrency($this->searchCurrency);
             });
 
