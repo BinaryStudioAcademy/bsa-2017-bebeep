@@ -61,6 +61,14 @@ class SearchFilter
         return $this;
     }
 
+    public function addCurrency(): SearchFilter
+    {
+        $this->query
+            ->join('currencies as currencies', 'trips.currency_id', '=', 'currencies.id');
+
+        return $this;
+    }
+
     /**
      * @return $this
      */
@@ -250,14 +258,15 @@ class SearchFilter
     {
         $query = (clone $this->query)
             ->addSelect('trips.*')
+            ->addSelect('currencies.rate')
             ->addSelect('routes_from.id as from_id')
             ->addSelect('routes_from.from as from')
             ->addSelect('routes_to.id as to_id')
             ->addSelect('routes_to.to as to');
 
-        if ($this->minPrice !== 0 && $this->maxPrice !== 0) {
-            $query->where('trips.price', '>=', $this->minPrice)
-                ->where('trips.price', '<=', $this->maxPrice);
+        if ($this->maxPrice !== 0) {
+            $query->where(DB::raw('trips.price / currencies.rate'), '>=', $this->minPrice)
+                ->where(DB::raw('trips.price / currencies.rate'), '<=', $this->maxPrice);
         }
 
         $query->limit($this->limit)->offset($this->offset * $this->limit);
