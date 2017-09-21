@@ -10,11 +10,6 @@ export const setSearchFilters = filters => ({
     filters
 });
 
-export const updateStartTime = time => ({
-    type: actions.SEARCH_UPDATE_START_TIME,
-    time
-});
-
 export const subscriptionUpdate = data => ({
     type: actions.SUBSCRIPTION_UPDATE,
     data
