@@ -27,13 +27,13 @@ class RouteTransformer extends TransformerAbstract
             'from' => [
                 'lng' => $route->from['geometry']['location']['lng'],
                 'lat' => $route->from['geometry']['location']['lat'],
-                'short_address' => $route->from['address_components'][0]['short_name'],
+                'short_address' => $this->getCity($route->from),
                 'address' => $route->from['formatted_address'],
             ],
             'to' => [
                 'lng' => $route->to['geometry']['location']['lng'],
                 'lat' => $route->to['geometry']['location']['lat'],
-                'short_address' => $route->to['address_components'][0]['short_name'],
+                'short_address' => $this->getCity($route->to),
                 'address' => $route->to['formatted_address'],
             ],
             'start_at_x' => $route->start_at->timestamp,
@@ -49,5 +49,26 @@ class RouteTransformer extends TransformerAbstract
     public function includeBookings(RouteDetail $route)
     {
         return $this->collection($route->approvedBookings, new BookingTransformer());
+    }
+
+    protected function getCity(array $route)
+    {
+        $city = '';
+        if (isset($route['formatted_address'])) {
+            $city = $route['formatted_address'];
+        }
+        if (isset($route['address_components'])) {
+            $city = array_reduce(
+                $route['address_components'],
+                function ($address, $component) {
+                    return in_array('locality', $component['types'])
+                        ? $component['short_name']
+                        : $address;
+                },
+                $route['formatted_address']
+            );
+        }
+
+        return $city;
     }
 }
