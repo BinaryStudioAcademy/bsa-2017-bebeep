@@ -391,7 +391,6 @@ class TripsService
         });
 
         $search->setCount($tripCollection->count());
-
         $tripCollection->setMeta($search->getMetaData());
 
         return $tripCollection;
