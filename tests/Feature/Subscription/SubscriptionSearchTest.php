@@ -312,16 +312,21 @@ class SubscriptionSearchTest extends JwtTestCase
         $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
         $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
 
-        $trip1 = $this->getTripBySubscription($subscription, ['price' => 10]);
+        $currency = Currency::where('is_main', true)->first();
+
+        $trip1 = $this->getTripBySubscription($subscription, [
+            'price' => 10,
+            'currency_id' => $currency->id,
+        ]);
 
         $this->getFilter($subscription, [
             'name' => 'price',
-            'parameters' => ['from' => 5, 'to' => 20],
+            'parameters' => ['from' => 5, 'to' => 20, 'currency' => $currency->id],
         ]);
 
         $this->getFilter($subscription2, [
             'name' => 'price',
-            'parameters' => ['from' => 15, 'to' => 25],
+            'parameters' => ['from' => 15, 'to' => 25, 'currency' => $currency->id],
         ]);
 
         $service = app()->make(SubscriptionsService::class);
@@ -336,30 +341,31 @@ class SubscriptionSearchTest extends JwtTestCase
     /**
      * @test
      */
-    public function it_find_trip_with_currency_filter()
+    public function it_find_trip_by_price_filter_with_currency()
     {
         $start_at = Carbon::today();
         $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
         $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
 
-        $currency1 = factory(Currency::class)->create();
-        $currency2 = factory(Currency::class)->create();
+        $currency = Currency::all();
 
         $trip1 = $this->getTripBySubscription($subscription, [
-            'currency_id' => $currency1->id,
+            'price' => 10,
+            'currency_id' => $currency[0]->id
         ]);
-        $trip2 = $this->getTripBySubscription($subscription, [
-            'currency_id' => $currency2->id,
-        ]);
+
+        $price = $trip1->priceInCurrency($currency[1]);
 
         $this->getFilter($subscription, [
-            'name' => 'currency',
-            'parameters' => ['value' => $currency1->id],
+            'name' => 'price',
+            'parameters' => ['from' => $price - 2, 'to' => $price + 2, 'currency' => $currency[1]->id],
         ]);
 
+        $price = $trip1->priceInCurrency($currency[2]);
+
         $this->getFilter($subscription2, [
-            'name' => 'currency',
-            'parameters' => ['value' => $currency2->id],
+            'name' => 'price',
+            'parameters' => ['from' =>$price + 5, 'to' => $price + 10, 'currency' => $currency[2]->id],
         ]);
 
         $service = app()->make(SubscriptionsService::class);
@@ -369,13 +375,6 @@ class SubscriptionSearchTest extends JwtTestCase
         $first = $found1->first();
         $this->assertInstanceOf(Subscription::class, $first);
         $this->assertEquals($subscription->id, $first->id);
-
-        $found2 = $service->getSubscriptionsByTrip($trip2);
-
-        $this->assertCount(1, $found2);
-        $first = $found2->first();
-        $this->assertInstanceOf(Subscription::class, $first);
-        $this->assertEquals($subscription2->id, $first->id);
     }
 
     /**
