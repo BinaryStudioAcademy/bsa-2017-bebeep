@@ -2,13 +2,16 @@
 
 namespace App\Providers;
 
-use App\Models\Currency;
+use Money\Converter;
 use App\Models\Vehicle;
+use App\Models\Currency;
 use App\Services\RouteService;
 use App\Services\BookingService;
 use App\Services\ReviewsService;
+use Money\Exchange\FixedExchange;
 use App\Services\CurrencyService;
 use App\Services\PasswordService;
+use Money\Currencies\ISOCurrencies;
 use App\Rules\Booking\TripDateRule;
 use App\Services\TripDetailService;
 use App\Repositories\TripRepository;
@@ -42,7 +45,6 @@ use App\Services\Helpers\Subscriptions\Filters\RatingFilter;
 use App\Services\Helpers\Subscriptions\Filters\AnimalsFilter;
 use App\Services\Helpers\Subscriptions\Filters\EndTimeFilter;
 use App\Services\Helpers\Subscriptions\Filters\LuggageFilter;
-use App\Services\Helpers\Subscriptions\Filters\CurrencyFilter;
 use App\Rules\UpdateTrip\TripOwnerRule as TripUpdateOwnerRule;
 use App\Services\Helpers\Subscriptions\Filters\EndPriceFilter;
 use App\Services\Helpers\Subscriptions\Filters\StartTimeFilter;
@@ -59,9 +61,6 @@ use App\Repositories\Contracts\BookingRepository as BookingRepositoryContract;
 use App\Repositories\Contracts\CurrencyRepository as CurrencyRepositoryContract;
 use App\Services\Contracts\SubscriptionsService as SubscriptionsServiceContract;
 use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
-use Money\Converter;
-use Money\Currencies\ISOCurrencies;
-use Money\Exchange\FixedExchange;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -169,8 +168,7 @@ class AppServiceProvider extends ServiceProvider
                 new LuggageFilter(),
                 new RatingFilter(),
                 new StartPriceFilter(),
-                new EndPriceFilter(),
-                new CurrencyFilter()
+                new EndPriceFilter()
             );
         });
     }

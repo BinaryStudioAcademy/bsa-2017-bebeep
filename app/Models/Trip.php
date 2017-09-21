@@ -5,6 +5,7 @@ namespace App\Models;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Money\Money;
 
 class Trip extends Model
 {
@@ -96,5 +97,26 @@ class Trip extends Model
     public function currency()
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    /**
+     * @return Money
+     */
+    public function moneyPrice()
+    {
+        $code = $this->currency->code ?? 'USD';
+
+        return new Money($this->price, new \Money\Currency($code));
+    }
+
+    /**
+     * @param \App\Models\Currency $currency
+     * @return int
+     */
+    public function priceInCurrency(\App\Models\Currency $currency) : float
+    {
+        return (float) app('CurrenciesConverter')
+            ->convert($this->moneyPrice(), new \Money\Currency($currency->code))
+            ->getAmount();
     }
 }
