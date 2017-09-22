@@ -8,6 +8,7 @@ import BookingModal from '../Modals/BookingModal';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import AuthService from 'app/services/AuthService';
+import { convertTripPrice, convertTripRoutesPrice } from 'app/services/TripService';
 import { USER_ROLE_DRIVER } from 'app/services/UserService';
 
 import {
@@ -34,6 +35,7 @@ class TripDetailsContainer extends React.Component {
         this.state = {
             isOpenBookingModal: false,
             hideBookingBtn: false,
+            routes: [],
         };
 
         this.onBookingBtnClick = this.onBookingBtnClick.bind(this);
@@ -43,10 +45,20 @@ class TripDetailsContainer extends React.Component {
 
     componentWillMount() {
         this.toggleBookingBtn(this.props);
+        this.setTripRoutes();
     }
 
     componentWillReceiveProps(nextProps) {
         this.toggleBookingBtn(nextProps);
+        this.setTripRoutes();
+    }
+
+    setTripRoutes() {
+        const { trip, routes } = this.props.details;
+
+        this.setState({
+            routes: convertTripRoutesPrice(trip.currency_id, routes),
+        });
     }
 
     toggleBookingBtn(props) {
@@ -102,14 +114,15 @@ class TripDetailsContainer extends React.Component {
     }
 
     render() {
-        const { translate, details: {trip, routes, driver, vehicle} } = this.props,
-            { isOpenBookingModal, isOpenBookingStatusModal } = this.state;
+        const { translate, details: {trip, driver, vehicle}, activeCurrency } = this.props,
+            { routes, isOpenBookingModal, isOpenBookingStatusModal } = this.state;
 
         const startPoint = routes[0].from,
             endPoint = _.last(routes).to,
             currentBookings = routes[0].bookings.data,
             currentFreeSeats = routes[0].free_seats;
-        // TODO :: currentBookings and currentFreeSeats can be not only the first route
+
+        const tripPrice = convertTripPrice(trip);
 
         this.formatStartAt();
 
@@ -160,7 +173,8 @@ class TripDetailsContainer extends React.Component {
                     <div className="block-border text-center">
 
                         <TripBookingMainInfo
-                            price={ trip.price }
+                            price={ tripPrice }
+                            currencySign={ activeCurrency.sign }
                             freeSeats={ currentFreeSeats }
                         />
                         <TripPassengersCurrent
@@ -177,7 +191,7 @@ class TripDetailsContainer extends React.Component {
                     tripId={ trip.id }
                     maxSeats={ trip.seats }
                     waypoints={ routes }
-                    price={ trip.price }
+                    currencySign={ activeCurrency.sign }
                     startAt={ trip.start_at_format }
                     isOpen={ isOpenBookingModal }
                     onClosed={ this.onBookingClosed }
@@ -191,6 +205,7 @@ class TripDetailsContainer extends React.Component {
 export default connect(
     state => ({
         translate: getTranslate(state.locale),
+        activeCurrency: state.currency.activeCurrency,
     }),
     dispatch => bindActionCreators({ addBookingState }, dispatch)
 )(TripDetailsContainer);

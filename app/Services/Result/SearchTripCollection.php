@@ -6,23 +6,42 @@ use Illuminate\Support\Collection;
 
 class SearchTripCollection extends Collection
 {
+    /**
+     * @var array
+     */
     protected $meta;
 
-    public function __construct($items = [])
+    /**
+     * @param array $items
+     */
+    public function __construct(array $items = [])
     {
         parent::__construct($items);
     }
 
-    public function setMeta(array $meta)
+    /**
+     * @param array $items
+     *
+     * @return $this
+     */
+    public function setMeta(array $meta): self
     {
         $this->meta = $meta;
+
+        return $this;
     }
 
-    public function getMeta() : array
+    /**
+     * @return array
+     */
+    public function getMeta(): array
     {
         return [
             'total' => $this->meta['count'],
-            'price' => ['min' => $this->meta['min'], 'max' => $this->meta['max']],
+            'price' => [
+                'min' => $this->meta['min'],
+                'max' => $this->meta['max'],
+            ],
         ];
     }
 }

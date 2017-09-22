@@ -15,7 +15,8 @@ const TripDetailsService = {
     },
 
     transformData(response) {
-        response.data.trip.price = parseInt(response.data.trip.price);
+        const price = parseInt(response.data.trip.price);
+        response.data.trip.price = price;
 
         this.setDriverAge(response.data);
         this.transformRoutesData(response.data);

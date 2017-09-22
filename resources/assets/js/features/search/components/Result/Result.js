@@ -42,6 +42,7 @@ class Result extends React.Component {
             resetFilter: false,
             errors: {},
             subscribeModalIsOpen: false,
+            searchRequestStart: false,
         };
 
         this.onChangeSort = this.onChangeSort.bind(this);
@@ -55,10 +56,21 @@ class Result extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (this.props.activeCurrency.id !== undefined &&
+            nextProps.activeCurrency.id !== this.props.activeCurrency.id
+        ) {
+            return;
+        }
+
         this.updateState(nextProps);
     }
 
     updateState(props) {
+        const currencyId = +props.activeCurrency.id;
+        if (isNaN(currencyId)) {
+            return;
+        }
+
         const { location, tripData } = props,
             { query } = location,
             newState = {
@@ -78,6 +90,7 @@ class Result extends React.Component {
         this.getData(
             newTripData.fc,
             newTripData.tc,
+            currencyId,
             newTripData.start_at,
             newState
         );
@@ -98,8 +111,10 @@ class Result extends React.Component {
 
     onSearch() {
         setUrl({
+            "currency_id": this.props.activeCurrency.id,
             "filter[price][min]": null,
             "filter[price][max]": null,
+            "filter[currency_id]": null,
             "filter[time][min]": null,
             "filter[time][max]": null,
             "filter[date]": null,
@@ -111,9 +126,17 @@ class Result extends React.Component {
         });
     }
 
-    getData(fromCoord, toCoord, start_at, {limit, page, sort, order, filter}) {
-        this.setState({preloader: true});
-        search(fromCoord, toCoord, start_at, page, sort, order, limit, filter)
+    getData(fromCoord, toCoord, currencyId, start_at, {limit, page, sort, order, filter}) {
+        if (this.state.searchRequestStart) {
+            return;
+        }
+
+        this.setState({
+            preloader: true,
+            searchRequestStart: true,
+        });
+
+        search(fromCoord, toCoord, currencyId, start_at, page, sort, order, limit, filter)
             .then(response => {
                 this.setState({
                     collection: response.data.data,
@@ -124,14 +147,16 @@ class Result extends React.Component {
                             +response.data.meta.price.max
                         ]
                     },
-                    preloader: false
+                    preloader: false,
+                    searchRequestStart: false,
                 });
             })
             .catch(error => {
                 if (error.response) {
                     this.setState({
                         errors: error.response,
-                        preloader: false
+                        preloader: false,
+                        searchRequestStart: false,
                     })
                 }
             });
@@ -143,8 +168,9 @@ class Result extends React.Component {
     }
 
     render() {
-        const {sort, order, page, limit, meta, collection, preloader, subscribeModalIsOpen} = this.state,
-            {translate} = this.props,
+        const {sort, order, page, limit, meta} = this.state,
+            {collection, preloader, subscribeModalIsOpen} = this.state,
+            {translate, activeCurrency} = this.props,
             currentPage = getCurrentPage(page, limit, meta.totalSize),
             countResult = getCountResult(currentPage, collection.length, limit);
 
@@ -212,7 +238,8 @@ class Result extends React.Component {
 const ResultConnected = connect(
     (state) => ({
         tripData: state.search,
-        translate: getTranslate(state.locale)
+        translate: getTranslate(state.locale),
+        activeCurrency: state.currency.activeCurrency,
     }),
     (dispatch) => bindActionCreators({searchSuccess, setSearchFilters}, dispatch)
 )(Result);
