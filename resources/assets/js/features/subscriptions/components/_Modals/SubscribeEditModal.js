@@ -56,11 +56,12 @@ class SubscribeEditModal extends React.Component {
 
             if (filter.parameters['value']) {
                 state.filters[filter.name] = filter.parameters['value'];
-            } else if (filter.parameters['to'] && filter.parameters['from']) {
+            } else if (filter.parameters['to'] !== undefined && filter.parameters['from'] !== undefined) {
                 state.filters[filter.name] = [
                     filter.parameters['from'],
                     filter.parameters['to']
                 ];
+                console.log(state.filters);
 
                 if (filter.parameters['currency']) {
                     state.filters['currency'] = filter.parameters['currency'];
