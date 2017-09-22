@@ -10,7 +10,7 @@ import {
     INIT, STEP_ONE, STEP_TWO, STEP_THREE, savePendingTrip, isTripReady
 } from 'app/services/WizardTripService';
 
-import { completeTrip } from '../actions';
+import { completeTrip, moveToStep } from '../actions';
 
 import AuthService from 'app/services/AuthService';
 
@@ -48,6 +48,8 @@ class WizardTrip extends React.Component {
     }
 
     render() {
+        const { moveToStep } = this.props;
+
         return (
             <div>
                 <div className={"wizard-trip__step" + (this.stepIs(INIT)
@@ -73,9 +75,15 @@ class WizardTrip extends React.Component {
                 </div>
 
                 <div className="home-slider__steps wizard-steps">
-                    <a href="#" className={'wizard-steps__step ' + (this.stepIs(INIT) ? 'wizard-steps__step_active' : '')}>1</a>
-                    <a href="#" className={'wizard-steps__step ' + (this.stepIs(STEP_ONE) ? 'wizard-steps__step_active' : '')}>2</a>
-                    <a href="#" className={'wizard-steps__step ' + (this.stepIs(STEP_TWO) ? 'wizard-steps__step_active' : '')}>3</a>
+                    <a href="#" className={'wizard-steps__step ' + (this.stepIs(INIT) ? 'wizard-steps__step_active' : '')}
+                        onClick={(e) => {e.preventDefault(); moveToStep(INIT);}}
+                    >1</a>
+                    <a href="#" className={'wizard-steps__step ' + (this.stepIs(STEP_ONE) ? 'wizard-steps__step_active' : '')}
+                        onClick={(e) => {e.preventDefault(); moveToStep(STEP_ONE);}}
+                    >2</a>
+                    <a href="#" className={'wizard-steps__step ' + (this.stepIs(STEP_TWO) ? 'wizard-steps__step_active' : '')}
+                        onClick={(e) => {e.preventDefault(); moveToStep(STEP_TWO);}}
+                    >3</a>
                 </div>
             </div>
         );
@@ -87,5 +95,5 @@ export default connect(
         step: state.tripWizard.step,
         tripData: state.tripWizard.pendingTrip
     }),
-    dispatch => bindActionCreators({completeTrip}, dispatch)
+    dispatch => bindActionCreators({moveToStep, completeTrip}, dispatch)
 )(WizardTrip);
