@@ -18,3 +18,8 @@ export const addCar = (data) => ({
 export const completeTrip = () => ({
     type: actions.WIZARD_TRIP_COMPLETE,
 });
+
+export const moveToStep = (data) => ({
+    type: actions.WIZARD_TRIP_MOVE_TO_STEP,
+    data
+});
