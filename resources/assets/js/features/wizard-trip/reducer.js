@@ -56,6 +56,12 @@ export default (state = initialState, action) => {
             return {
                 ...initialState
             };
+        case actions.WIZARD_TRIP_MOVE_TO_STEP:
+            return {
+                ...state,
+                step: action.data,
+            };
+            break;
         default:
             return state;
     }
