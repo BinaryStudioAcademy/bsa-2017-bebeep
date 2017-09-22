@@ -88,7 +88,7 @@ class User extends Authenticatable implements HasMediaConversions
     /**
      * @var array
      */
-    protected $appends = ['avatar'];
+    protected $appends = ['photo'];
 
 
     /**
@@ -293,7 +293,7 @@ class User extends Authenticatable implements HasMediaConversions
     /**
      * @return null|string
      */
-    public function getAvatarAttribute()
+    public function getPhotoAttribute()
     {
         return $this->getAvatarUrl();
     }
