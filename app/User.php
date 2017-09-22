@@ -86,6 +86,12 @@ class User extends Authenticatable implements HasMediaConversions
     ];
 
     /**
+     * @var array
+     */
+    protected $appends = ['avatar'];
+
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function bookings()
@@ -282,5 +288,13 @@ class User extends Authenticatable implements HasMediaConversions
     public function getUserId(): int
     {
         return (int) ($this->attributes['id']);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getAvatarAttribute()
+    {
+        return $this->getAvatarUrl();
     }
 }
