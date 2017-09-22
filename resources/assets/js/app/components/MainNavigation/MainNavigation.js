@@ -32,7 +32,7 @@ class MainNavigation extends React.Component {
             : <ForGuestUser />;
 
         return (
-            <header className="header">
+            <header className="header app-header">
                 <div className="header__container container d-flex align-items-center">
                     <IndexLink to="/" className="header__logo logo">
                         <img src="/template/img/logo.png" alt="BeBeep" />
