@@ -125,7 +125,13 @@ class SearchFilter
      */
     public function setOrder(string $order, string $direction = 'asc'): SearchFilter
     {
-        $this->query->orderBy("trips.{$order}", $direction);
+        $orderBy = "trips.{$order}";
+
+        if ($order === 'price') {
+            $orderBy = DB::raw('trips.price / currencies.rate');
+        }
+
+        $this->query->orderBy($orderBy, $direction);
 
         return $this;
     }
