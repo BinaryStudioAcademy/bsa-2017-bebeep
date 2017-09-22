@@ -45,7 +45,7 @@ class UserDropdown extends React.Component {
 
                 </DropdownToggle>
 
-                <DropdownMenu right>
+                <DropdownMenu>
 
                     <span className="dropdown-item-signed"> { translate('signed') }</span>
                     <span className="dropdown-item"><b> { userName} </b></span>
