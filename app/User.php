@@ -90,7 +90,6 @@ class User extends Authenticatable implements HasMediaConversions
      */
     protected $appends = ['photo'];
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
