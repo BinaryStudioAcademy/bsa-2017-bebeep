@@ -33,24 +33,26 @@ class VehiclesList extends React.Component {
             : null;
 
         return (
-            <table className="table table-list-details">
-                <thead className="with-background-teal">
-                    <tr>
-                        <th>{ translate('vehicles_list.options.brand') }</th>
-                        <th>{ translate('vehicles_list.options.model') }</th>
-                        <th>{ translate('vehicles_list.options.year') }</th>
-                        <th>{ translate('vehicles_list.options.body') }</th>
-                        <th>{ translate('vehicles_list.options.color') }</th>
-                        <th>{ translate('vehicles_list.options.seats') }</th>
-                        <th>{ translate('vehicles_list.options.photo') }</th>
-                        <th className="table-details__cell-for-action"></th>
-                        <th className="table-details__cell-for-action"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { vehiclesView }
-                </tbody>
-            </table>
+            <div className="table-responsive">
+                <table className="table table-list-details">
+                    <thead className="with-background-teal">
+                        <tr>
+                            <th>{ translate('vehicles_list.options.brand') }</th>
+                            <th>{ translate('vehicles_list.options.model') }</th>
+                            <th>{ translate('vehicles_list.options.year') }</th>
+                            <th>{ translate('vehicles_list.options.body') }</th>
+                            <th>{ translate('vehicles_list.options.color') }</th>
+                            <th>{ translate('vehicles_list.options.seats') }</th>
+                            <th>{ translate('vehicles_list.options.photo') }</th>
+                            <th className="table-details__cell-for-action"></th>
+                            <th className="table-details__cell-for-action"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { vehiclesView }
+                    </tbody>
+                </table>
+            </div>
         );
     }
 }
