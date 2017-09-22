@@ -1,8 +1,7 @@
 .bookings-container {
-
-  &__items {
-    min-height: 500px;
-    padding: 15px 0;
-    position: relative;
-  }
+    &__items {
+        min-height: 250px;
+        padding: 15px 0;
+        position: relative;
+    }
 }

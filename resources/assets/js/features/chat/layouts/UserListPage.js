@@ -5,6 +5,7 @@ import {localize} from 'react-localize-redux';
 import UserListContainer from '../components/UserList/UserListContainer';
 import PageHeader from 'app/components/PageHeader';
 import ContainerWrapper from 'app/layouts/ContainerWrapper';
+import SearchUsers from '../components/SearchUsers';
 
 class UserListPage extends React.Component {
 
@@ -16,8 +17,9 @@ class UserListPage extends React.Component {
         const {translate} = this.props;
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="container--min-height-400">
                 <PageHeader header={translate('chat.user_list.header')} />
+                <SearchUsers />
                 <UserListContainer />
             </ContainerWrapper>
         );

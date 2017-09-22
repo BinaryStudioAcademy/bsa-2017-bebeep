@@ -2,13 +2,18 @@
 
 namespace App\Providers;
 
+use Money\Converter;
 use App\Models\Vehicle;
+use App\Models\Currency;
 use App\Services\RouteService;
 use App\Services\BookingService;
 use App\Services\ReviewsService;
+use App\Services\CurrencyService;
 use App\Services\PasswordService;
+use Money\Exchange\FixedExchange;
 use App\Rules\Booking\TripDateRule;
 use App\Services\TripDetailService;
+use Money\Currencies\ISOCurrencies;
 use App\Repositories\TripRepository;
 use App\Services\UserProfileService;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +23,7 @@ use App\Rules\DeleteTrip\TripOwnerRule;
 use App\Validators\DeleteTripValidator;
 use App\Validators\UpdateTripValidator;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\CurrencyRepository;
 use App\Validators\RestoreTripValidator;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\BookingConfirm\OwnerConfirm;
@@ -46,11 +52,13 @@ use App\Services\Contracts\RouteService as RouteServiceContract;
 use App\Services\Helpers\Subscriptions\Filters\StartPriceFilter;
 use App\Services\Contracts\BookingService as BookingServiceContract;
 use App\Services\Contracts\ReviewsService as ReviewsServiceContract;
+use App\Services\Contracts\CurrencyService as CurrencyServiceContract;
 use App\Services\Contracts\PasswordService as PasswordServiceContract;
 use App\Repositories\Contracts\TripRepository as TripRepositoryContract;
 use App\Services\Contracts\TripDetailService as TripDetailServiceContract;
 use App\Services\Contracts\UserProfileService as UserProfileServiceContract;
 use App\Repositories\Contracts\BookingRepository as BookingRepositoryContract;
+use App\Repositories\Contracts\CurrencyRepository as CurrencyRepositoryContract;
 use App\Services\Contracts\SubscriptionsService as SubscriptionsServiceContract;
 use App\Services\Contracts\UserPublicProfileService as UserPublicProfileServiceContract;
 
@@ -79,6 +87,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('CurrenciesConverter', function () {
+            return new Converter(new ISOCurrencies(), $this->getExchange());
+        });
+
         $this->app->bind(TripRepositoryContract::class, TripRepository::class);
         $this->app->bind(BookingRepositoryContract::class, BookingRepository::class);
         $this->app->bind(
@@ -89,6 +101,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\ChatMessageRepository::class,
             \App\Repositories\ChatMessageRepository::class
         );
+        $this->app->bind(CurrencyRepositoryContract::class, CurrencyRepository::class);
 
         $this->app->bind(RouteServiceContract::class, RouteService::class);
         $this->app->bind(BookingServiceContract::class, BookingService::class);
@@ -110,6 +123,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Contracts\Chat\UserService::class,
             \App\Services\Chat\UserService::class
         );
+        $this->app->bind(CurrencyServiceContract::class, CurrencyService::class);
 
         $this->app->bind(DeleteTripValidator::class, function ($app) {
             return new DeleteTripValidator(new TripOwnerRule);
@@ -239,5 +253,24 @@ class AppServiceProvider extends ServiceProvider
             IsPasswordCurrentValidator::class,
             IsPasswordCurrentValidator::ERROR_MSG
         );
+    }
+
+    private function getExchange()
+    {
+        $currencies = Currency::all();
+        $exchanges = [];
+
+        foreach ($currencies as $currency) {
+            $exchanges[$currency->code] = [];
+
+            foreach ($currencies as $innerCurrency) {
+                $exchanges[$currency->code][$innerCurrency->code] = round(
+                    $innerCurrency->rate / $currency->rate,
+                    5
+                );
+            }
+        }
+
+        return new FixedExchange($exchanges);
     }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PlacesAutocomplete from 'react-places-autocomplete';
@@ -7,6 +8,7 @@ import moment from 'moment';
 
 import Waypoints from './Waypoints';
 import Input from 'app/components/Input';
+import { AlertWarning } from 'app/components/Alerts';
 import { InputDateTime } from 'app/components/Controls';
 
 import { getVehicles } from 'features/car/actions';
@@ -18,7 +20,9 @@ class TripForm extends React.Component {
         super(props);
 
         this.state = {
-            isInBothDirections: false
+            isInBothDirections: false,
+            isRecurringTrip: false,
+            disableTripCreate: false,
         };
     }
 
@@ -27,13 +31,29 @@ class TripForm extends React.Component {
         this.props.getVehicles();
 
         this.setState({
-            isInBothDirections: false
+            isInBothDirections: false,
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { vehiclesAreLoaded, vehicles } = nextProps;
+
+        if (vehiclesAreLoaded && !vehicles.length) {
+            this.setState({
+                disableTripCreate: true,
+            });
+        }
     }
 
     toggleInBothDirections() {
         this.setState({
             isInBothDirections: !this.state.isInBothDirections
+        });
+    }
+
+    toggleIsRecurringTrip() {
+        this.setState({
+            isRecurringTrip: !this.state.isRecurringTrip
         });
     }
 
@@ -52,17 +72,61 @@ class TripForm extends React.Component {
             <label className="form-control-label text-muted col-sm-4" htmlFor="is_in_both_directions">
                 {translate('trip_form.is_round_trip')}
             </label>
-            <div className="col-sm-8 mt-3">
+            <div className="col-sm-8">
                 <div className="form-check">
                     <label className="form-check-label">
                         <input className="form-check-input" type="checkbox" id="is_in_both_directions"
                                checked={this.state.isInBothDirections}
                                name="is_in_both_directions"
+                               title={translate('create_trip.tooltips.both_directions')}
                                onChange={this.toggleInBothDirections.bind(this)}
                         />
                     </label>
                 </div>
             </div>
+        </div>);
+    }
+
+    showIsRecurringControl() {
+        const { translate, trip } = this.props;
+
+        if (trip && trip.id) {
+            return '';
+        }
+
+        return (<div className="form-group row">
+            <label className="form-control-label text-muted col-sm-4" htmlFor="is_recurring_trip">
+                {translate('trip_form.is_recurring_trip')}
+            </label>
+            <div className="col-sm-8">
+                <div className="form-check">
+                    <label className="form-check-label">
+                        <input className="form-check-input" type="checkbox" id="is_recurring_trip"
+                               checked={this.state.isRecurringTrip}
+                               name="is_recurring_trip"
+                               title={translate('create_trip.tooltips.recurring_trip')}
+                               onChange={this.toggleIsRecurringTrip.bind(this)}
+                        />
+                    </label>
+                </div>
+            </div>
+        </div>);
+    }
+
+    showRecurringControls() {
+        const { translate, errors } = this.props;
+
+        if (!this.state.isRecurringTrip) {
+            return '';
+        }
+
+        return (<div>
+            <Input type="number" name="recurring_count" id="recurring_count" required={false} error={errors.recurring_count}>
+                {translate('trip_form.recurring_count')}
+            </Input>
+            <Input type="number" name="recurring_period" id="recurring_period" required={false} error={errors.recurring_period}>
+                {translate('trip_form.recurring_period_days')}
+            </Input>
         </div>);
     }
 
@@ -80,15 +144,15 @@ class TripForm extends React.Component {
             >
                 {translate('trip_form.reverse_start_at')}
             </label>
-            <div className="col-md-8 mt-2">
+            <div className="col-md-8">
                 <InputDateTime
                     id="reverse_start_at"
                     isValidDate={this.isValidDate}
                     timeFormat={true}
                     defaultValue={reverseStartAt}
                     inputProps={{name: 'reverse_start_at', id: 'reverse_start_at'}}
-                    labelClasses="register-form-label"
-                    wrapperClasses="register-form-birth_date"
+                    labelClasses="datetimepicker-label"
+                    wrapperClasses="datetimepicker-wrapper"
                     error={errors.reverse_start_at ? errors.reverse_start_at[0] : ''}
                 />
             </div>
@@ -96,23 +160,48 @@ class TripForm extends React.Component {
     }
 
     renderVehiclesList() {
-        const { vehicles, trip } = this.props,
+        const { translate, vehicles, trip } = this.props,
             defaultValue = trip ? trip.vehicle_id : '';
 
-        if (vehicles.length <= 0) {
-            return null;
-        }
+        const { disableTripCreate } = this.state;
+
+        return disableTripCreate
+            ? (
+                <AlertWarning>
+                    {translate('create_trip.no_vehicles.main_msg')}<br/>
+                    <Link to="/vehicles/create">
+                        {translate('create_trip.no_vehicles.add_link_msg')}
+                    </Link>{translate('create_trip.no_vehicles.after_link_msg')}
+                </AlertWarning>
+            ) : (
+                <select name="vehicle_id"
+                    id="vehicle_id"
+                    className="form-control"
+                    defaultValue={defaultValue}
+                >
+                    {vehicles.map((vehicle) =>
+                        <option key={vehicle.id} value={vehicle.id}>
+                            {vehicle.brand} {vehicle.model}</option>
+                    )}
+                </select>
+            );
+    }
+
+    renderCurrenciesList() {
+        const { activeCurrency, currencies } = this.props.currency;
+        const { trip } = this.props,
+            defaultValue = trip ? trip.currency_id : activeCurrency.id;
 
         return (
-            <select name="vehicle_id"
-                id="vehicle_id"
+            <select name="currency_id"
+                id="currency_id"
                 className="form-control"
-                defaultValue={defaultValue}
+                defaultValue={ defaultValue }
             >
-                {vehicles.map((vehicle) =>
-                    <option key={vehicle.id} value={vehicle.id}>
-                        {vehicle.brand} {vehicle.model}</option>
-                )}
+            {currencies.map((currency) =>
+                <option key={currency.id} value={currency.id}>
+                    {currency.code} ({currency.sign})</option>
+            )}
             </select>
         );
     }
@@ -121,6 +210,8 @@ class TripForm extends React.Component {
         const { errors, translate, trip, waypoints, startPoint, endPoint, placesCssClasses,
                 onSubmit, onSelectStartPoint, onSelectEndPoint, onWaypointAdd, onWaypointDelete
             } = this.props;
+
+        const { disableTripCreate } = this.state;
 
         const tripData = trip || {
                 is_animals_allowed: false,
@@ -148,7 +239,7 @@ class TripForm extends React.Component {
                         >
                             {translate('trip_form.select_car')}
                         </label>
-                        <div className="col-sm-8 mt-2">
+                        <div className="col-sm-8">
                             {this.renderVehiclesList()}
                             <div className="form-control-feedback">{errors.vehicle_id}</div>
                         </div>
@@ -163,6 +254,20 @@ class TripForm extends React.Component {
                     >
                         {translate('trip_form.price')}
                     </Input>
+
+                    <div className={"form-group row " + (errors.currency_id ? 'has-danger' : '')}>
+                        <label className="form-control-label text-muted col-sm-4"
+                               htmlFor="currency_id"
+                        >
+                            {translate('trip_form.currency')}
+                        </label>
+                        <div className="col-sm-8">
+                            {this.renderCurrenciesList()}
+
+                            <div className="form-control-feedback">{errors.currency_id}</div>
+                        </div>
+                    </div>
+
                     <Input
                         type="number"
                         name="seats"
@@ -177,7 +282,7 @@ class TripForm extends React.Component {
                         <label className="form-control-label text-muted col-sm-4">
                             {translate('trip_form.start_point')}
                         </label>
-                        <div className="col-sm-8 mt-3">
+                        <div className="col-sm-8">
                             <PlacesAutocomplete
                                 inputProps={startPoint}
                                 classNames={placesCssClasses}
@@ -191,7 +296,7 @@ class TripForm extends React.Component {
                         <label className="form-control-label text-muted col-sm-4">
                             {translate('trip_form.end_point')}
                         </label>
-                        <div className="col-sm-8 mt-3">
+                        <div className="col-sm-8">
                             <PlacesAutocomplete inputProps={endPoint}
                                 classNames={placesCssClasses}
                                 onSelect={onSelectEndPoint}
@@ -213,15 +318,15 @@ class TripForm extends React.Component {
                         >
                             {translate('trip_form.trip_start_time')}
                         </label>
-                        <div className="col-md-8 mt-3">
+                        <div className="col-md-8">
                             <InputDateTime
                                 id="start_at"
                                 isValidDate={this.isValidDate}
                                 timeFormat={true}
                                 defaultValue={tripData.start_at}
                                 inputProps={{name: 'start_at', id: 'start_at'}}
-                                labelClasses="register-form-label"
-                                wrapperClasses="register-form-birth_date"
+                                labelClasses="datetimepicker-label"
+                                wrapperClasses="datetimepicker-wrapper"
                                 error={errors.start_at}
                             />
                         </div>
@@ -233,7 +338,7 @@ class TripForm extends React.Component {
                         >
                             {translate('trip_form.luggage_size')}
                         </label>
-                        <div className="col-sm-8 mt-2">
+                        <div className="col-sm-8">
                             <select
                                 name="luggage_size"
                                 id="luggage_size"
@@ -254,12 +359,13 @@ class TripForm extends React.Component {
                         >
                             {translate('trip_form.is_animals_allowed')}
                         </label>
-                        <div className="col-sm-8 mt-3">
+                        <div className="col-sm-8">
                             <div className="form-check">
                                 <label className="form-check-label">
                                     <input type="checkbox"
                                         id="is_animals_allowed"
                                         className="form-check-input"
+                                        title={translate('create_trip.tooltips.animals_allowed')}
                                         defaultChecked={tripData.is_animals_allowed} />
                                 </label>
                             </div>
@@ -269,10 +375,17 @@ class TripForm extends React.Component {
                     {this.showInBothDirectionsControl()}
                     {this.showReverseStartAtControl()}
 
-                    <div className="form-group">
+                    {this.showIsRecurringControl()}
+                    {this.showRecurringControls()}
+
+                    <div className="form-group form-group--last-for-btn">
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary">
-                                {buttonText}</button>
+                            <button type="submit"
+                                className="btn btn-primary"
+                                disabled={disableTripCreate}
+                            >
+                                {buttonText}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -284,6 +397,8 @@ class TripForm extends React.Component {
 const TripFormConnected = connect(
     state => ({
         vehicles: state.vehicle.vehicles,
+        vehiclesAreLoaded: state.vehicle.vehiclesAreLoaded,
+        currency: state.currency
     }),
     (dispatch) => bindActionCreators({getVehicles}, dispatch)
 )(TripForm);

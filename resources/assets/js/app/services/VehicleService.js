@@ -1,5 +1,6 @@
 import validate from 'validate.js';
 import {simpleRequest} from './RequestService';
+import LangService from './LangService';
 
 export const VehicleConstraints = {
     brand: {
@@ -37,6 +38,12 @@ export const VehicleConstraints = {
         }
     },
 
+    car_brand_id: {
+        numericality: {
+            onlyInteger: true,
+        },
+    },
+
     photo: {
         /*presence: true
         url: true,*/
@@ -46,7 +53,7 @@ export const VehicleConstraints = {
 export const VehicleValidator = {
     brand: (data) => {
         const result = validate.single(data, VehicleConstraints.brand);
-        let error = result ? result.join(", ") : "";
+        let error = result ? LangService.translate("validate.car_brand_is_required") : "";
         return {
             valid: !result,
             error
@@ -55,7 +62,7 @@ export const VehicleValidator = {
 
     model: (data) => {
         const result = validate.single(data, VehicleConstraints.model);
-        let error = result ? result.join(", ") : "";
+        let error = result ? LangService.translate("validate.car_model_is_required") : "";
         return {
             valid: !result,
             error
@@ -64,7 +71,7 @@ export const VehicleValidator = {
 
     color: (data) => {
         const result = validate.single(data, VehicleConstraints.color);
-        let error = result ? result.join(", ") : "";
+        let error = result ? LangService.translate("validate.car_color_is_required") : "";
         return {
             valid: !result,
             error
@@ -73,7 +80,7 @@ export const VehicleValidator = {
 
     body: (data) => {
         const result = validate.single(data, VehicleConstraints.body);
-        let error = result ? result.join(", ") : "";
+        let error = result ? LangService.translate("validate.car_body_is_required") : "";
         return {
             valid: !result,
             error
@@ -82,7 +89,7 @@ export const VehicleValidator = {
 
     year: (data) => {
         const result = validate.single(data, VehicleConstraints.year);
-        let error = result ? result.join(", ") : "";
+        let error = result ? LangService.translate("validate.car_year_must_be_less_than_or_equal_to_current_year") : "";
         return {
             valid: !result,
             error
@@ -91,6 +98,15 @@ export const VehicleValidator = {
 
     seats: (data) => {
         const result = validate.single(data, VehicleConstraints.seats);
+        let error = result ? LangService.translate("validate.car_seats_must_be_a_valid_number") : "";
+        return {
+            valid: !result,
+            error
+        };
+    },
+
+    car_brand_id: (data) => {
+        const result = validate.single(data, VehicleConstraints.car_brand_id);
         let error = result ? result.join(", ") : "";
         return {
             valid: !result,
@@ -116,6 +132,7 @@ export const VehicleValidate = (data = {
     year: "",
     seats: "",
     photo: "",
+    car_brand_id: ""
 }) => {
 
     let result = {

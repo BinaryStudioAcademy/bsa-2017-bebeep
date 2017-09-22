@@ -8,10 +8,7 @@ class UserTooltip extends React.Component {
     getTooltipContent() {
         const { translate, user } = this.props;
 
-        const age = translate(
-            'trip_details.routes_passengers.age_label',
-            { age: user.age }
-        );
+        const age = translate('user.age', { age: user.age });
 
         return `${user.full_name} (${age})`;
     }

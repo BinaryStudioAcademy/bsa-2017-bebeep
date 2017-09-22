@@ -21,18 +21,19 @@ class SubscriptionTripTransformer extends TransformerAbstract
                 ->receivedReviews()
                 ->select(DB::raw('AVG(`mark`) as avg'))
                 ->first()['avg'];
+        $currencySign = $trip->currency ? $trip->currency->sign : '';
 
         return [
             'trip_id' => $trip->id,
             'from' => $first ? $this->getCity($first->from) : '',
-            'to' => $last ? $this->getCity($first->to) : '',
+            'to' => $last ? $this->getCity($last->to) : '',
             'start_at' => $trip->start_at,
             'start_at_x' => $trip->start_at->timestamp,
             'params' => [
                 'luggage_size' => $trip->luggage_size,
                 'seats' => $trip->seats,
                 'animals' => $trip->is_animals_allowed,
-                'price' => $trip->price,
+                'price' => $currencySign.' '.$trip->price,
                 'rating' => $rating,
             ],
         ];

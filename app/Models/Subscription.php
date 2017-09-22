@@ -73,4 +73,9 @@ class Subscription extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'App.User.'.$this->user->id;
+    }
 }

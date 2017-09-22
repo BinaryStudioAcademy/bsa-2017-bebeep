@@ -12,6 +12,11 @@ interface CreateTripRequest
     public function getPrice(): float;
 
     /**
+     * @return int|null
+     */
+    public function getCurrencyId(): ?int;
+
+    /**
      * @return int
      */
     public function getSeats(): int;
@@ -81,4 +86,14 @@ interface CreateTripRequest
      * @return Carbon
      */
     public function getReverseStartAt(): Carbon;
+
+    public function getRecurringCount(): int;
+
+    public function getRecurringPeriod(): int;
+
+    public function setReverseStartAt(Carbon $date): Carbon;
+
+    public function setStartAt(Carbon $date): Carbon;
+
+    public function setEndAt(Carbon $date): Carbon;
 }

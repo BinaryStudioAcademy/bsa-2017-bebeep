@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { localize } from 'react-localize-redux';
+import { Collapse, NavbarToggler } from 'reactstrap';
 
 import ContainerWrapper from 'app/layouts/ContainerWrapper';
 
@@ -11,17 +12,51 @@ import 'features/user/styles/profile.scss';
 
 class ProfileBase extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isOpen: false,
+        };
+
+        this.toggleNavbar = this.toggleNavbar.bind(this);
+    }
+
     componentWillMount() {
         LangService.addTranslation(lang);
     }
 
+    componentWillReceiveProps() {
+        this.setState({
+            isOpen: false,
+        });
+    }
+
+    toggleNavbar() {
+        this.setState({
+            isOpen: !this.state.isOpen,
+        });
+    }
+
+    getIsOpenedToggleClass() {
+        return this.state.isOpen ? ' menu-sidebar-toggler--opened' : '';
+    }
+
     render() {
-        const { translate } = this.props;
+        const { translate } = this.props,
+            isOpenedToggleClass = this.getIsOpenedToggleClass();
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="container--min-height-500">
                 <div className="row">
-                    <div className="col-lg-3 mb-4">
+                    <div className="col-12 menu-sidebar-toggler-wrapper">
+                        <NavbarToggler className={"menu-sidebar-toggler" + isOpenedToggleClass}
+                            onClick={this.toggleNavbar} />
+                    </div>
+
+                    <Collapse className="col-lg-3 menu-sidebar-container"
+                        isOpen={this.state.isOpen}
+                    >
                         <div>
                             <ul className="menu-sidebar">
                                 <li className="menu-sidebar__header">
@@ -85,10 +120,10 @@ class ProfileBase extends React.Component {
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </Collapse>
 
                     <div className="col-lg-9">
-                        { this.props.children }
+                        {this.props.children}
                     </div>
                 </div>
             </ContainerWrapper>

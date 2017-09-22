@@ -4,6 +4,7 @@
   "my_vehicles": ["My vehicles", "Мої автомобілі", "Мои автомобили"],
   "add_vehicle": ["Add vehicle", "Додати автомобіль", "Добавить автомобиль"],
   "create_new_trip": ["Create new trip", "Додати подорож", "Добавить поездку"],
+  "chat_users": ["Chat", "Чат", "Чат"],
   "my_trips": ["My trips", "Мої подорожі", "Мои поездки"],
   "dashboard": ["Dashboard", "Панель користувача", "Панель пользователя"],
   "profile": ["Profile", "Профіль", "Профиль"],
@@ -14,6 +15,10 @@
   "tomorrow": ["Tomorrow - ${time}", "Завтра - ${time}", "Завтра - ${time}"],
   "today": ["Today - ${time}", "Сьогодні - ${time}", "Сегодня - ${time}"],
   "bookings": ["Bookings", "Замовлення", "Заказы"],
+  "signed": ["Signed in as", "Ви увійшли як", "Вы вошли как"],
+  "user": {
+    "age": ["Age: ${age}", "Вік: ${age}", "Возраст: ${age}"]
+  },
   "datepicker": {
     "today": [
       "Today",
@@ -89,9 +94,55 @@
       "chat_new_message": {
         "title": ["${name} left message", "${name} залишив повідомлення", "${name} оставил сообщение"],
         "message": ["${message}", "${message}", "${message}"]
+      },
+      "trip_created": {
+        "title": ["Created trip by your subscription", "Створена подорож за вашою підпискою", "Создана поездка по вашей подписке"],
+        "message": [
+          "According to your subscription, was created a new trip ${from} - ${to} ${start_at}, with the following parameters: <br /> ",
+          "Відповідно до Вашої підписці була створена нова подорож ${from} - ${to} ${start_at}, з наступними параметрами: <br /> ",
+          "Согласно Вашей подписке была создана новая поездка ${from} - ${to} ${start_at}, со следующими параметрами: <br /> "
+        ],
+        "params": {
+          "animals": [
+            "animals: ${animals} <br>", "тварини: ${animals} <br>", "животные: ${animals} <br>"
+          ],
+          "luggage_size": [
+            "luggage size: ${size} <br>", "розмір багажу: ${size} <br>", "размер багажа: ${size} <br>"
+          ],
+          "price": [
+            "price: ${price} <br>", "ціна: ${price} <br>", "цена: ${price} <br>"
+          ],
+          "rating": [
+            "rating of driver: ${rating} <br>", "рейтинг водія: ${rating} <br>", "рейтинг водителя: ${rating} <br>"
+          ],
+          "seats": [
+            "seats: ${seats} <br>", "вільні місця: ${seats} <br>", "свободные места: ${seats} <br>"
+          ],
+          "yes": [ "yes", "так", "да" ],
+          "no": [ "no", "ні", "нет" ],
+          "more_four": [ "more 4", "більше 4", "больше 4" ],
+          "luggage_size0": [ "small", "маленький", "маленький" ],
+          "luggage_size1": [ "medium", "середній", "средний" ],
+          "luggage_size2": [ "big", "великий", "большой" ]
+        }
       }
     }
   },
   "subscriptions": ["Subscriptions", "Підписки", "Подписки"],
-  "chat": ["Chat", "Повідомлення", "Сообщения"]
+  "chat": ["Chat", "Повідомлення", "Сообщения"],
+  "app-footer": {
+    "copyrights": ["All rights reserved", "Усі права захищені", "Все права защищены"],
+    "content": [
+        "<p><strong>BeBeep</strong> — your reliable assistant in finding common trips. We unite drivers and passengers on the road, for long-distance trips at cheaper prices.</p><p>With <strong>BeBeep</strong> your next trip will be profitable and convenient!</p>",
+        "<p><strong>BeBeep</strong> — Ваш надійний помічник у пошуку спільних подорожей. Ми об’єднуємо водіїв і пасажирів, яким по дорозі, для міжміських подорожей за дешевшими цінами.</p><p>З <strong>BeBeep</strong> Ваша наступна подорож буде вигідною та зручною!</p>",
+        "<p><strong>BeBeep</strong> — Ваш надежный помощник в поиске общих поездок. Мы объединяем водителей и пассажиров, которым по дороге, для междугородных поездок по более дешевым ценам.</p><p>С <strong>BeBeep</strong> Ваша следующая поездка будет выгодной и удобной!</p>"
+    ]
+  },
+  "errors": {
+    "5xx_internal_server": [
+      "Something went wrong. Please try later.",
+      "Щось пішло не так. Будь ласка, спробуйте пізніше.",
+      "Что-то пошло не так. Пожалуйста, попробуйте позже."
+    ]
+  }
 }

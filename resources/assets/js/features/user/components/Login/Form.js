@@ -1,21 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router';
-
-import {getTranslate} from 'react-localize-redux';
+import {browserHistory, Link} from 'react-router';
+import { getTranslate } from 'react-localize-redux';
 
 import TextInput from './TextInput';
 import PasswordForgotModal from '../_Modals/PasswordForgotModal';
 
 import { doLogin } from 'features/user/actions';
-
 import { subscriptionReset } from 'features/search/actions';
 
-import 'features/user/styles/user.scss';
+import AuthService from 'app/services/AuthService';
 import { sendSubscribeRequest } from 'features/search/services/SearchService';
 
-import AuthService from 'app/services/AuthService';
 
 class Form extends React.Component {
 
@@ -52,7 +49,6 @@ class Form extends React.Component {
                 sendSubscribeRequest(subscribeData).
                     then(response => {
                         if (response.status === 200) {
-                            console.log("You are subscribed!");
                             this.props.subscriptionReset();
                         }
                     });
@@ -114,14 +110,14 @@ class Form extends React.Component {
 
                     <div className="card-footer">
                         <div className="row">
-                            <div className="text-right col-6">
+                            <div className="text-right col-5 offset-2">
                                 <button
                                     className="btn btn-primary"
                                     onClick={ this.onSave }>
                                     {translate('login_form.login')}
                                 </button>
                             </div>
-                            <div className="col-6 text-right">
+                            <div className="col-5 d-flex align-items-center">
                                 <a href="#" onClick={(e) => {
                                     e.preventDefault();
                                     this.setState({forgotModalIsOpen: true});
@@ -130,6 +126,10 @@ class Form extends React.Component {
                         </div>
                     </div>
                 </form>
+                <p className="text-center mt-3 mb-0 hidden-md-up">
+                    {translate('login_form.new_customer')} &nbsp;
+                    <Link to="/registration">{translate('login_form.register')}</Link>
+                </p>
                 <PasswordForgotModal isOpen={this.state.forgotModalIsOpen} onClosed={() => this.state.forgotModalIsOpen = false }/>
             </div>
         );

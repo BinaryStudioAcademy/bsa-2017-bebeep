@@ -9,6 +9,7 @@ use App\Models\Route;
 use App\Models\Filter;
 use Tests\JwtTestCase;
 use App\Models\Vehicle;
+use App\Models\Currency;
 use App\Models\Subscription;
 use App\Services\Contracts\SubscriptionsService;
 
@@ -311,16 +312,60 @@ class SubscriptionSearchTest extends JwtTestCase
         $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
         $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
 
-        $trip1 = $this->getTripBySubscription($subscription, ['price' => 10]);
+        $currency = Currency::where('is_main', true)->first();
+
+        $trip1 = $this->getTripBySubscription($subscription, [
+            'price' => 10,
+            'currency_id' => $currency->id,
+        ]);
 
         $this->getFilter($subscription, [
             'name' => 'price',
-            'parameters' => ['from' => 5, 'to' => 20],
+            'parameters' => ['from' => 5, 'to' => 20, 'currency' => $currency->id],
         ]);
 
         $this->getFilter($subscription2, [
             'name' => 'price',
-            'parameters' => ['from' => 15, 'to' => 25],
+            'parameters' => ['from' => 15, 'to' => 25, 'currency' => $currency->id],
+        ]);
+
+        $service = app()->make(SubscriptionsService::class);
+
+        $found1 = $service->getSubscriptionsByTrip($trip1);
+        $this->assertCount(1, $found1);
+        $first = $found1->first();
+        $this->assertInstanceOf(Subscription::class, $first);
+        $this->assertEquals($subscription->id, $first->id);
+    }
+
+    /**
+     * @test
+     */
+    public function it_find_trip_by_price_filter_with_currency()
+    {
+        $start_at = Carbon::today();
+        $subscription = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+        $subscription2 = $this->getSubscription(array_merge($this->locations[0], ['start_at' => $start_at]));
+
+        $currency = Currency::all();
+
+        $trip1 = $this->getTripBySubscription($subscription, [
+            'price' => 10,
+            'currency_id' => $currency[0]->id,
+        ]);
+
+        $price = $trip1->priceInCurrency($currency[1]);
+
+        $this->getFilter($subscription, [
+            'name' => 'price',
+            'parameters' => ['from' => $price - 2, 'to' => $price + 2, 'currency' => $currency[1]->id],
+        ]);
+
+        $price = $trip1->priceInCurrency($currency[2]);
+
+        $this->getFilter($subscription2, [
+            'name' => 'price',
+            'parameters' => ['from' =>$price + 5, 'to' => $price + 10, 'currency' => $currency[2]->id],
         ]);
 
         $service = app()->make(SubscriptionsService::class);

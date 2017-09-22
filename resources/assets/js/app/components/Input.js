@@ -6,7 +6,7 @@ class Input extends React.Component {
             <div className={"form-group row " + (this.props.error ? 'has-danger' : '')} >
                 <label className="form-control-label text-muted col-sm-4"
                        htmlFor={ this.props.id }>{ this.props.children }</label>
-                <div className="col-sm-8 mt-2">
+                <div className="col-sm-8">
                     <input type={ this.props.type || 'text' }
                            className={"form-control " + (this.props.error ? 'form-control-danger' : '')}
                            id={ this.props.id }

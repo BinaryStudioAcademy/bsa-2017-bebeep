@@ -1,6 +1,6 @@
 {
   "register_verify": {
-    "verify_account": ["Verify account", "Веріфікація акаунту", "Верификация аккаунта"],
-    "verifying": ["Verifying...", "Веріфікуємо...", "Верифицируем..."]
+    "verify_account": ["Verify account", "Верифікація акаунту", "Верификация аккаунта"],
+    "verifying": ["Verifying...", "Верифікуємо...", "Верифицируем..."]
   }
 }

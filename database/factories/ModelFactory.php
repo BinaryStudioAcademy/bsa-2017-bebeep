@@ -50,6 +50,7 @@ $factory->define(App\Models\Trip::class, function (Faker\Generator $faker) use (
         'user_id' => 1,
         'is_animals_allowed' => 1,
         'luggage_size' => \App\Models\Trip::LUGGAGE_SIZE_BIG,
+        'currency_id' => 1,
     ];
 });
 
@@ -64,6 +65,7 @@ $factory->define(App\Models\Route::class, function (Faker\Generator $faker) use 
         'to_lng' => $faker->numberBetween(100, 5000) / 100.0,
         'start_at' => $TRIP_START_TIME->toDateTimeString(),
         'end_at' => $TRIP_START_TIME->addHour(3)->toDateTimeString(),
+        'price' => $faker->numberBetween(1, 1000),
     ];
 });
 

@@ -44,7 +44,6 @@ class Notifications extends React.Component {
                         created_at_x: parseInt(Date.now() / 1000),
                         read: false
                     });
-
                     addNotification(data);
                     this.showNotification(this.getNotificationData(data));
                 })

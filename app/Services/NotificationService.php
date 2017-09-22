@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\User;
+use App\Models\Subscription;
 use InvalidArgumentException;
 use Illuminate\Support\Collection;
 use Illuminate\Notifications\DatabaseNotification;
@@ -16,7 +17,13 @@ class NotificationService implements Contracts\NotificationService
      */
     public function getAll(User $user): Collection
     {
-        return $user->notifications;
+        return collect($user->notifications)
+            ->concat($user->subscriptions->reduce(function (Collection $notifications, Subscription $subscription) {
+                return $notifications->concat($subscription->notifications);
+            }, collect([])))
+            ->sort(function ($a, $b) {
+                return $b->created_at->timestamp <=> $a->created_at->timestamp;
+            });
     }
 
     /**
@@ -25,7 +32,7 @@ class NotificationService implements Contracts\NotificationService
     public function changeStatus(StatusRequest $status, User $user, DatabaseNotification $databaseNotification)
     {
         /** @var DatabaseNotification $notification */
-        $notification = $user->notifications()->whereId($databaseNotification->id)->first();
+        $notification = $this->getAll($user)->where('id', $databaseNotification->id)->first();
 
         if ($notification) {
             if ($status->isRead()) {

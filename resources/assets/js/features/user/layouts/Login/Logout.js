@@ -8,8 +8,6 @@ import Logout from 'features/user/components/Login/Logout';
 import LangService from 'app/services/LangService';
 import * as lang from 'features/user/lang/Login/Logout.locale.json';
 
-import 'features/user/styles/user.scss';
-
 class LogoutLayout extends React.Component {
 
     componentWillMount() {
@@ -20,7 +18,7 @@ class LogoutLayout extends React.Component {
         const { translate } = this.props;
 
         return (
-            <ContainerWrapper>
+            <ContainerWrapper className="container--min-height-350">
                 <PageHeader header={ translate('logout.header_logout') } />
                 <Logout />
             </ContainerWrapper>

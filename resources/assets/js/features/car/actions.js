@@ -1,32 +1,76 @@
 import * as actions from './actionTypes';
 import { securedRequest } from 'app/services/RequestService';
 
-export function getVehicles() {
-    return dispatch => {
-        securedRequest.get('/api/v1/car')
-            .then(response => dispatch(getAllSuccess(response.data)))
-        ;
-    };
-};
+export const getBrandsData = data => ({
+    type: actions.GET_VEHICLE_BRANDS_DATA,
+    data
+});
 
-export function deleteVehicle(id) {
-    return dispatch => {
-        securedRequest.delete('/api/v1/car/' + id)
-            .then(response => dispatch(vehicleDeleteSuccess({vehicleId: id})));
-    };
-}
+export const getModelsData = data => ({
+    type: actions.GET_VEHICLE_MODELS_DATA,
+    data
+});
 
-export const getAllSuccess = vehicles => ({
-    type: actions.VEHICLE_GET_ALL_SUCCESS,
+export const resetModelsData = () => ({
+    type: actions.RESET_VEHICLE_MODELS_DATA
+});
+
+export const getColorsData = data => ({
+    type: actions.GET_VEHICLE_COLORS_DATA,
+    data
+});
+
+export const getBodyData = data => ({
+    type: actions.GET_VEHICLE_BODY_DATA,
+    data
+});
+
+export const getAllVehicles = vehicles => ({
+    type: actions.GET_ALL_VEHICLES,
     vehicles
 });
 
-export const vehicleCreateSuccess = data => ({
-    type: actions.VEHICLE_CREATE_SUCCESS,
+export const deleteVehicleItem = data => ({
+    type: actions.DELETE_VEHICLE_ITEM,
     data
 });
 
-export const vehicleDeleteSuccess = data => ({
-    type: actions.VEHICLE_DELETE_SUCCESS,
-    data
+export const resetVehicleFormItems = () => ({
+    type: actions.RESET_VEHICLE_FORM_ITEMS
 });
+
+export const getVehiclesData = () => dispatch => {
+    securedRequest.get('/api/v1/car-brand/').then(response => {
+        dispatch(getBrandsData(response.data.data));
+    }).catch(error => {});
+
+    securedRequest.get('/api/v1/car-color/').then(response => {
+        dispatch(getColorsData(response.data));
+    }).catch(error => {});
+
+    securedRequest.get('/api/v1/car-body/').then(response => {
+        dispatch(getBodyData(response.data));
+    }).catch(error => {});
+};
+
+export const getBrandModelsData = (id) => dispatch => {
+    securedRequest.get(`/api/v1/car-brand/${id}/models`).then(response => {
+        dispatch(getModelsData(response.data.data));
+    }).catch(error => {});
+};
+
+export const getVehicles = () => dispatch => {
+    securedRequest.get('/api/v1/car')
+        .then(response => {
+            dispatch(getAllVehicles(response.data));
+        })
+        .catch(error => {});
+};
+
+export const deleteVehicle = (id) => dispatch => {
+    securedRequest.delete('/api/v1/car/' + id)
+        .then(response => {
+            dispatch(deleteVehicleItem({ vehicleId: id }));
+        })
+        .catch(error => {});
+};

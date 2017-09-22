@@ -5,6 +5,7 @@ import { localize } from 'react-localize-redux';
 import UserDropdown from './UserDropdown';
 import MainMenuItem from './Items/MainMenuItem';
 import ChangeLocalization from '../ChangeLocalization';
+import ChangeCurrency from 'features/currency/components/ChangeCurrency';
 
 import AuthService from 'app/services/AuthService';
 import { getProfileAvatar } from 'app/services/PhotoService';
@@ -43,7 +44,7 @@ class ForAuthUser extends React.Component {
         user.avatar = getProfileAvatar(user.avatar);
 
         return (
-            <ul className="header__menu header__menu_right header-menu">
+            <ul className="header__menu header-menu">
                 <MainMenuItem linkTo="/trip/create" isShow={isDriver}>
                     { translate('create_new_trip') }
                 </MainMenuItem>
@@ -52,11 +53,21 @@ class ForAuthUser extends React.Component {
                     { translate('my_trips') }
                 </MainMenuItem>
 
+                <li className="header-menu__item header-menu__item_no-hover header-menu__item--align-stretch header-menu__item--icon  hidden-sm-down">
+                    <Link to="/dashboard/users" activeClassName="active">
+                        <i className="fa fa-envelope " aria-hidden="true" />
+                    </Link>
+                </li>
+
                 <li className="header-menu__item header-menu__item_no-hover header-menu__item--align-stretch">
                     <UserDropdown user={user} isDriver={isDriver} isPassenger={isPassenger} />
                 </li>
 
-                <li className="header-menu__item header-menu__item_no-hover header-menu__item_no-space header-menu__item--align-stretch">
+                <li className="header-menu__item header-menu__item--align-stretch">
+                    <ChangeCurrency />
+                </li>
+
+                <li className="header-menu__item header-menu__item--smaller-margin header-menu__item--align-stretch">
                     <ChangeLocalization />
                 </li>
             </ul>

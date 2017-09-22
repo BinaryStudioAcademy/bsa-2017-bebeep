@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getTranslate } from 'react-localize-redux';
 import moment from 'moment';
 
+import { EditButton, DeleteButton } from 'app/components/Buttons';
 import BookingModal from './_Modals/BookingModal';
 import UsersModal from './_Modals/UsersModal';
 import DirectionsMap from "app/components/DirectionsMap";
@@ -24,31 +25,42 @@ class Trip extends React.Component {
             editable: this.props.editable,
             isDeleted: false,
             modalIsOpen: false,
-            modalUsersIsOpen: false
+            modalUsersIsOpen: false,
         };
-        this.onClickUsersBtn = this.onClickUsersBtn.bind(this);
+
+        this.onClick = this.onClick.bind(this);
+        this.onClickPassengersBtn = this.onClickPassengersBtn.bind(this);
+        this.deleteSelf = this.deleteSelf.bind(this);
+        this.restoreSelf = this.restoreSelf.bind(this);
     }
 
     componentWillMount() {
-        const {trip} = this.props,
+        const { trip } = this.props,
             location = browserHistory.getCurrentLocation(),
             tripId = location.query['booking_trip'];
 
         if (trip.id == tripId && trip.bookings.length > 0) {
             delete(location.query['booking_trip']);
             browserHistory.replace(location);
+
             this.setState({modalIsOpen: true});
         }
     }
 
     onClick() {
         this.setState({
-            modalIsOpen: true
+            modalIsOpen: true,
         });
     }
 
-    onClickUsersBtn() {
-        this.setState({ modalUsersIsOpen: !this.state.modalUsersIsOpen });
+    onClickPassengersBtn(e) {
+        if (e !== undefined) {
+            e.preventDefault();
+        }
+
+        this.setState({
+            modalUsersIsOpen: !this.state.modalUsersIsOpen,
+        });
     }
 
     getStartDate() {
@@ -59,7 +71,7 @@ class Trip extends React.Component {
     }
 
     getStartPlace() {
-        const {routes, trip} = this.props;
+        const { routes, trip } = this.props;
 
         if (_.isEmpty(trip.routes)) {
             return null;
@@ -69,7 +81,7 @@ class Trip extends React.Component {
     }
 
     getEndPlace() {
-        const {routes, trip} = this.props;
+        const { routes, trip } = this.props;
 
         if (_.isEmpty(trip.routes)) {
             return null;
@@ -79,97 +91,132 @@ class Trip extends React.Component {
     }
 
     deleteSelf() {
-        securedRequest.delete('/api/v1/trips/' + this.props.trip.id).then(() => {
-            this.setState({
-                deletable: false,
-                editable: false,
-                isDeleted: true
+        securedRequest.delete('/api/v1/trips/' + this.props.trip.id)
+            .then(() => {
+                this.setState({
+                    deletable: false,
+                    editable: false,
+                    isDeleted: true,
+                });
             });
-        });
     }
 
     restoreSelf() {
-        securedRequest.delete('/api/v1/trips/trash/' + this.props.trip.id).then(() => {
-            this.setState({
-                deletable: this.props.deletable,
-                editable: this.props.editable,
-                isDeleted: false
+        securedRequest.delete('/api/v1/trips/trash/' + this.props.trip.id)
+            .then(() => {
+                this.setState({
+                    deletable: this.props.deletable,
+                    editable: this.props.editable,
+                    isDeleted: false,
+                });
             });
-        });
+    }
+
+    getCurrencySign() {
+        const { currency_id } = this.props.trip,
+            { currencies } = this.props.currency,
+            currencyItem = currencies.filter((item) => item.id === currency_id);
+
+        return currencyItem[0] ? currencyItem[0].sign : '$';
     }
 
     render() {
-        const { translate, routes, trip, bookings, vehicles } = this.props;
+        const { translate, routes, trip, bookings, vehicles } = this.props,
+            { modalIsOpen, modalUsersIsOpen} = this.state;
 
-        const startPlace = this.getStartPlace();
-        const endPlace = this.getEndPlace();
-        const startDate = this.getStartDate();
-        const waypoints = getWaypointsFromRoutes(_.reduce(trip.routes, (arr, id) => {
-            arr.push(routes[id]);
-            return arr;
-        }, []));
-        const { modalIsOpen, modalUsersIsOpen} = this.state;
+        const startPlace = this.getStartPlace(),
+            endPlace = this.getEndPlace(),
+            startDate = this.getStartDate(),
+            waypoints = getWaypointsFromRoutes(_.reduce(trip.routes, (arr, id) => {
+                arr.push(routes[id]);
+                return arr;
+            }, []));
+
         const arBookings = _.reduce(trip.bookings, (arr, id) => {
             arr.push(bookings[id]);
             return arr;
         }, []);
-        const bookingCount = BookingService.getBookingsCount(arBookings);
+
+        const bookingCount = BookingService.getBookingsCount(arBookings),
+            currencySign = this.getCurrencySign();
 
         return (
-            <div className={'col-sm-4 trip-item ' + (this.state.isDeleted ? 'deleted-trip' : '')}>
+            <div className={'col-sm-4 trip-card ' +
+                (this.state.isDeleted ? 'trip-card--deleted' : '')
+            }>
                 {startPlace ? (
-                    <DirectionsMap title={startDate}
-                                   bookingCount={bookingCount}
-                                   onClickBooking={this.onClick.bind(this)}
-                                   needDirection="1"
-                                   endTime={() => {}}
-                                   from={startPlace.geometry.location}
-                                   to={endPlace.geometry.location}
-                                   fromData={startPlace}
-                                   toData={endPlace}
-                                   waypoints={waypoints}
-                                   show={false}
+                    <DirectionsMap
+                        show={false}
+                        title={startDate}
+                        bookingCount={bookingCount}
+                        onClickBooking={this.onClick}
+                        needDirection="1"
+                        endTime={() => {}}
+                        from={startPlace.geometry.location}
+                        to={endPlace.geometry.location}
+                        fromData={startPlace}
+                        toData={endPlace}
+                        waypoints={waypoints}
                     >
-                        <div className="card-block">
-                            <div className="card-text">
-                                <span className="text-muted"><strong>{translate('trip_list.car')}:</strong> {vehicles[trip.vehicle].brand}</span><br/>
-                                <span className="text-muted"><strong>{translate('trip_list.price')}:</strong> ${trip.price}</span><br/>
-                                <span className="text-muted"><strong>{translate('trip_list.seats')}:</strong> {trip.seats}</span><br/>
-                            </div>
-                            <span className="link-style link-style-users"  onClick={this.onClickUsersBtn} >
-                                <i className="trip-detail-icon fa fa-user mr-2" aria-hidden="true" />
-                                { translate('trip_list.passengers_link') }
-                            </span>
+                        <div className="card-block trip-card-info trip-card-info--last">
+                            <dl className="row trip-card-info__list">
+                                <dt className="col-sm-4 trip-card-info__list-option">
+                                    {translate('trip_list.car')}</dt>
 
+                                <dd className="col-sm-8 trip-card-info__list-value">
+                                    {vehicles[trip.vehicle].brand}</dd>
+
+                                <dt className="col-sm-4 trip-card-info__list-option">
+                                    {translate('trip_list.price')}</dt>
+
+                                <dd className="col-sm-8 trip-card-info__list-value">
+                                    {currencySign}&nbsp;{trip.price}
+                                </dd>
+
+                                <dt className="col-sm-4 trip-card-info__list-option">
+                                    {translate('trip_list.seats')}</dt>
+
+                                <dd className="col-sm-8 trip-card-info__list-value">
+                                    {trip.seats}</dd>
+                            </dl>
+
+                            <div className="trip-card-info__passengers-link">
+                                <a href="#" onClick={this.onClickPassengersBtn}>
+                                    <i className="trip-detail-icon fa fa-user mr-2"
+                                        aria-hidden="true" />
+                                    {translate('trip_list.passengers_link')}
+                                </a>
+                            </div>
                         </div>
-                        <div className="card-footer trip-actions">
+
+                        <div className="card-footer trip-card__actions">
                             {this.state.editable ? (
-                                <Link to={'/trip/edit/' + trip.id} className="btn btn-primary mr-3">
-                                    { translate('trip_list.edit') }
-                                </Link>
-                            ) : ''}
+                                <EditButton pathTo={'/trip/edit/' + trip.id}
+                                    className="trip-card__action-btn"
+                                    title={translate('trip_list.tooltips.edit')}
+                                />
+                            ) : null}
 
                             {this.state.deletable ? (
-                                <button onClick={this.deleteSelf.bind(this)}
-                                    className="btn btn-danger hover"
-                                >
-                                    { translate('trip_list.delete') }
-                                </button>
-                            ) : ''}
+                                <DeleteButton onClick={this.deleteSelf}
+                                    className="trip-card__action-btn"
+                                    title={translate('trip_list.tooltips.delete')}
+                                />
+                            ) : null}
 
                             {this.state.isDeleted ? (
                                 <span>
                                     { translate('trip_list.deleted_successfully') }
-                                    <button onClick={this.restoreSelf.bind(this)}
-                                        className="btn btn-default hover ml-3"
+                                    <button onClick={this.restoreSelf}
+                                        className="btn btn-primary hover ml-3"
                                     >
                                         { translate('trip_list.restore') }
                                     </button>
                                 </span>
-                            ) : ''}
+                            ) : null}
                         </div>
                     </DirectionsMap>
-                ) : (<span>&nbsp;</span>)}
+                ) : null}
 
                 <BookingModal bookings={ arBookings }
                     count={ bookingCount }
@@ -180,7 +227,7 @@ class Trip extends React.Component {
                 <UsersModal
                     tripId={ trip.id }
                     isOpen={ modalUsersIsOpen }
-                    onClick = {this.onClickUsersBtn}
+                    onClick={this.onClickPassengersBtn}
                 />
             </div>
         )
@@ -193,5 +240,6 @@ export default connect(
         vehicles: state.tripList.vehicles,
         routes: state.tripList.routes,
         bookings: state.tripList.bookings,
+        currency: state.currency,
     })
 )(Trip);

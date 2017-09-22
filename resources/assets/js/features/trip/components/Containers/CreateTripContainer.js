@@ -23,8 +23,6 @@ import {
 
 import { tripCreateSuccess } from 'features/trip/actions';
 
-import 'features/trip/styles/create_trip.scss';
-
 
 class CreateTripContainer extends React.Component {
 
@@ -122,7 +120,7 @@ class CreateTripContainer extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const { getPlacesFromWaypoints, tripCreateSuccess } = this.props,
+        const { getPlacesFromWaypoints, tripCreateSuccess, currency } = this.props,
             { startPoint, endPoint, tripEndTime, waypointsDurations } = this.state;
 
         const form = e.target,
@@ -136,11 +134,17 @@ class CreateTripContainer extends React.Component {
             waypointsDurations
         );
 
-        const tripData = {
-            vehicle_id: form.vehicle_id.value,
+        const recurringData = form.recurring_count ? {
+            recurring_count: form.recurring_count ? form.recurring_count.value : 0,
+            recurring_period: form.recurring_period ? form.recurring_period.value : 0
+        } : {};
+
+        const tripData = Object.assign({
+            vehicle_id: form.vehicle_id ? form.vehicle_id.value : null,
             start_at: tripTime.start_at,
             end_at: tripTime.end_at,
             price: form.price.value,
+            currency_id: form.currency_id ? form.currency_id.value : currency.activeCurrency.id,
             seats: form.seats.value,
             from: startPoint.place,
             to: endPoint.place,
@@ -150,7 +154,7 @@ class CreateTripContainer extends React.Component {
             is_animals_allowed: form.is_animals_allowed.checked,
             is_in_both_directions: form.is_in_both_directions.checked,
             reverse_start_at: roundTime ? roundTime.start_at : null
-        };
+        }, recurringData);
 
         const validated = Validator.validate(createTripRules(), tripData);
 
@@ -178,7 +182,7 @@ class CreateTripContainer extends React.Component {
         const placesCssClasses = {
             root: 'form-group',
             input: 'form-control',
-            autocompleteContainer: 'autocomplete-container text-left'
+            autocompleteContainer: 'trip-form-autocomplete-container text-left'
         };
 
         const startPointProps = {
@@ -227,7 +231,8 @@ class CreateTripContainer extends React.Component {
 
 const CreateTripContainerConnected = connect(
     state => ({
-        translate: getTranslate(state.locale)
+        translate: getTranslate(state.locale),
+        currency: state.currency
     }),
     (dispatch) => bindActionCreators({tripCreateSuccess}, dispatch)
 )(EditableWaypoints(CreateTripContainer));

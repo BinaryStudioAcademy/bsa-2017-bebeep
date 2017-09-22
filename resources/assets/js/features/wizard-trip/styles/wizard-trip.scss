@@ -1,4 +1,6 @@
 @import '~app/bootstrap/mixins';
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins/breakpoints";
 
 .wizard-trip {
   &__step {
@@ -32,6 +34,7 @@
 
     & input {
       padding: 0;
+      font-size: 1rem;
       border: none;
     }
 
@@ -44,6 +47,15 @@
     &:first-child {
       margin-left: 0;
     }
+
+    @include media-breakpoint-down(xs) {
+      &:first-child {
+        margin-left: .5rem;
+      }
+      & .form-input {
+        width: 100%;
+      }
+    }
   }
 
   &__header {
@@ -53,6 +65,14 @@
     font-weight: 600;
     letter-spacing: .025em;
     text-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  }
+
+  @include media-breakpoint-down(xs) {
+    &__btn {
+      max-width: 250px;
+      width: 100%;
+      margin-top: 25px;
+    }
   }
 }
 

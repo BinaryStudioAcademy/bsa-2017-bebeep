@@ -11,6 +11,7 @@ use App\Repositories\TripRepository;
 use App\Repositories\RouteRepository;
 use App\Validators\DeleteTripValidator;
 use App\Validators\UpdateTripValidator;
+use App\Repositories\CurrencyRepository;
 use App\Validators\RestoreTripValidator;
 use App\Services\Helpers\SaveVehicleRequest;
 use App\Services\Requests\CreateTripRequest;
@@ -33,6 +34,10 @@ class TripsService
      */
     private $routeRepository;
     /**
+     * @var \App\Repositories\CurrencyRepository
+     */
+    private $currencyRepository;
+    /**
      * @var \App\Services\CarService
      */
     private $carService;
@@ -54,6 +59,7 @@ class TripsService
      *
      * @param \App\Repositories\TripRepository $tripRepository
      * @param \App\Repositories\RouteRepository $routeRepository
+     * @param \App\Repositories\CurrencyRepository $currencyRepository
      * @param \App\Services\CarService $carService
      * @param \App\Validators\UpdateTripValidator $updateTripValidator
      * @param \App\Validators\DeleteTripValidator $deleteTripValidator
@@ -62,6 +68,7 @@ class TripsService
     public function __construct(
         TripRepository $tripRepository,
         RouteRepository $routeRepository,
+        CurrencyRepository $currencyRepository,
         CarService $carService,
         UpdateTripValidator $updateTripValidator,
         DeleteTripValidator $deleteTripValidator,
@@ -69,6 +76,7 @@ class TripsService
     ) {
         $this->tripRepository = $tripRepository;
         $this->routeRepository = $routeRepository;
+        $this->currencyRepository = $currencyRepository;
         $this->carService = $carService;
         $this->updateTripValidator = $updateTripValidator;
         $this->deleteTripValidator = $deleteTripValidator;
@@ -87,11 +95,13 @@ class TripsService
         // TODO :: Need to change this code to work with
         // the collection of Waypoints instances
 
+        /** @var Helpers\RoutePriceHelper $priceHelper */
         [
             'from' => $startPoint,
             'to' => $endPoint,
             'waypoints' => $waypoints,
             'routes' => $routesTime,
+            'priceHelper' => $priceHelper
         ] = $params;
 
         $tripWaypoints = collect([$startPoint]);
@@ -117,6 +127,7 @@ class TripsService
                 'to_lng' => $chunk[1]['geometry']['location']['lng'],
                 'start_at' => $routesTime[$key]['start_at'],
                 'end_at' => $routesTime[$key]['end_at'],
+                'price' => $priceHelper->getPriceByKey($key),
             ]);
         }
 
@@ -160,6 +171,29 @@ class TripsService
     }
 
     /**
+     * @param CreateTripRequest $request
+     * @param User $user
+     * @return \Illuminate\Support\Collection
+     */
+    public function createRecurring(CreateTripRequest $request, User $user)
+    {
+        $trips = collect([]);
+
+        foreach (range(1, $request->getRecurringCount()) as $periodItem) {
+            $trips->push($this->create($request, $user));
+
+            $request->setStartAt($request->getStartAt()->addDays($request->getRecurringPeriod()));
+            $request->setEndAt($request->getEndAt()->addDays($request->getRecurringPeriod()));
+
+            if ($request->getIsInBothDirections()) {
+                $request->setReverseStartAt($request->getReverseStartAt()->addDays($request->getRecurringPeriod()));
+            }
+        }
+
+        return $trips;
+    }
+
+    /**
      * Create a new trip.
      *
      * @param \App\Services\Requests\CreateTripRequest $request
@@ -171,6 +205,7 @@ class TripsService
     {
         $tripAttributes = [
             'price' => $request->getPrice(),
+            'currency_id' => $request->getCurrencyId(),
             'seats' => $request->getSeats(),
             'start_at' => $request->getStartAt(),
             'end_at' => $request->getEndAt(),
@@ -200,6 +235,10 @@ class TripsService
             'to' => $request->getTo(),
             'waypoints' => $request->getWaypoints(),
             'routes' => $request->getRoutesTime(),
+            'priceHelper' => new Helpers\RoutePriceHelper(
+                $request->getPrice(),
+                $request->getRoutesTime()
+            ),
         ]);
 
         foreach ($routes as $route) {
@@ -207,7 +246,8 @@ class TripsService
         }
 
         if ($request->getIsInBothDirections()) {
-            $this->createReverseTrip($trip, $request);
+            $reverseTrip = $this->createReverseTrip($trip, $request);
+            event(new TripCreated($reverseTrip));
         }
 
         event(new TripCreated($trip));
@@ -245,6 +285,7 @@ class TripsService
 
         $attributes = [
             'price' => $request->getPrice(),
+            'currency_id' => $request->getCurrencyId(),
             'seats' => $request->getSeats(),
             'start_at' => $request->getStartAt(),
             'end_at' => $request->getEndAt(),
@@ -265,6 +306,10 @@ class TripsService
             'to' => $request->getTo(),
             'waypoints' => $request->getWaypoints(),
             'routes' => $request->getRoutesTime(),
+            'priceHelper' => new Helpers\RoutePriceHelper(
+                $request->getPrice(),
+                $request->getRoutesTime()
+            ),
         ]);
 
         foreach ($routes as $route) {
@@ -313,6 +358,7 @@ class TripsService
                 $request->getMinTime(),
                 $request->getMaxTime()
             )
+            ->addCurrency()
             ->setPrice($request->getMinPrice(), $request->getMaxPrice())
             ->setOrder($request->getSort(), $request->getOrder())
             ->setIsAnimalsAllowed($request->getIsAnimalsAllowed())
@@ -361,10 +407,9 @@ class TripsService
      *
      * @param \App\Models\Trip $trip
      * @param \App\Services\Requests\CreateTripRequest $request
-     *
-     * @return void
+     * @return Trip
      */
-    public function createReverseTrip(Trip $trip, CreateTripRequest $request): void
+    public function createReverseTrip(Trip $trip, CreateTripRequest $request): Trip
     {
         $originTripTravelTime = $trip->end_at->timestamp - $trip->start_at->timestamp;
 
@@ -391,11 +436,17 @@ class TripsService
             'to' => $request->getFrom(),
             'waypoints' => array_reverse($request->getWaypoints()),
             'routes' => $routesTime,
+            'priceHelper' => new Helpers\RoutePriceHelper(
+                $request->getPrice(),
+                $routesTime
+            ),
         ]);
 
         foreach ($routes as $route) {
             $reverseTrip->routes()->create($route);
         }
+
+        return $reverseTrip;
     }
 
     /**

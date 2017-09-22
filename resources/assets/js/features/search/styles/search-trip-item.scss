@@ -79,14 +79,13 @@
   }
 
   &__price {
-    color: rgba(0, 0, 0, 0.74);
-    font-size: 2.1rem;
-    font-weight: bold;
+    color: rgba(0, 0, 0, .75);
+    font-size: 2rem;
+    font-weight: 600;
   }
 
   &__price-currency {
-    padding-left: 5px;
-    font-size: 2.1rem;
+    margin-right: .5rem;
   }
 
   &__price-sign {
@@ -108,7 +107,7 @@
 
   &__to,
   &__from {
-    font-size: .9rem;
+    font-size: $font-size-base-smaller;
     color: #636262;
     margin-bottom: 5px;
 
@@ -147,7 +146,7 @@
       font-family: FontAwesome;
       vertical-align: middle;
       color: #ADAFAF;
-      font-size: .9rem;
+      font-size: $font-size-base-smaller;
       padding: 0 5px;
     }
   }

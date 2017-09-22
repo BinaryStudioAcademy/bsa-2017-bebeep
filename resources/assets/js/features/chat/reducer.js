@@ -13,7 +13,8 @@ const initialState = {
         chats: {
             byUserId: {}
         }
-    }
+    },
+    usersListNoActive: false,
 };
 
 export default (state = initialState, action) => {
@@ -53,7 +54,7 @@ export default (state = initialState, action) => {
         case actions.CHAT_SET_USER_LIST:
             return {
                 ...state,
-                usersId: _.union(state.usersId, action.users),
+                usersId: action.users,
                 entities: {
                     ...state.entities,
                     users: {
@@ -63,6 +64,11 @@ export default (state = initialState, action) => {
                         }
                     }
                 }
+            };
+        case actions.CHAT_SET_USER_LIST_NO_ACTIVE:
+            return {
+                ...state,
+                usersListNoActive: action.status,
             };
         case actions.CHAT_RECEIVE_MESSAGE:
             return {
@@ -97,12 +103,34 @@ export default (state = initialState, action) => {
                             [action.data.userId]: [
                                 ...state.entities.chats.byUserId[action.data.userId],
                                 {
+                                    id: action.data.id,
                                     time: action.data.time,
                                     text: action.data.text,
-                                    status: 'sent'
+                                    status: MESSAGE_STATUS_SENT
                                 }
                             ]
                         }
+                    }
+                }
+            };
+        case actions.CHAT_DELETE_MESSAGE:
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    chats: {
+                        byUserId: {
+                            ...state.entities.chats.byUserId,
+                            [action.data.userId]:
+                                _.reduce(Object.keys(state.entities.chats.byUserId[action.data.userId]), (result, key) => {
+                                    if (state.entities.chats.byUserId[action.data.userId][key].id !== action.data.id) {
+                                        result.push(state.entities.chats.byUserId[action.data.userId][key]);
+                                    }
+
+                                    return result;
+                                }, [])
+                        }
+
                     }
                 }
             };

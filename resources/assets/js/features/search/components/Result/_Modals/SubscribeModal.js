@@ -5,6 +5,7 @@ import SeatsDropDown from '../Dropdowns/SeatsDropDown';
 import RatingDropDown from '../Dropdowns/RatingDropDown';
 import AnimalsDropDown from '../Dropdowns/AnimalsDropDown';
 import LuggageDropDown from '../Dropdowns/LuggageDropDown';
+import CurrencyDropDown from '../Dropdowns/CurrencyDropDown';
 import ConfirmLoginModal from './ConfirmLoginModal';
 import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import {Range} from 'rc-slider';
@@ -25,6 +26,7 @@ class SubscribeModal extends React.Component {
             luggage: null,
             seats: null,
             rating: null,
+            currency: null,
             requestSendSuccess: false,
             confirmLoginModalIsOpen: false
         };
@@ -32,25 +34,29 @@ class SubscribeModal extends React.Component {
         this.luggageChange = this.luggageChange.bind(this);
         this.seatsChange = this.seatsChange.bind(this);
         this.ratingChange = this.ratingChange.bind(this);
+        this.currencyChange = this.currencyChange.bind(this);
     }
 
-    updateFilterData(data) {
+    updateFilterData(props) {
+        const {data, activeCurrency} = props;
+
         this.setState({
             time: data.filters.time,
             animals: data.filters.animals,
             luggage: data.filters.luggage,
             seats: data.filters.seats,
             rating: data.filters.rating,
-            start_at: data.start_at
+            start_at: data.start_at,
+            currency: data.filters.currency || activeCurrency,
         });
     }
 
     componentWillMount() {
-        this.updateFilterData(this.props.data);
+        this.updateFilterData(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.updateFilterData(nextProps.data);
+        this.updateFilterData(nextProps);
     }
 
     animalsChange(e) {
@@ -69,9 +75,17 @@ class SubscribeModal extends React.Component {
         this.setState({rating: e.target.value});
     }
 
+    currencyChange(e) {
+        const {currencies} = this.props,
+            currencyId = +e.currentTarget.dataset.value,
+            currency = _.find(currencies, {id: currencyId});
+
+        this.setState({ currency });
+    }
+
     renderModalBody() {
         let {requestSendSuccess} = this.state;
-        const {time, price, animals, seats, luggage, rating} = this.state,
+        const {time, price, animals, seats, luggage, rating, currency} = this.state,
             {translate, data} = this.props;
 
         if(requestSendSuccess) {
@@ -128,10 +142,23 @@ class SubscribeModal extends React.Component {
                                 </div>
                                 <div className="col-md-6 pr-4">
                                     <div className="filter__prop">
-                                        <div className="filter__prop-name subscribe-modal-name">{translate('search_result.filter.price')}</div>
+                                        <div className="row">
+                                            <div className="col-4">
+                                                <div className="filter__prop-name subscribe-modal-name">
+                                                    {translate('search_result.filter.price')}
+                                                </div>
+                                            </div>
+                                            <div className="col-8 text-right">
+                                                <CurrencyDropDown currency={currency} onChange={this.currencyChange} />
+                                            </div>
+                                        </div>
                                         <div className="filter__prop-control">
                                             <div className="filter__prop-name subscribe-modal-name">
-                                                {translate('search_result.filter.price_range', {start: price[0], end: price[1]})}
+                                                {translate('search_result.filter.price_range', {
+                                                    start: price[0],
+                                                    end: price[1],
+                                                    currency: currency ? currency.sign : ''
+                                                })}
                                             </div>
                                             <Range
                                                 min={0}
@@ -206,7 +233,7 @@ class SubscribeModal extends React.Component {
         const userId = AuthService.getUserId(),
             userEmail = AuthService.getEmail(),
             {isAuth, email, data} = this.props,
-            {time, animals, luggage, seats, rating, price} = this.state;
+            {time, animals, luggage, seats, rating, price, currency} = this.state;
 
         let subsEmail = (isAuth && userEmail) ? userEmail : e.target['email'].value;
         let toBeTransformed = {
@@ -218,6 +245,7 @@ class SubscribeModal extends React.Component {
             rating,
             price,
             subsEmail,
+            currency,
             data
         };
         let requestData = transformSubscriptionData(toBeTransformed);
@@ -267,6 +295,8 @@ export default connect(
         data: state.search,
         isAuth: state.user.login.success,
         email: state.user.profile.email,
+        activeCurrency: state.currency.activeCurrency,
+        currencies: state.currency.currencies,
         translate: getTranslate(state.locale)
     }),
     (dispatch) => bindActionCreators({subscriptionUpdate, subscriptionReset}, dispatch)

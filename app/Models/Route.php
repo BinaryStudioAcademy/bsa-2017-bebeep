@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Money\Money;
+use Money\Currency as MoneyCurrency;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\Helpers\SearchFilter;
 
@@ -22,6 +24,7 @@ class Route extends Model
         'start_at',
         'end_at',
         'trip_id',
+        'price',
     ];
 
     /**
@@ -42,6 +45,7 @@ class Route extends Model
         'to' => 'array',
         'to_lat' => 'float',
         'to_lng' => 'float',
+        'price' => 'float',
     ];
 
     /**
@@ -82,6 +86,28 @@ class Route extends Model
         }
 
         return $this->trip->seats - $this->reserved_seats;
+    }
+
+    /**
+     * @return \Money\Money
+     */
+    public function moneyPrice()
+    {
+        $code = $this->trip->currency->code ?? Currency::CURRENCY_MAIN_CODE;
+
+        return new Money((int) $this->price, new MoneyCurrency($code));
+    }
+
+    /**
+     * @param \App\Models\Currency $currency
+     *
+     * @return float
+     */
+    public function priceInCurrency(Currency $currency): float
+    {
+        return (float) app('CurrenciesConverter')
+            ->convert($this->moneyPrice(), new MoneyCurrency($currency->code))
+            ->getAmount();
     }
 
     /**

@@ -46,7 +46,6 @@ class TripDetails extends React.Component {
                 this.setState({
                     preloader: false,
                 });
-                console.error(error);
             });
     }
 
@@ -85,7 +84,7 @@ class TripDetails extends React.Component {
             <div>
                 <SearchForm redirectToSearch={ true } />
 
-                <ContainerWrapper>
+                <ContainerWrapper className="container--min-height-350">
                     <TripDetailsContainer details={ details } />
                 </ContainerWrapper>
             </div>

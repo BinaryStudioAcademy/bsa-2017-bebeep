@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\User;
+use Money\Money;
+use Money\Currency as MoneyCurrency;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,6 +24,7 @@ class Trip extends Model
      */
     protected $fillable = [
         'price',
+        'currency_id',
         'seats',
         'start_at',
         'end_at',
@@ -87,5 +90,35 @@ class Trip extends Model
     public function subscriptions()
     {
         return $this->belongsToMany(Subscription::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    /**
+     * @return \Money\Money
+     */
+    public function moneyPrice()
+    {
+        $code = $this->currency->code ?? Currency::CURRENCY_MAIN_CODE;
+
+        return new Money((int) $this->price, new MoneyCurrency($code));
+    }
+
+    /**
+     * @param \App\Models\Currency $currency
+     *
+     * @return float
+     */
+    public function priceInCurrency(Currency $currency): float
+    {
+        return (float) app('CurrenciesConverter')
+            ->convert($this->moneyPrice(), new MoneyCurrency($currency->code))
+            ->getAmount();
     }
 }

@@ -1,7 +1,14 @@
+import {browserHistory} from 'react-router';
+
 import * as actions from './actionTypes';
 import {MESSAGE_STATUS_RECIEVED, MESSAGE_STATUS_SENT} from './reducer';
-import {securedRequest} from 'app/services/RequestService'
+
+import {securedRequest} from 'app/services/RequestService';
 import AuthService from 'app/services/AuthService';
+import {isThisIdOfAuthUser} from 'app/services/UserService';
+
+export const ALL_QUERY_MODE = 'all';
+export const EMAIL_QUERY_MODE = 'email';
 
 export const setOnlineUsers = (users) => {
     const sessionUserId = AuthService.getUserId();
@@ -27,8 +34,18 @@ export const setOffline = (user) => ({
     user
 });
 
+export const deleteMessage = (data) => ({
+    type: actions.CHAT_DELETE_MESSAGE,
+    data
+});
+
 export const clearUserList = () => ({
     type: actions.CHAT_CLEAR_USER_LIST
+});
+
+export const setUserListToNoActive = status => ({
+    type: actions.CHAT_SET_USER_LIST_NO_ACTIVE,
+    status,
 });
 
 export const addUsersToList = data => {
@@ -50,18 +67,26 @@ export const updateMessagesInGlobalState = (data) => ({
 });
 
 export const sendMessage = (data) => dispatch => {
-    let sendedData = {
-        message: data.text
-    };
-    securedRequest.post('/api/v1/users/' + data.userId + '/messages', sendedData)
-        .then(() => dispatch(updateMessagesInGlobalState(data)));
+    return new Promise((success, reject) => {
+        let sendedData = {
+            message: data.text
+        };
+        securedRequest.post('/api/v1/users/' + data.userId + '/messages', sendedData)
+            .then((response) => {
+                data.id = response.data.data.id;
+                dispatch(updateMessagesInGlobalState(data));
+                success();
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
 };
 
 export const fillUsersList = () => dispatch => {
     securedRequest.get('/api/v1/users/others')
         .then(response => dispatch(addUsersToList(response.data)))
         .catch(error => {
-            console.error(error);
             dispatch(addUsersToList({data: {}}));
         });
 };
@@ -70,7 +95,6 @@ export const addUser = (userId) => dispatch => {
     securedRequest.get(`/api/v1/users/${userId}`)
         .then(response => dispatch(addUsersToList({data: [response.data.data]})))
         .catch(error => {
-            console.error(error);
             dispatch(addUsersToList({data: []}));
         });
 };
@@ -100,10 +124,92 @@ export const addMessagesToChat = (userId, messages) => {
 };
 
 export const getMessagesByUser = (userId) => dispatch => {
+    if (isThisIdOfAuthUser(userId)) {
+        browserHistory.push('/dashboard/users');
+        return false;
+    }
+
     securedRequest.get(`/api/v1/users/${userId}/messages`)
         .then(response => dispatch(addMessagesToChat(userId, response.data)))
         .catch(error => {
-            console.error(error);
             dispatch(addMessagesToChat(userId, {data: {}}));
         });
 };
+
+/**
+ *** START ***
+ * Search users logic
+ */
+
+const getSearchQueryParams = (query, queryMode) => {
+    let queryParams = {
+        first_name: '',
+        last_name: '',
+        email: '',
+    };
+
+    if (queryMode === EMAIL_QUERY_MODE) {
+        queryParams.email = query;
+        return prepareSearchParamsToRequest(queryParams);
+    }
+
+    const querySplit = query.split(' ');
+
+    queryParams.first_name = querySplit.shift();
+    queryParams.last_name = querySplit.join(' ');
+
+    if (!queryParams.last_name) {
+        queryParams.last_name = queryParams.first_name;
+        queryParams.email = queryParams.first_name;
+    }
+
+    return prepareSearchParamsToRequest(queryParams);
+};
+
+const prepareSearchParamsToRequest = (params) => {
+    let result = {};
+
+    for (let key in params) {
+        result[`filter[${key}]`] = params[key];
+    }
+
+    return result;
+};
+
+export const filterUsers = (query) => dispatch => {
+    return new Promise((success, reject) => {
+        query = query.trim();
+
+        if (!query.length) {
+            success();
+            return;
+        }
+
+        const queryMode = query.indexOf('@') !== -1
+            ? EMAIL_QUERY_MODE
+            : ALL_QUERY_MODE;
+
+        const queryParams = getSearchQueryParams(query, queryMode);
+
+        securedRequest.get('/api/v1/users/others', {
+            params: queryParams,
+        })
+            .then(response => {
+                success({
+                    data: response.data.data,
+                    meta: {
+                        query,
+                        queryMode,
+                    }
+                });
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+};
+
+/**
+ *** END ***
+ * Search users logic
+ */

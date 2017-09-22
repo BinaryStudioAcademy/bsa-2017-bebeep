@@ -1,3 +1,4 @@
+import React from 'react';
 import {securedRequest} from './RequestService';
 import LangService from './LangService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper'
@@ -8,6 +9,7 @@ export const NOTIFICATION_BOOKING_DECLINED = 'booking_declined';
 export const NOTIFICATION_BOOKING_CREATED = 'booking_created';
 export const NOTIFICATION_REVIEW_ON_TRIP_CREATED = 'review_on_trip_created';
 export const NOTIFICATION_CHAT_MESSAGE_RECEIVED = 'chat_new_message';
+export const NOTIFICATION_TRIP_CREATED = 'trip_created';
 
 export const getNotifications = () => {
     return securedRequest.get('/api/v1/notifications');
@@ -132,12 +134,49 @@ export const getMessage = (notification) => {
             return {
                 type: 'info',
                 title: translate(`notifications.messages.${notification.type}.title`, {
-                    'name': notification.sender.data.first_name + ' ' + notification.sender.data.first_name
+                    'name': notification.sender.data.first_name + ' ' + notification.sender.data.last_name
                 }),
                 message: translate(`notifications.messages.${notification.type}.message`, {
                     message: notification.message
                 }),
                 link: `/dashboard/messages/${notification.sender_id}`
+            };
+        case NOTIFICATION_TRIP_CREATED:
+            const rating = notification.data.params.rating
+                ? parseFloat(notification.data.params.rating).toFixed(2)
+                : 0;
+
+            return {
+                type: 'info',
+                title: translate(`notifications.messages.${notification.type}.title`),
+                message: [
+                    translate(`notifications.messages.${notification.type}.message`, {
+                        'start_at': DateTimeHelper.dateFormat(notification.data.start_at_x, {
+                            onlyDate: true,
+                            dateFormat: 'MM.DD.YYYY'
+                        }).date,
+                        'from': notification.data.from,
+                        'to': notification.data.to
+                    }),
+                    translate(`notifications.messages.${notification.type}.params.animals`, {
+                        'animals': notification.data.params.animals
+                            ? translate(`notifications.messages.${notification.type}.params.yes`)
+                            : translate(`notifications.messages.${notification.type}.params.no`)
+                    }),
+                    translate(`notifications.messages.${notification.type}.params.luggage_size`, {
+                        'size': notification.data.params.luggage_size > 3
+                            ? translate(`notifications.messages.${notification.type}.params.more_four`)
+                            : translate(`notifications.messages.${notification.type}.params.luggage_size${notification.data.params.luggage_size}`)
+                    }),
+                    translate(`notifications.messages.${notification.type}.params.price`, {
+                        'price': notification.data.params.price
+                    }),
+                    translate(`notifications.messages.${notification.type}.params.seats`, {
+                        seats:  notification.data.params.seats
+                    }),
+                    translate(`notifications.messages.${notification.type}.params.rating`, { rating })
+                ].map((element, index) => (<span key={index}>{element}</span>)),
+                link: `/trip/${notification.data.trip_id}`
             };
         default:
             return {

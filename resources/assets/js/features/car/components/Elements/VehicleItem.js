@@ -1,55 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
-import { deleteVehicle } from 'features/car/actions';
+import { EditButton, DeleteButton } from 'app/components/Buttons';
+import { getVehiclePhoto } from 'app/services/PhotoService';
 
 class VehicleItem extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    onClick(e) {
-        e.preventDefault();
-
-        const carId = e.target.getAttribute('data-id');
-        this.props.deleteVehicle(carId);
-    }
 
     render() {
-        const vehicle = this.props.vehicle;
+        const { vehicle, onDeleteVehicle } = this.props;
 
         return (
-            <div>
-                <div className="row">
-                    <div className="col-md-6">
-                        <Link to={ 'vehicles/edit/' + vehicle.id }>
-                            { vehicle.brand + " " + vehicle.model}
-                        </Link>
+            <tr>
+                <td>{vehicle.brand}</td>
+                <td>{vehicle.model}</td>
+                <td>{vehicle.year}</td>
+                <td>{vehicle.body}</td>
+                <td>{vehicle.color}</td>
+                <td>{vehicle.seats}</td>
+                <td>
+                    <div className="table-list-details__image">
+                        { getVehiclePhoto(vehicle) }
                     </div>
-                    <div className="col-md-6">
-                        <div className="pull-right">
-                            <button type="button" className="btn hover btn-danger" data-id={vehicle.id} onClick={this.onClick.bind(this)}>Delete</button>
-                        </div>
-                    </div>
-                </div>
-                <hr/>
-            </div>
+                </td>
+                <td className="table-list-details__cell-for-action">
+                    <EditButton pathTo={ 'vehicles/edit/' + vehicle.id } />
+                </td>
+                <td className="table-list-details__cell-for-action">
+                    <DeleteButton onClick={() => onDeleteVehicle(vehicle.id)} />
+                </td>
+            </tr>
         );
     }
 }
 
 VehicleItem.propTypes = {
-    vehicle: PropTypes.object,
-    deleteVehicle: PropTypes.func
+    vehicle: PropTypes.object.isRequired,
+    onDeleteVehicle: PropTypes.func.isRequired,
 };
 
-export default connect(
-    (state) => {
-        return { vehicleState: state.vehicle };
-    },
-    (dispatch) => bindActionCreators({ deleteVehicle }, dispatch)
-
-)(VehicleItem);
+export default VehicleItem;

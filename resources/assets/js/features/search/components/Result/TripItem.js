@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { localize } from 'react-localize-redux';
+import { getTranslate } from 'react-localize-redux';
 
 import { getDriverAvatar } from 'app/services/PhotoService';
 import LangService from 'app/services/LangService';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
+import { convertTripPrice } from 'app/services/TripService';
 
 import 'features/search/styles/search-trip-item.scss';
 
@@ -21,8 +24,9 @@ class TripItem extends React.Component {
     }
 
     render() {
-        const { trip, translate } = this.props,
-            startedAt = this.formatStartAt();
+        const { translate, trip, activeCurrency } = this.props,
+            startedAt = this.formatStartAt(),
+            tripPrice = convertTripPrice(trip);
 
         return (
             <Link to={`/trip/${trip.id}`} className="search-trip-item">
@@ -41,9 +45,9 @@ class TripItem extends React.Component {
                         </div>
 
                         <div className="search-trip-item__user-age">
-                            { translate('search_result.years' + LangService.getNumberForm(
-                                trip.driver.data.age
-                            ), { age: trip.driver.data.age }) }
+                            { translate('user.age', {
+                                age: DateTimeHelper.getUserYearsOld(trip.driver.data.birth_date)
+                            }) }
                         </div>
                     </div>
 
@@ -76,8 +80,10 @@ class TripItem extends React.Component {
                         <div className="search-trip-item__offer">
 
                             <div className="search-trip-item__price">
-                                { parseInt(trip.price) }
-                                <span className="search-trip-item__price-currency">$</span>
+                                <span className="search-trip-item__price-currency">
+                                    {activeCurrency.sign}
+                                </span>
+                                {tripPrice}
                             </div>
 
                             <div className="search-trip-item__price-sign">
@@ -100,4 +106,10 @@ class TripItem extends React.Component {
     }
 }
 
-export default localize(TripItem, 'locale');
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale),
+        activeCurrency: state.currency.activeCurrency,
+    }),
+    null
+)(TripItem);

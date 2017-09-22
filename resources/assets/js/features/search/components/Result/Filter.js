@@ -11,6 +11,7 @@ import { getTranslate } from 'react-localize-redux';
 import { Range } from 'rc-slider';
 
 import { setUrl, setFilter, getFilter} from 'features/search/services/SearchService';
+import CurrencyService, {CURRENCY_DEFAULT_CODE} from 'features/currency/services/CurrencyService';
 
 import 'features/search/styles/filter.scss';
 
@@ -21,6 +22,7 @@ class Filter extends React.Component {
         this.state = {
             time: [0, 24],
             price: [0, 0],
+            priceDisplay: [0, 0],
             animals: null,
             seats: null,
             luggage: null,
@@ -33,7 +35,7 @@ class Filter extends React.Component {
         this.luggageChange = this.luggageChange.bind(this);
         this.seatsChange = this.seatsChange.bind(this);
         this.ratingChange = this.ratingChange.bind(this);
-        // this.transferChange = this.transferChange.bind(this);
+        this.transfersChange = this.transfersChange.bind(this);
     }
 
     componentWillMount() {
@@ -47,14 +49,28 @@ class Filter extends React.Component {
     updateState(props) {
         const {query} = props.location;
         let filter = getFilter();
+
+        if (!filter.price || (filter.price[0] === 0 && filter.price[1] === 0)) {
+            filter.price = props.priceBounds;
+        }
+
+        const currency = CurrencyService.getCurrencyByCode(CURRENCY_DEFAULT_CODE);
+
+        const priceDisplay = this.state.price[0] === 0 && this.state.price[1] === 0
+            ? [...props.priceBounds] : [...this.state.price];
+
+        priceDisplay[0] = CurrencyService.convertValue(priceDisplay[0], currency);
+        priceDisplay[1] = CurrencyService.convertValue(priceDisplay[1], currency);
+
         this.setState(Object.assign({
-            price: props.priceBounds,
+            price: [0, 0],
+            priceDisplay: priceDisplay,
             time: [0, 24],
             animals: null,
             luggage: null,
             seats: null,
             rating: null,
-            transfers: null
+            transfers: null,
         }, filter));
     }
 
@@ -87,9 +103,9 @@ class Filter extends React.Component {
     }
 
     render() {
-        const { time, price, animals, seats, luggage, rating, transfers } = this.state;
-
-        const { priceBounds, translate } = this.props;
+        const { time, price, priceDisplay, seats } = this.state,
+            { animals, luggage, rating, transfers } = this.state,
+            { priceBounds, translate, activeCurrency } = this.props;
 
         return (
             <div className="filter filter-centered">
@@ -114,12 +130,16 @@ class Filter extends React.Component {
                     <div className="filter__prop-name">{translate('search_result.filter.price')}</div>
                     <div className="filter__prop-control">
                         <div className="filter__prop-sign">
-                            {translate('search_result.filter.price_range', {start: price[0],end: price[1]})}
+                            {translate('search_result.filter.price_range', {
+                                start: priceDisplay[0],
+                                end: priceDisplay[1],
+                                currency: activeCurrency.sign,
+                            })}
                         </div>
                         <Range
                             min={priceBounds[0]}
                             max={priceBounds[1]}
-                            step={10}
+                            step={1}
                             allowCross={false}
                             defaultValue={[priceBounds[0], priceBounds[1]]}
                             value={price}
@@ -162,6 +182,7 @@ Filter.PropTypes = {
 export default withRouter(connect(
     (state) => ({
         start_at: state.search.start_at,
-        translate: getTranslate(state.locale)
+        translate: getTranslate(state.locale),
+        activeCurrency: state.currency.activeCurrency,
     })
 )(Filter));

@@ -1,6 +1,8 @@
 import moment from 'moment';
 import Validator from './Validator';
 import LangService from './LangService';
+import CurrencyService from 'features/currency/services/CurrencyService';
+import _ from 'lodash';
 
 export const createTripRules = () => ({
     vehicle_id: Validator.required(LangService.translate('validate.please_select_a_car')),
@@ -12,6 +14,7 @@ export const createTripRules = () => ({
         Validator.required(LangService.translate('validate.enter_trip_price')),
         Validator.greaterThan(1, LangService.translate('validate.trip_price_must_be_greater_than_0')),
     ],
+    currency_id: Validator.required(LangService.translate('validate.enter_trip_currency')),
     seats: [
         Validator.required(LangService.translate('validate.enter_trip_seats')),
         Validator.greaterThan(1, LangService.translate('validate.trip_seats_must_be_greater_than_0')),
@@ -49,3 +52,20 @@ export const getRoutesStartAndEndTime = (tripStartAt, durations) => {
         return waypointTimes;
     });
 };
+
+export const convertTripPrice = (trip) => {
+    const currency = CurrencyService.getCurrencyById(trip.currency_id);
+
+    return CurrencyService.convertValue(trip.price, currency);
+}
+
+export const convertTripRoutesPrice = (currencyId, routes) => {
+    const currency = CurrencyService.getCurrencyById(currencyId),
+        tripRoutes = _.cloneDeep(routes);
+
+    return tripRoutes.map((route) => {
+        route.price = CurrencyService.convertValue(route.price, currency);
+
+        return route;
+    });
+}

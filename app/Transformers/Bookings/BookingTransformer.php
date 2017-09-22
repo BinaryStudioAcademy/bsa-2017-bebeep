@@ -24,15 +24,32 @@ class BookingTransformer extends TransformerAbstract
             'start_at' => (string) $booking->trip->start_at,
             'start_at_x' => (string) $booking->trip->start_at->timestamp,
             'from' => $from && isset($from->from['address_components'])
-                ? isset($from->from['address_components'][0])
-                    ? $from->from['address_components'][0]['short_name']
-                    : $from->from['formatted_address']
+                ? $this->getCity($from->from)
                 : null,
             'to' => $to && isset($to->to['address_components'])
-                ? isset($to->to['address_components'][0])
-                    ? $to->to['address_components'][0]['short_name']
-                    : $to->to['formatted_address']
+                ? $this->getCity($to->to)
                 : null,
         ];
+    }
+
+    protected function getCity(array $route)
+    {
+        $city = '';
+        if (isset($route['formatted_address'])) {
+            $city = $route['formatted_address'];
+        }
+        if (isset($route['address_components'])) {
+            $city = array_reduce(
+                $route['address_components'],
+                function ($address, $component) {
+                    return in_array('locality', $component['types'])
+                        ? $component['short_name']
+                        : $address;
+                },
+                $route['formatted_address']
+            );
+        }
+
+        return $city;
     }
 }
