@@ -45,26 +45,6 @@ class Filter extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.updateState(nextProps);
-
-        const currency = this.state.priceCurrency,
-            activeCurrency = nextProps.activeCurrency;
-
-        if (currency === null) {
-            return;
-        }
-
-        console.log(currency, 'c');
-
-            //CurrencyService.getCurrencyByCode(CURRENCY_DEFAULT_CODE);
-
-        const priceDisplay = [...this.state.price];
-
-        priceDisplay[0] = CurrencyService.convertValue(priceDisplay[0], currency);
-        priceDisplay[1] = CurrencyService.convertValue(priceDisplay[1], currency);
-
-        console.log(priceDisplay, 'pd');
-
-        this.setState({ priceDisplay, priceCurrency: activeCurrency });
     }
 
     updateState(props) {
@@ -75,20 +55,24 @@ class Filter extends React.Component {
             filter.price = props.priceBounds;
         }
 
-        const priceCurrency = this.state.priceCurrency === null && Object.keys(props.activeCurrency).length
-            ? props.activeCurrency : this.state.priceCurrency;
+        const currency = CurrencyService.getCurrencyByCode(CURRENCY_DEFAULT_CODE);
 
-        console.log(CurrencyService.getCurrencyByCode(CURRENCY_DEFAULT_CODE));
+        const priceDisplay = this.state.price[0] === 0 && this.state.price[1] === 0
+            ? [...props.priceBounds] : [...this.state.price];
+
+        priceDisplay[0] = CurrencyService.convertValue(priceDisplay[0], currency);
+        priceDisplay[1] = CurrencyService.convertValue(priceDisplay[1], currency);
 
         this.setState(Object.assign({
             price: [0, 0],
-            priceCurrency: priceCurrency,
+            priceCurrency: this.props.activeCurrency,
+            priceDisplay: priceDisplay,
             time: [0, 24],
             animals: null,
             luggage: null,
             seats: null,
             rating: null,
-            transfers: null
+            transfers: null,
         }, filter));
     }
 
@@ -120,19 +104,10 @@ class Filter extends React.Component {
         setUrl(setFilter({transfers: e.target.value}));
     }
 
-    getPriceFilterLabelHideClass() {
-        const { priceDisplay } = this.state,
-            { activeCurrency } = this.props;
-
-        return !activeCurrency.sign || !priceDisplay[0] || !priceDisplay[1]
-            ? ' hide' : '';
-    }
-
     render() {
-        const { time, price, priceDisplay, animals, seats, luggage, rating, transfers } = this.state,
-            { priceBounds, translate, activeCurrency } = this.props,
-            //priceFilterLabelHide = this.getPriceFilterLabelHideClass();
-            priceFilterLabelHide = '';
+        const { time, price, priceDisplay, seats } = this.state,
+            { animals, luggage, rating, transfers } = this.state,
+            { priceBounds, translate, activeCurrency } = this.props;
 
         return (
             <div className="filter filter-centered">
@@ -156,7 +131,7 @@ class Filter extends React.Component {
                 <div className="filter__prop">
                     <div className="filter__prop-name">{translate('search_result.filter.price')}</div>
                     <div className="filter__prop-control">
-                        <div className={"filter__prop-sign" + priceFilterLabelHide}>
+                        <div className="filter__prop-sign">
                             {translate('search_result.filter.price_range', {
                                 start: priceDisplay[0],
                                 end: priceDisplay[1],
