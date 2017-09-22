@@ -31,9 +31,9 @@ class ProfileVerifications extends React.Component {
                     <strong>{ translate('public_profile.verifications.header') } </strong>
                 </p>
                 <div className="driver-car-block__verifications">
-                    { this.renderVerificationRule('phone_number', true) }
+                    { /*this.renderVerificationRule('phone_number', true)*/ }
                     { this.renderVerificationRule('email', email_is_verified) }
-                    { this.renderVerificationRule('agreement', true) }
+                    { /*this.renderVerificationRule('agreement', true)*/ }
                 </div>
             </div>
         );
