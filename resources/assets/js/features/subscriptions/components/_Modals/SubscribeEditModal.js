@@ -61,7 +61,6 @@ class SubscribeEditModal extends React.Component {
                     filter.parameters['from'],
                     filter.parameters['to']
                 ];
-                console.log(state.filters);
 
                 if (filter.parameters['currency']) {
                     state.filters['currency'] = filter.parameters['currency'];
