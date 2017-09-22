@@ -23,7 +23,6 @@ class Filter extends React.Component {
             time: [0, 24],
             price: [0, 0],
             priceDisplay: [0, 0],
-            priceCurrency: null,
             animals: null,
             seats: null,
             luggage: null,
@@ -65,7 +64,6 @@ class Filter extends React.Component {
 
         this.setState(Object.assign({
             price: [0, 0],
-            priceCurrency: this.props.activeCurrency,
             priceDisplay: priceDisplay,
             time: [0, 24],
             animals: null,
