@@ -96,7 +96,6 @@ dt {
 }
 
 .header {
-    min-height: $app-header-height;
     background: #fff;
     padding: 1rem 0;
     border-bottom: 1px solid rgba(212, 207, 207, 0.24);
@@ -105,6 +104,9 @@ dt {
     &__menu {
         margin-bottom: 0;
     }
+}
+.app-header {
+  min-height: $app-header-height;
 }
 
 .header-menu {
