@@ -70,7 +70,7 @@ class VehiclesList extends React.Component {
                     </table>
                 </div>
                 <div>
-                    <table className="table table-list-details">
+                    <table className="table table-list-details table-list-details--actions">
                         <thead className="with-background-teal">
                             <tr>
                                 <th className="table-details__cell-for-action">&nbsp;</th>

@@ -346,11 +346,9 @@ dt {
     }
 }
 
-td.table-list-details__cell-for-action {
-    width: 20px;
-}
-
 .table-list-details {
+    margin-bottom: 0;
+
     th,
     td {
         font-size: .95rem;
@@ -375,6 +373,14 @@ td.table-list-details__cell-for-action {
         svg {
             margin-top: .5rem;
         }
+    }
+
+    &--actions {
+      height: 100%;
+
+      td {
+        padding: .25rem;
+      }
     }
 }
 
