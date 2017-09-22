@@ -21,7 +21,7 @@ class EndTimeFilter implements Contracts\SubscriptionFilter
     public function isSatisfied(Filter $filter, Trip $trip): bool
     {
         $params = $filter->parameters;
-        $endTime = $filter->subscription->start_at->startOfDay()->addHours((int) $params['to'])->timestamp;
+        $endTime = $filter->subscription->start_at->addHours((int) $params['to'])->timestamp;
 
         return $trip->start_at->timestamp <= $endTime;
     }

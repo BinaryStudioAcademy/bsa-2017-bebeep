@@ -26,7 +26,7 @@ class SubscriptionTripTransformer extends TransformerAbstract
         return [
             'trip_id' => $trip->id,
             'from' => $first ? $this->getCity($first->from) : '',
-            'to' => $last ? $this->getCity($first->to) : '',
+            'to' => $last ? $this->getCity($last->to) : '',
             'start_at' => $trip->start_at,
             'start_at_x' => $trip->start_at->timestamp,
             'params' => [

@@ -7,11 +7,11 @@ import { browserHistory } from 'react-router';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
-import { InputPlaces, InputDateTime } from 'app/components/Controls';
+import { InputDateTime } from 'app/components/Controls';
 import moment from 'moment';
 
 import { searchSuccess, searchParamsUpdate } from 'features/search/actions';
-import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
+import { setUrl, encodeCoord } from 'features/search/services/SearchService';
 import { getTranslate } from 'react-localize-redux';
 
 class SearchForm extends React.Component {
@@ -19,11 +19,11 @@ class SearchForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            tripData: {},
+            fromAddress: '',
+            toAddresss: '',
             errors: {}
         };
         this.dateChange = this.dateChange.bind(this);
-        this.swapFromTo = this.swapFromTo.bind(this);
         this.onSelectStartPoint = this.onSelectStartPoint.bind(this);
         this.onChangeStartPoint = this.onChangeStartPoint.bind(this);
         this.onChangeEndPoint = this.onChangeEndPoint.bind(this);
@@ -33,10 +33,8 @@ class SearchForm extends React.Component {
 
     dateChange(date) {
         let start_at = date ? date.unix() : null;
-        this.setState({
-            tripData: Object.assign(this.state.tripData, {start_at})
-        });
-        this.props.searchParamsUpdate({start_at});
+        this.setState({errors: {}});
+        setUrl({start_at});
     }
 
     componentWillMount() {
@@ -44,69 +42,39 @@ class SearchForm extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.location !== this.props.location) {
+        const prevQuery = this.props.location.query,
+            nextQuery = nextProps.location.query;
+
+        if (
+            nextQuery.fn !== prevQuery.fn
+            ||
+            nextQuery.tn !== prevQuery.tn
+            ||
+            nextQuery.start_at !== prevQuery.start_at
+        ) {
             this.updateState(nextProps);
         }
     }
 
     updateState(props) {
-        const {location, tripData} = props,
+        const {location, tripData, searchParamsUpdate} = props,
             { query } = location,
-            newTripData = {
-                from: {
-                    name: query.fn || tripData.from.name,
-                    coordinate: decodeCoord(query.fc) || tripData.from.coordinate,
-                    place: null
-                },
-                to: {
-                    name: query.tn || tripData.to.name,
-                    coordinate: decodeCoord(query.tc) || tripData.to.coordinate,
-                    place: null
-                },
-                start_at: +query.start_at || tripData.start_at
-            };
-        this.setState({
-            tripData: newTripData
-        });
-        this.props.searchParamsUpdate(newTripData);
-    }
+            fromAddress = query.fn || tripData.from.name || '',
+            toAddress = query.tn || tripData.to.name || '',
+            startAt = +query.start_at || tripData.start_at || null;
 
-    swapFromTo() {
-        const {tripData} = this.state,
-            from = tripData.to,
-            to = tripData.from;
-        this.setState({tripData: Object.assign(tripData,{from, to})});
-    }
+        this.setState({ fromAddress, toAddress });
 
-    setAddress(type, address) {
-        const {tripData} = this.state;
-        this.setState({
-            tripData: Object.assign(tripData, {
-                [type]: {
-                    name: address,
-                    coordinate: {lat: null, lng: null}
-                }
-            }),
-            errors: {}
-        });
+        this.selectGeoPoint('from', fromAddress);
+        this.selectGeoPoint('to', toAddress);
+        searchParamsUpdate({start_at: startAt});
     }
 
     selectGeoPoint(type, address) {
         const {searchParamsUpdate} = this.props;
 
-        this.setAddress(type, address);
-
         geocodeByAddress(address)
             .then(results => {
-                this.setState({
-                    tripData: Object.assign(this.state.tripData, {
-                        [type]: {
-                            ...this.state.tripData[type],
-                            coordinate: getCoordinatesFromPlace(results[0]),
-                        }
-                    })
-                });
-
                 searchParamsUpdate({
                     [type]: {
                         name: address,
@@ -119,39 +87,25 @@ class SearchForm extends React.Component {
     }
 
     setDataAndRedirectSearch() {
-        const { tripData } = this.state,
-            { searchSuccess } = this.props;
+        const { searchSuccess, tripData } = this.props;
 
-        const searchData = {
-            from: {
-                name: tripData.from.name,
-                coordinate: tripData.from.coordinate,
-            },
-            to: {
-                name: tripData.to.name,
-                coordinate: tripData.to.coordinate,
-            },
-            start_at: tripData.start_at,
-        };
-
-        searchSuccess(searchData);
         browserHistory.push('/search');
     }
 
     onSelectStartPoint(address) {
-        this.selectGeoPoint('from', address);
+        setUrl({ fn: address });
     }
 
     onSelectEndPoint(address) {
-        this.selectGeoPoint('to', address);
+        setUrl({ tn: address });
     }
 
     onChangeStartPoint(address) {
-        this.setAddress('from', address);
+        this.setState({fromAddress: address, errors: {}});
     }
 
     onChangeEndPoint(address) {
-        this.setAddress('to', address);
+        this.setState({toAddress: address, errors: {}});
     }
 
     onClickSearch(e) {
@@ -159,7 +113,7 @@ class SearchForm extends React.Component {
         if (Object.keys(this.state.errors).length !== 0) {
             return;
         }
-        const { tripData } = this.state,
+        const { tripData } = this.props,
             { onSearch, translate, redirectToSearch } = this.props,
             toBeValidated = {
                 from: tripData.from.coordinate,
@@ -196,9 +150,9 @@ class SearchForm extends React.Component {
     };
 
     render() {
-        const {tripData, errors} = this.state,
+        const {fromAddress, toAddress, errors} = this.state,
+            {translate, tripData} = this.props,
             date = tripData.start_at && moment(tripData.start_at * 1000),
-            {translate} = this.props,
             startPlaceCssClasses = {
                 root: 'form-group search-block__search-input-start',
                 input: 'form-control search-block__search-input',
@@ -210,13 +164,13 @@ class SearchForm extends React.Component {
                 autocompleteContainer: 'autocomplete-container'
             },
             startPointProps = {
-                value: tripData.from.name,
+                value: fromAddress,
                 onChange: this.onChangeStartPoint,
                 type: 'search',
                 autoFocus: true
             },
             endPointProps = {
-                value: tripData.to.name,
+                value: toAddress,
                 onChange: this.onChangeEndPoint,
                 type: 'search',
                 autoFocus: false

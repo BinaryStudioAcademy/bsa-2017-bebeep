@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use App\Transformers\Notifications\SubscriptionTripTransformer;
 
 class TripCreated extends Notification implements ShouldQueue
@@ -35,7 +36,9 @@ class TripCreated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return $notifiable->user
+            ? ['mail', 'database', 'broadcast']
+            : ['mail'];
     }
 
     /**
@@ -61,7 +64,7 @@ class TripCreated extends Notification implements ShouldQueue
                         ? __('email/subscription.yes')
                         : __('email/subscription.not'),
                     'price' => $trip['params']['price'],
-                    'rating' => round($trip['params']['seats'], 2),
+                    'rating' => round($trip['params']['rating'], 2),
                 ],
             ]);
     }
@@ -75,5 +78,12 @@ class TripCreated extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return fractal()->item($this->trip, new SubscriptionTripTransformer())->toArray()['data'];
+    }
+
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'data' => $this->toArray($notifiable),
+        ]);
     }
 }
