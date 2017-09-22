@@ -7,11 +7,11 @@ import { browserHistory } from 'react-router';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 import Validator from 'app/services/Validator';
 import { getCoordinatesFromPlace } from 'app/services/GoogleMapService';
-import { InputPlaces, InputDateTime } from 'app/components/Controls';
+import { InputDateTime } from 'app/components/Controls';
 import moment from 'moment';
 
 import { searchSuccess, searchParamsUpdate } from 'features/search/actions';
-import { setUrl, encodeCoord, decodeCoord, getFilter } from 'features/search/services/SearchService';
+import { setUrl, encodeCoord } from 'features/search/services/SearchService';
 import { getTranslate } from 'react-localize-redux';
 
 class SearchForm extends React.Component {
@@ -35,7 +35,6 @@ class SearchForm extends React.Component {
         let start_at = date ? date.unix() : null;
         this.setState({errors: {}});
         setUrl({start_at});
-        //this.props.searchParamsUpdate({start_at});
     }
 
     componentWillMount() {
@@ -68,7 +67,6 @@ class SearchForm extends React.Component {
 
         this.selectGeoPoint('from', fromAddress);
         this.selectGeoPoint('to', toAddress);
-        //this.dateChange(startAt ? moment(startAt * 1000) : startAt);
         searchParamsUpdate({start_at: startAt});
     }
 
@@ -89,33 +87,17 @@ class SearchForm extends React.Component {
     }
 
     setDataAndRedirectSearch() {
-
         const { searchSuccess, tripData } = this.props;
-        /*
-        const searchData = {
-            from: {
-                name: tripData.from.name,
-                coordinate: tripData.from.coordinate,
-            },
-            to: {
-                name: tripData.to.name,
-                coordinate: tripData.to.coordinate,
-            },
-            start_at: tripData.start_at,
-        };
-        searchSuccess(searchData);
-         */
+
         browserHistory.push('/search');
     }
 
     onSelectStartPoint(address) {
         setUrl({ fn: address });
-        //this.selectGeoPoint('from', address);
     }
 
     onSelectEndPoint(address) {
         setUrl({ tn: address });
-        //this.selectGeoPoint('to', address);
     }
 
     onChangeStartPoint(address) {
