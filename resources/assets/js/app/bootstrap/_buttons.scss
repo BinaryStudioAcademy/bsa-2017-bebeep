@@ -3,19 +3,17 @@
 .btn {
   border-radius: 5px;
   border: none;
+  font-size: $font-size-base-smaller;
   font-family: $font-family-sans-serif;
 
   -webkit-box-shadow: 0 0 2px lighten($black, 63%);
   -moz-box-shadow: 0 0 2px lighten($black, 63%);
   box-shadow: 0 0 2px lighten($black, 63%);
-
-  &:not(.dropdown-toggle):not(&--with-icon) {
-    font-size: $font-size-base-smaller;
-  }
 }
 
 .btn--with-icon {
-    padding: 5px 10px;
+  padding: 5px 10px;
+  font-size: 1rem;
 }
 
 .btn.disabled,
