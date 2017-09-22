@@ -264,7 +264,10 @@ class AppServiceProvider extends ServiceProvider
             $exchanges[$currency->code] = [];
 
             foreach ($currencies as $innerCurrency) {
-                $exchanges[$currency->code][$innerCurrency->code] = round($innerCurrency->rate / $currency->rate, 5);
+                $exchanges[$currency->code][$innerCurrency->code] = round(
+                    $innerCurrency->rate / $currency->rate,
+                    5
+                );
             }
         }
 

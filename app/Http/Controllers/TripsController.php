@@ -154,6 +154,7 @@ class TripsController extends Controller
 
     /**
      * @param SearchTripRequest $request
+     *
      * @return array|\Illuminate\Http\JsonResponse
      */
     public function search(SearchTripRequest $request)

@@ -1,11 +1,14 @@
 import React from 'react';
-import moment from 'moment';
 import {Link} from 'react-router';
-import {localize} from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getTranslate } from 'react-localize-redux';
+import moment from 'moment';
 
-import {getDriverAvatar} from 'app/services/PhotoService';
-import {getCityLocation} from 'app/helpers/TripHelper';
 import LangService from 'app/services/LangService';
+import {getDriverAvatar} from 'app/services/PhotoService';
+import { convertTripPrice } from 'app/services/TripService';
+import {getCityLocation} from 'app/helpers/TripHelper';
 import DateTimeHelper from 'app/helpers/DateTimeHelper';
 
 import 'features/search/styles/compound-trip-item.scss';
@@ -32,15 +35,18 @@ class CompoundTripItem extends React.Component {
         return collection.trip.seats-seats;
     }
 
-
     render() {
-        const {collection, translate} = this.props,
+        const {collection, translate, activeCurrency} = this.props,
             startedAt = this.formatStartAt(),
             fromName = getCityLocation(collection.from),
             toName = getCityLocation(collection.to);
 
-        return (
+        const tripPrice = convertTripPrice({
+            price: collection.price,
+            currency_id: collection.trip.currency_id,
+        });
 
+        return (
             <Link to={`/trip/${collection.trip.id}`} className="compound-search-trip-item">
                 <div className="row search-trip-item-block">
                     <div className="search-trip-item__user-container col-sm-4">
@@ -85,8 +91,10 @@ class CompoundTripItem extends React.Component {
                         <div className="search-trip-item__offer">
 
                             <div className="search-trip-item__price">
-                                {parseInt(collection.trip.price)}
-                                <span className="search-trip-item__price-currency">$</span>
+                                {parseInt(tripPrice)}
+                                <span className="search-trip-item__price-currency">
+                                    {activeCurrency.sign}
+                                </span>
                             </div>
 
                             <div className="search-trip-item__price-sign">
@@ -106,8 +114,13 @@ class CompoundTripItem extends React.Component {
                     </div>
                 </div>
             </Link>
-        )
+        );
     }
 }
 
-export default localize(CompoundTripItem, 'locale');
+export default connect(
+    state => ({
+        translate: getTranslate(state.locale),
+        activeCurrency: state.currency.activeCurrency,
+    })
+)(CompoundTripItem);

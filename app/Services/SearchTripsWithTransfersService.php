@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Models\Route;
+use App\Models\Currency;
 use RFHaversini\Distance;
 use App\Repositories\TripRepository;
 use App\Services\Requests\SearchTripRequest;
@@ -28,7 +29,7 @@ class SearchTripsWithTransfersService
     public function search(SearchTripRequest $request)
     {
         $this->searchRequest = $request;
-        $this->searchCurrency = \App\Models\Currency::find($this->searchRequest->getCurrencyId());
+        $this->searchCurrency = Currency::find($this->searchRequest->getCurrencyId());
         $this->possibleTripsIds = $this->tripRepository->search()
             ->initialize()
             ->setIsAnimalsAllowed($request->getIsAnimalsAllowed())
@@ -67,7 +68,9 @@ class SearchTripsWithTransfersService
             $startRoute = $routeGroup->getRoutes()->first();
 
             if ($this->searchRequest->getSort() === 'price') {
-                return $startRoute->trip->price;
+                return $routeGroup->getRoutes()->reduce(function ($carry, $route) {
+                    return $carry + $route->priceInCurrency($this->searchCurrency);
+                });
             }
 
             if ($this->searchRequest->getSort() === 'start_at') {

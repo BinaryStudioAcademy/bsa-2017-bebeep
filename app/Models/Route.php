@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Money\Money;
-use Money\Currency;
+use Money\Currency as MoneyCurrency;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\Helpers\SearchFilter;
 
@@ -89,22 +89,25 @@ class Route extends Model
     }
 
     /**
-     * @return Money
+     * @return \Money\Money
      */
     public function moneyPrice()
     {
-        $code = $this->trip->currency->code ?? 'USD';
+        $code = $this->trip->currency->code ?? Currency::CURRENCY_MAIN_CODE;
 
-        return new Money($this->attributes['price'], new Currency($code));
+        return new Money((int) $this->price, new MoneyCurrency($code));
     }
 
     /**
      * @param \App\Models\Currency $currency
-     * @return int
+     *
+     * @return float
      */
-    public function priceInCurrency(\App\Models\Currency $currency) : int
+    public function priceInCurrency(Currency $currency): float
     {
-        return (int) app('CurrenciesConverter')->convert($this->moneyPrice(), new Currency($currency->code))->getAmount();
+        return (float) app('CurrenciesConverter')
+            ->convert($this->moneyPrice(), new MoneyCurrency($currency->code))
+            ->getAmount();
     }
 
     /**

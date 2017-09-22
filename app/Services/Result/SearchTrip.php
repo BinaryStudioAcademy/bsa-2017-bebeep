@@ -8,29 +8,78 @@ use Illuminate\Database\Eloquent\Collection;
 
 class SearchTrip
 {
+    /**
+     * @var mixed
+     */
     protected $rawTrip;
 
-    /** @var Trip $rawTrip */
+    /**
+     * @var \App\Models\Trip
+     */
     protected $modelTrip;
 
+    /**
+     * @var float
+     */
+    protected $priceInCurrency;
+
+    /**
+     * @param mixed $rawTrip
+     */
     public function __construct($rawTrip)
     {
         $this->rawTrip = $rawTrip;
     }
 
-    public function setModel(Trip $trip)
+    /**
+     * Set Trip model.
+     *
+     * @param \App\Models\Trip $trip
+     *
+     * @return $this
+     */
+    public function setModel(Trip $trip): self
     {
         $this->modelTrip = $trip;
+
+        return $this;
     }
 
-    public function driver() : User
+    /**
+     * Set the trip price in currency.
+     *
+     * @param float $priceInCurrency
+     *
+     * @return $this
+     */
+    public function setPriceInCurrency(float $priceInCurrency): self
+    {
+        $this->priceInCurrency = $priceInCurrency;
+
+        return $this;
+    }
+
+    /**
+     * Get the trip driver.
+     *
+     * @return \App\User
+     */
+    public function driver(): User
     {
         return $this->modelTrip->user;
     }
 
-    public function getFromPoint()
+    /**
+     * Get the trip from_point data.
+     *
+     * @return array
+     */
+    public function getFromPoint(): array
     {
-        $route = $this->modelTrip->routes->where('id', '=', (int) $this->rawTrip->from_id)->first();
+        $route = $this->modelTrip
+            ->routes
+            ->where('id', '=', (int) $this->rawTrip->from_id)
+            ->first();
 
         return [
             'id' => $route->id,
@@ -39,9 +88,17 @@ class SearchTrip
         ];
     }
 
-    public function getToPoint()
+    /**
+     * Get the trip to_point data.
+     *
+     * @return array
+     */
+    public function getToPoint(): array
     {
-        $route = $this->modelTrip->routes->where('id', '=', (int) $this->rawTrip->to_id)->first();
+        $route = $this->modelTrip
+            ->routes
+            ->where('id', '=', (int) $this->rawTrip->to_id)
+            ->first();
 
         return [
             'id' => $route->id,
@@ -50,7 +107,12 @@ class SearchTrip
         ];
     }
 
-    public function routes() : array
+    /**
+     * Get the trip routes.
+     *
+     * @return array
+     */
+    public function routes(): array
     {
         /** @var Collection $routes */
         $routes = $this->modelTrip->routes;
@@ -82,7 +144,12 @@ class SearchTrip
         return $result;
     }
 
-    public function getAvailableSeats() : int
+    /**
+     * Get the trip available seats.
+     *
+     * @return int
+     */
+    public function getAvailableSeats(): int
     {
         /** @var \Illuminate\Support\Collection $routes */
         $routes = $this->modelTrip->routes->sortBy('id');
@@ -109,18 +176,27 @@ class SearchTrip
         return $seats;
     }
 
-    public function __get($name)
+    /**
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function __get(string $name)
     {
         if ($name === 'available_seats') {
             return $this->getAvailableSeats();
-        } elseif ($name === 'routes') {
+        }
+        if ($name === 'routes') {
             return $this->routes();
-        } elseif ($name === 'driver' || $name === 'user') {
+        }
+        if ($name === 'driver' || $name === 'user') {
             return $this->driver();
-        } else {
-            if (isset($this->modelTrip[$name])) {
-                return $this->modelTrip[$name];
-            }
+        }
+        if ($name === 'priceInCurrency') {
+            return $this->priceInCurrency;
+        }
+        if (isset($this->modelTrip[$name])) {
+            return $this->modelTrip[$name];
         }
 
         return null;

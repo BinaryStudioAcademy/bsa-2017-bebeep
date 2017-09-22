@@ -3,7 +3,7 @@ import { simpleRequest } from 'app/services/RequestService';
 import moment from 'moment';
 
 export const search = (
-    fromCoord, toCoord, start_at = null, page = 1, sort = 'price', order = 'asc', limit = 10, filter = {}
+    fromCoord, toCoord, currencyId, start_at = null, page = 1, sort = 'price', order = 'asc', limit = 10, filter = {}
 ) => {
     const startDate = start_at !== null ? moment(start_at * 1000).hours(0).minute(0).seconds(0).unix() : null;
 
@@ -11,6 +11,7 @@ export const search = (
         params: setFilter(filter, {
             fc: encodeCoord(fromCoord),
             tc: encodeCoord(toCoord),
+            currency_id: currencyId,
             start_at: startDate,
             sort,
             order,
