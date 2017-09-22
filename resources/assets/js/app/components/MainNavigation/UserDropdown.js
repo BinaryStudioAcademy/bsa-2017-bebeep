@@ -77,11 +77,11 @@ class UserDropdown extends React.Component {
 
                     <DropdownItem divider />
 
-                    <UserDropdownItem linkTo="/dashboard"
+                    {/*<UserDropdownItem linkTo="/dashboard"
                         onClick={this.toggleUserDropdown}
                     >
                         { translate('dashboard') }
-                    </UserDropdownItem>
+                    </UserDropdownItem>*/}
 
                     <UserDropdownItem linkTo="/dashboard/profile"
                         onClick={this.toggleUserDropdown}

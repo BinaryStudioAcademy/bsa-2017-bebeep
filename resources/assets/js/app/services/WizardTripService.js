@@ -1,4 +1,5 @@
 import { securedRequest } from 'app/services/RequestService';
+import CurrencyService from 'features/currency/services/CurrencyService';
 
 export const INIT = 0;
 export const STEP_ONE = 1;
@@ -6,6 +7,7 @@ export const STEP_TWO = 2;
 export const STEP_THREE = 3;
 
 export const savePendingTrip = (tripData) => {
+    const currency = CurrencyService.getActiveCurrency();
 
     return securedRequest.post('/api/v1/trips', {
         start_at: tripData.start_at,
@@ -23,7 +25,8 @@ export const savePendingTrip = (tripData) => {
         routes: [{
             start_at: tripData.start_at,
             end_at: tripData.end_at
-        }]
+        }],
+        currency_id: currency ? currency.id : null
     }).then(
         response => Promise.resolve(response),
         error => Promise.resolve({})
