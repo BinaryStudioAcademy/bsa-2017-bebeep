@@ -215,10 +215,11 @@ dt {
     .dropdown-toggle {
         display: flex;
         align-items: center;
-        color: lighten($gray, 7%);
         height: 100%;
         padding: .25rem .75rem;
+        font-size: 1rem;
         font-weight: 600;
+        color: lighten($gray, 7%);
     }
     &.show > .dropdown-toggle {
         background-color: lighten($orange, 20%);

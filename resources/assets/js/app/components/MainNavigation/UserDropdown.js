@@ -45,7 +45,7 @@ class UserDropdown extends React.Component {
 
                 </DropdownToggle>
 
-                <DropdownMenu right>
+                <DropdownMenu>
 
                     <span className="dropdown-item-signed"> { translate('signed') }</span>
                     <span className="dropdown-item"><b> { userName} </b></span>
@@ -77,11 +77,11 @@ class UserDropdown extends React.Component {
 
                     <DropdownItem divider />
 
-                    <UserDropdownItem linkTo="/dashboard"
+                    {/*<UserDropdownItem linkTo="/dashboard"
                         onClick={this.toggleUserDropdown}
                     >
                         { translate('dashboard') }
-                    </UserDropdownItem>
+                    </UserDropdownItem>*/}
 
                     <UserDropdownItem linkTo="/dashboard/profile"
                         onClick={this.toggleUserDropdown}

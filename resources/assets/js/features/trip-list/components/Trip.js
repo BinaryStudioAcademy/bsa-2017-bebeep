@@ -141,7 +141,7 @@ class Trip extends React.Component {
             currencySign = this.getCurrencySign();
 
         return (
-            <div className={'col-sm-4 trip-card ' +
+            <div className={'col-md-6 col-lg-4 trip-card ' +
                 (this.state.isDeleted ? 'trip-card--deleted' : '')
             }>
                 {startPlace ? (

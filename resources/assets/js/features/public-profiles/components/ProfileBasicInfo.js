@@ -24,7 +24,7 @@ class ProfileBasicInfo extends React.Component {
                     }</span>
                 </h4>
 
-                <strong>{ translate('public_profile.profile_experience') } </strong> {
+                {/*<strong>{ translate('public_profile.profile_experience') } </strong> {
                     translate('public_profile.profile_experienced') } <br/>
 
                 <strong>{ translate('public_profile.profile_preferences') } </strong>
@@ -43,7 +43,7 @@ class ProfileBasicInfo extends React.Component {
                         data-toggle="tooltip"
                         data-placement="top"
                         title={ translate('public_profile.profile_animals_not_allowed') } />
-                </span>
+                </span>*/}
                 <br/>
             </div>
         );

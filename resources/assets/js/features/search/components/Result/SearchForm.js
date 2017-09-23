@@ -187,7 +187,7 @@ class SearchForm extends React.Component {
             <div className="search-block">
                 <div className="container">
                     <div className="row search-block-centered">
-                        <div className="col-sm-3 offset-md-1">
+                        <div className="col-sm-6 col-lg-3 offset-lg-1">
                             <div className={"form-group" + (errors.from ? ' has-danger' : '')}>
                                 <label className='form-input form-input--focus search-block__search-label fa-circle-o'>
                                     <PlacesAutocomplete
@@ -205,7 +205,7 @@ class SearchForm extends React.Component {
                                 </label>
                             </div>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-6 col-lg-3">
                             <div className={"form-group" + (errors.to ? ' has-danger' : '')}>
                                 <label className='form-input form-input--focus search-block__search-label fa-circle'>
                                     <PlacesAutocomplete
@@ -223,7 +223,7 @@ class SearchForm extends React.Component {
                                 </label>
                             </div>
                         </div>
-                        <div className="col-sm-2">
+                        <div className="col-sm-6 col-lg-2 pb-3">
                             <InputDateTime
                                 id="trip_date"
                                 value={date}
@@ -237,7 +237,7 @@ class SearchForm extends React.Component {
                                 className="search-result-datepicker"
                             />
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-6 col-lg-3">
                             <button role="button" className="btn search-block__btn" onClick={this.onClickSearch}>{translate('search_result.search')}</button>
                         </div>
                     </div>

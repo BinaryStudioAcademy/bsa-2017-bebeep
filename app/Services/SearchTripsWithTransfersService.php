@@ -110,7 +110,7 @@ class SearchTripsWithTransfersService
      */
     private function getPossibleEndRoutes()
     {
-        return $this->routesQuery()->haversine(
+        return Route::whereIn('trip_id', $this->possibleTripsIds)->haversine(
             'to_lat',
             'to_lng',
             $this->searchRequest->getToLat(),
@@ -125,7 +125,7 @@ class SearchTripsWithTransfersService
      */
     private function getPossibleInnerRoutes($distanceBetweenStartAndEndPoints, $possibleStartRoutes)
     {
-        return $this->routesQuery()->where(function ($query) use ($distanceBetweenStartAndEndPoints) {
+        return Route::whereIn('trip_id', $this->possibleTripsIds)->where(function ($query) use ($distanceBetweenStartAndEndPoints) {
             return $query->where(function ($query) use ($distanceBetweenStartAndEndPoints) {
                 return $query->haversine(
                     'from_lat',
